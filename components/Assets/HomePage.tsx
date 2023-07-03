@@ -249,7 +249,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                     <Chart title="Assets" textInside={`${documentsCount} / ${plan.maxFiles}`}  data={[documentsCount, plan.maxFiles - documentsCount]} plan={plan}/>
                 </ChartContainer>
                 <UsageTextContainer>
-                    <UsageTitle>Uploaded assets</UsageTitle>
+                    <UsageTitle>Assets</UsageTitle>
                     {plan._id === "6444d4394ab2cf9819e5b5f4" ? 
                     <Usage>{`${documentsCount} / ∞`}</Usage>
                     :
@@ -264,7 +264,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                     <Chart title="Uploaded MB" textInside={`${(uploadedBytes/(1024*1024)).toFixed(1)} / ${plan.maxUploadedBytes/(1024*1024)}`}  data={[user.uploadedBytes/(1024*1024), plan.maxUploadedBytes/(1024*1024) - user.uploadedBytes/(1024*1024)]} plan={plan}/>
                 </ChartContainer>
                 <UsageTextContainer>
-                    <UsageTitle>Uploaded MB</UsageTitle>
+                    <UsageTitle>Storage (MB)</UsageTitle>
                     <Usage>{`${(uploadedBytes/(1024*1024)).toFixed(1)} / ${plan.maxUploadedBytes/(1024*1024)}`}</Usage>
                 </UsageTextContainer>
                 </UsageContainer>
@@ -412,6 +412,7 @@ const ChartContainer = styled.div`
     @media (max-width: 1023px) {
         width: 0rem;
         height: 3.5rem;
+        margin-right: 0.5rem;
         margin-left: 0;
     }
 `

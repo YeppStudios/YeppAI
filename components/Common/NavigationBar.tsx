@@ -211,15 +211,15 @@ const NavigationBar = () => {
             {!(pathname.includes("assets")) ? 
               <CustomAIContainer>
               {plan._id === "647895cf404e31bfe8753398" ?
-                <NavigationTab hover={isHovered} title="Resources" onClick={handleLockedClick}>
+                <NavigationTab hover={isHovered} title="Assets" onClick={handleLockedClick}>
                   <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                    <NavigationText>Resources</NavigationText>
+                    <NavigationText>Assets</NavigationText>
                     <Locked><Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image> </Locked>
                 </NavigationTab>
               :
-                <NavigationTab hover={isHovered} title="Resources" onClick={() => router.push(`/assets`)}>
+                <NavigationTab hover={isHovered} title="Assets" onClick={() => router.push(`/assets`)}>
                   <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                    <NavigationText>Resources</NavigationText>
+                    <NavigationText>Assets</NavigationText>
                 </NavigationTab>
                 }
               </CustomAIContainer>
@@ -228,7 +228,7 @@ const NavigationBar = () => {
               <SelectedNavigationTab hovered={isHovered}>
                 <SelectedNavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></SelectedNavigationIcon>
                 {plan._id !== "647895cf404e31bfe8753398" && 
-                 <NavigationText>Resources</NavigationText>
+                 <NavigationText>Assets</NavigationText>
                 }
                 {plan._id === "647895cf404e31bfe8753398" &&
                         <Locked><Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image> </Locked>
@@ -256,15 +256,15 @@ const NavigationBar = () => {
                 {!(pathname.includes("assets")) ? 
                   <CustomAIContainer>
                   {plan._id === "647895cf404e31bfe8753398" ? 
-                  <NavigationTab hover={isHovered} title="Resources" onClick={handleLockedClick}>
+                  <NavigationTab hover={isHovered} title="Assets" onClick={handleLockedClick}>
                     <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                      {isHovered && <NavigationText>Resources</NavigationText>}
+                      {isHovered && <NavigationText>Assets</NavigationText>}
                       <Locked>{!isHovered && <Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image>} </Locked>
                   </NavigationTab>
                   :
-                  <NavigationTab hover={isHovered} title="Resources" onClick={() => router.push(`/assets`)}>
+                  <NavigationTab hover={isHovered} title="Assets" onClick={() => router.push(`/assets`)}>
                     <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                      {isHovered && <NavigationText>Resources</NavigationText>}
+                      {isHovered && <NavigationText>Assets</NavigationText>}
                   </NavigationTab>
                   }
                   </CustomAIContainer>
@@ -273,7 +273,7 @@ const NavigationBar = () => {
                   <SelectedNavigationTab hovered={isHovered}>
                     <SelectedNavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></SelectedNavigationIcon>
                     {plan._id !== "647895cf404e31bfe8753398" && 
-                      isHovered && <NavigationText>Resources</NavigationText>
+                      isHovered && <NavigationText>Assets</NavigationText>
                     }
                     {plan._id === "647895cf404e31bfe8753398" &&
                       <Locked>{!isHovered && <Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image>} </Locked>
@@ -373,8 +373,8 @@ const LogoContainer = styled.div<{background: any}>`
   background-position: center;
   position: relative;
   @media (max-width: 1023px) {
-    width: 2rem;
-    height: 2rem;
+    width: 2.3rem;
+    height: 2.3rem;
     margin-left: 0rem;
     margin-bottom: 0;
     margin-right: 0;
