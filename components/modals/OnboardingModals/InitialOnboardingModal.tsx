@@ -151,7 +151,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                 {selectedTab === 0 &&
                 <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", marginTop: "1rem"}}>
                 <Centered>
-                        <ModalTitle><p style={{fontSize: "3rem", marginBottom: "0.5rem"}}>👋</p>Miło Cię widzieć {username}!</ModalTitle>
+                        <ModalTitle><p style={{fontSize: "3rem", marginBottom: "0.5rem"}}>👋</p>Hello {username}!</ModalTitle>
                 </Centered>
                 <Centered>
                 <ModalDescription>We&apos;ve prepared for you a short onboarding that will help you get started and us provide a service tailored for your needs. </ModalDescription>

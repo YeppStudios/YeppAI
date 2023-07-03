@@ -137,7 +137,7 @@ const NavigationBar = () => {
         }
         {fetchedTabs.map((tab) => (
           <div id={tab.id} key={tab.id}>
-            {!(tab.path.includes(pathname)) ? (
+            {!(tab.path.includes(pathname) && pathname !== "/") ? (
               mobile ?
               <>
               {tab.locked ?

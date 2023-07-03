@@ -363,7 +363,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                             {loginError &&
                             <Centered>
-                                <LoginErrorMessage>Niepoprawny email lub hasło</LoginErrorMessage>
+                                <LoginErrorMessage>Incorrect email or password</LoginErrorMessage>
                             </Centered>
                             }
                             <div>
