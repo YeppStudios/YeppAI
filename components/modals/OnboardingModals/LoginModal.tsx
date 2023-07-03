@@ -208,14 +208,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     localStorage.setItem('account_type', response.data.newUser.accountType);
                     localStorage.setItem('onboarding_step', "1");
                     setLoading(false);
-                    if (!(currentPath.includes("onboarding"))) {
-                        props.onClose();
-                        router.push("/assets");
-                        router.reload();
-                    } else {
-                       router.reload();
-                    }
-                    setLoading(false);
+                    router.push("/assets");
                     // setOpenVerification(true);
                     // sendVerificationCode(response.data.newUser.email, response.data.newUser.name, response.data.newUser.verificationCode);
                 }
@@ -232,8 +225,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 localStorage.setItem('workspace', response.data.user.workspace);
                 localStorage.setItem('account_type', response.data.user.accountType);
                 setLoading(false);
-                props.onClose();
-                router.reload();
+                router.push("/assets");
             }
           } catch (error) {
             setLoading(false);
