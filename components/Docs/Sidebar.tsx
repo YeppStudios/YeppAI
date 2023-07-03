@@ -9,7 +9,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { BsFillFilePersonFill} from "react-icons/bs";
-import logoImage from "../../public/images/logo_black.png";
+import logoImage from "../../public/images/logo.png";
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -239,9 +239,9 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-            <div className="flex h-16 shrink-0 items-center">
-              <Link href={"/"} className="h-8 w-auto">
-                <Image style={{ width: "auto", height: "100%" }}  src={logoImage} alt={'logo'}></Image> 
+            <div className="flex h-16 shrink-0 items-center overflow-visible">
+              <Link href={"/"} className="h-8 w-auto overflow-visible">
+                <Image style={{ width: "auto", height: "120%", overflow: "visible" }}  src={logoImage} alt={'logo'}></Image> 
               </Link>
             </div>
             <nav className="flex flex-1 flex-col">
