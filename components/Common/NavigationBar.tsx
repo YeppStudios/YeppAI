@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import Image from 'next/image';
-import logoImage from "../../public/images/logo_black.png";
+import logoImage from "../../public/images/logo.png";
 import { BsFillFilePersonFill, BsPencilFill, BsFillChatTextFill, BsFillFileTextFill, BsFillArchiveFill } from "react-icons/bs";
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -120,8 +120,7 @@ const NavigationBar = () => {
         {mobile ? 
         <MobileTopNavbar>
           <Link href="/">
-              <LogoContainer>
-                  <Image style={{ width: "auto", height: "100%" }}  src={logoImage} alt={'logo'}></Image> 
+              <LogoContainer background={logoImage}>
               </LogoContainer> 
           </Link>
           <HiMenu onClick={handleOpenMobileMenu} style={{width: "2.4rem", height: "2.4rem", color: "black"}}/>
@@ -130,8 +129,7 @@ const NavigationBar = () => {
         <>
           <Centered>
             <Link href="/">
-            <LogoContainer>
-              <Image style={{ width: "auto", height: "100%" }}  src={logoImage} alt={'logo'}></Image> 
+            <LogoContainer background={logoImage}>
             </LogoContainer> 
             </Link>
           </Centered>
@@ -362,13 +360,17 @@ const MobileTopNavbar = styled.div`
   align-items: center;
 `
 
-const LogoContainer = styled.div`
-  width: 1.75rem;
-  height: 1.75rem;
-  min-width: 1.75rem;
+const LogoContainer = styled.div<{background: any}>`
+  width: 1.35rem;
+  height: 2rem;
+  overflow: visible;
   margin-bottom: 1rem;
   cursor: pointer;
   margin-right: 0;
+  background-image: url(${props => props.background.src});
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
   position: relative;
   @media (max-width: 1023px) {
     width: 2rem;
