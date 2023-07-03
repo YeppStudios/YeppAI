@@ -156,10 +156,10 @@ const ConversationSidebar = ({createConversation}: any) => {
         <SidebarContainer>
             <div style={{width: "100%"}}>
             <Centered>
-                <NewConversationBtn onClick={() => createConversation()}><HiPlusSm style={{width: "auto", height: "60%"}} /><ButtonText>Nowa Konwersacja</ButtonText></NewConversationBtn>
+                <NewConversationBtn onClick={() => createConversation()}><HiPlusSm style={{width: "auto", height: "60%"}} /><ButtonText>New Conversation</ButtonText></NewConversationBtn>
             </Centered>
             <ConversationsHeaderContainer>
-                <ConversationsHeader>Konwersacje</ConversationsHeader>
+                <ConversationsHeader>Conversations</ConversationsHeader>
                 <BsChevronDown />
             </ConversationsHeaderContainer>
             {/* <InputContainer>

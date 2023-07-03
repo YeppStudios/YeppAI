@@ -33,12 +33,12 @@ interface TextArea {
     height: string;
 }
 
-const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński"];
+const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 
 const FrameworkCreationPage = ({back, query}: any) => {
 
     const [about, setAbout] = useState("");
-    const [language, setLanguage] = useState("Polski");
+    const [language, setLanguage] = useState("English");
     const [targetAudience, setTargetAudience] = useState("");
     const [loading, setLoading] = useState(false);
     const [formLoading, setFormLoading] = useState(true);
@@ -75,7 +75,7 @@ const FrameworkCreationPage = ({back, query}: any) => {
         if (query.type === "AIDA") {
             setPrompt(`Act as a professional marketer. Conduct an AIDA (Attention, Interest, Desire, Action) analysis for ${name}, your ${about}, which target audience are ${targetAudience}. To start, analyze each stage of the AIDA model, beginning with Attention. Come up with creative ideas on how to grab your target customers' attention. Once the customer is hooked, focus on creating interest by highlighting the benefits and features of the ${name}, emphasizing how it solves the ${targetAudience} pain points and problems. Next, create a desire by using persuasive language and promoting how ${name} can make a notable difference for ${targetAudience}. And lastly, devise a strategy that encourages the customer to take the necessary action(s). This includes providing clear calls to action, demonstrating the product's or company's usability and results, and building trust with potential customers. Make sure to write it in ${language} language.`)
         }
-        setTitle(`${query.type} dla ${name}`)
+        setTitle(`${query.type} for ${name}`)
     }
 
     return (
@@ -86,7 +86,7 @@ const FrameworkCreationPage = ({back, query}: any) => {
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Wróć</BackBtnText>
+                    <BackBtnText>Back</BackBtnText>
                 </BackBtn>
             }
                 {query.type && 
@@ -96,7 +96,7 @@ const FrameworkCreationPage = ({back, query}: any) => {
                         <BackBtnIcon>
                             <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                         </BackBtnIcon> 
-                        <BackBtnText>Wróć</BackBtnText>
+                        <BackBtnText>Back</BackBtnText>
                     </BackBtn>
                     }
                     <div>
@@ -108,13 +108,13 @@ const FrameworkCreationPage = ({back, query}: any) => {
                         }          
                         <InputContainer width="50%">
                             <Label>
-                                Nazwa produktu / firmy
+                                Company / product name
                             </Label>
                             <Input
                                 id="name"
                                 height= "2.6rem"
                                 padding="0.5rem"
-                                placeholder="Asystent AI"
+                                placeholder="Yepp AI"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
@@ -122,12 +122,12 @@ const FrameworkCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         <InputContainer width="50%">
                             <Label>
-                                Język
+                                Language
                             </Label>
                             <Dropdown
                                 id="languages"
                                 type="text"
-                                placeholder="Facebook"
+                                placeholder="English"
                                 required
                                 value={language}
                                 values={languages}
@@ -137,13 +137,13 @@ const FrameworkCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         <InputContainer width="100%">
                             <Label>
-                                Opis produktu / firmy
+                                Company / product description
                             </Label>
                             <TextArea
                                 id="about-field"
                                 height= "8rem"
                                 padding="0.5rem"
-                                placeholder="z intuicyjną platformą Asystent AI wygenerujesz dobrze konwertujące treści marketingowe bez większego wysiłku."
+                                placeholder="with this intuitive SaaS you will generate tailored marketing content."
                                 value={about}
                                 onChange={(e) => setAbout(e.target.value)}
                                 required
@@ -151,13 +151,13 @@ const FrameworkCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         <InputContainer width="100%">
                             <Label>
-                                Grupa docelowa
+                                Target audience
                             </Label>
                             <Input
                                 id="target-adience-field"
                                 height= "2.6rem"
                                 padding="0.5rem"
-                                placeholder="młodzi, początkujący programiści"
+                                placeholder="marketing experts"
                                 value={targetAudience}
                                 onChange={(e) => setTargetAudience(e.target.value)}
                                 required
@@ -174,7 +174,7 @@ const FrameworkCreationPage = ({back, query}: any) => {
                                     <BtnIcon>
                                         <BsStars style={{width: "100%", height: "auto"}}/>
                                     </BtnIcon>
-                                    Wyczaruj treści
+                                    Generate content
                                 </div>
                                 }
                             </GenerateBtn>

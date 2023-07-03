@@ -5,18 +5,6 @@ import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import FirstPage from "@/components/Copywriting/FirstPage";
 import CopywritingModal from "@/components/Modals/AddingModals/CopywritingModal";
 import TextEditor from "@/components/Copywriting/TextEditor";
-import styled from "styled-components";
-import EditorSidebar from "@/components/Copywriting/components/EditorSidebar";
-
-interface Document {
-  owner: string,
-  title: string,
-  category: string,
-  timestamp: string,
-  ownerEmail: string,
-  vectorId: string
-}
-
 
 const DocumentCreator = () => {
 
@@ -26,7 +14,7 @@ const DocumentCreator = () => {
   const [conspect, setConspect] = useState<any>(null);
   const [title, setTitle] = useState("New Document");
   const [description, setDescription] = useState("");
-  const [language, setLanguage] = useState("Polski");
+  const [language, setLanguage] = useState("Polish");
   const [page, setPage] = useState(1);
   const [contentType, setContentType] = useState("");
 
@@ -39,8 +27,8 @@ const DocumentCreator = () => {
   return (
     <PageTemplate userProfiles={[]}>
       <Head>
-          <title>Copywriting | Asystent AI</title>
-          <meta name="description" content="Twórz unikatowe treści jak maile, posty, artykuły i opisy w zaledwie kilka sekund." />
+          <title>Copywriting | Yepp AI</title>
+          <meta name="description" content="Craft unique SEO content on any topic with AI." />
       </Head>
       {openNoElixirModal && <NoElixir onClose={() => setOpenNoElixirModal(false)} />}
       {copywritingModal && <CopywritingModal 

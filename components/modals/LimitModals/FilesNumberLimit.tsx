@@ -45,15 +45,15 @@ const FilesNumberLimit = (props: {onClose: any}) => {
             </Centered>
              <div>
                 <Centered>
-                    <Title>Ulepsz Plan</Title>
+                <Title>Upgrade your plan</Title>
                 </Centered>
                 <Centered>
-                    <Description>Osiągnąłeś limit wgranych plików w planie {plan.name}. <br /> Wgrane pliki: <b>{plan.maxFiles}/{plan.maxFiles}</b></Description>
+                <Description>You&apos;ve reached the limit of uploaded resources in {plan.name} plan. <br /> Uploaded resources: <b>{plan.maxFiles}/{plan.maxFiles}</b></Description>
                 </Centered>
                <Centered>
                     <BtnContainer>
                     <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                        Ulepsz plan
+                    Upgrade plan
                     </BuyBtn>
                     </BtnContainer>
                 </Centered>

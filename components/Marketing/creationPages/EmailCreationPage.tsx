@@ -34,18 +34,16 @@ interface TextArea {
     height: string;
 }
 
-const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
-  const styles = ["Formalny 💼", "Przyjazny 😊", "Uroczysty 🥂",  "Treściwy 📃",];
-  const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński"];
+const contentLengths = ["Short", "Medium", "Long", "Very long"];
+const styles = ["Formal 💼", "Friendly 😊", "Concise 📃", "Persuasive 🫵🏼", "Motivational 📈"];
+const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
   const paragraphsCount = [1, 2, 3, 4, 5];
   
   
   const SocialMediaCreationPage = ({ back, query }: any) => {
-    const [style, setStyle] = useState("Przyjazny 😊");
+    const [style, setStyle] = useState("Friendly 😊");
     const [paragraphCount, setParagraphCount] = useState(3);
-    const [completionLength, setCompletionLength] = useState("Długi");
-    const [sender, setSender] = useState("");
-    const [aboutRecipient, setAboutRecipient] = useState("");
+    const [completionLength, setCompletionLength] = useState("Long");
     const [prompt, setPrompt] = useState<string>();
     const [preprompt, setPrePrompt] = useState<string>();
     const [topic, setTopic] = useState("");
@@ -53,7 +51,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
     const userPlan = useSelector(selectedPlanState);
     const [cta, setCta] = useState("");
     const [loading, setLoading] = useState(false);
-    const [language, setLanguage] = useState("Polski");
+    const [language, setLanguage] = useState("English");
     const [title, setTitle] = useState('');
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [key, setKey] = useState(0);
@@ -72,18 +70,18 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
         const token = localStorage.getItem("token");
         let newTitle = "";
         let replyLength = "in around 120 words"
-        if(completionLength === "Krótki") {
+        if(completionLength === "Short") {
             replyLength = "in around 50 words"
-        } else if (completionLength === "Długi") {
+        } else if (completionLength === "Long") {
             replyLength = "in around 200 words"
-        } else if (completionLength === "Bardzo długi") {
+        } else if (completionLength === "Very long") {
             replyLength = "that is minimum 350 words long"
         }
 
         if(query.type){
             if (query.type.includes("conspect")) {
                 setPrompt(`Write a great newsletter conspect about ${topic} in ${paragraphCount} paragraphs. My target audience is ${targetAudience}, and my CTA is: "${cta}". Make sure everything you write is in ${language} language.`)
-                newTitle = `Wygenerowanie konpektu maila`
+                newTitle = `Generated email conspect`
     
             } else if (query.type.includes("newsletter")){
                 setPrompt(`Act as a professional newsletter writer. Craft a creative and informative newsletter in ${style} tone of voice that captures the essence of ${topic}. The newsletter should be written in ${language} language that is accessible to the target audience, which is comprised of ${targetAudience}. Don't address them directly, but rather write within their interest. Your content should be engaging, informative, and provide value to the reader. Make sure to write in a voice that sounds natural and human, plus add some personality to your writing to keep it interesting.
@@ -93,7 +91,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                 Try to fit this newsletter ${replyLength}.
                 
                 Once you have the first draft of the newsletter, read through it and ensure that everything you've written is written in the language ${language}. Lastly, run a grammar and spell check to make sure that the newsletter is correct. Respond only with complete newsletter.`)
-                newTitle = `Wygenerowanie newslettera`
+                newTitle = `Generated newsletter`
     
             } else if (query.type.includes("email")){
                 setPrompt(`You are a professional email marketer. Write an enticing and effective email campaign to increase engagement and drive sales about highlighted ${topic} targeting your ${targetAudience} ${replyLength}. 
@@ -103,7 +101,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                 Let the email flow with a narrative structure and avoid making it sound too pushy or aggressive. 
                 
                 Finally, add a "${cta}" call-to-action (CTA) at the end of the email directing the reader to take the desired action.`)
-                newTitle = `Wygenerowanie maila`
+                newTitle = `Generated email`
             }
         }
         setTitle(newTitle);
@@ -119,7 +117,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Wróć</BackBtnText>
+                    <BackBtnText>Back</BackBtnText>
                 </BackBtn>
             }
                 {query.type && 
@@ -129,7 +127,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         <BackBtnIcon>
                             <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                         </BackBtnIcon> 
-                        <BackBtnText>Wróć</BackBtnText>
+                        <BackBtnText>Back</BackBtnText>
                     </BackBtn>
                     }
                     <div>
@@ -142,7 +140,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         {query.type.includes("conspect") &&  
                         <InputContainer width="50%">
                             <Label>
-                                Liczba paragrafów
+                                Paragraphs
                             </Label>
                             <Dropdown
                                 width="100%"
@@ -159,7 +157,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         }
                         <InputContainer width="50%">
                             <Label>
-                                Język
+                                Language
                             </Label>
                             <Dropdown
                                 id="languages"
@@ -174,7 +172,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         </InputContainer>
                         <InputContainer width="50%">
                             <Label>
-                                Długość maila
+                                Length
                             </Label>
                             <Dropdown
                                 width="100%"
@@ -191,12 +189,12 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         {!query.type.includes("conspect") &&           
                             <InputContainer width="100%">
                                 <Label>
-                                    Ton wypowiedzi
+                                   Tone of voice
                                 </Label>
                                 <Dropdown
                                     id="name"
                                     type="text"
-                                    placeholder="Przyjazny 😊"
+                                    placeholder="Friendly 😊"
                                     required
                                     value={style}
                                     values={styles}
@@ -208,13 +206,13 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         {(query.type.includes("conspect") || query.type.includes("newsletter")) &&
                         <InputContainer width="100%">
                             <Label>
-                                Temat
+                                Topic
                             </Label>
                             <TextArea
                                 id="topic-field"
                                 height= "4.2rem"
                                 padding="0.4rem"
-                                placeholder="Rewolucja w marketingu spowodowana rozwojem AI."
+                                placeholder="AI revolution in marketing."
                                 value={topic}
                                 onChange={(e) => setTopic(e.target.value)}
                                 required
@@ -224,13 +222,13 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         {query.type.includes("email") &&
                         <InputContainer width="100%">
                             <Label>
-                                Napisz o...
+                                Write about...
                             </Label>
                             <TextArea
                                 id="topic-field"
                                 height= "4.2rem"
                                 padding="0.4rem"
-                                placeholder="nowej funkcjonalności Asystenta AI jaką jest wgrywanie własnych plików."
+                                placeholder="new feature of Yepp AI- is uploading files."
                                 value={topic}
                                 onChange={(e) => setTopic(e.target.value)}
                                 required
@@ -239,13 +237,13 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         }
                         <InputContainer width="100%">
                             <Label>
-                                Grupa docelowa
+                                Target audience
                             </Label>
                             <Input
                                 id="target-adience-field"
                                 height= "2.6rem"
                                 padding="0.4rem"
-                                placeholder="Właściciele sklepów odzieżowych"
+                                placeholder="users of Yepp AI"
                                 value={targetAudience}
                                 onChange={(e) => setTargetAudience(e.target.value)}
                                 required
@@ -254,13 +252,13 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                         {query.type.includes("email") &&
                             <InputContainer width="100%">
                                 <Label>
-                                    Wezwanie do działania (opcjonalne)
+                                    CTA (optional)
                                 </Label>
                                 <Input
                                     id="target-adience-field"
                                     height= "2.6rem"
                                     padding="0.6rem"
-                                    placeholder="Zapisz się już teraz"
+                                    placeholder="Sign up now"
                                     value={cta}
                                     onChange={(e) => setCta(e.target.value)}
                                 />
@@ -277,7 +275,7 @@ const contentLengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
                                     <BtnIcon>
                                         <BsStars style={{width: "100%", height: "auto"}}/>
                                     </BtnIcon>
-                                    Wyczaruj treść
+                                    Generate content
                                 </Centered>
                                 }
                             </GenerateBtn>

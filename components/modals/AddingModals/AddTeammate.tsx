@@ -66,8 +66,8 @@ const AddTeammateModal = (props: {onClose: any}) => {
                 id: 'invited',
                 disallowClose: true,
                 autoClose: 5000,
-                title: "Zaproszenie wysłane",
-                message: 'Zaproszenie na adres email: ' + email + ' zostało wysłane.',
+                title: "Invitation sent!",
+                message:  email + ' should receive an email with an invitation.',
                 color: 'green',
           
                 styles: (theme: any) => ({
@@ -88,8 +88,8 @@ const AddTeammateModal = (props: {onClose: any}) => {
                 id: 'invited',
                 disallowClose: true,
                 autoClose: 5000,
-                title: "Coś poszło nie tak...",
-                message: 'Wystąpił nieoczekiwany problem. Skontaktuj się z nami: hello@asystent.ai',
+                title: "Something went wrong...",
+                message: 'Something went wrong... Contact us: hello@yepp.ai',
                 color: 'red',
           
                 styles: (theme: any) => ({
@@ -117,9 +117,9 @@ const AddTeammateModal = (props: {onClose: any}) => {
                 <div className="px-4 sm:px-6 lg:px-8">
                     <div className="sm:flex sm:items-center w-full">
                         <div className="sm:flex-auto">
-                        <h1 className="text-3xl font-semibold leading-6 text-gray-900">Twoje zaproszenia</h1>
+                        <h1 className="text-3xl font-semibold leading-6 text-gray-900">Your invitations</h1>
                         <p className="mt-4 text-base text-gray-600">
-                            Poniżej znajduje się lista wszystkich zaproszonych osób.
+                            Below you can find all pending invitations.
                         </p>
                         </div>
                         <form onSubmit={(e) => addTeammate(e)} className="mt-4 sm:ml-20 sm:mt-0 flex">
@@ -136,7 +136,7 @@ const AddTeammateModal = (props: {onClose: any}) => {
                             {loading ?
                                 <Loader color="white"/>
                                 : 
-                                <p>Zaproś</p>
+                                <p>Invite</p>
                             }
                         </button>
                         </form>
@@ -196,7 +196,7 @@ const AddTeammateModal = (props: {onClose: any}) => {
                                         <div className="text-green-400 bg-green-400/10 flex-none rounded-full p-1'">
                                             <div className="h-2 w-2 rounded-full bg-current" />
                                         </div>
-                                        <div className="hidden text-gray-500 sm:block">Wysłane</div>
+                                        <div className="hidden text-gray-500 sm:block">Sent</div>
                                         </div>
                                     </td>
                                     {/* <td
@@ -219,7 +219,7 @@ const AddTeammateModal = (props: {onClose: any}) => {
                             </tbody>     
                             :
                             <div className="flex text-gray-400 pl-6 pt-8">
-                                <p>Tutaj znajdziesz członków swojego zespołu.</p>
+                                <p>Here you can find pending invitations.</p>
                             </div>   
                             }
                             </table>

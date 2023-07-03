@@ -31,18 +31,18 @@ interface TextArea {
     height: string;
 }
 
-const styles = ["Profesjonalny 💼", "Przyjazny 😊", "Uroczysty 🥂",  "Treściwy 📃",];
-const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński", "Hebrajski"];
+const styles = ["Professional 💼", "Friendly 😊", "Concise 📃", "Persuasive 🫵🏼", "Motivational 📈"];
+const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 const count = [1, 3, 5]
 
 const SocialMediaCreationPage = ({back, query}: any) => {
 
-    const [style, setStyle] = useState("Profesjonalny 💼");
+    const [style, setStyle] = useState("Professinal 💼");
     const [product, setProduct] = useState("");
     const [productName, setProductName] = useState("");
     const [productDescription, setProductDescription] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
-    const [language, setLanguage] = useState("Polski");
+    const [language, setLanguage] = useState("English");
     const [pros, setPros] = useState("");
     const [keywords, setKeywords] = useState("");
     const [examplesNumber, setExamplesNumber] = useState(3);
@@ -68,10 +68,10 @@ const SocialMediaCreationPage = ({back, query}: any) => {
         setLoading(true);
         if (query.type.includes("google-ads")) {
             setPrompt(`You are a Google Ads professional copywriter. Your task is to create ${examplesNumber} unique Google Ads for a product named ${productName}- ${productDescription}. The Ads headers should be up to 30-characters long, and the descriptions should be up to 90-characters long, all written in ${language} language. The Ads created must be strictly compliant with Google Ads guidelines and should encourage users to engage with the product or service. Conduct proper market research, and start by understanding your target audience of ${targetAudience}, their demographics, and interests. Once you have a deep understanding of the audience, come up with compelling and catchy headlines that grab their attention and entice them to click. Write crispy descriptions that provide a clear value proposition and call-to-action to drive conversions. Avoid making false promises and ensure that the Ads accurately reflect the product capabilities or services offered. You NEVER use emojis as you think there is no place for them in google ad.`)
-            setTitle(`Wygenerowanie opisu- ${productName}`)
+            setTitle(`Generated descripion- ${productName}`)
         } else {
             setPrompt(`CAct as a Copywriter. Craft a compelling ${style} tone of voice product description in ${language} language that will entice users to purchase a ${product}. Begin by getting a thorough understanding of ${pros} of the product, and what separates it from other similar products on the market. After that, focus on the unique selling points for the ${query.type} target audience and get started on creating a persuasive copy that caters to their interests and needs. Remember to keep the content informative, engaging and exciting without the use of any emojis. Your description should be long enough to educate users about the product and build excitement, but also brief and straight to the point, highlighting its key features and benefits in a way that convinces the user that this ${product} is the best choice for them. Once you have a draft go through it and make sure there are no spelling or grammar mistakes and that it is written in ${language} language.`)
-            setTitle(`Wygenerowanie opisu ${product}`)
+            setTitle(`Generated descripion ${product}`)
         }
 
     }
@@ -84,7 +84,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Wróć</BackBtnText>
+                    <BackBtnText>Back</BackBtnText>
                 </BackBtn>
             }
                 <FormContainer>
@@ -93,7 +93,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         <BackBtnIcon>
                             <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                         </BackBtnIcon> 
-                        <BackBtnText>Wróć</BackBtnText>
+                        <BackBtnText>Back</BackBtnText>
                     </BackBtn>
                     }
                     <div>
@@ -106,12 +106,12 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         {query.type !== "google-ads" &&
                         <InputContainer width="100%">
                             <Label>
-                                Co chcesz opisać?
+                                What to describe
                             </Label>
                             <Input
                                 height= "2.8rem"
                                 padding="0.4rem"
-                                placeholder="Smartfon iPhone 14 pro"
+                                placeholder="iPhone 14 pro"
                                 required
                                 value={product}
                                 onChange={(e) => setProduct(e.target.value)}
@@ -121,12 +121,12 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         {query.type === "google-ads" &&
                         <InputContainer width="50%">
                             <Label>
-                                Liczba przykładów
+                                Number of examples
                             </Label>
                             <Dropdown
                                 id="name"
                                 type="text"
-                                placeholder="Facebook"
+                                placeholder="1"
                                 required
                                 value={examplesNumber}
                                 values={count}
@@ -137,12 +137,12 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         }
                         <InputContainer width="50%">
                             <Label>
-                                Język
+                                Language
                             </Label>
                             <Dropdown
                                 id="name"
                                 type="text"
-                                placeholder="Facebook"
+                                placeholder="English"
                                 required
                                 value={language}
                                 values={languages}
@@ -153,7 +153,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         {query.type === "google-ads" &&
                         <InputContainer width="100%">
                             <Label>
-                                Nazwa produktu
+                                Product name
                             </Label>
                             <Input
                                 height= "2.8rem"
@@ -168,13 +168,13 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         {query.type === "google-ads" &&
                         <InputContainer width="100%">
                             <Label>
-                                Opis produktu (opcjonalne)
+                                Product description (optional)
                             </Label>
                             <TextArea
                                 id="about-field"
                                 height= "5rem"
                                 padding="0.5rem"
-                                placeholder="Najnowszy iPhone, dynamic island, 10X zoom optyczny oraz always on display."
+                                placeholder="Always-on display, dynamic island, 120Hz..."
                                 value={productDescription}
                                 onChange={(e) => setProductDescription(e.target.value)}
                                 required
@@ -184,13 +184,13 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         {query.type !== "google-ads" &&
                         <InputContainer width="100%">
                             <Label>
-                                Kluczowe zalety/specyfikacja
+                                Key features / specs
                             </Label>
                             <TextArea
                                 id="about-field"
                                 height= "6rem"
                                 padding="0.5rem"
-                                placeholder="Super cienka ramka, jasny wyświetlacz, 5X szybszy od konkurencji, 16GB ram..."
+                                placeholder="Always-on display, dynamic island, 120Hz..."
                                 value={pros}
                                 onChange={(e) => setPros(e.target.value)}
                                 required
@@ -200,13 +200,13 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         {query.type === "google-ads" &&
                         <InputContainer width="100%">
                             <Label>
-                                Grupa docelowa
+                                Target audience
                             </Label>
-                            <TextArea
+                            <Input
                                 id="target-adience-field"
                                 height= "2.6rem"
                                 padding="0.5rem"
-                                placeholder="młodzi, początkujący programiści"
+                                placeholder="young developers"
                                 value={targetAudience}
                                 onChange={(e) => setTargetAudience(e.target.value)}
                                 required
@@ -224,7 +224,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                                     <BtnIcon>
                                         <BsStars style={{width: "100%", height: "auto"}}/>
                                     </BtnIcon>
-                                    Wyczaruj opis
+                                    Generate content
                                 </div>
                                 }
                             </GenerateBtn>

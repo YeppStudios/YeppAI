@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Centered from "../../Centered";
 import {  BsXLg, BsChevronLeft } from "react-icons/bs";
-import TypingAnimation from "../common/TypingAnimation";
 import Cookies from "js-cookie";
 import BackBtn from "../../Common/BackBtn";
 import BackBtnIcon from "../../Common/BackBtnIcon";
@@ -21,11 +20,11 @@ const steps = [
 
 const industries = [
     "E-commerce",
-    "Agencja",
-    "Edukacja",
+    "Agency",
+    "Education",
     "SaaS",
     "Nonprofit",
-    "Inne"
+    "Other"
 ]
 
 const roles = [
@@ -42,7 +41,7 @@ const roles = [
 ]
 
 const companySize = [
-    "Tylko ja",
+    "Just me",
     "2-50",
     "51-200",
     "201-500",
@@ -155,22 +154,22 @@ const OnboardingModal = (props: {onClose: any}) => {
                         <ModalTitle><p style={{fontSize: "3rem", marginBottom: "0.5rem"}}>👋</p>Miło Cię widzieć {username}!</ModalTitle>
                 </Centered>
                 <Centered>
-                    <ModalDescription>Przygotowaliśmy dla Ciebie krótki onboarding, który pomoże Ci zrozumieć i skonfigurować platformę tak, aby służyła Ci jak najlepiej. </ModalDescription>
+                <ModalDescription>We&apos;ve prepared for you a short onboarding that will help you get started and us provide a service tailored for your needs. </ModalDescription>
                 </Centered>
                 <Centered>
-                    <EstimatedTime>Czas onboardingu: ~ 4 min</EstimatedTime>
+                    <EstimatedTime>Est. onboarding time: ~ 4 min</EstimatedTime>
                 </Centered>
                     <Centered>
                         <ContinueBtn onClick={() => setSelectedTab(1)}>
-                                Zaczynajmy!
+                            Let&apos;s get started!
                         </ContinueBtn>
                     </Centered>
                 </div>
                 }
                 {selectedTab === 1 &&
                     <>
-                    <ModalTitle>W jakiej dziedzinie działasz?</ModalTitle>
-                    <Centered><ModalDescription>To pomoże nam lepiej dopasować Asystenta AI do Twoich potrzeb w przyszłości.</ModalDescription></Centered>
+                    <ModalTitle>What is your industry?</ModalTitle>
+                    <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
                         {industries.map((industry: any) => {
                             return (
@@ -179,13 +178,13 @@ const OnboardingModal = (props: {onClose: any}) => {
 
                         })}
                     </Tabs>
-                    <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Pomiń</SkipBtn></Centered>
+                    <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Skip</SkipBtn></Centered>
                     </>
                 }
                 {selectedTab === 2 &&
                     <>
-                    <ModalTitle>Jaka jest Twoja rola?</ModalTitle>
-                    <Centered><ModalDescription>To pomoże nam lepiej dopasować Asystenta AI do Twoich potrzeb w przyszłości.</ModalDescription></Centered>
+                    <ModalTitle>What is your role?</ModalTitle>
+                    <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
                         {roles.map((role: any) => {
                             return (
@@ -194,13 +193,13 @@ const OnboardingModal = (props: {onClose: any}) => {
 
                         })}
                     </Tabs>
-                    <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Pomiń</SkipBtn></Centered>
+                    <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Skip</SkipBtn></Centered>
                     </>
                 }
                 {selectedTab === 3 &&
                     <>
-                    <ModalTitle>Jak duża jest Twoja firma?</ModalTitle>
-                    <Centered><ModalDescription>To pomoże nam lepiej dopasować Asystenta AI do Twoich potrzeb w przyszłości.</ModalDescription></Centered>
+                    <ModalTitle>How big is your company?</ModalTitle>
+                    <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
                         {companySize.map((size: any) => {
                             return (
@@ -209,25 +208,25 @@ const OnboardingModal = (props: {onClose: any}) => {
 
                         })}
                     </Tabs>
-                    <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Pomiń</SkipBtn></Centered>
+                    <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Skip</SkipBtn></Centered>
                     </>
                 }
                 {selectedTab === 4 &&
                     <>
-                    <ModalTitle>Używałeś/aś już innych aplikacji AI?</ModalTitle>
-                    <Centered><ModalDescription>To pomoże nam lepiej dopasować Asystenta AI do Twoich potrzeb w przyszłości.</ModalDescription></Centered>
+                    <ModalTitle>Did you use AI before?</ModalTitle>
+                    <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
                         <Tab onClick={() => selectAIExperience(true)}>Tak</Tab>
                         <Tab onClick={() => selectAIExperience(false)}>Nie</Tab>
     
                     </Tabs>
-                    <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Pomiń</SkipBtn></Centered>
+                    <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Skip</SkipBtn></Centered>
                     </>
                 }
                 {selectedTab === 5 &&
                     <>
-                    <ModalTitle>Okej, do konkretów!</ModalTitle>
-                    <Centered><ModalDescription>Podstawą działania całej aplikacji są <b>zasoby</b>, które wgrywasz. Wgrane dane dzielą się na foldery, którymi później możesz zasilać Asystentów AI.</ModalDescription></Centered>
+                    <ModalTitle>Let&apos;s get started!</ModalTitle>
+                    <Centered><ModalDescription><b>Assets</b> which you upload are the cornerstone of our platform. Uploaded assets are stored in folders, which AI can easily access later on.</ModalDescription></Centered>
                     <Centered>
                     <GifContainer>
                     {!mobile ?
@@ -254,7 +253,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                             {loading ?
                                 <Loader color="white"/>
                             :
-                               <p>Wgraj swoje dane</p> 
+                               <p>Start uploading</p> 
                             }
                         </ContinueBtn>
                     </Centered>

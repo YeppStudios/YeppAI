@@ -57,15 +57,15 @@ const AssistantsLimit = (props: {onClose: any}) => {
             </Centered>
              <div>
                 <Centered>
-                    <Title>Twórz więcej Asystentów</Title>
+                <Title>Create more Assistants</Title>
                 </Centered>
                 <Centered>
-                    <Description>Osiągnąłeś limit Asystentów w Twoim planie, aby tworzyć więcej Asystentów ulepsz pakiet.</Description>
+                <Description>You&apos;ve reached the limit of Assistants. To add this assistant you need to upgrade your plan.</Description>
                 </Centered>
                <Centered>
                     <BtnContainer>
                     <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                        Ulepsz Plan
+                    Upgrade plan
                     </BuyBtn>
                     </BtnContainer>
                 </Centered>

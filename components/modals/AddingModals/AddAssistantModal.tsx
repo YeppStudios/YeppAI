@@ -36,7 +36,7 @@ const client = create({
   },
 });
 const fileTypes = ["JPG", "PNG", "HEIC", "JPEG"];
-const languagesList = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Ukraiński", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski"];
+const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 
 interface Background {
     image: any
@@ -82,12 +82,12 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
     const [companyError, setCompanyError] = useState(false);
     const [businessSector, setBusinessSector] = useState("");
     const [currentText, setCurrentText] = useState(0);
-    const [language, setLanguage] = useState("Polish");
+    const [language, setLanguage] = useState("English");
     const selectedWorkspaceCompany = useSelector(selectedWorkspaceCompanyState);
     const selectedUser = useSelector(selectedUserState);
     const [firstPersonNarrative, setFirstPersonNarrative] = useState(true);
     const [foldersError, setFoldersError] = useState(false);
-    const [triggers, setTriggers] = useState(["zapyta o produkt", "poprosi o poradę", "zapyta o firmę", "poprosi o motywację", "poprosi o dodatkowe informacje", "zapyta o regulamin"])
+    const [triggers, setTriggers] = useState(["asks about the product", "asks for advice", "asks anything related to the company", "asks for more information", "asks about the privacy policy"])
     const [selectedTriggers, setSelectedTriggers] = useState<Array<string>>([]); 
     const [selectedTriggersError, setSelectedTriggersError] = useState(false);
     const [openNewTrigger, setOpenNewTrigger] = useState(false);
@@ -99,17 +99,14 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
     const triggerRef = useRef<HTMLInputElement>(null);
 
     const texts = [
-        `Skanuję treści...`,
-        "Analizuję zawartość...",
-        "Czytam wszystkie treści...",
-        "Pobieram kontekst...",
-        "Przyswajam wiedzę...",
-        "Rozpoczynam naukę...",
-        "Zapamiętuję nazwę zasobów...",
-        "Kategoryzuję informacje...",
-        "Zapamiętuję wyniki...",
-        "Daj mi chwilę...",
-        "Powtarzam proces...",
+        "Analyzing content...",
+        `Give me a sec...`,
+        "Loading context...",
+        "Learning...",
+        "Saving files...",
+        "Categorizing information...",
+        "Just a moment...",
+        "Repeating the process...",
       ];
 
           //loading texts
@@ -517,39 +514,31 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 <div>
                 <Centered>
                     {props.assistantToEdit ?
-                        <ModalTitle>Zaktualizuj Asystenta AI</ModalTitle>
+                        <ModalTitle>Update AI Assistant</ModalTitle>
                         :
                         <>
-                            {props.category === "chat" &&
-                                <ModalTitle>Stwórz Firmowe AI</ModalTitle>
-                            }
-                            {props.category === "copywriting" &&
-                                <ModalTitle>Stwórz Copywritera AI</ModalTitle>
-                            }
-                            {props.category === "marketing" &&
-                                <ModalTitle>Stwórz Marketera AI</ModalTitle>
-                            }
+                            <ModalTitle>Create Your AI</ModalTitle>
                         </>
                     }
 
                 </Centered>
                 <Tabs justifyContent="space-evenly">
                     {selectedTab === 1 ? 
-                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>Ogólne</SelectedMainTab> 
+                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>General</SelectedMainTab> 
                     :
-                    <MainTab onClick={() => setSelectedTab(1)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>Ogólne</MainTab>
+                    <MainTab onClick={() => setSelectedTab(1)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>General</MainTab>
                     } 
                     {selectedTab === 2 ? 
-                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Wiedza</SelectedMainTab>
+                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Resources</SelectedMainTab>
                     :
-                    <MainTab onClick={() => setSelectedTab(2)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Wiedza</MainTab>
+                    <MainTab onClick={() => setSelectedTab(2)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Resources</MainTab>
                     }
                     {props.category === "chat" &&
                     <>
                         {selectedTab === 3 ? 
-                        <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={behaviorIcon} alt={'Icon'}></Image></TabIcon>Zachowanie</SelectedMainTab>
+                        <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={behaviorIcon} alt={'Icon'}></Image></TabIcon>Behavior</SelectedMainTab>
                         :
-                        <MainTab onClick={() => setSelectedTab(3)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={behaviorIcon} alt={'Icon'}></Image></TabIcon>Zachowanie</MainTab>
+                        <MainTab onClick={() => setSelectedTab(3)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={behaviorIcon} alt={'Icon'}></Image></TabIcon>Behavior</MainTab>
                         }
                     </>
                     }
@@ -557,16 +546,16 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 {selectedTab === 1 &&
                 <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", marginTop: "1rem"}}>
                     <HalfInputContainer>
-                        <Label>Nazwa Asystenta{nameError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>nazwij asystenta</p>}</Label>
+                        <Label>Assistant Name{nameError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>name assistant</p>}</Label>
                         <Input type="text" placeholder="Marketer Michał" value={name} onChange={(e) => setName(e.target.value)}/>
                     </HalfInputContainer>
                     <HalfInputContainer>
-                        <Label>Nazwa firmy{companyError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>podaj nazwę firmy</p>}</Label>
+                        <Label>Company Name{companyError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>enter your company name</p>}</Label>
                         <Input type="text" placeholder="Yepp" value={company} onChange={(e) => setCompany(e.target.value)}/>
                     </HalfInputContainer>
-                <Label>Moja firma to...</Label>
-                    <Input type="text" placeholder="platforma umożliwiająca stworzenie firmowych Asystentów AI..." value={businessSector} onChange={(e) => setBusinessSector(e.target.value)}/> 
-                <Label>Zdjęcie profilowe <p style={{color: "#777777", marginLeft: "0.5rem", fontSize: "0.85rem"}}>(opcjonalne)</p></Label>
+                <Label>This company is...</Label>
+                    <Input type="text" placeholder="a platform for generating marketing content..." value={businessSector} onChange={(e) => setBusinessSector(e.target.value)}/> 
+                <Label>Profile picture <p style={{color: "#777777", marginLeft: "0.5rem", fontSize: "0.85rem"}}>(optional)</p></Label>
                     <Tabs justifyContent="left">
                         <FileUploader hoverTitle="Drop here" handleChange={handleFile} name="file" types={fileTypes} multiple={false} label="Drop an image" >
                             {previewUrl || image ?
@@ -581,7 +570,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                     <ButtonContainer>
                     <Centered>
                         <ContinueBtn onClick={() => setSelectedTab(2)}>
-                                Kontynuuj
+                                Continue
                         </ContinueBtn>
                     </Centered>
                     </ButtonContainer>
@@ -589,7 +578,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 }
                 {selectedTab === 2 &&
                 <div>
-                {!foldersError ? <Label>Wybierz foldery z których AI ma czerpać wiedzę...</Label> : <Label className="text-red-400">Wybierz foldery z których AI ma czerpać wiedzę... </Label>}
+                {!foldersError ? <Label>Choose folders for AI to reference...</Label> : <Label className="text-red-400">Choose folders for AI to reference... </Label>}
                 <Tabs justifyContent="left">
                     {!foldersLoading ? (
                         folders.length > 0 ? 
@@ -627,7 +616,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                         ]
                         :
                         <div style={{display: "flex", width: "100%", marginTop: "0.25rem", justifyContent: "flex-start"}}>
-                            <AddFolderBtn onClick={() => props.openNewFolder()}><ColorfulText><b>+ Stwórz folder z wiedzą</b></ColorfulText></AddFolderBtn>
+                            <AddFolderBtn onClick={() => props.openNewFolder()}><ColorfulText><b>+ Create a new folder</b></ColorfulText></AddFolderBtn>
                         </div>
                     ) : (
                     <div style={{ marginTop: "3vh", width: "100%", display: "flex", justifyContent: "center" }}>
@@ -635,12 +624,12 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                     </div>
                     )}
                 </Tabs>
-                <Label>Naucz AI pisać w stylu Twojej firmy...<p style={{color: "#777777", marginLeft: "0.5rem", fontSize: "0.85rem"}}>(opcjonalne)</p></Label>
+                <Label>Teach AI your brand voice...<p style={{color: "#777777", marginLeft: "0.5rem", fontSize: "0.85rem"}}>(optional)</p></Label>
                 <TextArea
                     id="about-field"
                     height= "10rem"
                     padding="0.5rem"
-                    placeholder="Wklej lub napisz przykładową treść, która jak najlepiej odda styl komunikacji Twojej firmy."
+                    placeholder="Copy paste some conent that will best represent the company's brand voice."
                     value={exampleText}
                     onChange={(e) => setExampleText(e.target.value)}
                     required
@@ -661,18 +650,18 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                         {loading ?
                         <Loader color="white" />
                         :
-                        <p>Zaktualizuj</p>
+                        <p>Update</p>
                         }
                     </ContinueBtn>
                     </ButtonContainer> 
                     :
                     <ButtonContainer>
-                    <PriceContaienr>Koszt: <div style={{display: "flex", marginLeft: "0.5rem"}}> 1000ml <ElixirIcon><Image style={{ width: "auto", height: "100%" }}  src={elixirIcon} alt={'elixir_icon'}></Image></ElixirIcon></div></PriceContaienr>
+                    <PriceContaienr>Total: <div style={{display: "flex", marginLeft: "0.5rem"}}> 1000ml <ElixirIcon><Image style={{ width: "auto", height: "100%" }}  src={elixirIcon} alt={'elixir_icon'}></Image></ElixirIcon></div></PriceContaienr>
                     <ContinueBtn onClick={createAssistant}>
                         {loading ?
                         <Loader color="white" />
                         :
-                        <p>+ Dodaj Asystenta</p>
+                        <p>+ Add Assistant</p>
                         }
                     </ContinueBtn> 
                     </ButtonContainer>
@@ -683,7 +672,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 <ButtonContainer>
                 <Centered>
                     <ContinueBtn onClick={() => setSelectedTab(3)}>
-                            Kontynuuj
+                            Continue
                     </ContinueBtn>
                 </Centered>
                 </ButtonContainer>
@@ -692,12 +681,12 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 }
                 {selectedTab === 3 &&
                 <div>
-                <Label>AI ma zachowywać się jak...<p style={{color: "#777777", marginLeft: "0.5rem", fontSize: "0.85rem"}}>(opcjonalne)</p></Label>
-                <Input type="text" placeholder="profesjonalna, uprzejma osoba od obsługi klienta w dużej korporacji" value={role} onChange={(e) => setRole(e.target.value)}/>
+                <Label>Act as...<p style={{color: "#777777", marginLeft: "0.5rem", fontSize: "0.85rem"}}>(optional)</p></Label>
+                <Input type="text" placeholder="professional and cheerful person from customer service" value={role} onChange={(e) => setRole(e.target.value)}/>
                 {selectedTriggersError ? 
-                <Label>AI ma bazować na wyuczonej wiedzy, gdy użytkownik...<p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p></Label>
+                <Label>Use extra resources when user...<p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p></Label>
                 :
-                <Label>AI ma bazować na wyuczonej wiedzy, gdy użytkownik...{triggersError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>zaznacz minimum 1</p>}</Label>
+                <Label>Use extra resources when user...{triggersError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>at least 1</p>}</Label>
                 }
                 <Tabs justifyContent="left">
                     {triggers.map((trigger) => {
@@ -723,19 +712,19 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                             </div>
                         }
                 </Tabs>
-                <Label>Czy Asystent ma mówić o firmie w pierwszej osobie?</Label>
+                <Label>Should Assistant talk about the company in the first person narrative?</Label>
                 <div className="flex">
-                    {firstPersonNarrative ? <SelectedTab>Tak</SelectedTab> : <Tab onClick={() => setFirstPersonNarrative(true)}>Tak</Tab>}
-                    {firstPersonNarrative ? <Tab onClick={() => setFirstPersonNarrative(false)}>Nie</Tab> : <SelectedTab>Nie</SelectedTab>}
+                    {firstPersonNarrative ? <SelectedTab>yes</SelectedTab> : <Tab onClick={() => setFirstPersonNarrative(true)}>yes</Tab>}
+                    {firstPersonNarrative ? <Tab onClick={() => setFirstPersonNarrative(false)}>No</Tab> : <SelectedTab>No</SelectedTab>}
                 </div>
                 <div style={{width: "48%", display: "flex", flexWrap: "wrap"}}>
-                    <Label>Domyślny język Asystenta to...</Label>
+                    <Label>By default speak...</Label>
                     <Dropdown
                         type="text"
                         placeholder="Polski"
                         required
                         value={language}
-                        values={languagesList}
+                        values={languages}
                         onChange={setLanguage}
                         error={undefined}
                     /> 
@@ -747,19 +736,19 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                         {loading ?
                         <Loader color="white" />
                         :
-                        <p>Zaktualizuj Asystenta</p>
+                        <p>Update Assistant</p>
                         }
                     </ContinueBtn>     
                     </ButtonContainer>   
                     :
                     <ButtonContainer>
-                    <PriceContaienr>Koszt: <div style={{display: "flex", marginLeft: "0.5rem"}}> 1000ml <ElixirIcon><Image style={{ width: "auto", height: "100%" }}  src={elixirIcon} alt={'elixir_icon'}></Image></ElixirIcon></div></PriceContaienr>
+                    <PriceContaienr>Total: <div style={{display: "flex", marginLeft: "0.5rem"}}> 1000ml <ElixirIcon><Image style={{ width: "auto", height: "100%" }}  src={elixirIcon} alt={'elixir_icon'}></Image></ElixirIcon></div></PriceContaienr>
                     <ContinueBtn onClick={createAssistant}>
                         {loading ?
                         <Loader color="white" />
                         :
                         <>
-                        <p>+ Dodaj Asystenta</p>
+                        <p>+ Add Assistant</p>
                         </>
                         }
                     </ContinueBtn>  
@@ -772,9 +761,9 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 </div>
                 :
                 <div>
-                <ModalTitle>Trwa proces nauki</ModalTitle>
+                <ModalTitle>Defining Assistant...</ModalTitle>
                 <Centered>
-                    <ModalDescription>Asystent AI- jak i każdy nowy pomocnik musi się najpierw wszystkiego nauczyć.</ModalDescription>
+                    <ModalDescription>AI assistant - like all of us, has to learn all that is new.</ModalDescription>
                 </Centered>
                     <ThinkingContainer>
                         <Centered><TypingAnimation colorful={true} /></Centered>

@@ -57,16 +57,16 @@ const Navbar = () =>{
                     <LogoContainer onClick={() => router.push("/")}>
                         <Image style={{ width: "auto", height: "100%" }}  src={logo} alt={'logo'}></Image> 
                     </LogoContainer>
-                    <Link href="/"><AppName>Asystent AI</AppName></Link>
+                    <Link href="/"><AppName>Yepp AI</AppName></Link>
                 </Container>
                 <Container>
                     {pathname.includes("assistant") ?
-                            <Link href="/pricing?type=individual"><NavLink>Oferta</NavLink></Link>
+                            <Link href="/pricing?type=individual"><NavLink>Pricing</NavLink></Link>
                             :
-                            <Link href="/pricing?type=business"><NavLink>Oferta</NavLink></Link>
+                            <Link href="/pricing?type=business"><NavLink>Pricing</NavLink></Link>
                     }
-                    <Link href="/"><NavLink>Strona Główna</NavLink></Link>
-                    <ColorfulText><Link href="/marketing"><NavLink>Panel Aplikacji</NavLink></Link></ColorfulText>
+                    <Link href="/"><NavLink>Homepage</NavLink></Link>
+                    <ColorfulText><Link href="/marketing"><NavLink>Dashboard</NavLink></Link></ColorfulText>
                 </Container>
             </Nav>
         </NavContainer>

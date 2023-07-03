@@ -8,8 +8,6 @@ import Link from 'next/link';
 import SlideBottom from '../Animated/SlideBottom';
 import lock from "../../public/images/lock.png";
 import Centered from '../Centered';
-import ReferralModal from '../Modals/InformationalModals/ReferralModal';
-import api from '@/pages/api';
 import AddTeammate from '../Modals/AddingModals/AddTeammate';
 import { selectedUserState, } from "../../store/userSlice";
 import { selectedPlanState } from '@/store/planSlice';
@@ -26,7 +24,7 @@ const plans = [
     {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
     {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai"},
     {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat"},
-    {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
+    // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
     // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
   ],
   id: "63f0e7ed75de0ef12bb8c487"
@@ -36,7 +34,7 @@ tabs: [
   {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
   {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai", locked: true},
   {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat", locked: true},
-  {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts", locked: true},
+  // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts", locked: true},
   // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
 ],
 id: "647895cf404e31bfe8753398"
@@ -46,7 +44,7 @@ tabs: [
   {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
   {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai"},
   {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat"},
-  {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts", locked: true},
+  // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts", locked: true},
   // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
 ],
 id: "6478970a404e31bfe87533a0"
@@ -56,7 +54,7 @@ id: "6478970a404e31bfe87533a0"
     {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
     {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai"},
     {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat"},
-    {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
+    // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
     // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
   ],
   id: "6444d4394ab2cf9819e5b5f4"
@@ -215,15 +213,15 @@ const NavigationBar = () => {
             {!(pathname.includes("assets")) ? 
               <CustomAIContainer>
               {plan._id === "647895cf404e31bfe8753398" ?
-                <NavigationTab hover={isHovered} title="Zasoby" onClick={handleLockedClick}>
+                <NavigationTab hover={isHovered} title="Resources" onClick={handleLockedClick}>
                   <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                    <NavigationText>Zasoby</NavigationText>
+                    <NavigationText>Resources</NavigationText>
                     <Locked><Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image> </Locked>
                 </NavigationTab>
               :
-                <NavigationTab hover={isHovered} title="Zasoby" onClick={() => router.push(`/assets`)}>
+                <NavigationTab hover={isHovered} title="Resources" onClick={() => router.push(`/assets`)}>
                   <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                    <NavigationText>Zasoby</NavigationText>
+                    <NavigationText>Resources</NavigationText>
                 </NavigationTab>
                 }
               </CustomAIContainer>
@@ -232,7 +230,7 @@ const NavigationBar = () => {
               <SelectedNavigationTab hovered={isHovered}>
                 <SelectedNavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></SelectedNavigationIcon>
                 {plan._id !== "647895cf404e31bfe8753398" && 
-                 <NavigationText>Zasoby</NavigationText>
+                 <NavigationText>Resources</NavigationText>
                 }
                 {plan._id === "647895cf404e31bfe8753398" &&
                         <Locked><Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image> </Locked>
@@ -260,15 +258,15 @@ const NavigationBar = () => {
                 {!(pathname.includes("assets")) ? 
                   <CustomAIContainer>
                   {plan._id === "647895cf404e31bfe8753398" ? 
-                  <NavigationTab hover={isHovered} title="Zasoby" onClick={handleLockedClick}>
+                  <NavigationTab hover={isHovered} title="Resources" onClick={handleLockedClick}>
                     <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                      {isHovered && <NavigationText>Zasoby</NavigationText>}
+                      {isHovered && <NavigationText>Resources</NavigationText>}
                       <Locked>{!isHovered && <Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image>} </Locked>
                   </NavigationTab>
                   :
-                  <NavigationTab hover={isHovered} title="Zasoby" onClick={() => router.push(`/assets`)}>
+                  <NavigationTab hover={isHovered} title="Resources" onClick={() => router.push(`/assets`)}>
                     <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                      {isHovered && <NavigationText>Zasoby</NavigationText>}
+                      {isHovered && <NavigationText>Resources</NavigationText>}
                   </NavigationTab>
                   }
                   </CustomAIContainer>
@@ -277,7 +275,7 @@ const NavigationBar = () => {
                   <SelectedNavigationTab hovered={isHovered}>
                     <SelectedNavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></SelectedNavigationIcon>
                     {plan._id !== "647895cf404e31bfe8753398" && 
-                      isHovered && <NavigationText>Zasoby</NavigationText>
+                      isHovered && <NavigationText>Resources</NavigationText>
                     }
                     {plan._id === "647895cf404e31bfe8753398" &&
                       <Locked>{!isHovered && <Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image>} </Locked>

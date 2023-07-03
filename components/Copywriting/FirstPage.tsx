@@ -82,7 +82,7 @@ const FirstPage = (props: {nextPage: any, openModal: any}) => {
                     <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">{content.savedBy}</td>
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <button onClick={() => handleOpenDocument(content._id)} className="text-blue-600 hover:text-blue-900 font-semibold">
-                        Otwórz
+                        Open
                         </button>
                     </td>
                     <td onClick={(e) => e.stopPropagation()} className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
@@ -115,7 +115,7 @@ const FirstPage = (props: {nextPage: any, openModal: any}) => {
                                     )}
                                 >
                                     <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                                    Usuń
+                                    Delete
                                 </button>
                                 )}
                             </Menu.Item>
@@ -139,7 +139,7 @@ const FirstPage = (props: {nextPage: any, openModal: any}) => {
             <Header>
             <div>
             <PageTitle>Copywriter AI</PageTitle>
-            <PageDescription>Wykorzystaj potencjał AI w copywritingu.</PageDescription>
+            <PageDescription>Unleash the potential of AI in copywriting.</PageDescription>
             </div>
             <ActionContaienr>
                 <ActionBtn onClick={() => router.push("/assets")}>
@@ -147,7 +147,7 @@ const FirstPage = (props: {nextPage: any, openModal: any}) => {
                 </ActionBtn>
                 <WriteBtn onClick={() => props.openModal()}>
                     <BsPencilFill style={{width: "auto", height: "35%"}}/>
-                    <BtnText>Nowa treść</BtnText>
+                    <BtnText>New content</BtnText>
                 </WriteBtn>
             </ActionContaienr>
             </Header>
@@ -169,10 +169,10 @@ const FirstPage = (props: {nextPage: any, openModal: any}) => {
                             <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                             </th>
                             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Treść
+                            Title
                             </th>
                             <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                            Data
+                            Last updated
                             </th>
                             <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
                             Email
@@ -192,7 +192,7 @@ const FirstPage = (props: {nextPage: any, openModal: any}) => {
                     {savedContent.length === 0 &&
                         <>
                             <div className="flex justify-center items-center w-full h-64 text-slate-700 text-xl">
-                                Nie masz jeszcze zapisanych treści. Kliknij &quot;Nowy&quot;, aby zacząć generować treści.
+                                You have no content yet. Click on the button above to craft your first content with AI.
                             </div>
                         </>
                     }                    

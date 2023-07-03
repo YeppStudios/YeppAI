@@ -8,6 +8,7 @@ import Image from "next/image";
 import useAutosizeTextArea from "@/hooks/useAutosizeTextArea";
 import ConversationSidebar from "@/components/Chat/ConversationSidebar";
 import api from "@/pages/api";
+import TypingAnimation from "@/components/Modals/common/TypingAnimation";
 import { BsPencilSquare, BsCheckLg, BsPlus, BsSearch, BsFilePdf, BsFillPauseFill } from "react-icons/bs";
 import { selectConversationState, setSelectedConversation } from "../store/conversationSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,8 +24,8 @@ import whiteLogo from "../public/images/logo_white.png";
 import Head from "next/head";
 import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import axios from "axios";
-import TypingAnimation from "@/components/Modals/common/TypingAnimation";
 import { selectAssistantState, setSelectedAssistant } from "../store/assistantSlice";
+import { selectedUserState } from "@/store/userSlice";
 import SlideBottom from "@/components/Animated/SlideBottom";
 import dynamic from "next/dynamic";
 import ThinkingMessage from "@/components/Animated/ThinkingMessage";
@@ -734,9 +735,9 @@ const Chat = () => {
     return (
       <div onClick={() => setEditConversationName(false)}>
       <Head>
-          <title>Chat | Asystent AI</title>
+          <title>Chat | Yepp AI</title>
           <meta name = "theme-color" content = "#FFFFFF" />
-          <meta name="description" content="Porozmawiaj z Asystentem AI poszerzając swoje horyzonty i umiejętności." />
+          <meta name="description" content="Chat with files, videos and websites using AI." />
       </Head>
       {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
       <PageTemplate userProfiles={[]}>
@@ -746,7 +747,7 @@ const Chat = () => {
                 <BackBtnIcon>
                     <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                 </BackBtnIcon> 
-                 <BackBtnText>Wróć</BackBtnText>
+                 <BackBtnText>Back</BackBtnText>
             </BackBtn>
           </div>
         }
@@ -764,7 +765,7 @@ const Chat = () => {
                 </BackBtnIcon> 
             </BackBtn>
             }
-            {!mobile ? selectedAssistant ? <PageTitle>{selectedAssistant.name}</PageTitle> : <PageTitle>Asystent AI</PageTitle> : <div></div>}
+            {!mobile ? selectedAssistant ? <PageTitle>{selectedAssistant.name}</PageTitle> : <PageTitle>Yepp AI</PageTitle> : <div></div>}
             {mobile &&  <LogoContainer onClick={() => router.push("/")}><Image style={{ width: "auto", height: "100%" }}  src={whiteLogo} alt={'logo'}></Image></LogoContainer> }
             {(selectedConversation && !mobile) && 
               <ConversationTitleContainer onClick={(e) => e.stopPropagation()}>
@@ -832,7 +833,7 @@ const Chat = () => {
                                   <FetchingContainer>
                                   <FetchingIcon>
                                     <BsSearch style={{width: "100%", height: "auto"}}/></FetchingIcon>
-                                    Wertuję internet...
+                                    Browsing the internet...
                                   </FetchingContainer>
                                   </SlideBottom>
                                 </div>
@@ -842,7 +843,7 @@ const Chat = () => {
                                   <FetchingContainer>
                                   <FetchingIcon>
                                     <BsSearch style={{width: "100%", height: "auto"}}/></FetchingIcon>
-                                    Przeszukuję dokumenty...
+                                    Searching relevant assets...
                                   </FetchingContainer>
                                   </SlideBottom>
                                 </div>
@@ -882,7 +883,7 @@ const Chat = () => {
                   ref={textAreaRef}
                   rows={1}
                   value={userInput} 
-                  placeholder="Napisz wiadomość..."
+                  placeholder="Chat with AI..."
                 />
                 <SendButton className="send-message-btn">
                   {assistantThinking ?

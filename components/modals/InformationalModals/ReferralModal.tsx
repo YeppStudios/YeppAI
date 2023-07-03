@@ -41,7 +41,7 @@ const ReferralModal = (props: {onClose: any, showDescription: boolean}) => {
     const handleCopy = () => {
         navigator.clipboard.writeText(link)
           .then(() => {
-            setNotification("Skopiowane!");
+            setNotification("Copied!");
             setTimeout(() => {
               setNotification("");
             }, 1000);
@@ -64,7 +64,7 @@ const ReferralModal = (props: {onClose: any, showDescription: boolean}) => {
             </Centered>
             {props.showDescription &&
             <Centered>
-                <Description>Poleć Asystenta AI swoim znajomym, a gdy oni zakupią pakiet oboje dostatniecie po <b>30 000ml darmowego elixiru</b> kreatywności!</Description>
+               <Description>Reccommend Yepp your friends and whenever they buy a subscription both of you will receive <b>30 000ml of free elixir</b>!</Description>
             </Centered>
             }
             <Centered>

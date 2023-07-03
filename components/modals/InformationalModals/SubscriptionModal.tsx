@@ -30,12 +30,12 @@ interface Button {
 }
 
 const plans = [
-    {title: "Assistant", priceId: "price_1MdbUeFe80Kn2YGGRlKvmre4", planId: "63f0e7d075de0ef12bb8c484", query: "/order/pro", description: "Podstawowa wersja Asystenta, rozszerzone umiejętności.", isPro: false, features: ["100 000 elixiru/msc. (~110 stron A4)", "5 wgranych plików do 5MB", "Skanowanie stron internetowych", "Wgrywanie PDF, PPTX, TXT i DOCX", "Chat z firmowym AI", "Copywriter AI"], price: "99zł"}, 
-    {title: "Assistant Basic", priceId: "price_1MdbTMFe80Kn2YGG5QDfmjvS", planId: "63f0e6968e1b9d507c38a749", query: "/order/basic", description: "Podstawowa wersja Asystenta, rozszerzone umiejętności.", features: ["70 000 elixiru/msc. (~250 stron A4)", "5 wgranych plików do 5MB", "Skanowanie stron internetowych", "Wgrywanie PDF, PPTX, TXT i DOCX", "Chat z firmowym AI", "Copywriter AI"], price: "49,99zł", extraFunctionalities: "Basic"}, 
-    {title: "Assistant Expert", priceId: "price_1MdbWFFe80Kn2YGG3w8Xg2ub", planId: "63f0e7ed75de0ef12bb8c487", query: "/order/pro", description: "Podstawowa wersja Asystenta, rozszerzone umiejętności.", isPro: false, features: ["100 000 elixiru/msc. (~110 stron A4)", "5 wgranych plików do 5MB", "Skanowanie stron internetowych", "Wgrywanie PDF, PPTX, TXT i DOCX", "Chat z firmowym AI", "Copywriter AI"], price: "199,99zł", extraFunctionalities: "Assistant + Basic"},
-    {title: "Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", query: "/order/basic", description: "Generuj treści jak posty, artykuły oraz maile z wykorzystaniem AI.", isPro: false, features: ["75 000 elixiru/msc. (~80 stron A4)", "Generowanie postów social media", "Generowanie maili i newsletterów", "Generowanie artykułów", "Generowanie opisów produktów", "Zapisywanie treści"], price: "99zł"}, 
-    {title: "Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", query: "/order/pro", description: "Podstawowa wersja Asystenta, rozszerzone umiejętności.", features: ["250 000 elixiru/msc. (~270 stron A4)", "1 główny folder z zasobami", "10 wgranych plików do 15MB", "Skanowanie stron internetowych", "Wgrywanie PDF, PPTX, TXT i DOCX", "Chat z firmowym AI", "Copywriter AI"], price: "299zł", extraFunctionalities: "Basic"}, 
-    {title: "Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/assistantbusiness", description: "Maximum możliwości dla biznesu bez ograniczeń.", isPro: false, features: ["1M elixiru/msc. (~1100 stron A4)", "Nielimitowana ilość folderów", "Nielimitowana ilość wgranych zasobów", "Nielimitowana liczba użytkowników", "Dostęp do najnowszych funkcjonalności", "1000+ szblonów poleceń do AI"], price: "799zł", extraFunctionalities: "Assistant + Basic"},
+    {title: "Assistant", priceId: "price_1MdbUeFe80Kn2YGGRlKvmre4", planId: "63f0e7d075de0ef12bb8c484", query: "/order/pro", description: "AI with custom knowledge you upload.", isPro: false, features: ["100,000 elixir/month (~110 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "99zł"}, 
+    {title: "Assistant Basic", priceId: "price_1MdbTMFe80Kn2YGG5QDfmjvS", planId: "63f0e6968e1b9d507c38a749", query: "/order/basic", description: "AI with custom knowledge you upload.", features: ["70,000 elixir/month (~250 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "49.99zł", extraFunctionalities: "Basic"}, 
+    {title: "Assistant Expert", priceId: "price_1MdbWFFe80Kn2YGG3w8Xg2ub", planId: "63f0e7ed75de0ef12bb8c487", query: "/order/pro", description: "AI with custom knowledge you upload.", isPro: false, features: ["100,000 elixir/month (~110 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "199.99zł", extraFunctionalities: "Assistant + Basic"},
+    {title: "Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", query: "/order/basic", description: "Generate content like posts, articles, and emails using AI.", isPro: false, features: ["75,000 elixir/month (~80 A4 pages)", "Generating social media posts", "Generating emails and newsletters", "Generating articles", "Generating product descriptions", "Saving content"], price: "99zł"}, 
+    {title: "Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", query: "/order/pro", description: "AI with custom knowledge you upload.", features: ["250,000 elixir/month (~270 A4 pages)", "1 main resource folder", "10 uploaded files up to 15MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "299zł", extraFunctionalities: "Basic"}, 
+    {title: "Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/assistantbusiness", description: "Maximum possibilities for business, no limits.", isPro: false, features: ["1M elixir/month (~1100 A4 pages)", "Unlimited number of folders", "Unlimited amount of uploaded resources", "Unlimited number of users", "Access to the latest features", "1000+ AI command templates"], price: "799zł", extraFunctionalities: "Assistant + Basic"},
 ]
 
 const SubscriptionModal = (props: {onClose: any}) => {
@@ -80,15 +80,15 @@ const SubscriptionModal = (props: {onClose: any}) => {
                             <PlanContainer backgroundColor="black" color="white" width="26vw">
                                 <PlanTitle><PlanTitleText>{plan.title}</PlanTitleText> <BtnIcon><Image style={{ width: "auto", height: "100%" }}  src={icon} alt={'preview'}></Image> </BtnIcon></PlanTitle>
                                 <BriefDescription>{plan.description}</BriefDescription>
-                                <Price>{plan.price}<Monthly>/msc</Monthly></Price>
-                                <Note>netto co miesiąc.</Note>
+                                <Price>{plan.price}<Monthly>/month</Monthly></Price>
+                                <Note>net every month.</Note>
                                     <CancelButton onClick={() => cancelPlan(plan.priceId, plan.planId, plan.title)} backgroundColor="white" color="black">
                                         {loadingPlan === plan.title ?
                                             <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                                 <Loader color="white" />
                                             </div>
                                             :
-                                            <p>Zakończ</p>
+                                            <p>End</p>
                                         }
                                     </CancelButton>
                             </PlanContainer>
@@ -96,7 +96,7 @@ const SubscriptionModal = (props: {onClose: any}) => {
                         <PlanInfo>
                         <PlanTitle><PlanTitleText>{plan.title}</PlanTitleText></PlanTitle>
                         <PlanDescription>{plan.description}</PlanDescription>
-                        <FeaturesTitle>Zalety</FeaturesTitle>      
+                        <FeaturesTitle>Benefits</FeaturesTitle>      
                         {plan.features?.map((feature) => {
                                 return (
                                     <div key={feature}>
@@ -104,7 +104,7 @@ const SubscriptionModal = (props: {onClose: any}) => {
                                             <TickIcon>
                                                 <Image style={{ width: "100%", height: "auto" }}  src={tickIcon} alt={'icon'}></Image> 
                                             </TickIcon>
-                                            {feature === "Chat z Asystentem" ?
+                                            {feature === "Chat with the Assistant" ?
                                                 <FeatureText style={{fontFamily: "'Satoshi' , sans-serif", fontWeight: "600"}}>{feature}</FeatureText>
                                                 :
                                                 <FeatureText>{feature}</FeatureText>
@@ -143,6 +143,7 @@ const SubscriptionModal = (props: {onClose: any}) => {
 }
 
 export default SubscriptionModal;
+
 
 
 const ModalContainer = styled.div`

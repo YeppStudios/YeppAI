@@ -45,15 +45,15 @@ const FilesNumberLimit = (props: {onClose: any}) => {
             </Centered>
              <div>
                 <Centered>
-                    <Title>Ulepsz Plan</Title>
+                <Title>Upgrade your plan</Title>
                 </Centered>
                 <Centered>
-                    <Description>Osiągnąłeś limit wgranych folderów w planie {plan.name}. <br /> Wgrane foldery: <b>{plan.maxFolders}/{plan.maxFolders}</b></Description>
+                <Description>You&apos;ve reached the limit fo folders in {plan.name} plan. <br /> Created folders: <b>{plan.maxFolders}/{plan.maxFolders}</b></Description>
                 </Centered>
                <Centered>
                     <BtnContainer>
                     <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                        Ulepsz plan
+                    Upgrade your plan
                     </BuyBtn>
                     </BtnContainer>
                 </Centered>

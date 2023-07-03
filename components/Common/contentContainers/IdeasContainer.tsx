@@ -24,13 +24,13 @@ const IdeasContainer = (props: {text: string, ideaProps: any, isSSEComplete: boo
       const handleCopy = () => {
         navigator.clipboard.writeText(text)
           .then(() => {
-            setNotification("Skopiowane!");
+            setNotification("Copied!");
             setTimeout(() => {
               setNotification("");
             }, 1000);
           })
           .catch(err => {
-            setNotification("Coś poszło nie tak.");
+            setNotification("Something went wrong.");
             console.error(err);
           });
       };

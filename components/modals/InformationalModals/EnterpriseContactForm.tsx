@@ -44,17 +44,17 @@ const EnterpriseContactForm = (props: {onClose: any}) => {
             <SlideBottom>
             <OrderContainer>
                 <div>
-                    <ModalTitle>Assistant Business<br />Pre-Order</ModalTitle>
+                <ModalTitle>Assistant Enterprise</ModalTitle>
                     <Form autoComplete="off" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                             <div>
                                 <Label>
-                                    Nazwa Firmy
+                                    Company name
                                 </Label>
                                 <Input
                                     id="name"
                                     type="text"
-                                    placeholder="Nazwa Fimry"
+                                    placeholder="Name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
@@ -62,12 +62,12 @@ const EnterpriseContactForm = (props: {onClose: any}) => {
                             </div>
                             <div>
                                 <Label>
-                                    Email firmowy
+                                    Email
                                 </Label>
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="firma@domena.com"
+                                    placeholder="company@domain.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
@@ -76,12 +76,12 @@ const EnterpriseContactForm = (props: {onClose: any}) => {
                             </div>
                             <div>
                                 <Label>
-                                    Numer telefonu
+                                    Phone number
                                 </Label>
                                 <Input
                                     id="phone"
                                     type="phone"
-                                    placeholder="1234773823"
+                                    placeholder="+1 1234773823"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                     required
@@ -97,7 +97,7 @@ const EnterpriseContactForm = (props: {onClose: any}) => {
                                     required
                                 />
                                 <RegisterText>
-                                    <a href={"/Regulamin_AsystentAI.pdf"} download>Wyrażam zgodę <b>regulamin i politykę prywatności</b></a>
+                                    <a href={"/Regulamin_AsystentAI.pdf"} download>I agree with <b>terms and conditions</b> and <b>privacy policy</b></a>
                                 </RegisterText>
                             </CheckboxContainer>
                             <Button type="submit">
@@ -106,7 +106,7 @@ const EnterpriseContactForm = (props: {onClose: any}) => {
                                       <Loader color="white"/>
                                 </div>
                                 :
-                                <p>Przejdź do zakupu</p>
+                                <p>Continue</p>
                                 }
                             </Button>
                         </div>

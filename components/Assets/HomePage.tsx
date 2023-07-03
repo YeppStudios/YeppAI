@@ -152,7 +152,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 month: "long", 
                 day: "numeric" 
               };
-            const date = dateObject.toLocaleDateString("pl-PL", options);
+            const date = dateObject.toLocaleDateString("en-US", options);
         
             return (
                 <tr key={idx}>
@@ -162,7 +162,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 <td className="whitespace-nowrap px-3 py-4 text-base text-black">{folder.title}</td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-base text-black lg:table-cell">{date}</td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-black text-sm font-medium sm:pr-6">
-                <button onClick={() => dispatch(setSelectedFolder(folder))} className="mr-4 text-500 text-blue-500 hover:text-blue-800">Otwórz folder</button>
+                <button onClick={() => dispatch(setSelectedFolder(folder))} className="mr-4 text-500 text-blue-500 hover:text-blue-800">Open folder</button>
                 <Menu as="div" className="relative inline-block text-left">
                     <div>
                     <Menu.Button className="inline-flex w-full justify-center text-sm font-semibold text-gray-900 focus:outline-none">
@@ -192,7 +192,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                                 )}
                             >
                                 <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                                Usuń
+                                Delete
                             </button>
                             )}
                         </Menu.Item>
@@ -223,18 +223,18 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             {openDeleteFolder && <DeleteFolderModal onClose={() => setOpenDeleteFolder(false)} folder={folderToDelete} deleteFolderState={handleDeleteFolder} />}
             <HeaderContainer>
                 <div>
-                    <Title fontSize={"2.4rem"} width={"auto"} textAlign={"left"} color={"black"} mobileFontSize={"2rem"} mobileTextAlign={"left"}>Firmowe <ColorfulText>Zasoby</ColorfulText></Title>
-                    <Description>Twoje firmowe zasoby, które zasilają AI.</Description>
+                    <Title fontSize={"2.4rem"} width={"auto"} textAlign={"left"} color={"black"} mobileFontSize={"2rem"} mobileTextAlign={"left"}>Your <ColorfulText>Assets</ColorfulText></Title>
+                    <Description>Assets for AI to reference while generating content.</Description>
                 </div>
                 {plan._id &&
                 <TopBtnsContainer>
                 {(plan && user.name) && 
                 <UsageContainer>
                 <ChartContainer>
-                    <Chart title="Foldery" textInside={`${createdFolders} / ${plan.maxFolders}`}  data={[createdFolders, plan.maxFolders - createdFolders]} plan={plan}/>
+                    <Chart title="Folders" textInside={`${createdFolders} / ${plan.maxFolders}`}  data={[createdFolders, plan.maxFolders - createdFolders]} plan={plan}/>
                 </ChartContainer>
                 <UsageTextContainer>
-                    <UsageTitle>Foldery</UsageTitle>
+                    <UsageTitle>Folders</UsageTitle>
                     {plan._id === "6444d4394ab2cf9819e5b5f4" ? 
                     <Usage>{`${documentsCount} / ∞`}</Usage>
                     :
@@ -246,10 +246,10 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 {(plan && user.name) && 
                 <UsageContainer>
                 <ChartContainer>
-                    <Chart title="Zasoby" textInside={`${documentsCount} / ${plan.maxFiles}`}  data={[documentsCount, plan.maxFiles - documentsCount]} plan={plan}/>
+                    <Chart title="Assets" textInside={`${documentsCount} / ${plan.maxFiles}`}  data={[documentsCount, plan.maxFiles - documentsCount]} plan={plan}/>
                 </ChartContainer>
                 <UsageTextContainer>
-                    <UsageTitle>Wgrane zasoby</UsageTitle>
+                    <UsageTitle>Uploaded assets</UsageTitle>
                     {plan._id === "6444d4394ab2cf9819e5b5f4" ? 
                     <Usage>{`${documentsCount} / ∞`}</Usage>
                     :
@@ -261,10 +261,10 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 {(plan && user.name) && 
                 <UsageContainer>
                 <ChartContainer>
-                    <Chart title="Wgrane MB" textInside={`${(uploadedBytes/(1024*1024)).toFixed(1)} / ${plan.maxUploadedBytes/(1024*1024)}`}  data={[user.uploadedBytes/(1024*1024), plan.maxUploadedBytes/(1024*1024) - user.uploadedBytes/(1024*1024)]} plan={plan}/>
+                    <Chart title="Uploaded MB" textInside={`${(uploadedBytes/(1024*1024)).toFixed(1)} / ${plan.maxUploadedBytes/(1024*1024)}`}  data={[user.uploadedBytes/(1024*1024), plan.maxUploadedBytes/(1024*1024) - user.uploadedBytes/(1024*1024)]} plan={plan}/>
                 </ChartContainer>
                 <UsageTextContainer>
-                    <UsageTitle>Wgrane MB</UsageTitle>
+                    <UsageTitle>Uploaded MB</UsageTitle>
                     <Usage>{`${(uploadedBytes/(1024*1024)).toFixed(1)} / ${plan.maxUploadedBytes/(1024*1024)}`}</Usage>
                 </UsageTextContainer>
                 </UsageContainer>
@@ -276,34 +276,34 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             <UploadOptionsContainer>
             <Option id="upload-write" onClick={() => setOpenWriteContent(true)}>
                 <OptionIcon><BsFillPencilFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                <OptionTitle>Napisz treści</OptionTitle>
-                <OptionDescription>Napisz lub przeklej dokument tekstowy</OptionDescription>
+                <OptionTitle>Write content</OptionTitle>
+                <OptionDescription>Write or copy paste content for AI to learn</OptionDescription>
              </Option>
             <Option id="upload-file" onClick={() => setAddDocument("file")}>
                 <OptionIcon><BsFolderSymlinkFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                <OptionTitle>Wgraj plik</OptionTitle>
-                <OptionDescription>Wgraj dokument TXT, DOCX, PPTX lub PDF</OptionDescription>
+                <OptionTitle>Upload a file</OptionTitle>
+                <OptionDescription>Upload a TXT, DOCX, PPTX or PDF file for AI to learn</OptionDescription>
                 </Option>
             <Option id="upload-website" onClick={() => setAddDocument("website")}>
                 <OptionIcon><BsFillLaptopFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                    <OptionTitle>Importuj stronę</OptionTitle>
-                    <OptionDescription>Zeskanuj treści ze strony internetowej</OptionDescription>
+                    <OptionTitle>Scrape a website</OptionTitle>
+                    <OptionDescription>Scrape content from a web page for AI to learn</OptionDescription>
             </Option>
             <Option id="upload-audio" onClick={() => setAddAudio(true)}>
                 <OptionIcon><BsYoutube style={{width: "100%", height: "auto"}} /></OptionIcon>
-                <OptionTitle>Wgraj filmik YouTube</OptionTitle>
-                <OptionDescription>Transkrybuj filmik lub wgraj plik audio</OptionDescription>
+                <OptionTitle>Upload YouTube video</OptionTitle>
+                <OptionDescription>Upload a YouTube video for AI to learn</OptionDescription>
             </Option>
             </UploadOptionsContainer>
             </ContentContainer>
             <SubheaderContainer>
                 <div>
-                    <Subtitle>Foldery</Subtitle>
-                    {!mobile && <SectionDescription>Foldery z zasobami do nauki firmowego AI.</SectionDescription>}
+                    <Subtitle>Folders</Subtitle>
+                    {!mobile && <SectionDescription>Folders with uploaded assets for AI to reference.</SectionDescription>}
                 </div>
                 <AddBtn onClick={() => setOpenNewFolder(true)}>
                     <HiPlusSm style={{ width: "auto", height: "60%" }} />
-                    <ButtonText>Nowy folder</ButtonText>
+                    <ButtonText>New folder</ButtonText>
                 </AddBtn>
             </SubheaderContainer>
             <div className="pb-20 lg:pb-8 w-full">
@@ -317,10 +317,10 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                             <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                             </th>
                             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Folder
+                            Title
                             </th>
                             <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                            Data stworzenia
+                            Created
                             </th>
                             <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                             </th>
@@ -338,7 +338,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                             </div>
                             :
                             <div className="flex justify-center items-center w-full h-36 text-slate-700 text-xl">
-                                Nie masz jeszcze utworzonych folderów. Wgraj zasoby i zdefiniuj swój pierwszy folder.
+                                You don&apos;t have any folders yet. Upload some resources to create one!
                             </div>
                         }
                         </>

@@ -26,8 +26,8 @@ import NoElixir from '../LimitModals/NoElixir';
 import ModalTitle from '../common/ModalTitle';
 import TypingAnimation from '../common/TypingAnimation';
 
-const types = [{english: "article", polish: "artykuł"}, {english: "blog", polish: "blog"}, {english: "guide", polish: "poradnik"}, {english: "ranking", polish: "ranking"}];
-const languagesList = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Ukraiński", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski"];
+const types = ["article", "blog", "guide", "ranking"];
+const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 
 const CopywritingModal = (props: {
     onClose: any, 
@@ -116,8 +116,6 @@ const CopywritingModal = (props: {
         setSourceLoading(true);
         let data = JSON.stringify({
             "q": phrase + " " + props.contentType,
-            "gl": "pl",
-            "hl": "pl"
           });
       
           let config = {
@@ -226,7 +224,7 @@ const CopywritingModal = (props: {
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: "Wygenerowanie tytułu artykułu", model, systemPrompt}),
+              body: JSON.stringify({prompt, title: "Generated article", model, systemPrompt}),
             });
     
           if (!response.ok) {
@@ -303,7 +301,7 @@ const CopywritingModal = (props: {
           return;
         }
         let exclusions = "";
-        if (props.language === "Polski") {
+        if (props.language === "Polish") {
           exclusions = `Instead of "zanurz się" use "zobacz jak", "sprawdź", "przekonaj się" or "poznaj" whatever suits best. Use human-like Polish language.`
         }
 
@@ -427,7 +425,7 @@ const CopywritingModal = (props: {
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `Wygenerowanie nagłówków- ${props.contentType} `, model, systemPrompt, temperature: 0.9}),
+              body: JSON.stringify({prompt, title: `Generated ${props.contentType} conspect`, model, systemPrompt, temperature: 0.9}),
             });
     
           if (!response.ok) {
@@ -609,11 +607,11 @@ const CopywritingModal = (props: {
                         <Image style={{ width: "auto", height: "100%" }}  src={articleIcon} alt={'article_icon'}></Image>
                     </Icon>
                     </Centered>
-                    <Title>Co chcesz napisać?</Title>
+                    <Title>What to write?</Title>
                     <div>
                         <div style={{width: "100%"}}>
                                 <Label>
-                                    Słowo klucz lub fraza
+                                    Keyword or phrase
                                 </Label>
                                 <Input
                                     id="copywriting-keyword"
@@ -625,33 +623,33 @@ const CopywritingModal = (props: {
                                     autoComplete="off"
                                 />
                             <div style={{width: "100%", display: "flex", flexWrap: "wrap"}}>
-                                <Label>Wybierz język...</Label>
+                                <Label>Language</Label>
                                 <Dropdown
                                     type="text"
-                                    placeholder="Polski"
+                                    placeholder="Polish"
                                     required
                                     value={props.language}
-                                    values={languagesList}
+                                    values={languages}
                                     onChange={props.setLanguage}
                                     error={undefined}
                                 /> 
                             </div>
                             <div className='mt-6'>
                                 <Label>
-                                    Wybierz rodzaj treści...
+                                    Choose content type...
                                 </Label>
                                 <Tabs justifyContent="left">
                                 {types.map((type) => {
-                                    if (props.contentType === type.english) {
+                                    if (props.contentType === type) {
                                     return (
-                                        <SelectedTab onClick={() => props.setContentType(null)} key={type.english}>
-                                        {type.polish}
+                                        <SelectedTab onClick={() => props.setContentType(null)} key={type}>
+                                        {type}
                                         </SelectedTab>
                                     )
                                     } else {
                                     return (
-                                        <Tab onClick={() => props.setContentType(type.english)} key={type.english}>
-                                        {type.polish}
+                                        <Tab onClick={() => props.setContentType(type)} key={type}>
+                                        {type}
                                         </Tab>
                                     );
                                     }
@@ -665,7 +663,7 @@ const CopywritingModal = (props: {
                                         <Loader color="black"/>
                                     </div>
                                     :
-                                    <p>Kontynuuj</p>
+                                    <p>Continue</p>
                                     }
                                 </Button>
                             </Centered>
@@ -673,7 +671,7 @@ const CopywritingModal = (props: {
                     </div> 
                     <Centered>
                     <SkipBtn onClick={props.onSuccess}>
-                        Pomiń
+                        Skip
                     </SkipBtn>
                     </Centered>
                 </div>   
@@ -685,12 +683,12 @@ const CopywritingModal = (props: {
                     <Image style={{ width: "auto", height: "100%" }}  src={linkIcon} alt={'link_icon'}></Image>
                 </Icon>
                 </Centered>
-                <Title>Wybierz źródła</Title>
+                <Title>Choose sources</Title>
                 <div className='mt-4'>
                 <FoldersDropdown />
                 <div style={{width: "100%", marginTop: "2rem"}}>
                 <Label>
-                Wybierz źródła, z których Asystent ma korzystać...{selectedLinksError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p>}
+                Choose websites, you want AI to learn from...{selectedLinksError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p>}
                 </Label>
                 {sourceLoading ?
                     <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />
@@ -744,7 +742,7 @@ const CopywritingModal = (props: {
                                     <Loader color="black"/>
                                 </div>
                                 :
-                                <p>Kontynuuj</p>
+                                <p>Continue</p>
                             }
                         </Button>
                     </Centered>
@@ -761,7 +759,7 @@ const CopywritingModal = (props: {
                     <Image style={{ width: "auto", height: "100%" }}  src={pencilIcon} alt={'link_icon'}></Image>
                 </Icon>
                 </Centered>
-                <Title>Wybierz tytuł i opis</Title>
+                <Title>Choose title & description</Title>
                 <div>
                 <div>
                 <div className='flex' onClick={(e) => e.stopPropagation()}>
@@ -769,7 +767,7 @@ const CopywritingModal = (props: {
                         <BtnIcon>
                             <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
                         </BtnIcon>
-                        Wygeneruj inny tytuł i opis
+                        Come up with new title & description
                     </RetryButton>
                 </div>
                 <div style={{boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.25)"}} className='w-full mt-2 mb-8 px-6 pt-4 pb-6 rounded-3xl'>
@@ -832,7 +830,7 @@ const CopywritingModal = (props: {
                     </div>
                     {peopleAlsoAsk.length > 0 &&
                     <>
-                    <Label>Powiązane najczęstsze wyszukiwania:</Label>
+                    <Label>People also search:</Label>
                     <Tabs justifyContent="left">
                     {
                     peopleAlsoAsk.map((result, index) => {
@@ -855,7 +853,7 @@ const CopywritingModal = (props: {
                                         <Loader color="black"/>
                                     </div>
                                     :
-                                    <p>Kontynuuj</p>
+                                    <p>Continue</p>
                                 }
                             </Button>
                         </Centered>
@@ -869,12 +867,12 @@ const CopywritingModal = (props: {
             <>
             {loading ?
               <div>
-                <ModalTitle>Trwa proces nauki...</ModalTitle>
+                <ModalTitle>Processing information...</ModalTitle>
                 <Centered>
-                    <ModalDescription>Asystent przyswaja wiedzę ze źródeł oraz konspektu, aby krok po kroku móc napisać unikalny tekst. <br />To chwilę zajmie, ale warto czekać!</ModalDescription>
+                    <ModalDescription>AI assimilates the knowledge from sources and an outline. This might take a while, but it&apos;s worth the wait!</ModalDescription>
                 </Centered>
                 <Centered>
-                    <EstimatedTime>Przewidywany czas nauki: ~ 2 min</EstimatedTime>
+                    <EstimatedTime>Ready in: ~ 1.5 min</EstimatedTime>
                 </Centered>
                     <ThinkingContainer>
                         <Centered><TypingAnimation colorful={true} /></Centered>
@@ -888,7 +886,7 @@ const CopywritingModal = (props: {
                     <Image style={{ width: "auto", height: "100%" }}  src={handwritingIcon} alt={'link_icon'}></Image>
                 </Icon>
                 </Centered>
-                <Title>Dopracuj konspekt</Title>
+                <Title>Generate an outline</Title>
                 <Form autoComplete="off" onSubmit={(e) => submit()}>
                 {headersLoading ?
                 <MultiLineSkeletonLoader lines={4} justifyContent={'left'} />
@@ -899,7 +897,7 @@ const CopywritingModal = (props: {
                     <BtnIcon>
                         <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
                     </BtnIcon>
-                    Zaproponuj inny
+                    Come up with a new one
                 </RetryButton>
                 </div>
                 <TextArea
@@ -907,7 +905,7 @@ const CopywritingModal = (props: {
                     id="headers-input"
                     height= "24rem"
                     padding="1.25rem"
-                    placeholder="Wpisz nagłówki oddzielone przecinkami"
+                    placeholder="Type some headers and descriptions for each section."
                     value={conspectText}
                     onChange={(e) => setConspectText(e.target.value)}
                     required
@@ -924,7 +922,7 @@ const CopywritingModal = (props: {
                                     <BtnIcon>
                                         <SparklesIcon />
                                     </BtnIcon>
-                                    <p>Wyczaruj treść</p>
+                                    <p>Generate content</p>
                                 </div>
                             }
                         </Button>

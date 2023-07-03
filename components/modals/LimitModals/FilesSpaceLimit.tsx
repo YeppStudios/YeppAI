@@ -45,15 +45,15 @@ const FilesNumberLimit = (props: {onClose: any}) => {
             </Centered>
              <div>
                 <Centered>
-                    <Title>Ulepsz Plan</Title>
+                <Title>Upgrade your plan</Title>
                 </Centered>
                 <Centered>
-                    <Description>Masz zbyt mało miejsca w zasobach aby wgrać ten plik. <br />Wykorzystane zasoby: <b>{(user.uploadedBytes/(1024*1024)).toFixed(2)}MB / {plan.maxUploadedBytes/(1024*1024)}MB</b></Description>
+                <Description>You have too little space to upload this resource. <br />Used space: <b>{(user.uploadedBytes/(1024*1024)).toFixed(2)}MB / {plan.maxUploadedBytes/(1024*1024)}MB</b></Description>
                 </Centered>
                <Centered>
                     <BtnContainer>
                     <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                        + Ulepsz plan
+                    + Upgrade plan
                     </BuyBtn>
                     </BtnContainer>
                 </Centered>

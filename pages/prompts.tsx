@@ -28,10 +28,6 @@ import actIcon from "../public/images/actIcon.png";
 import { useInView } from "react-intersection-observer";
 import { Loader } from "@/components/Common/Loaders";
 import { useRouter } from "next/router";
-import BackBtn from "@/components/Common/BackBtn";
-import BackBtnIcon from "@/components/Common/BackBtnIcon";
-import BackBtnText from "@/components/Common/BackBtnText";
-import backIcon from "../public/images/backArrow.png";
 import Head from "next/head";
 import { selectAssistantState, setSelectedAssistant } from "../store/assistantSlice";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
@@ -113,11 +109,11 @@ const breakpointColumnsObj = {
 
   const defaultAssistant =   {
     _id: "644d511929430f833c5ea281",
-    name: "Asystent AI",
-    description: "Systemowy Asystent AI z wiedzą o marketingu i copywritingu.",
+    name: "Assistant AI",
+    description: "Systemowy Assistent AI z wiedzą o marketingu i copywritingu.",
     category: "marketing",
-    prompt: "Nazywasz się: Asystent AI. Jesteś profesjonalnym marketingowcem i copywriterem z wieloletnim doświadczeniem. Pomagasz użytkownikowi we wszelkich działaniach marketingowych jak tworzeniu treści, strategii oraz analizy dotychczasowych działań. Zawsze jesteś uprzejmy i pozytywnie nastawiony.",
-    noEmbedPrompt: "`Nazywasz się Asystent AI. Jesteś profesjonalnym marketingowcem i copywriterem z wieloletnim doświadczeniem. Pomagasz użytkownikowi we wszelkich działaniach marketingowych jak tworzeniu treści, strategii oraz analizy dotychczasowych działań. Zawsze jesteś uprzejmy i pozytywnie nastawiony.",
+    prompt: "Nazywasz się: Assistent AI. Jesteś profesjonalnym marketingowcem i copywriterem z wieloletnim doświadczeniem. Pomagasz użytkownikowi we wszelkich działaniach marketingowych jak tworzeniu treści, strategii oraz analizy dotychczasowych działań. Zawsze jesteś uprzejmy i pozytywnie nastawiony.",
+    noEmbedPrompt: "`Nazywasz się Assistent AI. Jesteś profesjonalnym marketingowcem i copywriterem z wieloletnim doświadczeniem. Pomagasz użytkownikowi we wszelkich działaniach marketingowych jak tworzeniu treści, strategii oraz analizy dotychczasowych działań. Zawsze jesteś uprzejmy i pozytywnie nastawiony.",
     folders: [],
     documents: []
 }
@@ -423,7 +419,7 @@ const PromptsBrowser = ({ user }: InferGetServerSidePropsType<typeof getServerSi
     return (
         <PageTemplate userProfiles={[]} >
         <Head>
-          <title>Wyszukiwarka Poleceń | Asystent AI</title>
+          <title>Prompt Browser | Yepp AI</title>
           <meta name = "theme-color" content = "#ffffff" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="description" content="Odkryj największą listę przygotowanych promptów do sztucznej inteligencji w formie wyszukiwarki." />

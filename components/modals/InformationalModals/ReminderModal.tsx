@@ -46,13 +46,13 @@ const ReminderModal = (props: {onClose: any, elixirWidth: string}) => {
                     <BsXLg style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
             <Centered>
-                <Title>Czy wiesz, że...</Title>
+                <Title>Did you know that...</Title>
             </Centered>
             <Centered>
-                <Description>Asystent AI używa elixiru kreatywności do generowania unikatowych treści? Możesz go zasilić przez supskrypcję lub doładowanie.</Description>
+            <Description>AI uses elixir to generate unique content? You can fuel it by buying a subscription.</Description>
             </Centered>
             <Centered>
-                <LinkTitle>Masz jeszcze {Math.round(Number(props.elixirWidth))*25} / 2500ml z darmowego elixiru:</LinkTitle>
+                <LinkTitle>You have {Math.round(Number(props.elixirWidth))*25} / 7500ml free elixir left</LinkTitle>
             </Centered>
             <Centered>
                 <div style={{display: "flex", alignItems: "center", marginTop: "0.6rem"}}>
@@ -68,11 +68,11 @@ const ReminderModal = (props: {onClose: any, elixirWidth: string}) => {
                 <BtnContainer>
                 {plan !== "undefined" &&
                     <BuyBtn onClick={() => goToProfile("openElixir")}>
-                        Doładuj Elixir
+                       Add elixir
                     </BuyBtn>
                 }
                 <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                    Zakup Subskrypcję
+                    Subscribe
                 </BuyBtn>
                 </BtnContainer>
             </Centered>

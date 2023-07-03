@@ -34,7 +34,6 @@ import { BsPersonFillAdd, BsBookmarkStarFill, BsFillArchiveFill } from "react-ic
 import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
 import IdeasCreationPage from "@/components/Marketing/creationPages/IdeasCreationPage";
-import { idea } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const breakpointColumnsObj = {
   default: 4,
@@ -45,150 +44,150 @@ const breakpointColumnsObj = {
 
 
 const sections = [
-    {
-      image: facebookIcon,
-      title: "Post na Facebooka",
-      description: "Wciągające posty na Facebooka w zaledwie kilka sekund.",
-      creatorType: "social-media",
-      type: "Facebook",
-      id: "panel-facebook"
-    },
-    {
-      image: instagramIcon,
-      title: "Post na Instagrama",
-      description: "Wciągające posty na Instagrama w zaledwie kilka sekund.",
-      creatorType: "social-media",
-      type: "Instagram",
-      id: "panel-instagram"
-    },
-    {
-      image: linkedinIcon,
-      title: "Post na LinkedIn",
-      description: "Wciągające posty na LinkedIn'a w zaledwie kilka sekund.",
-      creatorType: "social-media",
-      type: "LinkedIn",
-      id: "panel-linkedin"
-    },
-    {
-      image: twitterIcon,
-      title: "Tweet",
-      description: "Przykuwające uwagę tweety w zaledwie kilka sekund.",
-      creatorType: "social-media",
-      type: "Twitter",
-      id: "panel-twitter"
-    },
-    {
-      image: googleLogo,
-      title: "Reklama Google",
-      description: "Unikatowe opisy pod Twoje produkty czy też usługi.",
-      creatorType: "product-description",
-      type: "google-ads",
-      id: "panel-googleAds"
-    },
-    {
-      image: articleIcon,
-      title: "Artykuł Tematyczny",
-      description: "Unikatowy artykuł zgodny z SEO na dowolny temat.",
-      creatorType: "blogs-and-articles",
-      type: "article-section",
-      id: "panel-article"
-    },
-    {
-      image: pressIcon,
-      title: "Komunikat prasowy",
-      description: "Unikatowy komunikat prasowy na dowolny temat.",
-      creatorType: "blogs-and-articles",
-      type: "press-release",
-      id: "press-release"
-    },
-    {
-      image: emailIcon,
-      title: "Email Marketingowy",
-      description: "Maile przedstawiające produkt i usługę w mgnieniu oka.",
-      creatorType: "newsletters-and-emails",
-      type: "email",
-      id: "panel-email"
-    },
-    {
-      image: newsletterIcon,
-      title: "Newsletter",
-      description: "Newsletter, który wciągnie twoich czyteliników w kilka sekund.",
-      creatorType: "newsletters-and-emails",
-      type: "newsletter",
-      id: "panel-newsletter"
-    },
-    {
-      image: konspektIcon,
-      title: "Konspekt Artykułu",
-      description: "Unikatowy konspekt artykułu na dowolny temat.",
-      creatorType: "blogs-and-articles",
-      type: "article-conspect",
-      id: "panel-article-conspect"
-    },
-    {
-      image: konspektIcon,
-      title: "Konspekt Newslettera",
-      description: "Unikatowy konspekt bloga na dowolny temat.",
-      creatorType: "newsletters-and-emails",
-      type: "newsletter-conspect",
-      id: "panel-newsletter-conspect"
-    },
-    {
-      image: amazonLogo,
-      title: "Opis produktu - Amazon",
-      description: "Unikatowe opisy szyte na miare pod twoje produkty na Amazona.",
-      creatorType: "product-description",
-      type: "amazon",
-      id: "panel-amazon"
-    },
-    {
-      image: allegroLogo,
-      title: "Opis produktu - Allegro",
-      description: "Unikatowe opisy szyte na miare pod twoje produkty na Allegro.",
-      creatorType: "product-description",
-      type: "allegro",
-      id: "panel-allegro"
-    },
-    {
-      image: aidaIcon,
-      title: "AIDA Framework",
-      description: "Uwaga, zainteresowanie, pragnienie i działanie w reklamie.",
-      creatorType: "frameworks",
-      type: "AIDA",
-      id: "framework-aida"
-    },
-    {
-      image: pasIcon,
-      title: "PAS Framework",
-      description: "Zidentyfikuj i rozwiąż problem, który rozwiązuje produkt lub usługa.",
-      creatorType: "frameworks",
-      type: "PAS",
-      id: "framework-pas"
-    },
-    {
-      image: babIcon,
-      title: "BAB Framework",
-      description: "Szczegółowe porównanie przed i po skorzystaniu z usługi/produktu.",
-      creatorType: "frameworks",
-      type: "BAB",
-      id: "framework-bab"
-    },
-    {
-      image: enhanceIcon,
-      title: "Poprawienie Treści",
-      description: "Wklej treść i napisz co chcesz poprawić, a uzyskasz unikatowy tekst.",
-      creatorType: "enhance",
-      type: "Ulepszenie Treści",
-      id: "content-enhance"
-    },
-    {
-      image: ideaIcon,
-      title: "Kreatywny Pomysł",
-      description: "Wklej treść i napisz co chcesz poprawić, a uzyskasz unikatowy tekst.",
-      creatorType: "ideas",
-      type: "Wygenerowanie Pomysłów",
-      id: "ideas"
-    }
+  {
+    image: facebookIcon,
+    title: "Facebook Post",
+    description: "Engaging Facebook posts in just a few seconds.",
+    creatorType: "social-media",
+    type: "Facebook",
+    id: "panel-facebook"
+  },
+  {
+    image: instagramIcon,
+    title: "Instagram Post",
+    description: "Engaging Instagram posts in just a few seconds.",
+    creatorType: "social-media",
+    type: "Instagram",
+    id: "panel-instagram"
+  },
+  {
+    image: linkedinIcon,
+    title: "LinkedIn Post",
+    description: "Engaging LinkedIn posts in just a few seconds.",
+    creatorType: "social-media",
+    type: "LinkedIn",
+    id: "panel-linkedin"
+  },
+  {
+    image: twitterIcon,
+    title: "Tweet",
+    description: "Attention-grabbing tweets in just a few seconds.",
+    creatorType: "social-media",
+    type: "Twitter",
+    id: "panel-twitter"
+  },
+  {
+    image: googleLogo,
+    title: "Google Ad",
+    description: "Unique descriptions for your products or services.",
+    creatorType: "product-description",
+    type: "google-ads",
+    id: "panel-googleAds"
+  },
+  {
+    image: articleIcon,
+    title: "Article",
+    description: "Unique SEO-compliant article on any topic.",
+    creatorType: "blogs-and-articles",
+    type: "article-section",
+    id: "panel-article"
+  },
+  {
+    image: pressIcon,
+    title: "Press Release",
+    description: "Unique press release on any topic.",
+    creatorType: "blogs-and-articles",
+    type: "press-release",
+    id: "press-release"
+  },
+  {
+    image: emailIcon,
+    title: "Marketing Email",
+    description: "Emails presenting product and service in the blink of an eye.",
+    creatorType: "newsletters-and-emails",
+    type: "email",
+    id: "panel-email"
+  },
+  {
+    image: newsletterIcon,
+    title: "Newsletter",
+    description: "Newsletters that will engage your readers in seconds.",
+    creatorType: "newsletters-and-emails",
+    type: "newsletter",
+    id: "panel-newsletter"
+  },
+  {
+    image: konspektIcon,
+    title: "Article Outline",
+    description: "Unique article outline on any topic.",
+    creatorType: "blogs-and-articles",
+    type: "article-conspect",
+    id: "panel-article-conspect"
+  },
+  {
+    image: konspektIcon,
+    title: "Newsletter Outline",
+    description: "Unique blog outline on any topic.",
+    creatorType: "newsletters-and-emails",
+    type: "newsletter-conspect",
+    id: "panel-newsletter-conspect"
+  },
+  {
+    image: amazonLogo,
+    title: "Product - Amazon",
+    description: "Unique descriptions tailored for your Amazon products.",
+    creatorType: "product-description",
+    type: "amazon",
+    id: "panel-amazon"
+  },
+  {
+    image: allegroLogo,
+    title: "Product - Allegro",
+    description: "Unique descriptions tailored for your Allegro products.",
+    creatorType: "product-description",
+    type: "allegro",
+    id: "panel-allegro"
+  },
+  {
+    image: aidaIcon,
+    title: "AIDA Framework",
+    description: "Attention, Interest, Desire, and Action in ads.",
+    creatorType: "frameworks",
+    type: "AIDA",
+    id: "framework-aida"
+  },
+  {
+    image: pasIcon,
+    title: "PAS Framework",
+    description: "Identify and solve a problem that a product or service solves.",
+    creatorType: "frameworks",
+    type: "PAS",
+    id: "framework-pas"
+  },
+  {
+    image: babIcon,
+    title: "BAB Framework",
+    description: "Detailed comparison of before and after using a service/product.",
+    creatorType: "frameworks",
+    type: "BAB",
+    id: "framework-bab"
+  },
+  {
+    image: enhanceIcon,
+    title: "Content Enhancement",
+    description: "Paste content and write what you want to improve, and you will get a unique text.",
+    creatorType: "enhance",
+    type: "Content Enhancement",
+    id: "content-enhance"
+  },
+  {
+    image: ideaIcon,
+    title: "Creative Ideas",
+    description: "Get inspiration from creative ideas for markting content and more.",
+    creatorType: "ideas",
+    type: "Idea Generation",
+    id: "ideas"
+  }
 ]
 
 
@@ -251,16 +250,16 @@ const ContentCreator = () => {
     <SavedContentSidebar setOpen={handleOpenSaved} open={openSaved} />
     <PageTemplate userProfiles={[]}>
       <Head>
-          <title>Kreator Treści | Asystent AI</title>
+          <title>Marketing | Yepp AI</title>
           <meta name = "theme-color" content = "#ffffff" />
-          <meta name="description" content="Kreuj unikatowe treści jak maile, posty, artykuły i opisy w zaledwie kilka sekund." />
+          <meta name="description" content="Effortlessly generate unique marketing content with your custom AI based on your files, websites and videos." />
       </Head>
       <PageContainer>
         {currentPage == "menu" &&
         <Header>
           <div>
           <PageTitle>Marketer AI</PageTitle>
-          <PageDescription>Wykorzystaj potencjał AI w marketingu.</PageDescription>
+          <PageDescription>Unleash the potential of AI in marketing.</PageDescription>
           </div>
           <ActionContaienr>
             <ActionBtn onClick={() => setOpenSaved(true)} square={true}>

@@ -12,7 +12,7 @@ import useAutosizeTextArea from "@/hooks/useAutosizeTextArea";
 import api from "@/pages/api";
 import TypingAnimation from "../Modals/common/TypingAnimation";
 import ReminderModal from "../Modals/InformationalModals/ReminderModal";
-import AddElixir from "../Modals/LimitModals/AddElixir";
+import AddElixir from "../Modals/AddingModals/AddElixir";
 import fuelIcon from "../../public/images/fuel.png";
 import NoElixir from "../Modals/LimitModals/NoElixir";
 import FeedbackPopover from "../Common/FeedbackPopover";
@@ -347,7 +347,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Wróć</BackBtnText>
+                    <BackBtnText>Back</BackBtnText>
                 </BackBtn>
                 <ElixirHeader>
                   <div className="w-8/12">

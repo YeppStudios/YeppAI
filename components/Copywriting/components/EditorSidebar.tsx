@@ -25,8 +25,8 @@ import { selectFoldersState } from '@/store/selectedFoldersSlice'
 import { useSelector } from 'react-redux'
 import { TbPlayerStopFilled } from "react-icons/tb";
 
-const lengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
-const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński", "Hebrajski"];
+const lengths = ["Short", "Medium", "Long", "Very long"];
+const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 
 interface Document {
     owner: string,
@@ -64,8 +64,8 @@ const EditorSidebar = (props: {
     const [showEditDescription, setShowEditDescription] = useState(false);
     const [loading, setLoading] = useState(false);
     const [topic, setTopic] = useState("");
-    const [length, setLength] = useState("Długi");
-    const [language, setLanguage] = useState("Polski");
+    const [length, setLength] = useState("Long");
+    const [language, setLanguage] = useState("English");
     const [toneToggle, setToneToggle] = useState(true);
     const [keywordsToggle, setKeywordsToggle] = useState(true);
     const [keywords, setKeywords] = useState("");
@@ -215,11 +215,11 @@ const EditorSidebar = (props: {
         if (keywords && keywordsToggle) {
             keywordsPrompt = `Please remember to seamlessly include the following keywords: ${keywords} `;
         }
-        if (length === "Długi") {
+        if (length === "Long") {
             lengthPrompt = "Please write it in between 600-800 words. ";
-        } else if (length === "Średni") {
+        } else if (length === "Medium") {
             lengthPrompt = "Please write it in around 400 words. ";
-        } else if (length === "Krótki") {
+        } else if (length === "Short") {
             lengthPrompt = "Please write it in around 150 words. ";
         }
 
@@ -369,7 +369,7 @@ const EditorSidebar = (props: {
                         </>
                         }
                     </div>
-                    <Space margin="2rem" />
+                    <Space margin="1.5rem" />
                     <FoldersDropdown />
                     <OptionContainer>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -377,7 +377,7 @@ const EditorSidebar = (props: {
                         <LabelIcon>
                             <BsFillLightbulbFill style={{ width: "100%", height: "auto" }} />
                         </LabelIcon>
-                        <Label>Co chcesz napisać?</Label>
+                        <Label>What to write?</Label>
                         </div>
                     </div>
                         <TextArea 
@@ -385,7 +385,7 @@ const EditorSidebar = (props: {
                             onChange={(e) => setTopic(e.target.value)} 
                             height="5.8rem" 
                             padding="0.75rem"
-                            placeholder="Zacznij pisać artykuł o..."
+                            placeholder="Write an intro for..."
                         />
                     </OptionContainer>
                     <div className="flex justify-between">
@@ -396,7 +396,7 @@ const EditorSidebar = (props: {
                                 <IoLanguage style={{width: "100%", height: "auto"}}/>
                             </LabelIcon>
                             <Label>
-                                Język
+                                Language
                             </Label>
                         </div>
                         <Dropdown
@@ -419,7 +419,7 @@ const EditorSidebar = (props: {
                                 <FaRuler style={{width: "100%", height: "auto"}}/>
                             </LabelIcon>
                             <Label>
-                                Długość treści
+                                Length
                             </Label>
                         </div>
                         <Dropdown
@@ -443,7 +443,7 @@ const EditorSidebar = (props: {
                                 <BsFillMicFill style={{width: "100%", height: "auto"}}/>
                             </LabelIcon>
                             <Label>
-                                Ton wypowiedzi
+                                Tone of voice
                             </Label>
                         </div>
                         <Switch
@@ -467,7 +467,7 @@ const EditorSidebar = (props: {
                             padding="0.75rem"
                             onChange={(e) => setTone(e.target.value)} 
                             height="2.8rem" 
-                            placeholder="Naukowy, Elon Musk etc."
+                            placeholder="Scientific, Elon Musk etc."
                         />
                     </OptionContainer>
                     <OptionContainer>
@@ -477,7 +477,7 @@ const EditorSidebar = (props: {
                                 <RiKey2Fill style={{width: "100%", height: "auto"}}/>
                             </LabelIcon>
                             <Label>
-                            Słowa klucze
+                                Keywords
                             </Label>
                         </div>
                         <Switch
@@ -501,7 +501,7 @@ const EditorSidebar = (props: {
                             onChange={(e) => setKeywords(e.target.value)} 
                             height="2.8rem" 
                             padding="0.75rem"
-                            placeholder="sokowirówka, sok..."
+                            placeholder="ai, marketing..."
                         />
                     </OptionContainer>
                 </div>
@@ -522,11 +522,11 @@ const EditorSidebar = (props: {
                     </div>
                     {props.editor.getText().length > 0 ?
                         <p>
-                            Kontynuuj
+                            Continue
                         </p>
                         :
                         <p>
-                            Wyczaruj treść
+                            Generate cotent
                         </p>
                     }
 

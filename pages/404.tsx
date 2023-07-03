@@ -12,16 +12,16 @@ const ErrorPage = () => {
     return (
         <div>
         <Head>
-          <title>Strona Nie Istnieje....</title>
-          <meta name="description" content="Taka strona nie istnieje. Wróć na stronę główną." />
+          <title>Nonexistent page....</title>
+          <meta name="description" content="This page doesn't exist. Go back to homepage." />
         </Head>
         <ErrorBackground>
             <ErrorContainer>
                 <Centered>
-                    <ErrorHeader>Ta strona nie istnieje :(</ErrorHeader>
+                    <ErrorHeader>There is nothing interesting here...</ErrorHeader>
                 </Centered>
                 <Centered>
-                    <Link href="/"><Comeback>Wróć na stronę główną</Comeback></Link>
+                    <Link href="/"><Comeback>Back to homepage</Comeback></Link>
                 </Centered>
             </ErrorContainer>
         </ErrorBackground>

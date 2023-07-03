@@ -4,7 +4,6 @@ import { SlOptionsVertical } from "react-icons/sl";
 import Centered from "../Centered";
 import { HiPlusSm } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import api from "@/pages/api";
 import { BlueLoader, Loader } from "../Common/Loaders";
 import AddFolder from "../Modals/AddingModals/AddFolder";
 import { selectFolderState, setSelectedFolder } from "../../store/openedFolderSlice";
@@ -73,9 +72,9 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
         {openNewFolder && <AddFolder onClose={() => setOpenNewFolder(false)} setFolders={props.setFolders} folders={props.folders} folderLimit={handleFolderLimit} />}
         {openFolderLimit && <FoldersNumberLimit onClose={() => setOpenFolderLimit(false)}/>}
         <FoldersHeaderContainer>
-          <SidebarHeader>Foldery</SidebarHeader>
+          <SidebarHeader>Folders</SidebarHeader>
           <SidebarDescription>
-            Foldery z zasobami do nauki firmowego AI.
+            Folders with resources for AI to reference.
           </SidebarDescription>
         </FoldersHeaderContainer>
         <FoldersList>
@@ -124,7 +123,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
                               className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                               aria-hidden="true"
                             />
-                            Edytuj
+                            Edit
                           </button>
                         )}
                       </Menu.Item>
@@ -138,7 +137,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
                             )}
                           >
                             <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                            Usuń
+                            Delete
                           </button>
                         )}
                       </Menu.Item>
@@ -191,7 +190,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
                               className="mr-3 h-5 text-gray-400 group-hover:text-gray-500"
                               aria-hidden="true"
                             />
-                            Edytuj
+                            Edit
                           </button>
                         )}
                       </Menu.Item>
@@ -205,7 +204,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
                             )}
                           >
                             <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                            Usuń
+                            Delete
                           </button>
                         )}
                       </Menu.Item>
@@ -224,7 +223,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
         <Centered>
           <AddBtn onClick={() => setOpenNewFolder(true)}>
             <HiPlusSm style={{ width: "auto", height: "60%" }} />
-            <ButtonText>Nowy folder</ButtonText>
+            <ButtonText>New folder</ButtonText>
           </AddBtn>
         </Centered>
       </SidebarContainer>

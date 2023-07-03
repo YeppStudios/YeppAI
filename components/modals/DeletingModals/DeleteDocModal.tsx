@@ -80,15 +80,15 @@ const DeleteDoc = (props: {
             </CloseIcon>
                 <div>
                     <Centered><Icon className='text-gray-800'><BsFileEarmarkExcelFill style={{width: "100%", height: "100%"}} /></Icon></Centered>
-                    <Title>Usunąć dokument?</Title>
-                    <Centered><Description>Dokument zostanie usunięty permanentnie i nie można będzie go już odzyskać.</Description></Centered>
+                    <Title>Delete asset?</Title>
+                    <Centered><Description>Asset will be permanently deleted and you will not be able to restore it.</Description></Centered>
                 </div>   
                 <Centered>
                     <Button onClick={deleteAsset}>
                         {loading ? 
                         <Loader color='black'/> 
                         : 
-                        <p>Usuń</p>
+                        <p>Delete</p>
                         }
                     </Button>
                 </Centered>

@@ -132,13 +132,13 @@ const RegularTextContainer = (props: {text: string, prompt: string | undefined, 
       const handleCopy = () => {
         navigator.clipboard.writeText(text)
           .then(() => {
-            setNotification("Skopiowane!");
+            setNotification("Copied!");
             setTimeout(() => {
               setNotification("");
             }, 1000);
           })
           .catch(err => {
-            setNotification("Coś poszło nie tak.");
+            setNotification("Something went wrong...");
             console.error(err);
           });
       };
@@ -181,7 +181,7 @@ const RegularTextContainer = (props: {text: string, prompt: string | undefined, 
                                 <BsCheckLg style={{fontSize: "1.5em"}} className="text-green-400"/>
                             </SaveBtn>
                         :
-                        <SaveBtn onClick={() => like()}><MoreIcon><FiDownload style={{width: "100%", height: "100%"}} /></MoreIcon> {!mobile && <MoreText>Zapisz</MoreText>}</SaveBtn>
+                        <SaveBtn onClick={() => like()}><MoreIcon><FiDownload style={{width: "100%", height: "100%"}} /></MoreIcon> {!mobile && <MoreText>Save</MoreText>}</SaveBtn>
                         
                     }  
                 </div>

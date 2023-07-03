@@ -6,7 +6,7 @@ import api from "@/pages/api";
 import TextLoader from "@/components/Common/TextLoader";
 import RegularTextContainer from "./contentContainers/RegularTextContainer";
 import IdeasContainer from "./contentContainers/IdeasContainer";
-import AddElixir from "../Modals/LimitModals/AddElixir";
+import AddElixir from "../Modals/AddingModals/AddElixir";
 import MultiLineSkeletonLoader from "./MultilineSkeletonLoader";
 import Centered from "../Centered";
 import ReminderModal from "../Modals/InformationalModals/ReminderModal";
@@ -19,7 +19,6 @@ import { BsBodyText, BsTextCenter } from "react-icons/bs";
 import axios from "axios";
 import { selectedMarketingAssistantState } from "@/store/marketingAssistantSlice";
 import { selectedUserState } from "@/store/userSlice";
-import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import { useSelector, useDispatch } from "react-redux";
 import SlideBottom from "../Animated/SlideBottom";
 import { selectFoldersState } from '@/store/selectedFoldersSlice'
@@ -552,7 +551,7 @@ const ResultsContainer = (
                                 <BsTextCenter style={{ width: "auto", height: "100%" }} /> 
                             </EmptyResultsIcon>
                             </Centered>
-                            <EmptyResultsMessage>Gdy wypełnisz formularz to pojawią się tu treści skrojone specjalnie pod twoje potrzeby!</EmptyResultsMessage>
+                            <EmptyResultsMessage>Fill out the form and AI will generate tailored conetnt for you!</EmptyResultsMessage>
                         </EmptyResultsContainer>
                     </>
                     :

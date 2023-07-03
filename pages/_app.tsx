@@ -30,15 +30,15 @@ function MyApp({ Component, pageProps }: AppProps) {
             <meta name="google-site-verification" content="FKFRw_OQ99WnUWH5bbf1OjTi7Cg2Xjh_6I6FnfzlPdA" />
             <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-            <meta property="og:title" content="Asystent AI | Twórz treści nawet 10X szybciej" />
+            <meta property="og:title" content="Yepp AI | Your Custom AI" />
             <meta property="og:type" content="website" />
             <meta property="og:image" content="http://drive.google.com/uc?export=view&id=1QlMCOks7ZD32D6nm4dkZ3XKMduvVd2gO"/>
             <meta property="og:url" content="http://drive.google.com/uc?export=view&id=1QlMCOks7ZD32D6nm4dkZ3XKMduvVd2gO"/>
 
             <meta name="twitter:card" content="summary_large_image"/>
-            <meta property="og:description" content="Twórz treści nawet 10X szybciej i zaadaptuj swój biznes do Nowej Ery Technologicznej, zyskując przewagę!"/>
-            <meta property="og:site_name" content="Asystent AI | Twórz treści nawet 10X szybciej"/>
-            <meta name="twitter:image:alt" content="AsystentAI logo"></meta>
+            <meta property="og:description" content="Upload files, explore websites, and watch YouTube videos to fully experience the capabilities of our AI!"/>
+            <meta property="og:site_name" content="Yepp AI | Your Custom AI"/>
+            <meta name="twitter:image:alt" content="YeppAI logo"></meta>
             <meta name="twitter:image" content="http://drive.google.com/uc?export=view&id=1QlMCOks7ZD32D6nm4dkZ3XKMduvVd2gO"></meta>
       </Head>
       <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=G-R8M9MNW23W`} />

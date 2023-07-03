@@ -3,7 +3,7 @@ import backIcon from "../../public/images/backArrow.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import api from "@/pages/api";
-import { BsFillGearFill, BsFillVolumeUpFill, BsLockFill, BsTrash } from "react-icons/bs";
+import { BsFillGearFill, BsTrash, BsYoutube } from "react-icons/bs";
 import { BsFolderSymlinkFill, BsFillPencilFill, BsFillLaptopFill } from "react-icons/bs";
 import { BlueLoader } from "../Common/Loaders";
 import Centered from "../Centered";
@@ -13,9 +13,6 @@ import { useSelector, useDispatch } from "react-redux";
 import AddDocument from "../Modals/AddingModals/AddDocument";
 import DeleteAsset from "../Modals/DeletingModals/DeleteDocModal";
 import { Menu, Transition } from '@headlessui/react'
-import {
-  PencilSquareIcon,
-} from '@heroicons/react/20/solid';
 import { Fragment } from 'react'
 import AddWrittenContent from "../Modals/AddingModals/AddWrittenContent";
 import AddAudio from "../Modals/AddingModals/AddAudio";
@@ -162,7 +159,7 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Wróć</BackBtnText>
+                    <BackBtnText>Back</BackBtnText>
                 </BackBtn>
                 <div style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
                 {selectedFolder &&
@@ -214,7 +211,7 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                                 )}
                             >
                                 <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                                Usuń
+                                Delete
                             </a>
                             )}
                         </Menu.Item>
@@ -224,30 +221,30 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                 </div>
                 </Header>
                 <ContentContainer>
-                    <Subtitle>Dodaj zasoby do folderu</Subtitle>
-                    <SectionDescription>Wgraj do folderu zasoby, a AI będzie mogło na nich bazować swoje odpowiedzi.</SectionDescription>
+                    <Subtitle>Add assets to the folder</Subtitle>
+                    <SectionDescription>Upload and group the assets for AI to learn from.</SectionDescription>
                     <UploadOptionsContainer>
                     <Option id="upload-write" onClick={() => setOpenWriteContent(true)}>
                         <OptionIcon><BsFillPencilFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                        <OptionTitle>Napisz treści</OptionTitle>
-                        <OptionDescription>Napisz lub przeklej dokument tekstowy</OptionDescription>
+                        <OptionTitle>Write content</OptionTitle>
+                        <OptionDescription>Write or copy paste content</OptionDescription>
                     </Option>
                     {plan &&
                         <>
                         <Option id="upload-file" onClick={() => setAddDocument("file")}>
                             <OptionIcon><BsFolderSymlinkFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                            <OptionTitle>Wgraj plik</OptionTitle>
-                            <OptionDescription>Wgraj dokument TXT, DOCX, PPTX lub PDF</OptionDescription>
+                            <OptionTitle>Upload a file</OptionTitle>
+                            <OptionDescription>Upload TXT, DOCX, PPTX or PDF file</OptionDescription>
                         </Option>
                         <Option id="upload-website" onClick={() => setAddDocument("website")}>
                             <OptionIcon><BsFillLaptopFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                            <OptionTitle>Importuj stronę</OptionTitle>
-                            <OptionDescription>Zeskanuj treści ze strony internetowej</OptionDescription>
+                            <OptionTitle>Scrape a website</OptionTitle>
+                            <OptionDescription>Scrape content from a web page</OptionDescription>
                         </Option>
                         <Option id="upload-audio" onClick={() => setAddAudio(true)}>
-                            <OptionIcon><BsFillVolumeUpFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                            <OptionTitle>Wgraj audio</OptionTitle>
-                            <OptionDescription>Transkrybuj filmik lub wgraj plik audio</OptionDescription>
+                            <OptionIcon><BsYoutube style={{width: "100%", height: "auto"}} /></OptionIcon>
+                            <OptionTitle>Upload YT Video</OptionTitle>
+                            <OptionDescription>Upload a clip for AI to watch</OptionDescription>
                         </Option>
                         </>
                     }
@@ -255,8 +252,8 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                 <Container>
                     <SavedDocsHeader>
                     <div>
-                    <Subtitle>Zapisane zasoby</Subtitle>
-                    <SectionDescription>Tu znajdziesz zapisane w tym folderze zasoby.</SectionDescription>
+                    <Subtitle>Saved assets</Subtitle>
+                    <SectionDescription>Here you can find all your uploaded assets.</SectionDescription>
                     </div>
                     </SavedDocsHeader>
                     <div className="mt-8 flow-root pb-20 lg:pb-8">
@@ -273,16 +270,16 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                                 <thead className="bg-slate-50">
                                  <tr>
                                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                        Nazwa
+                                        Name
                                     </th>
                                     <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                         Status
                                     </th>
                                     <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                                        Data wgrania
+                                        Uploaded on
                                     </th>
                                     <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
-                                        Dodany przez
+                                        Uploaded by
                                     </th>
                                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
                                     </th>
@@ -292,7 +289,7 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                              </table>                    
                             :
                             <NoDocsContainer>
-                                Nie masz jeszcze żadnych zasobów w tym folderze. Wgraj zasoby.
+                                You don&apos;t have any documents yet. Upload some!
                             </NoDocsContainer>                          
                             }
                             </div>

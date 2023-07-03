@@ -97,9 +97,9 @@ const Assets = () => {
     return (
       <>
       <Head>
-          <title>Zasoby | Asystent AI</title>
+          <title>Assets | Yepp AI</title>
           <meta name = "theme-color" content = "#FFFFFF" />
-          <meta name="description" content="Naucz AI wiedzy firmowej i branżowej." />
+          <meta name="description" content="Teach AI knowlege tailored specifically for your needs." />
       </Head>
       <PageTemplate userProfiles={[]} >
           {openOnboarding && <OnboardingModal onClose={() => handleOnboardingClose()}/>}

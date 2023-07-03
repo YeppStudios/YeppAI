@@ -3,10 +3,6 @@ import { useEffect, useState } from "react";
 import { BsChatTextFill, BsFillArchiveFill, BsFillInfoCircleFill, BsFillPencilFill, BsPencil, BsPencilFill, BsPersonFillAdd, BsPlusCircleDotted } from "react-icons/bs";
 import { useRouter } from "next/router";
 import api from "@/pages/api";
-import { render } from "@headlessui/react/dist/utils/render";
-import documentIcon from "../../public/images/document-icon.png";
-import Image from "next/image";
-import Link from "next/link";
 import { BlueLoader } from "../Common/Loaders";
 import SlideBottom from "../Animated/SlideBottom";
 import Centered from "../Centered";
@@ -125,8 +121,8 @@ const FirstPage = (props: {nextPage: any}) => {
             {assistantsLimit && <AssistantsLimit onClose={() => setAssistantsLimit(false)} />} 
             <Header>
             <div>
-                <PageTitle>Firmowy Chat AI</PageTitle>
-                <PageDescription>Wykorzystaj potencjał AI tworząc Asystentów z wiedzą firmową.</PageDescription>
+                <PageTitle>Chat AI</PageTitle>
+                <PageDescription>Unleash the full potential of AI by creating your own AI assistants.</PageDescription>
             </div>
             <ActionContaienr>
                 <ActionBtn onClick={() => router.push("/assets")}>
@@ -134,7 +130,7 @@ const FirstPage = (props: {nextPage: any}) => {
                 </ActionBtn>
                 <BlueBtn onClick={handleOpenAddAssistant}>
                     <FaPlus style={{width: "auto", height: "35%"}}/>
-                    <BtnText>Nowy Chat</BtnText>
+                    <BtnText>New Chat</BtnText>
                 </BlueBtn>
             </ActionContaienr>
             </Header>
@@ -177,7 +173,7 @@ const FirstPage = (props: {nextPage: any}) => {
                             </AddAssistantIcon>
                         </Centered>
                         <Centered>
-                            <AddAssistantTitle>Nowy Chat</AddAssistantTitle>
+                            <AddAssistantTitle>New Chat</AddAssistantTitle>
                         </Centered>
                         </div>
                     </AddAssistant>

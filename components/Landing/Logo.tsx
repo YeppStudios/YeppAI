@@ -22,7 +22,7 @@ const Logo = (props: {color: string}) => {
           }
         </LogoContainer>
         
-        <AppName color={props.color}>Asystent AI</AppName>
+        <AppName color={props.color}>Yepp AI</AppName>
       </Container>
     )
 }

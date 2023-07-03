@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import SlideBottom from "../components/Animated/SlideBottom";
 import mesh from "../public/images/testimonialsBackground.png";
 import Centered from "@/components/Centered";
-import { setTokenSourceMapRange } from "typescript";
 import Loading from "@/components/Common/Loading";
 import Head from "next/head";
 
@@ -58,25 +57,25 @@ const PasswordReset = (props: {onClose: any, registration: boolean}) => {
     return (
         <Background image={mesh}>
         <Head>
-          <title>Zresetuj Hasło</title>
-          <meta name="description" content="Zresetuj swoje hasło do platformy Asystent AI." />
+          <title>Reset password</title>
+          <meta name="description" content="Reset your password for Yepp AI." />
         </Head>
         <ModalBackground closeable={false}>
         <Loading />
             <SlideBottom>
             <LoginContainer>
                 <div>
-                <ModalTitle>Zresetuj hasło</ModalTitle>
+                <ModalTitle>Reset password</ModalTitle>
                 <Form autoComplete="off" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
                     <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                         {resetError &&
                         <Centered>
-                            <LoginErrorMessage>Hasła nie są takie same</LoginErrorMessage>
+                           <LoginErrorMessage>Passowrds doesn&apos;t match</LoginErrorMessage>
                         </Centered>
                         }
                         <div>
                             <Label>
-                                Nowe hasło
+                                New password
                             </Label>
                             <Input
                                 id="password"
@@ -89,7 +88,7 @@ const PasswordReset = (props: {onClose: any, registration: boolean}) => {
                         </div>
                         <div>
                             <Label>
-                                Powtórz nowe hasło
+                                Repeat new password
                             </Label>
                             <Input
                                 id="confirm-password"
@@ -106,7 +105,7 @@ const PasswordReset = (props: {onClose: any, registration: boolean}) => {
                                 <Loader color="white" />
                             </div>
                             :
-                            <p>Zresetuj</p>
+                            <p>Reset</p>
                             }
                         </Button>
                     </div>

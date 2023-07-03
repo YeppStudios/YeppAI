@@ -39,7 +39,7 @@ const Profile = ({ stats }: InferGetServerSidePropsType<typeof getServerSideProp
             <Head>
                 <meta name = "theme-color" content = "#ffffff" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <title>Profil | Asystent AI</title>
+                <title>Profile | Yepp AI</title>
                 <meta name="description" content="Twój profil i panel zarządzania kontem." />
             </Head> 
             <div>

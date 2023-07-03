@@ -18,15 +18,16 @@ const NoElixirTestModal = (props: {onClose: any, onSubmit: any}) => {
                         <Image style={{ width: "100%", height: "auto" }}  src={fuelIcon} alt={'icon'}></Image> 
                     </FuelIcon>
                 </Centered>
-                <ModalTitle>Doładuj Elixir Wiedzy</ModalTitle>
+                <ModalTitle>Replenish your elixir</ModalTitle>
                 <Centered>
                 <DescriptionText>
-                    Asystent potrzebuje elixiru wiedzy, aby móc generować treści. Zatrudnij asystenta i doładuj niezbędny elixir kupując subskrypcję. 
-                    <br /><br /><b>Do zobaczenia po drugiej stronie aplikacji!</b>
+                    Elixir is essential for generating unique content.
+                    It is consumed for what the Assistant writes, your questions, and in the case of chat,
+                    for the two previous messages that allow the Assistant to understand the context.
                 </DescriptionText>
                 </Centered>
                 <Centered>
-                    <GenerateBtn onClick={props.onSubmit}>Sprawdź Ofertę</GenerateBtn>
+                    <GenerateBtn onClick={props.onSubmit}>Check out the offer</GenerateBtn>
                 </Centered>
             </Modal>
             </SlideBottom>

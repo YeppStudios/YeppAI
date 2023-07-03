@@ -275,7 +275,7 @@ const Pricing = () => {
   return (
     <>
     <Head>
-        <title>Pricing | Asystent AI</title>
+        <title>Pricing | Yepp AI</title>
         <meta name = "theme-color" content = "#FFFFFF" />
         <meta name="description" content="Subscription plans and offer." />
     </Head>

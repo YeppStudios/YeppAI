@@ -36,13 +36,13 @@ const AboutAssistant = (props: {onClose: any, assistant: any, deleteAssistant: a
                     </AssistantHeader>
                     {(props.assistant.companyName && props.assistant.aboutCompany) &&
                         <>
-                            <Label>Pomagam firmie:</Label>
+                            <Label>I am helping:</Label>
                             <PromptContainer>{props.assistant.companyName}- {props.assistant.aboutCompany}</PromptContainer>
                         </>
                     }
                     {(props.assistant.folders.length > 0) &&
                         <div style={{display: "flex", flexWrap: "wrap"}}>
-                            <Label>Wyuczone foldery:</Label>
+                        <Label>Assets I can reference:</Label>
                             {props.assistant.folders.map((folder: { _id: Key | null | undefined; title: any; }) => {
                                     return (
                                     <Folder key={folder._id} onClick={() => handleFolderClick(folder)}>
@@ -63,7 +63,7 @@ const AboutAssistant = (props: {onClose: any, assistant: any, deleteAssistant: a
                     <BottomContainer>
                         <Id>Id: {props.assistant._id}</Id>
                         <DeleteAssistantBtn onClick={() => handleDeleteAssistant()}>
-                            Usuń Asystenta
+                            Delete Assistant
                         </DeleteAssistantBtn>
                     </BottomContainer>
                 </Modal>

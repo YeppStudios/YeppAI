@@ -36,10 +36,11 @@ interface Button {
 }
 
 const plans = [
-    {title: "Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", query: "/order/basic?price=99&priceId=price_1NFwcqFe80Kn2YGGi4iIulhc&months=1", description: "Generuj treści jak posty, artykuły oraz maile z wykorzystaniem AI.", isPro: false, features: ["75 000 elixiru/msc. (~200 postów)", "1 Asystent AI", "3 wgrane treści do 5MB", "Kreator Treści (maile, posty, opisy...)"], price: "99,99zł"}, 
-    {title: "Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", query: "/order/pro?price=299&priceId=price_1NFwxWFe80Kn2YGGvpHuUfpi&months=1", description: "Wgrywaj własne treści i twórz swój zespół AI.", isPro: false, features: ["250 000 elixiru/msc. (~700 postów)", "3 Asystentów AI", "5 wgranych plików do 15MB", "Inteligentny Edytor AI", "Chat z Asystentami AI", "Skanowanie stron internetowych", "Wgrywanie PDF, PPTX, TXT i DOCX", "Wgrywanie filmików YouTube"], price: "299,00zł", extraFunctionalities: "Basic"}, 
-    {title: "Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/business?price=799&priceId=price_1NFx0EFe80Kn2YGGCWikSSti&months=1", description: "Maximum możliwości dla biznesu bez ograniczeń.", isPro: false, features: ["1M elixiru/msc. (~2 800 postów)", "Nielimitowana ilość Asystentów AI", "Nielimitowana ilość wgranej wiedzy", "Nielimitowana liczba użytkowników", "Dostęp do najnowszych funkcjonalności", "1000+ szblonów poleceń do AI"], price: "799,00zł", extraFunctionalities: "Assistant + Basic"},
+    {title: "Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", query: "/order/basic?price=99&priceId=price_1NFwcqFe80Kn2YGGi4iIulhc&months=1", description: "Generate content such as posts, articles, and emails using AI.", isPro: false, features: ["75 000 elixir/month. (~200 posts)", "1 AI Assistant", "3 uploaded content up to 5MB", "Content Creator (emails, posts, descriptions...)"], price: "99,99zł"}, 
+    {title: "Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", query: "/order/pro?price=299&priceId=price_1NFwxWFe80Kn2YGGvpHuUfpi&months=1", description: "Upload your own content and define your AI assistants.", isPro: false, features: ["250 000 elixir/month. (~700 posts)", "3 AI Assistants", "5 uploaded files up to 15MB", "Intelligent AI Editor", "Chat with AI Assistants", "Scanning websites", "Uploading PDF, PPTX, TXT and DOCX", "Uploading YouTube videos"], price: "299,00zł", extraFunctionalities: "Basic"}, 
+    {title: "Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/business?price=799&priceId=price_1NFx0EFe80Kn2YGGCWikSSti&months=1", description: "Maximum possibilities for business, no limits.", isPro: false, features: ["1M elixir/month. (~2 800 posts)", "Unlimited number of AI Assistants", "Unlimited amount of uploaded knowledge", "Unlimited number of users", "Access to the latest features", "1000+ AI command templates"], price: "799,00zł", extraFunctionalities: "Assistant + Basic"},
 ]
+
 
 const UpgradeSubscription = (props: {onClose: any}) => {
 
@@ -48,14 +49,14 @@ const UpgradeSubscription = (props: {onClose: any}) => {
     const user = useSelector(selectedUserState);
     const currentPlan = useSelector(selectedPlanState);
     const router = useRouter();
-
+    
     useEffect(() => {
         if(window.innerWidth < 1024) {
             setMobile(true);
         }
     }, [])
-
-
+    
+    
     const updatePlan = async (priceId: string, planId: string, planName: string, query: string) => {
         const token = localStorage.getItem("token");
         setLoadingPlan(planName);
@@ -87,8 +88,8 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                     {
                         priceId: priceId, 
                         mode: "subscription",
-                        successURL: "https://www.asystent.ai/profile?success",
-                        cancelURL: "https://www.asystent.ai/profile",
+                        successURL: "https://www.assistant.ai/profile?success",
+                        cancelURL: "https://www.assistant.ai/profile",
                         email: user.email,
                         planId: planId,
                         referrerId: referrerId
@@ -103,14 +104,14 @@ const UpgradeSubscription = (props: {onClose: any}) => {
             setLoadingPlan("");
             console.log(e);
         }
-
+    
     }
-
+    
     const renderPlans = () => {
         let icon = wandIcon;
-
+    
         const renderedPlans = plans.map((plan) => {
-
+    
             if (plan.title === "Basic") {
                 icon= pencilIcon;
             } else if (plan.title === "Pro") {
@@ -125,8 +126,8 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                             <PlanContainer backgroundColor="black" color="white" width="100%">
                                 <PlanTitle><PlanTitleText>{plan.title}</PlanTitleText> <BtnIcon><Image style={{ width: "100%", height: "auto" }}  src={icon} alt={'preview'}></Image> </BtnIcon></PlanTitle>
                                 <BriefDescription>{plan.description}</BriefDescription>
-                                <Price>{plan.price}{plan.title === "Assistant" && <Monthly>/msc</Monthly>}</Price>
-                                <Note>Subskrypcja płatna w chwili zakupu i odnawiana co miesiąc.</Note>
+                                <Price>{plan.price}{plan.title === "Assistant" && <Monthly>/month</Monthly>}</Price>
+                                <Note>Subscription payable upon purchase and renewed monthly.</Note>
                                 {currentPlan._id === plan.planId ?
                                     <OwnedButton><BsCheckLg /></OwnedButton>
                                     :
@@ -137,12 +138,12 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                                                 <Loader color="black" />
                                             </div>
                                             :
-                                            <p>Zakup</p>
+                                            <p>Purchase</p>
                                         }
                                     </BuyButton>
                                     <Link href={"/pricing"}>
                                     <LearnMore>
-                                        Sprawdź ofertę
+                                        Check the offer
                                     </LearnMore>
                                     </Link>
                                     </div>
@@ -157,8 +158,8 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                             <PlanContainer backgroundColor="black" color="white" width="100%">
                                 <PlanTitle><PlanTitleText>{plan.title}</PlanTitleText> <BtnIcon><Image style={{ width: "100%", height: "auto" }}  src={icon} alt={'preview'}></Image> </BtnIcon></PlanTitle>
                                 <BriefDescription>{plan.description}</BriefDescription>
-                                <Price>{plan.price}{plan.title === "Assistant" && <Monthly>/msc</Monthly>}</Price>
-                                <Note>Subskrypcja płatna w chwili zakupu i odnawiana co miesiąc.</Note>
+                                <Price>{plan.price}{plan.title === "Assistant" && <Monthly>/month</Monthly>}</Price>
+                                <Note>Subscription payable upon purchase and renewed monthly.</Note>
                                 {currentPlan._id === plan.planId ?
                                     <OwnedButton><BsCheckLg /></OwnedButton>
                                     :
@@ -169,12 +170,12 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                                                 <Loader color="black" />
                                             </div>
                                             :
-                                            <p>Zakup</p>
+                                            <p>Purchase</p>
                                         }
                                     </BuyButton>
                                     <Link href={"/pricing"}>
                                     <LearnMore>
-                                        Sprawdź ofertę
+                                        Check the offer
                                     </LearnMore>
                                     </Link>
                                     </div>
@@ -183,7 +184,7 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                     </PlanSection>
                 )
             }
-
+    
         })
         
         return (
@@ -198,7 +199,7 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                     </Centered>
             }
             <Centered>
-                <Title>Wybierz plan dla siebie lub firmy</Title>
+                <Title>Choose a plan for yourself or your company</Title>
             </Centered>
             {mobile ?
                 <PlansSection>
@@ -211,12 +212,12 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                 </PlansSection>
             </PlanImageSection>
             }
-
+    
             </Content>
         )
     }
-
-
+    
+    
     return (
         <ModalBackground closeable={true} onClose={props.onClose}>
             <SlideBottom>
@@ -229,6 +230,7 @@ const UpgradeSubscription = (props: {onClose: any}) => {
             </SlideBottom>
         </ModalBackground>
     )
+    
 }
 
 export default UpgradeSubscription;

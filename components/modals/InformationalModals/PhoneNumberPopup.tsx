@@ -26,11 +26,11 @@ const PhoneNumberPopup = (props: {onClose: any}) => {
                     <BsXLg style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
             <Centered>
-                <Title>Kontakt</Title>
+                <Title>Contact us</Title>
             </Centered>
             <div>
-                <Contact>Kontakt telefoniczny: <br /><b>+48 539 653 528</b></Contact>
-                <Contact>Kontakt mailowy: <br /><b>hello@asystent.ai</b></Contact>
+            <Contact>Phone number: <br /><b>+48 539 653 528</b></Contact>
+                <Contact>Mail: <br /><b>hello@asystent.ai</b></Contact>
             </div>           
             </ModalContainer>
             </SlideBottom>

@@ -49,15 +49,15 @@ const AddDocument = (props: {
     const dispatch = useDispatch();
 
     const texts = [
-        "Analiza zawartości...",
-        `Skanowanie treści...`,
-        "Wczytywanie kontekstu...",
-        "Przyswajanie wiedzy...",
-        "Zapisywanie nazw...",
-        "Kategoryzowanie informacji...",
-        "Jeszcze chwila...",
-        "Powtarzam proces...",
-      ];
+      "Analyzing content...",
+      `Give me a sec...`,
+      "Loading context...",
+      "Learning...",
+      "Saving files...",
+      "Categorizing information...",
+      "Just a moment...",
+      "Repeating the process...",
+    ];
 
     useEffect(() => {
       const fetchUsage = async () => {
@@ -183,7 +183,7 @@ const AddDocument = (props: {
                 setFileLoading(false);
             }
         } else {
-            alert("Wybierz plik.")
+            alert("Choose a file.")
         }
     }
 
@@ -224,7 +224,7 @@ const AddDocument = (props: {
             }
 
             if(scrapingResponse.data.ids.length === 0) {
-              alert("Wystąpił błąd podczas skanowania strony. Spróbuj ponownie później lub skontaktuj się z nami pod: hello@asystent.ai");
+              alert("An error occured while scanning the website. Contact us: hello@yepp.ai");
               setScraping(false);
               return;
             }
@@ -299,7 +299,6 @@ const AddDocument = (props: {
             fetchedUser = user;
             fetchedPlan = plan;
         }
-        console.log(usageResponse, fetchedPlan.maxFolders)
         if (usageResponse.folderCount >= fetchedPlan.maxFolders) {
           props.folderLimit();
           setFileLoading(false);
@@ -338,8 +337,8 @@ const AddDocument = (props: {
             </CloseIcon>
                   {(props.documentType === "file" && !openChooseFolder && !fileLoading && !success) &&
                   <>
-                    <Title>Wgraj plik</Title>
-                    <Centered><Description>Załącz plik w formacie PDF, PPTX, TXT lub DOCX. <p className='text-gray-500 text-sm'>(upewnij się, że plik nie jest skanem)</p> </Description></Centered>
+                    <Title>Upload a file</Title>
+                    <Centered><Description>Upload a PDF, PPTX, TXT or DOCX file. <p className='text-gray-500 text-sm'>(make sure it&apos;s not a scan)</p> </Description></Centered>
                     <Form autoComplete="off">
                             <Centered>
                                 <FileUploader hoverTitle="Drop here" handleChange={handleFile} name="file" types={fileTypes} multiple={false} >
@@ -351,7 +350,7 @@ const AddDocument = (props: {
                                     :
                                     <UploadFile>
                                         <Centered><BsFolder style={{width: "2rem", height: "2rem"}}/></Centered>
-                                        <Centered><FileText>Kliknij lub upuść dokument</FileText></Centered>
+                                        <Centered><FileText>Drag or click</FileText></Centered>
                                     </UploadFile>                                          
                                     }
 
@@ -364,7 +363,7 @@ const AddDocument = (props: {
                                     <Loader color="black"/>
                                 </div>
                                 :
-                                <p>Dodaj</p>
+                                <p>Upload</p>
                                 }
                             </Button>
                             </Centered>
@@ -373,8 +372,8 @@ const AddDocument = (props: {
                     }
                     {(props.documentType === "website" && scrapedUrls.length === 0 && !scraping && !openChooseFolder && !success) &&  
                     <>
-                    <Title>Zeskanuj podstronę</Title>     
-                    <Centered><Description>Wklej link do podstrony, a AI zapamięta treści.</Description></Centered>
+                    <Title>Scrape the website</Title>     
+                    <Centered><Description>Paste the link to the webpage for AI to read.</Description></Centered>
                      <Form autoComplete="off">
                           <div>
                             <div style={{width: "100%"}}>
@@ -384,7 +383,7 @@ const AddDocument = (props: {
                                     <Input
                                         id="website"
                                         type="text"
-                                        placeholder="https://www.asystent.ai/o-nas"
+                                        placeholder="https://www.yepp.ai/about-us"
                                         value={website}
                                         onChange={(e) => setWebsite(e.target.value)}
                                         required
@@ -393,10 +392,10 @@ const AddDocument = (props: {
                                 </div>
                                 <Centered>
                                 <Button type="submit" onClick={scrapeWebsite}>
-                                    <p>Skanuj</p>
+                                    <p>Scrape</p>
                                 </Button>
                                 </Centered>
-                                <Centered><Disclaimer>Masz dużo podstron? Napisz do nas na: <br /><b>hello@asystent.ai</b></Disclaimer></Centered>
+                                <Centered><Disclaimer>Lot of web pages? Contact us: <br /><b>hello@yepp.ai</b></Disclaimer></Centered>
                             </div>
                         </Form>     
                       </> 
@@ -405,20 +404,20 @@ const AddDocument = (props: {
                   {(openChooseFolder && !success) &&
                   <div>
                     <Centered><Icon><BsFolderPlus style={{width: "100%", height: "auto", color: "black"}} /></Icon></Centered>
-                      <Centered>{props.documentType === "website" ? <Title>Zapisz podstronę w:</Title> : <Title>Zapisz plik w:</Title>}</Centered>
+                      <Centered>{props.documentType === "website" ? <Title>Save content in:</Title> : <Title>Save the file:</Title>}</Centered>
                           {!selectedFolder._id &&
                           <>
                           <ToggleContainer>
                               {savingOption === 1 &&
                                   <>
-                                      <SelectedToggleBtn>Nowym folderze</SelectedToggleBtn>
-                                      <ToggleBtn onClick={() => setSavingOption(2)}>Istniejącym folderze</ToggleBtn>
+                                      <SelectedToggleBtn>New folder</SelectedToggleBtn>
+                                      <ToggleBtn onClick={() => setSavingOption(2)}>Existing folder</ToggleBtn>
                                   </>
                               }
                               {savingOption === 2 &&
                                   <>
-                                      <ToggleBtn onClick={() => setSavingOption(1)}>Nowym folderze</ToggleBtn>
-                                      <SelectedToggleBtn>Istniejącym folderze</SelectedToggleBtn>
+                                      <ToggleBtn onClick={() => setSavingOption(1)}>New folder</ToggleBtn>
+                                      <SelectedToggleBtn>Existing folder</SelectedToggleBtn>
                                   </>
                               }
                           </ToggleContainer>
@@ -428,7 +427,7 @@ const AddDocument = (props: {
                                     width="100%"
                                     id="folder"
                                     type="text"
-                                    placeholder="Stwórz nowy folder"
+                                    placeholder="Create new folder"
                                     required
                                     value={chosenFolder}
                                     values={props.folders}
@@ -440,12 +439,12 @@ const AddDocument = (props: {
                           {savingOption === 1 &&
                             <InputContainer width="100%">
                                 <Label>
-                                    Nazwa nowego folderu
+                                    Name new folder
                                 </Label>
                                 <Input
                                     id="name"
                                     type="text"
-                                    placeholder="Nazwa"
+                                    placeholder="Name"
                                     value={folderName}
                                     onChange={(e) => setFolderName(e.target.value)}
                                     required
@@ -462,7 +461,7 @@ const AddDocument = (props: {
                                     <Loader color="black"/>
                                 </div>
                             :
-                            <p>Zapisz</p>
+                            <p>Save</p>
                             }
                         </Button>
                         :
@@ -472,7 +471,7 @@ const AddDocument = (props: {
                                     <Loader color="black"/>
                                 </div>
                             :
-                            <p>Kontynuuj</p>
+                            <p>Continue</p>
                             }
                         </Button>
                         }
@@ -482,7 +481,7 @@ const AddDocument = (props: {
 
                   { fileLoading &&
                     <div>
-                      <Title>Wgrywanie treści...</Title>
+                      <Title>Uploading content...</Title>
                         <ThinkingContainer>
                             <Centered><TypingAnimation colorful={true} /></Centered>
                             <Centered><Texts>{texts[currentIndex]}</Texts></Centered>
@@ -492,7 +491,7 @@ const AddDocument = (props: {
                   { success &&
                     <div>
                       <Centered><SuccessIcon><BsCheckLg className="text-green-400" style={{width: "100%", height: "100%"}}/></SuccessIcon></Centered>
-                      {props.documentType === "file" ? <Title>Plik zapisany</Title> : <Title>Podstrona zapisana</Title>}
+                      {props.documentType === "file" ? <Title>File saves</Title> : <Title>Content saved</Title>}
                       <Space margin='1rem 0 0 0'></Space>
                       <Centered>
                       <Button onClick={handleOpenFolder}>
@@ -501,7 +500,7 @@ const AddDocument = (props: {
                                     <Loader color="black"/>
                                 </div>
                             :
-                            <p>Przejdź do folderu</p>
+                            <p>Open folder</p>
                             }
                       </Button>
                       </Centered>
@@ -509,7 +508,7 @@ const AddDocument = (props: {
                   }
                   { scraping &&
                   <div>
-                    <Title>Skanowanie podstrony...</Title>
+                    <Title>Scraping the website...</Title>
                     <ThinkingContainer>
                         <Centered><TypingAnimation colorful={true} /></Centered>
                         <Centered><LoaderTexts>{texts[currentIndex]}</LoaderTexts></Centered>

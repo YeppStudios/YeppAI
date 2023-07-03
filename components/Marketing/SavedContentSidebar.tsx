@@ -21,7 +21,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import DeleteDoc from '../Modals/DeletingModals/DeleteDocModal';
 const tabs = [
-  { name: 'Wszystkie', href: '#', current: true },
+  { name: 'All', href: '#', current: true },
 ]
 
 function classNames(...classes: string[]) {
@@ -125,7 +125,6 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean}
   const renderContent = () => {
     const renderedContent = savedContent.map((content) => {
       if (content.category !== "document") { // Only process items that are not documents
-        const link =  getContentLink(content.category, content._id)
         return (
           <div key={content.text.slice(0, 20)}>
           <div onClick={() => handleOpenContent(content)}>
@@ -170,7 +169,7 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean}
                             'block px-4 py-2 text-sm'
                           )}
                         >
-                          Usuń
+                          Delete
                         </div>
                       )}
                     </Menu.Item>
@@ -216,7 +215,7 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean}
                   <div style={{boxShadow: "2px 2px 10px rgba(15, 27, 40, 0.25)"}} className="flex h-full flex-col overflow-y-scroll bg-white">
                     <div className="p-6">
                       <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-xl font-semibold leading-6 text-gray-900">Zapisane treści</Dialog.Title>
+                        <Dialog.Title className="text-xl font-semibold leading-6 text-gray-900">Saved content</Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"

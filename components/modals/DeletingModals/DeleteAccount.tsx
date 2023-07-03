@@ -82,15 +82,15 @@ const DeleteAccount = (props: {
             </CloseIcon>
                 <div>
                     <Centered><Icon className='text-gray-800'><BsFileEarmarkExcelFill style={{width: "100%", height: "100%"}} /></Icon></Centered>
-                    <Title>Chcesz usunąć konto?</Title>
-                    <Centered><Description>Klikająć &quot;Usuń konto&quot; permanentnie usuniesz swoje konto i dane z naszej bazy oraz anulujesz subskrypcję.</Description></Centered>
+                    <Title>Delete your account?</Title>
+                    <Centered><Description>By deleting your account you permanently remove your account from our database and entire content you saved.</Description></Centered>
                 </div>   
                 <Centered>
                     <Button onClick={deleteAccount}>
                         {loading ? 
                         <Loader color='black'/> 
                         : 
-                        <p>Usuń konto</p>
+                        <p>Delete account</p>
                         }
                     </Button>
                 </Centered>

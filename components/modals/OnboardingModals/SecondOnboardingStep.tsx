@@ -11,8 +11,6 @@ import chatIcon from "../../../public/images/chatIcon.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import api from "@/pages/api";
-import { set } from "lodash";
-import { Loader } from "@/components/Common/Loaders";
 
 const SecondOnboardingStep = (props: {onClose: any}) => {
 
@@ -87,10 +85,10 @@ const SecondOnboardingStep = (props: {onClose: any}) => {
                 {!selectedAssistant &&
                 <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", marginTop: "1rem"}}>
                 <Centered>
-                        <ModalTitle>Tak trzymaj!</ModalTitle>
+                        <ModalTitle>Keep it up!</ModalTitle>
                 </Centered>
                 <Centered>
-                    <ModalDescription>Wybierz co chcesz zrobić ze swoim pierwszym zasobem wiedzy:</ModalDescription>
+                <ModalDescription>You&apos;ve just uploaded your first resource. Now you can choose what to try first:</ModalDescription>
                 </Centered>
                     <Centered>
                         <ButtonsContainer>
@@ -111,12 +109,12 @@ const SecondOnboardingStep = (props: {onClose: any}) => {
                             <Tab onClick={() => handleOpenTab("/chat")}>
                             <div style={{display: "flex", alignItems: "center", width: "100%", justifyContent: "center"}}>
                                 <AssistantIcon><Image style={{ width: "auto", height: "100%" }} src={chatIcon} alt={'logo'}></Image></AssistantIcon>
-                                    Firmowy Chat AI
+                                    Custom Chatbot
                                 </div>
                             </Tab>
                             <Centered>
                             <SkipBtn onClick={props.onClose}>
-                                    Kontynuuj wgrywanie zasobów
+                                    Continue uploading assets
                             </SkipBtn>
                             </Centered>
                         </ButtonsContainer>

@@ -33,9 +33,6 @@ interface TextArea {
     height: string;
 }
 
-const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński"];
-const styles = ["Formalny 💼", "Przyjazny 😊", "Treściwy 📃", "Przekonujący 🫵🏼", "Motywacyjny 📈"];
-
 const EnhanceTextCreationPage = ({back, query}: any) => {
 
     const [content, setContent] = useState("");
@@ -62,7 +59,7 @@ const EnhanceTextCreationPage = ({back, query}: any) => {
         setPrompt("");
         setLoading(true);
         setPrompt(`Act as an editor. Take content in quotes "${content}" and ${instruction}. Make sure it gives the desired feeling for the reader. Start with a thorough analysis of the existing content (content in quotes, not the context given by the user), considering factors like readability, structure, grammar, style, and coherence. Then, make edits that highlight the strengths of the content while simultaneously addressing any weaknesses. Consider adding additional detail, clarifying language, restructuring, and rephrasing to create a cohesive and concise result that appeals to your target audience. While editing, ensure the desired tone of voice is consistent across the content to maintain the desired feeling, which should resonate throughout. Finally, review the revised content to ensure it aligns with the original goal of the quoted content. Reply only with the edited that was previously in quotes.`);
-        setTitle(`${query.type}`)
+        setTitle("Text enhancement");
     }
 
     return (
@@ -73,7 +70,7 @@ const EnhanceTextCreationPage = ({back, query}: any) => {
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Wróć</BackBtnText>
+                    <BackBtnText>Back</BackBtnText>
                 </BackBtn>
             }
                 {query.type && 
@@ -83,7 +80,7 @@ const EnhanceTextCreationPage = ({back, query}: any) => {
                         <BackBtnIcon>
                             <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                         </BackBtnIcon> 
-                        <BackBtnText>Wróć</BackBtnText>
+                        <BackBtnText>Back</BackBtnText>
                     </BackBtn>
                     }
                     <div>
@@ -95,13 +92,13 @@ const EnhanceTextCreationPage = ({back, query}: any) => {
                         }          
                         <InputContainer width="100%">
                             <Label>
-                                Tekst do ulepszenia
+                                Text to enhance
                             </Label>
                             <TextArea
                                 id="content-field"
                                 height= "12rem"
                                 padding="0.5rem"
-                                placeholder="Dzień dobry, przykro nam z powodu..."
+                                placeholder="Hello, because of..."
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
                                 required
@@ -109,13 +106,13 @@ const EnhanceTextCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         <InputContainer width="100%">
                             <Label>
-                                Co chcesz ulepszyć?
+                                How to enhance it?
                             </Label>
                             <Input
                                 id="instruction-field"
                                 height= "2.8rem"
                                 padding="0.5rem"
-                                placeholder="napisz tego maila tak, aby brzmiał bardziej profesjonalnie..."
+                                placeholder="make this email feel more professional..."
                                 value={instruction}
                                 onChange={(e) => setInstruction(e.target.value)}
                                 required
@@ -132,7 +129,7 @@ const EnhanceTextCreationPage = ({back, query}: any) => {
                                     <BtnIcon>
                                         <BsStars style={{width: "100%", height: "auto"}}/>
                                     </BtnIcon>
-                                    Wyczaruj treści
+                                    Enhance content
                                 </div>
                                 }
                             </GenerateBtn>

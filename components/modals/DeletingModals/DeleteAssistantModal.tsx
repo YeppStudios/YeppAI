@@ -51,15 +51,15 @@ const DeleteAssistant = (props: {
             </CloseIcon>
                 <div>
                     <Centered><Icon className='text-gray-800'><BsFillTrashFill style={{width: "100%", height: "100%"}} /></Icon></Centered>
-                    {props.assistant ? <Title>Usunąć {props.assistant.name}?</Title> : <Title>Usunąć Asystenta?</Title>}
-                    <Centered><Description>Asystent zostanie usunięty permanentnie i nie można będzie go już odzyskać.</Description></Centered>
+                    {props.assistant ? <Title>Delete {props.assistant.name}?</Title> : <Title>Delete Assistant</Title>}
+                    <Centered><Description>Deleted Assistant cannot be restored.</Description></Centered>
                 </div>   
                 <Centered>
                     <Button onClick={deleteAssistant}>
                         {loading ? 
                         <Loader color='black'/> 
                         : 
-                        <p>Usuń</p>
+                        <p>Delete</p>
                         }
                     </Button>
                 </Centered>

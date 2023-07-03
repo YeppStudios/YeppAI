@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import api from "../../pages/api";
 import dynamic from "next/dynamic";
 import { BsFillEnvelopeFill, BsFillEyeFill, BsFillEyeSlashFill, BsPlusLg } from "react-icons/bs";
-const AddElixir = dynamic(() => import("../Modals/LimitModals/AddElixir"));
+const AddElixir = dynamic(() => import("../Modals/AddingModals/AddElixir"));
 const UpgradeSubscription = dynamic(() => import("../Modals/InformationalModals/UpgradeSubscription"));
 import SlideBottom from "../Animated/SlideBottom";
 import Centered from "../Centered";
@@ -172,8 +172,8 @@ const BottomPanel = () => {
                 id: 'invited',
                 disallowClose: true,
                 autoClose: 5000,
-                title: "Zaproszenie wysłane",
-                message: 'Zaproszenie na adres email: ' + email + ' zostało wysłane.',
+                title: "Invitation sent",
+                message: '' + email + ' should receive an email with an invitation.',
                 color: 'green',
           
                 styles: (theme: any) => ({
@@ -194,8 +194,8 @@ const BottomPanel = () => {
                 id: 'invited',
                 disallowClose: true,
                 autoClose: 5000,
-                title: "Coś poszło nie tak...",
-                message: 'Wystąpił nieoczekiwany problem. Skontaktuj się z nami: hello@asystent.ai',
+                title: "Something went wrong...",
+                message: 'Unexpected error occured. Contact us hello@asystent.ai',
                 color: 'red',
           
                 styles: (theme: any) => ({
@@ -278,7 +278,7 @@ const BottomPanel = () => {
                 renderedTransactions
                 :
                 <NoTransactionsText>
-                    <p style={{width: "70%"}}>Wygeneruj treści a pojawią się tu Twoje wszystkie transakcje</p>
+                    <p style={{width: "70%"}}>Here your elixir transactions will appear. Generate some content!</p>
                 </NoTransactionsText>
                 }
             </Transactions>
@@ -321,7 +321,7 @@ const BottomPanel = () => {
                     )}
                     >
                     <button onClick={() => deleteTeammate(person.email)} className="text-red-400 hover:text-red-600">
-                        Usuń<span className="sr-only">, {person.name}</span>
+                        Delete<span className="sr-only">, {person.name}</span>
                     </button>
                     </td>
                 </tr>
@@ -358,7 +358,7 @@ const BottomPanel = () => {
                                     scope="col"
                                     className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
                                 >
-                                    <span className="sr-only">Usuń</span>
+                                    <span className="sr-only">Delete</span>
                                 </th>
                                 </tr>
                             </thead>
@@ -366,7 +366,7 @@ const BottomPanel = () => {
                             renderedEmployees
                             :
                             <div className="flex text-gray-400 ml-8 pt-8">
-                                <p>Tutaj znajdziesz członków swojego zespołu.</p>
+                                <p>Here you will find your teammates.</p>
                             </div>   
                             }
                             </table>
@@ -404,7 +404,7 @@ const BottomPanel = () => {
             <AboutPlanContainer>
                 <SlideBottom>
                 <BalanceContainer>
-                    <Title>Obecny Bilans</Title>
+                    <Title>Elixir balance</Title>
                     <div style={{width: "100%", textAlign: "right"}}>
                         {(plan && balance) ?
                         <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 7,500</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
@@ -420,9 +420,9 @@ const BottomPanel = () => {
                     </FuelBar>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
                         {plan ?
-                            <Button onClick={() => setOpenElixirModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Doładuj Elixir</ButtonText></Button>
+                            <Button onClick={() => setOpenElixirModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>+ Replenish elixir</ButtonText></Button>
                             :
-                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Doładuj Elixir</ButtonText></Button>
+                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>+ Replenish elixir</ButtonText></Button>
                         }
                     </div>
                 </BalanceContainer>
@@ -430,11 +430,11 @@ const BottomPanel = () => {
                 {(plan) ?
                 <SlideBottom>
                 <PlanContainer>
-                    <Title>Obecny Plan</Title>
+                    <Title>Active plan</Title>
                     <CurrentPlanTitle>{plan.name}</CurrentPlanTitle>
                     <MonthlyTokens>+{plan.monthlyTokens.toLocaleString()}ml / msc</MonthlyTokens>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
-                        <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Ulepsz Plan</ButtonText></Button>
+                        <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>+ Upgrade plan</ButtonText></Button>
                     </div>
                 </PlanContainer>
                 </SlideBottom>
@@ -443,22 +443,22 @@ const BottomPanel = () => {
                 {(user.plan && plan) ?
                 <SlideBottom>
                     <PlanContainer>
-                        <Title>Obecny Plan</Title>
+                        <Title>Active plan</Title>
                         <CurrentPlanTitle>{plan.name}</CurrentPlanTitle>
                         <MonthlyTokens>+{plan.monthlyTokens}ml / msc</MonthlyTokens>
                         <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
-                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><BsPlusLg style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Ulepsz Plan</ButtonText></Button>
+                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                         </div>
                     </PlanContainer>
                 </SlideBottom>     
                 :
                 <SlideBottom>
                     <PlanContainer>
-                        <Title>Obecny Plan</Title>
+                        <Title>Active plan</Title>
                         <CurrentPlanTitle>Assistant Business</CurrentPlanTitle>
                         <MonthlyTokens>+1 000 000ml / msc</MonthlyTokens>
                         <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
-                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><BsPlusLg style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Ulepsz Plan</ButtonText></Button>
+                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                         </div>
                     </PlanContainer>
                 </SlideBottom>           
@@ -471,7 +471,7 @@ const BottomPanel = () => {
              <>
             {(user._id !== workspaceCompany._id || user.plan !== "6444d4394ab2cf9819e5b5f4") ?
                 <ListContainer>
-                    <Title>Historia Transakcji</Title>
+                    <Title>Elixir transactions</Title>
                     {renderTransactions()}
                 </ListContainer>
             :
@@ -480,7 +480,7 @@ const BottomPanel = () => {
                     <div style={{height: "100%"}} className="px-2 sm:px-6 lg:px-4 w-full flex flex-wrap">
                     <div className="sm:flex w-full justify-space">
                         <div className="sm:flex-auto">
-                        <Title>Twój zespół</Title>
+                        <Title>Your team</Title>
                         </div>
                         <form onSubmit={(e) => addTeammate(e)} className="sm:ml-20 mt-4 lg:mt-0 flex items-center">
                         <input
@@ -496,7 +496,7 @@ const BottomPanel = () => {
                             {loading ?
                                 <Loader color="white"/>
                                 : 
-                                <><ButtonIcon><BsFillEnvelopeFill style={{width: "90%", height: "100%"}}/></ButtonIcon><ButtonText>Zaproś</ButtonText></>
+                                <><ButtonIcon><BsFillEnvelopeFill style={{width: "90%", height: "100%"}}/></ButtonIcon><ButtonText>Invite</ButtonText></>
                             }
                         </SendBtn>
                         </form>
@@ -508,8 +508,8 @@ const BottomPanel = () => {
                 <SlideBottom>
                     <APIContainer>
                         <div style={{display: "flex", alignItems: "flex-end"}}>
-                        <Title>Klucz API</Title>
-                        <OptionDescription>Dzięki niemu możesz używać Asystenta na swojej stronie</OptionDescription>
+                        <Title>API key</Title>
+                        <OptionDescription>Thanks to it you can access chatbots and assets beyond our platform.</OptionDescription>
                         </div>
                         <ApiKeyContainer>
                             {showApiKey ? <p>{apiKey}</p> : <p>************************</p>}
@@ -530,13 +530,13 @@ const BottomPanel = () => {
             <AboutPlanContainer>
                     <SlideBottom>
                     <ShareContainer onClick={() => setOpenReferralModal(true)} background={shareBg}>
-                        <Title>Odbierz darmowe 30 000 elixiru</Title>
-                        <p style={{width: "100%"}}>Poleć Asystenta AI znajomym i zyskaj!</p>
+                        <Title>Get 30 000 elixir for free</Title>
+                        <p style={{width: "100%"}}>Share Yepp and earn free elixir!</p>
                     </ShareContainer>
                 </SlideBottom>  
                 <SlideBottom>
                 <BalanceContainer>
-                    <Title>Obecny Bilans</Title>
+                    <Title>Elixir balance</Title>
                     <div style={{width: "100%", textAlign: "right"}}>
                         {(plan && balance) ?
                         <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 7,500</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
@@ -552,9 +552,9 @@ const BottomPanel = () => {
                     </FuelBar>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
                         {plan ?
-                            <Button onClick={() => setOpenElixirModal(true)}><ButtonIcon><BsPlusLg style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Doładuj Elixir</ButtonText></Button>
+                            <Button onClick={() => setOpenElixirModal(true)}><ButtonText>+ Replenish elixir</ButtonText></Button>
                             :
-                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><BsPlusLg style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Doładuj Elixir</ButtonText></Button>
+                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Replenish elixir</ButtonText></Button>
                         }
                     </div>
                 </BalanceContainer>
@@ -562,11 +562,11 @@ const BottomPanel = () => {
                 {(plan) ?
                 <SlideBottom>
                 <PlanContainer>
-                    <Title>Obecny Plan</Title>
+                    <Title>Active plan</Title>
                     <CurrentPlanTitle>{plan.name}</CurrentPlanTitle>
                     <MonthlyTokens>+{plan.monthlyTokens.toLocaleString()}ml / msc</MonthlyTokens>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
-                        <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><BsPlusLg style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Ulepsz Plan</ButtonText></Button>
+                        <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                     </div>
                 </PlanContainer>
                 </SlideBottom>
@@ -575,22 +575,22 @@ const BottomPanel = () => {
                 {workspaceCompany._id ?
                 <SlideBottom>
                     <PlanContainer>
-                        <Title>Obecny Plan</Title>
+                        <Title>Active plan</Title>
                         <CurrentPlanTitle>Assistant Business</CurrentPlanTitle>
                         <MonthlyTokens>+1 000 000ml / msc</MonthlyTokens>
                         <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
-                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><BsPlusLg style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Ulepsz Plan</ButtonText></Button>
+                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                         </div>
                     </PlanContainer>
                 </SlideBottom>     
                 :
                 <SlideBottom>
                     <PlanContainer>
-                        <Title>Obecny Plan</Title>
+                        <Title>Active plan</Title>
                         <CurrentPlanTitle>Freemium</CurrentPlanTitle>
                         <MonthlyTokens>+0ml / msc</MonthlyTokens>
                         <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
-                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><BsPlusLg style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Ulepsz Plan</ButtonText></Button>
+                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                         </div>
                     </PlanContainer>
                 </SlideBottom>           
@@ -851,7 +851,7 @@ const Balance = styled.div`
 
 const Button = styled.button`
     height: 5vh;
-    width: 11.5vw;
+    width: 12.5vw;
     text-align: center;
     background-color: transparent;
     color: white;

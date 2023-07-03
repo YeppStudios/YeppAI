@@ -94,23 +94,23 @@ const SurveyModal = (props: {onClose: any}) => {
                     <p className="text-5xl mb-6">🌎</p>
                 </Centered>
                 <Centered>
-                    <p className="text-xl font-medium text-gray-500">SZYBKIE PYTANIE</p>
+                    <p className="text-xl font-medium text-gray-500">QUICK QUESTION</p>
                 </Centered>
                 <Centered>
-                        <ModalTitle>Czy poradził/a byś sobie, gdyby panel był w języku angielskim?</ModalTitle>
+                        <ModalTitle>Question</ModalTitle>
                 </Centered>
                     <Centered>
                         <ButtonsContainer>
                             <Tab onClick={() => selectOption(true)}>
                                 <div style={{display: "flex", alignItems: "center", width: "100%", justifyContent: "center"}}>
                                 <AssistantIcon><Image style={{ width: "auto", height: "100%" }} src={tickIcon} alt={'logo'}></Image></AssistantIcon>
-                                    Tak
+                                    Yes
                                 </div>
                             </Tab>
                             <Tab onClick={() => selectOption(false)}>
                                 <div style={{display: "flex", alignItems: "center", width: "100%", justifyContent: "center"}}>
                                 <AssistantIcon><Image style={{ width: "auto", height: "100%" }} src={xIcon} alt={'logo'}></Image></AssistantIcon>
-                                   Nie
+                                   No
                                 </div>
                             </Tab>
                             <Centered>

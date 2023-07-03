@@ -31,7 +31,7 @@ const AddWrittenContent = (props: {
     const [loading, setLoading] = useState(false);
     const [exampleLengthError, setExampleLengthError] = useState(false);
     const [fileLoading, setFileLoading] = useState(false);
-    const [chosenFolder, setChosenFolder] = useState<any>({title: "Wybierz folder"});
+    const [chosenFolder, setChosenFolder] = useState<any>({title: "Choose folder"});
     const [savingOption, setSavingOption] = useState(1);
     const [folderName, setFolderName] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -44,15 +44,15 @@ const AddWrittenContent = (props: {
     const dispatch = useDispatch();
 
     const texts = [
-        `Analiza zawartości ${name}`,
-        `Skanowanie treści...`,
-        "Wczytywanie kontekstu...",
-        "Przyswajanie wiedzy...",
-        "Zapisywanie nazw...",
-        "Kategoryzowanie informacji...",
-        "Jeszcze chwila...",
-        "Powtarzam proces...",
-      ];
+      "Analyzing content...",
+      `Give me a sec...`,
+      "Loading context...",
+      "Learning...",
+      "Saving files...",
+      "Categorizing information...",
+      "Just a moment...",
+      "Repeating the process...",
+    ];
 
     //loading texts
     useEffect(() => {
@@ -236,17 +236,17 @@ const AddWrittenContent = (props: {
                 {(!fileLoading && !openChooseFolder && !success ) &&
                 <div>
                     {/* <Centered><Icon className='text-gray-800'><BsFillPencilFill style={{width: "100%", height: "100%"}} /></Icon></Centered> */}
-                    <Title>Dodaj swoje treści</Title>
-                    <Centered><Description>Wpisz lub wklej wartościowe informacje lub wykluczenia.</Description></Centered>
+                    <Title>Add your content</Title>
+                    <Centered><Description>Write or paste content you want AI to reference.</Description></Centered>
                     <Form autoComplete="off">
                             <div>
                                 <Label>
-                                    Nazwa dokumentu
+                                    Title
                                 </Label>
                                 <Input
                                     id="name"
                                     type="text"
-                                    placeholder="Nowy dokument"
+                                    placeholder="New title"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
@@ -255,14 +255,14 @@ const AddWrittenContent = (props: {
                             </div>
                             <div>
                                 <Label>
-                                    Treść
+                                    Content
                                 </Label>
                                 <Content>
                                 <TextArea
                                     id="content"
                                     height= "100%"
                                     padding="0.5rem"
-                                    placeholder="Wpisz tutaj informacje o których chcesz aby Asystent wiedział..."
+                                    placeholder="Paste or write something..."
                                     value={text}
                                     onChange={(e) => setText(e.target.value)}
                                     required
@@ -283,7 +283,7 @@ const AddWrittenContent = (props: {
                                     <Loader color="black"/>
                                 </div>
                                 :
-                                <p>Dodaj</p>
+                                <p>Upload</p>
                                 }
                             </Button>
                             </Centered>
@@ -293,20 +293,20 @@ const AddWrittenContent = (props: {
                 {(openChooseFolder && !success) &&
                   <div>
                     <Centered><Icon><BsFolderPlus style={{width: "100%", height: "auto", color: "black"}} /></Icon></Centered>
-                      <Centered><Title>Zapisz treść w:</Title></Centered>
+                      <Centered><Title>Save content in:</Title></Centered>
                           {!selectedFolder._id &&
                           <>
                           <ToggleContainer>
                               {savingOption === 1 &&
                                   <>
-                                      <SelectedToggleBtn>Nowym folderze</SelectedToggleBtn>
-                                      <ToggleBtn onClick={() => setSavingOption(2)}>Istniejącym folderze</ToggleBtn>
+                                      <SelectedToggleBtn>New folder</SelectedToggleBtn>
+                                      <ToggleBtn onClick={() => setSavingOption(2)}>Existing folder</ToggleBtn>
                                   </>
                               }
                               {savingOption === 2 &&
                                   <>
-                                      <ToggleBtn onClick={() => setSavingOption(1)}>Nowym folderze</ToggleBtn>
-                                      <SelectedToggleBtn>Istniejącym folderze</SelectedToggleBtn>
+                                      <ToggleBtn onClick={() => setSavingOption(1)}>New folder</ToggleBtn>
+                                      <SelectedToggleBtn>Existing folder</SelectedToggleBtn>
                                   </>
                               }
                           </ToggleContainer>
@@ -318,7 +318,7 @@ const AddWrittenContent = (props: {
                                     width="70%"
                                     id="folder"
                                     type="text"
-                                    placeholder="Stwórz nowy folder"
+                                    placeholder="Create new folder"
                                     required
                                     value={chosenFolder}
                                     values={props.folders}
@@ -334,7 +334,7 @@ const AddWrittenContent = (props: {
                                 <Input
                                     id="name"
                                     type="text"
-                                    placeholder="Nazwa nowego folderu"
+                                    placeholder="Folder title"
                                     value={folderName}
                                     onChange={(e) => setFolderName(e.target.value)}
                                     required
@@ -352,7 +352,7 @@ const AddWrittenContent = (props: {
                                     <Loader color="black"/>
                                 </div>
                             :
-                            <p>Zapisz</p>
+                            <p>Save</p>
                             }
                         </Button>
                         :
@@ -362,7 +362,7 @@ const AddWrittenContent = (props: {
                                     <Loader color="black"/>
                                 </div>
                             :
-                            <p>Kontynuuj</p>
+                            <p>Continue</p>
                             }
                         </Button>
                         }
@@ -371,7 +371,7 @@ const AddWrittenContent = (props: {
                       }
                 {fileLoading &&
                 <div>
-                  <Title>Wgrywanie treści</Title>
+                  <Title>Uploading content...</Title>
                     <ThinkingContainer>
                         <Centered><TypingAnimation colorful={true} /></Centered>
                         <Centered><Texts>{texts[currentIndex]}</Texts></Centered>
@@ -381,7 +381,7 @@ const AddWrittenContent = (props: {
                 { success &&
                     <div>
                       <Centered><SuccessIcon><BsCheckLg className="text-green-400" style={{width: "100%", height: "100%"}}/></SuccessIcon></Centered>
-                      <Title>Treść zapisana</Title>
+                      <Title>Content saved</Title>
                       <Space margin='1rem 0 0 0'></Space>
                       <Centered>
                       <Button onClick={handleOpenFolder}>
@@ -390,7 +390,7 @@ const AddWrittenContent = (props: {
                                     <Loader color="black"/>
                                 </div>
                             :
-                            <p>Przejdź do folderu</p>
+                            <p>Open folder</p>
                             }
                       </Button>
                       </Centered>

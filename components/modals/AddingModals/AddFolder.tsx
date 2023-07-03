@@ -70,7 +70,7 @@ const AddFolder = (props: {
                 setLoading(false);
             }
         } else {
-            alert("Nazwa folderu musi mieć co najmniej 2 znaki.")
+            alert("Title needs to be at least 2 characters long.")
         }
 
     }
@@ -84,18 +84,17 @@ const AddFolder = (props: {
             </CloseIcon>
                 <div>
                     <Centered><Icon className='text-gray-800'><BsFolder style={{width: "100%", height: "100%"}} /></Icon></Centered>
-                    <Title>Dodaj nowy folder</Title>
-                    {/* <Centered><Description>Stwórz swojego Asystenta AI w minutę na bazie swojej strony internetowej.</Description></Centered> */}
+                    <Title>Add new folder</Title>
                     <Form autoComplete="off" onSubmit={(e) => addNewFolder(e)}>
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                           <div>
                                 <Label>
-                                    Nazwa folderu
+                                    Folder name
                                 </Label>
                                 <Input
                                     id="name"
                                     type="text"
-                                    placeholder="Fajny folder"
+                                    placeholder="New Folder"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
@@ -108,7 +107,7 @@ const AddFolder = (props: {
                                       <Loader color="black"/>
                                 </div>
                                 :
-                                <p>Zapisz</p>
+                                <p>Save</p>
                                 }
                             </Button>
                         </div>

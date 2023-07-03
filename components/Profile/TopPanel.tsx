@@ -77,9 +77,9 @@ const TopPanel = (props: {stats: any}) => {
             {openUpgradeModal && <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} />}
             <HeaderButtons>
                 {user.plan ?
-                 <SubscriptionButton onClick={() => setOpenSubscriptionModal(true)}>Subskrypcja</SubscriptionButton>
+                 <SubscriptionButton onClick={() => setOpenSubscriptionModal(true)}>Subscription</SubscriptionButton>
                  :
-                 <SubscriptionButton onClick={() => setOpenUpgradeModal(true)}>Subskrypcja</SubscriptionButton>
+                 <SubscriptionButton onClick={() => setOpenUpgradeModal(true)}>Subscription</SubscriptionButton>
                 }
                 <Menu as="div" className="relative inline-block text-left">
                 <div>
@@ -113,7 +113,7 @@ const TopPanel = (props: {stats: any}) => {
                               className="mr-3 h-6 w-5 text-gray-400 group-hover:text-gray-500"
                               aria-hidden="true"
                             />
-                            Wyloguj mnie
+                            Log out
                           </button>
                         )}
                       </Menu.Item>
@@ -127,7 +127,7 @@ const TopPanel = (props: {stats: any}) => {
                             )}
                           >
                             <BsTrash className="mr-3 h-5 w-5 text-red-400 group-hover:text-gray-500" aria-hidden="true" />
-                            Usuń konto
+                            Delete account
                           </button>
                         )}
                       </Menu.Item>
@@ -135,7 +135,7 @@ const TopPanel = (props: {stats: any}) => {
                 </Transition>
               </Menu>
             </HeaderButtons>
-            <WelcomeText>Cześć, {user.name}
+            <WelcomeText>Hello, {user.name}
                 {/* <SwitchContent onClick={(e) => e.stopPropagation()}>
                     <SwitchIcon onClick={() => props.openProfiles()}>
                         <BsChevronExpand style={{width: "100%", height: "auto"}}/>
@@ -145,7 +145,7 @@ const TopPanel = (props: {stats: any}) => {
                     </DropdownContainer>}
                 </SwitchContent> */}
             </WelcomeText>
-            <TopText><ShareLink onClick={() => setOpenReferralModal(true)}><b>Poleć Asystenta znajomemu i zgarnijcie po 30 000ml elixiru!</b></ShareLink></TopText>
+            <TopText><ShareLink onClick={() => setOpenReferralModal(true)}><b>Share Yepp and get extra 30 000 elixir for free!</b></ShareLink></TopText>
             {/* <StatsContainer>
                 <Stat>
                     <StatIcon image={socialMediaIcon}>

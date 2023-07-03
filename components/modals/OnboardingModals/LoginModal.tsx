@@ -249,17 +249,17 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 {registration ?
                 // !openVerification ?
                 <div>
-                    <ModalTitle>Zarejestruj się</ModalTitle>
+                    <ModalTitle>Register</ModalTitle>
                     <Form autoComplete="off" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                             <div>
                                 <Label>
-                                    Imię
+                                    First name
                                 </Label>
                                 <Input
                                     id="name"
                                     type="text"
-                                    placeholder="Piotr"
+                                    placeholder="Filip"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
@@ -283,7 +283,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             }
                             <div>
                                 <Label>
-                                    Hasło {registrationPasswordError && <LabelErrorMessage>wpisz co najmniej 5 znaków</LabelErrorMessage>}
+                                    Password {registrationPasswordError && <LabelErrorMessage>at least 5 characters</LabelErrorMessage>}
                                 </Label>
                                 <Input
                                     id="password"
@@ -298,7 +298,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             <DisclaimersContainer>
                                 <div></div>
                                 {!workspace &&
-                                    <RegisterText>Masz już konto? <RegisterLink onClick={() => setRegistration(false)}>Zaloguj się</RegisterLink></RegisterText>
+                                    <RegisterText>Already have an account? <RegisterLink onClick={() => setRegistration(false)}>Log in</RegisterLink></RegisterText>
                                 }
                                
                             </DisclaimersContainer>
@@ -311,7 +311,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                     required
                                 />
                                 <RegisterText>
-                                    <a href={"/Regulamin_AsystentAI.pdf"} download>Wyrażam zgodę <b>regulamin i politykę prywatności</b></a>
+                                    <a href={"/Regulamin_AsystentAI.pdf"} download>I agree with <b>terms of use & privacy policy</b></a>
                                 </RegisterText>
                             </CheckboxContainer>
 
@@ -321,7 +321,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                       <Loader color="white"/>
                                 </div>
                                 :
-                                <p>Zaczynajmy!</p>
+                                <p>Register</p>
                                 }
                             </Button>
                         </div>
@@ -366,7 +366,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 // :
                 !resetPassword ?
                 <div>
-                    <ModalTitle>Zaloguj się</ModalTitle>
+                    <ModalTitle>Log in</ModalTitle>
                     <Form autoComplete="off" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                             {loginError &&
@@ -390,7 +390,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             </div>
                             <div>
                                 <Label>
-                                    Hasło
+                                    Password
                                 </Label>
                                 <Input
                                     id="password"
@@ -404,11 +404,11 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             </div>
                             <DisclaimersContainer>
                                 {mobile ?
-                                 <RegisterText><RegisterLink onClick={() => setRegistration(true)}>Zarejestruj się</RegisterLink></RegisterText>
+                                 <RegisterText><RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
                                  :
-                                 <RegisterText>Nie masz konta?<RegisterLink onClick={() => setRegistration(true)}>Zarejestruj się</RegisterLink></RegisterText>
+                                 <RegisterText>No account?<RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
                                 }
-                                <ResetPassword onClick={() => setResetPassword(true)}>Zresetuj hasło</ResetPassword>
+                                <ResetPassword onClick={() => setResetPassword(true)}>Reset password</ResetPassword>
                             </DisclaimersContainer>
                             <Button id="login-btn" type="submit">
                                 {loading ?
@@ -416,7 +416,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                     <Loader color="white" />
                                 </div>
                                 :
-                                <p>Kontynuuj</p>
+                                <p>Log in</p>
                                 }
                             </Button>
                         </div>
@@ -424,12 +424,12 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 </div>   
                 :
                 <div>
-                <ModalTitle>Zresetuj hasło</ModalTitle>
+                <ModalTitle>Reset password</ModalTitle>
                 <Form autoComplete="off" onSubmit={sendResetLink} onClick={(e) => e.stopPropagation()}>
                     <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                         {resetError &&
                         <Centered>
-                            <LoginErrorMessage>Niepoprawny email</LoginErrorMessage>
+                            <LoginErrorMessage>Incorrect email</LoginErrorMessage>
                         </Centered>
                         }
                         <div>
@@ -447,11 +447,11 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                         </div>
                         <DisclaimersContainer>
                                 {mobile ?
-                                 <RegisterText><RegisterLink onClick={() => setRegistration(true)}>Zarejestruj się</RegisterLink></RegisterText>
+                                 <RegisterText><RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
                                  :
-                                 <RegisterText>Nie masz konta?<RegisterLink onClick={() => setRegistration(true)}>Zarejestruj się</RegisterLink></RegisterText>
+                                 <RegisterText>No account?<RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
                                 }
-                            <ResetPassword onClick={() => setResetPassword(false)}>Zaloguj się</ResetPassword>
+                            <ResetPassword onClick={() => setResetPassword(false)}>Log in</ResetPassword>
                         </DisclaimersContainer>
                         <Button type="submit">
                             {loading ?
@@ -459,14 +459,13 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 <Loader color="white" />
                             </div>
                             :
-                            <p>Wyślij maila z linkem</p>
+                            <p>Send an email</p>
                             }
                         </Button>
                     </div>
                 </Form>  
             </div>   
                 }
-
             </LoginContainer>
             </SlideBottom>
         </ModalBackground>

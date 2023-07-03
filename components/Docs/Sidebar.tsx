@@ -15,21 +15,21 @@ import Link from 'next/link';
 import { useRouter } from 'next/router'
 
 const navigation = [
-  { name: 'Strona Główna', link: '/', mobileLink: "/", icon: HomeIcon, current: false },
-  { name: 'Panel Aplikacji', link: '/assets', mobileLink: "/chat", icon: WindowIcon, current: false },
-  { name: 'Dokumentacja', link: '/docs', mobileLink: "/docs", icon: DocumentTextIcon, current: false },
-  { name: 'Oferta', link: '/pricing?type=business', mobileLink: "/pricing?type=business", icon: SwatchIcon, current: false },
+  { name: 'Homepage', link: '/', mobileLink: "/", icon: HomeIcon, current: false },
+  { name: 'App Dashboard', link: '/resources', mobileLink: "/chat", icon: WindowIcon, current: false },
+  { name: 'Documentation', link: '/docs', mobileLink: "/docs", icon: DocumentTextIcon, current: false },
+  { name: 'Pricing', link: '/pricing?type=business', mobileLink: "/pricing?type=business", icon: SwatchIcon, current: false },
 ]
 const tutorial = [
-  { id: 1, name: 'Pierwsze Kroki', tab: "getting-started", initial: 'P' },
-  { id: 2, name: 'Wgrywanie Wiedzy', tab: "uploading-knowledge", initial: 'W' },
-  { id: 3, name: 'Generowanie Treści', tab: "generating-content", initial: 'G' },
-  { id: 4, name: 'O Elixirze', tab: "elixir", initial: 'O' },
+  { id: 1, name: 'First Steps', tab: "getting-started", initial: 'F' },
+  { id: 2, name: 'Uploading Knowledge', tab: "uploading-knowledge", initial: 'U' },
+  { id: 3, name: 'Generating Content', tab: "generating-content", initial: 'G' },
+  { id: 4, name: 'About Elixir', tab: "elixir", initial: 'A' },
 ]
 
 const api = [
-    { id: 1, name: 'Dokumentacja', tab: "api-documentation", initial: 'D' },
-    { id: 2, name: 'Tutorial', tab: "tutorial", initial: 'T' }
+  { id: 1, name: 'Documentation', tab: "api-documentation", initial: 'D' },
+  { id: 2, name: 'Tutorial', tab: "tutorial", initial: 'T' }
   ]
 
 function classNames(...classes: string[]) {
@@ -158,7 +158,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                           </ul>
                         </li>
                         <li>
-                        <div className="text-xs font-semibold leading-6 text-gray-400">Dokumentacja API</div>
+                        <div className="text-xs font-semibold leading-6 text-gray-400">API Documentation</div>
                         <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {api.map((apiTab) => (
                             <li key={apiTab.name}>
@@ -188,7 +188,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                         </ul>
                         </li>
                         <li>
-                          <div className="text-xs font-semibold leading-6 text-gray-400">Przewodnik po platformie</div>
+                        <div className="text-xs font-semibold leading-6 text-gray-400">Dashboard guide</div>
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {tutorial.map((tutorial) => (
                               <li key={tutorial.name}>
@@ -285,7 +285,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                   </ul>
                 </li>
                 <li>
-                  <div className="text-xs font-semibold leading-6 text-gray-400">Przewodnik po platformie</div>
+                <div className="text-xs font-semibold leading-6 text-gray-400">Dashboard guide</div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {tutorial.map((tutorial) => (
                       <li key={tutorial.name}>
@@ -315,7 +315,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                   </ul>
                 </li>
                 <li>
-                  <div className="text-xs font-semibold leading-6 text-gray-400">Dokumentacja API</div>
+                <div className="text-xs font-semibold leading-6 text-gray-400">API Documentation</div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {api.map((apiTab) => (
                       <li key={apiTab.name}>

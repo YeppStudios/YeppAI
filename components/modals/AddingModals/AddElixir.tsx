@@ -61,7 +61,7 @@ const AddElixir = ({onClose}: any) => {
                 <CloseIcon onClick={onClose}>
                     <BsXLg style={{width: "100%", height: "auto"}}/>
                 </CloseIcon>
-                <ModalTitle>Doładuj Elixir Kreatywności</ModalTitle>
+                <ModalTitle>Replenish your elixir</ModalTitle>
                 <Centered>
                 <ElixirsContainer>
                     <ElixirContainer>
@@ -72,7 +72,7 @@ const AddElixir = ({onClose}: any) => {
                         </Centered>
                         <ElixirAmount>+ 30 000ml</ElixirAmount>
                         <Price>24, 99zł</Price>
-                        <Button onClick={() => purchaseElixir(30000, "price_1NBAYyFe80Kn2YGGmTM0y2ER")}>+ <ButtonText>Doładuj</ButtonText></Button>
+                        <Button onClick={() => purchaseElixir(30000, "price_1NBAYyFe80Kn2YGGmTM0y2ER")}>+ <ButtonText>Add</ButtonText></Button>
                     </ElixirContainer>
                     <ElixirContainer>
                         <Centered>
@@ -82,7 +82,7 @@ const AddElixir = ({onClose}: any) => {
                         </Centered>
                         <ElixirAmount>+ 100 000ml</ElixirAmount>
                         <Price>99, 99zł</Price>
-                        <Button onClick={() => purchaseElixir(100000, "price_1NBAbsFe80Kn2YGGEHbkus2g")}>+ <ButtonText>Doładuj</ButtonText></Button>
+                        <Button onClick={() => purchaseElixir(100000, "price_1NBAbsFe80Kn2YGGEHbkus2g")}>+ <ButtonText>Add</ButtonText></Button>
                     </ElixirContainer>
                     <ElixirContainer>
                         <Centered>
@@ -92,15 +92,14 @@ const AddElixir = ({onClose}: any) => {
                         </Centered>
                         <ElixirAmount>+ 500 000ml</ElixirAmount>
                         <Price>429, 00zł</Price>
-                        <Button onClick={() => purchaseElixir(500000, "price_1NBAcoFe80Kn2YGG7IkK4m63")}>+ <ButtonText>Doładuj</ButtonText></Button>
+                        <Button onClick={() => purchaseElixir(500000, "price_1NBAcoFe80Kn2YGG7IkK4m63")}>+ <ButtonText>Add</ButtonText></Button>
                     </ElixirContainer>
                 </ElixirsContainer>
                 </Centered>
                 <Centered>
                     <ElixirDescription>
-                        Elixir kreatywności jest niezbędny do generowania treści. 
-                        Pobierany jest za to, co Asystent napisze, twoje pytania i w przypadku chatu 
-                        za dwie poprzednie wiadomości, dzięki którym Asystent zna kontekst.
+                    Elixir is essential for generating content. 
+                    It is consumed by Assistant for writing text and understanding your questions.
                     </ElixirDescription>
                 </Centered>
             </ModalContainer>
@@ -234,6 +233,7 @@ const Button = styled.button`
 `
 const ButtonText = styled.p`
     margin-left: 0.5vw;
+    font-weight: 700;
 `
 
 const ButtonIcon = styled.div`

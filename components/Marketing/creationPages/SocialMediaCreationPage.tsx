@@ -23,6 +23,7 @@ import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
 import api from "@/pages/api";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
+import Input from "@/components/forms/Input";
 
 interface InputContainer {
     width: string;
@@ -32,19 +33,19 @@ interface TextArea {
     height: string;
 }
 
-const contentLength = ["Krótki", "Średni", "Długi"];
-const postTypes = ["Edukacyjny", "Informacyjny", "Reklamowy", "Lifestyle"];
-const styles = ["Formalny 💼", "Przyjazny 😊", "Treściwy 📃", "Przekonujący 🫵🏼", "Motywacyjny 📈"];
-const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński"];
+const contentLength = ["Short", "Medium", "Long"];
+const postTypes = ["Educational", "Informative", "Advertisement", "Lifestyle"];
+const styles = ["Formal 💼", "Friendly 😊", "Concise 📃", "Persuasive 🫵🏼", "Motivational 📈"];
+const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E6}-\u{1F1FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1F600}-\u{1F64F}\u{1F900}-\u{1F9FF}\u{1F300}-\u{1F5FF}]/gu;
 
 const SocialMediaCreationPage = ({back, query}: any) => {
 
-    const [completionLength, setCompletionLength] = useState("Średni");
-    const [postType, setPostType] = useState("Reklamowy");
-    const [style, setStyle] = useState("Przyjazny 😊");
+    const [completionLength, setCompletionLength] = useState("Medium");
+    const [postType, setPostType] = useState("Advertisement");
+    const [style, setStyle] = useState("Friendly 😊");
     const [about, setAbout] = useState("");
-    const [language, setLanguage] = useState("Polski");
+    const [language, setLanguage] = useState("English");
     const [targetAudience, setTargetAudience] = useState("");
     const [loading, setLoading] = useState(false);
     const [formLoading, setFormLoading] = useState(true);
@@ -67,26 +68,26 @@ const SocialMediaCreationPage = ({back, query}: any) => {
         setPrompt("");
         setLoading(true);
         let replyLength = "in around 60 words"
-        if(completionLength === "Krótki") {
+        if(completionLength === "Short") {
             replyLength = "in around 25 words"
-        } else if (completionLength === "Długi") {
+        } else if (completionLength === "Long") {
             replyLength = "in around 125 words"
-        } else if (completionLength === "Bardzo długi") {
+        } else if (completionLength === "Very long") {
             replyLength = "that is minimum 200 words long"
         }
         if (query.type === "Twitter") {
             replyLength = "in around 90 characters"
-            if(completionLength === "Krótki") {
+            if(completionLength === "Short") {
                 replyLength = "in around 50 characters"
-            } else if (completionLength === "Długi") {
+            } else if (completionLength === "Long") {
                 replyLength = "in around 150 characters"
-            } else if (completionLength === "Bardzo długi") {
+            } else if (completionLength === "Very long") {
                 replyLength = "in around 250 characters"
             }
         }
 
         setPrompt(`You are an experienced social media content creator. Write exactly 1 unique ${postType} post on ${query.type} about ${about} ${replyLength}. Make sure to write it in ${style.replace(emojiRegex, '')} tone of voice. The post should draw attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group.`)
-        setTitle(`Wygenerowanie wpisu- ${query.type}`)
+        setTitle(`Generated post- ${query.type}`)
     }
 
     return (
@@ -96,7 +97,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Wróć</BackBtnText>
+                    <BackBtnText>Back</BackBtnText>
                 </BackBtn>
             }
                 {query.type && 
@@ -106,7 +107,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         <BackBtnIcon>
                             <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                         </BackBtnIcon> 
-                        <BackBtnText>Wróć</BackBtnText>
+                        <BackBtnText>Back</BackBtnText>
                     </BackBtn>
                     }
                     <div>
@@ -117,20 +118,14 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         }
                         <InputContainer width="50%">
-                        {query.type === "Twitter" ?
                             <Label>
-                                Długość tweeta
-                            </Label>     
-                            :
-                            <Label>
-                                Długość posta
+                                Content length
                             </Label>                        
-                            }
                             <Dropdown
                                 width="100%"
                                 id="name"
                                 type="text"
-                                placeholder="Piotr"
+                                placeholder="100 words"
                                 required
                                 value={completionLength}
                                 values={contentLength}
@@ -141,18 +136,18 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         <InputContainer width="50%">
                             {query.type === "Twitter" ?
                             <Label>
-                                Rodzaj tweeta
+                                Tweet type
                             </Label>     
                             :
                             <Label>
-                                Rodzaj posta
+                                Post type
                             </Label>                        
                             }
 
                             <Dropdown
                                 id="name"
                                 type="text"
-                                placeholder="Reklamowy"
+                                placeholder="Advertising"
                                 required
                                 value={postType}
                                 values={postTypes}
@@ -162,12 +157,12 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         <InputContainer width="50%">
                             <Label>
-                                Ton wypowiedzi
+                                Tone of voice
                             </Label>
                             <Dropdown
                                 id="name"
                                 type="text"
-                                placeholder="Przyjazny 😊"
+                                placeholder="Friendly 😊"
                                 required
                                 value={style}
                                 values={styles}
@@ -177,12 +172,12 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         <InputContainer width="50%">
                             <Label>
-                                Język
+                                Language
                             </Label>
                             <Dropdown
                                 id="languages"
                                 type="text"
-                                placeholder="Facebook"
+                                placeholder="English"
                                 required
                                 value={language}
                                 values={languages}
@@ -192,13 +187,13 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         <InputContainer width="100%">
                             <Label>
-                                Napisz o...
+                                Write about...
                             </Label>
                             <TextArea
                                 id="about-field"
-                                height= "4.2rem"
-                                padding="0.5rem"
-                                placeholder="o nowej ofercie pracy na stanowisku full stack developera"
+                                height= "6.2rem"
+                                padding="0.7rem"
+                                placeholder="uploading data in yepp.ai app"
                                 value={about}
                                 onChange={(e) => setAbout(e.target.value)}
                                 required
@@ -206,13 +201,13 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                         </InputContainer>
                         <InputContainer width="100%">
                             <Label>
-                                Grupa docelowa
+                                Target audience
                             </Label>
-                            <TextArea
+                            <Input
                                 id="target-adience-field"
                                 height= "2.6rem"
-                                padding="0.5rem"
-                                placeholder="młodzi, początkujący programiści"
+                                padding="0.7rem"
+                                placeholder="marketing experts"
                                 value={targetAudience}
                                 onChange={(e) => setTargetAudience(e.target.value)}
                                 required
@@ -229,7 +224,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                                     <BtnIcon>
                                         <BsStars style={{width: "100%", height: "auto"}}/>
                                     </BtnIcon>
-                                    Wyczaruj treści
+                                    Generate content
                                 </div>
                                 }
                             </GenerateBtn>

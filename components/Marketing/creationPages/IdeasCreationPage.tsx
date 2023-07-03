@@ -57,7 +57,7 @@ const IdeaCreator = ({back, query}: any) => {
     setKey((prevKey) => prevKey + 1);
     setLoading(true);
     setPrompt(`Act as an idea generator. Come up with ${numberOfIdeas} excellent ideas for ${idea}. Ensure each suggestion is specific, well-considered, and feasible. Try to think outside the box, and build on the original concept of ${idea}. Consider various angles, scenarios, and applications that could be utilized in different contexts. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries. Finally, provide a comprehensive summary of each idea, highlighting the key features, benefits, and potential impact. By default write in Polish.`);
-    setTitle(`Wygenerowanie ${numberOfIdeas} pomysłów`);
+    setTitle(`Generated ${numberOfIdeas} ideas`);
 
 }
 
@@ -68,7 +68,7 @@ const IdeaCreator = ({back, query}: any) => {
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Wróć</BackBtnText>
+                    <BackBtnText>Back</BackBtnText>
                 </BackBtn>
             }
                 {query.type && 
@@ -78,7 +78,7 @@ const IdeaCreator = ({back, query}: any) => {
                         <BackBtnIcon>
                             <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                         </BackBtnIcon> 
-                        <BackBtnText>Wróć</BackBtnText>
+                        <BackBtnText>Back</BackBtnText>
                     </BackBtn>
                     }
                     <Form onSubmit={(e) => generateContent(e)}>
@@ -89,11 +89,11 @@ const IdeaCreator = ({back, query}: any) => {
                         }
                       <InputContainer width="100%">
                       <Prompt>
-                        Wymyśl  
+                        Come up with  
                         <DropdownContainer>
                           <Dropdown values={["3", "5", "10"]} value={numberOfIdeas} onChange={setNumberOfIdeas} error={undefined}/>
                         </DropdownContainer>
-                        pomysłów na:
+                        ideas for:
                       </Prompt>
                       </InputContainer>
                         <InputContainer width="100%">
@@ -101,7 +101,7 @@ const IdeaCreator = ({back, query}: any) => {
                                 id="target-adience-field"
                                 height= "20vh"
                                 padding="0.6rem"
-                                placeholder="hook'a instagramowego reelsa dotyczącego nowej funkcjonalności jaką jest wgrywanie danych firmowych."
+                                placeholder="new instagram reel about uploading resources to Yepp AI platform."
                                 value={idea}
                                 onChange={(e) => setIdea(e.target.value)}
                                 required
@@ -118,7 +118,7 @@ const IdeaCreator = ({back, query}: any) => {
                                     <BtnIcon>
                                         <BsStars style={{width: "100%", height: "auto"}}/>
                                     </BtnIcon>
-                                    Wyczaruj pomysły
+                                    Generate ideas
                                 </div>
                                 }
                             </GenerateBtn>

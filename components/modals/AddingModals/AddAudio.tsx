@@ -43,16 +43,16 @@ const AddAudio = (props: {
     const dispatch = useDispatch();
 
     const texts = [
-        "Odpalam fragment filmiku...",
-        "Rozpoczynam seans...",
-        "Hmmmm...",
-        "Analizuję zawartości...",
-        `Skanuję treści...`,
-        "Wczytuję kontekstu...",
-        "Przyswajam wiedzę...",
-        "Kategoryzuję informacje...",
-        "Jeszcze chwila...",
-        "Powtarzam proces...",
+      "Launching a clip...",
+      "Starting the session...",
+      "Hmmmm...",
+      "Analyzing the content...",
+      `Scanning the content...`,
+      "Loading the context...",
+      "Assimilating knowledge...",
+      "Categorizing information...",
+      "Just a moment...",
+      "Repeating the process...",
       ];
 
     //loading texts
@@ -208,12 +208,12 @@ const AddAudio = (props: {
             </CloseIcon>
             {!fileLoading && !success && !openChooseFolder &&
                 <div>
-                    <Title>Wgraj filmik YouTube</Title>
-                    <Centered><Description>Jaki filmik YouTube Asystent ma obejrzeć i przyswoić? *Aktualnie Asystent rozumie jedynie <b>angielski</b>.*</Description></Centered>
+                    <Title>Upload YouTube video</Title>
+                    <Centered><Description>What video you want AI to learn from? <br />*<b>English only.</b>*</Description></Centered>
                     <Form autoComplete="off" onSubmit={(e) => addNewAudio(e)}>
                         <div style={{width: "100%"}}>
                                 <Label>
-                                    Link do filmiku YouTube
+                                  Video URL
                                 </Label>
                                 <Input
                                     id="yt-url"
@@ -231,7 +231,7 @@ const AddAudio = (props: {
                                       <Loader color="black"/>
                                 </div>
                                 :
-                                <p>Wgraj</p>
+                                <p>Upload</p>
                                 }
                             </Button>
                             </Centered>
@@ -243,20 +243,20 @@ const AddAudio = (props: {
             {(openChooseFolder && !success) &&
               <div>
                   <Centered><Icon><BsFolderPlus style={{width: "100%", height: "auto", color: "black"}} /></Icon></Centered>
-                      <Centered><Title>Zapisz audio w:</Title></Centered>
+                      <Centered><Title>Save audio:</Title></Centered>
                           {!selectedFolder._id &&
                           <>
                           <ToggleContainer>
                               {savingOption === 1 &&
                                   <>
-                                      <SelectedToggleBtn>Nowym folderze</SelectedToggleBtn>
-                                      <ToggleBtn onClick={() => setSavingOption(2)}>Istniejącym folderze</ToggleBtn>
+                                      <SelectedToggleBtn>New folder</SelectedToggleBtn>
+                                      <ToggleBtn onClick={() => setSavingOption(2)}>Existing folder</ToggleBtn>
                                   </>
                               }
                               {savingOption === 2 &&
                                   <>
-                                      <ToggleBtn onClick={() => setSavingOption(1)}>Nowym folderze</ToggleBtn>
-                                      <SelectedToggleBtn>Istniejącym folderze</SelectedToggleBtn>
+                                      <ToggleBtn onClick={() => setSavingOption(1)}>New folder</ToggleBtn>
+                                      <SelectedToggleBtn>Existing folder</SelectedToggleBtn>
                                   </>
                               }
                           </ToggleContainer>
@@ -266,7 +266,7 @@ const AddAudio = (props: {
                                     width="100%"
                                     id="folder"
                                     type="text"
-                                    placeholder="Stwórz nowy folder"
+                                    placeholder="Create new folder"
                                     required
                                     value={chosenFolder}
                                     values={props.folders}
@@ -278,12 +278,12 @@ const AddAudio = (props: {
                           {savingOption === 1 &&
                             <InputContainer width="100%">
                                 <Label>
-                                    Nazwa nowego folderu
+                                    Name
                                 </Label>
                                 <Input
                                     id="name"
                                     type="text"
-                                    placeholder="Nazwa"
+                                    placeholder="Folder"
                                     value={folderName}
                                     onChange={(e) => setFolderName(e.target.value)}
                                     required
@@ -300,7 +300,7 @@ const AddAudio = (props: {
                                     <Loader color="black"/>
                                 </div>
                             :
-                            <p>Zapisz</p>
+                            <p>Save</p>
                             }
                         </Button>
                         :
@@ -310,7 +310,7 @@ const AddAudio = (props: {
                                     <Loader color="black"/>
                                 </div>
                             :
-                            <p>Kontynuuj</p>
+                            <p>Continue</p>
                             }
                         </Button>
                         }
@@ -319,7 +319,7 @@ const AddAudio = (props: {
               }          
             { fileLoading &&
               <div>
-                <Title>Wgrywanie transkrypcji...</Title>
+                <Title>Watching video...</Title>
                   <ThinkingContainer>
                       <Centered><TypingAnimation colorful={true} /></Centered>
                       <Centered><Texts>{texts[currentIndex]}</Texts></Centered>
@@ -329,7 +329,7 @@ const AddAudio = (props: {
             { success &&
               <div>
                 <Centered><SuccessIcon><BsCheckLg className="text-green-400" style={{width: "100%", height: "100%"}}/></SuccessIcon></Centered>
-                <Title>Treść zapisana</Title>
+                <Title>Content saved</Title>
                 <Space margin='1rem 0 0 0'></Space>
                 <Centered>
                 <Button onClick={handleOpenFolder}>
@@ -338,7 +338,7 @@ const AddAudio = (props: {
                             <Loader color="black"/>
                           </div>
                       :
-                      <p>Przejdź do folderu</p>
+                      <p>Open folder</p>
                     }
                 </Button>
               </Centered>

@@ -58,16 +58,16 @@ const NoElixir = (props: {onClose: any}) => {
             {(user.workspace !== "undefined" && user.workspace && user.workspace !== "null") ? 
              <div>
                 <Centered>
-                    <Title>Kontynuuj Proces Twórczy</Title>
+                    <Title>Continue creative process...</Title>
                 </Centered>
                 <Centered>
-                    <Description>Asystent AI potrzebuje elixir, aby miał siłę generować unikatowe treści.</Description>
+                <Description>Assistant needs elixir to continue generating unique content for you.</Description>
                 </Centered>
                 {showBuyBtn &&
                <Centered>
                     <BtnContainer>
                     <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                        Zakup Subskrypcję
+                        Subscribe
                     </BuyBtn>
                     </BtnContainer>
                 </Centered>
@@ -76,15 +76,15 @@ const NoElixir = (props: {onClose: any}) => {
             :
             <div>
                     <Centered>
-                        <Title>Kontynuuj Proces Twórczy</Title>
+                    <Title>Continue creative process...</Title>
                     </Centered>
                     <Centered>
-                        <Description>Asystent AI potrzebuje elixir, aby miał siłę generować unikatowe treści.</Description>
+                    <Description>Assistant needs elixir to continue generating unique content for you.</Description>
                     </Centered>
                     <Centered>
                         <BtnContainer>
                         <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                            Zakup Subskrypcję
+                            Subscribe
                         </BuyBtn>
                         </BtnContainer>
                     </Centered>
