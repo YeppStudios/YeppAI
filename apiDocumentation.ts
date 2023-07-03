@@ -8,7 +8,7 @@ export const documentation = [
         '-H "Authorization: Bearer your_token_here" \\\n' +
         '-H "Content-Type: application/json" \\\n' +
         '-d \'{' + '\n' +
-        '   "assistantId": "your_assistant_id_here",\n' +
+        '   "assistant_id": "your_assistant_id_here",\n' +
         '}\'' +
         '\n',
         headers: [
@@ -16,7 +16,7 @@ export const documentation = [
             {title: "Content-Type", description: "Type of the content being sent. In this case, it should be application/json"}
         ],
         body: [
-            {title: "assistantId", paramType: "string, required", description: "The unique ID of the assistant to be used. If not provided, the default assistant is used."}
+            {title: "assistant_id", paramType: "string, required", description: "The unique ID of the assistant to be used. If not provided, the default assistant is used."}
         ],
         urlParams: [],
         response: [

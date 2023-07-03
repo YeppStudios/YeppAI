@@ -121,7 +121,7 @@ const Chat = () => {
   
           // if(messagesData.data.messages.length !== 0){
             if (btnClick) {
-            const { data } = await api.post(`/createConversation`, { assistantId: selectedAssistant._id }, {
+            const { data } = await api.post(`/createConversation`, { assistant_id: selectedAssistant._id }, {
               headers: {
                 authorization: token
               },
@@ -136,7 +136,7 @@ const Chat = () => {
         } 
         setPageLoading(false);
       } catch (e) {
-        const { data } = await api.post(`/createConversation`, { assistantId: selectedAssistant._id }, {
+        const { data } = await api.post(`/createConversation`, { assistant_id: selectedAssistant._id }, {
           headers: {
             authorization: token
           },
