@@ -253,7 +253,7 @@ const NavigationBar = () => {
           >
             {memoizedNavigationTabs}
             <ProfileContainer id="profile-tab">
-                {!(pathname.includes("assets")) ? 
+                {(!(pathname.includes("assets")) && pathname !== "/") ? 
                   <CustomAIContainer>
                   {plan._id === "647895cf404e31bfe8753398" ? 
                   <NavigationTab hover={isHovered} title="Assets" onClick={handleLockedClick}>
