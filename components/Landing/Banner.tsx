@@ -6,16 +6,10 @@ import { HiLocationMarker } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { useState } from "react";
-import BusinessSignupModal from "../Modals/OnboardingModals/BusinessSignupModal";
-
 const Banner = () => {
-
-    const router = useRouter();
-    const [openBusinessSignup, setOpenBusinessSignup] = useState(false);
 
     return (
         <Centered>
-            {openBusinessSignup && <BusinessSignupModal  onClose={() => setOpenBusinessSignup(false)}/>}
             <BannerContainer>
                 <NofificationIcon>
                     <Image style={{ width: "auto", height: "100%" }}  src={nofificationIcon} alt={'nofification-icon'}></Image> 
