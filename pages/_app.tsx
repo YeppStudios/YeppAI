@@ -32,14 +32,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
             <meta property="og:title" content="Yepp AI | Your Custom AI" />
             <meta property="og:type" content="website" />
-            <meta property="og:image" content="http://drive.google.com/uc?export=view&id=1QlMCOks7ZD32D6nm4dkZ3XKMduvVd2gO"/>
-            <meta property="og:url" content="http://drive.google.com/uc?export=view&id=1QlMCOks7ZD32D6nm4dkZ3XKMduvVd2gO"/>
+            <meta property="og:image" content="http://drive.google.com/uc?export=view&id=1DreZDoafqN4auOT8Vgo42TgSdx6Es1B5"/>
+            <meta property="og:url" content="http://drive.google.com/uc?export=view&id=1DreZDoafqN4auOT8Vgo42TgSdx6Es1B5"/>
 
             <meta name="twitter:card" content="summary_large_image"/>
-            <meta property="og:description" content="Upload files, explore websites, and watch YouTube videos to fully experience the capabilities of our AI!"/>
+            <meta property="og:description" content="Upload files, explore websites, and YouTube videos and harness the power of you custom AI!"/>
             <meta property="og:site_name" content="Yepp AI | Your Custom AI"/>
-            <meta name="twitter:image:alt" content="YeppAI logo"></meta>
-            <meta name="twitter:image" content="http://drive.google.com/uc?export=view&id=1QlMCOks7ZD32D6nm4dkZ3XKMduvVd2gO"></meta>
+            <meta name="twitter:image:alt" content="Yepp AI logo"></meta>
+            <meta name="twitter:image" content="http://drive.google.com/uc?export=view&id=1DreZDoafqN4auOT8Vgo42TgSdx6Es1B5"></meta>
       </Head>
       <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=G-R8M9MNW23W`} />
 
