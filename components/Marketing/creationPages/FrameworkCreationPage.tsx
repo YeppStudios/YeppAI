@@ -1,0 +1,191 @@
+import styled from "styled-components";
+import backIcon from "../../../public/images/backArrow.png";
+import Image from "next/image";
+import magicalWand from "../../../public/images/magical_wand.png";
+import { FormEvent, useEffect, useState } from "react";
+import Dropdown from "../../forms/Dropdown";
+import ResultsContainer from "../../Common/ResultsContainer";
+import PageContent from "../../Common/PageContent";
+import FormContainer from "../../Common/FormContainer";
+import BackBtn from "../../Common/BackBtn";
+import GenerateBtn from "../../Common/GenerateBtn";
+import Form from "../../Common/Form";
+import Label from "../../Common/Label";
+import InputContainer from "../../Common/InputContainer";
+import TextArea from "../../forms/TextArea";
+import BackBtnText from "../../Common/BackBtnText";
+import BackBtnIcon from "../../Common/BackBtnIcon";
+import BtnIcon from "../../Common/BtnIcon";
+import { BsStars } from "react-icons/bs";
+import NoElixir from "@/components/Modals/LimitModals/NoElixir";
+import TypingAnimation from "@/components/Modals/common/TypingAnimation";
+import { selectedPlanState } from "@/store/planSlice";
+import { useSelector } from "react-redux";
+import api from "@/pages/api";
+import FoldersDropdown from "@/components/forms/FolderDropdown";
+import Input from "@/components/forms/Input";
+
+interface InputContainer {
+    width: string;
+}
+
+interface TextArea {
+    height: string;
+}
+
+const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński"];
+
+const FrameworkCreationPage = ({back, query}: any) => {
+
+    const [about, setAbout] = useState("");
+    const [language, setLanguage] = useState("Polski");
+    const [targetAudience, setTargetAudience] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [formLoading, setFormLoading] = useState(true);
+    const [name, setName] = useState("");
+    const [prompt, setPrompt] = useState<string>();
+    const [preprompt, setPrePrompt] = useState<string>();
+    const userPlan = useSelector(selectedPlanState);
+    const [key, setKey] = useState(0);
+    const [title, setTitle] = useState('');
+    const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
+    const [mobile, setMobile] = useState(false);
+
+    useEffect(() => {
+        if (window.innerWidth < 1023) {
+            setMobile(true);
+        }
+    }, [])
+    
+    const generateContent = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setKey((prevKey) => prevKey + 1);
+        setPrompt("");
+        setLoading(true);
+        if (query.type === "BAB") {
+            setPrompt(`Act as a professional marketing consultant. Develop a Before-After bridge framework analysis that showcases how your ${name}- ${about} can benefit its customers. Start by identifying and describing the "before" state or situation - what are the current problems, challenges, and limitations that ${targetAudience} face in their day to day operations? Then, paint a clear picture of the "after" state, highlighting the benefits, capabilities, and improvements that ${name} brings to the table. Be detailed, precise, and articulate in your descriptions, explaining how specific features and functionalities of the platform alleviate pain points and enhance marketing performance. Lastly, provide comprehensive conclusion on how ${name} can have real impact on everyday life of ${targetAudience} and solve their problems. Make sure to write it in ${language} language.`)
+        }
+        if (query.type === "PAS") {
+            setPrompt(`Act as a professional copywriter. Utilize the PAS (Problem-Agitate-Solve) formula to develop a comprehensive analysis of your ${name} product - ${about}. Begin by identifying the problem your product solves and address the pain points that customers may have before using it. 
+
+            Next, dig deep into the problems that ${targetAudience} faces and highlight the anxiety that can arise as a result of their lack of success. Use this opportunity to demonstrate how ${name} can help alleviate these problems by showing how it addresses those pain points. 
+            
+            Finally, present solutions by showing how ${name} is the answer to those problems. Highlight its superior features, reliability, ease of use, and other core benefits that set it apart from other similar products on the market. Through your PAS analysis, seek to position ${name} as a must-have product for any ${targetAudience}. Make sure to write it in ${language} language.`)
+        }
+        if (query.type === "AIDA") {
+            setPrompt(`Act as a professional marketer. Conduct an AIDA (Attention, Interest, Desire, Action) analysis for ${name}, your ${about}, which target audience are ${targetAudience}. To start, analyze each stage of the AIDA model, beginning with Attention. Come up with creative ideas on how to grab your target customers' attention. Once the customer is hooked, focus on creating interest by highlighting the benefits and features of the ${name}, emphasizing how it solves the ${targetAudience} pain points and problems. Next, create a desire by using persuasive language and promoting how ${name} can make a notable difference for ${targetAudience}. And lastly, devise a strategy that encourages the customer to take the necessary action(s). This includes providing clear calls to action, demonstrating the product's or company's usability and results, and building trust with potential customers. Make sure to write it in ${language} language.`)
+        }
+        setTitle(`${query.type} dla ${name}`)
+    }
+
+    return (
+        <PageContent>
+            {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
+            {!mobile &&  
+                <BackBtn onClick={back}>
+                    <BackBtnIcon>
+                        <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
+                    </BackBtnIcon> 
+                    <BackBtnText>Wróć</BackBtnText>
+                </BackBtn>
+            }
+                {query.type && 
+                <FormContainer>
+                    {mobile &&
+                    <BackBtn onClick={back}>
+                        <BackBtnIcon>
+                            <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
+                        </BackBtnIcon> 
+                        <BackBtnText>Wróć</BackBtnText>
+                    </BackBtn>
+                    }
+                    <div>
+                    <Form onSubmit={(e) => generateContent(e)}>
+                        {(userPlan && userPlan._id !== "647895cf404e31bfe8753398") &&
+                        <InputContainer width="100%">
+                            <FoldersDropdown />
+                        </InputContainer>
+                        }          
+                        <InputContainer width="50%">
+                            <Label>
+                                Nazwa produktu / firmy
+                            </Label>
+                            <Input
+                                id="name"
+                                height= "2.6rem"
+                                padding="0.5rem"
+                                placeholder="Asystent AI"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                        </InputContainer>
+                        <InputContainer width="50%">
+                            <Label>
+                                Język
+                            </Label>
+                            <Dropdown
+                                id="languages"
+                                type="text"
+                                placeholder="Facebook"
+                                required
+                                value={language}
+                                values={languages}
+                                onChange={setLanguage}
+                                error={undefined}
+                            />
+                        </InputContainer>
+                        <InputContainer width="100%">
+                            <Label>
+                                Opis produktu / firmy
+                            </Label>
+                            <TextArea
+                                id="about-field"
+                                height= "8rem"
+                                padding="0.5rem"
+                                placeholder="z intuicyjną platformą Asystent AI wygenerujesz dobrze konwertujące treści marketingowe bez większego wysiłku."
+                                value={about}
+                                onChange={(e) => setAbout(e.target.value)}
+                                required
+                            />
+                        </InputContainer>
+                        <InputContainer width="100%">
+                            <Label>
+                                Grupa docelowa
+                            </Label>
+                            <Input
+                                id="target-adience-field"
+                                height= "2.6rem"
+                                padding="0.5rem"
+                                placeholder="młodzi, początkujący programiści"
+                                value={targetAudience}
+                                onChange={(e) => setTargetAudience(e.target.value)}
+                                required
+                            />
+                        </InputContainer>
+                        <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+                            <GenerateBtn className="generate-content-btn">
+                                {loading ?
+                                <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "0.2rem"}}>
+                                    <TypingAnimation  colorful={false}/>
+                                </div>
+                                :
+                                <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+                                    <BtnIcon>
+                                        <BsStars style={{width: "100%", height: "auto"}}/>
+                                    </BtnIcon>
+                                    Wyczaruj treści
+                                </div>
+                                }
+                            </GenerateBtn>
+                        </div>
+                    </Form>
+                    </div>
+                </FormContainer>
+                }
+            <ResultsContainer trigger={key} about={name + " " + about} initialPrompt={prompt} resultsType={query.type} query={query} preprompt={preprompt}  title={title} count={1} stopLoading={() => setLoading(false)}/>
+        </PageContent>
+    )
+}
+
+export default FrameworkCreationPage;

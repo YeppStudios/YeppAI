@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://asystent.ai
+
+# Sitemaps
+Sitemap: https://asystent.ai/sitemap.xml

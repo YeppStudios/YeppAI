@@ -1,0 +1,678 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import { TiptapEditorProps } from "./props";
+import { TiptapExtensions } from "./extensions";
+import { useDebouncedCallback } from "use-debounce";
+import { useRouter } from "next/router";
+import { EditorBubbleMenu } from "./components";
+import BackBtn from "../Common/BackBtn";
+import BackBtnIcon from "../Common/BackBtnIcon";
+import Image from "next/image";
+import backIcon from "../../public/images/backArrow.png";
+import api from "@/pages/api";
+import MultiLineSkeletonLoader from "../Common/MultilineSkeletonLoader";
+import { selectedUserState } from "@/store/userSlice";
+import NoElixir from "../Modals/LimitModals/NoElixir";
+import { BottomMenu } from "./components/BottomMenu";
+import axios from "axios";
+import EditorSidebar from "./components/EditorSidebar";
+import styled from "styled-components";
+import { selectFoldersState } from '@/store/selectedFoldersSlice'
+import { useSelector } from 'react-redux'
+import {
+  Wand2Icon,
+} from "lucide-react";
+import Space from "../Docs/common/Space";
+
+interface Document {
+  owner: string,
+  title: string,
+  category: string,
+  timestamp: string,
+  ownerEmail: string,
+  vectorId: string
+}
+interface Folder {
+  owner: string,
+  title: string,
+  category: string,
+  documents: Document[] | [],
+  updatedAt: string,
+  _id:  string,
+  workspace: string,
+}
+
+export default function Editor({setPage, title, conspect, description, embeddedVectorIds, contentType, language, setDescription, setTitle}: any) {
+  const [saveStatus, setSaveStatus] = useState("Saved");
+  const [hydrated, setHydrated] = useState(false);
+  const [content, setContent] = useState<any>(null);
+  const [editorLoading, setEditorLoading] = useState(false);
+  const [sectionIndex, setSectionIndex] = useState<number> (1);
+  const [createdSeoCotentId, setCreatedSeoContentId] = useState<any>(null);
+  const [abortController, setAbortController] = useState(new AbortController());
+  const [generating, setGenerating] = useState(false);
+  const user = useSelector(selectedUserState);
+  const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
+  const [showBottomMenu, setShowBottomMenu] = useState(false);
+  const [aiThinking, setAiThinking] = useState(false);
+  const [bottomMenuPosition, setBottomMenuPosition] = useState<{ top: number; left: number }>();
+  const [nextSection, setNextSection] = useState("");
+  let selectedFolders: Folder[] = useSelector(selectFoldersState);
+
+  const router = useRouter();
+  const { contentId } = router.query;
+  
+  const stopReplying = () => {
+    abortController.abort();
+  }
+  
+  const editor = useEditor({
+    extensions: TiptapExtensions,
+    editorProps: TiptapEditorProps,
+    onUpdate: (e) => {
+      setSaveStatus("Unsaved");
+      const selection = e.editor.state.selection;
+      const lastTwo = e.editor.state.doc.textBetween(
+        selection.from,
+        selection.from,
+        "\n",
+      );
+        debouncedUpdates(e);
+    },
+    autofocus: "end",
+  });
+
+  const countWords = () => {
+    let wordCount = 0;
+    if (editor) {
+      const text = editor.getHTML(); // get HTML content
+      const plainText = text.replace(/<[^>]*>/g, ' '); // convert to plain text
+      const wordArray = plainText.trim().split(/\s+/); // split into words
+      if (wordArray[0].length > 0){
+        wordCount = wordArray.length;
+      }
+    }
+
+    return wordCount;
+  }
+
+  useEffect(() => {
+    const fetchSavedContent = async () => {
+      setEditorLoading(true);
+      try {
+        if (contentId) {
+          const response = await api.get(`/seoContent/${contentId}`, {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            },
+          });
+          const content = response.data.content;
+          editor?.commands.setContent(content);
+        }
+      } catch (error) {
+        console.error(error);
+        setEditorLoading(false);
+      } finally {
+        setEditorLoading(false);
+      }
+    };
+    fetchSavedContent();
+  }, [contentId]);
+
+
+  const generateIntro = async () => {
+    if (editor) {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user_id");
+    const workspace = localStorage.getItem("workspace");
+    const newAbortController = new AbortController();
+    setAbortController(newAbortController);
+    setEditorLoading(true);
+    // const startPos = editor.state.selection.from;
+    if (generating) {
+      stopReplying();
+      return;
+    }
+    const startPos = editor.state.selection.from;
+    setGenerating(true);
+    let fetchedUser = null;
+    if (workspace && workspace !== "null" && workspace !== "undefined") {
+      const {data} = await api.get(`/workspace-company/${workspace}`, {
+        headers: {
+          authorization: token
+        }
+      });
+      fetchedUser = data.company;
+    } else {
+      const {data} = await api.get(`/users/${userId}`, {
+        headers: {
+          authorization: token
+        }
+      });
+      fetchedUser = data;
+    }
+    //make sure user has elixir
+    if(fetchedUser.tokenBalance <= 0) {
+      setOpenNoElixirModal(true);
+      return;
+    }
+
+    let reply = "";
+    let context = "";
+    let companyDataIds = [];
+    let allDocuments = selectedFolders.reduce((acc: Document[], folder: Folder) => {
+      return acc.concat(folder.documents || []);
+    }, [] as Document[]);
+    
+    if (allDocuments.length > 0) {
+      try {
+        const vectorIdsResponse = await api.post("/getPineconeIds", {documents: allDocuments}, {
+          headers: {
+            Authorization: token
+          }
+        });
+        companyDataIds = vectorIdsResponse.data;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    
+    // Combine companyDataIds and embeddedVectorIds
+    let combinedIds = [...companyDataIds, ...embeddedVectorIds];
+    
+    // Check if combined array is not empty
+    if (combinedIds.length > 0) {
+      try {
+        const chunks = await axios.post(
+          "https://whale-app-p64f5.ondigitalocean.app/query",
+          {
+            "queries": [
+              {
+                "query": conspect[0].header,
+                "filter": {
+                  "document_id": combinedIds  // Use combined array here
+                },
+                "top_k": 2
+              }
+            ]
+          },
+          {
+            headers: {
+              "Authorization": `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
+            }
+          }
+        );
+    
+        chunks.data.results[0].results.forEach((item: { text: string; }) => {
+          context += item.text + " ";
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Combined ID array is empty. Not sending query.");
+    }
+
+    let prompt = `Please write a professinal introduction for my ${contentType} titled ${title} in ${language} language. Brief description user sees on Google: ${description}.
+    This is the introduction header:
+    ${conspect[0].header}
+    And this is what I want you to write about:
+    ${conspect[0].description}
+    Additional context that might be relevant:
+    ${context}
+    `;
+    let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You write an introduction in ${language} language fluently. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with header and introduction without labeling them.`;
+    let model = "gpt-4";
+
+    try {
+        const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+          signal: newAbortController.signal,
+          body: JSON.stringify({prompt, title: "Generated intro of SEO content", model, systemPrompt}),
+        });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      if(response.body){
+        const reader = response.body.getReader();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            setGenerating(false);
+            if (conspect.length > 1) {
+              setNextSection("Write 2nd section");
+            }
+            if (editor) {
+              const endPos = startPos + reply.length;
+              const rect = editor.view.coordsAtPos(endPos);
+              setBottomMenuPosition({
+                top: rect.top + window.scrollY + 40,
+                left: rect.left -250
+              });
+            }
+            setShowBottomMenu(true);
+            localStorage.setItem("generateIntro", "false");
+            const conversationBottom = document.getElementById("conversation-bottom");
+            if(conversationBottom){
+                conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
+            }
+            break;
+          }
+          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+          setEditorLoading(false);
+          for (const jsonString of jsonStrings) {
+            try {
+              const data = JSON.parse(jsonString);
+              if (data.content) {
+                reply += data.content;
+                editor.chain().focus().setTextSelection(editor.state.doc.content.size).insertContent(data.content).run();
+              }              
+            } catch (error) {
+              console.error('Error parsing JSON:', jsonString, error);
+            }
+          }
+        }
+      }
+    } catch (e: any) {
+      if (e.message === "Fetch is aborted") {
+        setGenerating(false);
+      } else {
+        console.log(e);
+        setGenerating(false);
+      }
+    } finally {
+      abortController.abort();
+    }
+    }
+  }
+
+  const generateNextSection = async () => {
+    if (editor) {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user_id");
+    const workspace = localStorage.getItem("workspace");
+    const newAbortController = new AbortController();
+    setAbortController(newAbortController);
+    setShowBottomMenu(false);
+    setAiThinking(true);
+    if (generating) {
+      stopReplying();
+      return;
+    }
+    if (!sectionIndex) {
+      setSectionIndex(1);
+    } else if (sectionIndex + 2 < conspect.length) {
+      if (sectionIndex + 2 === 3) {
+        setNextSection("Write 3rd section");
+      } else {
+        setNextSection(`Write ${sectionIndex + 2}th section`);
+      }
+      setSectionIndex(sectionIndex + 1);
+    } else if (sectionIndex + 2 === conspect.length ) {
+      setNextSection("Write a summary");
+    }
+    let startPos = editor.state.selection.from;
+    editor.chain().insertContent("\n\n\n").run();
+    setGenerating(true);
+    let fetchedUser = null;
+    if (workspace && workspace !== "null" && workspace !== "undefined") {
+      const {data} = await api.get(`/workspace-company/${workspace}`, {
+        headers: {
+          authorization: token
+        }
+      });
+      fetchedUser = data.company;
+    } else {
+      const {data} = await api.get(`/users/${userId}`, {
+        headers: {
+          authorization: token
+        }
+      });
+      fetchedUser = data;
+    }
+    //make sure user has elixir
+    if(fetchedUser.tokenBalance <= 0) {
+      setOpenNoElixirModal(true);
+      return;
+    }
+
+    let reply = "";
+    let context = "";
+    let companyDataIds = [];
+    let allDocuments = selectedFolders.reduce((acc: Document[], folder: Folder) => {
+      return acc.concat(folder.documents || []);
+    }, [] as Document[]);
+    
+    if (allDocuments.length > 0) {
+      try {
+        const vectorIdsResponse = await api.post("/getPineconeIds", {documents: allDocuments}, {
+          headers: {
+            Authorization: token
+          }
+        });
+        companyDataIds = vectorIdsResponse.data;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    
+    // Combine companyDataIds and embeddedVectorIds
+    let combinedIds = [...companyDataIds, ...embeddedVectorIds];
+    
+    // Check if combined array is not empty
+    if (combinedIds.length > 0) {
+      console.log(sectionIndex)
+      try {
+        const chunks = await axios.post(
+          "https://whale-app-p64f5.ondigitalocean.app/query",
+          {
+            "queries": [
+              {
+                "query": conspect[sectionIndex].header,
+                "filter": {
+                  "document_id": combinedIds  // Use combined array here
+                },
+                "top_k": 2
+              }
+            ]
+          },
+          {
+            headers: {
+              "Authorization": `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
+            }
+          }
+        );
+    
+        chunks.data.results[0].results.forEach((item: { text: string; }) => {
+          context += item.text + " ";
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Combined ID array is empty. Not sending query.");
+    }
+
+    const text = editor.getText();
+    let prompt = `I have ended writing the last section of ${contentType} with: "...${text.slice(-250)}". Now please starting from new line write the next section for my ${contentType} in ${language} language.
+    Next section header:
+    ${conspect[sectionIndex].header}
+    This is a brief description of what I want you to write about in this section:
+    ${conspect[sectionIndex].description}
+    Additional context that might be relevant for this section:
+    ${context}
+    `;
+    let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} paragraphs. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep paragraphs brief and on point without writing unnecessary introductions. You write as human would in an emphatic way. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand, emphatic and approachable. You write fluently in ${language} language. You always make the section relate to the previous one. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all grammatical standards required for a professional copywriter. You always respond only with header and ${contentType} section.`;
+    let model = "gpt-4";
+    try {
+        const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+          signal: newAbortController.signal,
+          body: JSON.stringify({prompt, title: "Generated intro of SEO content", model, systemPrompt}),
+        });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      if(response.body){
+        const reader = response.body.getReader();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            setGenerating(false);
+            if (editor) {
+              const endPos = startPos + reply.length;
+              const rect = editor.view.coordsAtPos(endPos);
+
+              // Get the container's scroll position and bounding rectangle
+              const container = document.getElementById('scrollable-editor');
+              if (container) {
+                const containerRect = container.getBoundingClientRect();
+
+                // Adjust the bottom menu's position
+                if (sectionIndex + 2 === conspect.length ) {
+                  setBottomMenuPosition({
+                    top: rect.top - containerRect.top + container.scrollTop + 48,
+                    left: rect.left - containerRect.left -60
+                  });
+                } else {
+                  setBottomMenuPosition({
+                    top: rect.top - containerRect.top + container.scrollTop + 48,
+                    left: rect.left - containerRect.left -150
+                  });
+                }
+              }
+            }
+
+            const conversationBottom = document.getElementById("conversation-bottom");
+            if(conversationBottom){
+                conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
+            }
+            setShowBottomMenu(true);
+            break;
+          }
+          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+          setAiThinking(false);
+          for (const jsonString of jsonStrings) {
+            try {
+              const data = JSON.parse(jsonString);
+              if (data.content) {
+                reply += data.content;
+                editor.chain().focus().setTextSelection(editor.state.doc.content.size).insertContent(data.content).run();
+              }              
+            } catch (error) {
+              console.error('Error parsing JSON:', jsonString, error);
+            }
+          }
+        }
+      }
+    } catch (e: any) {
+      if (e.message === "Fetch is aborted") {
+        setGenerating(false);
+      } else {
+        console.log(e);
+        setGenerating(false);
+      }
+    } finally {
+      abortController.abort();
+    }
+    }
+  }
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.focus()
+    }
+  }, [editor, editor?.state.doc.content.size]);
+  
+  useEffect(() => {
+    const startGenerating = localStorage.getItem("generateIntro");
+    if (startGenerating === "true") {
+      generateIntro();
+    }
+  }, [editor]);
+
+  const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
+    const json = editor.getJSON();
+    setSaveStatus("Saving...");
+    setContent(json);
+    if (createdSeoCotentId || contentId) {
+      let id = createdSeoCotentId || contentId;
+      await api.patch(`/updateSeoContent/${id}`, {
+        content: json.content,
+        title
+      }, {
+        headers: {
+          authorization: localStorage.getItem("token"),
+        }
+      })
+      setSaveStatus("Saved");
+    } else {
+      const createdContentResponse = await api.post("/addSeoContent", {
+        content: json.content,
+        title,
+        owner: user._id,
+        savedBy: user.email,
+      }, {
+        headers: {
+          authorization: localStorage.getItem("token"),
+        }
+      })
+      setSaveStatus("Saved");
+      setCreatedSeoContentId(createdContentResponse.data._id);
+    }
+
+    // Simulate a delay in saving.
+    setTimeout(() => {
+      setSaveStatus("Saved");
+    }, 650);
+  }, 1500);
+
+
+  // Hydrate the editor with the content
+  useEffect(() => {
+    if (editor && content && !hydrated) {
+      editor.commands.setContent(content);
+      setHydrated(true);
+    }
+  }, [editor, content, hydrated]);
+
+
+  const handleBack = async () => { 
+    const newQuery = { ...router.query };
+    delete newQuery.contentId;
+
+    // Replace the current entry in the history
+    await router.replace({
+      pathname: router.pathname, // keep the same path
+      query: newQuery, // use the updated query object
+    }, undefined, { shallow: true });
+    
+    setPage(1);
+  }
+
+  return (
+    <PageContent  onClick={() => {setShowBottomMenu(false)}}>
+      {openNoElixirModal && <NoElixir onClose={() => setOpenNoElixirModal(false)} />}
+      <EditorContainer
+        onClick={() => {editor?.chain().focus().run()}}
+        id="scrollable-editor"
+      >
+      <div className="sticky w-full bg-white overflow-visible rounded-lg left-0 mb-10 py-4 pb-2 -top-1 text-sm text-stone-400 flex items-center justify-between z-10">
+      <div className="-mt-4 -ml-12">
+        <BackBtn onClick={() => handleBack()}>
+          <BackBtnIcon>
+              <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
+          </BackBtnIcon> 
+        </BackBtn>  
+      </div> 
+      {editor &&  
+        <div className="flex items-center h-full -mr-12">
+          <div className="ml-4">
+            {countWords()} Words
+          </div>
+          <div className="ml-4 mr-4">
+            {editor.getText().length} Zzw.
+          </div>
+          {saveStatus}
+          {(nextSection && !generating) &&
+          <ConspectTab onClick={() => generateNextSection()} className="border-2"><ConspectIcon><Wand2Icon style={{ width: "auto", height: "100%" }} /></ConspectIcon>
+          <p>{nextSection}</p>
+          </ConspectTab>
+          }
+        </div>
+      }
+      </div>
+  
+      {editor && <EditorBubbleMenu editor={editor} />}
+      {editorLoading ?
+        <MultiLineSkeletonLoader lines={7} justifyContent={"left"} />
+        :
+        <EditorContent editor={editor} />
+      }
+      {aiThinking &&
+          <MultiLineSkeletonLoader lines={5} justifyContent={"left"} />
+      }
+      <div onClick={(e) => e.stopPropagation()}>
+      {(showBottomMenu && editor) && <BottomMenu editor={editor} menuPosition={bottomMenuPosition} generateNextSection={() => generateNextSection()} nextSection={nextSection}/>}
+      </div>
+      <Space margin="4rem" />
+      <div id="conversation-bottom"></div>     
+    </EditorContainer>
+    <EditorSidebar 
+      description={description} 
+      title={title} 
+      setTitle={setTitle} 
+      setDescription={setDescription} 
+      editor={editor}
+      embeddedVectorIds={embeddedVectorIds} 
+      abortController={abortController} 
+      setAbortController={setAbortController}
+      generating={generating}
+      setGenerating={setGenerating}
+      />
+
+    </PageContent>
+  );
+}
+
+
+const PageContent = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const ConspectTab = styled.div`
+    padding: 0.4rem 1rem 0.4rem 1rem;
+    border-radius: 12px;
+    color: black;
+    box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.23);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      box-shadow: none;
+      transform: scale(0.96);
+    }
+`
+
+const ConspectIcon = styled.div`
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+`
+
+const EditorContainer = styled.div`
+  height: calc(100vh - 1.5rem); 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  overflow-y: scroll;
+  overflow-x: visible;
+  box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.2), 0px -20px 20px #EEF1FA;
+  position: relative;
+  cursor: auto;
+  background: white;
+  border: 2px solid #EAEDF5;
+  padding: 0 5rem 4rem 5rem;
+  border-radius: 25px;
+  color: black;
+  flex: 1;
+`
