@@ -15,21 +15,21 @@ import Link from 'next/link';
 import { useRouter } from 'next/router'
 
 const navigation = [
-  { name: 'Homepage', link: '/', mobileLink: "/", icon: HomeIcon, current: false },
-  { name: 'App Dashboard', link: '/resources', mobileLink: "/chat", icon: WindowIcon, current: false },
-  { name: 'Documentation', link: '/docs', mobileLink: "/docs", icon: DocumentTextIcon, current: false },
-  { name: 'Pricing', link: '/pricing?type=business', mobileLink: "/pricing?type=business", icon: SwatchIcon, current: false },
+  // { name: 'Strona Główna', link: '/', mobileLink: "/", icon: HomeIcon, current: false },
+  // { name: 'Panel Aplikacji', link: '/assets', mobileLink: "/chat", icon: WindowIcon, current: false },
+  // { name: 'Dokumentacja', link: '/docs', mobileLink: "/docs", icon: DocumentTextIcon, current: false },
+  // { name: 'Oferta', link: '/pricing?type=business', mobileLink: "/pricing?type=business", icon: SwatchIcon, current: false },
 ]
 const tutorial = [
-  { id: 1, name: 'First Steps', tab: "getting-started", initial: 'F' },
-  { id: 2, name: 'Uploading Knowledge', tab: "uploading-knowledge", initial: 'U' },
-  { id: 3, name: 'Generating Content', tab: "generating-content", initial: 'G' },
-  { id: 4, name: 'About Elixir', tab: "elixir", initial: 'A' },
+  { name: 'Create Conversation', id: "create-conversation", initial: 'C' },
+  { name: 'Get Conversation', id: "get-conversation", initial: 'G' },
+  { name: 'Send message', id: "send-message", initial: 'S' },
+  { name: 'Send message (stream)', id: "send-message-stream", initial: 'S' },
 ]
 
-const api = [
-  { id: 1, name: 'Documentation', tab: "api-documentation", initial: 'D' },
-  { id: 2, name: 'Tutorial', tab: "tutorial", initial: 'T' }
+const api: any[] = [
+    // { id: 1, name: 'Dokumentacja', tab: "api-documentation", initial: 'D' },
+    // { id: 2, name: 'Tutorial', tab: "tutorial", initial: 'T' }
   ]
 
 function classNames(...classes: string[]) {
@@ -41,6 +41,15 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
   const [mobile, setMobile] = useState(false);
   const [path, setPath] = useState("");
   const [selectedTab, setSelectedTab] = useState("getting-started");
+
+
+  const smoothScroll = (id: string) => {
+    const conversationBottom = document.getElementById(id);
+    if(conversationBottom){
+      conversationBottom.scrollIntoView({behavior: 'smooth', block: 'start'}); //scroll to the bottom
+    }
+    setSelectedTab(id);
+  }
 
     const router = useRouter();
 
@@ -110,7 +119,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                        <li>
+                        {/* <li>
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
@@ -156,7 +165,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                               </li>
                             ))}
                           </ul>
-                        </li>
+                        </li> */}
                         <li>
                         <div className="text-xs font-semibold leading-6 text-gray-400">API Documentation</div>
                         <ul role="list" className="-mx-2 mt-2 space-y-1">
@@ -188,14 +197,14 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                         </ul>
                         </li>
                         <li>
-                        <div className="text-xs font-semibold leading-6 text-gray-400">Dashboard guide</div>
+                          <div className="text-xs font-semibold leading-6 text-gray-400">Dashboard guide</div>
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {tutorial.map((tutorial) => (
                               <li key={tutorial.name}>
-                                <Link
-                                  href={`/docs/${tutorial.tab}`}
+                                <button
+                                  onClick={() => smoothScroll(tutorial.id)}
                                   className={classNames(
-                                    selectedTab === tutorial.tab
+                                    selectedTab === tutorial.id
                                       ? 'bg-gray-50 text-blue-600'
                                       : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50',
                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
@@ -203,7 +212,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                                 >
                                   <span
                                     className={classNames(
-                                      selectedTab === tutorial.tab
+                                      selectedTab === tutorial.id
                                         ? 'text-blue-600 border-blue-600'
                                         : 'text-gray-400 border-gray-200 group-hover:border-blue-600 group-hover:text-blue-600',
                                       'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
@@ -212,7 +221,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                                     {tutorial.initial}
                                   </span>
                                   <span className="truncate">{tutorial.name}</span>
-                                </Link>
+                                </button>
                               </li>
                             ))}
                           </ul>
@@ -237,7 +246,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
+                {/* <li>
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
@@ -283,16 +292,16 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                       </li>
                     ))}
                   </ul>
-                </li>
+                </li> */}
                 <li>
-                <div className="text-xs font-semibold leading-6 text-gray-400">Dashboard guide</div>
+                  <div className="text-xs font-semibold leading-6 text-gray-400">API Documentation</div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {tutorial.map((tutorial) => (
                       <li key={tutorial.name}>
-                        <Link
-                          href={`/docs/${tutorial.tab}`}
+                        <button
+                          onClick={() => smoothScroll(tutorial.id)}
                           className={classNames(
-                            selectedTab === tutorial.tab
+                            selectedTab === tutorial.id
                               ? 'bg-gray-50 text-blue-600'
                               : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50',
                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
@@ -300,7 +309,7 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                         >
                           <span
                             className={classNames(
-                              selectedTab === tutorial.tab
+                              selectedTab === tutorial.id
                                 ? 'text-blue-600 border-blue-600'
                                 : 'text-gray-400 border-gray-200 group-hover:border-blue-600 group-hover:text-blue-600',
                               'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white'
@@ -309,13 +318,13 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
                             {tutorial.initial}
                           </span>
                           <span className="truncate">{tutorial.name}</span>
-                        </Link>
+                        </button>
                       </li>
                     ))}
                   </ul>
                 </li>
                 <li>
-                <div className="text-xs font-semibold leading-6 text-gray-400">API Documentation</div>
+                  <div className="text-xs font-semibold leading-6 text-gray-400">Dashboard Guide</div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {api.map((apiTab) => (
                       <li key={apiTab.name}>

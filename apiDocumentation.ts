@@ -1,6 +1,7 @@
 export const documentation = [
     {
         type: "post",
+        id: "create-conversation",
         path: "/createConversation",
         description: "This endpoint is used to create a new conversation.",
         url: "https://asystentai.herokuapp.com/createConversation",
@@ -25,6 +26,7 @@ export const documentation = [
     },
     {
         type: "get",
+        id: "get-conversation",
         path: "/getConversation/:id",
         description: "This endpoint returns the conversation by the given ID, if it exists and belongs to the current authenticated user.",
         url: "https://asystentai.herokuapp.com/getConversation/:id",
@@ -43,6 +45,7 @@ export const documentation = [
     },
     {
         type: "post",
+        id: "send-message",
         path: "/message",
         description: "This endpoint is used to initiate or continue a conversation with an Assistant AI.",
         url: "https://asystentai.herokuapp.com/message",
@@ -78,6 +81,7 @@ export const documentation = [
     },
     {
         type: "post",
+        id: "send-message-stream",
         path: "/message-stream",
         description: "This endpoint is used to initiate or continue a conversation with an Assistant AI. Resopnse is being streamed in real time.",
         url: "https://asystentai.herokuapp.com/message",

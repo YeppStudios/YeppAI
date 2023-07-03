@@ -44,7 +44,7 @@ const Docs = () => {
             <Loading />
             <Sidebar loggedIn={loggedIn} username={username} tab={tab as string}/>
             <ContentContainer>
-              {tab === "api-documentation" && <ApiDocumentation />}
+              {tab === "api" && <ApiDocumentation />}
             </ContentContainer>
         </div>
     )

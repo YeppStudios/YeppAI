@@ -23,7 +23,7 @@ const ApiDocumentation = () => {
             </TitleDescription>
             <div>
                 {documentation.map(endpoint => (
-                    <div key={endpoint.path}>
+                    <div key={endpoint.path} id={endpoint.id}>
                         <Space margin="3rem 0 0 0"/>
                         <div style={{display: "flex", alignItems: "center"}}>
                             <RequestType requestType={endpoint.type.toUpperCase()}/>
