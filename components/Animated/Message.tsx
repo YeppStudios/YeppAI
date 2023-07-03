@@ -2,9 +2,6 @@ import React, { useEffect } from "react";
 import { useAnimation, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
-import ReactMarkdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
-import TypingAnimation from "../Modals/common/TypingAnimation";
 
 const animationVariants = {
   visible: {
