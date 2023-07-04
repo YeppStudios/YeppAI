@@ -71,7 +71,7 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
     >
       {items.map((item, index) => (
         <>
-        {item.name === 'next_section' && props.nextSection === "Write a summary" ?
+        {item.name === 'next_section' && props.nextSection === "end" ?
         <></>
         :
         <button

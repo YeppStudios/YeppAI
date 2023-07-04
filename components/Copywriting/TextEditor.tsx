@@ -44,7 +44,7 @@ interface Folder {
   workspace: string,
 }
 
-export default function Editor({setPage, title, conspect, description, embeddedVectorIds, contentType, language, setDescription, setTitle}: any) {
+export default function Editor({setPage, title, conspect, description, embeddedVectorIds, contentType, language, setDescription, setTitle, toneOfVoice, setToneOfVoice, sectionLength}: any) {
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [hydrated, setHydrated] = useState(false);
   const [content, setContent] = useState<any>(null);
@@ -97,6 +97,16 @@ export default function Editor({setPage, title, conspect, description, embeddedV
 
     return wordCount;
   }
+
+  function countNonWhitespaceCharacters() {
+    let wordscount = 0;
+    if (editor) {
+    let documentString = editor?.getText();
+    let stringWithoutWhitespace = documentString?.replace(/\s/g, '');
+    wordscount = stringWithoutWhitespace?.length;
+    }
+    return wordscount;
+}
 
   useEffect(() => {
     const fetchSavedContent = async () => {
@@ -215,15 +225,15 @@ export default function Editor({setPage, title, conspect, description, embeddedV
       console.log("Combined ID array is empty. Not sending query.");
     }
 
-    let prompt = `Please write a professinal introduction for my ${contentType} titled ${title} in ${language} language. Brief description user sees on Google: ${description}.
+    let prompt = `Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in around ${sectionLength} words.
     This is the introduction header:
     ${conspect[0].header}
-    And this is what I want you to write about:
+    And this is how I want you to write the introduction:
     ${conspect[0].description}
     Additional context that might be relevant:
     ${context}
     `;
-    let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You write an introduction in ${language} language fluently. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with header and introduction without labeling them.`;
+    let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with header and introduction without labeling them.`;
     let model = "gpt-4";
 
     try {
@@ -314,7 +324,10 @@ export default function Editor({setPage, title, conspect, description, embeddedV
       }
       setSectionIndex(sectionIndex + 1);
     } else if (sectionIndex + 2 === conspect.length ) {
+      setSectionIndex(sectionIndex + 1);
       setNextSection("Write a summary");
+    } else {
+      setNextSection("end");
     }
     let startPos = editor.state.selection.from;
     editor.chain().insertContent("\n\n\n").run();
@@ -366,7 +379,6 @@ export default function Editor({setPage, title, conspect, description, embeddedV
     
     // Check if combined array is not empty
     if (combinedIds.length > 0) {
-      console.log(sectionIndex)
       try {
         const chunks = await axios.post(
           "https://whale-app-p64f5.ondigitalocean.app/query",
@@ -399,7 +411,7 @@ export default function Editor({setPage, title, conspect, description, embeddedV
     }
 
     const text = editor.getText();
-    let prompt = `I have ended writing the last section of ${contentType} with: "...${text.slice(-250)}". Now please starting from new line write the next section for my ${contentType} in ${language} language.
+    let prompt = `I have ended writing the last section of ${contentType} with: "...${text.slice(-250)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in around ${sectionLength} words.
     Next section header:
     ${conspect[sectionIndex].header}
     This is a brief description of what I want you to write about in this section:
@@ -407,8 +419,9 @@ export default function Editor({setPage, title, conspect, description, embeddedV
     Additional context that might be relevant for this section:
     ${context}
     `;
-    let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} paragraphs. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep paragraphs brief and on point without writing unnecessary introductions. You write as human would in an emphatic way. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand, emphatic and approachable. You write fluently in ${language} language. You always make the section relate to the previous one. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all grammatical standards required for a professional copywriter. You always respond only with header and ${contentType} section.`;
+    let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} sections. ${language} is your native language. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with header and ${contentType} section.`;
     let model = "gpt-4";
+
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
@@ -440,7 +453,7 @@ export default function Editor({setPage, title, conspect, description, embeddedV
                 if (sectionIndex + 2 === conspect.length ) {
                   setBottomMenuPosition({
                     top: rect.top - containerRect.top + container.scrollTop + 48,
-                    left: rect.left - containerRect.left -60
+                    left: rect.left - containerRect.left -10
                   });
                 } else {
                   setBottomMenuPosition({
@@ -579,10 +592,10 @@ export default function Editor({setPage, title, conspect, description, embeddedV
             {countWords()} Words
           </div>
           <div className="ml-4 mr-4">
-            {editor.getText().length} Zzw.
+            {countNonWhitespaceCharacters()} Chars
           </div>
           {saveStatus}
-          {(nextSection && !generating) &&
+          {(nextSection && !generating && nextSection !== "end") &&
           <ConspectTab onClick={() => generateNextSection()} className="border-2"><ConspectIcon><Wand2Icon style={{ width: "auto", height: "100%" }} /></ConspectIcon>
           <p>{nextSection}</p>
           </ConspectTab>
@@ -617,6 +630,8 @@ export default function Editor({setPage, title, conspect, description, embeddedV
       setAbortController={setAbortController}
       generating={generating}
       setGenerating={setGenerating}
+      setToneOfVoice={setToneOfVoice}
+      toneOfVoice={toneOfVoice}
       />
 
     </PageContent>

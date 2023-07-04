@@ -5,7 +5,7 @@ import articleIcon from "../../../public/images/article-icon.png";
 import linkIcon from "../../../public/images/link-icon.png";
 import Centered from "../../Centered";
 import { Loader } from '../../Common/Loaders';
-import { BsArrowRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsPencilFill, BsPencilSquare, BsPlusLg, BsXLg } from 'react-icons/bs';
+import { BsArrowRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsFillLightbulbFill, BsFillMicFill, BsPencilFill, BsPencilSquare, BsPlusLg, BsXLg } from 'react-icons/bs';
 import Image from 'next/image';
 import webIcon from "../../../public/images/web-icon.png";
 import pencilIcon from "../../../public/images/pencil-icon.png";
@@ -20,567 +20,576 @@ import api from '@/pages/api';
 import axios from 'axios';
 import MultiLineSkeletonLoader from '@/components/Common/MultilineSkeletonLoader';
 import { TbWorld } from "react-icons/tb";
-import moment from 'moment';
+import moment, { lang } from 'moment';
 import Dropdown from '@/components/forms/Dropdown';
 import NoElixir from '../LimitModals/NoElixir';
 import ModalTitle from '../common/ModalTitle';
 import TypingAnimation from '../common/TypingAnimation';
+import { FaRuler } from 'react-icons/fa';
+import { IoLanguage } from 'react-icons/io5';
 
 const types = ["article", "blog", "guide", "ranking"];
 const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 
+
 const CopywritingModal = (props: {
-    onClose: any, 
-    onSuccess: any,
-    conspect: string,
-    setConspect: any,
-    title: string,
-    setTitle: any,
-    description: string,
-    setDescription: any,
-    embeddedVectorIds: string[],
-    setEmbeddedVectorIds: any,
-    contentType: string,
-    setContentType: any,
-    language: string,
-    setLanguage: any
+  onClose: any, 
+  onSuccess: any,
+  conspect: string,
+  setConspect: any,
+  title: string,
+  setTitle: any,
+  description: string,
+  setDescription: any,
+  embeddedVectorIds: string[],
+  setEmbeddedVectorIds: any,
+  contentType: string,
+  setContentType: any,
+  language: string,
+  setLanguage: any,
+  toneOfVoice: string,
+  setToneOfVoice: any,
+  setSectionLength: any
 }) => {
 
-    const [phrase, setPhrase] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [step, setStep] = useState(1);
-    const [selectedLinks, setSelectedLinks] = useState<{title: string, link: string, snippet: string}[]>([]);
-    const [sourceLoading, setSourceLoading] = useState(false);
-    const [headersLoading, setHeadersLoading] = useState(false);
-    const [googlePreviewLoading, setGooglePreviewLoading] = useState(false);
-    const [generatingGooglePreview, setGeneratingGooglePreview] = useState(false);
-    const [generatingOutline, setGeneratingOutline] = useState(false);
-    const [showEditTitle, setShowEditTitle] = useState(false);
-    const [showEditDescription, setShowEditDescription] = useState(false);
-    const [descriptionLoading, setDescriptionLoading] = useState(false);
-    const [selectedLinksError, setSelectedLinksError] = useState(false);
-    const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
-    const [searchResults, setSearchResults] = useState<any[]>([]);
-    const [peopleAlsoAsk, setPeopleAlsoAsk] = useState<{question: string, snippet: string, title: string}[]>([]);
-    const [tabInput, setTabInput] = useState<string>("");
-    const [conspectText, setConspectText] = useState<string>("");
-    const [openNewLink, setOpenNewLink] = useState(false);
-    const [abortController, setAbortController] = useState(new AbortController());
-    const [currentText, setCurrentText] = useState(0);
-    const linkRef = useRef<HTMLInputElement>(null);
-    const topRef = useRef<HTMLInputElement>(null);
-    const conspectTextAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [phrase, setPhrase] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState(1);
+  const [selectedLinks, setSelectedLinks] = useState<{title: string, link: string, snippet: string}[]>([]);
+  const [sourceLoading, setSourceLoading] = useState(false);
+  const [headersLoading, setHeadersLoading] = useState(false);
+  const [googlePreviewLoading, setGooglePreviewLoading] = useState(false);
+  const [generatingGooglePreview, setGeneratingGooglePreview] = useState(false);
+  const [generatingOutline, setGeneratingOutline] = useState(false);
+  const [showEditTitle, setShowEditTitle] = useState(false);
+  const [showEditDescription, setShowEditDescription] = useState(false);
+  const [descriptionLoading, setDescriptionLoading] = useState(false);
+  const [selectedLinksError, setSelectedLinksError] = useState(false);
+  const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [length, setLength] = useState("750");
+  const [peopleAlsoAsk, setPeopleAlsoAsk] = useState<{question: string, snippet: string, title: string}[]>([]);
+  const [tabInput, setTabInput] = useState<string>("");
+  const [conspectText, setConspectText] = useState<string>("");
+  const [openNewLink, setOpenNewLink] = useState(false);
+  const [abortController, setAbortController] = useState(new AbortController());
+  const [currentText, setCurrentText] = useState(0);
+  const linkRef = useRef<HTMLInputElement>(null);
+  const topRef = useRef<HTMLInputElement>(null);
+  const conspectTextAreaRef = useRef<HTMLTextAreaElement>(null);
 
-    useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        document.body.style.position = 'fixed';
-        return () => {
-            document.body.style.overflow = 'auto';
-            document.body.style.position = 'static';
-          };
-    }, []);
+  useEffect(() => {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      return () => {
+          document.body.style.overflow = 'auto';
+          document.body.style.position = 'static';
+        };
+  }, []);
 
-    const texts = [
-      "Checking out the conspect...",
-      "Remembering the conspect...",
-      "Saving conspect in correct format...",
-      `Scanning websites...`,
-      "Analysing chosen sources...",
-      "Verifying sources...",
-      "Reading...",
-      "Learning content...",
-      "Categorizing info...",
-      "Memorizing the results...",
-      "Give me a sec...",
-      "Give me some more time to learn...",
-      "It's taking me a while to read it, please wait...",
-      "Trust me it's worth it...",
-      "Reading next source...",
-    ];
+  const texts = [
+    "Checking out the conspect...",
+    "Remembering the conspect...",
+    "Saving conspect in correct format...",
+    `Scanning websites...`,
+    "Analysing chosen sources...",
+    "Verifying sources...",
+    "Reading...",
+    "Learning content...",
+    "Categorizing info...",
+    "Memorizing the results...",
+    "Give me a sec...",
+    "Give me some more time to learn...",
+    "It's taking me a while to read it, please wait...",
+    "Trust me it's worth it...",
+    "Reading next source...",
+  ];
 
-    useEffect(() => {
-      if (loading) {
-        const intervalId = setInterval(() => {
-          setCurrentText((prevIndex) =>
-            prevIndex === texts.length - 1 ? 0 : prevIndex + 1
-          );
-        }, 5000);
-        return () => clearInterval(intervalId);
-      }
-
-    }, [loading, texts.length]);
-
-    const fetchSource = async () => {
-        setStep(2);
-        setSelectedLinks([]);
-        setSourceLoading(true);
-        let data = JSON.stringify({
-            "q": phrase + " " + props.contentType,
-          });
-      
-          let config = {
-            method: 'post',
-            url: 'https://google.serper.dev/search',
-            headers: { 
-              'X-API-KEY': process.env.NEXT_PUBLIC_SERP_API_KEY, 
-              'Content-Type': 'application/json'
-            },
-            data : data
-          };
-
-          axios(config)
-          .then((response) => {
-            setSearchResults(response.data.organic);
-            if(response.data.peopleAlsoAsk){
-                setPeopleAlsoAsk(response.data.peopleAlsoAsk)
-            }
-            setSourceLoading(false);
-          })
-          .catch((error) => {
-            console.log(error);
-            setSourceLoading(false);
-          });
+  useEffect(() => {
+    if (loading) {
+      const intervalId = setInterval(() => {
+        setCurrentText((prevIndex) =>
+          prevIndex === texts.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 5000);
+      return () => clearInterval(intervalId);
     }
 
-    const changeGooglePreview = (result: any) => {
-        props.setTitle(result.question);
-        props.setDescription(result.snippet);
-    }
+  }, [loading, texts.length]);
 
-    const stopReplying = () => {
-        abortController.abort();
-    }
-
-    const generateGooglePreview = async () => {
-        const token = localStorage.getItem("token");
-        const userId = localStorage.getItem("user_id");
-        const workspace = localStorage.getItem("workspace");
-        const newAbortController = new AbortController();
-        setAbortController(newAbortController);
-        setGooglePreviewLoading(true);
-        setGeneratingGooglePreview(true);
-        setShowEditDescription(false);
-        setShowEditTitle(false);
-        props.setTitle("");
-        props.setDescription("");
-        if (generatingGooglePreview) {
-          stopReplying();
-          return;
-        }
-    
-        let fetchedUser = null;
-        if (workspace && workspace !== "null" && workspace !== "undefined") {
-          const {data} = await api.get(`/workspace-company/${workspace}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data.company;
-        } else {
-          const {data} = await api.get(`/users/${userId}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data;
-        }
-        //make sure user has elixir
-        if(fetchedUser.tokenBalance <= 0) {
-          setOpenNoElixirModal(true);
-          return;
-        }
-
-        let reply = "";
-
-        //get random headers and snippets from selected links
-        function randomizeArray(arr: any[]) {
-            return arr.sort(() => Math.random() - 0.5).slice(0, 2);
-        }
-        let selected = randomizeArray(selectedLinks.map(item => ({title: item.title, snippet: item.snippet})));
-        let questionsAndSnippets = randomizeArray(peopleAlsoAsk.map(item => ({question: item.question, snippet: item.snippet})));
-        let example = ""
-        if (props.contentType === "ranking") {
-          example = "I want it to be similar to: Top 10 best SEO tools in 2021 you can't miss";
-        }
-        let relevantQuestions = "";
-        if (props.contentType !== "ranking") {
-          relevantQuestions = `
-          People also ask:
-          ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
-          `
-        }
-
-        let model = "gpt-4";
-        let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
-        let prompt = `${props.contentType} keyword: ${phrase}. 
-        Top ${props.contentType}s on Google:
-        ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
-        ${relevantQuestions}
-        Now based on this data, generate the best performing title for ${props.contentType} about ${phrase}. Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Make sure to come up with title that is in ${props.language} language. ${example}
-        `
-    
-        try {
-            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-              signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: "Generated article", model, systemPrompt}),
-            });
-    
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-    
-          if(response.body){
-            const reader = response.body.getReader();
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) {
-                props.setTitle(reply);
-                generateGoogleDescription(reply);
-                break;
-              }
-      
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-              setGooglePreviewLoading(false);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    reply += data.content;
-                    props.setTitle(reply);
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
-                }
-              }
-            }
-          }
-        } catch (e: any) {
-          if (e.message === "Fetch is aborted") {
-            setGeneratingGooglePreview(false);
-          } else {
-            console.log(e);
-            setGeneratingGooglePreview(false);
-          }
-        } finally {
-          abortController.abort();
-        }
-      }
-
-      const generateGoogleDescription = async (title: string) => {
-        const token = localStorage.getItem("token");
-        const userId = localStorage.getItem("user_id");
-        const workspace = localStorage.getItem("workspace");
-        const newAbortController = new AbortController();
-        setAbortController(newAbortController);
-        setDescriptionLoading(true);
-        if (generatingGooglePreview) {
-          stopReplying();
-          return;
-        }
-        let fetchedUser = null;
-        if (workspace && workspace !== "null" && workspace !== "undefined") {
-          const {data} = await api.get(`/workspace-company/${workspace}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data.company;
-        } else {
-          const {data} = await api.get(`/users/${userId}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data;
-        }
-        //make sure user has elixir
-        if(fetchedUser.tokenBalance <= 0) {
-          setOpenNoElixirModal(true);
-          return;
-        }
-        let exclusions = "";
-        if (props.language === "Polish") {
-          exclusions = `Instead of "zanurz się" use "zobacz jak", "sprawdź", "przekonaj się" or "poznaj" whatever suits best. Use human-like Polish language.`
-        }
-
-        let reply = "";
-        let model = "gpt-4";
-        let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing Google descriptions for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique description for ${props.contentType}. Every time you generate a unique description. Description needs to be no more than 155 characters long. You are proficient in ${props.language} language. Never put descrption in quotes.`;
-        let prompt = `For ${props.contentType} titled: ${title}. 
-        Come up with the best performing description for ${props.contentType} about ${phrase}. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
-        `
-
-        try {
-            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-              signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: "Wygenerowanie opisu artykułu", model, systemPrompt, temperature: 0.7}),
-            });
-    
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-    
-          if(response.body){
-            const reader = response.body.getReader();
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) {
-                setGeneratingGooglePreview(false);
-                props.setDescription(reply)
-                break;
-              }
-      
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-              setDescriptionLoading(false);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    reply += data.content;
-                    props.setDescription(reply);
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
-                }
-              }
-            }
-          }
-    
-        } catch (e: any) {
-          if (e.message === "Fetch is aborted") {
-            setGeneratingGooglePreview(false);
-          } else {
-            console.log(e);
-            setGeneratingGooglePreview(false);
-          }
-        } finally {
-          abortController.abort();
-        }
-      }
-
-      const generateHeaders = async () => {
-        const token = localStorage.getItem("token");
-        const userId = localStorage.getItem("user_id");
-        const workspace = localStorage.getItem("workspace");
-        if (generatingOutline) {
-          return;
-        }
-        const newAbortController = new AbortController();
-        setAbortController(newAbortController);
-        setHeadersLoading(true);
-        setGeneratingOutline(true);
-        props.setConspect('');
-    
-        let fetchedUser = null;
-        if (workspace && workspace !== "null" && workspace !== "undefined") {
-          const {data} = await api.get(`/workspace-company/${workspace}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data.company;
-        } else {
-          const {data} = await api.get(`/users/${userId}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data;
-        }
-        //make sure user has elixir
-        if(fetchedUser.tokenBalance <= 0) {
-          setOpenNoElixirModal(true);
-          return;
-        }
-
-        let reply = "";
-
-        //get random headers and snippets from selected links
-        function randomizeArray(arr: any[]) {
-            return arr.sort(() => Math.random() - 0.5).slice(0, 2);
-        }
-        let selected = randomizeArray(selectedLinks.map(item => ({title: item.title, snippet: item.snippet})));
-        let questionsAndSnippets = randomizeArray(peopleAlsoAsk.map(item => ({question: item.question, snippet: item.snippet})));
-        let form = ""
-        if (props.contentType === "ranking") {
-          form = "Make it in a form of a ranking list with introduction and summary.";
-        }
-        let model = "gpt-4";
-        let systemPrompt = `You are a professional copywriter. You professionally craft unique outlines of articles that are insightful, informative, and easy to read from the information user provides. You always start with introduction section and end with summary/conclusion one, but naming them more creatively then just "Introduction" and "Conclusion". You are proficient in ${props.language} language and you always make sure that everything you write has correct ${props.language} syntax and grammar. You always come up with intriguing and attention grabbing header titles that encourage reader to read the section.`;
-        let prompt = `Craft an outline for ${props.contentType} titled "${props.title}"- ${props.description}.
-        Also you can get some inspiration from:
-        Top ${props.contentType}s on Google:
-        ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
-        People also ask:
-        ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
-        Based on title of my ${props.contentType} and description, craft a unique outline of sections and their headlines. Respond only with unique outline that is up to 6 headers. Make sure the outline is grammarly correct in ${props.language} language. ${form}
-        `
-    
-        try {
-            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-              signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `Generated ${props.contentType} conspect`, model, systemPrompt, temperature: 0.9}),
-            });
-    
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-    
-          if(response.body){
-            const reader = response.body.getReader();
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) {
-                setGeneratingOutline(false);
-                setConspectText(reply)
-                break;
-              }
-      
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-              setHeadersLoading(false);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    reply += data.content;
-                    setConspectText(reply);
-                    if (conspectTextAreaRef.current) {
-                      conspectTextAreaRef.current.scrollTop = conspectTextAreaRef.current.scrollHeight;
-                    }
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
-                }
-              }
-            }
-          }
-    
-        } catch (e: any) {
-          if (e.message === "Fetch is aborted") {
-            setGeneratingOutline(false);
-            setHeadersLoading(false);
-          } else {
-            console.log(e);
-            setHeadersLoading(false);
-            setGeneratingGooglePreview(false);
-          }
-        } finally {
-          abortController.abort();
-        }
-      }
-
-    const nextStep = () => {
-        if (step === 2) {
-            generateGooglePreview();
-        } else if (step === 3) {
-            generateHeaders();
-        }
-        setStep(step + 1);
-        if (topRef.current){
-            topRef.current.scrollTop = 0;
-        }
-    }
-    
-
-    useEffect(() => {
-        if (openNewLink) {
-          linkRef.current?.focus();
-        }
-    }, [openNewLink]);
-
-    const handleLinkSelect = (linkObject: {title: string, link: string, snippet: string}) => {
-        let isAlreadySelected = selectedLinks.some(link => link.link === linkObject.link);
-    
-        if (isAlreadySelected) {
-            setSelectedLinksError(false);
-            setSelectedLinks(selectedLinks.filter((selectedLink) => selectedLink.link !== linkObject.link));
-        } else {
-          if (selectedLinks.length >= 3) {
-            setSelectedLinksError(true);
-            return;
-          }
-          setSelectedLinks([...selectedLinks, linkObject]);
-        }
-    }    
-    
-    const handleAddLink = (e: any) => {
-        e.preventDefault();
-        setSelectedLinks((prevSelectedLinks) => {
-          if (!prevSelectedLinks) {
-            return [{
-                title: tabInput,
-                link: tabInput,
-                snippet: ""
-            }];
-          }
-          return [...prevSelectedLinks, {
-            title: tabInput,
-            link: tabInput,
-            snippet: ""
-        }];
+  const fetchSource = async () => {
+      setStep(2);
+      setSelectedLinks([]);
+      setSourceLoading(true);
+      let data = JSON.stringify({
+          "q": phrase + " " + props.contentType,
+          "gl": "pl",
+          "hl": "pl"
         });
-        setTabInput("")
-        setOpenNewLink(false);
-    };
+    
+        let config = {
+          method: 'post',
+          url: 'https://google.serper.dev/search',
+          headers: { 
+            'X-API-KEY': process.env.NEXT_PUBLIC_SERP_API_KEY, 
+            'Content-Type': 'application/json'
+          },
+          data : data
+        };
 
-    const submit = async () => {
-      if(!conspectText) {
+        axios(config)
+        .then((response) => {
+          setSearchResults(response.data.organic);
+          if(response.data.peopleAlsoAsk){
+              setPeopleAlsoAsk(response.data.peopleAlsoAsk)
+          }
+          setSourceLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setSourceLoading(false);
+        });
+  }
+
+  const changeGooglePreview = (result: any) => {
+      props.setTitle(result.question);
+      props.setDescription(result.snippet);
+  }
+
+  const stopReplying = () => {
+      abortController.abort();
+  }
+
+  const generateGooglePreview = async () => {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("user_id");
+      const workspace = localStorage.getItem("workspace");
+      const newAbortController = new AbortController();
+      setAbortController(newAbortController);
+      setGooglePreviewLoading(true);
+      setGeneratingGooglePreview(true);
+      setShowEditDescription(false);
+      setShowEditTitle(false);
+      props.setTitle("");
+      props.setDescription("");
+      if (generatingGooglePreview) {
+        stopReplying();
+        return;
+      }
+  
+      let fetchedUser = null;
+      if (workspace && workspace !== "null" && workspace !== "undefined") {
+        const {data} = await api.get(`/workspace-company/${workspace}`, {
+          headers: {
+            authorization: token
+          }
+        });
+        fetchedUser = data.company;
+      } else {
+        const {data} = await api.get(`/users/${userId}`, {
+          headers: {
+            authorization: token
+          }
+        });
+        fetchedUser = data;
+      }
+      //make sure user has elixir
+      if(fetchedUser.tokenBalance <= 0) {
+        setOpenNoElixirModal(true);
         return;
       }
 
-        let links = selectedLinks.map(item => (item.link));
-        setLoading(true);
-        try {
-          let token = localStorage.getItem("token");
-          const conspectCompletion = await api.post("/completion", {
-              prompt: `${conspectText}`,
-              model: "gpt-3.5-turbo",
-              temperature: 0,
-              systemPrompt: `Act as a JSON converter. From list of titles and descriptions return a formatted JSON output that incorporates a list of article section headers and descriptions, as per the given format. You just copy paste the headers and descriptions without changing the content into the JSON format that is exactly like one below. You always respond only with the correct JSON format trying to understand what user wanted to be a header and what a description. If there seem to be only headers respond leave description field empty and vice versa. Make sure that the formatting of the final JSON output is correct and adheres exactly to the same format as the one mentioned below:
-              [
-                {
-                  "header": "header content",
-                  "description": "what this section is about."
-                },
-                {
-                  "header": "header content",
-                  "description": "about section."
-                },
-                ...
-              ]
-              `
-          },
-          {
-              headers: {
-                  Authorization: `${token}`,
-              },
+      let reply = "";
+
+      //get random headers and snippets from selected links
+      function randomizeArray(arr: any[]) {
+          return arr.sort(() => Math.random() - 0.5).slice(0, 2);
+      }
+      let selected = randomizeArray(selectedLinks.map(item => ({title: item.title, snippet: item.snippet})));
+      let questionsAndSnippets = randomizeArray(peopleAlsoAsk.map(item => ({question: item.question, snippet: item.snippet})));
+      let example = ""
+      if (props.contentType === "ranking") {
+        example = "I want it to be similar to: Top 10 best SEO tools in 2021 you can't miss";
+      }
+      let relevantQuestions = "";
+      if (props.contentType !== "ranking") {
+        relevantQuestions = `
+        People also ask:
+        ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
+        `
+      }
+
+      let model = "gpt-4";
+      let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content in ${props.toneOfVoice} tone. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
+      let prompt = `${props.contentType} keyword: ${phrase}. 
+      Top ${props.contentType}s on Google:
+      ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
+      ${relevantQuestions}
+      Now based on this data, generate the best performing title for ${props.contentType} about ${phrase}. Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Make sure to come up with title that is in ${props.language} language. ${example}
+      `
+  
+      try {
+          const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+            signal: newAbortController.signal,
+            body: JSON.stringify({prompt, title: "Wygenerowanie tytułu artykułu", model, systemPrompt}),
           });
-
-          props.setConspect(JSON.parse(conspectCompletion.data.completion))
-            const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
-                urls: links,
-            }, {
-                headers: {
-                  'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
-                }
-            });
-            setLoading(false);
-            props.setEmbeddedVectorIds(scrapingResponse.data.ids)
-            localStorage.setItem("generateIntro", "true");
-            props.onSuccess();
-        } catch (e) {
-            setLoading(false);
-            console.log(e);
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
-
+  
+        if(response.body){
+          const reader = response.body.getReader();
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+              props.setTitle(reply);
+              generateGoogleDescription(reply);
+              break;
+            }
+    
+            const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+            setGooglePreviewLoading(false);
+            for (const jsonString of jsonStrings) {
+              try {
+                const data = JSON.parse(jsonString);
+                if (data.content) {
+                  reply += data.content;
+                  props.setTitle(reply);
+                }
+              } catch (error) {
+                console.error('Error parsing JSON:', jsonString, error);
+              }
+            }
+          }
+        }
+      } catch (e: any) {
+        if (e.message === "Fetch is aborted") {
+          setGeneratingGooglePreview(false);
+        } else {
+          console.log(e);
+          setGeneratingGooglePreview(false);
+        }
+      } finally {
+        abortController.abort();
+      }
     }
 
+    const generateGoogleDescription = async (title: string) => {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("user_id");
+      const workspace = localStorage.getItem("workspace");
+      const newAbortController = new AbortController();
+      setAbortController(newAbortController);
+      setDescriptionLoading(true);
+      if (generatingGooglePreview) {
+        stopReplying();
+        return;
+      }
+      let fetchedUser = null;
+      if (workspace && workspace !== "null" && workspace !== "undefined") {
+        const {data} = await api.get(`/workspace-company/${workspace}`, {
+          headers: {
+            authorization: token
+          }
+        });
+        fetchedUser = data.company;
+      } else {
+        const {data} = await api.get(`/users/${userId}`, {
+          headers: {
+            authorization: token
+          }
+        });
+        fetchedUser = data;
+      }
+      //make sure user has elixir
+      if(fetchedUser.tokenBalance <= 0) {
+        setOpenNoElixirModal(true);
+        return;
+      }
+      let exclusions = "";
+      if (props.language === "Polski") {
+        exclusions = `Instead of "zanurz się" use "zobacz jak", "sprawdź", "przekonaj się" or "poznaj" whatever suits best. Use human-like Polish language.`
+      }
+
+      let reply = "";
+      let model = "gpt-4";
+      let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing Google descriptions for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique description for ${props.contentType}. Every time you generate a unique description. Description needs to be no more than 155 characters long. You are proficient in ${props.language} language. You never put descrption in quotes and write it in ${props.toneOfVoice} tone of voice.`;
+      let prompt = `For ${props.contentType} titled: ${title}. 
+      Come up with the best performing description for ${props.contentType} about ${phrase} in ${props.toneOfVoice} tone of voice. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
+      `
+
+      try {
+          const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+            signal: newAbortController.signal,
+            body: JSON.stringify({prompt, title: "Wygenerowanie opisu artykułu", model, systemPrompt, temperature: 0.7}),
+          });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        if(response.body){
+          const reader = response.body.getReader();
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+              setGeneratingGooglePreview(false);
+              props.setDescription(reply)
+              break;
+            }
+    
+            const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+            setDescriptionLoading(false);
+            for (const jsonString of jsonStrings) {
+              try {
+                const data = JSON.parse(jsonString);
+                if (data.content) {
+                  reply += data.content;
+                  props.setDescription(reply);
+                }
+              } catch (error) {
+                console.error('Error parsing JSON:', jsonString, error);
+              }
+            }
+          }
+        }
+  
+      } catch (e: any) {
+        if (e.message === "Fetch is aborted") {
+          setGeneratingGooglePreview(false);
+        } else {
+          console.log(e);
+          setGeneratingGooglePreview(false);
+        }
+      } finally {
+        abortController.abort();
+      }
+    }
+
+    const generateHeaders = async () => {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("user_id");
+      const workspace = localStorage.getItem("workspace");
+      if (generatingOutline) {
+        return;
+      }
+      const newAbortController = new AbortController();
+      setAbortController(newAbortController);
+      setHeadersLoading(true);
+      setGeneratingOutline(true);
+      props.setConspect('');
+  
+      let fetchedUser = null;
+      if (workspace && workspace !== "null" && workspace !== "undefined") {
+        const {data} = await api.get(`/workspace-company/${workspace}`, {
+          headers: {
+            authorization: token
+          }
+        });
+        fetchedUser = data.company;
+      } else {
+        const {data} = await api.get(`/users/${userId}`, {
+          headers: {
+            authorization: token
+          }
+        });
+        fetchedUser = data;
+      }
+      //make sure user has elixir
+      if(fetchedUser.tokenBalance <= 0) {
+        setOpenNoElixirModal(true);
+        return;
+      }
+
+      let reply = "";
+
+      //get random headers and snippets from selected links
+      function randomizeArray(arr: any[]) {
+          return arr.sort(() => Math.random() - 0.5).slice(0, 2);
+      }
+      let selected = randomizeArray(selectedLinks.map(item => ({title: item.title, snippet: item.snippet})));
+      let questionsAndSnippets = randomizeArray(peopleAlsoAsk.map(item => ({question: item.question, snippet: item.snippet})));
+      let form = ""
+      if (props.contentType === "ranking") {
+        form = "Make it in a form of a ranking list with introduction and summary.";
+      }
+      let model = "gpt-4";
+      let systemPrompt = `You are a professional copywriter. You professionally craft unique outlines of articles that are insightful, informative, and easy to read from the information user provides. You always start with introduction section and end with summary/conclusion one, but naming them more creatively then just "Introduction" and "Conclusion". You are proficient in ${props.language} language and you always make sure that everything you write has correct ${props.language} syntax and grammar. You always come up with intriguing and attention grabbing header titles that encourage reader to read the section.`;
+      let prompt = `Craft an outline for ${props.contentType} titled "${props.title}"- ${props.description}. Write it in ${props.toneOfVoice} style.
+      Also you can get some inspiration from:
+      Top ${props.contentType}s on Google:
+      ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
+      People also ask:
+      ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
+      Based on title of my ${props.contentType} and description, craft a unique outline of sections and their headlines. Respond only with unique outline that is up to 6 headers. Make sure the outline is grammarly correct in ${props.language} language. ${form}
+      `
+  
+      try {
+          const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+            signal: newAbortController.signal,
+            body: JSON.stringify({prompt, title: `Wygenerowanie nagłówków- ${props.contentType} `, model, systemPrompt, temperature: 0.9}),
+          });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        if(response.body){
+          const reader = response.body.getReader();
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+              setGeneratingOutline(false);
+              setConspectText(reply)
+              break;
+            }
+    
+            const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+            setHeadersLoading(false);
+            for (const jsonString of jsonStrings) {
+              try {
+                const data = JSON.parse(jsonString);
+                if (data.content) {
+                  reply += data.content;
+                  setConspectText(reply);
+                  if (conspectTextAreaRef.current) {
+                    conspectTextAreaRef.current.scrollTop = conspectTextAreaRef.current.scrollHeight;
+                  }
+                }
+              } catch (error) {
+                console.error('Error parsing JSON:', jsonString, error);
+              }
+            }
+          }
+        }
+  
+      } catch (e: any) {
+        if (e.message === "Fetch is aborted") {
+          setGeneratingOutline(false);
+          setHeadersLoading(false);
+        } else {
+          console.log(e);
+          setHeadersLoading(false);
+          setGeneratingGooglePreview(false);
+        }
+      } finally {
+        abortController.abort();
+      }
+    }
+
+  const nextStep = () => {
+      if (step === 2) {
+          generateGooglePreview();
+      } else if (step === 3) {
+          generateHeaders();
+      }
+      setStep(step + 1);
+      if (topRef.current){
+          topRef.current.scrollTop = 0;
+      }
+  }
+  
+
+  useEffect(() => {
+      if (openNewLink) {
+        linkRef.current?.focus();
+      }
+  }, [openNewLink]);
+
+  const handleLinkSelect = (linkObject: {title: string, link: string, snippet: string}) => {
+      let isAlreadySelected = selectedLinks.some(link => link.link === linkObject.link);
+  
+      if (isAlreadySelected) {
+          setSelectedLinksError(false);
+          setSelectedLinks(selectedLinks.filter((selectedLink) => selectedLink.link !== linkObject.link));
+      } else {
+        if (selectedLinks.length >= 3) {
+          setSelectedLinksError(true);
+          return;
+        }
+        setSelectedLinks([...selectedLinks, linkObject]);
+      }
+  }    
+  
+  const handleAddLink = (e: any) => {
+      e.preventDefault();
+      setSelectedLinks((prevSelectedLinks) => {
+        if (!prevSelectedLinks) {
+          return [{
+              title: tabInput,
+              link: tabInput,
+              snippet: ""
+          }];
+        }
+        return [...prevSelectedLinks, {
+          title: tabInput,
+          link: tabInput,
+          snippet: ""
+      }];
+      });
+      setTabInput("")
+      setOpenNewLink(false);
+  };
+
+  const submit = async () => {
+    if(!conspectText) {
+      return;
+    }
+
+      let links = selectedLinks.map(item => (item.link));
+      setLoading(true);
+      try {
+        let token = localStorage.getItem("token");
+        const conspectCompletion = await api.post("/completion", {
+            prompt: `${conspectText}`,
+            model: "gpt-3.5-turbo",
+            temperature: 0,
+            systemPrompt: `Act as a JSON converter. From list of titles and descriptions return a formatted JSON output that incorporates a list of article section headers and descriptions, as per the given format. You just copy paste the headers and descriptions without changing the content into the JSON format that is exactly like one below. You always respond only with the correct JSON format trying to understand what user wanted to be a header and what a description. If there seem to be only headers respond leave description field empty and vice versa. Make sure that the formatting of the final JSON output is correct and adheres exactly to the same format as the one mentioned below:
+            [
+              {
+                "header": "header content",
+                "description": "what this section is about."
+              },
+              {
+                "header": "header content",
+                "description": "about section."
+              },
+              ...
+            ]
+            `
+        },
+        {
+            headers: {
+                Authorization: `${token}`,
+            },
+        });
+        const completionJSON = JSON.parse(conspectCompletion.data.completion);
+        props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
+        props.setConspect(completionJSON)
+          const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+              urls: links,
+          }, {
+              headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
+              }
+          });
+          setLoading(false);
+          props.setEmbeddedVectorIds(scrapingResponse.data.ids)
+          localStorage.setItem("generateIntro", "true");
+          props.onSuccess();
+      } catch (e) {
+          setLoading(false);
+          console.log(e);
+      }
+
+  }
 
     return (
         <ModalBackground ref={topRef}>
@@ -622,10 +631,15 @@ const CopywritingModal = (props: {
                                     required
                                     autoComplete="off"
                                 />
-                            <div style={{width: "100%", display: "flex", flexWrap: "wrap"}}>
+                            <div style={{display: "flex", justifyContent: "space-between", marginTop: "1.5rem"}}>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                <LabelIcon>
+                                    <IoLanguage style={{ width: "100%", height: "auto" }} />
+                                </LabelIcon>
                                 <Label>Language</Label>
+                                </div>
                                 <Dropdown
-                                    type="text"
                                     placeholder="Polish"
                                     required
                                     value={props.language}
@@ -633,6 +647,42 @@ const CopywritingModal = (props: {
                                     onChange={props.setLanguage}
                                     error={undefined}
                                 /> 
+                            </div>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                              <LabelIcon>
+                                  <FaRuler style={{ width: "100%", height: "auto" }} />
+                              </LabelIcon>
+                              <Label>Total words</Label>
+                              </div>
+                                <Input
+                                    type="number"
+                                    placeholder="750"
+                                    required
+                                    value={length}
+                                    onChange={(e) => setLength(e.target.value)}
+                                    min={100}
+                                    max={2000}
+                                /> 
+                            </div>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                  <LabelIcon>
+                                      <BsFillMicFill style={{width: "100%", height: "auto"}}/>
+                                  </LabelIcon>
+                                  <Label>
+                                      Tone of voice
+                                  </Label>
+                              </div>
+                                <Input
+                                    type="text"
+                                    placeholder="Jack Sparrow"
+                                    height="2.44rem"
+                                    required
+                                    value={props.toneOfVoice}
+                                    onChange={(e) => props.setToneOfVoice(e.target.value)}
+                                /> 
+                            </div>
                             </div>
                             <div className='mt-6'>
                                 <Label>
@@ -1290,3 +1340,12 @@ const Texts = styled.div`
     margin-top: 1rem;
   }
 `;
+
+const LabelIcon = styled.div`
+width: 1rem;
+height: 1rem;
+margin-right: 0.4rem;
+margin-left: 0.25rem;
+margin-top: 0.1rem;
+color: black;
+`

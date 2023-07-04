@@ -1,10 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
-import BtnIcon from "@/components/Common/BtnIcon";
-import Image from "next/image";
-import webIcon from "../../../public/images/web-icon.png";
-import { SlOptionsVertical } from "react-icons/sl";
 import MultiLineSkeletonLoader from "@/components/Common/MultilineSkeletonLoader";
 import TextArea from "@/components/forms/TextArea";
 import { BsCheckLg, BsFillLightbulbFill, BsFillMicFill, BsFillPlayFill, BsPencilFill, BsStars } from "react-icons/bs";
@@ -25,8 +21,8 @@ import { selectFoldersState } from '@/store/selectedFoldersSlice'
 import { useSelector } from 'react-redux'
 import { TbPlayerStopFilled } from "react-icons/tb";
 
-const lengths = ["Short", "Medium", "Long", "Very long"];
-const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
+const lengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
+const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński", "Hebrajski"];
 
 interface Document {
     owner: string,
@@ -58,18 +54,19 @@ const EditorSidebar = (props: {
     setAbortController: any,
     generating: boolean,
     setGenerating: any,
+    toneOfVoice: string,
+    setToneOfVoice: any,
 }) => {
     const [googlePreviewLoading, setGooglePreviewLoading] = useState(true);
     const [showEditTitle, setShowEditTitle] = useState(false);
     const [showEditDescription, setShowEditDescription] = useState(false);
     const [loading, setLoading] = useState(false);
     const [topic, setTopic] = useState("");
-    const [length, setLength] = useState("Long");
-    const [language, setLanguage] = useState("English");
+    const [length, setLength] = useState("Długi");
+    const [language, setLanguage] = useState("Polski");
     const [toneToggle, setToneToggle] = useState(true);
     const [keywordsToggle, setKeywordsToggle] = useState(true);
     const [keywords, setKeywords] = useState("");
-    const [tone, setTone] = useState("");
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     let selectedFolders: Folder[] = useSelector(selectFoldersState);
 
@@ -209,17 +206,17 @@ const EditorSidebar = (props: {
         if (text.length > 2) {
             previousTextPrompt = `So far I have written: "${text.slice(-800)}" `;
         }
-        if (tone && toneToggle) {
-            tonePrompt = `Please write it in ${tone} tone of voice. `;
+        if (props.toneOfVoice && toneToggle) {
+            tonePrompt = `Please write it in ${props.toneOfVoice} tone of voice. `;
         }
         if (keywords && keywordsToggle) {
             keywordsPrompt = `Please remember to seamlessly include the following keywords: ${keywords} `;
         }
-        if (length === "Long") {
+        if (length === "Długi") {
             lengthPrompt = "Please write it in between 600-800 words. ";
-        } else if (length === "Medium") {
+        } else if (length === "Średni") {
             lengthPrompt = "Please write it in around 400 words. ";
-        } else if (length === "Short") {
+        } else if (length === "Krótki") {
             lengthPrompt = "Please write it in around 150 words. ";
         }
 
@@ -310,27 +307,12 @@ const EditorSidebar = (props: {
         }
       }
     
-
     return (
         <SidbarContainer>
             {openNoElixirModal && <NoElixir onClose={() => setOpenNoElixirModal(false)} />}
             <Sidebar className="border-stone-200">
             <div className='w-full rounded-3xl'>
                 <div>
-                        <div className='w-full flex text-black items-center mb-1'>
-                            <BtnIcon>
-                                <Image src={webIcon} alt='favicon' />
-                            </BtnIcon>
-                            <div className='ml-2'>
-                                <p className='text-sm font-medium'>yourwebsite.com</p>
-                                <p className='text-xs -mt-0.5 text-[#4E5156]'>yourwebsite.com &gt; article &gt; your-article-ti..</p>
-                            </div>
-                            <div className='flex '>
-                            <div className='h-4 mt-5 ml-2'>
-                                <SlOptionsVertical style={{ color: "black", height: "70%" }} />
-                            </div>
-                            </div>
-                        </div>
                         {googlePreviewLoading ?
                         <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />
                         :
@@ -463,9 +445,9 @@ const EditorSidebar = (props: {
                         </Switch>
                         </div>
                         <Input 
-                            value={tone} 
+                            value={props.toneOfVoice} 
                             padding="0.75rem"
-                            onChange={(e) => setTone(e.target.value)} 
+                            onChange={(e) => props.setToneOfVoice(e.target.value)} 
                             height="2.8rem" 
                             placeholder="Scientific, Elon Musk etc."
                         />
