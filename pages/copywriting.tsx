@@ -7,14 +7,15 @@ import CopywritingModal from "@/components/Modals/AddingModals/CopywritingModal"
 import TextEditor from "@/components/Copywriting/TextEditor";
 
 const DocumentCreator = () => {
-
   const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
   const [copywritingModal, setCopywritingModal] = useState(false);
   const [embeddedVectorIds, setEmbeddedVectorIds] = useState<any[]>([]);
+  const [toneOfVoice, setToneOfVoice] = useState("");
   const [conspect, setConspect] = useState<any>(null);
   const [title, setTitle] = useState("New Document");
   const [description, setDescription] = useState("");
-  const [language, setLanguage] = useState("Polish");
+  const [language, setLanguage] = useState("English");
+  const [sectionLength, setSectionLength] = useState();
   const [page, setPage] = useState(1);
   const [contentType, setContentType] = useState("");
 
@@ -28,7 +29,7 @@ const DocumentCreator = () => {
     <PageTemplate userProfiles={[]}>
       <Head>
           <title>Copywriting | Yepp AI</title>
-          <meta name="description" content="Craft unique SEO content on any topic with AI." />
+          <meta name="description" content="Craft unique SEO internet-based content on any topic with AI." />
       </Head>
       {openNoElixirModal && <NoElixir onClose={() => setOpenNoElixirModal(false)} />}
       {copywritingModal && <CopywritingModal 
@@ -46,6 +47,9 @@ const DocumentCreator = () => {
         setContentType={setContentType}
         language={language}
         setLanguage={setLanguage}
+        toneOfVoice={toneOfVoice}
+        setToneOfVoice={setToneOfVoice}
+        setSectionLength={setSectionLength}
       />}
       {page === 1 &&
         <FirstPage nextPage={() => setPage(2)} openModal={() => setCopywritingModal(true)}/>
@@ -61,6 +65,9 @@ const DocumentCreator = () => {
               language={language}
               setDescription={setDescription}
               setTitle={setTitle}
+              toneOfVoice={toneOfVoice}
+              setToneOfVoice={setToneOfVoice}
+              sectionLength={sectionLength}
             />
       }
     </PageTemplate>
@@ -68,5 +75,3 @@ const DocumentCreator = () => {
 }
 
 export default DocumentCreator;
-
-
