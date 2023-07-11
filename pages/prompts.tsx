@@ -3,7 +3,7 @@ import Logo from "@/components/Landing/Logo";
 import PageTemplate from "@/components/Common/PageTemplate";
 import styled from "styled-components";
 import Image, { StaticImageData } from "next/image";
-import blackLogo from "../public/images/logo_black.png";
+import blackLogo from "../public/images/logo.png";
 import { BsSunglasses, BsHeart, BsHeartFill, BsSearch, BsFillBarChartFill, BsPlayFill, BsArrowRight, BsArrowLeft, BsFillEnvelopeFill, BsFillEaselFill, BsFillEmojiLaughingFill, BsApple, BsReverseListColumnsReverse, BsFillPhoneFill, BsCreditCardFill, BsFillPersonPlusFill, BsBuildingFill, BsLightbulbFill, BsCaretUpFill } from "react-icons/bs";
 import Masonry from 'react-masonry-css'
 import { motion } from 'framer-motion'

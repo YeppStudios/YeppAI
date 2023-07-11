@@ -18,47 +18,12 @@ import { HiMenu } from 'react-icons/hi';
 import { motion, useAnimation } from 'framer-motion';
 
 
-const plans = [
-{name: "Assistant", 
-  tabs: [  
-    {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
-    {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai"},
-    {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat"},
-    // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
-    // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
-  ],
-  id: "63f0e7ed75de0ef12bb8c487"
-},
-{name: "Assistant Basic", 
-tabs: [  
-  {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
-  {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai", locked: true},
-  {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat", locked: true},
-  // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts", locked: true},
-  // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
-],
-id: "647895cf404e31bfe8753398"
-},
-{name: "Assistant Pro", 
-tabs: [  
+const tabs = [  
   {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
   {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai"},
   {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat"},
-  // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts", locked: true},
+  // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
   // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
-],
-id: "6478970a404e31bfe87533a0"
-},
-{name: "Assistant Business", 
-  tabs: [  
-    {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
-    {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai"},
-    {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat"},
-    // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
-    // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
-  ],
-  id: "6444d4394ab2cf9819e5b5f4"
-}
 ]
 
 const animationVariants = {
@@ -100,21 +65,7 @@ const NavigationBar = () => {
 }
 
   const memoizedNavigationTabs = useMemo(() => {
-    let fetchedTabs: any[] = [];
 
-    if (user && plan) {
-      if (!plan._id || plan._id === "647c3294ff40f15b5f6796bf") {
-        fetchedTabs = plans.find((plan) => plan.name === "Assistant Business")?.tabs || [];
-      } else if (plan._id === "6444d4394ab2cf9819e5b5f4") {
-        fetchedTabs = plans.find((plan) => plan.name === "Assistant Business")?.tabs || [];
-      } else if (plan._id === "63f0e7d075de0ef12bb8c484" || plan._id === "63f0e6968e1b9d507c38a749" || plan._id === "63f0e7ed75de0ef12bb8c487") {
-        fetchedTabs = plans.find((plan) => plan.name === "Assistant")?.tabs || [];
-      } else if (plan._id === "647895cf404e31bfe8753398") {
-        fetchedTabs = plans.find((plan) => plan.name === "Assistant Basic")?.tabs || [];
-      } else if (plan._id === "6478970a404e31bfe87533a0") {
-        fetchedTabs = plans.find((plan) => plan.name === "Assistant Pro")?.tabs || [];
-      }
-    }
     return (
       <Navigation>
         {mobile ? 
@@ -135,42 +86,24 @@ const NavigationBar = () => {
           </Centered>
         </>
         }
-        {fetchedTabs.map((tab) => (
+        {tabs.map((tab) => (
           <div id={tab.id} key={tab.id}>
             {!(tab.path.includes(pathname) && pathname !== "/") ? (
               mobile ?
               <>
-              {tab.locked ?
-                <SlideBottom>
-                  <NavigationTab hover={isHovered} title={tab.title} onClick={handleLockedClick}>
-                    <Locked><Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image> </Locked>
-                    <NavigationIcon>{tab.icon}</NavigationIcon>
-                    <NavigationText>{tab.title}</NavigationText>
-                  </NavigationTab>
-                </SlideBottom>
-                :
                 <SlideBottom>
                   <NavigationTab hover={isHovered} title={tab.title} onClick={() => router.push(`${tab.path}`)}>
                     <NavigationIcon>{tab.icon}</NavigationIcon>
                     <NavigationText>{tab.title}</NavigationText>
                   </NavigationTab>
                 </SlideBottom>
-              }
               </>
               :
               <>
-              {tab.locked ?
-                <NavigationTab hover={isHovered} title={tab.title} onClick={handleLockedClick}>
-                  <Locked>{!isHovered && <Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image>}</Locked>
-                  <NavigationIcon>{tab.icon}</NavigationIcon>
-                  {isHovered && <NavigationText>{tab.title}</NavigationText>}
-                </NavigationTab>
-                :
                 <NavigationTab hover={isHovered} title={tab.title} onClick={() => router.push(`${tab.path}`)}>
                   <NavigationIcon>{tab.icon}</NavigationIcon>
                   {isHovered && <NavigationText>{tab.title}</NavigationText>}
                 </NavigationTab>
-              }
               </>
             ) : (
               mobile ?
@@ -197,7 +130,7 @@ const NavigationBar = () => {
   return (
       <>
       {openAddTeammateModal && <AddTeammate onClose={() => setOpenAddTeammateModal(false)} />}
-      {openSubscriptionModal && <UpgradeSubscription onClose={() => setOpenSubscriptionModal(false)} />}
+      {openSubscriptionModal && <UpgradeSubscription onClose={() => setOpenSubscriptionModal(false)} closeable={true}/>}
       {mobile &&
       <Navbar 
         variants={animationVariants}
@@ -210,18 +143,10 @@ const NavigationBar = () => {
         <ProfileContainer id="profile-tab">
             {!(pathname.includes("assets")) ? 
               <CustomAIContainer>
-              {plan._id === "647895cf404e31bfe8753398" ?
-                <NavigationTab hover={isHovered} title="Assets" onClick={handleLockedClick}>
-                  <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                    <NavigationText>Assets</NavigationText>
-                    <Locked><Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image> </Locked>
-                </NavigationTab>
-              :
                 <NavigationTab hover={isHovered} title="Assets" onClick={() => router.push(`/assets`)}>
                   <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
                     <NavigationText>Assets</NavigationText>
                 </NavigationTab>
-                }
               </CustomAIContainer>
               :
               <CustomAIContainer>
@@ -230,9 +155,6 @@ const NavigationBar = () => {
                 {plan._id !== "647895cf404e31bfe8753398" && 
                  <NavigationText>Assets</NavigationText>
                 }
-                {plan._id === "647895cf404e31bfe8753398" &&
-                        <Locked><Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image> </Locked>
-                  }
               </SelectedNavigationTab>
               </CustomAIContainer>
             }
@@ -255,28 +177,17 @@ const NavigationBar = () => {
             <ProfileContainer id="profile-tab">
                 {(!(pathname.includes("assets")) && pathname !== "/") ? 
                   <CustomAIContainer>
-                  {plan._id === "647895cf404e31bfe8753398" ? 
-                  <NavigationTab hover={isHovered} title="Assets" onClick={handleLockedClick}>
-                    <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
-                      {isHovered && <NavigationText>Assets</NavigationText>}
-                      <Locked>{!isHovered && <Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image>} </Locked>
-                  </NavigationTab>
-                  :
                   <NavigationTab hover={isHovered} title="Assets" onClick={() => router.push(`/assets`)}>
                     <NavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></NavigationIcon>
                       {isHovered && <NavigationText>Assets</NavigationText>}
                   </NavigationTab>
-                  }
                   </CustomAIContainer>
                   :
                   <CustomAIContainer>
                   <SelectedNavigationTab hovered={isHovered}>
                     <SelectedNavigationIcon><BsFillArchiveFill style={{height: "100%", width: "auto"}}/></SelectedNavigationIcon>
-                    {plan._id !== "647895cf404e31bfe8753398" && 
+                    {
                       isHovered && <NavigationText>Assets</NavigationText>
-                    }
-                    {plan._id === "647895cf404e31bfe8753398" &&
-                      <Locked>{!isHovered && <Image style={{ width: "auto", height: "70%" }}  src={lock} alt={'locked'}></Image>} </Locked>
                     }
                   </SelectedNavigationTab>
                   </CustomAIContainer>
@@ -361,7 +272,7 @@ const MobileTopNavbar = styled.div`
 `
 
 const LogoContainer = styled.div<{background: any}>`
-  width: 1.35rem;
+  width: 1.5rem;
   height: 2rem;
   overflow: visible;
   margin-bottom: 1rem;

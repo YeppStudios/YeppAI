@@ -391,13 +391,13 @@ const BottomPanel = () => {
                 <AddElixir onClose={() => setOpenElixirModal(false)} />
                 :
                 openElixirModal &&
-                <UpgradeSubscription onClose={() => setOpenElixirModal(false)} />
+                <UpgradeSubscription onClose={() => setOpenElixirModal(false)} closeable={true} />
             }
             {openUpgradeModal && plan ? 
-            <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} />
+            <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} closeable={true} />
             :
             openUpgradeModal &&
-            <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} />
+            <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)}closeable={true} />
             }
             {openReferralModal && <ReferralModal showDescription={true} onClose={() => setOpenReferralModal(false)} />}
             {mobile &&
@@ -488,7 +488,7 @@ const BottomPanel = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             type="email"
-                            placeholder="email@firmowy.com"
+                            placeholder="email@gmail.com"
                             className="border-2 text-black font-medium rounded-2xl px-4 py-2 w-10/12 sm:w-56"
                         >
                         </input>
@@ -504,7 +504,7 @@ const BottomPanel = () => {
                     {renderEmployees()}
                 </div> 
                 </ListContainer>
-                {!mobile &&
+                {/* {!mobile &&
                 <SlideBottom>
                     <APIContainer>
                         <div style={{display: "flex", alignItems: "flex-end"}}>
@@ -519,7 +519,7 @@ const BottomPanel = () => {
                     </ApiKeyContainer>
                     </APIContainer>
                 </SlideBottom>  
-                }
+                } */}
                 </>
 
             }
@@ -631,7 +631,7 @@ const Panel = styled.div`
 
 const ListContainer = styled.div`
     padding: 3vh 2vw 4vh 2vw;
-    height: 57vh;
+    height: 78vh;
     margin: 2vh 0 1.5vh 0vh;
     background: white;
     overflow: hidden;
@@ -677,7 +677,7 @@ const Title = styled.h2`
 const Transactions = styled.div`
     margin-top: 2vh;
     width: 100%;
-    height: 57vh;
+    height: 100%;
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;

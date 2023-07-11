@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import logo from "../../public/images/logo_black.png";
+import logo from "../../public/images/logo.png";
 import { BsFillGiftFill } from "react-icons/bs";
 import { useEffect, useInsertionEffect, useState } from "react";
 import Link from "next/link";

@@ -71,15 +71,15 @@ const TopPanel = (props: {stats: any}) => {
         <Panel>
             {user &&
             <div style={{width: "100%", height: "100%"}}>
-            {openSubscriptionModal && user.plan ? <SubscriptionModal onClose={() => setOpenSubscriptionModal(false)} /> : openSubscriptionModal && <UpgradeSubscription onClose={() => setOpenSubscriptionModal(false)} />}
+            {openSubscriptionModal && user.plan ? <SubscriptionModal onClose={() => setOpenSubscriptionModal(false)} /> : openSubscriptionModal && <UpgradeSubscription onClose={() => setOpenSubscriptionModal(false)} closeable={true} />}
             {openReferralModal && <ReferralModal showDescription={true} onClose={() => setOpenReferralModal(false)} />}
             {openDeleteModal && <DeleteAccount onClose={() => setOpenDeleteModal(false)}/>}  
-            {openUpgradeModal && <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} />}
+            {openUpgradeModal && <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} closeable={true}/>}
             <HeaderButtons>
                 {user.plan ?
-                 <SubscriptionButton onClick={() => setOpenSubscriptionModal(true)}>Subscription</SubscriptionButton>
+                 <SubscriptionButton onClick={() => setOpenSubscriptionModal(true)}>Manage subscription</SubscriptionButton>
                  :
-                 <SubscriptionButton onClick={() => setOpenUpgradeModal(true)}>Subscription</SubscriptionButton>
+                 <SubscriptionButton onClick={() => setOpenUpgradeModal(true)}>Manage subscription</SubscriptionButton>
                 }
                 <Menu as="div" className="relative inline-block text-left">
                 <div>

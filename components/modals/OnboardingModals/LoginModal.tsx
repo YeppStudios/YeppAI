@@ -11,6 +11,8 @@ import { send } from "@emailjs/browser";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setSelectedUser } from "../../../store/userSlice";
+import ColorfulText from "@/components/Common/ColorfulText";
+import { AxiosResponse } from "axios";
 
 const LoginModal = (props: {onClose: any, registration: boolean}) => {
 
@@ -32,14 +34,12 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
     const [resetError, setResetError] = useState(false);
     const [mobile, setMobile] = useState(false);
     const router = useRouter();
-    const currentPath = router.pathname;
 
     const dispatch = useDispatch();
-    const { invitedEmail } = router.query;
+    const { invitedEmail, trial, priceId, planName, planId, billingPeriod } = router.query;
 
     useEffect(() => {
         const { registration, workspace, company, invitedEmail } = router.query;
-
         if (registration) {
           setRegistration(true);
         }
@@ -49,11 +49,9 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
         if (workspace) {
             setWorkspace(workspace as string);
         }
-
         if(window.innerWidth <= 1023){
             setMobile(true);
         }
-        
     }, [router.query])
 
     useEffect(() => {
@@ -95,63 +93,17 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
         });  
     }
 
-    const sendVerificationCode = async (email: string, name: string, code: string) => {
-        setLoading(false);
-        setResetError(false);
-
-        const templateParams = {
-            name: `${name}`,
-            code: `${code}`,
-            email: `${email}`
-          };
-        send("service_5j2yxyh","template_v4bh1mo", templateParams, process.env.NEXT_PUBLIC_EMAILJS_USER_KEY)
-        .then(function(response) {
-        }, function(error) {
-            console.log('FAILED...', error);
-            setResetError(true);
-        });  
-    }
-
-    // const verifyCode = async (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     setLoading(true);
-    //     try {
-    //         const { data } = await api.post("/verify-email", {email, code, name});
-    //         Cookies.set("token", "Bearer " + data.token, { expires: 7 });
-    //         Cookies.set("user_id", data.newUser._id, { expires: 7 });
-    //         Cookies.set("username", data.newUser.name, { expires: 7 });
-    //         localStorage.setItem('token', "Bearer " + data.token);
-    //         localStorage.setItem('user_id', data.newUser._id);
-    //         localStorage.setItem('plan', data.newUser.plan);
-    //         localStorage.setItem('workspace', data.newUser.workspace);
-    //         localStorage.setItem('account_type', data.newUser.accountType);
-    //         setLoading(false);
-    //         if (!(currentPath.includes("onboarding"))) {
-    //             if(mobile){
-    //                 router.push("/menu");
-    //                 router.reload();
-    //             } else {
-    //                 router.reload();
-    //             }
-
-    //         } else {
-    //             props.onClose();
-    //         }
-    //         setLoading(false);
-    //     } catch {
-    //         setCodeError(true);
-    //         setLoading(false);
-    //     }
-
-    // }
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
+        let successUrl = `https://www.yepp.ai/assets?success`;
+        let invoiceTitle = `Yepp.ai - ${planName} monthly subscription`;
+        if (Number(billingPeriod) > 1) {
+            invoiceTitle = `Yepp.ai - ${billingPeriod} months of ${planName} subscription`;
+        }
+
         try {
-            let response;
-            let planResponse;
-            let profilesResponse;
+            let response: AxiosResponse<any, any>;
             if (registration) {
                 window.gtag("event", "register", {
                     event_category: "user",
@@ -162,11 +114,6 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     setRegistrationPasswordError(true);
                     return;
                   }
-                  if(!agreement){
-                      setLoading(false);
-                      setAgreementError(true);
-                      return;
-                }
                 let referrerId;
                 const { ref } = router.query;
                 if (ref) {
@@ -186,16 +133,40 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     localStorage.setItem('workspace', response.data.newUser.workspace);
                     localStorage.setItem('account_type', response.data.newUser.accountType);
                     setLoading(false);
-                    if (!(currentPath.includes("onboarding"))) {
-                            router.push("/assets");
-                            props.onClose();
-                            router.reload()
-                    } else {
-                        props.onClose();
+                    props.onClose();
+                } else {
+                    response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId, blockAccess: true });
+                    if (trial) {
+                        let res = await api.post(`/create-checkout-session`, 
+                        {
+                            priceId: "price_1NSZghFe80Kn2YGGOiClJUPM",
+                            mode: "subscription",
+                            successURL: successUrl,
+                            cancelURL: `${window.location.origin}${router.asPath}`,
+                            planId: "64ad0d250e40385f299bceea",
+                            email,
+                            trial,
+                            months: 1,
+                            global: true
+                        });
+                        const { url } = await res.data;
+                        window.location.href = url;
+                    } else if (planId) {
+                            let res = await api.post(`/create-checkout-session`, 
+                            {
+                                priceId,
+                                mode: "subscription",
+                                successURL: successUrl,
+                                cancelURL: `${window.location.origin}${router.asPath}`,
+                                planId: planId,
+                                email,
+                                months: billingPeriod,
+                                global: true
+                            });
+                            const { url } = await res.data;
+                            window.location.href = url;
                     }
                     setLoading(false);
-                } else {
-                    response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId });
                     Cookies.set("token", "Bearer " + response.data.token, { expires: 7 });
                     Cookies.set("user_id", response.data.newUser._id, { expires: 7 });
                     Cookies.set("username", response.data.newUser.name, { expires: 7 });
@@ -207,10 +178,6 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     localStorage.setItem('workspace', response.data.newUser.workspace);
                     localStorage.setItem('account_type', response.data.newUser.accountType);
                     localStorage.setItem('onboarding_step', "1");
-                    setLoading(false);
-                    router.push("/assets");
-                    // setOpenVerification(true);
-                    // sendVerificationCode(response.data.newUser.email, response.data.newUser.name, response.data.newUser.verificationCode);
                 }
             } else {
                 response = await api.post('/login', { email, password });
@@ -224,8 +191,24 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 localStorage.setItem('plan', response.data.user.plan);
                 localStorage.setItem('workspace', response.data.user.workspace);
                 localStorage.setItem('account_type', response.data.user.accountType);
+                if (planId) {
+                        let res = await api.post(`/create-checkout-session`, 
+                        {
+                            priceId,
+                            mode: "subscription",
+                            successURL: successUrl,
+                            cancelURL: `${window.location.origin}${router.asPath}`,
+                            planId: planId,
+                            email,
+                            months: Number(billingPeriod),
+                            global: true
+                        });
+                        const { url } = await res.data;
+                        window.location.href = url;
+                } else {
+                    props.onClose();
+                }
                 setLoading(false);
-                router.push("/assets");
             }
           } catch (error) {
             setLoading(false);
@@ -239,14 +222,18 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
             <SlideBottom>
             <LoginContainer>
                 {registration ?
-                // !openVerification ?
                 <div>
-                    <ModalTitle>Register</ModalTitle>
+                    <ModalTitle>Let&apos;s get started</ModalTitle>
                     <Form autoComplete="off" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
+                    {loginError &&
+                        <Centered>
+                            <LoginErrorMessage>User already exists</LoginErrorMessage>
+                        </Centered>
+                    }
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                             <div>
                                 <Label>
-                                    First name
+                                    Your first name
                                 </Label>
                                 <Input
                                     id="name"
@@ -307,15 +294,42 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 </RegisterText>
                             </CheckboxContainer>
 
+                            {trial ?
                             <Button id="send-email-btn" type="submit">
                                 {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                      <Loader color="white"/>
+                                    <Loader color="white"/>
+                                </div>
+                                :
+                                <p>Start free trial</p>
+                                }
+                            </Button>
+                            :
+                            <div>
+                            {planName ?
+                            <Button id="send-email-btn" type="submit">
+                                {loading ?
+                                <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <Loader color="white"/>
+                                </div>
+                                :
+                                <p>Continue</p>
+                                }
+                            </Button>
+                            :
+                            <Button id="send-email-btn" type="submit">
+                                {loading ?
+                                <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <Loader color="white"/>
                                 </div>
                                 :
                                 <p>Register</p>
                                 }
                             </Button>
+                            }
+                            </div>
+                            }
+
                         </div>
                     </Form>  
                 </div>     
@@ -472,8 +486,8 @@ const LoginContainer = styled.div`
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
     background: white;
+    margin-bottom: 1.5rem;
     cursor: auto;
-    z-index: 100;
     @media (max-width: 1023px) {
         width: 90vw;
         padding: 4vh 10vw 5vh 10vw;
@@ -533,24 +547,30 @@ const Input = styled.input`
 
 const Button = styled.button`
   display: block;
-  width: 70%;
+  width: 20rem;
   height: 3rem;
   margin-top: 1.5rem;
-  border: none;
-  background-color: #0D0E16;
   color: white;
   font-size: 1.2rem;
   font-weight: 700;
-  border-radius: 15px;
   transition: all 0.4s ease;
   cursor: pointer;
+  border: solid 3px transparent;
+  border-radius: 25px;
+  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  align-items: center;
+  background: linear-gradient(40deg, #6578F8, #64B5FF);
+  background-size: 120%;
+  background-position-x: -1rem;
   &:hover {
     transform: scale(0.95);
     box-shadow: none;
     translateX: 10px;
     box-shadow: 0 2px 2px 1px rgb(0, 0, 0, 0.1);
 }
-  box-shadow: 0 4px 4px 1px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgb(0, 0, 0, 0.2);
   @media (max-width: 1023px) {
     margin-top: 3.5vh;
     width: 90%;

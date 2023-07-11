@@ -6,6 +6,8 @@ import { showNotification } from '@mantine/notifications';
 import { Loader } from "../Common/Loaders";
 import { BsCheckLg } from "react-icons/bs";
 import api from "@/pages/api";
+import Image from "next/image";
+import thinArrow from "../../public/images/thinArrow.png";
 
 const LearnMoreSection = () => {
 
@@ -26,8 +28,8 @@ const LearnMoreSection = () => {
             id: 'subscribed',
             disallowClose: true,
             autoClose: 5000,
-            title: "Witaj na pokładzie!",
-            message: 'Czas dowiedzieć się więcej o AI!',
+            title: "Welcome on board!",
+            message: 'Time to learn more about AI!',
             color: 'white',
       
             styles: (theme: any) => ({
@@ -48,8 +50,8 @@ const LearnMoreSection = () => {
             id: 'error',
             disallowClose: true,
             autoClose: 5000,
-            title: "Coś poszło nie tak",
-            message: 'Podczas zapisywania twojego maila wystąpił problem. Proszę skontaktuj się z nami: hello@asystent.ai',
+            title: "Something went wrong...",
+            message: 'Contact us: hello@asystent.ai',
             color: 'red',
       
             styles: (theme: any) => ({
@@ -71,17 +73,17 @@ const LearnMoreSection = () => {
     return (
         <Section>
             <div style={{width: "100%"}}>
-                <Accordion openedAccordion={openedAccordion} index={1} onClick={() => setOpenedAccordion(1)} question="Czy wgrane przeze mnie dane są bezpieczne?" answer={"Tak, jako platforma SaaS nie przechowujemy wgranych przez Ciebie plików. Używamy ich jedynie w celu stworzenia embeddingu dla Asystenta AI opartego na wektorowej bazie danych, do której tylko ty masz dostęp z poziomu swojego konta."} backgroundColor="rgba(0, 141, 255, 0.1)"/>
-                <Accordion openedAccordion={openedAccordion} index={2} onClick={() => setOpenedAccordion(2)} question="Co to jest elixir kreatywności?" answer={"Elixir kreatywności jest niezbędny do generowania treści. Pobierany jest za to, co Asystent napisze, twoje pytania i w przypadku chatu za dwie poprzednie wiadomości, dzięki którym Asystent zna kontekst."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
-                <Accordion openedAccordion={openedAccordion} index={3} onClick={() => setOpenedAccordion(3)} question="Jak długi jest okres wypowiedzenia?" answer={"Subskrypcja jest płatna co miesiąc zaczynając od dnia zakupu i można ją anulować w każdym momencie tak, że za następny miesiąc płatność nie będzie już pobrana."} backgroundColor="rgba(0, 141, 255, 0.1)"/>
-                <Accordion openedAccordion={openedAccordion} index={4} onClick={() => setOpenedAccordion(4)} question="Czy każdy otrzymuje te same treści?" answer={"Nie. Asystent jest kreatywny i za każdym zapytaniem generuje unikatowe treści."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
+                <Accordion openedAccordion={openedAccordion} index={1} onClick={() => setOpenedAccordion(1)} question="Is the uploaded conent safe??" answer={"Yes, as a SaaS platform we do not store the files you upload. We only use them to create an embedding for the AI Assistant based on a vector database, to which only you have access from your account."} backgroundColor="rgba(0, 141, 255, 0.1)"/>
+                <Accordion openedAccordion={openedAccordion} index={2} onClick={() => setOpenedAccordion(2)} question="What is elixir?" answer={"Elixir is used for generating content. It is consumed by AI to generate content and understand your questions."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
+                <Accordion openedAccordion={openedAccordion} index={3} onClick={() => setOpenedAccordion(3)} question="Can I cancel my subscription?" answer={"Subscription renews every month starting from the purchase date and can be canceled at any time so that payment will not be collected for the next month."} backgroundColor="rgba(0, 141, 255, 0.1)"/>
+                <Accordion openedAccordion={openedAccordion} index={4} onClick={() => setOpenedAccordion(4)} question="Doesn't it generate the same content for everyone?" answer={"No. Yepp is creative and generates unique and tailored content for each query."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
             </div>
             <ContactContainer>
-                <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center">Dowiedz się więcej.</Title>
-                <Description>Poszerzaj wiedzę odnośnie sztucznej inteligencji oraz dowiedz się jak najefektywniej zarządzać Twoim Asystentem AI.</Description>
-                <SignupLabel>Zapisz się do <b>newslettera o AI!</b></SignupLabel>
+                <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-900">Learn more.</b></Title>
+                <Description>Stay up to date with latest AI trends and learn how to make use of most our latest features.</Description>
+                <SignupLabel>Join our <b>AI newsletter!</b></SignupLabel>
                 <Form onSubmit={subscribe}>
-                    <NewsletterInput value={email} onChange={(e) => setEmail(e.target.value)} placeholder="twojmail@gmail.com"/>
+                    <NewsletterInput value={email} onChange={(e) => setEmail(e.target.value)} placeholder="mail@gmail.com"/>
                     <SignupButton id="newsletter-signup-btn">
                     {loading ?
                       <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
@@ -91,12 +93,18 @@ const LearnMoreSection = () => {
                        success ?
                       <BsCheckLg style={{fontSize: "1.5em"}} className="text-green-400"/>
                       :
-                      <p>Zapisz się</p>
+                      <p>Join now</p>
                     }
                     </SignupButton>
                 </Form>
-                <Description>lub</Description>
-                <Description>Napisz do nas na <b>hello@asystent.ai</b></Description>
+                <Description className="justify-center lg:justify-start">or</Description>
+                <a href="https://calendly.com/asystentai/asystent-business-konsultacja">
+                <div className="flex items-center"><b className="cursor-pointer">Schedule a 30 minute demo</b>
+                    <LearnMoreArrow>
+                    <Image style={{ width: "auto", height: "100%" }}  src={thinArrow} alt={'arrow'}></Image> 
+                </LearnMoreArrow>
+                </div>
+                </a>
             </ContactContainer>
         </Section>
     )
@@ -200,4 +208,10 @@ const SignupButton = styled.button`
         width: 70%;
         font-size: 2vh;
     }
+`
+
+const LearnMoreArrow = styled.div`
+    height: 1vh;
+    margin-left: 1.5vw;
+    cursor: pointer;
 `

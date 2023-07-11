@@ -1,4 +1,3 @@
-import ModalBackground from "../common/ModalBackground";
 import SlideBottom from "../../Animated/SlideBottom";
 import styled from "styled-components";
 import ModalTitle from "../common/ModalTitle";
@@ -20,10 +19,12 @@ import elixirIcon from "../../../public/images/elixir.png";
 import { useSelector } from "react-redux";
 import { selectedPlanState } from "@/store/planSlice";
 import { selectedUserState } from "@/store/userSlice";
+import Plans from "@/components/Landing/Plans";
 
 interface Background {
     background: any
 }
+
 interface PlanContainer {
     backgroundColor: string,
     color: string,
@@ -42,7 +43,7 @@ const plans = [
 ]
 
 
-const UpgradeSubscription = (props: {onClose: any}) => {
+const UpgradeSubscription = (props: {onClose: any, closeable: boolean}) => {
 
     const [loadingPlan, setLoadingPlan] = useState("");
     const [mobile, setMobile] = useState(false);
@@ -55,7 +56,6 @@ const UpgradeSubscription = (props: {onClose: any}) => {
             setMobile(true);
         }
     }, [])
-    
     
     const updatePlan = async (priceId: string, planId: string, planName: string, query: string) => {
         const token = localStorage.getItem("token");
@@ -184,7 +184,6 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                     </PlanSection>
                 )
             }
-    
         })
         
         return (
@@ -199,33 +198,24 @@ const UpgradeSubscription = (props: {onClose: any}) => {
                     </Centered>
             }
             <Centered>
-                <Title>Choose a plan for yourself or your company</Title>
+                <Title>Choose a plan</Title>
             </Centered>
-            {mobile ?
-                <PlansSection>
-                {renderedPlans}
-                </PlansSection>
-            :
-            <PlanImageSection background={planBackground}>
-                <PlansSection>
-                {renderedPlans}
-                </PlansSection>
-            </PlanImageSection>
-            }
-    
+                <Plans openRegistration={false} />
             </Content>
         )
     }
     
     
     return (
-        <ModalBackground closeable={true} onClose={props.onClose}>
+        <ModalBackground>
             <SlideBottom>
             <ModalContainer onClick={(e) =>  e.stopPropagation()}>
+                {props.closeable &&
                 <CloseIcon onClick={props.onClose}>
                     <BsXLg style={{width: "100%", height: "auto"}}/>
                 </CloseIcon>
-                    {renderPlans()}
+                }
+                {renderPlans()}
             </ModalContainer>
             </SlideBottom>
         </ModalBackground>
@@ -235,10 +225,40 @@ const UpgradeSubscription = (props: {onClose: any}) => {
 
 export default UpgradeSubscription;
 
+const ModalBackground = styled.div`
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    flex-wrap: wrap;
+    backdrop-filter: blur(7px);
+    z-index: 100;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    overflow: scroll;
+        &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    color: black;
+    @media (max-width: 1023px) {
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        width: 100vw;
+        overflow-x: hidden;
+    }
+`
 
 const ModalContainer = styled.div`
-    width: 87vw;
+    width: 95vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    position: relative;
     background: white;
+    z-index: 100;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
     border: 2px solid #E5E8F0;
     border-radius: 25px;

@@ -36,6 +36,8 @@ const plans = [
     {title: "Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", query: "/order/basic", description: "Generate content like posts, articles, and emails using AI.", isPro: false, features: ["75,000 elixir/month (~80 A4 pages)", "Generating social media posts", "Generating emails and newsletters", "Generating articles", "Generating product descriptions", "Saving content"], price: "99zł"}, 
     {title: "Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", query: "/order/pro", description: "AI with custom knowledge you upload.", features: ["250,000 elixir/month (~270 A4 pages)", "1 main resource folder", "10 uploaded files up to 15MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "299zł", extraFunctionalities: "Basic"}, 
     {title: "Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/assistantbusiness", description: "Maximum possibilities for business, no limits.", isPro: false, features: ["1M elixir/month (~1100 A4 pages)", "Unlimited number of folders", "Unlimited amount of uploaded resources", "Unlimited number of users", "Access to the latest features", "1000+ AI command templates"], price: "799zł", extraFunctionalities: "Assistant + Basic"},
+    {title: "Standard", priceId: "64ad0d740e40385f299bcef9", planId: "6478970a404e31bfe87533a0", query: "/order/pro", description: "AI with custom knowledge you upload.", features: ["200,000 elixir/month (~100 A4 pages)", "1 main resource folder", "10 uploaded files up to 15MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "$59", extraFunctionalities: "Basic"}, 
+    {title: "Agency", priceId: "64ad0d250e40385f299bceea", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/assistantbusiness", description: "Maximum possibilities for marketing agency, no limits.", isPro: false, features: ["1M elixir/month (~560 A4 pages)", "Unlimited number of AI profiles", "Unlimited amount of uploaded assets", "Unlimited number of users", "Access to the latest features"], price: "$249", extraFunctionalities: "Assistant + Basic"},
 ]
 
 const SubscriptionModal = (props: {onClose: any}) => {
@@ -73,7 +75,7 @@ const SubscriptionModal = (props: {onClose: any}) => {
                 icon = diamondIcon;
             }
 
-            if(plan.planId === currentPlan._id){
+            if(plan.title === currentPlan.name){
                 return (
                     <PlanSection key={plan.title}>
                         <PlanImageSection background={planBackground}>
@@ -81,14 +83,13 @@ const SubscriptionModal = (props: {onClose: any}) => {
                                 <PlanTitle><PlanTitleText>{plan.title}</PlanTitleText> <BtnIcon><Image style={{ width: "auto", height: "100%" }}  src={icon} alt={'preview'}></Image> </BtnIcon></PlanTitle>
                                 <BriefDescription>{plan.description}</BriefDescription>
                                 <Price>{plan.price}<Monthly>/month</Monthly></Price>
-                                <Note>net every month.</Note>
                                     <CancelButton onClick={() => cancelPlan(plan.priceId, plan.planId, plan.title)} backgroundColor="white" color="black">
                                         {loadingPlan === plan.title ?
                                             <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                                 <Loader color="white" />
                                             </div>
                                             :
-                                            <p>End</p>
+                                            <p>Unsubscribe</p>
                                         }
                                     </CancelButton>
                             </PlanContainer>
@@ -280,7 +281,7 @@ const CancelButton = styled.button<Button>`
     padding: 1.6vh 2.5vw 1.6vh 2.5vw;
     border-radius: 25px;
     border: 2px solid red;
-    width: 10vw;
+    width: 14vw;
     margin-top: 3.5vh;
     font-size: 2vh;
     transition: all 0.4s ease;

@@ -6,9 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import LoginModal from "@/components/Modals/OnboardingModals/LoginModal";
 import ReferralModal from "@/components/Modals/InformationalModals/ReferralModal";
 import { FaLink } from "react-icons/fa";
-import logoImage from "../public/images/logo_black.png";
+import logoImage from "../public/images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Code() {
 
@@ -20,6 +21,8 @@ export default function Code() {
     const [registeredByReferral, setRegisteredByReferral] = useState(0);
     const [redeemedByReferral, setRedeemedByReferral] = useState(0);
     const dispatch = useDispatch();
+
+    const router = useRouter();
 
     useEffect(() => {
       // localStorage.removeItem("onboarding_token");
@@ -62,6 +65,7 @@ export default function Code() {
 
     const login = () => {
       setLoggedIn(true);
+      router.reload();
     }
   
   

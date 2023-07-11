@@ -29,8 +29,7 @@ const PhoneNumberPopup = (props: {onClose: any}) => {
                 <Title>Contact us</Title>
             </Centered>
             <div>
-            <Contact>Phone number: <br /><b>+48 539 653 528</b></Contact>
-                <Contact>Mail: <br /><b>hello@asystent.ai</b></Contact>
+                <Contact>Mail: <br /><b>hello@yepp.ai</b></Contact>
             </div>           
             </ModalContainer>
             </SlideBottom>

@@ -216,8 +216,8 @@ const OnboardingModal = (props: {onClose: any}) => {
                     <ModalTitle>Did you use AI before?</ModalTitle>
                     <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
-                        <Tab onClick={() => selectAIExperience(true)}>Tak</Tab>
-                        <Tab onClick={() => selectAIExperience(false)}>Nie</Tab>
+                        <Tab onClick={() => selectAIExperience(true)}>Yes</Tab>
+                        <Tab onClick={() => selectAIExperience(false)}>No</Tab>
     
                     </Tabs>
                     <Centered><SkipBtn onClick={() => setSelectedTab(selectedTab+1)}>Skip</SkipBtn></Centered>
@@ -253,7 +253,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                             {loading ?
                                 <Loader color="white"/>
                             :
-                               <p>Start uploading</p> 
+                               <p>Continue</p> 
                             }
                         </ContinueBtn>
                     </Centered>

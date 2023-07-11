@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
-import blackLogo from "../../public/images/logo_black.png";
+import blackLogo from "../../public/images/logo.png";
 import whiteLogo from "../../public/images/logo_white.png";
 import { useRouter } from "next/router";
 

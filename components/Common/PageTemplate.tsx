@@ -11,6 +11,7 @@ import { selectedUserState, setSelectedUser } from "@/store/userSlice";
 import { selectedPlanState, setSelectedPlan } from "@/store/planSlice";
 import { selectedWorkspaceCompanyState, setSelectedWorkspaceCompany } from "@/store/workspaceCompany";
 import { useSelector, useDispatch } from "react-redux";
+import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
 
 interface Background {
   image: any,
@@ -22,6 +23,7 @@ const PageTemplate = ({children}: any) => {
   const [loggedIn, setLoggedIn] = useState(true);
   const user = useSelector(selectedUserState);
   const plan = useSelector(selectedPlanState);
+  const [showPlans, setShowPlans] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -56,6 +58,10 @@ const PageTemplate = ({children}: any) => {
               authorization: token,
             },
           });
+          console.log(data);
+          if (!data.dashboardAccess) {
+            setShowPlans(true);
+          }
           if (data.workspace) {
               const workspaceCompany = await api.get(`/workspace-company/${data.workspace}`, {
                 headers: {
@@ -92,7 +98,7 @@ const PageTemplate = ({children}: any) => {
   return (
     <div>
       <Helmet>
-        <meta name="theme-color" content="#E4E5EF" />
+        <meta name="theme-color" content="#ffffff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Asystent AI</title>
       </Helmet>
@@ -102,6 +108,7 @@ const PageTemplate = ({children}: any) => {
       {mobile &&
         <Loading />
       }
+      {showPlans && <UpgradeSubscription onClose={() => setShowPlans(false)} closeable={false}/>}
       {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
       <Page>
           <NavigationBar />

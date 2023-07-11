@@ -4,6 +4,7 @@ import { HYDRATE } from "next-redux-wrapper";
 
 
 interface Plan {
+    title: string;
     _id: string;
     name: string;
     monthlyTokens: number,

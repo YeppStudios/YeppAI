@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import logo from "../../public/images/logo_black.png";
+import logo from "../../public/images/logo.png";
 import { BsFillGiftFill } from "react-icons/bs";
 import { useEffect, useInsertionEffect, useState } from "react";
 import Link from "next/link";
-import ColorfulText from "../Common/ColorfulText";
 
 const Navbar = (props: {onNewsletterClick: any}) =>{
 
@@ -22,29 +21,27 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
         const handleScroll = () => {
             const nav = document.getElementById('navbar');
             if(mobile){
-                if (window.pageYOffset < 300) {
+                if (window.scrollY < 24) {
                     setIsFixed(false);
-                } else if (window.pageYOffset > nav!.offsetTop) {
+                } else if (window.scrollY > nav!.offsetTop) {
                     setIsFixed(true);
                 } else {
                     setIsFixed(false);
                 }
             } else {
-                if (window.pageYOffset < 146) {
+                if (window.scrollY < 24) {
                     setIsFixed(false);
-                } else if (window.pageYOffset > nav!.offsetTop) {
-                    setIsFixed(true);
                 } else {
-                    setIsFixed(false);
+                    setIsFixed(true);
                 }
             }
         };
         window.addEventListener("scroll", handleScroll);
+        setLoading(false);
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-        setLoading(false);
-    }, []);
+    }, [mobile]);
 
 
     return (
@@ -55,28 +52,25 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                     <LogoContainer onClick={() => router.push("/")}>
                         <Image style={{ width: "auto", height: "100%" }}  src={logo} alt={'logo'}></Image> 
                     </LogoContainer>
-                    <Link href="/"><AppName>Yepp AI</AppName></Link>
+                    <Link href="/"><AppName>Yepp.ai</AppName></Link>
                 </Container>
                 <Container>
                     {pathname.includes("assistant") ?
-                        <Link href="/pricing?type=individual"><NavLink>Oferta</NavLink></Link>
+                        <Link href="/pricing?type=individual"><NavLink>Pricing</NavLink></Link>
                         :
-                        <Link href="/pricing?type=business"><NavLink>Oferta</NavLink></Link>
+                        <Link href="/pricing?type=business"><NavLink>Pricing</NavLink></Link>
                     }
                     {/* <Link href="/docs/getting-started"><NavLink>Dokumentacja</NavLink></Link> */}
-                    <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Zaloguj się</LoginButton>
+                    <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Log in</LoginButton>
                     {(mobile && !loading && isFixed) &&
-                        <TestButton className='start-free-trial-landing' onClick={() => router.push("/assets?registration=true")}><BsFillGiftFill /><TestText>Zacznij za darmo!</TestText></TestButton>
+                        <TestButton className='start-free-trial-landing' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                     }
                     {!mobile &&
-                        <TestButton className='start-free-trial-landing' onClick={() => router.push("/assets?registration=true")}><BsFillGiftFill /><TestText>Zacznij za darmo!</TestText></TestButton>
+                        <TestButton className='start-free-trial-landing' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                     }
                 </Container>
             </Nav>
         </NavContainer>
-        {isFixed &&
-        <FakeNavbar></FakeNavbar>
-        }
         </div>
     )
 }
@@ -91,11 +85,11 @@ const NavContainer = styled.div<NavContainerProps>`
     width: 100vw;
     display: flex;
     align-items: center;
-    position: ${({ isFixed }) => isFixed ? "fixed" : "static"};
+    position: ${({ isFixed }) => isFixed ? "fixed" : "absolute"};
     top: 0rem;
-    height: 5.5rem;
+    height: 6rem;
     margin-left: ${({ isFixed }) => isFixed ? "0" : "-8vw"};
-    margin-top: ${({ isFixed }) => isFixed ? "0" : "2rem"};
+    margin-top: ${({ isFixed }) => isFixed ? "0" : "1.5rem"};
     z-index: 100;
     backdrop-filter: blur(5px);
     background-color: rgba(255, 255, 255, 0.95);
@@ -104,9 +98,10 @@ const NavContainer = styled.div<NavContainerProps>`
     justify-content: center;
     @media (max-width: 1023px) {
         justify-content: center;
-        padding: 0vh 5vw 0vh 5vw;
-        margin-left: ${({ isFixed }) => isFixed ? "0" : "-5vw"};
-        height: 4rem;
+        padding: 0vh 5vw 0.2vh 5vw;
+        margin-left: ${({ isFixed }) => isFixed ? "0" : "0vw"};
+        margin-top: ${({ isFixed }) => isFixed ? "0" : "2rem"};
+        height: 4.2rem;
         border: none;
     }
 `;
@@ -142,11 +137,18 @@ const FakeNavbar = styled.div`
 `
 
 const TestButton = styled.button`
-    padding: 0.8rem 3rem 0.8rem 3rem;
-    background: #0D0E16;
+    padding: 0.75rem 2.7rem 0.75rem 2.7rem;
+    border: solid 3px transparent;
+    border-radius: 25px;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    align-items: center;
+    background: linear-gradient(40deg, #6578F8, #64B5FF);
+    background-size: 120%;
+    background-position-x: -1rem;
     color: white;
     transition: all 0.3s ease;
-    border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -157,7 +159,7 @@ const TestButton = styled.button`
         transform: scale(0.95);
     }
     @media (max-width: 1023px) {
-        padding: 1.5vh 7vw 1.5vh 7vw;
+        padding: 1.3vh 7vw 1.3vh 7vw;
         font-size: 0.9rem;
     }
     

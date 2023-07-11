@@ -61,13 +61,13 @@ const NoElixir = (props: {onClose: any}) => {
                     <Title>Continue creative process...</Title>
                 </Centered>
                 <Centered>
-                <Description>Assistant needs elixir to continue generating unique content for you.</Description>
+                <Description>AI Assistant needs elixir to continue generating unique content for you.</Description>
                 </Centered>
                 {showBuyBtn &&
                <Centered>
                     <BtnContainer>
                     <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                        Subscribe
+                        Continue
                     </BuyBtn>
                     </BtnContainer>
                 </Centered>
@@ -79,12 +79,12 @@ const NoElixir = (props: {onClose: any}) => {
                     <Title>Continue creative process...</Title>
                     </Centered>
                     <Centered>
-                    <Description>Assistant needs elixir to continue generating unique content for you.</Description>
+                    <Description>AI Assistant needs elixir to continue generating unique content for you.</Description>
                     </Centered>
                     <Centered>
                         <BtnContainer>
                         <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
-                            Subscribe
+                            Continue
                         </BuyBtn>
                         </BtnContainer>
                     </Centered>
