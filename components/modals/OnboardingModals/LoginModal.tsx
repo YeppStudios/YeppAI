@@ -105,10 +105,6 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
         try {
             let response: AxiosResponse<any, any>;
             if (registration) {
-                window.gtag("event", "register", {
-                    event_category: "user",
-                    event_label: "registration",
-                });
                 if (password.length < 5) {
                     setLoading(false);
                     setRegistrationPasswordError(true);
