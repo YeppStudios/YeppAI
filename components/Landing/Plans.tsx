@@ -110,7 +110,7 @@ const Plans = (props: {openRegistration: boolean}) => {
                                         {/* <PriceCrossed>970,00</PriceCrossed> */}
                                         {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
                                     </Price>
-                                    <Centered><Note>no commitment, can be cancelled at any time</Note></Centered>
+                                    <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     {billingPeriod === 1 && 
                                     <Centered>
                                         {props.openRegistration ?
@@ -171,7 +171,7 @@ const Plans = (props: {openRegistration: boolean}) => {
                                     <Price>
                                     {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
                                     </Price>
-                                    <Centered><Note>no commitment, can be cancelled at any time</Note></Centered>
+                                    <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     {billingPeriod === 1 && 
                                     <Centered>
                                         {props.openRegistration ?
