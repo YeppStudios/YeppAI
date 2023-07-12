@@ -70,7 +70,7 @@ const Homepage = () => {
           <meta name = "theme-color" content = "#ffffff" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="description" content="Platforma AI do marketingu. Wykorzystaj firmowe dane, które już posiadasz przez własne AI." />
-          <title>Asystent AI</title>
+          <title>Yepp AI</title>
         </Head>
         <PageContent>
           <Loading />
@@ -79,12 +79,12 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><HeroText>Upload your content,</HeroText></Centered>
-              <Centered><TypewriterSection/></Centered>
+              <Centered><HeroText>Supercharge your <br /> <ColorfulText>marketing agency</ColorfulText> with AI.</HeroText></Centered>
+              {/* <Centered><TypewriterSection/></Centered> */}
               <div>
                 <Centered>
               <DescriptionHero color="black">
-                AI marketing platform. Unleash the full potential of your company&apos;s data with custom AI. 
+              Upload information about your clients and streamline the process of content creation.
               </DescriptionHero>
               </Centered>
               <Centered>
@@ -116,11 +116,19 @@ const Homepage = () => {
             <SlideBottom>
             <div id="functionalities"></div>
             <HeroText>
-              Harness the potential <br />of your data with:
+              <ColorfulText>Reduce workload</ColorfulText> and make your marketing agency grow.
             </HeroText>
             </SlideBottom>
             </Centered>
             </Section>
+            <LeftFeature
+                title="Copywriter" 
+                gif="/videos/copywriter.gif" 
+                text="Based on company knowledge and current internet trends:"
+                bulletpoints={["Write SEO articles", "Generate insightful blogs", "Craft guides and rankings"]}
+                color="black"
+                marginTop='3vh'
+            />
             <RightFeature 
                 title="Marketer" 
                 gif="/videos/marketer.gif"
@@ -156,7 +164,7 @@ const Homepage = () => {
           <div id="offer"></div>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
-          <Centered><SlideBottom><HeroText>Streamline content creation.</HeroText></SlideBottom></Centered>
+          <Centered><SlideBottom><HeroText>Boost your productivity now.</HeroText></SlideBottom></Centered>
           {!mobile && <Space margin='5rem'/>}
           <Plans openRegistration={true}/>
           </Section>
