@@ -127,7 +127,7 @@ const Homepage = () => {
                 title="Define AI Profiles" 
                 gif="/videos/uploading.gif" 
                 text="Upload the content and information about your clients, their industry, products etc."
-                bulletpoints={["Upload PDF, TXT, PPTX and DOCX files", "Transcribe YoutTube content", "Scrape websites"]}
+                bulletpoints={["Upload PDF, TXT, PPTX and DOCX files", "Transcribe YouTube content", "Scrape websites"]}
                 color="black"
                 marginTop='3vh'
             />
