@@ -115,29 +115,31 @@ const Homepage = () => {
             <Centered>
             <SlideBottom>
             <div id="functionalities"></div>
+            <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
             <HeroText>
               <ColorfulText>Reduce workload</ColorfulText> and make your marketing agency grow.
             </HeroText>
+            <Space margin="5vh"/>
             </SlideBottom>
             </Centered>
             </Section>
             <LeftFeature
-                title="Copywriter" 
-                gif="/videos/copywriter.gif" 
-                text="Based on company knowledge and current internet trends:"
-                bulletpoints={["Write SEO articles", "Generate insightful blogs", "Craft guides and rankings"]}
+                title="Define AI Profiles" 
+                gif="/videos/uploading.gif" 
+                text="Upload the content and information about your clients, their industry, products etc."
+                bulletpoints={["Upload PDF, TXT, PPTX and DOCX files", "Transcribe YoutTube content", "Scrape websites"]}
                 color="black"
                 marginTop='3vh'
             />
             <RightFeature 
-                title="Marketer" 
+                title="Use ready templates" 
                 gif="/videos/marketer.gif"
                 text="Based on company and industry-specific knowledge:"
                 bulletpoints={["Generate Google Ads", "Create unique posts and product descriptions", "Engineer growth hacking strategies"]}
                 color="black"
             />
             <LeftFeature
-                title="Copywriter" 
+                title="Generate SEO content" 
                 gif="/videos/copywriter.gif" 
                 text="Based on company knowledge and current internet trends:"
                 bulletpoints={["Write SEO articles", "Generate insightful blogs", "Craft guides and rankings"]}
@@ -145,7 +147,7 @@ const Homepage = () => {
                 marginTop='3vh'
             />
             <RightFeature 
-                title="Chat with content" 
+                title="Chat with assets" 
                 gif="/videos/dataAssistant.gif"
                 text="Based on the uploaded content:"
                 bulletpoints={["Talk with your company's documents", "Search information about your clients", "Ask your documents for advice"]}
@@ -220,7 +222,7 @@ const DescriptionHero = styled.p<CustomColor>`
     margin-top: 4vh;
     @media (max-width: 1023px) {
         margin-top: 1.5rem;
-        font-size: 1.2rem;
+        font-size: 1.6vw;
         margin-bottom: 1rem;
         width: 95%;
         padding: 0 0.7rem 0 0.7rem;
@@ -274,7 +276,7 @@ const TestButton = styled.button`
     @media (min-width: 1023px) {
       width: 28rem;
       margin-top: 8vh;
-      padding: 1.5vh 5vw 1.5vh 5vw;
+      padding: 1.5vh 0vw 1.5vh 0vw;
     }
 `
 
@@ -334,7 +336,9 @@ const ColorfulText = styled.span`
 const MiniTitle = styled.p`
     font-size: 1rem;
     text-align: center;
-    width: 100%;
+    padding: 1rem 4rem 1rem 4rem;
+    border-radius: 25px;
+    background: #F0F3F8;
     font-weight: 700;
     @media (max-width: 1023px) {
         font-size: 0.9rem;

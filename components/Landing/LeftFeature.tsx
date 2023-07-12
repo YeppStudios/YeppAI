@@ -50,7 +50,7 @@ const LeftFeature = (props: {text: string, gif: string, title: string, bulletpoi
                         src={props.gif}
                         width={700}
                         height={400}
-                        style={{borderRadius: "25px"}}
+                        style={{borderRadius: "20px"}}
                         alt={"gif"}
                     />
                 </GifContainer>
@@ -97,7 +97,7 @@ const FeatureContainer = styled.div<{marginTop: string, color: string}>`
 `
 
 const FeatureTitle = styled.h2`
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-family: 'Satoshi', sans-serif;
     font-weight: 900;
     @media (max-width: 1023px) {
@@ -156,10 +156,10 @@ const GifContainer = styled.div`
 `
 
 const Button = styled.div`
-    background-color: #EDEEF3;
+    background-color: #F0F3F8;
     color: black;
     box-shadow: inset 2px 2px 8px rgba(22, 27, 29, 0.05), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
-    padding: 2vh 0 2vh 0;
+    padding: 1.75vh 0 1.75vh 0;
     border-radius: 25px;
     width: 14rem;
     display: flex;
