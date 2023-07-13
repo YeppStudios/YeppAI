@@ -34,6 +34,7 @@ const AddDocument = (props: {
     const [loading, setLoading] = useState(false);
     const [fileLoading, setFileLoading] = useState(false);
     const [scraping, setScraping] = useState(false);
+    const [linkError, setLinkError] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [chosenFolder, setChosenFolder] = useState<any>({title: "Wybierz folder"});
     const [savingOption, setSavingOption] = useState(1);
@@ -58,6 +59,19 @@ const AddDocument = (props: {
       "Just a moment...",
       "Repeating the process...",
     ];
+
+    function isValidURL(string: string) {
+      var url;
+    
+      try {
+        url = new URL(string);
+      } catch (_) {
+        return false;  
+      }
+    
+      return url.protocol === "http:" || url.protocol === "https:";
+    }
+    
 
     useEffect(() => {
       const fetchUsage = async () => {
@@ -188,6 +202,14 @@ const AddDocument = (props: {
     }
 
     const scrapeWebsite = async () => {
+        try {
+          let url = new URL(website);
+        } catch (_) {
+          setLinkError(true);
+          setLoading(false);
+          setScraping(false);
+          return;  
+        }
         setScraping(true);
         const workspace = localStorage.getItem("workspace");
         const token = localStorage.getItem("token");
@@ -378,7 +400,7 @@ const AddDocument = (props: {
                           <div>
                             <div style={{width: "100%"}}>
                                     <Label>
-                                        Link podstrony
+                                        Link podstrony {linkError && <span style={{color: "red", marginLeft: "0.5rem"}}>please enter a valid website url</span>}
                                     </Label>
                                     <Input
                                         id="website"
