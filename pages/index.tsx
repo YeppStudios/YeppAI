@@ -124,7 +124,7 @@ const Homepage = () => {
             </Centered>
             </Section>
             <LeftFeature
-                title="Define AI Profiles" 
+                title="Create Client Profiles" 
                 gif="/videos/uploading.gif" 
                 text="Upload the content and information about your clients, their industry, products etc."
                 bulletpoints={["Upload PDF, TXT, PPTX and DOCX files", "Transcribe YouTube content", "Scrape websites"]}

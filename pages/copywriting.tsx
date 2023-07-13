@@ -19,6 +19,13 @@ const DocumentCreator = () => {
   const [page, setPage] = useState(1);
   const [contentType, setContentType] = useState("");
 
+
+  useEffect(() => {
+    if (conspect) {
+      setConspect(conspect);
+    }
+  }, [conspect]);
+
   const finishCopywritingIntro = async () => {
     setPage(2);
     setCopywritingModal(false);
