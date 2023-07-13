@@ -79,7 +79,7 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><HeroText>Supercharge your <br /> <ColorfulText>marketing agency</ColorfulText> with AI.</HeroText></Centered>
+              <Centered><HeroText>Supercharge your {!mobile && <br />} <ColorfulText>marketing agency</ColorfulText> with AI.</HeroText></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
                 <Centered>
@@ -94,6 +94,7 @@ const Homepage = () => {
                   <TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                 }
               </Centered>
+              <Centered>{!mobile && <div className='font-medium mt-4'>Do wykorzystania 10 000 elixiru lub 5 dni za darmo</div>}</Centered>
               <Centered>
               <LoginButton onClick={() => router.push("/chat")}>Log in</LoginButton>
               </Centered>
@@ -222,7 +223,7 @@ const DescriptionHero = styled.p<CustomColor>`
     margin-top: 4vh;
     @media (max-width: 1023px) {
         margin-top: 1.5rem;
-        font-size: 1.6vw;
+        font-size: 1.2rem;
         margin-bottom: 1rem;
         width: 95%;
         padding: 0 0.7rem 0 0.7rem;
