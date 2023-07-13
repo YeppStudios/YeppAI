@@ -31,14 +31,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
             <meta property="og:title" content="Yepp AI | Your Custom AI" />
             <meta property="og:type" content="website" />
-            <meta property="og:image" content="http://drive.google.com/uc?export=view&id=1oAavvRT1Es0jOOt67X62cwzM1Zh5k_de"/>
-            <meta property="og:url" content="http://drive.google.com/uc?export=view&id=1oAavvRT1Es0jOOt67X62cwzM1Zh5k_de"/>
+            <meta property="og:image" content="http://drive.google.com/uc?export=view&id=1FDGWNY8-NvmGRAApCeHz8mXV-h7uWBy6"/>
+            <meta property="og:url" content="https://www.yepp.ai"/>
 
             <meta name="twitter:card" content="summary_large_image"/>
             <meta property="og:description" content="Upload files, explore websites, and YouTube videos and harness the power of you custom AI!"/>
             <meta property="og:site_name" content="Yepp AI | Your Custom AI"/>
             <meta name="twitter:image:alt" content="Yepp AI logo"></meta>
-            <meta name="twitter:image" content="http://drive.google.com/uc?export=view&id=1oAavvRT1Es0jOOt67X62cwzM1Zh5k_de"></meta>
+            <meta name="twitter:image" content="http://drive.google.com/uc?export=view&id=1FDGWNY8-NvmGRAApCeHz8mXV-h7uWBy6"></meta>
       </Head>
       <NotificationsProvider zIndex={2077}>
         <Component {...pageProps} />
