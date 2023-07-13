@@ -25,6 +25,7 @@ import {
   Wand2Icon,
 } from "lucide-react";
 import Space from "../Docs/common/Space";
+import Centered from "../Centered";
 
 interface Document {
   owner: string,
@@ -108,28 +109,29 @@ export default function Editor({setPage, title, conspect, description, embeddedV
     return wordscount;
 }
 
-  useEffect(() => {
-    const fetchSavedContent = async () => {
-      setEditorLoading(true);
-      try {
-        if (contentId) {
-          const response = await api.get(`/seoContent/${contentId}`, {
-            headers: {
-              authorization: localStorage.getItem("token"),
-            },
-          });
-          const content = response.data.content;
-          editor?.commands.setContent(content);
-        }
-      } catch (error) {
-        console.error(error);
-        setEditorLoading(false);
-      } finally {
-        setEditorLoading(false);
+useEffect(() => {
+  const fetchSavedContent = async () => {
+    setEditorLoading(true);
+    try {
+      if (contentId) {
+        const response = await api.get(`/seoContent/${contentId}`, {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
+        });
+        setTitle(response.data.title)
+        const content = response.data.content;
+        editor?.commands.setContent(content);
       }
-    };
-    fetchSavedContent();
-  }, [contentId]);
+    } catch (error) {
+      console.error(error);
+      setEditorLoading(false);
+    } finally {
+      setEditorLoading(false);
+    }
+  };
+  fetchSavedContent();
+}, [contentId]);
 
 
   const generateIntro = async () => {
@@ -146,6 +148,9 @@ export default function Editor({setPage, title, conspect, description, embeddedV
       return;
     }
     const startPos = editor.state.selection.from;
+    editor.chain().focus().insertContent(`<h1>${conspect[0].header}</h1>`).run();
+    editor.chain().insertContent("<p id='content'></p>").run();
+    editor.chain().insertContent("\n").run();
     setGenerating(true);
     let fetchedUser = null;
     if (workspace && workspace !== "null" && workspace !== "undefined") {
@@ -229,11 +234,12 @@ export default function Editor({setPage, title, conspect, description, embeddedV
     This is the introduction header:
     ${conspect[0].header}
     And this is how I want you to write the introduction:
-    ${conspect[0].description}
+    ${conspect[0].instruciton}
+    End this intro so that it will be easy to continue writing the next section: ${conspect[1].header}
     Additional context that might be relevant:
     ${context}
     `;
-    let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with header and introduction without labeling them.`;
+    let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with introduction without header.`;
     let model = "gpt-4";
 
     try {
@@ -261,7 +267,7 @@ export default function Editor({setPage, title, conspect, description, embeddedV
               const endPos = startPos + reply.length;
               const rect = editor.view.coordsAtPos(endPos);
               setBottomMenuPosition({
-                top: rect.top + window.scrollY + 40,
+                top: rect.top + window.scrollY + 50,
                 left: rect.left -250
               });
             }
@@ -330,7 +336,11 @@ export default function Editor({setPage, title, conspect, description, embeddedV
       setNextSection("end");
     }
     let startPos = editor.state.selection.from;
-    editor.chain().insertContent("\n\n\n").run();
+    let endPos = editor.state.doc.content.size;
+    editor.chain().focus().setTextSelection(endPos).insertContent("\n\n").run();
+    editor.chain().focus().setTextSelection(endPos).insertContent(`<h1>${conspect[sectionIndex].header}</h1>`).run();
+    editor.chain().setTextSelection(endPos + conspect[sectionIndex].header.length + 5).insertContent("<p id='content'></p>").run();
+    editor.chain().focus().setTextSelection(endPos).insertContent("\n\n").run();
     setGenerating(true);
     let fetchedUser = null;
     if (workspace && workspace !== "null" && workspace !== "undefined") {
@@ -410,16 +420,22 @@ export default function Editor({setPage, title, conspect, description, embeddedV
       console.log("Combined ID array is empty. Not sending query.");
     }
 
+    let endStyle = "";
+    if (sectionIndex + 1 !== conspect.length ) {
+      endStyle = `End this section, so that it will be easy to fluently start writing next one titled: "${conspect[sectionIndex + 1].header}" without mentioning it.`;
+    }
+
     const text = editor.getText();
     let prompt = `I have ended writing the last section of ${contentType} with: "...${text.slice(-250)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in around ${sectionLength} words.
     Next section header:
     ${conspect[sectionIndex].header}
-    This is a brief description of what I want you to write about in this section:
-    ${conspect[sectionIndex].description}
+    This is a brief instruction on what I want you to write about in this section:
+    ${conspect[sectionIndex].instruciton}
+    ${endStyle}
     Additional context that might be relevant for this section:
     ${context}
     `;
-    let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} sections. ${language} is your native language. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with header and ${contentType} section.`;
+    let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} sections. ${language} is your native language. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with ${contentType} section without header.`;
     let model = "gpt-4";
 
     try {
@@ -452,12 +468,12 @@ export default function Editor({setPage, title, conspect, description, embeddedV
                 // Adjust the bottom menu's position
                 if (sectionIndex + 2 === conspect.length ) {
                   setBottomMenuPosition({
-                    top: rect.top - containerRect.top + container.scrollTop + 48,
+                    top: rect.top - containerRect.top + container.scrollTop + 56,
                     left: rect.left - containerRect.left -10
                   });
                 } else {
                   setBottomMenuPosition({
-                    top: rect.top - containerRect.top + container.scrollTop + 48,
+                    top: rect.top - containerRect.top + container.scrollTop + 56,
                     left: rect.left - containerRect.left -150
                   });
                 }
@@ -605,20 +621,29 @@ export default function Editor({setPage, title, conspect, description, embeddedV
       </div>
   
       {editor && <EditorBubbleMenu editor={editor} />}
+      <Centered>
+      <EditorText>
       {editorLoading ?
         <MultiLineSkeletonLoader lines={7} justifyContent={"left"} />
         :
         <EditorContent editor={editor} />
       }
+      </EditorText>
+      </Centered>
+      <Centered>
+      <EditorText>
       {aiThinking &&
           <MultiLineSkeletonLoader lines={5} justifyContent={"left"} />
       }
+      </EditorText>
+      </Centered>
       <div onClick={(e) => e.stopPropagation()}>
       {(showBottomMenu && editor) && <BottomMenu editor={editor} menuPosition={bottomMenuPosition} generateNextSection={() => generateNextSection()} nextSection={nextSection}/>}
       </div>
       <Space margin="4rem" />
       <div id="conversation-bottom"></div>     
     </EditorContainer>
+    {!conspect &&
     <EditorSidebar 
       description={description} 
       title={title} 
@@ -633,6 +658,7 @@ export default function Editor({setPage, title, conspect, description, embeddedV
       setToneOfVoice={setToneOfVoice}
       toneOfVoice={toneOfVoice}
       />
+    }
 
     </PageContent>
   );
@@ -686,8 +712,12 @@ const EditorContainer = styled.div`
   cursor: auto;
   background: white;
   border: 2px solid #EAEDF5;
-  padding: 0 5rem 4rem 5rem;
+  padding: 0 6rem 4rem 6rem;
   border-radius: 25px;
   color: black;
   flex: 1;
+`
+
+const EditorText = styled.div`
+  width: 44rem;
 `
