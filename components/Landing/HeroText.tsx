@@ -23,7 +23,7 @@ const Text = styled.h1`
         line-height: auto;
         font-size: 2.1rem;
         line-height: 1.3;
-        width: 95vw;
+        width: 90vw;
         text-align: center;
     }
 `

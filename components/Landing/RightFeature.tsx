@@ -112,11 +112,10 @@ const FeatureTitle = styled.h2`
     font-family: 'Satoshi', sans-serif;
     font-weight: 900;
     @media (max-width: 1023px) {
-        font-size: 2.4rem;
+        font-size: 2rem;
         width: 100%;
         line-height: 1.2;
         text-align: center;
-        font-size: 2rem;
       }
 `
 
