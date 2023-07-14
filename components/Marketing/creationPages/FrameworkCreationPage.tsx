@@ -24,6 +24,7 @@ import { useSelector } from "react-redux";
 import api from "@/pages/api";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
+import CustomDropdown from "@/components/forms/CustomDropdown";
 
 interface InputContainer {
     width: string;
@@ -124,7 +125,7 @@ const FrameworkCreationPage = ({back, query}: any) => {
                             <Label>
                                 Language
                             </Label>
-                            <Dropdown
+                            <CustomDropdown
                                 id="languages"
                                 type="text"
                                 placeholder="English"

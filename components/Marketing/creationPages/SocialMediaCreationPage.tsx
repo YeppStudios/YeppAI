@@ -2,7 +2,7 @@ import styled from "styled-components";
 import backIcon from "../../../public/images/backArrow.png";
 import Image from "next/image";
 import magicalWand from "../../../public/images/magical_wand.png";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, use, useEffect, useState } from "react";
 import Dropdown from "../../forms/Dropdown";
 import ResultsContainer from "../../Common/ResultsContainer";
 import PageContent from "../../Common/PageContent";
@@ -24,6 +24,8 @@ import { useSelector } from "react-redux";
 import api from "@/pages/api";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
+import CustomDropdown from "@/components/forms/CustomDropdown";
+
 
 interface InputContainer {
     width: string;
@@ -35,7 +37,7 @@ interface TextArea {
 
 const contentLength = ["Short", "Medium", "Long"];
 const postTypes = ["Educational", "Informative", "Advertisement", "Lifestyle"];
-const styles = ["Formal 💼", "Friendly 😊", "Concise 📃", "Persuasive 🫵🏼", "Motivational 📈"];
+const tones = ["Formal 💼", "Friendly 😊", "Informative 📃", "Persuasive 🫵🏼", "Motivational 📈"];
 const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E6}-\u{1F1FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1F600}-\u{1F64F}\u{1F900}-\u{1F9FF}\u{1F300}-\u{1F5FF}]/gu;
 
@@ -43,7 +45,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
 
     const [completionLength, setCompletionLength] = useState("Medium");
     const [postType, setPostType] = useState("Advertisement");
-    const [style, setStyle] = useState("Friendly 😊");
+    const [tone, setTone] = useState("Friendly 😊");
     const [about, setAbout] = useState("");
     const [language, setLanguage] = useState("English");
     const [targetAudience, setTargetAudience] = useState("");
@@ -86,7 +88,12 @@ const SocialMediaCreationPage = ({back, query}: any) => {
             }
         }
 
-        setPrompt(`You are an experienced social media content creator. Write exactly 1 unique ${postType} post on ${query.type} about ${about} ${replyLength}. Make sure to write it in ${style.replace(emojiRegex, '')} tone of voice. The post should draw attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group.`)
+        let useEmojis= "Adjust the use emojis appropriately to the tone"
+        if (tone.includes("Formal")) {
+            useEmojis = "Do not use emojis"
+        }
+
+        setPrompt(`You are an experienced social media content creator. Write exactly 1 unique ${postType} post on ${query.type} about ${about} ${replyLength}. Make sure to write it in ${tone.replace(emojiRegex, '')} tone of voice. ${useEmojis} The post should draw attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group.`)
         setTitle(`Generated post- ${query.type}`)
     }
 
@@ -143,8 +150,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                                 Post type
                             </Label>                        
                             }
-
-                            <Dropdown
+                            <CustomDropdown
                                 id="name"
                                 type="text"
                                 placeholder="Advertising"
@@ -152,29 +158,27 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                                 value={postType}
                                 values={postTypes}
                                 onChange={setPostType}
-                                error={undefined}
                             />
                         </InputContainer>
                         <InputContainer width="50%">
                             <Label>
                                 Tone of voice
                             </Label>
-                            <Dropdown
-                                id="name"
+                            <CustomDropdown
+                                id="tones"
                                 type="text"
                                 placeholder="Friendly 😊"
                                 required
-                                value={style}
-                                values={styles}
-                                onChange={setStyle}
-                                error={undefined}
+                                value={tone}
+                                values={tones}
+                                onChange={setTone}
                             />
                         </InputContainer>
                         <InputContainer width="50%">
                             <Label>
                                 Language
                             </Label>
-                            <Dropdown
+                            <CustomDropdown
                                 id="languages"
                                 type="text"
                                 placeholder="English"
@@ -182,7 +186,6 @@ const SocialMediaCreationPage = ({back, query}: any) => {
                                 value={language}
                                 values={languages}
                                 onChange={setLanguage}
-                                error={undefined}
                             />
                         </InputContainer>
                         <InputContainer width="100%">

@@ -2,6 +2,7 @@ import { Fragment, JSXElementConstructor, Key, ReactElement, ReactFragment, Reac
 import { Listbox, Transition } from '@headlessui/react'
 import { BsChevronDown, BsCheck2 } from "react-icons/bs";
 import styled from 'styled-components';
+import { ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
 export default function Dropdown({values, value, onChange, error}: any) {
   const [selected, setSelected] = useState('');
@@ -31,11 +32,8 @@ export default function Dropdown({values, value, onChange, error}: any) {
         <DropdownContainer >
           <Listbox.Button style={{fontWeight: "500", height: "auto", boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF"}} className={"appearance-none border-2 flex text-black items-center pl-3 block w-full h-full pr-10 relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"}>
             <span className="block truncate text-left">{selected ? selected : <div className='text-black'>{value}</div>}</span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 2xl:pr-4">
-              <BsChevronDown
-                className={error ? "h-5 w-5 text-red-300" :"h-4 w-4 2xl:h-6 2xl:w-6 text-black arrowicon"}
-                aria-hidden="true"
-              />
+            <span className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
             </span>
           </Listbox.Button>
           <Transition

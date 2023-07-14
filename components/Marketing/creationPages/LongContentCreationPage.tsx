@@ -21,6 +21,7 @@ import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import TypingAnimation from "../../Modals/common/TypingAnimation";
 import { useSelector, useDispatch } from "react-redux";
 import FolderDropdown from "@/components/forms/FolderDropdown";
+import CustomDropdown from "@/components/forms/CustomDropdown";
 
 interface InputContainer {
     width: string;
@@ -188,7 +189,7 @@ const BlogCreationPage = ({back, query}: any) => {
                                 <Label>
                                     Tone of voice
                                 </Label>
-                                <Dropdown
+                                <CustomDropdown
                                     id="name"
                                     type="text"
                                     placeholder="Friengly 😊"
@@ -221,7 +222,7 @@ const BlogCreationPage = ({back, query}: any) => {
                             <Label>
                                 Language
                             </Label>
-                            <Dropdown
+                            <CustomDropdown
                                 id="languages"
                                 type="text"
                                 placeholder="English"

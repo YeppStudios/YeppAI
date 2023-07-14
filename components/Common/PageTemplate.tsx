@@ -58,7 +58,6 @@ const PageTemplate = ({children}: any) => {
               authorization: token,
             },
           });
-          console.log(data);
           if (!data.dashboardAccess) {
             setShowPlans(true);
           }

@@ -24,6 +24,7 @@ import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import TypingAnimation from "@/components/Modals/common/TypingAnimation";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
+import CustomDropdown from "@/components/forms/CustomDropdown";
 
 
 interface InputContainer {
@@ -159,7 +160,7 @@ const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrain
                             <Label>
                                 Language
                             </Label>
-                            <Dropdown
+                            <CustomDropdown
                                 id="languages"
                                 type="text"
                                 placeholder="Facebook"
@@ -191,7 +192,7 @@ const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrain
                                 <Label>
                                    Tone of voice
                                 </Label>
-                                <Dropdown
+                                <CustomDropdown
                                     id="name"
                                     type="text"
                                     placeholder="Friendly 😊"
