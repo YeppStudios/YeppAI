@@ -70,7 +70,7 @@ const Chat = () => {
         headers: {
             authorization: token
         },
-      });
+    });
 
     setUserElixir(elixirResponse.data.balance)
   }
