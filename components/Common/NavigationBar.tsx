@@ -29,7 +29,7 @@ const tabs = [
 const animationVariants = {
   visible: {
     transition: { duration: 0.35, type: "spring" },
-    height: "70vh"
+    height: "80vh"
   },
   hidden: { height: "3.75rem" },
 };
@@ -46,8 +46,6 @@ const NavigationBar = () => {
   const [openMobile, setOpenMobile] = useState(false);
   const plan = useSelector(selectedPlanState)
   const [isHovered, setIsHovered] = useState(false);
-
-  const controls = useAnimation();
   
   useEffect(() => {
     if(window.innerWidth <= 1023){
@@ -55,9 +53,12 @@ const NavigationBar = () => {
     }
   }, [user]);
 
-  const handleLockedClick = () => {
-    setIsHovered(false);
-    setOpenSubscriptionModal(true);
+  const handleTabClick = (path: string) => {
+    if (path === "/copywriting") {
+      alert("For now copywriting is available only for desktop devices.")
+    } else {
+      router.push(`${path}`)
+    }
   }
 
   const handleOpenMobileMenu = () => {
@@ -87,12 +88,13 @@ const NavigationBar = () => {
         </>
         }
         {tabs.map((tab) => (
+          console.log(tab.path),
           <div id={tab.id} key={tab.id}>
             {!(tab.path.includes(pathname) && pathname !== "/") ? (
               mobile ?
               <>
                 <SlideBottom>
-                  <NavigationTab hover={isHovered} title={tab.title} onClick={() => router.push(`${tab.path}`)}>
+                  <NavigationTab hover={isHovered} title={tab.title} onClick={() => handleTabClick(tab.path)}>
                     <NavigationIcon>{tab.icon}</NavigationIcon>
                     <NavigationText>{tab.title}</NavigationText>
                   </NavigationTab>
@@ -100,7 +102,7 @@ const NavigationBar = () => {
               </>
               :
               <>
-                <NavigationTab hover={isHovered} title={tab.title} onClick={() => router.push(`${tab.path}`)}>
+                <NavigationTab hover={isHovered} title={tab.title} onClick={() => handleTabClick(tab.path)}>
                   <NavigationIcon>{tab.icon}</NavigationIcon>
                   {isHovered && <NavigationText>{tab.title}</NavigationText>}
                 </NavigationTab>
@@ -311,6 +313,7 @@ const NavigationTab = styled.div<{ title: string, hover: boolean }>`
   height: 2.75rem;
   align-items: center;
   justify-content: ${props => props.hover ? "flex-start" : "center"};
+  color: black;
   white-space: nowrap;
   cursor: pointer;
   display: flex;
@@ -326,10 +329,10 @@ const NavigationTab = styled.div<{ title: string, hover: boolean }>`
     margin-top: 3vh;
     height: auto;
     border: 2px solid #E9EFF6;
-    display: ${props => props.title === "Copywriting" ? "none" : "flex"};
     padding: 0.75rem 1.5rem 0.75rem 1.5rem;
     border-radius: 12px;
-    box-shadow: 3px 3px 5px rgba(22, 27, 29, 0.23), -3px -3px 5px #FAFBFF;
+    color: ${props => props.title === "Copywriting" ? "#DCDCDC" : "black"};
+    box-shadow: ${props => props.title === "Copywriting" ? "none" : "3px 3px 5px rgba(22, 27, 29, 0.23), -3px -3px 5px #FAFBFF"};
     justify-content: flex-start;
     transition: all 0.4s ease;
     &:hover {
@@ -363,14 +366,12 @@ const NavigationIcon = styled.div`
   position: relative;
   width: 1rem;
   height: 1rem;
-  color: black;
   @media (max-width: 1023px) {
     width: 1.2rem;
     height: 1.2rem;
     background: -webkit-linear-gradient(45deg, #F7A097, #E497FF, #7EC5FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    color: black;
   }
 `
 
@@ -378,9 +379,7 @@ const NavigationText= styled.div`
   font-size: 1rem;
   font-weight: 500;
   margin-left: 1rem;
-  color: black;
   @media (max-width: 1023px) {
-    color: black;
     font-size: 1.2rem;
     margin-left: 1rem;
     z-index: 1;
@@ -391,9 +390,7 @@ const SelectedNavigationText= styled.div`
   font-size: 0.8rem;
   font-weight: 600;
   margin-left: 1rem;
-  color: black;
   @media (max-width: 1023px) {
-    color: black;
     font-size: 1.2rem;
     margin-left: 1rem;
 `
@@ -403,6 +400,7 @@ const SelectedNavigationTab = styled.div<{hovered: boolean}>`
   padding: 0.7rem 1.2rem 0.7rem 1.2rem;
   box-shadow: inset 3px 3px 5px rgba(22, 27, 29, 0.23), inset -3px -3px 5px #FAFBFF;
   display: flex;
+  color: black;
   white-space: nowrap;
   margin-top: 1rem;
   align-items: center;

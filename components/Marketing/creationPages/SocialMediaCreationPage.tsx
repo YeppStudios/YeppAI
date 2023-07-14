@@ -93,7 +93,7 @@ const SocialMediaCreationPage = ({back, query}: any) => {
             useEmojis = "Do not use emojis"
         }
 
-        setPrompt(`You are an experienced social media content creator. Write exactly 1 unique ${postType} post on ${query.type} about ${about} ${replyLength}. Make sure to write it in ${tone.replace(emojiRegex, '')} tone of voice. ${useEmojis} The post should draw attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group.`)
+        setPrompt(`You are an experienced social media content creator always writing unique and novel posts. Write exactly 1 unique ${postType} post on ${query.type} about ${about} ${replyLength}. Make sure to write it in ${tone.replace(emojiRegex, '')} tone of voice. ${useEmojis} The post should draw attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group.`)
         setTitle(`Generated post- ${query.type}`)
     }
 
