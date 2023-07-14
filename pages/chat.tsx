@@ -403,7 +403,7 @@ const Chat = () => {
               if (data.content) {
                 text += data.content;
                 if(text.length > 2) {
-                  if (text.startsWith("[%") || text.startsWith("[f")) {
+                  if (text.startsWith("[%") || text.startsWith("[f") || text.startsWith(`"[`)) {
                     setFetchingDocuments(true);
                     sendMessageWithEmbedding(userMessage);
                     const conversationBottom = document.getElementById("conversation-bottom");
