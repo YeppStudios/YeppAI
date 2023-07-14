@@ -261,7 +261,7 @@ const ContentCreator = () => {
           <PageTitle>Marketer AI</PageTitle>
           <PageDescription>Unleash the potential of AI in marketing.</PageDescription>
           </div>
-          <ActionContaienr>
+          <ActionContainer>
             <ActionBtn onClick={() => setOpenSaved(true)} square={true}>
               <ActionBtnIcon><BsBookmarkStarFill style={{width: "auto", height: "100%"}}/></ActionBtnIcon>
             </ActionBtn>
@@ -270,7 +270,7 @@ const ContentCreator = () => {
               <ActionBtnIcon><BsFillArchiveFill style={{width: "auto", height: "100%"}}/></ActionBtnIcon>
             </ActionBtn>
             }
-          </ActionContaienr>
+          </ActionContainer>
         </Header>
         }
         {currentPage === "social-media" && <SocialMediaCreationPage back={back} query={query} />}
@@ -367,12 +367,13 @@ const Header = styled.div`
 `
 
 
-const ActionContaienr = styled.div`
+const ActionContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   @media (max-width: 1023px) {
     width: 100%;
     justify-content: flex-start;
+    background-color: white;
   }
 `
 

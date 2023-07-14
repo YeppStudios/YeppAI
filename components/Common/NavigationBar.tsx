@@ -13,16 +13,17 @@ import { selectedUserState, } from "../../store/userSlice";
 import { selectedPlanState } from '@/store/planSlice';
 import { useSelector } from 'react-redux';
 import UpgradeSubscription from '../Modals/InformationalModals/UpgradeSubscription';
-import { FaSearch } from 'react-icons/fa';
+import { FaMoneyBillWave } from 'react-icons/fa';
 import { HiMenu } from 'react-icons/hi';
 import { motion, useAnimation } from 'framer-motion';
+import ColorfulText from './ColorfulText';
 
 
 const tabs = [  
   {title: "Marketing", icon:  <BsPencilFill style={{height: "100%", width: "auto"}}/>, path: "/marketing", id: "navbar-content-creator"},
   {title: "Copywriting", icon:  <BsFillFileTextFill style={{height: "100%", width: "auto"}}/>, path: "/copywriting", id: "navbar-editor-ai"},
   {title: "Chat", icon:  <BsFillChatTextFill style={{height: "100%", width: "auto"}}/>, path: "/chat", id: "navbar-chat"},
-  // {title: "Wyszukiwarka", icon:  <FaSearch style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
+  {title: "Sales", icon:  <FaMoneyBillWave style={{height: "100%", width: "auto"}}/>, path: "/prompts", id: "navbar-prompts"},
   // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
 ]
 
@@ -54,8 +55,10 @@ const NavigationBar = () => {
   }, [user]);
 
   const handleTabClick = (path: string) => {
-    if (path === "/copywriting") {
+    if (path === "/copywriting" && mobile) {
       alert("For now copywriting is available only for desktop devices.")
+    } else if ( path==="/prompts" ){
+      alert("We will launch sales tab ASAP! It will help you in things like writing the best sales copy, writing converting cold emails, determining target audience and much more.")
     } else {
       router.push(`${path}`)
     }
@@ -88,7 +91,6 @@ const NavigationBar = () => {
         </>
         }
         {tabs.map((tab) => (
-          console.log(tab.path),
           <div id={tab.id} key={tab.id}>
             {!(tab.path.includes(pathname) && pathname !== "/") ? (
               mobile ?
@@ -97,6 +99,7 @@ const NavigationBar = () => {
                   <NavigationTab hover={isHovered} title={tab.title} onClick={() => handleTabClick(tab.path)}>
                     <NavigationIcon>{tab.icon}</NavigationIcon>
                     <NavigationText>{tab.title}</NavigationText>
+                    {tab.title === "Sales" && <ComingSoon><ColorfulText><b>Coming soon</b></ColorfulText></ComingSoon>}
                   </NavigationTab>
                 </SlideBottom>
               </>
@@ -105,6 +108,7 @@ const NavigationBar = () => {
                 <NavigationTab hover={isHovered} title={tab.title} onClick={() => handleTabClick(tab.path)}>
                   <NavigationIcon>{tab.icon}</NavigationIcon>
                   {isHovered && <NavigationText>{tab.title}</NavigationText>}
+                  {(tab.title === "Sales" && isHovered) && <ComingSoon><ColorfulText><b>Coming soon</b></ColorfulText></ComingSoon>}
                 </NavigationTab>
               </>
             ) : (
@@ -317,6 +321,7 @@ const NavigationTab = styled.div<{ title: string, hover: boolean }>`
   white-space: nowrap;
   cursor: pointer;
   display: flex;
+  color: ${props => ( props.title === "Sales") ? "#DCDCDC" : "black"};
   border-radius: 10px;
   width: 100%;
   transition: all 0.15s ease;
@@ -331,8 +336,8 @@ const NavigationTab = styled.div<{ title: string, hover: boolean }>`
     border: 2px solid #E9EFF6;
     padding: 0.75rem 1.5rem 0.75rem 1.5rem;
     border-radius: 12px;
-    color: ${props => props.title === "Copywriting" ? "#DCDCDC" : "black"};
-    box-shadow: ${props => props.title === "Copywriting" ? "none" : "3px 3px 5px rgba(22, 27, 29, 0.23), -3px -3px 5px #FAFBFF"};
+    color: ${props => (props.title === "Copywriting" || props.title === "Sales") ? "#DCDCDC" : "black"};
+    box-shadow: ${props => (props.title === "Copywriting" || props.title === "Sales") ? "none" : "3px 3px 5px rgba(22, 27, 29, 0.23), -3px -3px 5px #FAFBFF"};
     justify-content: flex-start;
     transition: all 0.4s ease;
     &:hover {
@@ -545,4 +550,9 @@ const NameContainer = styled.div<{hover: boolean}>`
     justify-content: center;
     width: 100%;
   }
+`
+
+const ComingSoon = styled.div`
+  font-size: 0.8rem;
+  margin-left: 1rem;
 `
