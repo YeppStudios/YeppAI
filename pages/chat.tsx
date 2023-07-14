@@ -677,13 +677,17 @@ const Chat = () => {
                 ))
               }
               {message.contextDocs.length > 0 ?
+              <div style={{width: "100%", display: 'flex'}}>
               <Message assistant={true} marginLeft="3rem">
                 {message.text.trimStart()}
               </Message>
+              </div>
               :
+              <div style={{width: "100%", display: 'flex'}}>
               <Message assistant={true} marginLeft="1.5rem">
                 {message.text.trimStart()}
               </Message>
+              </div> 
               }
           </AssistantMessageContainer>
           }

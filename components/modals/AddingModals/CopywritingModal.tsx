@@ -29,9 +29,11 @@ import { FaRuler } from 'react-icons/fa';
 import { IoLanguage } from 'react-icons/io5';
 import { RiKey2Fill } from 'react-icons/ri';
 import { MdTitle } from 'react-icons/md';
+import CustomDropdown from '@/components/forms/CustomDropdown';
 
 const types = ["article", "blog", "guide", "ranking"];
 const languagesList = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Ukraiński", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski"];
+const tones = ["Formal", "Friendly", "Informative", "Persuasive", "Scientific", "Lifestyle"];
 
 const CopywritingModal = (props: {
     onClose: any, 
@@ -687,6 +689,25 @@ const CopywritingModal = (props: {
                             </div>
                             <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
+                                  <LabelIcon>
+                                      <BsFillMicFill style={{width: "100%", height: "auto"}}/>
+                                  </LabelIcon>
+                                  <Label>
+                                      Tone of voice
+                                  </Label>
+                              </div>
+                              <CustomDropdown
+                                id="tones"
+                                type="text"
+                                placeholder="Friendly"
+                                required
+                                value={props.toneOfVoice}
+                                values={tones}
+                                onChange={props.setToneOfVoice}
+                            />
+                            </div>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
                               <LabelIcon>
                                   <FaRuler style={{ width: "100%", height: "auto" }} />
                               </LabelIcon>
@@ -700,24 +721,6 @@ const CopywritingModal = (props: {
                                     onChange={(e) => setLength(e.target.value)}
                                     min={100}
                                     max={2000}
-                                /> 
-                            </div>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
-                              <div style={{ display: "flex" }}>
-                                  <LabelIcon>
-                                      <BsFillMicFill style={{width: "100%", height: "auto"}}/>
-                                  </LabelIcon>
-                                  <Label>
-                                      Tone of voice
-                                  </Label>
-                              </div>
-                                <Input
-                                    type="text"
-                                    placeholder="Informative"
-                                    height="2.44rem"
-                                    required
-                                    value={props.toneOfVoice}
-                                    onChange={(e) => props.setToneOfVoice(e.target.value)}
                                 /> 
                             </div>
                             </div>

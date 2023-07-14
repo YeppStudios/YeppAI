@@ -47,7 +47,7 @@ interface CustomColor {
 }
 
 const Homepage = () => {
-  const [mobile, setMobile] = useState(false);
+  const [mobile, setMobile] = useState(true);
 
   const router = useRouter();
 
@@ -57,8 +57,8 @@ const Homepage = () => {
   };
 
   useEffect(() => {
-    if(window.innerWidth <= 1023){
-      setMobile(true);
+    if(window.innerWidth >= 1023){
+      setMobile(false);
     }
     document.body.style.overflow = 'auto';
     document.body.style.position = 'static';

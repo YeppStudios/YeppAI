@@ -48,7 +48,7 @@ const RightFeature = (props: {text: string, gif: string, title: string, bulletpo
                         <Button color={props.color} className="">
                             <BtnText>Try now</BtnText>
                             <LearnMoreArrow>
-                                <Image style={{ width: "auto", height: "100%" }}  src={thinArrow} alt={'arrow'}></Image> 
+                                <Image style={{ width: "auto", height: "100%", filter: "invert(1)" }}  src={thinArrow} alt={'arrow'}></Image> 
                             </LearnMoreArrow>
                         </Button>
                     </Link>
@@ -157,17 +157,23 @@ const GifContainer = styled.div`
 `
 
 const Button = styled.div`
-    background-color: #F0F3F8;
-    color: black;
-    box-shadow: inset 2px 2px 8px rgba(22, 27, 29, 0.05), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    color: white;
     padding: 1.75vh 0 1.75vh 0;
+    border: solid 3px transparent;
     border-radius: 25px;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    align-items: center;
+    background: linear-gradient(40deg, #6578F8, #64B5FF);
+    background-size: 120%;
+    background-position-x: -1rem;
     width: 14rem;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 500;
-    margin-top: 3vh;
+    margin-top: 2rem;
     align-items: center;
     cursor: pointer;
     transition: 0.4s;
@@ -193,7 +199,7 @@ const BtnText = styled.div`
 
 const LearnMoreArrow = styled.div`
     margin-left: 1.5vw;
-    height: 0.7rem;
+    height: 0.65rem;
     @media (max-width: 1023px) {
         margin-left: 0.75rem;
         height: 1.5rem;

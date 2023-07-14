@@ -236,9 +236,9 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 <UsageTextContainer>
                     <UsageTitle>Folders</UsageTitle>
                     {plan._id === "6444d4394ab2cf9819e5b5f4" ? 
-                    <Usage>{`${documentsCount} / ∞`}</Usage>
+                    <Usage>{`${createdFolders} / ∞`}</Usage>
                     :
-                    <Usage>{`${documentsCount} / ${plan.maxFiles}`}</Usage>
+                    <Usage>{`${createdFolders} / ${plan.maxFiles}`}</Usage>
                     }
                 </UsageTextContainer>
                 </UsageContainer>

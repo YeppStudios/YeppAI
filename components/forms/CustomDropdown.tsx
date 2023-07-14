@@ -44,10 +44,10 @@ export default function Dropdown({values, value, onChange, error}: any) {
 
   return (
     <Combobox as="div" value={selected} onChange={handleChange}>
-        <div className="relative mt-2">
+        <div className="relative">
             <Combobox.Input
                 style={{fontWeight: "500", height: "auto", boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF"}}
-                className="appearance-none border-2 flex text-black items-center pl-3 block w-full h-full pr-10 relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"
+                className="appearance-none border-2 mb-4 flex text-black items-center pl-3 block w-full h-full pr-10 relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"
                 onChange={(event) => handleChange(event.target.value)}
                 displayValue={() => selected}
             />
@@ -56,7 +56,7 @@ export default function Dropdown({values, value, onChange, error}: any) {
             </Combobox.Button>
 
             {filteredValues.length > 0 && (
-                <Combobox.Options style={{"boxShadow": "5px 5px 10px rgba(15, 27, 40, 0.23)"}} className={`absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-xl border-2 bg-white py-1 text-sm focus:outline-none sm:text-sm`}>
+                <Combobox.Options style={{"boxShadow": "5px 5px 10px rgba(15, 27, 40, 0.23)"}} className={`absolute z-50 -mt-3 max-h-60 w-full overflow-auto rounded-xl border-2 bg-white py-1 text-sm focus:outline-none sm:text-sm`}>
                     {filteredValues.map((tone: any) => (
                         <Combobox.Option
                             key={tone}

@@ -10,7 +10,7 @@ const DocumentCreator = () => {
   const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
   const [copywritingModal, setCopywritingModal] = useState(false);
   const [embeddedVectorIds, setEmbeddedVectorIds] = useState<any[]>([]);
-  const [toneOfVoice, setToneOfVoice] = useState("");
+  const [toneOfVoice, setToneOfVoice] = useState("Informative");
   const [conspect, setConspect] = useState<any>(null);
   const [title, setTitle] = useState("New Document");
   const [description, setDescription] = useState("");
