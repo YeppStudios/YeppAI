@@ -76,7 +76,7 @@ const TopPanel = (props: {stats: any}) => {
             {openDeleteModal && <DeleteAccount onClose={() => setOpenDeleteModal(false)}/>}  
             {openUpgradeModal && <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} closeable={true}/>}
             <HeaderButtons>
-                {user.plan ?
+                {user.plan !== "647c3294ff40f15b5f6796bf" ?
                  <SubscriptionButton onClick={() => setOpenSubscriptionModal(true)}>Manage subscription</SubscriptionButton>
                  :
                  <SubscriptionButton onClick={() => setOpenUpgradeModal(true)}>Manage subscription</SubscriptionButton>
