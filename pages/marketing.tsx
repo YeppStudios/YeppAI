@@ -359,6 +359,7 @@ const Header = styled.div`
     display: flex;
     padding-left: 1.5rem;
     padding: 1rem 1rem 2rem 1.5rem;
+    background-color: white;
     border-radius: 25px;
     box-shadow: 0px 4px 10px rgba(15, 27, 40, 0.15);
     margin-top: 1rem;
