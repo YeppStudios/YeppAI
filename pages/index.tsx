@@ -94,7 +94,7 @@ const Homepage = () => {
                   <TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                 }
               </Centered>
-              <Centered>{!mobile && <div className='font-medium mt-4'>Do wykorzystania 10 000 elixiru lub 5 dni za darmo</div>}</Centered>
+              <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 5 days for free</div>}</Centered>
               <Centered>
               <LoginButton onClick={() => router.push("/chat")}>Log in</LoginButton>
               </Centered>
@@ -164,6 +164,7 @@ const Homepage = () => {
             /> */}
              {!mobile && <Space margin='5rem'/>}
             <Centered><TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>
+            <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 5 days for free</div>}</Centered>
           <div id="offer"></div>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>

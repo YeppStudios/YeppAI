@@ -74,23 +74,28 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
         e.preventDefault();
         setLoading(true);
         setResetError(false);
-
-        const { data } = await api.post('/password-reset', { email });
-        const templateParams = {
-          user_email: `${email}`,
-          link: `${data.link}`,
-        };
-
-        send("service_5j2yxyh","template_6qy05yo", templateParams, process.env.NEXT_PUBLIC_EMAILJS_USER_KEY)
-        .then(function(response) {
+        try {
+            const { data } = await api.post('/password-reset', { email });
+            const msg = {
+                to: `${email}`,
+                nickname: "Yepp AI",
+                from: {
+                  email: "hello@yepp.ai",
+                  name: "Yepp AI"
+                },
+                templateId: 'd-fe65c7fe87f14c358079b6e48d97ff36',
+                dynamicTemplateData: {
+                name: `${data.name}`,
+                link: `${data.link}`
+                },
+            };
+            const response = await api.post('/send-email', { msg });
             setLoading(false);
-            console.log('SUCCESS!', response.status, response.text);
-        }, function(error) {
-            console.log('FAILED...', error);
-            setLoading(false);
+        } catch (e) {
             setResetError(true);
-            console.log(error);
-        });  
+            console.log(e);
+        }
+
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

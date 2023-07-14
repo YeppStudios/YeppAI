@@ -152,7 +152,7 @@ const FirstPage = (props: {nextPage: any, openModal: any}) => {
             </ActionContaienr>
             </Header>
             <Centered>
-            <div className="w-11/12 lg:w-full">
+            <div style={{width: "100%"}}>
             <div className="mt-6 lg:mt-12 flow-root">
                 <div className="-mx-4 -my-2 overflow-visible sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -163,7 +163,7 @@ const FirstPage = (props: {nextPage: any, openModal: any}) => {
                       </div>
                     :
                     <>
-                    <table className="min-w-full divide-y divide-gray-300">
+                    <table className="w-full divide-y divide-gray-300">
                         <thead className="bg-gray-50">
                         <tr>
                             <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">

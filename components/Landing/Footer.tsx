@@ -4,10 +4,10 @@ import Image from "next/image";
 
 const navigation = {
     main: [
-      { name: 'Pricing', href: 'https://www.asystent.ai/pricing' },
+      { name: 'Pricing', href: 'https://www.yepp.ai/pricing' },
       { name: 'Features', href: '#functionalities' },
-      { name: 'Dashboard', href: 'https://www.asystent.ai/assets&trial=true' },
-      { name: 'API', href: 'https://www.asystent.ai/docs/api' }
+      { name: 'Dashboard', href: 'https://www.yepp.ai/assets&trial=true' },
+      { name: 'API', href: 'https://www.yepp.ai/docs/api' }
     ],
     social: [
       {
