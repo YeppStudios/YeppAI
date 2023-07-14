@@ -235,7 +235,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 </ChartContainer>
                 <UsageTextContainer>
                     <UsageTitle>Folders</UsageTitle>
-                    {(plan._id === "6444d4394ab2cf9819e5b5f4" || plan._id === "64ad0d250e40385f299bceea") ? 
+                    {(plan._id === "6444d4394ab2cf9819e5b5f4" || plan._id === "64ad0d250e40385f299bceea" || plan._id === "647c3294ff40f15b5f6796bf") ? 
                     <Usage>{`${createdFolders} / ∞`}</Usage>
                     :
                     <Usage>{`${createdFolders} / ${plan.maxFiles}`}</Usage>
@@ -250,7 +250,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 </ChartContainer>
                 <UsageTextContainer>
                     <UsageTitle>Assets</UsageTitle>
-                    {(plan._id === "6444d4394ab2cf9819e5b5f4" || plan._id === "64ad0d250e40385f299bceea") ? 
+                    {(plan._id === "6444d4394ab2cf9819e5b5f4" || plan._id === "64ad0d250e40385f299bceea" || plan._id === "647c3294ff40f15b5f6796bf") ? 
                     <Usage>{`${documentsCount} / ∞`}</Usage>
                     :
                     <Usage>{`${documentsCount} / ${plan.maxFiles}`}</Usage>
@@ -265,7 +265,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 </ChartContainer>
                 <UsageTextContainer>
                     <UsageTitle>Storage (MB)</UsageTitle>
-                    {(plan._id === "6444d4394ab2cf9819e5b5f4" || plan._id === "64ad0d250e40385f299bceea") ? 
+                    {(plan._id === "6444d4394ab2cf9819e5b5f4" || plan._id === "64ad0d250e40385f299bceea" || plan._id === "647c3294ff40f15b5f6796bf") ? 
                     <Usage>{`${(uploadedBytes/(1024*1024)).toFixed(1)} / ∞`}</Usage>
                     :
                     <Usage>{`${(uploadedBytes/(1024*1024)).toFixed(1)} / ${plan.maxUploadedBytes/(1024*1024)}`}</Usage>

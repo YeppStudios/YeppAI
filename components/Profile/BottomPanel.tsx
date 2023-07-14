@@ -127,7 +127,7 @@ const BottomPanel = () => {
             setElixirWidth((planResponse.data.percentage*100).toString());
             setPlan(planResponse.data.plan);
             if (user.plan === "647c3294ff40f15b5f6796bf") {
-                let percentage = (userResponse.data.tokenBalance/75);
+                let percentage = (userResponse.data.tokenBalance/250);
                 let elixir = Number(percentage) > 100 ? 100 : Number(percentage) < 0 ? 0 : percentage;
                 setElixirWidth((elixir).toString());
             }
@@ -539,7 +539,7 @@ const BottomPanel = () => {
                     <Title>Elixir balance</Title>
                     <div style={{width: "100%", textAlign: "right"}}>
                         {(plan && balance) ?
-                        <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 7,500</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
+                        <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 25,500</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
                         :
                         Number(balance) !== 0 ?
                         <Balance>{Number(balance).toLocaleString()}ml</Balance>
