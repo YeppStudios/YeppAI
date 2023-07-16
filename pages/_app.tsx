@@ -5,6 +5,7 @@ import { wrapper } from "../store/store";
 import { NotificationsProvider } from '@mantine/notifications'
 import Head from 'next/head';
 import Script from 'next/script';
+import { useEffect } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,6 +25,16 @@ declare global {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  useEffect(() => {
+    fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.NEXT_PUBLIC_GEOLOCATION_API_KEY}`)
+      .then(response => response.json())
+      .then(data => {
+        localStorage.setItem('country', data.country_name);
+      })
+      .catch(error => console.error(error));
+  }, []);
+  
   return (
     <main className={inter.className}>
       <Head>

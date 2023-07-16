@@ -52,7 +52,7 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                     <LogoContainer onClick={() => router.push("/")}>
                         <Image style={{ width: "auto", height: "100%" }}  src={logo} alt={'logo'}></Image> 
                     </LogoContainer>
-                    <Link href="/"><AppName>Yepp.ai</AppName></Link>
+                    <Link href="/"><AppName>Yepp AI</AppName></Link>
                 </Container>
                 <Container>
                     {pathname.includes("assistant") ?

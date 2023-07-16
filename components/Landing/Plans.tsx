@@ -21,9 +21,42 @@ const tabs = [
 ]
 
 const plans = [
-    {title: "Standard", planId: "64ad0d740e40385f299bcef9", description: "Basic version of Assistant, enhanced skills.", features: ["200 000 elixir/mo (~100 A4 pages)", "1 AI profile", "10 assets to upload (max 15MB total)", "Single web pages scanning", "Uploading PDF, PPTX, TXT and DOCX", "Chat with your AI", "Marketer AI", "Copywriter AI"], price: 59, monthlyPriceId: "price_1NSZjsFe80Kn2YGGYa3pzseT", threeMonthPriceId: "price_1NSafTFe80Kn2YGG5LVrITu1", sixMonthPriceId: "price_1NSagKFe80Kn2YGGFhOuum7Z", yearlyPriceId: "price_1NSaglFe80Kn2YGGZZ8msY1r"}, 
-    {title: "Agency", planId: "64ad0d250e40385f299bceea", description: "Basic version of Assistant, maximum content.", features: ["1M elixir/mo (~520 A4 pages)", "Unlimited client AI profiles", "Unlimited number of assets", "Unlimited storage space", "Unlimited number of teammates", "Access to the latest features", "Dedicated customer support"], price: 249, monthlyPriceId: "price_1NSZghFe80Kn2YGGOiClJUPM", threeMonthPriceId: "price_1NSai5Fe80Kn2YGGHrwmUEqe", sixMonthPriceId: "price_1NSaiNFe80Kn2YGGG88egvhI", yearlyPriceId: "price_1NSaieFe80Kn2YGGilwS3SNl"},
-    {title: "Custom", planId: "", description: "Marketing part of the platform with base AI Assistant.", features: ["Unlimited elixir", "Unlimited profiles", "Unlimited storage", "Unlimited number of teammates", "Access to the latest features", "Full website scan", "API access"], price: 799, monthlyPriceId: "price_1NFKIsFe80Kn2YGG60KFM7m5", threeMonthPriceId: "price_1NIZENFe80Kn2YGG2T7ztNTj", sixMonthPriceId: "price_1NIZFJFe80Kn2YGG7Eu6tjqb", yearlyPriceId: "price_1NIZFUFe80Kn2YGGQqUbkYaA"}, 
+    {
+        title: "Standard", 
+        planId: "64ad0d740e40385f299bcef9", 
+        description: "Basic version of Assistant, enhanced skills.", 
+        features: ["200 000 elixir/mo (~100 A4 pages)", "1 AI profile", "10 assets to upload (max 15MB total)", "Single web pages scanning", "Uploading PDF, PPTX, TXT and DOCX", "Chat with your AI", "Marketer AI", "Copywriter AI"],
+        price: 59, 
+        polishPrice: 299, 
+        monthlyPriceId: {default: "price_1NSZjsFe80Kn2YGGYa3pzseT", polish: "price_1NUPqFFe80Kn2YGG0FZyaRXH"}, 
+        threeMonthPriceId: {default: "price_1NSafTFe80Kn2YGG5LVrITu1", polish: "price_1NUPqQFe80Kn2YGGAjjfYZXQ"}, 
+        sixMonthPriceId: {default: "price_1NSagKFe80Kn2YGGFhOuum7Z", polish: "price_1NUPqcFe80Kn2YGG5zUJqhKq"}, 
+        yearlyPriceId: {default: "price_1NSaglFe80Kn2YGGZZ8msY1r", polish: "price_1NUPr0Fe80Kn2YGGd6BuzOAs"}
+    }, 
+    {
+        title: "Agency", 
+        planId: "64ad0d250e40385f299bceea", 
+        description: "Basic version of Assistant, maximum content.", 
+        features: ["1M elixir/mo (~520 A4 pages)", "Unlimited client AI profiles", "Unlimited number of assets", "Unlimited storage space", "Unlimited number of teammates", "Access to the latest features", "Dedicated customer support"], 
+        price: 249, 
+        polishPrice: 799, 
+        monthlyPriceId: {default: "price_1NSZghFe80Kn2YGGOiClJUPM", polish: "price_1NUPofFe80Kn2YGG6dYxHNk9"}, 
+        threeMonthPriceId: {default: "price_1NSai5Fe80Kn2YGGHrwmUEqe", polish: "price_1NUPozFe80Kn2YGGComghBF5"}, 
+        sixMonthPriceId: {default: "price_1NSaiNFe80Kn2YGGG88egvhI", polish: "price_1NUPpBFe80Kn2YGGW0muvINv"}, 
+        yearlyPriceId: {default: "price_1NSaieFe80Kn2YGGilwS3SNl", polish: "price_1NUPpNFe80Kn2YGG3PaQgZW7"}
+    },
+    {
+        title: "Custom", 
+        planId: "", 
+        description: "Marketing part of the platform with base AI Assistant.", 
+        features: ["Unlimited elixir", "Unlimited profiles", "Unlimited storage", "Unlimited number of teammates", "Access to the latest features", "Full website scan", "API access"], 
+        price: 0, 
+        polishPrice: 0, 
+        monthlyPriceId: {default: "", polish: ""}, 
+        threeMonthPriceId: {default: "", polish: ""}, 
+        sixMonthPriceId: {default: "", polish: ""}, 
+        yearlyPriceId: {default: "", polish: ""}
+    }, 
 ]
 
 function classNames(...classes: string[]) {
@@ -50,6 +83,7 @@ const Plans = (props: {openRegistration: boolean}) => {
     const [openLoginModal, setOpenLoginModal] = useState(false);
     const [loadingBtn, setLoadingBtn] = useState("");
     const [openContact, setOpenContact] = useState(false);
+    const [country, setCountry] = useState<string | null>("United States");
 
     const router = useRouter();
 
@@ -60,7 +94,10 @@ const Plans = (props: {openRegistration: boolean}) => {
         }
         document.body.style.overflow = 'auto';
         document.body.style.position = 'static';
+        setCountry(localStorage.getItem("country"));
     }, []);
+
+
     useEffect(() => {
         if (billingPeriod === 3) {
             setDiscount(0.1);
@@ -99,6 +136,17 @@ const Plans = (props: {openRegistration: boolean}) => {
 
     const renderPlans = () => {
         const renderedPlans = plans.map((plan) => {
+            let priceId = "";
+            if (billingPeriod === 1) {
+                country === "Poland" ? priceId = plan.monthlyPriceId.polish : priceId = plan.monthlyPriceId.default;
+            } else if (billingPeriod === 3) {
+                country === "Poland" ? priceId = plan.threeMonthPriceId.polish : priceId = plan.threeMonthPriceId.default;
+            } else if (billingPeriod === 6) {
+                country === "Poland" ? priceId = plan.sixMonthPriceId.polish : priceId = plan.sixMonthPriceId.default;
+            } else if (billingPeriod === 12) {
+                country === "Poland" ? priceId = plan.yearlyPriceId.polish : priceId = plan.yearlyPriceId.default;
+            }
+
             return (
                         <MainPlanContainer key={plan.title}>
                             {plan.title === "Standard" &&
@@ -106,47 +154,24 @@ const Plans = (props: {openRegistration: boolean}) => {
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">✏️</span> </Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a freelancer</BriefDescription>
                                     <MainDescription>Your personal AI content creator with knowledge from uploaded assets.</MainDescription>
+                                    {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
+                                    {country !== "Poland" ?
                                     <Price>
-                                        {/* <PriceCrossed>970,00</PriceCrossed> */}
                                         {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
                                     </Price>
+                                    :
+                                    <Price>
+                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</ColorfulText></Gross></Price>}
+                                    </Price>
+                                    }
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
-                                    {billingPeriod === 1 && 
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${plan.monthlyPriceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(plan.monthlyPriceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
                                         }
                                     </Centered>
-                                    }
-                                    {billingPeriod === 3 && 
-                                    <Centered>
-                                        {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${plan.threeMonthPriceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(plan.threeMonthPriceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        }
-                                    </Centered>
-                                    }
-                                    {billingPeriod === 6 && 
-                                    <Centered>
-                                        {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${plan.sixMonthPriceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(plan.sixMonthPriceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        }
-                                    </Centered>
-                                    }
-                                    {billingPeriod === 12 && 
-                                    <Centered>
-                                        {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${plan.yearlyPriceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(plan.yearlyPriceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        }
-                                    </Centered>
-                                    }
                                     <FeaturesList>  
                                     {plan.features?.map((feature, index) => {
                                             return (
@@ -168,46 +193,24 @@ const Plans = (props: {openRegistration: boolean}) => {
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText><ColorfulText>{plan.title}</ColorfulText></PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a marketing agency</BriefDescription>
                                     <MainDescription>Define AI profiles for your clients and streamline the conetnt creation.</MainDescription>
+                                    {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
+                                    {country !== "Poland" ?
                                     <Price>
-                                    {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
                                     </Price>
+                                    :
+                                    <Price>
+                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</ColorfulText></Gross></Price>}
+                                    </Price>
+                                    }
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
-                                    {billingPeriod === 1 && 
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${plan.monthlyPriceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(plan.monthlyPriceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
                                         }
                                     </Centered>
-                                    }
-                                    {billingPeriod === 3 && 
-                                    <Centered>
-                                        {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${plan.threeMonthPriceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(plan.threeMonthPriceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        }
-                                    </Centered>
-                                    }
-                                    {billingPeriod === 6 && 
-                                    <Centered>
-                                        {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${plan.sixMonthPriceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(plan.sixMonthPriceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        }
-                                    </Centered>
-                                    }
-                                    {billingPeriod === 12 && 
-                                    <Centered>
-                                        {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${plan.yearlyPriceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(plan.yearlyPriceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
-                                        }
-                                    </Centered>
-                                    }
                                     <FeaturesList>  
                                     {plan.features?.map((feature, index) => {
                                         if (feature.includes("Unlimited")) {
@@ -253,7 +256,8 @@ const Plans = (props: {openRegistration: boolean}) => {
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">📐</span></Emoji><PlanTitleText>{plan.title}</PlanTitleText></PlanTitle>
                                     <BriefDescription>Tailored to your needs</BriefDescription>
                                     <MainDescription>Unleash the full potential of AI profiles prepared by experts and API access.</MainDescription>
-                                    <Price>Custom price</Price>
+                                    {country === "Poland" && <PriceLabel>Price:</PriceLabel>}
+                                    <Price>Individual</Price>
                                     <Centered><Note>pitch us your idea and we will come up with a tailored plan</Note></Centered>
                                     <Centered>
                                         <BuyButton id="order-basic" onClick={() => setOpenContact(true)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiPhoneCall style={{width: "100%", height: "auto"}} /></BtnIcon><p>Contact us</p></>}</BuyButton>
@@ -471,7 +475,7 @@ const PriceLabel = styled.p`
     text-align: center;
     font-size: 1vw;
     width: 100%;
-    font-weight: 400;
+    font-weight: 700;
     margin-top: 0.5rem;
     @media (max-width: 1023px) {
         font-size: 1rem;
@@ -485,10 +489,11 @@ const Price = styled.div`
     font-family: 'Satoshi', sans-serif;
     font-weight: 700;
     align-items: flex-end;
+    margin-bottom: 0.15rem;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
     justify-content: center;
     @media (max-width: 1023px) {
         font-size: 5.5vh;

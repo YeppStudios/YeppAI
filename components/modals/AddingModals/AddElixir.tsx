@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ModalBackground from "../common/ModalBackground";
 import ModalTitle from "../common/ModalTitle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "@/pages/api";
 import { Loader } from "../../Common/Loaders";
 import Router, { useRouter } from "next/router";
@@ -16,22 +16,27 @@ import { selectedUserState } from "@/store/userSlice";
 const AddElixir = ({onClose}: any) => {
 
     const [loading, setLoading] = useState(false);
+    const [country, setCountry] = useState("United States");
     const router = useRouter();
     const user = useSelector(selectedUserState);
 
+    useEffect(() => {
+        setCountry(localStorage.getItem("country") || "United States");
+    }, []);
+
     const purchaseElixir = async (amount: number, price: string) => {
         setLoading(true);
-
         try {
                 const response = await api.post(`/create-checkout-session`, 
                 {
                     priceId: price, 
                     mode: "payment",
-                    successURL: "https://www.asystent.ai/profile?success",
-                    cancelURL: "https://www.asystent.ai/profile",
+                    successURL: "https://www.yepp.ai/profile?success",
+                    cancelURL: "https://www.yepp.ai/profile",
                     email: user.email,
                     tokensAmount: amount,
-                    planId: ""
+                    planId: "",
+                    global: true
                 });
                 const { url } = await response.data;
                 window.location.href = url;
@@ -60,8 +65,8 @@ const AddElixir = ({onClose}: any) => {
                         </SmallElixirIcon>
                         </Centered>
                         <ElixirAmount>+ 30 000ml</ElixirAmount>
-                        <Price>$9,50</Price>
-                        <Button onClick={() => purchaseElixir(30000, "price_1NUOKpFe80Kn2YGGl1ZS9YGQ")}>+ <ButtonText>Buy more</ButtonText></Button>
+                        {country === "Poland" ? <Price>24,99zł</Price> : <Price>$7,50</Price>}
+                        {country === "Poland" ? <Button onClick={() => purchaseElixir(30000, "price_1NBAYyFe80Kn2YGGmTM0y2ER")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(30000, "price_1NUSFNFe80Kn2YGGMm05sqq5")}>+ <ButtonText>Buy more</ButtonText></Button>}
                     </ElixirContainer>
                     <ElixirContainer>
                         <Centered>
@@ -70,8 +75,8 @@ const AddElixir = ({onClose}: any) => {
                         </MediumElixirIcon>
                         </Centered>
                         <ElixirAmount>+ 100 000ml</ElixirAmount>
-                        <Price>$35,00</Price>
-                        <Button onClick={() => purchaseElixir(100000, "price_1NUONNFe80Kn2YGGmL09StmW")}>+ <ButtonText>Buy more</ButtonText></Button>
+                        {country === "Poland" ? <Price>99,99zł</Price> : <Price>$25,00</Price>}
+                        {country == "Poland" ? <Button onClick={() => purchaseElixir(100000, "price_1NBAbsFe80Kn2YGGEHbkus2g")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(100000, "price_1NUONNFe80Kn2YGGmL09StmW")}>+ <ButtonText>Buy more</ButtonText></Button>}
                     </ElixirContainer>
                     <ElixirContainer>
                         <Centered>
@@ -80,8 +85,8 @@ const AddElixir = ({onClose}: any) => {
                         </BigElixirIcon>
                         </Centered>
                         <ElixirAmount>+ 500 000ml</ElixirAmount>
-                        <Price>$155,00</Price>
-                        <Button onClick={() => purchaseElixir(500000, "price_1NUOPoFe80Kn2YGGvAbWporh")}>+ <ButtonText>Buy more</ButtonText></Button>
+                        {country === "Poland" ? <Price>429,00zł</Price> : <Price>$115,00</Price>}
+                        {country == "Poland" ? <Button onClick={() => purchaseElixir(500000, "price_1NBAcoFe80Kn2YGG7IkK4m63")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(500000, "price_1NUOPoFe80Kn2YGGvAbWporh")}>+ <ButtonText>Buy more</ButtonText></Button>}
                     </ElixirContainer>
                 </ElixirsContainer>
                 </Centered>
@@ -101,7 +106,7 @@ export default AddElixir;
 
 const ModalContainer = styled.div`
     width: auto;
-    padding: 4vh 0vw 6vh 0vw;
+    padding: 6vh 0vw 7vh 0vw;
     width: 70vw;
     background: white;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;

@@ -79,7 +79,7 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><HeroText>Supercharge your {!mobile && <br />} <ColorfulText>marketing agency</ColorfulText> with AI.</HeroText></Centered>
+              <Centered><SlideBottom><HeroText>Supercharge your <br /> <ColorfulText>marketing agency</ColorfulText> with AI.</HeroText></SlideBottom></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
                 <Centered>

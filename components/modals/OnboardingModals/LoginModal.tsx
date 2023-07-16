@@ -153,6 +153,21 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                         const { url } = await res.data;
                         window.location.href = url;
                     } else if (planId) {
+                        if (localStorage.getItem("country") === "Poland" && Number(billingPeriod) > 1) {
+                            let res = await api.post(`/create-checkout-session`, 
+                            {
+                                priceId,
+                                mode: "payment",
+                                successURL: successUrl,
+                                cancelURL: `${window.location.origin}${router.asPath}`,
+                                planId: planId,
+                                email,
+                                months: Number(billingPeriod),
+                                global: true
+                            });
+                            const { url } = await res.data;
+                            window.location.href = url;
+                        } else {
                             let res = await api.post(`/create-checkout-session`, 
                             {
                                 priceId,
@@ -161,11 +176,12 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 cancelURL: `${window.location.origin}${router.asPath}`,
                                 planId: planId,
                                 email,
-                                months: billingPeriod,
+                                months: Number(billingPeriod),
                                 global: true
                             });
                             const { url } = await res.data;
                             window.location.href = url;
+                        }
                     }
                     setLoading(false);
                     Cookies.set("token", "Bearer " + response.data.token, { expires: 7 });
@@ -193,6 +209,20 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 localStorage.setItem('workspace', response.data.user.workspace);
                 localStorage.setItem('account_type', response.data.user.accountType);
                 if (planId) {
+                    if (localStorage.getItem("country") === "Poland" && Number(billingPeriod) > 1) {
+                        let res = await api.post(`/create-checkout-session`, 
+                        {
+                            priceId,
+                            mode: "payment",
+                            successURL: successUrl,
+                            cancelURL: `${window.location.origin}${router.asPath}`,
+                            planId: planId,
+                            email,
+                            months: Number(billingPeriod),
+                        });
+                        const { url } = await res.data;
+                        window.location.href = url;
+                    } else {
                         let res = await api.post(`/create-checkout-session`, 
                         {
                             priceId,
@@ -206,6 +236,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                         });
                         const { url } = await res.data;
                         window.location.href = url;
+                    }
                 } else {
                     props.onClose();
                 }

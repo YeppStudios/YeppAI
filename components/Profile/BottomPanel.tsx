@@ -419,7 +419,7 @@ const BottomPanel = () => {
                         <Fuel width={elixirWidth}></Fuel>
                     </FuelBar>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
-                        {plan ?
+                        {(plan && plan._id !== "647c3294ff40f15b5f6796bf") ?
                             <Button onClick={() => setOpenElixirModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>+ Replenish elixir</ButtonText></Button>
                             :
                             <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>+ Replenish elixir</ButtonText></Button>
