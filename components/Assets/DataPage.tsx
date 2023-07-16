@@ -123,12 +123,12 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                             <td className="max-w-xs lg:max-w-sm overflow-hidden lg:w-64 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                             {document.title}
                             </td>
-                            <td className="hidden py-4 text-sm text-gray-500 lg:table-cell"><div className="py-1.5 px-2 text-green-600 bg-green-100 w-28 rounded-xl flex justify-center">Zapamiętany</div></td>
+                            <td className="hidden py-4 text-sm text-gray-500 lg:table-cell"><div className="py-1.5 px-2 text-green-600 bg-green-100 w-28 rounded-xl flex justify-center">Saved</div></td>
                             <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{formattedDate}</td>
                             <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{document.ownerEmail}</td>
                             <td className="relative py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <button onClick={() => openDeleteModal(document)} className="text-red-400 hover:text-red-700">
-                                Usuń<span className="sr-only">, {document.title}</span>
+                                Delete<span className="sr-only">, {document.title}</span>
                             </button>
                             </td>
                         </tr>
