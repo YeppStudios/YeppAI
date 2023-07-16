@@ -300,7 +300,7 @@ const Modal = styled.div<{selectedTab: number}>`
     width: 60vw;
     border-radius: 25px;
     background: white;
-    padding: ${props => props.selectedTab === 0 ? "2rem 3rem 4em 3rem;" : "2rem 3rem 4rem 3rem;"};
+    padding: ${props => props.selectedTab === 0 ? "4rem 3rem 5em 3rem;" : "4rem 3rem 5rem 3rem;"};
     border: 2px solid #E5E8F0;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
     cursor: auto;
