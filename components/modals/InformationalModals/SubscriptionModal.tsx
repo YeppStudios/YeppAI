@@ -30,14 +30,14 @@ interface Button {
 }
 
 const plans = [
-    {title: "Assistant", priceId: "price_1MdbUeFe80Kn2YGGRlKvmre4", planId: "63f0e7d075de0ef12bb8c484", query: "/order/pro", description: "AI with custom knowledge you upload.", isPro: false, features: ["100,000 elixir/month (~110 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "99zł"}, 
-    {title: "Assistant Basic", priceId: "price_1MdbTMFe80Kn2YGG5QDfmjvS", planId: "63f0e6968e1b9d507c38a749", query: "/order/basic", description: "AI with custom knowledge you upload.", features: ["70,000 elixir/month (~250 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "49.99zł", extraFunctionalities: "Basic"}, 
-    {title: "Assistant Expert", priceId: "price_1MdbWFFe80Kn2YGG3w8Xg2ub", planId: "63f0e7ed75de0ef12bb8c487", query: "/order/pro", description: "AI with custom knowledge you upload.", isPro: false, features: ["100,000 elixir/month (~110 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "199.99zł", extraFunctionalities: "Assistant + Basic"},
-    {title: "Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", query: "/order/basic", description: "Generate content like posts, articles, and emails using AI.", isPro: false, features: ["75,000 elixir/month (~80 A4 pages)", "Generating social media posts", "Generating emails and newsletters", "Generating articles", "Generating product descriptions", "Saving content"], price: "99zł"}, 
-    {title: "Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", query: "/order/pro", description: "AI with custom knowledge you upload.", features: ["250,000 elixir/month (~270 A4 pages)", "1 main resource folder", "10 uploaded files up to 15MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "299zł", extraFunctionalities: "Basic"}, 
-    {title: "Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/assistantbusiness", description: "Maximum possibilities for business, no limits.", isPro: false, features: ["1M elixir/month (~1100 A4 pages)", "Unlimited number of folders", "Unlimited amount of uploaded resources", "Unlimited number of users", "Access to the latest features", "1000+ AI command templates"], price: "799zł", extraFunctionalities: "Assistant + Basic"},
-    {title: "Standard", priceId: "64ad0d740e40385f299bcef9", planId: "6478970a404e31bfe87533a0", query: "/order/pro", description: "AI with custom knowledge you upload.", features: ["200,000 elixir/month (~100 A4 pages)", "1 main resource folder", "10 uploaded files up to 15MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "$59", extraFunctionalities: "Basic"}, 
-    {title: "Agency", priceId: "64ad0d250e40385f299bceea", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/assistantbusiness", description: "Maximum possibilities for marketing agency, no limits.", isPro: false, features: ["1M elixir/month (~560 A4 pages)", "Unlimited number of AI profiles", "Unlimited amount of uploaded assets", "Unlimited number of users", "Access to the latest features"], price: "$249", extraFunctionalities: "Assistant + Basic"},
+    {title: "Assistant", priceId: "price_1MdbUeFe80Kn2YGGRlKvmre4", planId: "63f0e7d075de0ef12bb8c484", description: "AI with custom knowledge you upload.", isPro: false, features: ["100,000 elixir/month (~110 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "99zł"}, 
+    {title: "Assistant Basic", priceId: "price_1MdbTMFe80Kn2YGG5QDfmjvS", planId: "63f0e6968e1b9d507c38a749", description: "AI with custom knowledge you upload.", features: ["70,000 elixir/month (~250 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "49.99zł", extraFunctionalities: "Basic"}, 
+    {title: "Assistant Expert", priceId: "price_1MdbWFFe80Kn2YGG3w8Xg2ub", planId: "63f0e7ed75de0ef12bb8c487", description: "AI with custom knowledge you upload.", isPro: false, features: ["100,000 elixir/month (~110 A4 pages)", "5 uploaded files up to 5MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "199.99zł", extraFunctionalities: "Assistant + Basic"},
+    {title: "Assistant Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", description: "Generate content like posts, articles, and emails using AI.", isPro: false, features: ["75,000 elixir/month (~80 A4 pages)", "Generating social media posts", "Generating emails and newsletters", "Generating articles", "Generating product descriptions", "Saving content"], price: "99zł"}, 
+    {title: "Assistant Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", description: "AI with custom knowledge you upload.", features: ["250,000 elixir/month (~270 A4 pages)", "1 main resource folder", "10 uploaded files up to 15MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "299zł", extraFunctionalities: "Basic"}, 
+    {title: "Assistant Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", description: "Maximum possibilities for business, no limits.", isPro: false, features: ["1M elixir/month (~1100 A4 pages)", "Unlimited number of folders", "Unlimited amount of uploaded resources", "Unlimited number of users", "Access to the latest features", "1000+ AI command templates"], price: "799zł", extraFunctionalities: "Assistant + Basic"},
+    {title: "Standard", priceId: "64ad0d740e40385f299bcef9", planId: "6478970a404e31bfe87533a0", description: "AI with custom knowledge you upload.", features: ["200,000 elixir/month", "1 main resource folder", "10 uploaded files up to 15MB", "Web page scanning", "Uploading PDF, PPTX, TXT, and DOCX", "Chat with company AI", "AI Copywriter"], price: "$59", extraFunctionalities: "Basic"}, 
+    {title: "Agency", priceId: "64ad0d250e40385f299bceea", planId: "6444d4394ab2cf9819e5b5f4", description: "Maximum possibilities for marketing agency, no limits.", isPro: false, features: ["1M elixir/month", "Unlimited number of AI profiles", "Unlimited amount of uploaded assets", "Unlimited number of users", "Access to the latest features"], price: "$249", extraFunctionalities: "Assistant + Basic"},
 ]
 
 const SubscriptionModal = (props: {onClose: any}) => {
@@ -68,6 +68,7 @@ const SubscriptionModal = (props: {onClose: any}) => {
 
     const renderPlans = () => {
         let icon = wandIcon;
+        console.log(currentPlan);
         const renderedPlans = plans.map((plan) => {
             if (plan.title === "Basic") {
                 icon= pencilIcon;
@@ -150,7 +151,7 @@ export default SubscriptionModal;
 const ModalContainer = styled.div`
     width: 70vw;
     height: auto;
-    padding: 6vh 3.5vw 7vh 3.5vw;
+    padding: 10vh 3.5vw 11vh 3.5vw;
     background: white;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
     border: 2px solid #E5E8F0;
@@ -215,7 +216,7 @@ const PlanImageSection = styled.div<Background>`
 const PlanContainer = styled.div<PlanContainer>`
     width: ${props => props.width || '22vw'};
     height: auto;
-    padding: 4vh 4vh 5vh 4vh;
+    padding: 6vh 4vh 7vh 4vh;
     border-radius: 25px;
     box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.55);
     color: ${props => props.color || 'black'};

@@ -23,16 +23,6 @@ const AddElixir = ({onClose}: any) => {
         setLoading(true);
 
         try {
-            if (user.accountType === "company") {
-                if(amount == 30000 ){
-                    router.push("/order/elixir-small")
-                } else if(amount == 100000) {
-                    router.push("/order/elixir-medium")
-                } else {
-                    router.push("/order/elixir-big")
-                } 
-
-            } else {
                 const response = await api.post(`/create-checkout-session`, 
                 {
                     priceId: price, 
@@ -45,7 +35,6 @@ const AddElixir = ({onClose}: any) => {
                 });
                 const { url } = await response.data;
                 window.location.href = url;
-            }
 
             setLoading(false);
         } catch(e) {
@@ -71,8 +60,8 @@ const AddElixir = ({onClose}: any) => {
                         </SmallElixirIcon>
                         </Centered>
                         <ElixirAmount>+ 30 000ml</ElixirAmount>
-                        <Price>24, 99zł</Price>
-                        <Button onClick={() => purchaseElixir(30000, "price_1NBAYyFe80Kn2YGGmTM0y2ER")}>+ <ButtonText>Add</ButtonText></Button>
+                        <Price>$9,50</Price>
+                        <Button onClick={() => purchaseElixir(30000, "price_1NUOKpFe80Kn2YGGl1ZS9YGQ")}>+ <ButtonText>Buy more</ButtonText></Button>
                     </ElixirContainer>
                     <ElixirContainer>
                         <Centered>
@@ -81,8 +70,8 @@ const AddElixir = ({onClose}: any) => {
                         </MediumElixirIcon>
                         </Centered>
                         <ElixirAmount>+ 100 000ml</ElixirAmount>
-                        <Price>99, 99zł</Price>
-                        <Button onClick={() => purchaseElixir(100000, "price_1NBAbsFe80Kn2YGGEHbkus2g")}>+ <ButtonText>Add</ButtonText></Button>
+                        <Price>$35,00</Price>
+                        <Button onClick={() => purchaseElixir(100000, "price_1NUONNFe80Kn2YGGmL09StmW")}>+ <ButtonText>Buy more</ButtonText></Button>
                     </ElixirContainer>
                     <ElixirContainer>
                         <Centered>
@@ -91,8 +80,8 @@ const AddElixir = ({onClose}: any) => {
                         </BigElixirIcon>
                         </Centered>
                         <ElixirAmount>+ 500 000ml</ElixirAmount>
-                        <Price>429, 00zł</Price>
-                        <Button onClick={() => purchaseElixir(500000, "price_1NBAcoFe80Kn2YGG7IkK4m63")}>+ <ButtonText>Add</ButtonText></Button>
+                        <Price>$155,00</Price>
+                        <Button onClick={() => purchaseElixir(500000, "price_1NUOPoFe80Kn2YGGvAbWporh")}>+ <ButtonText>Buy more</ButtonText></Button>
                     </ElixirContainer>
                 </ElixirsContainer>
                 </Centered>
