@@ -70,6 +70,7 @@ const Campagin = () => {
     }
   };
 
+  //not sure if this component should be here, or template file
   const renderContent = () => {
     const renderedContent = savedContent.map((content, index) => {
       return (
