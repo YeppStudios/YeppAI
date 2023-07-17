@@ -12,7 +12,7 @@ export default HeroText;
 const Text = styled.h1`
     color: black;
     font-size: 5vw;
-    line-height: 10vh;
+    line-height: 1.25;
     font-family: 'Satoshi', sans-serif;
     font-weight: 900;
     text-align: center;

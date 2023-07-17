@@ -208,7 +208,7 @@ const HeroSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 11rem;
+  margin-top: 9rem;
   @media (max-width: 1023px) {
     display: flex;
     margin-top: 8rem;
