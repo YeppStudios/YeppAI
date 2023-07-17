@@ -571,7 +571,7 @@ const ResultsContainer = (
                         {(!replying && !messageLoading && messages.length !== 0 && router.pathname.includes("marketing")) && 
                         <UserPromptContainer>
                             <PromptInput 
-                                placeholder="Dalsze polecenia..."                   
+                                placeholder="Further prompts..."                   
                                 onKeyDown={submitOnEnter}
                                 ref={textAreaRef}
                                 value={prompt}
