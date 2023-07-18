@@ -21,7 +21,7 @@ const Text = styled.h1`
     @media (max-width: 1023px) {
         margin-top: 0;
         line-height: auto;
-        font-size: 2.1rem;
+        font-size: 2rem;
         line-height: 1.3;
         width: 90vw;
         text-align: center;

@@ -79,12 +79,13 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><SlideBottom><HeroText>Supercharge your <br /> <ColorfulText>marketing agency</ColorfulText> with AI.</HeroText></SlideBottom></Centered>
+              <Centered><HeroText>Upload your content,</HeroText></Centered>
+              <Centered><TypewriterSection /></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
                 <Centered>
               <DescriptionHero color="black">
-              Upload information about your clients and streamline the process of content creation.
+                #1 Generative AI tool among marketing agencies.
               </DescriptionHero>
               </Centered>
               <Centered>
@@ -118,7 +119,7 @@ const Homepage = () => {
             <div id="functionalities"></div>
             <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
             <HeroText>
-              <ColorfulText>Reduce workload</ColorfulText> and make your marketing agency grow.
+              <ColorfulText>Reduce workload</ColorfulText> and watch your online presence grow.
             </HeroText>
             <Space margin="5vh"/>
             </SlideBottom>
@@ -128,7 +129,7 @@ const Homepage = () => {
                 title="Create Client Profiles" 
                 gif="/videos/uploading.gif" 
                 text="Upload the content and information about your clients, their industry, products etc."
-                bulletpoints={["Upload PDF, TXT, PPTX and DOCX files", "Transcribe YouTube content", "Scrape websites"]}
+                bulletpoints={["Upload PDF, TXT, PPTX & DOCX files", "Transcribe YouTube content", "Scrape websites"]}
                 color="black"
                 marginTop='3vh'
             />
@@ -163,7 +164,7 @@ const Homepage = () => {
                 marginTop='3vh'
             /> */}
              {!mobile && <Space margin='5rem'/>}
-            <Centered><TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>
+             {!mobile &&<Centered><TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
             <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 5 days for free</div>}</Centered>
           <div id="offer"></div>
           <Section>
@@ -218,10 +219,10 @@ const HeroSection = styled.div`
 const DescriptionHero = styled.p<CustomColor>`
     color: ${props => props.color || '#000000'};
     font-size: 1.5rem;
-    width: 70%;
+    width: 100%;
     text-align: center;
     font-weight: 500;
-    margin-top: 4vh;
+    margin-top: 8vh;
     @media (max-width: 1023px) {
         margin-top: 1.5rem;
         font-size: 1.2rem;
@@ -337,12 +338,13 @@ const ColorfulText = styled.span`
 
 const MiniTitle = styled.p`
     font-size: 1rem;
+    margin-bottom: 0.75rem;
     text-align: center;
     padding: 1rem 4rem 1rem 4rem;
     border-radius: 25px;
     background: #F0F3F8;
     font-weight: 700;
     @media (max-width: 1023px) {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 `
