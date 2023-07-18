@@ -79,7 +79,7 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><HeroText>Upload your content,</HeroText></Centered>
+              <Centered><HeroText>Upload your assets,</HeroText></Centered>
               <Centered><TypewriterSection /></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
