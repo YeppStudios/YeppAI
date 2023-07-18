@@ -586,18 +586,22 @@ const CopywritingModal = (props: {
           });
           const completionJSON = JSON.parse(conspectCompletion.data.completion);
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
-          props.setConspect(completionJSON)
-          const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
-            urls: [links[0]]
-          }, {
-            headers: {
-              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
-            }
-          });
-            setLoading(false);
+          props.setConspect(completionJSON);
+          try {
+            const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+              urls: [links[0]]
+            }, {
+              headers: {
+                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
+              }
+            });
             props.setEmbeddedVectorIds(scrapingResponse.data.ids)
-            localStorage.setItem("generateIntro", "true");
-            props.onSuccess();
+          } catch (e) {
+            console.log(e);
+          }
+          setLoading(false);
+          localStorage.setItem("generateIntro", "true");
+          props.onSuccess();
         } catch (e) {
             setLoading(false);
             console.log(e);

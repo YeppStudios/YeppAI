@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
             <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-            <meta property="og:title" content="Yepp AI | Your Custom AI" />
+            <meta property="og:title" content="Yepp AI | Marketing For Your Business" />
             <meta property="og:type" content="website" />
             <meta property="og:image" content="http://drive.google.com/uc?export=view&id=1FDGWNY8-NvmGRAApCeHz8mXV-h7uWBy6"/>
             <meta property="og:url" content="https://www.yepp.ai"/>
