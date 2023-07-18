@@ -22,12 +22,15 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
 }) => {
   return (
     <PageContainer>
-      <PageTitle>{name}</PageTitle>
-      <PageDescription>{description}</PageDescription>
+      <Header>
+        <div>
+          <PageTitle>{name}</PageTitle>
+          <PageDescription>{description}</PageDescription>
+        </div>
 
-      {/*We can pass any custom action buttons here*/}
-      {actionButtons}
-
+        {/*We can pass any custom action buttons here*/}
+        {actionButtons}
+      </Header>
       {/*table with content*/}
       <Centered>
         <div style={{ width: "100%" }}>
@@ -101,6 +104,23 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
     </PageContainer>
   );
 };
+
+const Header = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  @media (max-width: 1023px) {
+    display: flex;
+    padding-left: 1.5rem;
+    padding: 1rem 1rem 2rem 1.5rem;
+    border-radius: 25px;
+    box-shadow: 0px 4px 10px rgba(15, 27, 40, 0.15);
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+`;
 
 const PageContainer = styled.div`
   min-height: calc(100vh - 1.5rem);
