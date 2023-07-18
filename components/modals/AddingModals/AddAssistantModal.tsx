@@ -526,7 +526,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                         : 
                         <div className={classNames(name.length > 18 ? "text-red-400" : "text-stone-400", "font-normal mr-2 text-sm")}>{name.length}/18</div>}</div>
                         </Label>
-                        <Input type="text" placeholder="Marketer Michał" value={name} onChange={(e) => setName(e.target.value)}/>
+                        <Input type="text" placeholder="Assistant Michael" value={name} onChange={(e) => setName(e.target.value)}/>
                     </HalfInputContainer>
                     <HalfInputContainer>
                         <Label>Company Name{companyError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>enter your company name</p>}</Label>
@@ -665,7 +665,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 </Tabs>
                 <Label>Should Assistant talk about the company in the first person narrative?</Label>
                 <div className="flex">
-                    {firstPersonNarrative ? <SelectedTab>yes</SelectedTab> : <Tab onClick={() => setFirstPersonNarrative(true)}>yes</Tab>}
+                    {firstPersonNarrative ? <SelectedTab>Yes</SelectedTab> : <Tab onClick={() => setFirstPersonNarrative(true)}>yes</Tab>}
                     {firstPersonNarrative ? <Tab onClick={() => setFirstPersonNarrative(false)}>No</Tab> : <SelectedTab>No</SelectedTab>}
                 </div>
                 <div style={{width: "48%", display: "flex", flexWrap: "wrap"}}>
