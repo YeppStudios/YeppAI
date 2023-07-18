@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
+import ColorfulText from "../Common/ColorfulText";
 
 export const TypewriterSection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -17,7 +18,7 @@ export const TypewriterSection = () => {
   }, []);
 
   return (
-    <h2 className="font-black text-[1.5rem] lg:text-[4.5vw] lg:mt-6 lg:text-6xl text-center lg:text-left">
+    <ColorfulText><h2 className="font-black text-[1.5rem] lg:text-[4.5vw] lg:mt-6 lg:text-6xl text-center lg:text-left">
         <TypeAnimation
           sequence={[
             "chat with your data",
@@ -38,5 +39,6 @@ export const TypewriterSection = () => {
           repeat={Infinity}
         />
     </h2>
+    </ColorfulText>
   );
 };
