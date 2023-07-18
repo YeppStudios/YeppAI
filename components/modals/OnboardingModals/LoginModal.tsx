@@ -136,23 +136,24 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     setLoading(false);
                     props.onClose();
                 } else {
-                    response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId, blockAccess: true });
-                    if (trial) {
-                        let res = await api.post(`/create-checkout-session`, 
-                        {
-                            priceId: "price_1NSZghFe80Kn2YGGOiClJUPM",
-                            mode: "subscription",
-                            successURL: successUrl,
-                            cancelURL: `${window.location.origin}${router.asPath}`,
-                            planId: "64ad0d250e40385f299bceea",
-                            email,
-                            trial,
-                            months: 1,
-                            global: true
-                        });
-                        const { url } = await res.data;
-                        window.location.href = url;
-                    } else if (planId) {
+                    response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId, blockAccess: false }); //set to true to require credit card
+                    // if (trial) {
+                    //     let res = await api.post(`/create-checkout-session`, 
+                    //     {
+                    //         priceId: "price_1NSZghFe80Kn2YGGOiClJUPM",
+                    //         mode: "subscription",
+                    //         successURL: successUrl,
+                    //         cancelURL: `${window.location.origin}${router.asPath}`,
+                    //         planId: "64ad0d250e40385f299bceea",
+                    //         email,
+                    //         trial,
+                    //         months: 1,
+                    //         global: true
+                    //     });
+                    //     const { url } = await res.data;
+                    //     window.location.href = url;
+                    // } else 
+                    if (planId) {
                         if (localStorage.getItem("country") === "Poland" && Number(billingPeriod) > 1) {
                             let res = await api.post(`/create-checkout-session`, 
                             {
@@ -195,6 +196,8 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     localStorage.setItem('workspace', response.data.newUser.workspace);
                     localStorage.setItem('account_type', response.data.newUser.accountType);
                     localStorage.setItem('onboarding_step', "1");
+                    props.onClose();
+                    router.push("/assets");
                 }
             } else {
                 response = await api.post('/login', { email, password });
