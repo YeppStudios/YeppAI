@@ -1,4 +1,4 @@
-import { FC, SetStateAction, useState } from "react";
+import { FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import Centered from "../Centered";
 import { BlueLoader } from "./Loaders";
@@ -20,49 +20,58 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
   savedContent,
   loading,
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (window.innerWidth <= 1023) {
+      setIsMobile(true);
+    }
+  }, []);
+
   return (
     <PageContainer>
-      <PageTitle>{name}</PageTitle>
-      <PageDescription>{description}</PageDescription>
-
-      {/*We can pass any custom action buttons here*/}
-      {actionButtons}
-
+      <Header>
+        <div>
+          <PageTitle>{name}</PageTitle>
+          <PageDescription>{description}</PageDescription>
+        </div>
+        {/*We can pass any custom action buttons here*/}
+        {actionButtons}
+      </Header>
       {/*table with content*/}
       <Centered>
-        <div style={{ width: "100%" }}>
+        <TableContainer>
           <div className="mt-6 lg:mt-12 flow-root">
-            <div className="-mx-4 -my-2 overflow-visible sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <div className="overflow-visible shadow ring-1 ring-black ring-opacity-5 sm:rounded-2xl">
+            <div className="  lg:-mx-8 ">
+              <div className="inline-block min-w-full py-2 align-middle  sm:px-6 lg:px-8">
+                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-2xl">
                   {loading ? (
                     <div className="flex justify-center items-center w-full h-64">
                       <BlueLoader />
                     </div>
                   ) : (
                     <>
-                      <table className="w-full divide-y divide-gray-300">
-                        <thead className="bg-gray-50">
+                      <table className=" w-full divide-y divide-gray-300 ">
+                        <thead className="bg-gray-50 ">
                           <tr>
                             <th
                               scope="col"
-                              className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                            ></th>
-                            <th
-                              scope="col"
-                              className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                              className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 "
                             >
                               Title
                             </th>
+                            {!isMobile && (
+                              <th
+                                scope="col"
+                                className=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                              >
+                                Last updated
+                              </th>
+                            )}
+
                             <th
                               scope="col"
-                              className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-                            >
-                              Last updated
-                            </th>
-                            <th
-                              scope="col"
-                              className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                              className=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                             >
                               Email
                             </th>
@@ -80,15 +89,14 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
                             </th>
                           </tr>
                         </thead>
+
                         {savedContent.length > 0 && renderContent()}
                       </table>
                       {savedContent.length === 0 && (
-                        <>
-                          <div className="flex justify-center items-center w-full h-64 text-slate-700 text-xl">
-                            You have no content yet. Click on the button above
-                            to craft your first content with AI.
-                          </div>
-                        </>
+                        <div className="flex items-center justify-center text-center p-10 h-64 text-slate-700 lg:text-xl md:text-md sm:text-sm">
+                          You have no content yet. Click on the button above to
+                          craft your first content with AI.
+                        </div>
                       )}
                     </>
                   )}
@@ -96,11 +104,35 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
               </div>
             </div>
           </div>
-        </div>
+        </TableContainer>
       </Centered>
     </PageContainer>
   );
 };
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  @media (max-width: 1023px) {
+    display: flex;
+    padding: 1rem 1rem 2rem 1.5rem;
+    border-radius: 25px;
+    box-shadow: 0px 4px 10px rgba(15, 27, 40, 0.15);
+    margin: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const TableContainer = styled.div`
+  width: 100%;
+  padding: 0.5rem;
+  margin: 1rem;
+  overflow: hidden;
+`;
 
 const PageContainer = styled.div`
   min-height: calc(100vh - 1.5rem);

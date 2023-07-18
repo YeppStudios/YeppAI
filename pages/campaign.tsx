@@ -244,6 +244,7 @@ const WriteBtn = styled.div`
     margin-right: 0rem;
     margin-top: 1rem;
     flex: 1;
+    max-width: 50%;
   }
 `;
 const ActionContaienr = styled.div`
@@ -251,13 +252,16 @@ const ActionContaienr = styled.div`
   justify-content: flex-end;
   @media (max-width: 1023px) {
     width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
   }
 `;
 const BtnText = styled.p`
   margin-left: 1rem;
   font-size: 1.2rem;
   font-weight: 600;
+  @media (max-width: 1023px) {
+    font-size: 1rem;
+  }
 `;
 const OptionsIcon = styled.div`
   height: 100%;
