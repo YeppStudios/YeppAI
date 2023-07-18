@@ -420,9 +420,9 @@ const BottomPanel = () => {
                     </FuelBar>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
                         {plan && plan._id !== "647c3294ff40f15b5f6796bf" ?
-                            <Button onClick={() => setOpenElixirModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Doładuj Elixir</ButtonText></Button>
+                            <Button onClick={() => setOpenElixirModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Add Elixir</ButtonText></Button>
                             :
-                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Doładuj Elixir</ButtonText></Button>
+                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Add Elixir</ButtonText></Button>
                         }
                     </div>
                 </BalanceContainer>
@@ -432,7 +432,7 @@ const BottomPanel = () => {
                 <PlanContainer>
                     <Title>Active plan</Title>
                     <CurrentPlanTitle>{plan.name}</CurrentPlanTitle>
-                    <MonthlyTokens>+{plan.monthlyTokens.toLocaleString()}ml / msc</MonthlyTokens>
+                    <MonthlyTokens>+{plan.monthlyTokens.toLocaleString()}ml / mo</MonthlyTokens>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
                         <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>+ Upgrade plan</ButtonText></Button>
                     </div>
@@ -445,7 +445,7 @@ const BottomPanel = () => {
                     <PlanContainer>
                         <Title>Active plan</Title>
                         <CurrentPlanTitle>{plan.name}</CurrentPlanTitle>
-                        <MonthlyTokens>+{plan.monthlyTokens}ml / msc</MonthlyTokens>
+                        <MonthlyTokens>+{plan.monthlyTokens}ml / mo</MonthlyTokens>
                         <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
                             <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                         </div>
@@ -456,7 +456,7 @@ const BottomPanel = () => {
                     <PlanContainer>
                         <Title>Active plan</Title>
                         <CurrentPlanTitle>Assistant Business</CurrentPlanTitle>
-                        <MonthlyTokens>+1 000 000ml / msc</MonthlyTokens>
+                        <MonthlyTokens>+1 000 000ml / mo</MonthlyTokens>
                         <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
                             <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                         </div>
@@ -552,9 +552,9 @@ const BottomPanel = () => {
                     </FuelBar>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
                         {plan && plan._id !== "647c3294ff40f15b5f6796bf" ?
-                            <Button onClick={() => setOpenElixirModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Doładuj Elixir</ButtonText></Button>
+                            <Button onClick={() => setOpenElixirModal(true)}>+<ButtonText>Add Elixir</ButtonText></Button>
                             :
-                            <Button onClick={() => setOpenUpgradeModal(true)}><ButtonIcon><FaPlus style={{width: "100%", height: "100%"}}/></ButtonIcon><ButtonText>Doładuj Elixir</ButtonText></Button>
+                            <Button onClick={() => setOpenUpgradeModal(true)}>+<ButtonText>Add Elixir</ButtonText></Button>
                         }
                     </div>
                 </BalanceContainer>
@@ -564,7 +564,7 @@ const BottomPanel = () => {
                 <PlanContainer>
                     <Title>Active plan</Title>
                     <CurrentPlanTitle>{plan.name}</CurrentPlanTitle>
-                    <MonthlyTokens>+{plan.monthlyTokens.toLocaleString()}ml / msc</MonthlyTokens>
+                    <MonthlyTokens>+{plan.monthlyTokens.toLocaleString()}ml / mo</MonthlyTokens>
                     <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
                         <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                     </div>
@@ -577,7 +577,7 @@ const BottomPanel = () => {
                     <PlanContainer>
                         <Title>Active plan</Title>
                         <CurrentPlanTitle>Assistant Business</CurrentPlanTitle>
-                        <MonthlyTokens>+1 000 000ml / msc</MonthlyTokens>
+                        <MonthlyTokens>+1 000 000ml / mo</MonthlyTokens>
                         <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
                             <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                         </div>
@@ -588,7 +588,7 @@ const BottomPanel = () => {
                     <PlanContainer>
                         <Title>Active plan</Title>
                         <CurrentPlanTitle>Freemium</CurrentPlanTitle>
-                        <MonthlyTokens>+0ml / msc</MonthlyTokens>
+                        <MonthlyTokens>+0ml / mo</MonthlyTokens>
                         <div style={{width: "100%", display: "flex", justifyContent: "flex-end", marginTop: "-1vh"}}>
                             <Button onClick={() => setOpenUpgradeModal(true)}><ButtonText>+ Upgrade plan</ButtonText></Button>
                         </div>

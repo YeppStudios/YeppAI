@@ -34,7 +34,7 @@ const plans = [
         yearlyPriceId: {default: "price_1NSaglFe80Kn2YGGZZ8msY1r", polish: "price_1NUPr0Fe80Kn2YGGd6BuzOAs"}
     }, 
     {
-        title: "Agency", 
+        title: "Agency",
         planId: "64ad0d250e40385f299bceea", 
         description: "Basic version of Assistant, maximum content.", 
         features: ["1M elixir/mo (~520 A4 pages)", "Unlimited client AI profiles", "Unlimited number of assets", "Unlimited storage space", "Unlimited number of teammates", "Access to the latest features", "Dedicated customer support"], 

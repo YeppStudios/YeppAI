@@ -66,6 +66,23 @@ const TopPanel = (props: {stats: any}) => {
           }
       }, []);
 
+      const openStripePanel = async () => {
+        try {
+            const response = await api.post("create-customer-portal-session", {email: user.email}, 
+            {
+                headers: {
+                    authorization: localStorage.getItem("token")
+                }
+            }
+            );
+            const { url } = await response.data;
+            window.location.href = url;
+        } catch (e) {
+            console.log(e);
+        }
+
+      }
+
     return (
         <Centered>
         <Panel>
@@ -77,7 +94,7 @@ const TopPanel = (props: {stats: any}) => {
             {openUpgradeModal && <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} closeable={true}/>}
             <HeaderButtons>
                 {user.plan !== "647c3294ff40f15b5f6796bf" ?
-                 <SubscriptionButton onClick={() => setOpenSubscriptionModal(true)}>Manage subscription</SubscriptionButton>
+                 <SubscriptionButton onClick={() => openStripePanel()}>Manage subscription</SubscriptionButton>
                  :
                  <SubscriptionButton onClick={() => setOpenUpgradeModal(true)}>Manage subscription</SubscriptionButton>
                 }
