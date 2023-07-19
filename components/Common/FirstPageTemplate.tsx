@@ -20,6 +20,7 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
   savedContent,
   loading,
 }) => {
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
