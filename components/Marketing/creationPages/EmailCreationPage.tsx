@@ -85,7 +85,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
     setLoading(true);
     const token = localStorage.getItem("token");
     let newTitle = "";
-    let replyLength = `in around ${completionLength} words`;
+    let replyLength = `Write it in just ${completionLength} words.`;
 
     if (query.type) {
       if (query.type.includes("conspect")) {
@@ -100,16 +100,16 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                 
                 Try to fit this newsletter ${replyLength}.
                 
-                Once you have the first draft of the newsletter, read through it and ensure that everything you've written is written in the language ${language}. Lastly, run a grammar and spell check to make sure that the newsletter is correct. Respond only with complete newsletter.`);
+                Once you have the first draft of the newsletter, read through it and ensure that everything is written in the language ${language}. Lastly, run a grammar and spell check to make sure that the newsletter is correct. Respond only with complete newsletter.`);
         newTitle = `Generated newsletter`;
       } else if (query.type.includes("email")) {
-        setPrompt(`You are a professional email marketer. Write an enticing and effective email campaign to increase engagement and drive sales about highlighted ${topic} targeting your ${targetAudience} ${replyLength}. 
+        setPrompt(`You are a professional ${language} email marketer. Write an enticing and effective email campaign to increase engagement and drive sales about ${topic}. The target audience is ${targetAudience}. ${replyLength}
 
                 Begin with a captivating subject line that grabs the reader's attention, then craft an opening that speaks directly to the reader's needs and emotions. Ensure that your tone of voice is ${style}. Use easy-to-understand language to explain why your product/service/brand is the best option available on the market and how it can help address the challenges and concerns of the reader. 
                 
                 Let the email flow with a narrative structure and avoid making it sound too pushy or aggressive. 
                 
-                Finally, add a "${cta}" call-to-action (CTA) at the end of the email directing the reader to take the desired action.`);
+                Finally, add a "${cta}" call-to-action (CTA) at the end of the email directing the reader to take the desired action. Ensure that both title and body are written in ${language} language and is grammarly correct with no typos.`);
         newTitle = `Generated email`;
       }
     }
