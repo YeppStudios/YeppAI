@@ -172,7 +172,6 @@ const DocumentCreator = () => {
     );
   };
 
-  const [openModal, setOpenModal] = useState(false);
   const ActionButtons = (props: { openModal: any }) => {
     const router = useRouter();
     return (
@@ -228,7 +227,9 @@ const DocumentCreator = () => {
           loading={loading}
           renderContent={renderContent}
           savedContent={savedContent}
-          actionButtons={<ActionButtons openModal={openModal} />}
+          actionButtons={
+            <ActionButtons openModal={() => setCopywritingModal(true)} />
+          }
         />
       )}
       {page === 2 && (
