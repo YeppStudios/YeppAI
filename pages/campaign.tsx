@@ -75,15 +75,15 @@ const Campagin = () => {
     const renderedContent = savedContent.map((content, index) => {
       return (
         <tr key={content._id} onClick={() => handleOpenDocument(content._id)}>
-          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+          {/* <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
             <Image
               src={documentIcon}
               className="flex-none w-8 h-8"
               alt={"icon"}
             />
-          </td>
+          </td> */}
           <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
-            {content.title}
+            {mobile ? `${content.title.slice(0, 28)}...` : content.title}
           </td>
           <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">
             {content.timestamp}
@@ -244,20 +244,25 @@ const WriteBtn = styled.div`
     margin-right: 0rem;
     margin-top: 1rem;
     flex: 1;
+    max-width: 50%;
   }
 `;
 const ActionContaienr = styled.div`
   display: flex;
   justify-content: flex-end;
+
   @media (max-width: 1023px) {
+    justify-content: center;
     width: 100%;
-    justify-content: flex-start;
   }
 `;
 const BtnText = styled.p`
   margin-left: 1rem;
   font-size: 1.2rem;
   font-weight: 600;
+  @media (max-width: 1023px) {
+    font-size: 1rem;
+  }
 `;
 const OptionsIcon = styled.div`
   height: 100%;
