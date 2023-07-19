@@ -157,7 +157,6 @@ const ResultsContainer = (
         if(loading){
             return;
         }
-        console.log(props.initialPrompt);
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("user_id");
         const workspace = localStorage.getItem("workspace");
