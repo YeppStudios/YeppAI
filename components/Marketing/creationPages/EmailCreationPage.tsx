@@ -183,7 +183,10 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                 />
               </InputContainer>
               <InputContainer width="50%">
-                <Label>Length</Label>
+                <Label>Words</Label>
+                {inputError && (
+                  <p className="text-red-400 mt-4">Minimum 20 words</p>
+                )}
                 <input
                   type="number"
                   onChange={(e) => setCompletionLength(e.target.valueAsNumber)}
@@ -205,11 +208,6 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   }}
                   className=" appearance-none border-2 flex text-black items-center px-4 w-full h-full  relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"
                 />
-                {inputError && (
-                  <p className="text-red-600 mt-4">
-                    Error: Minimum length is 20
-                  </p>
-                )}
               </InputContainer>
               {!query.type.includes("conspect") && (
                 <InputContainer width="100%">
