@@ -227,9 +227,7 @@ const DocumentCreator = () => {
           loading={loading}
           renderContent={renderContent}
           savedContent={savedContent}
-          actionButtons={
-            <ActionButtons openModal={() => setCopywritingModal(true)} />
-          }
+          actionButtons={<ActionButtons openModal={() => setCopywritingModal(true)} />}
         />
       )}
       {page === 2 && (
