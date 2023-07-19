@@ -69,12 +69,14 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
                               </th>
                             )}
 
-                            <th
-                              scope="col"
-                              className=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-                            >
-                              Email
-                            </th>
+                            {!isMobile && (
+                              <th
+                                scope="col"
+                                className=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                              >
+                                Email
+                              </th>
+                            )}
                             <th
                               scope="col"
                               className="relative py-3.5 pl-3 pr-4 sm:pr-6"
@@ -115,12 +117,12 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
+  width: 100%;
   @media (max-width: 1023px) {
     display: flex;
-    padding: 1rem 1rem 2rem 1.5rem;
+    padding: 1.5rem 1rem;
     border-radius: 25px;
     box-shadow: 0px 4px 10px rgba(15, 27, 40, 0.15);
-    margin: 1rem;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
@@ -129,8 +131,6 @@ const Header = styled.div`
 
 const TableContainer = styled.div`
   width: 100%;
-  padding: 0.5rem;
-  margin: 1rem;
   overflow: hidden;
 `;
 
