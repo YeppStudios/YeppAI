@@ -24,15 +24,16 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (window.innerWidth <= 1023) {
+    if(window.innerWidth <= 1023){
       setIsMobile(true);
+      console.log("mobile")
     }
   }, []);
 
   return (
     <PageContainer>
       <Header>
-        <div>
+        <div className="w-full">
           <PageTitle>{name}</PageTitle>
           <PageDescription>{description}</PageDescription>
         </div>
@@ -43,7 +44,7 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
       <Centered>
         <TableContainer>
           <div className="mt-6 lg:mt-12 flow-root">
-            <div className="  lg:-mx-8 ">
+            <div className=" lg:-mx-8 ">
               <div className="inline-block min-w-full py-2 align-middle  sm:px-6 lg:px-8">
                 <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-2xl">
                   {loading ? (
@@ -55,6 +56,11 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
                       <table className=" w-full divide-y divide-gray-300 ">
                         <thead className="bg-gray-50 ">
                           <tr>
+                          <th
+                              scope="col"
+                              className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 "
+                            >
+                            </th>
                             <th
                               scope="col"
                               className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 "
