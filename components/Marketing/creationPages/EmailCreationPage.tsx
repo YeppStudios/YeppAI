@@ -183,11 +183,15 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                 />
               </InputContainer>
               <InputContainer width="50%">
-                <Label>Words</Label>
-                {inputError && (
-                  <p className="text-red-400 mt-4">Minimum 20 words</p>
-                )}
-                <input
+                <div className="flex justify-between  ">
+                  <Label className="text-center">Words</Label>
+                  {inputError && (
+                    <p className="text-red-400 text-sm">Minimum 20 words</p>
+                  )}
+                </div>
+                <Input
+                  height="2.6rem"
+                  padding="0.4rem"
                   type="number"
                   onChange={(e) => setCompletionLength(e.target.valueAsNumber)}
                   onBlur={() => {
@@ -200,13 +204,6 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                     }
                   }}
                   value={completionLength}
-                  style={{
-                    fontWeight: "500",
-                    height: "auto",
-                    boxShadow:
-                      "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
-                  }}
-                  className=" appearance-none border-2 flex text-black items-center px-4 w-full h-full  relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"
                 />
               </InputContainer>
               {!query.type.includes("conspect") && (
