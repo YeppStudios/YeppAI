@@ -30,7 +30,7 @@ export default function Dropdown({values, value, onChange, error}: any) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options style={{"boxShadow": "5px 5px 10px rgba(15, 27, 40, 0.23)"}} className={`absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-xl border-2 bg-white py-1 text-sm focus:outline-none sm:text-sm`}>
+            <Listbox.Options style={{"boxShadow": "5px 5px 10px rgba(15, 27, 40, 0.23)"}} className={`absolute z-50 mt-1 w-full rounded-xl border-2 bg-white py-1 text-sm focus:outline-none sm:text-sm`}>
               {values.map((value: any, valueIdx: Key | null | undefined) => (
                 <Listbox.Option
                   key={valueIdx}

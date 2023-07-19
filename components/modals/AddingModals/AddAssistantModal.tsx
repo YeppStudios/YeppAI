@@ -503,9 +503,9 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                     <MainTab onClick={() => setSelectedTab(1)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>General</MainTab>
                     } 
                     {selectedTab === 2 ? 
-                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Resources</SelectedMainTab>
+                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Assets</SelectedMainTab>
                     :
-                    <MainTab onClick={() => setSelectedTab(2)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Resources</MainTab>
+                    <MainTab onClick={() => setSelectedTab(2)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Assets</MainTab>
                     }
                     {props.category === "chat" &&
                     <>
@@ -929,8 +929,8 @@ const AddFolder = styled.div`
     margin: 0.7rem 0.35rem 0 0.75rem;
     height: 3rem;
     width: 3rem;
-    color: #CFD5E8;
-    border: dashed 2px #CFD5E8;
+    color: black;
+    border: dashed 2px black;
     text-align: center;
     border-radius: 10px;
     cursor: pointer;
@@ -949,8 +949,8 @@ const AddTab = styled.div`
     justify-content: center;
     height: 2.5rem;
     width: 2.5rem;
-    color: #CFD5E8;
-    border: dashed 2px #CFD5E8;
+    color: black;
+    border: dashed 2px black;
     text-align: center;
     border-radius: 10px;
     cursor: pointer;

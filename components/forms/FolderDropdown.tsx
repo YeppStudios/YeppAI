@@ -89,8 +89,8 @@ export default function FoldersDropdown() {
             </span>
         </Listbox.Button>
         <Listbox.Options
-           style={{boxShadow: "5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF", border: "2px solid #E5E8F0", borderRadius: "20px"}}
-           className="absolute py-4 z-10 rounded-xl font-medium mt-1 max-h-64==81 w-full overflow-auto rounded-md bg-white text-base shadow-lg sm:text-sm ring-0">
+           style={{boxShadow: "5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF", scrollbarWidth: "none", border: "2px solid #E5E8F0", borderRadius: "20px"}}
+           className="absolute py-4 z-10 rounded-xl font-medium mt-1 max-h-64 w-full overflow-y-scroll rounded-md bg-white text-base shadow-lg sm:text-sm ring-0">
           {folders.map((folder, folderIdx) => (
             <div 
               key={folderIdx} 

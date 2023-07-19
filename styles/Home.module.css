@@ -1,0 +1,6 @@
+.listboxOptions {
+    max-height: 100px !important;
+    overflow-y: scroll !important;
+    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23) !important;
+  }
+  
