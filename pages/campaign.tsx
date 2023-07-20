@@ -1,42 +1,26 @@
+import FirstPageTemplate from "@/components/Common/FirstPageTemplate";
 import PageTemplate from "@/components/Common/PageTemplate";
-import Head from "next/head";
-import NoElixir from "@/components/Modals/LimitModals/NoElixir";
-import CopywritingModal from "@/components/Modals/AddingModals/CopywritingModal";
-import TextEditor from "@/components/Copywriting/TextEditor";
-import styled from "styled-components";
-import { useEffect, useState, Fragment } from "react";
-import { BsTrash, BsPencilFill, BsFillArchiveFill } from "react-icons/bs";
+import React, { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
+import { BsFillArchiveFill, BsPencilFill, BsTrash } from "react-icons/bs";
+import styled from "styled-components";
+import classNames from "classnames";
+
 import api from "@/pages/api";
 import documentIcon from "@/public/images/document-icon.png";
 import Image from "next/image";
+
 import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
-import classNames from "classnames";
-import FirstPageTemplate from "@/components/Common/FirstPageTemplate";
 
-const DocumentCreator = () => {
-  const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
-  const [copywritingModal, setCopywritingModal] = useState(false);
-  const [embeddedVectorIds, setEmbeddedVectorIds] = useState<any[]>([]);
-  const [toneOfVoice, setToneOfVoice] = useState("Informative");
-  const [conspect, setConspect] = useState<any>(null);
-  const [title, setTitle] = useState("New Document");
-  const [description, setDescription] = useState("");
-  const [language, setLanguage] = useState("English");
-  const [sectionLength, setSectionLength] = useState();
-  const [page, setPage] = useState(1);
-  const [contentType, setContentType] = useState("");
+const Campagin = () => {
+  //place to fetch content for campaigns. For now i will use copywrite content as placeholder.
+
   const [openAddAssistant, setOpenAddAssistant] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [loading, setLoading] = useState(true);
   const [savedContent, setSavedContent] = useState<any[]>([]);
-
-  const finishCopywritingIntro = async () => {
-    setPage(2);
-    setCopywritingModal(false);
-    console.log(embeddedVectorIds);
-  };
+  const [page, setPage] = useState(1);
 
   const router = useRouter();
 
@@ -86,19 +70,20 @@ const DocumentCreator = () => {
     }
   };
 
+  //not sure if this component should be here, or template file
   const renderContent = () => {
     const renderedContent = savedContent.map((content, index) => {
       return (
         <tr key={content._id} onClick={() => handleOpenDocument(content._id)}>
-          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+          {/* <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
             <Image
               src={documentIcon}
               className="flex-none w-8 h-8"
               alt={"icon"}
             />
-          </td>
+          </td> */}
           <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
-            {mobile ? <p>{content.title.slice(0, 20)}...</p> : content.title}
+            {mobile ? `${content.title.slice(0, 28)}...` : content.title}
           </td>
           <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">
             {content.timestamp}
@@ -172,6 +157,8 @@ const DocumentCreator = () => {
     );
   };
 
+  //placeholder for custom action buttons
+  const [openModal, setOpenModal] = useState(false);
   const ActionButtons = (props: { openModal: any }) => {
     const router = useRouter();
     return (
@@ -188,85 +175,18 @@ const DocumentCreator = () => {
   };
 
   return (
-    <PageTemplate userProfiles={[]}>
-      <Head>
-        <title>Copywriting | Yepp AI</title>
-        <meta
-          name="description"
-          content="Craft unique SEO internet-based content on any topic with AI."
-        />
-      </Head>
-      {openNoElixirModal && (
-        <NoElixir onClose={() => setOpenNoElixirModal(false)} />
-      )}
-      {copywritingModal && (
-        <CopywritingModal
-          onClose={() => setCopywritingModal(false)}
-          onSuccess={() => finishCopywritingIntro()}
-          conspect={conspect}
-          setConspect={setConspect}
-          title={title}
-          setTitle={setTitle}
-          description={description}
-          setDescription={setDescription}
-          embeddedVectorIds={embeddedVectorIds}
-          setEmbeddedVectorIds={setEmbeddedVectorIds}
-          contentType={contentType}
-          setContentType={setContentType}
-          language={language}
-          setLanguage={setLanguage}
-          toneOfVoice={toneOfVoice}
-          setToneOfVoice={setToneOfVoice}
-          setSectionLength={setSectionLength}
-        />
-      )}
-      {page === 1 && (
-        <FirstPageTemplate
-          name="Copywriter AI"
-          description="Unleash the potential of AI in copywriting."
-          loading={loading}
-          renderContent={renderContent}
-          savedContent={savedContent}
-          actionButtons={<ActionButtons openModal={() => setCopywritingModal(true)} />}
-        />
-      )}
-      {page === 2 && (
-        <TextEditor
-          setPage={setPage}
-          title={title}
-          conspect={conspect}
-          description={description}
-          embeddedVectorIds={embeddedVectorIds}
-          contentType={contentType}
-          language={language}
-          setDescription={setDescription}
-          setTitle={setTitle}
-          toneOfVoice={toneOfVoice}
-          setToneOfVoice={setToneOfVoice}
-          sectionLength={sectionLength}
-        />
-      )}
+    <PageTemplate>
+      <FirstPageTemplate
+        name="Campagin"
+        description="Campaign description"
+        renderContent={renderContent}
+        actionButtons={<ActionButtons openModal={openModal} />}
+        savedContent={savedContent}
+        loading={loading}
+      />
     </PageTemplate>
   );
 };
-
-const OptionsIcon = styled.div`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1rem;
-  cursor: pointer;
-  transition: all 0.4s ease;
-`;
-const ActionContaienr = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  @media (max-width: 1023px) {
-    width: 100%;
-    justify-content: flex-start;
-  }
-`;
 
 const ActionBtn = styled.div`
   width: 3.5rem;
@@ -292,7 +212,6 @@ const ActionBtn = styled.div`
     margin-top: 1rem;
   }
 `;
-
 const WriteBtn = styled.div`
   width: 15rem;
   height: 3.5rem;
@@ -325,12 +244,34 @@ const WriteBtn = styled.div`
     margin-right: 0rem;
     margin-top: 1rem;
     flex: 1;
+    max-width: 50%;
   }
 `;
+const ActionContaienr = styled.div`
+  display: flex;
+  justify-content: flex-end;
 
+  @media (max-width: 1023px) {
+    justify-content: center;
+    width: 100%;
+  }
+`;
 const BtnText = styled.p`
   margin-left: 1rem;
   font-size: 1.2rem;
   font-weight: 600;
+  @media (max-width: 1023px) {
+    font-size: 1rem;
+  }
 `;
-export default DocumentCreator;
+const OptionsIcon = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+`;
+
+export default Campagin;

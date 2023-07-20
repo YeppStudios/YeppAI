@@ -27,11 +27,11 @@ const Banner = () => {
                     <Image style={{ width: "auto", height: "100%" }}  src={giftIcon} alt={'nofification-icon'}></Image> 
                 </TrialIcon>
                 <div>
-                    <TrialInfoTitle>Claim free 7500 elixir for free!</TrialInfoTitle>
+                    <TrialInfoTitle>Claim free 10 000 words of 5 days for free!</TrialInfoTitle>
 
                 </div>
                 <StartTrialContainer>
-                    <TrialBtn onClick={() => router.push("/assets?registration=true&trial=true")}>Start free trial</TrialBtn>
+                    <TrialBtn onClick={() => router.push("/register?registration=true&trial=true")}>Start free trial</TrialBtn>
                     <Place>no credit card required</Place>
                 </StartTrialContainer>
         </BannerContainer>

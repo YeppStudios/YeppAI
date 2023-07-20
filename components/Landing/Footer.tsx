@@ -6,7 +6,7 @@ const navigation = {
     main: [
       { name: 'Pricing', href: 'https://www.yepp.ai/pricing' },
       { name: 'Features', href: '#functionalities' },
-      { name: 'Dashboard', href: 'https://www.yepp.ai/assets&trial=true' },
+      { name: 'Dashboard', href: 'https://www.yepp.ai/assets?trial=true' },
       { name: 'API', href: 'https://www.yepp.ai/docs/api' }
     ],
     social: [
