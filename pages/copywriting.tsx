@@ -98,7 +98,7 @@ const DocumentCreator = () => {
             />
           </td>
           <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
-            {mobile ? <p>{content.title.slice(0, 20)}...</p> : content.title}
+            {mobile ? <p>{content.title.slice(0, 20)}...</p> : <>{content.title.length > 75 ? <p>{content.title.slice(0, 75)}...</p> : content.title}</>}
           </td>
           <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">
             {content.timestamp}
