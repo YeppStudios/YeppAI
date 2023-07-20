@@ -63,7 +63,7 @@ const tabs = [
 const animationVariants = {
   visible: {
     transition: { duration: 0.35, type: "spring" },
-    height: "80vh",
+    height: "85vh",
   },
   hidden: { height: "3.75rem" },
 };
