@@ -56,7 +56,7 @@ const languages = [
 
 const BlogCreationPage = ({ back, query }: any) => {
   const [count, setCount] = useState(1);
-  const [completionLength, setCompletionLength] = useState(100);
+  const [completionLength, setCompletionLength] = useState(700);
   const [paragraphCount, setParagraphCount] = useState(3);
   const [targetAudience, setTargetAudience] = useState("");
   const [style, setStyle] = useState("Friendly 😊");

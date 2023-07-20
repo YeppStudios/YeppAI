@@ -34,7 +34,6 @@ interface TextArea {
   height: string;
 }
 
-const contentLength = ["Short", "Medium", "Long"];
 const postTypes = ["Educational", "Informative", "Advertisement", "Lifestyle"];
 const tones = [
   "Formal 💼",
@@ -78,6 +77,9 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
   useEffect(() => {
     if (window.innerWidth < 1023) {
       setMobile(true);
+    }
+    if (query.type === "Twitter") {
+      setCompletionLength(20);
     }
   }, []);
 

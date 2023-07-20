@@ -58,7 +58,7 @@ const paragraphsCount = [1, 2, 3, 4, 5];
 const SocialMediaCreationPage = ({ back, query }: any) => {
   const [style, setStyle] = useState("Friendly 😊");
   const [paragraphCount, setParagraphCount] = useState(3);
-  const [completionLength, setCompletionLength] = useState(100);
+  const [completionLength, setCompletionLength] = useState(200);
   const [prompt, setPrompt] = useState<string>();
   const [preprompt, setPrePrompt] = useState<string>();
   const [topic, setTopic] = useState("");

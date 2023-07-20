@@ -50,12 +50,12 @@ const tabs = [
     path: "/prompts",
     id: "navbar-prompts",
   },
-  {
-    title: "Campaigns",
-    icon: <MdCampaign style={{ height: "100%", width: "auto" }} />,
-    path: "/campaign",
-    id: "navbar-campaign",
-  },
+  // {
+  //   title: "Campaigns",
+  //   icon: <MdCampaign style={{ height: "100%", width: "auto" }} />,
+  //   path: "/campaign",
+  //   id: "navbar-campaign",
+  // },
 
   // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
 ];
