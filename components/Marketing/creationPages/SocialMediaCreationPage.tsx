@@ -76,8 +76,6 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
   const [inputError, setInputError] = useState(false);
   const [enableEmojis, setEnableEmojis] = useState(true);
 
-  const emojiPropmt = " Please use relevant emojis related to the topic.";
-
   useEffect(() => {
     if (window.innerWidth < 1023) {
       setMobile(true);
@@ -87,22 +85,6 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (enableEmojis) {
-  //     setAbout((prevTopic) => prevTopic + emojiPropmt);
-  //   }
-  //   console.log(about);
-  //   console.log(enableEmojis);
-  // }, [enableEmojis]);
-
-  // const handleToggleEmojis = () => {
-  //   setEnableEmojis((prev) => !prev);
-  //   if (enableEmojis) {
-  //     setAbout((prevTopic) => prevTopic + emojiPropmt);
-  //   } else {
-  //     setAbout((prevTopic) => prevTopic.replace(emojiPropmt, ""));
-  //   }
-  // };
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setKey((prevKey) => prevKey + 1);
