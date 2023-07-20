@@ -41,12 +41,12 @@ const AddDocument = (props: {
     const [folderName, setFolderName] = useState("");
     const [scrapedUrls, setScrapedUrls] = useState<string[]>([]);
     const [openChooseFolder, setOpenChooseFolder] = useState(false);
-    const [createdDoc, setCreatedDoc] = useState<any>();
+    const [createdDocs, setCreatedDocs] = useState<any[]>([]);
     const [success, setSuccess] = useState(false);
     const [usageResponse, setUsageResponse] = useState<any>();
     const plan = useSelector(selectedPlanState);
     const user = useSelector(selectedUserState);
-    const [file, setFile] = useState<File>();
+    const [files, setFiles] = useState<File[]>([]);
     const dispatch = useDispatch();
 
     const texts = [
@@ -116,90 +116,102 @@ const AddDocument = (props: {
         }
       }, [props.folders.length]);
 
-    const handleFile = (file: File) => {
-        setFile(file);
+    const handleFiles = (uploadedFiles: FileList) => {
+      if (Array.from(uploadedFiles).length > 5) {
+        alert("Please upload up to 5 files at once.");
+        return;
+      }
+        setFiles(Array.from(uploadedFiles));
     };
 
 
-    const addNewDocument = async () => {
-        const token = localStorage.getItem("token");
-        if (file) {
-            try {
-                setFileLoading(true);
-                let fetchedUser: any;
-                let fetchedPlan: any;
-                if (selectedWorkspaceCompany._id) {
-                    fetchedUser = selectedWorkspaceCompany;
-                    fetchedPlan = selectedWorkspaceCompany.plan;
-                } else {
-                    fetchedUser = user;
-                    fetchedPlan = plan;
-                }
-
-                if (usageResponse.documentCount >= fetchedPlan.maxFiles) {
-                  props.documentsLimit();
-                  setFileLoading(false);
-                  return;
-                }
-
-                if (usageResponse.uploadedBytes + file.size > fetchedPlan.maxUploadedBytes) {
-                  props.spaceLimit();
-                  setFileLoading(false);
-                  return;
-                }
-    
-
-                 const upsertResponse = await axios.post(
-                    'https://whale-app-p64f5.ondigitalocean.app/upsert-file', {file},
-                    {
-                      headers: {
-                        Authorization:
-                        `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
-                        'Content-Type': 'multipart/form-data'  
+    const addNewDocuments = async () => {
+      const token = localStorage.getItem("token");
+      if (files.length > 0) {
+          try {
+              setFileLoading(true);
+              let fetchedUser: any;
+              let fetchedPlan: any;
+              if (selectedWorkspaceCompany._id) {
+                  fetchedUser = selectedWorkspaceCompany;
+                  fetchedPlan = selectedWorkspaceCompany.plan;
+              } else {
+                  fetchedUser = user;
+                  fetchedPlan = plan;
+              }
+  
+              for (const file of files) {
+                  if (usageResponse.documentCount >= fetchedPlan.maxFiles) {
+                    props.documentsLimit();
+                    setFileLoading(false);
+                    return;
+                  }
+  
+                  if (usageResponse.uploadedBytes + file.size > fetchedPlan.maxUploadedBytes) {
+                    props.spaceLimit();
+                    setFileLoading(false);
+                    return;
+                  }
+  
+                  const upsertResponse = await axios.post(
+                      'https://whale-app-p64f5.ondigitalocean.app/upsert-file', {file},
+                      {
+                        headers: {
+                          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
+                          'Content-Type': 'multipart/form-data'  
+                        }
                       }
-                    }
-                );
-
-                const createdDocument = await api.post("/add-document", {
-                      owner: fetchedUser._id,
-                      ownerEmail: user.email,
-                      title: file.name,
-                      category: "general",
-                      timestamp: Date.now(),
-                      workspace: fetchedUser.workspace,
-                      vectorId: upsertResponse.data.ids[0],
-                      size: file.size
-                  },
+                  );
+  
+                  const createdDocument = await api.post("/add-document", {
+                        owner: fetchedUser._id,
+                        ownerEmail: user.email,
+                        title: file.name,
+                        category: "general",
+                        timestamp: Date.now(),
+                        workspace: fetchedUser.workspace,
+                        vectorId: upsertResponse.data.ids[0],
+                        size: file.size
+                    },
+                      {
+                        headers: {
+                          Authorization: token
+                        }
+                    });
+                    setCreatedDocs(prevDocs => [...prevDocs, createdDocument.data.document]);
+  
+                  if (selectedFolder._id) {
+                    await api.post(`/folders/${selectedFolder._id}/add-document`, { documentId: createdDocument.data.document._id},
                     {
                       headers: {
                         Authorization: token
                       }
-                  });
-                setCreatedDoc(createdDocument.data.document);
+                   });
+                   props.setDocuments((prevDocuments: any) => [...prevDocuments, createdDocument.data.document]);
+                   setChosenFolder(selectedFolder);
+                  }
+  
+                  // Wait for 2 seconds before processing the next file
+                  await new Promise(resolve => setTimeout(resolve, 2000));
+              }
 
-                if (selectedFolder._id) {
-                  await api.post(`/folders/${selectedFolder._id}/add-document`, { documentId: createdDocument.data.document._id},
-                  {
-                    headers: {
-                      Authorization: token
-                    }
-                 });
-                 setFileLoading(false);
-                 props.setDocuments((prevDocuments: any) => [...prevDocuments, createdDocument.data.document]);
-                 setChosenFolder(selectedFolder);
-                 setSuccess(true);
-                } else {
-                  setFileLoading(false);
-                  setOpenChooseFolder(true);
-                }
-            } catch (e) {
-                console.log(e);
-                setFileLoading(false);
-            }
-        } else {
-            alert("Choose a file.")
-        }
-    }
+              setFileLoading(false);
+
+              if (selectedFolder._id) {
+                setSuccess(true);
+              } else {
+                setOpenChooseFolder(true);
+              }
+
+          } catch (e) {
+              console.log(e);
+              setFileLoading(false);
+          }
+      } else {
+          alert("Choose a file.")
+      }
+  };
+  
 
     const scrapeWebsite = async () => {
         try {
@@ -274,7 +286,8 @@ const AddDocument = (props: {
                 Authorization: token
               }
             });
-            setCreatedDoc(createdDocument.data.document);
+            console.log(createdDocument.data);
+            setCreatedDocs(prevDocs => [...prevDocs, createdDocument.data.document]);
 
           if (selectedFolder._id) {
             await api.post(`/folders/${selectedFolder._id}/add-document`, { documentId: createdDocument.data.document._id,},
@@ -300,9 +313,9 @@ const AddDocument = (props: {
     const saveToFolder = async () => {
       setLoading(true);
       const token = localStorage.getItem("token");
-
+      console.log(createdDocs);
       if (chosenFolder._id) {
-        await api.post(`/folders/${chosenFolder._id}/add-document`, { documentId: createdDoc._id},
+        await api.post(`/folders/${chosenFolder._id}/add-documents`, { documents: createdDocs},
         {
           headers: {
             Authorization: token
@@ -331,7 +344,7 @@ const AddDocument = (props: {
           title: folderName,
           owner: user._id,
           workspace: user.workspace,
-          documents: [createdDoc]
+          documents: createdDocs
         },
         {
           headers: {
@@ -363,23 +376,33 @@ const AddDocument = (props: {
                     <Centered><Description>Upload a PDF, PPTX, TXT or DOCX file. <p className='text-gray-500 text-sm'>(make sure it&apos;s not a scan)</p> </Description></Centered>
                     <Form autoComplete="off">
                             <Centered>
-                                <FileUploader hoverTitle="Drop here" handleChange={handleFile} name="file" types={fileTypes} multiple={false} >
-                                    {file ?
+                                <FileUploader hoverTitle="Drop here" handleChange={handleFiles} name="file" types={fileTypes} multiple={true} >
+                                {files.length > 0 ? 
                                     <UploadFile>
                                         <Centered><BsFolder style={{width: "2rem", height: "2rem"}}/></Centered>
-                                        <Centered><FileText className='text-gray-700'><TickIcon><Image style={{ width: "100%", height: "auto" }}  src={tickIcon} alt={'icon'}></Image></TickIcon>{file.name}</FileText></Centered>
-                                    </UploadFile>      
-                                    :
+                                        <Centered>
+                                          <div style={{display: "flex", flexWrap: "wrap"}}>
+                                        {files.map((file, index) => (
+                                            <FileText key={index} className='text-gray-700'>
+                                                <TickIcon>
+                                                    <Image style={{ width: "100%", height: "auto" }}  src={tickIcon} alt={'icon'} />
+                                                </TickIcon>
+                                                {file.name.length > 24 ? <p>{file.name.slice(0, 24)}...</p> : file.name}
+                                            </FileText>
+                                          ))}
+                                          </div>
+                                        </Centered>
+                                    </UploadFile>
+                                 : 
                                     <UploadFile>
                                         <Centered><BsFolder style={{width: "2rem", height: "2rem"}}/></Centered>
-                                        <Centered><FileText>Drag or click</FileText></Centered>
+                                        <Centered><FileText>Kliknij lub upuść dokument</FileText></Centered>
                                     </UploadFile>                                          
-                                    }
-
+                                  }
                                 </FileUploader>
                             </Centered>
                             <Centered>
-                            <Button type="submit" onClick={addNewDocument}>
+                            <Button type="submit" onClick={addNewDocuments}>
                                 {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <Loader color="black"/>
@@ -513,7 +536,7 @@ const AddDocument = (props: {
                   { success &&
                     <div>
                       <Centered><SuccessIcon><BsCheckLg className="text-green-400" style={{width: "100%", height: "100%"}}/></SuccessIcon></Centered>
-                      {props.documentType === "file" ? <Title>File saves</Title> : <Title>Content saved</Title>}
+                      {props.documentType === "file" ? <Title>File saved</Title> : <Title>Content saved</Title>}
                       <Space margin='1rem 0 0 0'></Space>
                       <Centered>
                       <Button onClick={handleOpenFolder}>
@@ -697,6 +720,7 @@ const UploadFile = styled.div`
     width: 20rem;
     color: #CFD5E8;
     overflow: hidden;
+    overflow-y: scroll;
     border: dashed 3px #CFD5E8;
     text-align: center;
     border-radius: 20px;
@@ -727,6 +751,7 @@ const TickIcon = styled.div`
     width: 0.75rem;
     height: 0.75rem;
     margin-top: 0.2rem;
+    margin-left: 1.5rem;
     margin-right: 0.5rem;
     @media (max-width: 1023px) {
         width: 4vw;

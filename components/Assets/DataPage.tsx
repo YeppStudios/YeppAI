@@ -233,8 +233,8 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                         <>
                         <Option id="upload-file" onClick={() => setAddDocument("file")}>
                             <OptionIcon><BsFolderSymlinkFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                            <OptionTitle>Upload a file</OptionTitle>
-                            <OptionDescription>Upload TXT, DOCX, PPTX or PDF file</OptionDescription>
+                            <OptionTitle>Upload files</OptionTitle>
+                            <OptionDescription>Upload TXT, DOCX, PPTX or PDF files</OptionDescription>
                         </Option>
                         <Option id="upload-website" onClick={() => setAddDocument("website")}>
                             <OptionIcon><BsFillLaptopFill style={{width: "100%", height: "auto"}} /></OptionIcon>

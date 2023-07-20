@@ -283,15 +283,15 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 <OptionTitle>Write content</OptionTitle>
                 <OptionDescription>Write or copy paste content for AI to learn</OptionDescription>
              </Option>
-            <Option id="upload-file" onClick={() => setAddDocument("file")}>
+            <Option id="upload-files" onClick={() => setAddDocument("file")}>
                 <OptionIcon><BsFolderSymlinkFill style={{width: "100%", height: "auto"}} /></OptionIcon>
-                <OptionTitle>Upload a file</OptionTitle>
-                <OptionDescription>Upload a TXT, DOCX, PPTX or PDF file for AI to learn</OptionDescription>
+                <OptionTitle>Upload files</OptionTitle>
+                <OptionDescription>Upload TXT, DOCX, PPTX or PDF files for AI to learn from</OptionDescription>
                 </Option>
             <Option id="upload-website" onClick={() => setAddDocument("website")}>
                 <OptionIcon><BsFillLaptopFill style={{width: "100%", height: "auto"}} /></OptionIcon>
                     <OptionTitle>Scrape a website</OptionTitle>
-                    <OptionDescription>Scrape content from a web page for AI to learn</OptionDescription>
+                    <OptionDescription>Scrape content from a web page for AI to learn from</OptionDescription>
             </Option>
             <Option id="upload-audio" onClick={() => setAddAudio(true)}>
                 <OptionIcon><BsYoutube style={{width: "100%", height: "auto"}} /></OptionIcon>
