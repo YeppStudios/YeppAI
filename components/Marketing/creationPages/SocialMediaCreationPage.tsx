@@ -25,6 +25,7 @@ import api from "@/pages/api";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
+import { Switch } from "@headlessui/react";
 
 interface InputContainer {
   width: string;
@@ -73,6 +74,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
   const [title, setTitle] = useState("");
   const [mobile, setMobile] = useState(false);
   const [inputError, setInputError] = useState(false);
+  const [enableEmojis, setEnableEmojis] = useState(true);
 
   useEffect(() => {
     if (window.innerWidth < 1023) {
@@ -90,20 +92,23 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
     setLoading(true);
     let replyLength = `Write it in just ${completionLength} words.`;
 
-    let useEmojis = "Adjust the use emojis appropriately to the tone";
-    if (tone.includes("Formal")) {
-      useEmojis = "Do not use emojis";
-    }
-
     setPrompt(
       `You are an experienced social media content creator always writing unique and novel posts. Write exactly 1 unique ${postType} post on ${
         query.type
       } about ${about} ${replyLength}. Make sure to write it in ${tone.replace(
         emojiRegex,
         ""
-      )} tone of voice. ${useEmojis} The post should draw attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group.`
+      )} tone of voice. The post should draw attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group. ${
+        enableEmojis
+          ? " Please use relevant emojis related to the topic."
+          : "Do not use emojis"
+      }`
     );
     setTitle(`Generated post- ${query.type}`);
+  };
+
+  const handleToggleEmojis = () => {
+    setEnableEmojis((prev) => !prev);
   };
 
   return (
@@ -211,13 +216,13 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   id="about-field"
                   height="6.2rem"
                   padding="0.7rem"
-                  placeholder="uploading data in yepp.ai app"
+                  placeholder="our new Agency plan and its benefits"
                   value={about}
                   onChange={(e) => setAbout(e.target.value)}
                   required
                 />
               </InputContainer>
-              <InputContainer width="100%">
+              <InputContainer width="58%">
                 <Label>Target audience</Label>
                 <Input
                   id="target-adience-field"
@@ -228,6 +233,30 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   onChange={(e) => setTargetAudience(e.target.value)}
                   required
                 />
+              </InputContainer>
+              <InputContainer width="42%">
+              <div className="flex flex-wrap gap-1 ml-2 ">
+                <div className="w-full"><Label>Use relevant emojis</Label></div>
+                <Switch
+                  checked={enableEmojis}
+                  onChange={handleToggleEmojis}
+                  style={{
+                    boxShadow: "inset 4px 4px 20px rgba(255, 255, 255, 0.35)",
+                  }}
+                  className={`${
+                    enableEmojis ? "bg-green-400" : "border-2 border-gray-200"
+                  } relative inline-flex items-center h-7 rounded-full w-16 transition-colors focus:outline-none`}
+                >
+                  <span className="sr-only">Toggle Tone</span>
+                  <span
+                    className={`${
+                      enableEmojis
+                        ? "translate-x-10"
+                        : "-translate-x-1 border-2 border-gray-200"
+                    } inline-block w-7 h-7 transform bg-white border rounded-full transition-transform`}
+                  />
+                </Switch>
+              </div>
               </InputContainer>
               <div
                 style={{
