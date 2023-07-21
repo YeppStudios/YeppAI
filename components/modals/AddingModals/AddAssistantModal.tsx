@@ -498,9 +498,9 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 </Centered>
                 <Tabs justifyContent="space-evenly">
                     {selectedTab === 1 ? 
-                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>General</SelectedMainTab> 
+                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>About</SelectedMainTab> 
                     :
-                    <MainTab onClick={() => setSelectedTab(1)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>General</MainTab>
+                    <MainTab onClick={() => setSelectedTab(1)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>About</MainTab>
                     } 
                     {selectedTab === 2 ? 
                     <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Assets</SelectedMainTab>
