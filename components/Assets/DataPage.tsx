@@ -64,7 +64,6 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                     Authorization: `${localStorage.getItem("token")}`
                 }
             });
-            console.log(folder.data);
             setDocuments(folder.data.documents);
             let onboardingSetp = localStorage.getItem("onboarding_step");
             if (onboardingSetp === "2" && folder.data.documents.length === 1) {
