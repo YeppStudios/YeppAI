@@ -39,56 +39,109 @@ export const NodeSelector: FC<NodeSelectorProps> = ({editor}) => {
     {
       name: "Heading 1",
       icon: Heading1,
-      command: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+      command: () => {
+        const { from, to } = editor.state.selection;
+        editor.view.dispatch(
+          editor.view.state.tr
+            .replaceSelectionWith(
+              editor.state.schema.nodes.heading.create(
+                { level: 1 },
+                editor.state.doc.slice(from, to).content,
+              ),
+            )
+            .setMeta("addToHistory", true),
+        );
+      },
       isActive: () => editor.isActive("heading", { level: 1 }),
+
     },
     {
       name: "Heading 2",
       icon: Heading2,
-      command: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+      command: () => {
+        const { from, to } = editor.state.selection;
+        editor.view.dispatch(
+          editor.view.state.tr
+            .replaceSelectionWith(
+              editor.state.schema.nodes.heading.create(
+                { level: 2 },
+                editor.state.doc.slice(from, to).content,
+              ),
+            )
+            .setMeta("addToHistory", true),
+        );
+      },
       isActive: () => editor.isActive("heading", { level: 2 }),
     },
     {
       name: "Heading 3",
       icon: Heading3,
-      command: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+      command: () => {
+        const { from, to } = editor.state.selection;
+        editor.view.dispatch(
+          editor.view.state.tr
+            .replaceSelectionWith(
+              editor.state.schema.nodes.heading.create(
+                { level: 3 },
+                editor.state.doc.slice(from, to).content,
+              ),
+            )
+            .setMeta("addToHistory", true),
+        );
+      },
       isActive: () => editor.isActive("heading", { level: 3 }),
-    },
-    {
-      name: "To-do List",
-      icon: CheckSquare,
-      command: () => editor.chain().focus().toggleTaskList().run(),
-      isActive: () => editor.isActive("taskItem"),
     },
     {
       name: "Bullet List",
       icon: ListOrdered,
-      command: () => editor.chain().focus().toggleBulletList().run(),
+      command: () => {
+        const { from, to } = editor.state.selection;
+        const fragment = editor.state.doc.slice(from, to).content;
+        const text = fragment.textBetween(from, fragment.size);
+        editor.view.dispatch(
+          editor.view.state.tr
+            .replaceSelectionWith(
+              editor.state.schema.nodes.bulletList.create(
+                {},
+                editor.state.schema.nodes.listItem.create(
+                  {},
+                  editor.state.schema.nodes.paragraph.create(
+                    {},
+                    editor.state.doc.slice(from, to).content,
+                  ),
+                ),
+              ),
+            )
+            .setMeta("addToHistory", true),
+        );
+      },
       isActive: () => editor.isActive("bulletList"),
     },
     {
       name: "Numbered List",
       icon: ListOrdered,
-      command: () => editor.chain().focus().toggleOrderedList().run(),
+      command: () => {
+        const { from, to } = editor.state.selection;
+        const fragment = editor.state.doc.slice(from, to).content;
+        const text = fragment.textBetween(from, fragment.size);
+        editor.view.dispatch(
+          editor.view.state.tr
+            .replaceSelectionWith(
+              editor.state.schema.nodes.orderedList.create(
+                {},
+                editor.state.schema.nodes.listItem.create(
+                  {},
+                  editor.state.schema.nodes.paragraph.create(
+                    {},
+                    editor.state.doc.slice(from, to).content,
+                  ),
+                ),
+              ),
+            )
+            .setMeta("addToHistory", true),
+        );
+      },
       isActive: () => editor.isActive("orderedList"),
-    },
-    {
-      name: "Quote",
-      icon: TextQuote,
-      command: () =>
-        editor
-          .chain()
-          .focus()
-          .toggleNode("paragraph", "paragraph")
-          .toggleBlockquote()
-          .run(),
-      isActive: () => editor.isActive("blockquote"),
-    },
-    {
-      name: "Code",
-      icon: Code,
-      command: () => editor.chain().focus().toggleCodeBlock().run(),
-      isActive: () => editor.isActive("codeBlock"),
     },
   ];
 
@@ -118,7 +171,7 @@ export const NodeSelector: FC<NodeSelectorProps> = ({editor}) => {
   }, [editor.view.state.selection]);
   
   return (
-    <div className="relative overflow-visible bg-white h-full">
+    <div className="relative overflow-visible bg-white h-full rounded-xl">
       <button
         className="flex whitespace-nowrap rounded-l-xl items-center gap-1 p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
         onClick={() => {

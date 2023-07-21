@@ -178,7 +178,7 @@ ul[data-type="taskList"] li > label input[type="checkbox"] {
 ul[data-type="taskList"] li[data-checked="true"] > div > p {
   color: #a8a29e;
   text-decoration: line-through;
+  font-size: 1.25rem;
   text-decoration-thickness: 2px;
 }
-
 

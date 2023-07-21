@@ -231,9 +231,9 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
       style={{ top: `${position.top}px`, left: `${position.left}px` }}
       className="flex absolute rounded-xl shadow-xl z-50 bg-white items-center border border-stone-200"
     >
-      {/* <NodeSelector
+      <NodeSelector
         editor={props.editor}
-      /> */}
+      />
 
       {items.map((item, index) => (
         <button
