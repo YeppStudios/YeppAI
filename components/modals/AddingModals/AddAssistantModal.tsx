@@ -22,7 +22,6 @@ import { setSelectedCopywritingAssistant } from "@/store/copywritingAssistantSli
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import elixirIcon from "../../../public/images/elixir.png";
 import { selectedUserState } from "@/store/userSlice";
-import { set } from "lodash";
 
 const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
