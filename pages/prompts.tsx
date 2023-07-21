@@ -433,7 +433,7 @@ const PromptsBrowser = ({ user }: InferGetServerSidePropsType<typeof getServerSi
                 </LogoContainer>
                 <AppName>Prompt Browser</AppName>
                 </div>
-                <Slogan>Colection of 1000+ most effective prompts</Slogan>
+                <Slogan>Collection of 1000+ most effective prompts for marekting & sales</Slogan>
                 <InputContainer>
                     <Input value={searchTerm} onChange={(e) => delayedSearch(e.target.value)} type="text" placeholder="Prompt..."/>
                     <SubmitBtn>
