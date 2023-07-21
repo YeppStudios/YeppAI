@@ -19,7 +19,7 @@ import { selectedUserState } from "../../store/userSlice";
 import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
 import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
-import { FaMoneyBillWave } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { HiMenu } from "react-icons/hi";
 import { motion, useAnimation } from "framer-motion";
 import ColorfulText from "./ColorfulText";
@@ -45,8 +45,8 @@ const tabs = [
     id: "navbar-chat",
   },
   {
-    title: "Sales",
-    icon: <FaMoneyBillWave style={{ height: "100%", width: "auto" }} />,
+    title: "Prompts",
+    icon: <FaSearch style={{ height: "100%", width: "auto" }} />,
     path: "/prompts",
     id: "navbar-prompts",
   },
@@ -79,19 +79,21 @@ const NavigationBar = () => {
   const [openMobile, setOpenMobile] = useState(false);
   const plan = useSelector(selectedPlanState);
   const [isHovered, setIsHovered] = useState(false);
+  const [country, setCountry] = useState("");
 
   useEffect(() => {
     if (window.innerWidth <= 1023) {
       setMobile(true);
     }
+    setCountry(localStorage.getItem("country") || "");
   }, [user]);
 
   const handleTabClick = (path: string) => {
     if (path === "/copywriting" && mobile) {
       alert("For now copywriting is available only for desktop devices.");
-    } else if (path === "/prompts") {
+    } else if (path === "/prompts" && country !== "Poland") {
       alert(
-        "We will launch sales tab ASAP! It will help you in things like writing the best sales copy, writing converting cold emails, determining target audience and much more."
+        "We will launch Prompts tab ASAP! It will help you in things like writing the best sales copy, writing converting cold emails, determining target audience and much more."
       );
     } else {
       router.push(`${path}`);
@@ -131,13 +133,14 @@ const NavigationBar = () => {
                 <>
                   <SlideBottom>
                     <NavigationTab
+                      country={country}
                       hover={isHovered}
                       title={tab.title}
                       onClick={() => handleTabClick(tab.path)}
                     >
                       <NavigationIcon>{tab.icon}</NavigationIcon>
                       <NavigationText>{tab.title}</NavigationText>
-                      {tab.title === "Sales" && (
+                      {(tab.title === "Prompts" && country !== "Poland") && (
                         <ComingSoon>
                           <ColorfulText>
                             <b>Coming soon</b>
@@ -150,13 +153,14 @@ const NavigationBar = () => {
               ) : (
                 <>
                   <NavigationTab
+                    country={country}
                     hover={isHovered}
                     title={tab.title}
                     onClick={() => handleTabClick(tab.path)}
                   >
                     <NavigationIcon>{tab.icon}</NavigationIcon>
                     {isHovered && <NavigationText>{tab.title}</NavigationText>}
-                    {tab.title === "Sales" && isHovered && (
+                    {(tab.title === "Prompts" && country !== "Poland") && isHovered && (
                       <ComingSoon>
                         <ColorfulText>
                           <b>Coming soon</b>
@@ -209,6 +213,7 @@ const NavigationBar = () => {
             {!pathname.includes("assets") ? (
               <CustomAIContainer>
                 <NavigationTab
+                  country={country}
                   hover={isHovered}
                   title="Assets"
                   onClick={() => router.push(`/assets`)}
@@ -259,6 +264,7 @@ const NavigationBar = () => {
             {!pathname.includes("assets") && pathname !== "/" ? (
               <CustomAIContainer>
                 <NavigationTab
+                  country={country}
                   hover={isHovered}
                   title="Assets"
                   onClick={() => router.push(`/assets`)}
@@ -394,7 +400,7 @@ const Navigation = styled.div`
   }
 `;
 
-const NavigationTab = styled.div<{ title: string; hover: boolean }>`
+const NavigationTab = styled.div<{ title: string; hover: boolean, country: string }>`
   padding: 0rem 1.2rem 0rem 1.2rem;
   margin-top: 1rem;
   position: relative;
@@ -406,7 +412,7 @@ const NavigationTab = styled.div<{ title: string; hover: boolean }>`
   white-space: nowrap;
   cursor: pointer;
   display: flex;
-  color: ${(props) => (props.title === "Sales" ? "#DCDCDC" : "black")};
+  color: ${(props) => ((props.title === "Prompts" && props.country !== "Poland") ? "#DCDCDC" : "black")};
   border-radius: 10px;
   width: 100%;
   transition: all 0.15s ease;
@@ -422,11 +428,11 @@ const NavigationTab = styled.div<{ title: string; hover: boolean }>`
     padding: 0.75rem 1.5rem 0.75rem 1.5rem;
     border-radius: 12px;
     color: ${(props) =>
-      props.title === "Copywriting" || props.title === "Sales"
+      props.title === "Copywriting" || (props.title === "Prompts" && props.country !== "Poland")
         ? "#DCDCDC"
         : "black"};
     box-shadow: ${(props) =>
-      props.title === "Copywriting" || props.title === "Sales"
+      props.title === "Copywriting" || (props.title === "Prompts" && props.country !== "Poland")
         ? "none"
         : "3px 3px 5px rgba(22, 27, 29, 0.23), -3px -3px 5px #FAFBFF"};
     justify-content: flex-start;

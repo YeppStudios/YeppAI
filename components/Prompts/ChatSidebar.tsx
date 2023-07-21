@@ -19,7 +19,6 @@ import FeedbackPopover from "../Common/FeedbackPopover";
 import { selectAssistantState } from "../../store/assistantSlice";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import { selectedUserState } from "@/store/userSlice";
 import FoldersDropdown from "../forms/FolderDropdown";
 import { selectFoldersState } from '@/store/selectedFoldersSlice'
@@ -359,10 +358,10 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
                     {!replying ? 
                     <UserPromptContainer>
                         <NameContainer>
-                            <p>Twoje polecenie</p>
+                            <p>Your prompt</p>
                         </NameContainer>
                         <PromptInput 
-                            placeholder="Wpisz polecenie..."                   
+                            placeholder="Type a prompt..."                   
                             onKeyDown={submitOnEnter}
                             ref={textAreaRef}
                             value={prompt}
@@ -382,7 +381,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
                         <ProfileIcon>
                             <Image style={{ width: "100%", height: "auto" }} src={assistantIcon} alt={'profile'}></Image> 
                         </ProfileIcon>
-                        <p>Asystent</p>
+                        <p>Assistant</p>
                     </NameContainer>
                     {assistantThinking ?
                         <AssistantMessage style={{width: "auto"}}><TypingAnimation  colorful={true}/></AssistantMessage>
