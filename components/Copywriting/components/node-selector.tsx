@@ -11,6 +11,7 @@ import {
   TextIcon,
   Code,
   CheckSquare,
+  ImageIcon,
 } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 
@@ -143,6 +144,33 @@ export const NodeSelector: FC<NodeSelectorProps> = ({editor}) => {
       },
       isActive: () => editor.isActive("orderedList"),
     },
+    {
+      name: "Image",
+      icon: ImageIcon,
+      command: () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = () => {
+          const file = input.files?.[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const imageUrl = event?.target?.result;
+            if (!imageUrl) return;
+            const { from } = editor.state.selection;
+            editor.view.dispatch(
+              editor.view.state.tr
+                .insert(from, editor.state.schema.nodes.image.create({ src: imageUrl }))
+                .setMeta("addToHistory", true),
+            );
+          };
+          reader.readAsDataURL(file);
+        };
+        input.click();
+      },
+      isActive: () => false,
+    }
   ];
 
   const activeItem = items.filter((item) => item.isActive()).pop() ?? {
