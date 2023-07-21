@@ -431,7 +431,7 @@ const PromptsBrowser = ({ user }: InferGetServerSidePropsType<typeof getServerSi
                 <LogoContainer>
                     <Image style={{ width: "auto", height: "100%" }}  src={blackLogo} alt={'icon'}></Image> 
                 </LogoContainer>
-                <AppName>Propmpt Browser</AppName>
+                <AppName>Prompt Browser</AppName>
                 </div>
                 <Slogan>Colection of 1000+ most effective prompts</Slogan>
                 <InputContainer>
