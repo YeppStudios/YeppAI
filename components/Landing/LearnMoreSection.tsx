@@ -98,7 +98,7 @@ const LearnMoreSection = () => {
                     </SignupButton>
                 </Form>
                 <Description className="justify-center lg:justify-start">or</Description>
-                <a href="https://calendly.com/asystentai/asystent-business-konsultacja">
+                <a href="https://calendly.com/yeppai/yepp-introduction-call">
                 <div className="flex items-center"><b className="cursor-pointer">Schedule a 30 minute demo</b>
                     <LearnMoreArrow>
                     <Image style={{ width: "auto", height: "100%" }}  src={thinArrow} alt={'arrow'}></Image> 
