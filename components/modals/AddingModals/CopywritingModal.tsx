@@ -786,7 +786,7 @@ const CopywritingModal = (props: {
                 <FoldersDropdown />
                 <div style={{width: "100%", marginTop: "2rem"}}>
                 <Label>
-                Choose {props.contentType}s you find valuable...{selectedLinksError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p>}
+                Choose among top 10 {props.contentType}s on Google...{selectedLinksError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p>}
                 </Label>
                 {sourceLoading ?
                     <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />

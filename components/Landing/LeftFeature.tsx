@@ -41,7 +41,7 @@ const LeftFeature = (props: {
             </ul>
           </FeatureDescription>
           {!mobile && (
-            <Link href="/assets?registration=true&trial=true">
+            <Link href="/https://www.yepp.ai/register?registration=true&trial=true">
               <Button color={props.color} className="">
                 <BtnText>Try now</BtnText>
               </Button>
@@ -61,7 +61,7 @@ const LeftFeature = (props: {
         </GifContainer>
       </GifLayout>
       {mobile && (
-        <Link href="/assets?registration=true&trial=true">
+        <Link href="/https://www.yepp.ai/register?registration=true&trial=true">
           <Button color={props.color} className="">
             <BtnText>Try now</BtnText>
           </Button>
