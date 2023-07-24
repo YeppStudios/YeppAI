@@ -16,6 +16,7 @@ const nextConfig = {
       domains: [
         "gateway.pinatas.cloud",
         'drive.google.com',
+        "ipfs.io",
         'images.unsplash.com',
         'http://drive.google.com/uc',
         "https://asystentai.infura-ipfs.io"

@@ -6,32 +6,19 @@ import Head from 'next/head'
 import styled from 'styled-components';
 import Image from 'next/image';
 import laptopVisualization from "../public/images/laptopVisualization.png";
-import iphoneMockup from "../public/images/iphoneMockup.png";
-import PartnersSection from '@/components/Landing/PartnersSection';
 import Section from '@/components/Landing/Section';
 import LeftFeature from '@/components/Landing/LeftFeature';
 import RightFeature from '@/components/Landing/RightFeature';
-import TestimonialsSection from '@/components/Landing/TestimonialsSection';
-import PlansHeader from '@/components/Landing/PlansHeader';
-import PlansSection from '@/components/Landing/PlansSection';
 import LearnMoreSection from '@/components/Landing/LearnMoreSection';
 import Footer from '@/components/Landing/Footer';
 import Loading from '@/components/Common/Loading';
-import firstProFeature from "../public/images/firstProFeature.png";
-import secondProFeature from "../public/images/secondProFeature.png";
-import thirdProFeature from "../public/images/thirdProFeature.png";
-import fourthProFeature from "../public/images/fourthProFeature.png";
-import fifthProFeature from "../public/images/fifthProFeature.png";
 import { useRouter } from 'next/router';
 import { BsFillGiftFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import Title from '@/components/Common/Title';
-import ScheduleMeeting from '@/components/Landing/ScheduleMeeting';
-import BusinessStats from '@/components/Landing/BusinessStats';
 import webBackground from "../public/images/webBackground.png";
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Plans from '@/components/Landing/Plans';
-import PlanComparison from '@/components/Landing/PlanComparison';
 import Space from '@/components/Docs/common/Space';
 
 interface Background {

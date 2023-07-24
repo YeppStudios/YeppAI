@@ -8,7 +8,7 @@ const Section = ({ image, title, description }: any) => {
       <SectionContainer>
         <SectionIcon>
           <Image
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "100%", height: "auto", overflow: "visible" }}
             width={27}
             height={27}
             src={image}
