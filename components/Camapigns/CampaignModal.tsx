@@ -1,4 +1,11 @@
-import { FC, useState, Dispatch, SetStateAction, useEffect } from "react";
+import {
+  FC,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  FormEvent,
+} from "react";
 import { BsTools, BsChevronLeft } from "react-icons/bs";
 import { FaBook } from "react-icons/fa";
 import { GiOpenBook } from "react-icons/gi";
@@ -8,6 +15,7 @@ import Dropdown from "@/components/forms/Dropdown";
 import { useRouter } from "next/router";
 import api from "@/pages/api";
 import Image from "next/image";
+import Input from "../forms/Input";
 
 interface CampaginModalProps {
   setOpenCreateCampaignModal: Dispatch<SetStateAction<boolean>>;
@@ -39,6 +47,9 @@ export const CampaignModal: FC<CampaginModalProps> = ({
   const [templates, setTemplates] = useState<TemplateProps[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<any>();
   const [templateCategories, setTemplateCategories] = useState<string[]>([]);
+  const [targetAudience, setTargetAudience] = useState<string>("");
+  const [objectives, setObjectives] = useState<string>("");
+  const [keywords, setKeywords] = useState<string>("");
 
   const filteredDropdownCategories = templates.filter(
     (category, index, self) => {
@@ -52,6 +63,26 @@ export const CampaignModal: FC<CampaginModalProps> = ({
       (template) => template.category === category
     );
     return templatesInCategory.map((template) => template.title);
+  };
+
+  const submitThirdPageForm = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const targetAudienceInput = event.currentTarget.elements.namedItem(
+      "targetAudience"
+    ) as HTMLInputElement;
+    setTargetAudience(targetAudienceInput?.value || "");
+
+    const campaignObjectiveInput = event.currentTarget.elements.namedItem(
+      "objectives"
+    ) as HTMLInputElement;
+    setObjectives(campaignObjectiveInput?.value || "");
+
+    const keywordsInput = event.currentTarget.elements.namedItem(
+      "keywords"
+    ) as HTMLInputElement;
+    setKeywords(keywordsInput?.value || "");
+
+    console.log(targetAudience, objectives, keywords);
   };
 
   useEffect(() => {
@@ -111,7 +142,7 @@ export const CampaignModal: FC<CampaginModalProps> = ({
 
   return (
     <ModalBackground>
-      <ModalContainer step={step}>
+      <ModalContainer step={step} className="relative">
         <div className="flex w-full justify-between mb-4">
           <div className="flex items-center justify-center ">
             {step > 1 && (
@@ -151,8 +182,50 @@ export const CampaignModal: FC<CampaginModalProps> = ({
           </div>
         )}
         {step === 2 && <div>Second Page</div>}
+        {step === 3 && (
+          <form onSubmit={submitThirdPageForm}>
+            <div className="p-4">
+              <label>Target autdience</label>
+              <Input
+                height="4rem"
+                padding="1rem"
+                name="targetAudience"
+                type="text"
+                value={targetAudience}
+                onChange={(e) => setTargetAudience(e.target.value)}
+              />
+            </div>
+            <div className="p-4">
+              <label>Campaign's objective</label>
+              <Input
+                height="4rem"
+                padding="1rem"
+                name="objectives"
+                type="text"
+                value={objectives}
+                onChange={(e) => setObjectives(e.target.value)}
+              />
+            </div>
+            <div className="p-4">
+              <label>Keywords</label>
+              <Input
+                height="4rem"
+                padding="1rem"
+                name="keywords"
+                type="text"
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
+              />
+            </div>
+            <div className="w-full flex items-center justify-center absolute bottom-20 left-0 bg-red-300">
+              <button type="submit" className="p-4 w-[40%] bg-blue-300">
+                Submit
+              </button>
+            </div>
+          </form>
+        )}
         {step !== 3 && (
-          <div className=" bg-red-300 flex items-center justify-center mt-12">
+          <div className=" bg-red-300 flex items-center justify-center absolute bottom-20 left-0 w-full">
             <button
               className="p-4 w-[40%] bg-blue-300"
               onClick={() => setStep((prev) => prev + 1)}
