@@ -258,7 +258,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
             <LoginContainer>
                 {registration ?
                 <div>
-                    <ModalTitle>Let&apos;s get started</ModalTitle>
+                    <ModalTitle>Register</ModalTitle>
                     <Form autoComplete="off" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
                     {loginError &&
                         <Centered>

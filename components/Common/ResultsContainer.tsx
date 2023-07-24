@@ -52,13 +52,12 @@ const ResultsContainer = (
   props: {
     initialPrompt: string | undefined, 
     resultsType: string, 
-    preprompt: string | undefined, 
     trigger: number, 
-    title: string, 
     count: number, 
     stopLoading: any,
     query: any,
     about: string,
+    template: any
   }) => {
 
     const [content, setContent] = useState<string>();
@@ -96,10 +95,9 @@ const ResultsContainer = (
     useEffect(() => {
       const userWorkspace = localStorage.getItem("workspace");
       setWorkspace(userWorkspace);
-
       const fetchSavedContent = async () => {
         try {
-        if(props.query.contentId) {
+        if (props.query.contentId) {
           try {
             setLoading(true);
             const token = localStorage.getItem("token");
@@ -119,7 +117,7 @@ const ResultsContainer = (
           }
         }
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
       }
       fetchSavedContent();
@@ -248,7 +246,7 @@ const ResultsContainer = (
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: signal,
-              body: JSON.stringify({prompt: promptToSend, temperature: 0.9, title: props.title, preprompt: props.preprompt, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
+              body: JSON.stringify({prompt: promptToSend, temperature: 0.9, title: props.template.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
             });
       
             if (!response.ok) {
@@ -496,7 +494,7 @@ const ResultsContainer = (
             {props.resultsType === "ideas" ?
             <IdeasContainer ideaProps={props.initialPrompt} text={message.text} isSSEComplete={true}/>
             :
-            <RegularTextContainer user={user} text={message.text} prompt={props.initialPrompt} category={props.resultsType} query={props.query} isSSEComplete={true}/>
+            <RegularTextContainer template={props.template} user={user} text={message.text} prompt={props.initialPrompt} category={props.resultsType} query={props.query} isSSEComplete={true}/>
             }
             </>
           )
@@ -512,7 +510,7 @@ const ResultsContainer = (
     }
 
     return (
-        <MainContainer>
+        <MainContainer isTemplate={props.template ? true : false}>
         {openElixirReminder && <ReminderModal onClose={() => setOpenElixirReminder(false)} elixirWidth={elixirWidth}/>}
         {openElixirModal && <AddElixir user={user} onClose={() => setOpenElixirModal(false)} />}
         {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
@@ -561,14 +559,14 @@ const ResultsContainer = (
                         }
                         {(messages.length === 0 && content) &&
                             <>
-                              {(props.resultsType === "ideas" && user) ?
+                              {((props.resultsType === "ideas" || props.resultsType === "hashtags") && user) ?
                                 <IdeasContainer ideaProps={props.initialPrompt} text={content} isSSEComplete={isSSEComplete}/>
                                 :
-                                <RegularTextContainer user={user} text={content} prompt={props.initialPrompt} query={props.query} category={props.resultsType} isSSEComplete={isSSEComplete}/>
+                                <RegularTextContainer template={props.template} user={user} text={content} prompt={props.initialPrompt} query={props.query} category={props.resultsType} isSSEComplete={isSSEComplete}/>
                               }
                             </>   
                         }
-                        {(!replying && !messageLoading && messages.length !== 0 && router.pathname.includes("marketing")) && 
+                        {(!replying && !messageLoading && messages.length !== 0 && props.template) && 
                         <UserPromptContainer>
                             <PromptInput 
                                 placeholder="Further prompts..."                   
@@ -591,7 +589,7 @@ const ResultsContainer = (
                               {(props.resultsType === "ideas" && user) ?
                                 <IdeasContainer ideaProps={props.initialPrompt} text={content} isSSEComplete={isSSEComplete}/>
                                 :
-                                <RegularTextContainer user={user} text={content} prompt={props.initialPrompt} category={props.resultsType} query={props.query} isSSEComplete={isSSEComplete}/>
+                                <RegularTextContainer template={props.template} user={user} text={content} prompt={props.initialPrompt} category={props.resultsType} query={props.query} isSSEComplete={isSSEComplete}/>
                               }
                             </>   
                         }
@@ -618,8 +616,10 @@ const ResultsContainer = (
 
 export default ResultsContainer;
 
-const MainContainer = styled.div`
-  width: 100%; 
+const MainContainer = styled.div<{isTemplate: boolean}>`
+  width: ${props => props.isTemplate ? "100%" : "50%"};
+  position: ${props => props.isTemplate ? "relative" : "absolute"};
+  left: ${props => props.isTemplate ? "0" : "25%"};
   min-height: 90vh;
   z-index: 1; 
   overflow: hidden;

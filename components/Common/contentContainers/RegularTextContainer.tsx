@@ -3,38 +3,18 @@ import { BsPencilSquare, BsFiles, BsArrowRepeat, BsCheckLg } from "react-icons/b
 import { FiDownload } from "react-icons/fi";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineLike, AiOutlineCopy, AiFillLike } from "react-icons/ai";
-import facebookIcon from "../../../public/images/facebook-color.png";
-import instagramIcon from "../../../public/images/instagram-color.png";
-import linkedinIcon from "../../../public/images/linkedin-color.png";
-import twitterIcon from "../../../public/images/twitter-color.png";
-import labelIcon from "../../../public/images/label-icon.png";
-import konspektIcon from "../../../public/images/konspekt-icon.png";
-import articleIcon from "../../../public/images/article-icon.png";
-import newsletterIcon from "../../../public/images/newsletter-icon.png";
-import aidaIcon from "../../../public/images/aida-logo.png";
-import pasIcon from "../../../public/images/pas-logo.png";
-import babIcon from "../../../public/images/bab-logo.png";
-import enganceIcon from "../../../public/images/enhance-icon.png";
-import pressIcon from "../../../public/images/press-icon.png";
-import emailIcon from "../../../public/images/email-icon.png";
-import amazonLogo from "../../../public/images/amazon-logo.png";
-import allegroLogo from "../../../public/images/allegro-logo.png";
-import googleLogo from "../../../public/images/google-logo.png";
+import Image from "next/image";
 import moment from 'moment';
 import api from "@/pages/api";
 import { selectedMarketingAssistantState } from "@/store/marketingAssistantSlice";
 import { useSelector, useDispatch } from "react-redux";
-interface Background {
-    image: any
-}
+import articleIcon from "../../../public/images/article-icon.png";
 
-
-const RegularTextContainer = (props: {text: string, prompt: string | undefined, category: string, query: any, user: any, isSSEComplete: boolean}) => {
+const RegularTextContainer = (props: {template: any, text: string, prompt: string | undefined, category: string, query: any, user: any, isSSEComplete: boolean}) => {
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [text, setText] = useState("");
     const [notification, setNotification] = useState("");
-    const [profilePic, setProfilePic] = useState<any>();
     const [mobile, setMobile] = useState(false);
     const [liked, setLiked] = useState(false);
     const [showSavedIcon, setShowSavedIcon] = useState(false);
@@ -56,41 +36,6 @@ const RegularTextContainer = (props: {text: string, prompt: string | undefined, 
         if(window.innerWidth <= 1023){
             setMobile(true);
         }
-        let profileIcon;
-        if (props.category === "Facebook-post"){
-            profileIcon = facebookIcon;
-        } else if (props.category === "Instagram-post") {
-            profileIcon = instagramIcon;
-        } else if (props.category === "LinkedIn-post") {
-            profileIcon = linkedinIcon;
-        } else if (props.category === "Twitter-post") {
-            profileIcon = twitterIcon;
-        } else if (props.category === "google-ads") {
-            profileIcon = googleLogo;
-        } else if (props.category.includes("conspect")) {
-            profileIcon = konspektIcon;
-        } else if (props.category === "article-section") {
-            profileIcon = articleIcon;
-        } else if (props.category === "email") {
-            profileIcon = emailIcon;
-        } else if (props.category === "newsletter") {
-            profileIcon = newsletterIcon;
-        } else if (props.category === "amazon") {
-            profileIcon = amazonLogo;
-        } else if (props.category === "allegro") {
-            profileIcon = allegroLogo;
-        } else if (props.category === "PAS"){
-            profileIcon =pasIcon;
-        } else if (props.category === "AIDA") {
-            profileIcon = aidaIcon;
-        } else if (props.category === "BAB") {
-            profileIcon = babIcon;
-        } else if (props.category === "press-release") {
-            profileIcon = pressIcon;
-        } else if (props.category === "content-enhance") {
-            profileIcon = enganceIcon;
-        } 
-        setProfilePic(profileIcon);
     }, []);
 
     useEffect(() => {
@@ -100,15 +45,19 @@ const RegularTextContainer = (props: {text: string, prompt: string | undefined, 
 
     const like = async () => {
         setLiked(!liked);
-        if(!liked && !disableLike && props.isSSEComplete && props.prompt){
+        if(!liked && !disableLike && props.isSSEComplete && props.prompt && props.template){
             setShowSavedIcon(true);
             const token = localStorage.getItem("token");
+            console.log(props.template.icon)
             try {
-                await api.post("addContent", {
+                await api.post("/addContent", {
                     text,
                     prompt: props.prompt,
-                    category: props.category,
-                    savedBy: props.user._id
+                    category: props.template.category,
+                    savedBy: props.user._id,
+                    title: props.template.title,
+                    icon: props.template.icon,
+                    query: props.template.query
                 }, {
                     headers: {
                         authorization: token
@@ -147,10 +96,14 @@ const RegularTextContainer = (props: {text: string, prompt: string | undefined, 
         <Post>
             <PostHeader>
                 <div style={{display: "flex"}}>
-                    {profilePic ?
-                        <ProfileImage image={profilePic} /> 
-                        :
-                        <FakeProfile></FakeProfile>
+                    {props.template ?
+                    <ProfileImage>
+                        <Image src={props.template.icon} alt="icon" width={40} height={40} style={{ width: "100%", height: "auto" }}/>
+                    </ProfileImage> 
+                    :
+                    <ProfileImage>
+                        <Image src={articleIcon} alt="icon" width={40} height={40} style={{ width: "100%", height: "auto" }}/>
+                    </ProfileImage> 
                     }
                     <div>
                         {selectedAssistant ? <CompanyName>{selectedAssistant.name}</CompanyName> : <CompanyName>{props.user.name}</CompanyName>}
@@ -219,23 +172,11 @@ const PostHeader = styled.div`
     justify-content: space-between;
 `
 
-const ProfileImage = styled.div<Background>`
+const ProfileImage = styled.div`
     width: 2.75rem;
     height: 2.75rem;
     border-radius: 10px;
-    background-image: url(${props => props.image.src});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
 `
-
-const FakeProfile = styled.div`
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    background-color: #313545;
-`
-
 
 const CompanyName = styled.p`
     font-weight: 500;
@@ -259,21 +200,6 @@ const CopyIcon = styled.button`
         margin-left: 4vw;
         width: 3.4vh;
         height: 3.4vh;
-    }
-`
-
-const LikeIcon = styled.button`
-    width: 3.2vh;
-    height: 3.2vh;
-    margin-left: 1vw;
-    transition: all 0.4s ease;
-    &:hover {
-        transform: scale(1.12);
-    }
-    @media (max-width: 1023px) {
-        margin-left: 4vw;
-        width: 3.5vh;
-        height: 3.5vh;
     }
 `
 

@@ -49,7 +49,7 @@ const SectionIcon = styled.div`
   width: 2.7rem;
   height: 2.7rem;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 10px;
 `;
 

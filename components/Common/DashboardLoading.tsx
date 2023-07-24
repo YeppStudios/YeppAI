@@ -50,7 +50,7 @@ export default function Loading() {
 const BlurBackground = styled.div`
 display: flex;
 position: fixed;
-min-height: calc(100vh - 1.5rem);
+min-height: calc(100vh);
 flex-wrap: wrap;
 justify-content: center;
 border: 2px solid #EAEDF5;

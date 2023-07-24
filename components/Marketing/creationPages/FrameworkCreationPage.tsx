@@ -36,7 +36,7 @@ interface TextArea {
 
 const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 
-const FrameworkCreationPage = ({back, query}: any) => {
+const FrameworkCreationPage = ({back, query, template}: any) => {
 
     const [about, setAbout] = useState("");
     const [language, setLanguage] = useState("English");
@@ -63,20 +63,20 @@ const FrameworkCreationPage = ({back, query}: any) => {
         setKey((prevKey) => prevKey + 1);
         setPrompt("");
         setLoading(true);
-        if (query.type === "BAB") {
+        if (template.title === "BAB Framework") {
             setPrompt(`Act as a professional marketing consultant. Develop a Before-After bridge framework analysis that showcases how your ${name}- ${about} can benefit its customers. Start by identifying and describing the "before" state or situation - what are the current problems, challenges, and limitations that ${targetAudience} face in their day to day operations? Then, paint a clear picture of the "after" state, highlighting the benefits, capabilities, and improvements that ${name} brings to the table. Be detailed, precise, and articulate in your descriptions, explaining how specific features and functionalities of the platform alleviate pain points and enhance marketing performance. Lastly, provide comprehensive conclusion on how ${name} can have real impact on everyday life of ${targetAudience} and solve their problems. Make sure to write it in ${language} language.`)
         }
-        if (query.type === "PAS") {
+        if (template.title === "PAS Framework") {
             setPrompt(`Act as a professional copywriter. Utilize the PAS (Problem-Agitate-Solve) formula to develop a comprehensive analysis of your ${name} product - ${about}. Begin by identifying the problem your product solves and address the pain points that customers may have before using it. 
 
             Next, dig deep into the problems that ${targetAudience} faces and highlight the anxiety that can arise as a result of their lack of success. Use this opportunity to demonstrate how ${name} can help alleviate these problems by showing how it addresses those pain points. 
             
             Finally, present solutions by showing how ${name} is the answer to those problems. Highlight its superior features, reliability, ease of use, and other core benefits that set it apart from other similar products on the market. Through your PAS analysis, seek to position ${name} as a must-have product for any ${targetAudience}. Make sure to write it in ${language} language.`)
         }
-        if (query.type === "AIDA") {
+        if (template.title === "AIDA Framework") {
             setPrompt(`Act as a professional marketer. Conduct an AIDA (Attention, Interest, Desire, Action) analysis for ${name}, your ${about}, which target audience are ${targetAudience}. To start, analyze each stage of the AIDA model, beginning with Attention. Come up with creative ideas on how to grab your target customers' attention. Once the customer is hooked, focus on creating interest by highlighting the benefits and features of the ${name}, emphasizing how it solves the ${targetAudience} pain points and problems. Next, create a desire by using persuasive language and promoting how ${name} can make a notable difference for ${targetAudience}. And lastly, devise a strategy that encourages the customer to take the necessary action(s). This includes providing clear calls to action, demonstrating the product's or company's usability and results, and building trust with potential customers. Make sure to write it in ${language} language.`)
         }
-        setTitle(`${query.type} for ${name}`)
+        setTitle(template.title)
     }
 
     return (
@@ -90,7 +90,7 @@ const FrameworkCreationPage = ({back, query}: any) => {
                     <BackBtnText>Back</BackBtnText>
                 </BackBtn>
             }
-                {query.type && 
+                {template && 
                 <FormContainer>
                     {mobile &&
                     <BackBtn onClick={back}>
@@ -184,7 +184,16 @@ const FrameworkCreationPage = ({back, query}: any) => {
                     </div>
                 </FormContainer>
                 }
-            <ResultsContainer trigger={key} about={name + " " + about} initialPrompt={prompt} resultsType={query.type} query={query} preprompt={preprompt}  title={title} count={1} stopLoading={() => setLoading(false)}/>
+            <ResultsContainer 
+            trigger={key} 
+            about={name + " " + about} 
+            template={template} 
+            initialPrompt={prompt} 
+            resultsType={query.type} 
+            query={query} 
+            count={1} 
+            stopLoading={() => setLoading(false)}
+            />
         </PageContent>
     )
 }
