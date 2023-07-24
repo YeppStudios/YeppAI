@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BsPencilSquare, BsFiles } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import useAutosizeTextArea from "@/hooks/useAutosizeTextArea";
+import ReactMarkdown from 'react-markdown';
 
 const IdeasContainer = (props: {text: string, ideaProps: any, isSSEComplete: boolean}) => {
 
@@ -15,11 +16,7 @@ const IdeasContainer = (props: {text: string, ideaProps: any, isSSEComplete: boo
         const refactoredText = props.text.trimStart();
         setText(refactoredText);
     }, [props.text]);
-    
-    const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const val = evt.target?.value;
-        setText(val);
-      };
+
 
       const handleCopy = () => {
         navigator.clipboard.writeText(text)
@@ -50,7 +47,7 @@ const IdeasContainer = (props: {text: string, ideaProps: any, isSSEComplete: boo
                 </div>
             </PostHeader>
             <PostContent>
-                {props.text}
+            <ReactMarkdown>{props.text}</ReactMarkdown>
             </PostContent>
         </Post>
     )

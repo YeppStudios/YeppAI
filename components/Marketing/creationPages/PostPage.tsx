@@ -58,7 +58,7 @@ const languages = [
 const emojiRegex =
   /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E6}-\u{1F1FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1F600}-\u{1F64F}\u{1F900}-\u{1F9FF}\u{1F300}-\u{1F5FF}]/gu;
 
-const SocialMediaCreationPage = ({ back, query }: any) => {
+const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [completionLength, setCompletionLength] = useState(100);
   const [postType, setPostType] = useState("Advertisement");
   const [tone, setTone] = useState("Friendly 😊");
@@ -66,12 +66,9 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
   const [language, setLanguage] = useState("English");
   const [targetAudience, setTargetAudience] = useState("");
   const [loading, setLoading] = useState(false);
-  const [formLoading, setFormLoading] = useState(true);
   const [prompt, setPrompt] = useState<string>();
-  const [preprompt, setPrePrompt] = useState<string>();
   const userPlan = useSelector(selectedPlanState);
   const [key, setKey] = useState(0);
-  const [title, setTitle] = useState("");
   const [mobile, setMobile] = useState(false);
   const [inputError, setInputError] = useState(false);
   const [enableEmojis, setEnableEmojis] = useState(true);
@@ -80,9 +77,12 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
     if (window.innerWidth < 1023) {
       setMobile(true);
     }
-    if (query.type === "Twitter") {
-      setCompletionLength(20);
+    if (template) {
+      if (template.title === "Tweet") {
+        setCompletionLength(20);
+      }
     }
+
   }, []);
 
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
@@ -92,19 +92,37 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
     setLoading(true);
     let replyLength = `Write it in just ${completionLength} words.`;
 
-    setPrompt(
-      `You are an experienced social media content creator always writing unique and novel posts. Write exactly 1 unique ${postType} post on ${
-        query.type
-      } about ${about} ${replyLength}. Make sure to write it in ${tone.replace(
-        emojiRegex,
-        ""
-      )} tone of voice. The post should draw attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group. ${
-        enableEmojis
-          ? " Please use relevant emojis related to the topic."
-          : "Do not use emojis"
-      }`
-    );
-    setTitle(`Generated post- ${query.type}`);
+    if (template.title === "LinkedIn-About Company") {
+      setPrompt(
+        `As an experienced LinkedIn specialist for you always write unique and novel company descriptions. 
+        Write exactly 1 unique about company section for ${about} ${replyLength} Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. 
+        The description should draw the attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and given type. Do not use hashtags. ${
+          enableEmojis
+            ? "Please use relevant emojis related to the topic."
+            : "Do not use emojis"
+        }`
+      );
+    } else if (template.title === "LinkedIn Ad Description") {
+      setPrompt(
+        `As an experienced LinkedIn specialist for you always write unique and novel ad descriptions. 
+        Write exactly 1 unique ad description- ${about}. Write it in up to 140 characters. Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. 
+        The description should draw the attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and given type. Do not use hashtags. ${
+          enableEmojis
+            ? "Please use relevant emojis related to the topic."
+            : "Do not use emojis"
+        }`
+      );
+    } else {
+      setPrompt(
+        `As an experienced social media content creator for ${query.type} you always write unique and novel content. 
+        Write exactly 1 unique ${template.title} about ${about} ${replyLength} Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. 
+        The post should draw the attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and post type. ${
+          enableEmojis
+            ? "Please use relevant emojis related to the topic."
+            : "Do not use emojis"
+        }`
+      );
+    }
   };
 
   const handleToggleEmojis = () => {
@@ -125,7 +143,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
           <BackBtnText>Back</BackBtnText>
         </BackBtn>
       )}
-      {query.type && (
+      {template && (
         <FormContainer>
           {mobile && (
             <BackBtn onClick={back}>
@@ -146,6 +164,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   <FoldersDropdown />
                 </InputContainer>
               )}
+              {template.title !== "LinkedIn Ad Description" && 
               <InputContainer width="50%">
                 <div className="flex justify-between  ">
                   <Label className="text-center">Words</Label>
@@ -154,7 +173,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   )}
                 </div>
                 <Input
-                  height="2.6rem"
+                  height="2.8rem"
                   padding="0.4rem"
                   type="number"
                   onChange={(e) => setCompletionLength(e.target.valueAsNumber)}
@@ -170,8 +189,10 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   value={completionLength}
                 />
               </InputContainer>
+              }
+              {(template.title !== "LinkedIn-About Company" && template.title !== "LinkedIn Ad Description") && 
               <InputContainer width="50%">
-                {query.type === "Twitter" ? (
+                {template.title === "Tweet" ? (
                   <Label>Tweet type</Label>
                 ) : (
                   <Label>Post type</Label>
@@ -186,6 +207,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   onChange={setPostType}
                 />
               </InputContainer>
+              }
               <InputContainer width="50%">
                 <Label>Tone of voice</Label>
                 <CustomDropdown
@@ -210,23 +232,12 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   onChange={setLanguage}
                 />
               </InputContainer>
-              <InputContainer width="100%">
-                <Label>Write about...</Label>
-                <TextArea
-                  id="about-field"
-                  height="6.2rem"
-                  padding="0.7rem"
-                  placeholder="our new Agency plan and its benefits"
-                  value={about}
-                  onChange={(e) => setAbout(e.target.value)}
-                  required
-                />
-              </InputContainer>
-              <InputContainer width="58%">
+              {template.title === "LinkedIn-About Company" &&
+              <InputContainer width="50%">
                 <Label>Target audience</Label>
                 <Input
                   id="target-adience-field"
-                  height="2.6rem"
+                  height="2.8rem"
                   padding="0.7rem"
                   placeholder="marketing experts"
                   value={targetAudience}
@@ -234,6 +245,43 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   required
                 />
               </InputContainer>
+              }
+              <InputContainer width="100%">
+              {template.title !== "LinkedIn-About Company" ? 
+              <>
+              {template.title === "LinkedIn Ad Description" ?
+                <Label>About the ad...</Label> 
+                :
+                <Label>Write about...</Label>
+              }
+              </>
+              : 
+              <Label>About company...</Label>
+              }
+                <TextArea
+                  id="about-field"
+                  height="6.2rem"
+                  padding="0.7rem"
+                  placeholder="Yepp AI- a generative AI for marketing agencies..."
+                  value={about}
+                  onChange={(e) => setAbout(e.target.value)}
+                  required
+                />
+              </InputContainer>
+              {template.title !== "LinkedIn-About Company" &&
+              <InputContainer width="58%">
+                <Label>Target audience</Label>
+                <Input
+                  id="target-adience-field"
+                  height="2.8rem"
+                  padding="0.7rem"
+                  placeholder="marketing experts"
+                  value={targetAudience}
+                  onChange={(e) => setTargetAudience(e.target.value)}
+                  required
+                />
+              </InputContainer>
+              }
               <InputContainer width="42%">
               <div className="flex flex-wrap gap-1 ml-2 ">
                 <div className="w-full"><Label>Use relevant emojis</Label></div>
@@ -305,8 +353,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
         initialPrompt={prompt}
         resultsType={query.type + "-post"}
         query={query}
-        preprompt={preprompt}
-        title={title}
+        template={template}
         count={1}
         stopLoading={() => setLoading(false)}
       />

@@ -55,7 +55,7 @@ const languages = [
 ];
 const paragraphsCount = [1, 2, 3, 4, 5];
 
-const SocialMediaCreationPage = ({ back, query }: any) => {
+const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [style, setStyle] = useState("Friendly 😊");
   const [paragraphCount, setParagraphCount] = useState(3);
   const [completionLength, setCompletionLength] = useState(200);
@@ -63,12 +63,14 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
   const [preprompt, setPrePrompt] = useState<string>();
   const [topic, setTopic] = useState("");
   const [targetAudience, setTargetAudience] = useState("");
+  const [videoDuration, setVideoDuration] = useState("20 minutes");
   const userPlan = useSelector(selectedPlanState);
   const [cta, setCta] = useState("");
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState("English");
   const [title, setTitle] = useState("");
   const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
+  const [objective, setObjective] = useState("");
   const [key, setKey] = useState(0);
   const [mobile, setMobile] = useState(false);
   const [inputError, setInputError] = useState(false);
@@ -84,24 +86,23 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
     setKey((prevKey) => prevKey + 1);
     setLoading(true);
     const token = localStorage.getItem("token");
-    let newTitle = "";
     let replyLength = `Write it in just ${completionLength} words.`;
 
-    if (query.type) {
-      if (query.type.includes("conspect")) {
+      if (template.title === "Video Scripts") {
         setPrompt(
-          `Write a great newsletter conspect about ${topic} in ${paragraphCount} paragraphs. My target audience is ${targetAudience}, and my CTA is: "${cta}". Make sure everything you write is in ${language} language.`
+          `You are an experienced director from Hollywood. Please write a professional high-level YouTube video script that should be around ${videoDuration || "5 minutes"} long about ${topic}. Make sure it is viral and easy to watch. 
+          Make sure to carefully plan it, so that it will keep the audience engaged and curious throughout the entire video. 
+          My target audience is ${targetAudience}, and my CTA is: "${cta}". Main objective of the video is to ${objective}. Make sure the script is written in ${language} language.`
         );
-        newTitle = `Generated email conspect`;
-      } else if (query.type.includes("newsletter")) {
-        setPrompt(`Act as a professional newsletter writer. Craft a creative and informative newsletter in ${style} tone of voice that captures the essence of ${topic}. The newsletter should be written in ${language} language that is accessible to the target audience, which is comprised of ${targetAudience}. Don't address them directly, but rather write within their interest. Your content should be engaging, informative, and provide value to the reader. Make sure to write in a voice that sounds natural and human, plus add some personality to your writing to keep it interesting.
-
-                To keep the readers interested, make sure to include helpful tips, strategies, examples and some interesting facts related to ${topic} if needed. Your newsletter should not only inform but also inspire and motivate them into taking action, but before the CTA summarize everything you have written nad give some reflections.
-                
-                Try to fit this newsletter ${replyLength}.
-                
-                Once you have the first draft of the newsletter, read through it and ensure that everything is written in the language ${language}. Lastly, run a grammar and spell check to make sure that the newsletter is correct. Respond only with complete newsletter.`);
-        newTitle = `Generated newsletter`;
+      } else if (template.title === "TikTok script") {
+        setPrompt(`You are an experienced, creative and viral TikToker. Please write a professional high-level TikTok video script about ${topic}. Make sure it is viral and easy to watch. 
+          Make sure to carefully plan it, so that it will first get the attention thanks to a catchy hook as well as keep the audience engaged and curious throughout the entire video. 
+          My target audience is ${targetAudience}, and my CTA is: "${cta}". Main objective of this TikTok is to ${objective}. Make sure the script is written in ${language} language.`);
+      } else if (template.title === "Newsletter Outline") {
+        setPrompt(`Act as a professional newsletter writer. Craft a creative and informative newsletter outline that captures the essence of ${topic}. It's main objective is to ${objective}. 
+          The outline should be written in ${language} language that is accessible to the target audience, which is comprised of ${targetAudience}. Your outline should be engaging, informative, and provide value to the reader.
+          To keep the readers interested, make sure to consider adding helpful tips, strategies, examples and some interesting facts related to ${topic}. Your newsletter outline should not only inform but also inspire and motivate them into taking action, but before the CTA forsee a summary section to give the audience some reflections.
+          Once you have the first draft of the outline, read through it and ensure that everything is written in the language ${language}. Lastly, run a grammar and spell check to make sure that the outline is correct. Respond only with complete newsletter outline.`);
       } else if (query.type.includes("email")) {
         setPrompt(`You are a professional ${language} email marketer. Write an enticing and effective email campaign to increase engagement and drive sales about ${topic}. The target audience is ${targetAudience}. ${replyLength}
 
@@ -110,10 +111,8 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                 Let the email flow with a narrative structure and avoid making it sound too pushy or aggressive. 
                 
                 Finally, add a "${cta}" call-to-action (CTA) at the end of the email directing the reader to take the desired action. Ensure that both title and body are written in ${language} language and is grammarly correct with no typos.`);
-        newTitle = `Generated email`;
       }
-    }
-    setTitle(newTitle);
+    setTitle(template.title)
   };
   return (
     <PageContent>
@@ -132,7 +131,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
           <BackBtnText>Back</BackBtnText>
         </BackBtn>
       )}
-      {query.type && (
+      {template && (
         <FormContainer>
           {mobile && (
             <BackBtn onClick={back}>
@@ -153,7 +152,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   <FoldersDropdown />
                 </InputContainer>
               )}
-              {query.type.includes("conspect") && (
+              {(template.title !== "Video Scripts" && template.title !== "TikTok script") &&
                 <InputContainer width="50%">
                   <Label>Paragraphs</Label>
                   <Dropdown
@@ -168,7 +167,7 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                     error={undefined}
                   />
                 </InputContainer>
-              )}
+                }
               <InputContainer width="50%">
                 <Label>Language</Label>
                 <CustomDropdown
@@ -182,99 +181,67 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
                   error={undefined}
                 />
               </InputContainer>
+              {template.title === "Video Scripts"  &&
               <InputContainer width="50%">
-                <div className="flex justify-between  ">
-                  <Label className="text-center">Words</Label>
-                  {inputError && (
-                    <p className="text-red-400 text-sm">Minimum 20 words</p>
-                  )}
-                </div>
-                <Input
-                  height="2.6rem"
-                  padding="0.4rem"
-                  type="number"
-                  onChange={(e) => setCompletionLength(e.target.valueAsNumber)}
-                  onBlur={() => {
-                    const minValue = 20;
-                    if (completionLength < minValue) {
-                      setInputError(true);
-                      setCompletionLength(100);
-                    } else {
-                      setInputError(false);
-                    }
-                  }}
-                  value={completionLength}
-                />
-              </InputContainer>
-              {!query.type.includes("conspect") && (
-                <InputContainer width="100%">
-                  <Label>Tone of voice</Label>
-                  <CustomDropdown
-                    id="name"
-                    type="text"
-                    placeholder="Friendly 😊"
+                  <Label>Video duration</Label>
+                  <Input
+                    id="topic-field"
+                    height="2.8rem"
+                    padding="0.5rem"
+                    placeholder="20 minutes"
+                    value={videoDuration}
+                    onChange={(e) => setVideoDuration(e.target.value)}
                     required
-                    value={style}
-                    values={styles}
-                    onChange={setStyle}
-                    error={undefined}
                   />
                 </InputContainer>
-              )}
-              {(query.type.includes("conspect") ||
-                query.type.includes("newsletter")) && (
-                <InputContainer width="100%">
+              }
+              <InputContainer width="100%">
                   <Label>Topic</Label>
-                  <TextArea
+                  <Input
                     id="topic-field"
-                    height="4.2rem"
-                    padding="0.4rem"
+                    height="2.8rem"
+                    padding="0.5rem"
                     placeholder="AI revolution in marketing."
                     value={topic}
                     onChange={(e) => setTopic(e.target.value)}
                     required
                   />
                 </InputContainer>
-              )}
-              {query.type.includes("email") && (
                 <InputContainer width="100%">
-                  <Label>Write about...</Label>
-                  <TextArea
-                    id="topic-field"
-                    height="4.2rem"
-                    padding="0.4rem"
-                    placeholder="new feature of Yepp AI- is uploading files."
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    required
-                  />
-                </InputContainer>
-              )}
-              <InputContainer width="100%">
+                <Label>Main objective</Label>
+                <Input
+                  id="target-adience-field"
+                  height="2.8rem"
+                  padding="0.5rem"
+                  placeholder="teach people how to use our solution"
+                  value={objective}
+                  onChange={(e) => setObjective(e.target.value)}
+                  required
+                />
+              </InputContainer>
+              <InputContainer width="50%">
                 <Label>Target audience</Label>
                 <Input
                   id="target-adience-field"
-                  height="2.6rem"
-                  padding="0.4rem"
+                  height="2.8rem"
+                  padding="0.5rem"
                   placeholder="users of Yepp AI"
                   value={targetAudience}
                   onChange={(e) => setTargetAudience(e.target.value)}
                   required
                 />
               </InputContainer>
-              {query.type.includes("email") && (
-                <InputContainer width="100%">
+                <InputContainer width="50%">
                   <Label>CTA (optional)</Label>
                   <Input
                     id="target-adience-field"
-                    height="2.6rem"
+                    height="2.8rem"
                     padding="0.6rem"
                     placeholder="Sign up now"
                     value={cta}
                     onChange={(e) => setCta(e.target.value)}
                   />
                 </InputContainer>
-              )}
               <Centered>
                 <GenerateBtn className="generate-content-btn">
                   {loading ? (
@@ -310,9 +277,8 @@ const SocialMediaCreationPage = ({ back, query }: any) => {
         initialPrompt={prompt}
         resultsType={query.type}
         query={query}
-        preprompt={preprompt}
-        title={title}
         count={1}
+        template={template}
         stopLoading={() => setLoading(false)}
       />
     </PageContent>

@@ -17,6 +17,7 @@ const nextConfig = {
         "gateway.pinatas.cloud",
         'drive.google.com',
         'images.unsplash.com',
+        'http://drive.google.com/uc',
         "https://asystentai.infura-ipfs.io"
       ],
       remotePatterns: [

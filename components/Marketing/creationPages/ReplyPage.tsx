@@ -24,6 +24,7 @@ import { useSelector } from "react-redux";
 import api from "@/pages/api";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
+import CustomDropdown from "@/components/forms/CustomDropdown";
 
 interface InputContainer {
     width: string;
@@ -33,19 +34,29 @@ interface TextArea {
     height: string;
 }
 
+const tones = [
+    "Formal 💼",
+    "Friendly 😊",
+    "Informative 📃",
+    "Persuasive 🫵🏼",
+    "Motivational 📈",
+ ];
+
 const EnhanceTextCreationPage = ({back, query, template}: any) => {
 
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
-    const [formLoading, setFormLoading] = useState(true);
     const [instruction, setInstruction] = useState("");
     const [prompt, setPrompt] = useState<string>();
+    const [tone, setTone] = useState<string>("Friendly 😊");
     const [preprompt, setPrePrompt] = useState<string>();
     const userPlan = useSelector(selectedPlanState);
     const [key, setKey] = useState(0);
     const [title, setTitle] = useState('');
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [mobile, setMobile] = useState(false);
+    const [inputError, setInputError] = useState(false);
+    const [completionLength, setCompletionLength] = useState(50);
 
     useEffect(() => {
         if (window.innerWidth < 1023) {
@@ -58,7 +69,11 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
         setKey((prevKey) => prevKey + 1);
         setPrompt("");
         setLoading(true);
-        setPrompt(`Act as an editor. Take content in quotes "${content}" and ${instruction}. Make sure it gives the desired feeling for the reader. Start with a thorough analysis of the existing content (content in quotes, not the context given by the user), considering factors like readability, structure, grammar, style, and coherence. Then, make edits that highlight the strengths of the content while simultaneously addressing any weaknesses. Consider adding additional detail, clarifying language, restructuring, and rephrasing to create a cohesive and concise result that appeals to your target audience. While editing, ensure the desired tone of voice is consistent across the content to maintain the desired feeling, which should resonate throughout. Finally, review the revised content to ensure it aligns with the original goal of the quoted content. Reply only with the edited that was previously in quotes.`);
+        setPrompt(`Act as a friendly social media manager and professional customer support with years of experience. Here is the message client sent us: "${content}". 
+        Start with a thorough analysis of the client's message in quotes and considering factors like readability, structure, grammar, style, and coherence please politely write an ${template.title.toLowerCase()} and ${instruction} in ${tone} tone of voice within no more than ${completionLength} words. 
+        Make sure it gives the desired feeling for the reader.
+        While editing, ensure the desired tone of voice is consistent across the content to maintain the desired feeling, which should resonate throughout. 
+        Finally, review the revised content and ensure it is in the client's language and that it aligns with the the quoted message. Reply only with the response to the client's message that was quoted and do not use emojis. `);
         setTitle(template.title)
     }
 
@@ -85,14 +100,9 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
                     }
                     <div>
                     <Form onSubmit={(e) => generateContent(e)}>
-                        {(userPlan && userPlan._id !== "647895cf404e31bfe8753398") &&
-                        <InputContainer width="100%">
-                            <FoldersDropdown />
-                        </InputContainer>
-                        }          
                         <InputContainer width="100%">
                             <Label>
-                                Text to enhance
+                                Client&apos;s message
                             </Label>
                             <TextArea
                                 id="content-field"
@@ -104,15 +114,51 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
                                 required
                             />
                         </InputContainer>
+                        <InputContainer width="50%">
+                            <Label>Tone of voice</Label>
+                            <CustomDropdown
+                            id="tones"
+                            type="text"
+                            placeholder="Friendly 😊"
+                            required
+                            value={tone}
+                            values={tones}
+                            onChange={setTone}
+                            />
+                        </InputContainer>
+                        <InputContainer width="50%">
+                            <div className="flex justify-between">
+                            <Label className="text-center">Words</Label>
+                            {inputError && (
+                                <p className="text-red-400 text-sm">Minimum 20 words</p>
+                            )}
+                            </div>
+                            <Input
+                            height="2.8rem"
+                            padding="0.4rem"
+                            type="number"
+                            onChange={(e) => setCompletionLength(e.target.valueAsNumber)}
+                            onBlur={() => {
+                                const minValue = 20;
+                                if (completionLength < minValue) {
+                                setInputError(true);
+                                setCompletionLength(100);
+                                } else {
+                                setInputError(false);
+                                }
+                            }}
+                            value={completionLength}
+                            />
+                        </InputContainer>
                         <InputContainer width="100%">
                             <Label>
-                                How to enhance it?
+                                What to reply?
                             </Label>
                             <Input
                                 id="instruction-field"
                                 height= "2.8rem"
                                 padding="0.5rem"
-                                placeholder="make this email feel more professional..."
+                                placeholder="apologise and offer a discount of 10%..."
                                 value={instruction}
                                 onChange={(e) => setInstruction(e.target.value)}
                                 required
@@ -141,10 +187,10 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
             <ResultsContainer 
                 trigger={key} 
                 about={content + " " + instruction} 
-                template={template} 
                 initialPrompt={prompt} 
-                resultsType={query.type}
-                query={query}
+                resultsType={query.type} 
+                query={query} 
+                template={template} 
                 count={1} 
                 stopLoading={() => setLoading(false)}
             />

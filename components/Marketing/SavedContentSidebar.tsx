@@ -61,24 +61,7 @@ const getContentTypeIcon = (contentType: string) => {
   }
 };
 
-const getContentLink = (category: string, contentId: string) => {
-  let link = ""
- if (category.includes("post")) {
-  link = `/marketing?page=social-media&type=${category.slice(0, -5)}&contentId=${contentId}` 
- }
- if (category.includes("email") || category.includes("newsletter")) {
-  link = `/marketing?page=newsletters-and-emails&type=${category}&contentId=${contentId}`
- }  
- if (category.includes("article")) {
-  link = `/marketing?page=blogs-and-articles&type=${category}&contentId=${contentId}`
- }
- if ((category.includes("allegro") || category.includes("amazon") || category.includes("google"))) {
-  link = `/marketing?page=product-description&type=${category}&contentId=${contentId}`
- }
- return link;
-}
-
-export default function SavedContentSidebar(props: {setOpen: any, open: boolean}) {
+export default function SavedContentSidebar(props: {setOpen: any, open: boolean, setTemplate: any}) {
 
   const [savedContent, setSavedContent] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -114,7 +97,12 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean}
   }, [props.open])
 
   const handleOpenContent = (content: any) => {
-    router.push(getContentLink(content.category, content._id))
+    if (content.query) {
+      props.setTemplate(content);
+      router.push(`/marketing?page=${content.query}&type=${content.title.split(" ")[0]}&contentId=${content._id}`)
+    } else {
+      router.push(`/marketing?page=post&type=Facebook&contentId=${content._id}`)
+    }
     props.setOpen();
   }
 
@@ -132,7 +120,11 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean}
             <div className="-m-1 block flex-1 p-1">
               <div className="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true" />
               <div className="relative flex min-w-0 flex-1 items-center">
+                {content.icon ?
+                  <Image src={content.icon} width={20} height={20} className="flex-none w-10 h-10" alt={"icon"} />
+                  :
                   <Image src={getContentTypeIcon(content.category)} className="flex-none w-10 h-10" alt={"icon"} />
+                }
                 <div className="ml-4 truncate">
                   <p className="truncate text-md font-medium text-gray-900">{mobile ? content.text.slice(0, 20) : content.text.slice(0, 40)}...</p>
                   <p className="truncate text-smtext-gray-500">{content.timestamp}</p>

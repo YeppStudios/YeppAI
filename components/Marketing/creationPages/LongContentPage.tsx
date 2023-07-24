@@ -33,11 +33,11 @@ interface TextArea {
 }
 
 const paragraphsCount = [1, 2, 3, 4, 5];
-const contentLengths = ["Short", "Medium", "Long", "Very long"];
 const styles = [
   "Formal 💼",
+  "Informal 😎",
   "Friendly 😊",
-  "Concise 📃",
+  "Informative 📃",
   "Persuasive 🫵🏼",
   "Motivational 📈",
 ];
@@ -54,16 +54,15 @@ const languages = [
   "Russian",
 ];
 
-const BlogCreationPage = ({ back, query }: any) => {
-  const [count, setCount] = useState(1);
+const LongFormPage = ({ back, query, template }: any) => {
   const [completionLength, setCompletionLength] = useState(700);
   const [paragraphCount, setParagraphCount] = useState(3);
   const [targetAudience, setTargetAudience] = useState("");
-  const [style, setStyle] = useState("Friendly 😊");
+  const [style, setStyle] = useState("Informal 😎");
   const [topic, setTopic] = useState("");
   const [keywords, setKeywords] = useState("");
   const [prompt, setPrompt] = useState<string>();
-  const [formLoading, setFormLoading] = useState(true);
+  const [cta, setCta] = useState("");
   const [language, setLanguage] = useState("English");
   const userPlan = useSelector(selectedPlanState);
   const [preprompt, setPrePrompt] = useState<string>();
@@ -78,61 +77,68 @@ const BlogCreationPage = ({ back, query }: any) => {
     if (window.innerWidth < 1023) {
       setMobile(true);
     }
+    if (template) {
+      if (template.title === "Newsletter") {
+        setCompletionLength(200)
+      } else if (template.title === "Marketing Email") {
+        setCompletionLength(150)
+      } else if (template.title === "Welcome Email") {
+        setCompletionLength(50)
+      }
+    }
   }, []);
 
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setKey((prevKey) => prevKey + 1);
     setLoading(true);
-    let newTitle = "";
     let replyLength = `Write it in just ${completionLength} words.`;
-
-    if (query.type.includes("conspect")) {
-      if (query.type.includes("blog")) {
-        setPrompt(
-          `Write a unique, detailed blog conspect about "${topic}". It needs to have exactly ${paragraphCount} paragraphs. Make sure to write it in ${language} language.`
-        );
-        if (count === 1) {
-          newTitle = `Generated blog conspect`;
-        } else {
-          newTitle = `Generated ${count} blog conspects`;
-        }
-      } else if (query.type.includes("article")) {
-        setPrompt(
-          `Write a unique, detailed article conspect about "${topic}". It needs to have exactly ${paragraphCount} paragraphs. Make sure to write it in ${language} language.`
-        );
-        if (count === 1) {
-          newTitle = `Generated article conspect`;
-        } else {
-          newTitle = `Generated ${count} article conspects`;
-        }
+      if (template.title === "Newsletter") {
+        setPrompt(`Act as a ${language.toLowerCase()} professional newsletter writer. Craft a creative and informative newsletter draft in ${style} tone of voice that captures the essence of ${topic}. 
+        Begin by greeting ${targetAudience} and open the newsletter with a bold statement that will get their attention.
+        Then analyze it and consider using these keywords: ${keywords}. The newsletter should be written in ${language} language that is accessible to the target audience, which is comprised of ${targetAudience}. 
+        Don't address them directly, but rather write within their interest. Your content should be engaging, informative, and provide value to the reader. 
+        Make sure to write in a voice that sounds natural and human, plus add some personality to your writing to keep it interesting.
+        To keep the readers interested, make sure to include helpful tips, strategies, examples and some interesting facts related to ${topic} if needed. 
+        Your newsletter should not only inform but also inspire and motivate them into taking action, but before the CTA summarize everything you have written nad give some reflections.
+        ${replyLength}
+        Once you have the first draft of the newsletter, read through it and ensure that everything is written in the language ${language}. Lastly, run a grammar and spell check to make sure that the final newsletter version is correct. Respond only with complete newsletter.`);
+      } else if (template.title === "Marketing Email") {
+        setPrompt(`You are a professional ${language} email marketer. Write an enticing and effective email campaign draft to increase engagement and drive sales writing about ${topic}. 
+        Next analyze it and consider using these keywords: ${keywords}. Do not begin by greeting ${targetAudience}, rather open the email with a bold statement that will get their attention.
+        Don't address ${targetAudience} directly, but rather write within their interest. ${replyLength}
+        Craft an opening that speaks directly to the reader's needs and emotions. Ensure that your tone of voice is ${style}. Use easy-to-understand language to explain why your product/service/brand is the best option available on the market and how it can help address the challenges and concerns of the reader. 
+        Let the email flow with a narrative structure and avoid making it sound too pushy or aggressive. 
+        Finally, seamlessly add a call-to-action (CTA) at the end of the email directing the reader to take the desired action. Ensure that the body of final email version is written in ${language} language and is grammarly correct with no typos. Respond only with email content.`);
+      } else if (template.title === "Press Release") {
+        setPrompt(`You are a professional ${language} journalist and PR specialist. Write an enticing and effective press release draft about ${topic}. 
+        Next analyze it and consider using these keywords: ${keywords}. Open up the press release with a bold statement or rethorical question that will get the ${targetAudience} attention.
+        Don't address ${targetAudience} directly, but rather write within their interest. ${replyLength}
+        Ensure that your tone of voice is ${style}. Use easy-to-understand language. 
+        Let the press release flow with a narrative structure and avoid making it sound too pushy, aggressive or generic. 
+        Finally, leave the readers with some rethorical question for contemplation. Ensure that the body of final press release is written in ${language} language and is grammarly correct with no typos. Make sure to respond only with press release content. Do not mention: "FOR IMMEDIATE RELEASE".`);
+      } else if (template.title === "Welcome Email") {
+        setPrompt(`You are a professional ${language} email marketer. Write an enticing and effective welcoming email draft to make the users feel special. 
+        Next analyze it and consider using these keywords: ${keywords}. Our target audience is ${targetAudience}, so make sure your email resonates with them.
+        Don't address ${targetAudience} directly, but rather write within their interest. ${replyLength}
+        Ensure that your tone of voice is ${style}. Use easy-to-understand language. 
+        Let this welcoming email email flow with a narrative structure and avoid making it sound too pushy or aggressive. 
+        Finally, seamlessly add a call-to-action (CTA) at the end of the email directing the reader to take the desired action. Ensure that the body of final email version is written in ${language} language and is grammarly correct with no typos. Respond just with email content nothing else.`);
       }
-    } else if (query.type.includes("section")) {
       if (query.type.includes("blog")) {
         setPrompt(
           `Write a unique and fascinating blog section ${topic} in ${language} language ${replyLength} in ${style} tone of voice. Make it sound natural and human, and optimize it for best SEO performance according to best practices.`
         );
-        if (count > 1) {
-          newTitle = `Generated blog section`;
-        } else {
-          newTitle = `Generated ${count} blog sections`;
-        }
       } else if (query.type.includes("article")) {
         setPrompt(
           `Act as an SEO Content Writer. Compose a unique and engaging article about "${topic}" in ${language} language ${replyLength}  in ${style} tone of voice. Your target audience is ${targetAudience}, so make sure your article is clear and concise and answers the reader's questions. Be sure to use best SEO practices and frequently use the following keywords ${keywords}. Try to incorporate these keywords naturally into your article and avoid stuffing them to satisfy search engines. Research the topic thoroughly and provide unique insights and perspectives on the topic to craft a piece that is informative and engaging to the reader.  Ensure writing style and tone matches the intended audience. Remember to focus on value and quality, not just keywords, to provide an excellent user experience. And lastly, ensure that it is plagiarism-free.`
         );
-        if (count > 1) {
-          newTitle = `Generated article`;
-        } else {
-          newTitle = `Generated ${count} articles`;
-        }
       }
-    } else if (query.type.includes("press-release")) {
-      setPrompt(`
-            Act as a PR specialist. Develop a winning press release ${replyLength} with a strong headline (ideally containing some eye catching number) for ${topic}. Begin by highlighting the key aspects of your press release such as describing the event or announcement, highlighting new features or products, or discussing a particular topic depending on the topic. Make sure to, provide context on why this is important or noteworthy, and relevant statistics or data to back up your claims. Furthermore, make sure your press release follow the standard format, including an attention-grabbing first paragraph, follow up paragraphs that elaborate and give necessary detail, and a conclusion that summarises everything. Finally, choose an engaging and effective headline that encapsulates the most important aspects of the story and provides an enticing reason for media outlets to pick it up. Make sure to write it in ${language} language.`);
-      newTitle = `Generated press release`;
-    }
-    setTitle(newTitle);
+      if (query.type.includes("press-release")) {
+        setPrompt(`
+          Act as a PR specialist. Develop a winning press release ${replyLength} with a strong headline (ideally containing some eye catching number) for ${topic}. Begin by highlighting the key aspects of your press release such as describing the event or announcement, highlighting new features or products, or discussing a particular topic depending on the topic. Make sure to, provide context on why this is important or noteworthy, and relevant statistics or data to back up your claims. Furthermore, make sure your press release follow the standard format, including an attention-grabbing first paragraph, follow up paragraphs that elaborate and give necessary detail, and a conclusion that summarises everything. Finally, choose an engaging and effective headline that encapsulates the most important aspects of the story and provides an enticing reason for media outlets to pick it up. Make sure to write it in ${language} language.`);
+      }
+    setTitle(template.title)
   };
 
   return (
@@ -152,7 +158,7 @@ const BlogCreationPage = ({ back, query }: any) => {
           <BackBtnText>Back</BackBtnText>
         </BackBtn>
       )}
-      {query.type && (
+      {template && (
         <FormContainer>
           {mobile && (
             <BackBtn onClick={back}>
@@ -189,7 +195,6 @@ const BlogCreationPage = ({ back, query }: any) => {
                   />
                 </InputContainer>
               )}
-              {!query.type.includes("conspect") && (
                 <InputContainer width="50%">
                   <div className="flex justify-between  ">
                     <Label className="text-center">Words</Label>
@@ -199,7 +204,7 @@ const BlogCreationPage = ({ back, query }: any) => {
                   </div>
                   <Input
                     height="2.6rem"
-                    padding="0.4rem"
+                    padding="0.6rem"
                     type="number"
                     onChange={(e) =>
                       setCompletionLength(e.target.valueAsNumber)
@@ -216,28 +221,24 @@ const BlogCreationPage = ({ back, query }: any) => {
                     value={completionLength}
                   />
                 </InputContainer>
-              )}
-              {!query.type.includes("conspect") &&
-                !query.type.includes("press-release") && (
-                  <InputContainer width="50%">
+                <InputContainer width="50%">
                     <Label>Tone of voice</Label>
                     <CustomDropdown
                       id="name"
                       type="text"
-                      placeholder="Friengly 😊"
+                      placeholder="Friendly 😊"
                       required
                       value={style}
                       values={styles}
                       onChange={setStyle}
                       error={undefined}
                     />
-                  </InputContainer>
-                )}
-              {query.type.includes("section") && (
+                </InputContainer>
+
                 <InputContainer width="50%">
                   <Label>Target audience</Label>
                   <TextArea
-                    height="2.6rem"
+                    height="2.8rem"
                     placeholder="Marketing experts"
                     padding="0.5rem"
                     required
@@ -247,7 +248,7 @@ const BlogCreationPage = ({ back, query }: any) => {
                     onChange={(e) => setTargetAudience(e.target.value)}
                   />
                 </InputContainer>
-              )}
+
               <InputContainer width="50%">
                 <Label>Language</Label>
                 <CustomDropdown
@@ -261,11 +262,10 @@ const BlogCreationPage = ({ back, query }: any) => {
                   error={undefined}
                 />
               </InputContainer>
-              {query.type.includes("section") && (
                 <InputContainer width="100%">
                   <Label>Keywords</Label>
                   <TextArea
-                    height="2.6rem"
+                    height="2.8rem"
                     placeholder="AI, marketing, social media"
                     padding="0.5rem"
                     required
@@ -275,19 +275,20 @@ const BlogCreationPage = ({ back, query }: any) => {
                     onChange={(e) => setKeywords(e.target.value)}
                   />
                 </InputContainer>
-              )}
+                {template.title !== "Welcome Email" &&
               <InputContainer width="100%">
                 <Label>Topic</Label>
                 <TextArea
                   id="about-field"
                   height="8rem"
                   padding="0.6rem"
-                  placeholder="Whatever you want to publish..."
+                  placeholder="What do you want to write..."
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
                   required
                 />
               </InputContainer>
+              }
               <div
                 style={{
                   width: "100%",
@@ -335,8 +336,7 @@ const BlogCreationPage = ({ back, query }: any) => {
         initialPrompt={prompt}
         query={query}
         resultsType={query.type}
-        preprompt={preprompt}
-        title={title}
+        template={template}
         count={1}
         stopLoading={() => setLoading(false)}
       />
@@ -344,4 +344,4 @@ const BlogCreationPage = ({ back, query }: any) => {
   );
 };
 
-export default BlogCreationPage;
+export default LongFormPage;
