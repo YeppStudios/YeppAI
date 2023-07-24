@@ -1,17 +1,18 @@
 import FirstPageTemplate from "@/components/Common/FirstPageTemplate";
 import PageTemplate from "@/components/Common/PageTemplate";
 import React, { useState, useEffect, Fragment } from "react";
+
 import { useRouter } from "next/router";
 import { BsFillArchiveFill, BsPencilFill, BsTrash } from "react-icons/bs";
 import styled from "styled-components";
 import classNames from "classnames";
 
 import api from "@/pages/api";
-import documentIcon from "@/public/images/document-icon.png";
-import Image from "next/image";
 
 import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
+
+import { CampaignModal } from "@/components/Camapigns/CampaignModal";
 
 const Campagin = () => {
   //place to fetch content for campaigns. For now i will use copywrite content as placeholder.
@@ -69,6 +70,8 @@ const Campagin = () => {
       console.log(e);
     }
   };
+
+  const [openCreateCamapginModal, setOpenCreateCampaignModal] = useState(false);
 
   //not sure if this component should be here, or template file
   const renderContent = () => {
@@ -158,7 +161,6 @@ const Campagin = () => {
   };
 
   //placeholder for custom action buttons
-  const [openModal, setOpenModal] = useState(false);
   const ActionButtons = (props: { openModal: any }) => {
     const router = useRouter();
     return (
@@ -166,21 +168,26 @@ const Campagin = () => {
         <ActionBtn onClick={() => router.push("/assets")}>
           <BsFillArchiveFill style={{ width: "auto", height: "35%" }} />
         </ActionBtn>
-        <WriteBtn onClick={() => props.openModal()}>
+        <WriteBtn onClick={props.openModal}>
           <BsPencilFill style={{ width: "auto", height: "35%" }} />
-          <BtnText>New content</BtnText>
+          <BtnText>New campaign</BtnText>
         </WriteBtn>
       </ActionContaienr>
     );
   };
-
+  if (openCreateCamapginModal)
+    return (
+      <CampaignModal setOpenCreateCampaignModal={setOpenCreateCampaignModal} />
+    );
   return (
     <PageTemplate>
       <FirstPageTemplate
         name="Campagin"
         description="Campaign description"
         renderContent={renderContent}
-        actionButtons={<ActionButtons openModal={openModal} />}
+        actionButtons={
+          <ActionButtons openModal={() => setOpenCreateCampaignModal(true)} />
+        }
         savedContent={savedContent}
         loading={loading}
       />

@@ -8,6 +8,7 @@ import {
   BsFillChatTextFill,
   BsFillFileTextFill,
   BsFillArchiveFill,
+  BsLightbulbFill,
 } from "react-icons/bs";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -50,14 +51,19 @@ const tabs = [
     path: "/prompts",
     id: "navbar-prompts",
   },
-  // {
-  //   title: "Campaigns",
-  //   icon: <MdCampaign style={{ height: "100%", width: "auto" }} />,
-  //   path: "/campaign",
-  //   id: "navbar-campaign",
-  // },
+  {
+    title: "Campaigns",
+    icon: <MdCampaign style={{ height: "100%", width: "auto" }} />,
+    path: "/campaign",
+    id: "navbar-campaign",
+  },
 
-  // {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>, path: "/ideacreator", id: "navbar-idea-creator"},
+  {
+    title: "Pomysły",
+    icon: <BsLightbulbFill style={{ height: "100%", width: "auto" }} />,
+    path: "/ideacreator",
+    id: "navbar-idea-creator",
+  },
 ];
 
 const animationVariants = {
@@ -140,7 +146,7 @@ const NavigationBar = () => {
                     >
                       <NavigationIcon>{tab.icon}</NavigationIcon>
                       <NavigationText>{tab.title}</NavigationText>
-                      {(tab.title === "Prompts" && country !== "Poland") && (
+                      {tab.title === "Prompts" && country !== "Poland" && (
                         <ComingSoon>
                           <ColorfulText>
                             <b>Coming soon</b>
@@ -160,13 +166,15 @@ const NavigationBar = () => {
                   >
                     <NavigationIcon>{tab.icon}</NavigationIcon>
                     {isHovered && <NavigationText>{tab.title}</NavigationText>}
-                    {(tab.title === "Prompts" && country !== "Poland") && isHovered && (
-                      <ComingSoon>
-                        <ColorfulText>
-                          <b>Coming soon</b>
-                        </ColorfulText>
-                      </ComingSoon>
-                    )}
+                    {tab.title === "Prompts" &&
+                      country !== "Poland" &&
+                      isHovered && (
+                        <ComingSoon>
+                          <ColorfulText>
+                            <b>Coming soon</b>
+                          </ColorfulText>
+                        </ComingSoon>
+                      )}
                   </NavigationTab>
                 </>
               )
@@ -400,7 +408,11 @@ const Navigation = styled.div`
   }
 `;
 
-const NavigationTab = styled.div<{ title: string; hover: boolean, country: string }>`
+const NavigationTab = styled.div<{
+  title: string;
+  hover: boolean;
+  country: string;
+}>`
   padding: 0rem 1.2rem 0rem 1.2rem;
   margin-top: 1rem;
   position: relative;
@@ -412,7 +424,10 @@ const NavigationTab = styled.div<{ title: string; hover: boolean, country: strin
   white-space: nowrap;
   cursor: pointer;
   display: flex;
-  color: ${(props) => ((props.title === "Prompts" && props.country !== "Poland") ? "#DCDCDC" : "black")};
+  color: ${(props) =>
+    props.title === "Prompts" && props.country !== "Poland"
+      ? "#DCDCDC"
+      : "black"};
   border-radius: 10px;
   width: 100%;
   transition: all 0.15s ease;
@@ -428,11 +443,13 @@ const NavigationTab = styled.div<{ title: string; hover: boolean, country: strin
     padding: 0.75rem 1.5rem 0.75rem 1.5rem;
     border-radius: 12px;
     color: ${(props) =>
-      props.title === "Copywriting" || (props.title === "Prompts" && props.country !== "Poland")
+      props.title === "Copywriting" ||
+      (props.title === "Prompts" && props.country !== "Poland")
         ? "#DCDCDC"
         : "black"};
     box-shadow: ${(props) =>
-      props.title === "Copywriting" || (props.title === "Prompts" && props.country !== "Poland")
+      props.title === "Copywriting" ||
+      (props.title === "Prompts" && props.country !== "Poland")
         ? "none"
         : "3px 3px 5px rgba(22, 27, 29, 0.23), -3px -3px 5px #FAFBFF"};
     justify-content: flex-start;
