@@ -12,7 +12,7 @@ import api from "@/pages/api";
 import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
 
-import { CampaignModal } from "@/components/Camapigns/CampaignModal";
+import { CampaignModal } from "@/components/Camapigns/Modal/CampaignModal";
 
 const Campagin = () => {
   //place to fetch content for campaigns. For now i will use copywrite content as placeholder.

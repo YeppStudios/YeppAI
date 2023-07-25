@@ -15,7 +15,11 @@ import Dropdown from "@/components/forms/Dropdown";
 import { useRouter } from "next/router";
 import api from "@/pages/api";
 import Image from "next/image";
-import Input from "../forms/Input";
+import Input from "../../forms/Input";
+import { Switch } from "@headlessui/react";
+import Label from "@/components/Common/Label";
+import TextArea from "@/components/forms/TextArea";
+import { CampaignDropdown } from "./CampaignDropdwon";
 
 interface CampaginModalProps {
   setOpenCreateCampaignModal: Dispatch<SetStateAction<boolean>>;
@@ -50,6 +54,12 @@ export const CampaignModal: FC<CampaginModalProps> = ({
   const [targetAudience, setTargetAudience] = useState<string>("");
   const [objectives, setObjectives] = useState<string>("");
   const [keywords, setKeywords] = useState<string>("");
+  const [tone, setTone] = useState<string>("");
+  const [language, setLanguage] = useState<string>("");
+  const [campaignType, setCampaignType] = useState<string>("");
+  const [productType, setProductType] = useState<string>("");
+  const [campaginTitle, setCampaignTitle] = useState<string>("");
+  const [useEmojis, setUseEmojis] = useState<boolean>(true);
 
   const filteredDropdownCategories = templates.filter(
     (category, index, self) => {
@@ -63,6 +73,10 @@ export const CampaignModal: FC<CampaginModalProps> = ({
       (template) => template.category === category
     );
     return templatesInCategory.map((template) => template.title);
+  };
+
+  const handleToggleEmojis = () => {
+    setUseEmojis((prev) => !prev);
   };
 
   const submitThirdPageForm = (event: FormEvent<HTMLFormElement>) => {
@@ -81,8 +95,40 @@ export const CampaignModal: FC<CampaginModalProps> = ({
       "keywords"
     ) as HTMLInputElement;
     setKeywords(keywordsInput?.value || "");
+  };
 
-    console.log(targetAudience, objectives, keywords);
+  const submitSecondPageForm = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const campaignTitleInput = event.currentTarget.elements.namedItem(
+      "campaignTitle"
+    ) as HTMLInputElement;
+    setCampaignTitle(campaignTitleInput?.value || "");
+
+    const campaignTypeInput = event.currentTarget.elements.namedItem(
+      "campaignType"
+    ) as HTMLInputElement;
+    setCampaignType(campaignTypeInput?.value || "");
+
+    const languageInput = event.currentTarget.elements.namedItem(
+      "language"
+    ) as HTMLInputElement;
+    setLanguage(languageInput?.value || "");
+
+    const toneInput = event.currentTarget.elements.namedItem(
+      "tone"
+    ) as HTMLInputElement;
+    setTone(toneInput?.value || "");
+
+    const productTypeInput = event.currentTarget.elements.namedItem(
+      "productType"
+    ) as HTMLInputElement;
+    setProductType(productTypeInput?.value || "");
+
+    const useEmojisInput = event.currentTarget.elements.namedItem(
+      "useEmojis"
+    ) as HTMLInputElement;
+    setUseEmojis(useEmojisInput?.checked || false);
+    setStep((prev) => prev + 1);
   };
 
   useEffect(() => {
@@ -140,6 +186,34 @@ export const CampaignModal: FC<CampaginModalProps> = ({
     },
   ];
 
+  const tones = [
+    "Formal",
+    "Friendly",
+    "Informative",
+    "Persuasive",
+    "Motivational",
+  ];
+
+  const languages = [
+    "English",
+    "Spanish",
+    "French",
+    "Italian",
+    "German",
+    "Ukrainian",
+    "Polish",
+    "Chinese",
+    "Bulgarian",
+    "Russian",
+  ];
+
+  const campaignTypes = [
+    "Educational",
+    "Informative",
+    "Advertisement",
+    "Lifestyle",
+  ];
+
   return (
     <ModalBackground>
       <ModalContainer step={step} className="relative">
@@ -155,7 +229,7 @@ export const CampaignModal: FC<CampaginModalProps> = ({
             <AiOutlineClose className="h-6 w-6" />
           </button>
         </div>
-        <div className="flex gap-8 items-center justify-center mb-4">
+        <div className="flex gap-8 items-center justify-center flex-wrap mb-4">
           {sections.map((section) => {
             return (
               <div
@@ -174,17 +248,115 @@ export const CampaignModal: FC<CampaginModalProps> = ({
             {filteredDropdownCategories.map((template) => {
               const dropdownValues = filterDropdownValues(template.category);
               return (
-                <div className="p-2">
-                  <Dropdown value={template.category} values={dropdownValues} />
+                // <div className="p-2">
+                //   <Dropdown value={template.category} values={dropdownValues} />
+                // </div>
+                <div
+                  style={{
+                    fontWeight: "500",
+                    height: "auto",
+                    boxShadow:
+                      "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
+                  }}
+                  className={
+                    "  appearance-none border-2 flex text-black items-center pl-3  m-2 h-full pr-4 relative py-2 rounded-2xl placeholder-[#DCDCDC] focus:outline-none text-md"
+                  }
+                >
+                  <CampaignDropdown />
                 </div>
               );
             })}
           </div>
         )}
-        {step === 2 && <div>Second Page</div>}
+        {step === 2 && (
+          <form onSubmit={submitSecondPageForm}>
+            <div className="grid grid-cols-2 ">
+              <div className="p-4">
+                <Label>Title</Label>
+                <Input
+                  name="campaignTitle"
+                  height="2.75rem"
+                  padding="1rem"
+                  type="text"
+                  value={campaginTitle}
+                  onChange={(e) => setCampaignTitle(e.target.value)}
+                />
+              </div>
+              <div className="p-4">
+                <Label>Campaign type</Label>
+                <Dropdown
+                  name="campaignType"
+                  value={campaignType}
+                  values={campaignTypes}
+                  onChange={setCampaignType}
+                  placeholder="Educational"
+                />
+              </div>
+              <div className="p-4">
+                <Label>Language</Label>
+                <Dropdown
+                  name="language"
+                  value={language}
+                  values={languages}
+                  onChange={setLanguage}
+                  placeholder="English"
+                />
+              </div>
+              <div className="p-4">
+                <Label>Tone of voice</Label>
+                <Dropdown
+                  name="tone"
+                  value={tone}
+                  values={tones}
+                  onChange={setTone}
+                  placeholder="Friendly"
+                />
+              </div>
+              <div className="p-4">
+                <Label>What is it promoting?</Label>
+                <Input
+                  name="productType"
+                  height="2.75rem"
+                  padding="1rem"
+                  type="text"
+                  value={productType}
+                  onChange={(e) => setProductType(e.target.value)}
+                />
+              </div>
+              <div className="p-4">
+                <Label className="pb-2">Use relevant emojis</Label>
+                <Switch
+                  name="useEmojis"
+                  checked={useEmojis}
+                  onChange={handleToggleEmojis}
+                  style={{
+                    boxShadow: "inset 4px 4px 20px rgba(255, 255, 255, 0.35)",
+                  }}
+                  className={`${
+                    useEmojis ? "bg-green-400" : "border-2 border-gray-200"
+                  } relative inline-flex items-center h-7 rounded-full w-16 transition-colors focus:outline-none`}
+                >
+                  <span className="sr-only">Toggle Tone</span>
+                  <span
+                    className={`${
+                      useEmojis
+                        ? "translate-x-10"
+                        : "-translate-x-1 border-2 border-gray-200"
+                    } inline-block w-7 h-7 transform bg-white border rounded-full transition-transform`}
+                  />
+                </Switch>
+              </div>
+            </div>
+            <div className="w-full flex items-center justify-center absolute bottom-10 left-0 bg-red-300">
+              <button type="submit" className="p-4 w-[40%] bg-blue-300">
+                Submit
+              </button>
+            </div>
+          </form>
+        )}
         {step === 3 && (
           <form onSubmit={submitThirdPageForm}>
-            <div className="p-4">
+            <div className="p-2">
               <label>Target autdience</label>
               <Input
                 height="4rem"
@@ -195,18 +367,16 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                 onChange={(e) => setTargetAudience(e.target.value)}
               />
             </div>
-            <div className="p-4">
+            <div className="p-2">
               <label>Campaign's objective</label>
-              <Input
-                height="4rem"
-                padding="1rem"
-                name="objectives"
-                type="text"
-                value={objectives}
+              <TextArea
+                height="5.8rem"
+                padding="0.75rem"
+                placeholder="Set campaign's objectives"
                 onChange={(e) => setObjectives(e.target.value)}
               />
             </div>
-            <div className="p-4">
+            <div className="p-2">
               <label>Keywords</label>
               <Input
                 height="4rem"
@@ -217,7 +387,7 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                 onChange={(e) => setKeywords(e.target.value)}
               />
             </div>
-            <div className="w-full flex items-center justify-center absolute bottom-20 left-0 bg-red-300">
+            <div className="w-full flex items-center justify-center absolute bottom-10 left-0 bg-red-300">
               <button type="submit" className="p-4 w-[40%] bg-blue-300">
                 Submit
               </button>
@@ -225,9 +395,9 @@ export const CampaignModal: FC<CampaginModalProps> = ({
           </form>
         )}
         {step !== 3 && (
-          <div className=" bg-red-300 flex items-center justify-center absolute bottom-20 left-0 w-full">
+          <div className=" bg-red-300 flex items-center justify-center absolute bottom-10 left-0 w-full">
             <button
-              className="p-4 w-[40%] bg-blue-300"
+              className="p-4 w-[40%] bg-blue-300 "
               onClick={() => setStep((prev) => prev + 1)}
             >
               Continue
