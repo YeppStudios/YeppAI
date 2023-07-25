@@ -83,7 +83,7 @@ const Homepage = () => {
                 }
                 {!mobile && <FreeConsultationBtn href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn>}
               </Centered>
-              <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 5 days for free</div>}</Centered>
+              <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
               <Centered>
               <LoginButton onClick={() => router.push("/chat")}>Log in</LoginButton>
               </Centered>
@@ -154,7 +154,7 @@ const Homepage = () => {
             /> */}
              {!mobile && <Space margin='5rem'/>}
              {!mobile &&<Centered><TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
-            <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 5 days for free</div>}</Centered>
+            <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
           <div id="offer"></div>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>

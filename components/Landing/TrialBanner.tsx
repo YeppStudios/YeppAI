@@ -27,7 +27,7 @@ const Banner = () => {
                     <Image style={{ width: "auto", height: "100%" }}  src={giftIcon} alt={'nofification-icon'}></Image> 
                 </TrialIcon>
                 <div>
-                    <TrialInfoTitle>Claim free 10 000 words of 5 days for free!</TrialInfoTitle>
+                    <TrialInfoTitle>Claim free 10 000 words of 7 days for free!</TrialInfoTitle>
 
                 </div>
                 <StartTrialContainer>
