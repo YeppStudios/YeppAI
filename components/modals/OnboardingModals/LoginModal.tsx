@@ -340,7 +340,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 }
                             </Button>
                             :
-                            <div>
+                            <div className="w-full">
                             {planName ?
                             <Button id="send-email-btn" type="submit">
                                 {loading ?
