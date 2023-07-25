@@ -88,7 +88,7 @@ const Footer = () => {
             &copy; 2023 Yepp, Inc. All rights reserved.
           </p>
           <Centered>
-          <a href={"/Terms_YeppAI-US.pdf"} download className="mt-10 text-center text-xs leading-5 text-gray-500">
+          <a href={"/Regulamin_AsystentAI.pdf"} download className="mt-10 text-center text-xs leading-5 text-gray-500">
               Terms of use & Privacy Policy
           </a>
           </Centered>
