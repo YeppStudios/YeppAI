@@ -156,7 +156,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                         });
                         const { url } = await res.data;
                         window.location.href = url;
-                    } else 
+                    } else {
                     if (planId) {
                         if (localStorage.getItem("country") === "Poland" && Number(billingPeriod) > 1) {
                             let res = await api.post(`/create-checkout-session`, 
@@ -187,6 +187,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             const { url } = await res.data;
                             window.location.href = url;
                         }
+                    }
                     }
                     setLoading(false);
                     Cookies.set("token", "Bearer " + response.data.token, { expires: 7 });
