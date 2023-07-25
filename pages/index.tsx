@@ -81,6 +81,7 @@ const Homepage = () => {
                   :
                   <TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                 }
+                {!mobile && <FreeConsultationBtn href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn>}
               </Centered>
               <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 5 days for free</div>}</Centered>
               <Centered>
@@ -100,6 +101,7 @@ const Homepage = () => {
                   </IphoneContainerMobile>
                 </Centered>
           </SlideBottom>
+          {mobile && <Centered><FreeConsultationBtn href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>}
           <Section>
             <Centered>
             <SlideBottom>
@@ -333,5 +335,40 @@ const MiniTitle = styled.p`
     font-weight: 700;
     @media (max-width: 1023px) {
         font-size: 0.8rem;
+    }
+`
+
+const FreeConsultationBtn = styled.a`
+    font-size: 1.2rem;
+    padding: 2vh 0 2vh 0;
+    width: 80vw;
+    border: solid 3px transparent;
+    display: flex;
+    border-radius: 25px;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background: #F0F3F8;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.13), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    align-items: center;
+    background-size: 120%;
+    background-position-x: -1rem;
+    margin-top: 16vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: block;
+    transition: all 0.3s ease;
+    font-family: 'Satoshi' , sans-serif;
+    font-weight: 700;
+    &:hover {
+      box-shadow: none;
+      transform: scale(0.95);
+    }
+    @media (min-width: 1023px) {
+      width: 28rem;
+      margin-top: 8vh;
+      padding: 1.5vh 0vw 1.5vh 0vw;
+      margin-left: 1rem;
     }
 `
