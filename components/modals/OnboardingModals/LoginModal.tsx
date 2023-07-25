@@ -342,6 +342,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             :
                             <div className="w-full">
                             {planName ?
+                            <Centered>
                             <Button id="send-email-btn" type="submit">
                                 {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
@@ -351,6 +352,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 <p>Continue</p>
                                 }
                             </Button>
+                            </Centered>
                             :
                             <Button id="send-email-btn" type="submit">
                                 {loading ?

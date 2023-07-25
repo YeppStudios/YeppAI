@@ -25,7 +25,7 @@ const navigation = {
       },
       {
         name: 'Instagram',
-        href: 'https://www.instagram.com/asystentai/',
+        href: 'https://www.instagram.com/sayyepp.ai/',
         icon: (props: any) => (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
             <path
@@ -87,6 +87,11 @@ const Footer = () => {
           <p className="mt-10 text-center text-xs leading-5 text-gray-600">
             &copy; 2023 Yepp, Inc. All rights reserved.
           </p>
+          <Centered>
+          <a href={"/Terms_YeppAI-US.pdf"} download className="mt-10 text-center text-xs leading-5 text-gray-500">
+              Terms of use & Privacy Policy
+          </a>
+          </Centered>
         </div>
       </footer>
     )
