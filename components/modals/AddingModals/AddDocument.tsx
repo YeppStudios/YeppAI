@@ -395,7 +395,7 @@ const AddDocument = (props: {
                                  : 
                                     <UploadFile>
                                         <Centered><BsFolder style={{width: "2rem", height: "2rem"}}/></Centered>
-                                        <Centered><FileText>Click of drag up to 5</FileText></Centered>
+                                        <Centered><FileText>Click of drag up to 5 files</FileText></Centered>
                                     </UploadFile>                                          
                                   }
                                 </FileUploader>
