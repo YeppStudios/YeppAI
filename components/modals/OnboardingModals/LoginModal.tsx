@@ -202,7 +202,6 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     localStorage.setItem('account_type', response.data.newUser.accountType);
                     localStorage.setItem('onboarding_step', "1");
                     props.onClose();
-                    router.push("/assets");
                 }
             } else {
                 response = await api.post('/login', { email, password });
