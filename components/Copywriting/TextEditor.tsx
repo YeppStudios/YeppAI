@@ -135,7 +135,6 @@ useEffect(() => {
 
 
   const generateIntro = async () => {
-    console.log(embeddedVectorIds)
     if (editor) {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
@@ -603,6 +602,7 @@ useEffect(() => {
           </BackBtnIcon> 
         </BackBtn>  
       </div> 
+      {/* {editor && <Toolbar editor={editor} />} */}
       {editor &&  
         <div className="flex items-center h-full -mr-12">
           <div className="ml-4">
@@ -721,4 +721,21 @@ const EditorContainer = styled.div`
 
 const EditorText = styled.div`
   width: 44rem;
+`
+
+const ToolbarBtn = styled.div`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 12px;
+  margin: 0 1rem 0 1rem;
+  color: black;
+  box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.23);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 `
