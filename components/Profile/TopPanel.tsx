@@ -93,11 +93,7 @@ const TopPanel = (props: {stats: any}) => {
             {openDeleteModal && <DeleteAccount onClose={() => setOpenDeleteModal(false)}/>}  
             {openUpgradeModal && <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} closeable={true}/>}
             <HeaderButtons>
-                {user.plan !== "647c3294ff40f15b5f6796bf" ?
-                 <SubscriptionButton onClick={() => openStripePanel()}>Manage subscription</SubscriptionButton>
-                 :
-                 <SubscriptionButton onClick={() => setOpenUpgradeModal(true)}>Manage subscription</SubscriptionButton>
-                }
+                <SubscriptionButton onClick={() => openStripePanel()}>Manage subscription</SubscriptionButton>
                 <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="inline-flex w-10 justify-center text-sm font-semibold text-gray-900 focus:outline-none">
