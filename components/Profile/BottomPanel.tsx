@@ -161,13 +161,21 @@ const BottomPanel = () => {
                     Authorization: `${token}`
                 }
             });
-
-            const templateParams = {
-                invitationLink: `${data.invitationLink}`,
-                email: `${email}`
+            const msg = {
+                to: `${email}`,
+                nickname: "Yepp AI",
+                from: {
+                  email: "hello@yepp.ai",
+                  name: "Yepp AI"
+                },
+                templateId: 'd-9c27954e97a245f4ba67a718fe9ff765',
+                dynamicTemplateData: {
+                name: `${user.name}`,
+                email: `${user.email}`,
+                link: `${data.invitationLink}`
+                },
             };
-            send("service_5j2yxyh","template_04xowv7", templateParams, process.env.NEXT_PUBLIC_EMAILJS_USER_KEY);
-
+            const response = await api.post('/send-email', { msg });
             showNotification({
                 id: 'invited',
                 disallowClose: true,
