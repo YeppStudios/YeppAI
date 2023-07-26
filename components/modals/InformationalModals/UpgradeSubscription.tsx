@@ -172,8 +172,9 @@ const ModalContainer = styled.div`
     border: 2px solid rgba(255, 255, 255, 0.15);
     overflow: hidden;
     @media (max-width: 1023px) {
-        width: 95svw;
-        height: 90svh;
+        width: 100svw;
+        height: 100svh;
+        overflow-y: scroll;
         padding: 1rem 0.5rem 0.5rem 0.5rem;
         display: flex;
         justify-content: center;
