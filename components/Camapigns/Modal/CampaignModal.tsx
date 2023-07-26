@@ -64,7 +64,12 @@ export const CampaignModal: FC<CampaginModalProps> = ({
   const filteredDropdownCategories = templates
     .filter((category, index, self) => {
       // Return true only for the first occurrence of each category
-      return index === self.findIndex((c) => c.category === category.category);
+      return (
+        index ===
+        self.findIndex(
+          (c) => c.category === category.category && c.category !== "Frameworks"
+        )
+      );
     })
     .map((category) => ({
       name: category.category,
@@ -222,10 +227,33 @@ export const CampaignModal: FC<CampaginModalProps> = ({
     "Lifestyle",
   ];
 
+  const renderStepText = () => {
+    switch (step) {
+      case 1:
+        return (
+          <span className="text-4xl font-bold text-center">
+            Select campaign placements
+          </span>
+        );
+      case 2:
+        return (
+          <span className="text-4xl font-bold text-center">
+            Define new campaign
+          </span>
+        );
+      case 3:
+        return (
+          <span className="text-4xl font-bold text-center">
+            Provide AI with knowledge
+          </span>
+        );
+    }
+  };
+
   return (
     <ModalBackground>
-      <ModalContainer step={step} className="relative">
-        <div className="flex w-full justify-between mb-4">
+      <ModalContainer step={step} className="relative ">
+        <div className="flex w-full justify-between ">
           <div className="flex items-center justify-center ">
             {step > 1 && (
               <BackArrow selectedTab={step} onClick={() => setStep(step - 1)}>
@@ -237,23 +265,30 @@ export const CampaignModal: FC<CampaginModalProps> = ({
             <AiOutlineClose className="h-6 w-6" />
           </button>
         </div>
+        <div className="flex w-full items-center justify-center py-4 mb-2">
+          {renderStepText()}
+        </div>
         <div className="flex gap-8 items-center justify-center flex-wrap mb-4">
           {sections.map((section) => {
-            return (
-              <div
-                className={`hover: cursor-pointer flex gap-4 items-center justify-center p-2 rounded-xl${
-                  step === section.stepNumber ? " border-2 border-blue-700" : ""
-                }`}
-                onClick={() => setStep(section.stepNumber)}
-              >
-                {section.icon} <span>{section.stepName}</span>
-              </div>
-            );
+            if (step === section.stepNumber) {
+              return (
+                <SelectedMainTab onClick={() => setStep(section.stepNumber)}>
+                  <TabIcon>{section.icon} </TabIcon>
+                  <span>{section.stepName}</span>
+                </SelectedMainTab>
+              );
+            } else
+              return (
+                <MainTab onClick={() => setStep(section.stepNumber)}>
+                  <TabIcon>{section.icon} </TabIcon>
+                  <span>{section.stepName}</span>
+                </MainTab>
+              );
           })}
         </div>
         {step === 1 && (
-          <div>
-            <div className="grid grid-cols-2 relative">
+          <div className="flex justify-around flex-col py-8">
+            <div className="grid grid-cols-2 relative ">
               {filteredDropdownCategories.map((template) => {
                 const dropdownValues = filterDropdownValues(template.name);
                 return (
@@ -276,19 +311,16 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                 );
               })}
             </div>
-            <div className="w-full flex items-center justify-center absolute bottom-10 left-0 ">
-              <button
-                className="p-4 w-[40%] bg-blue-400 rounded-2xl text-white text-lg"
-                onClick={() => setStep((prev) => prev + 1)}
-              >
+            <ButtonContainer>
+              <ContinueBtn onClick={() => setStep((prev) => prev + 1)}>
                 Continue
-              </button>
-            </div>
+              </ContinueBtn>
+            </ButtonContainer>
           </div>
         )}
         {step === 2 && (
           <form onSubmit={submitSecondPageForm}>
-            <div className="grid grid-cols-2 ">
+            <div className="grid grid-cols-2 py-4">
               <div className="p-4">
                 <Label>Title</Label>
                 <Input
@@ -365,14 +397,9 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                 </Switch>
               </div>
             </div>
-            <div className="w-full flex items-center justify-center absolute bottom-10 left-0 ">
-              <button
-                type="submit"
-                className="p-4 w-[40%] bg-blue-400 rounded-2xl text-white text-lg"
-              >
-                Continue
-              </button>
-            </div>
+            <ButtonContainer>
+              <ContinueBtn type="submit">Continue</ContinueBtn>
+            </ButtonContainer>
           </form>
         )}
         {step === 3 && (
@@ -408,14 +435,9 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                 onChange={(e) => setKeywords(e.target.value)}
               />
             </div>
-            <div className="w-full flex items-center justify-center absolute bottom-10 left-0">
-              <button
-                type="submit"
-                className="p-4 w-[40%] bg-blue-400 rounded-2xl text-white text-lg"
-              >
-                Submit
-              </button>
-            </div>
+            <ButtonContainer>
+              <ContinueBtn type="submit">Submit</ContinueBtn>
+            </ButtonContainer>
           </form>
         )}
       </ModalContainer>
@@ -430,14 +452,13 @@ const BackArrow = styled.button<{ selectedTab: any }>`
   left: 1.5rem;
   z-index: 10;
   color: black;
-  fill: red;
 `;
 
 const ModalContainer = styled.div<{ step: number }>`
   width: ${((props: { step: number }) => props.step === 3 || props.step === 2)
     ? "44rem"
     : "50rem"};
-  padding: 3rem 4.5rem 4rem 4.5rem;
+  padding: 1.5rem;
   background: white;
   box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
   border-radius: 25px;
@@ -461,7 +482,7 @@ const ModalBackground = styled.div`
   z-index: 100;
   top: 0;
   left: 0;
-  padding: 3rem 0 10rem 0;
+  padding: 4rem 0 4rem 0;
   display: flex;
   justify-content: center;
   cursor: pointer;
@@ -475,5 +496,86 @@ const ModalBackground = styled.div`
   @media (max-width: 768px) {
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    padding: 1vw 0 1vw 0;
+  }
+`;
+const SelectedMainTab = styled.div`
+  padding: 0.75rem 3rem 0.75rem 3rem;
+  font-weight: 500;
+  margin: 0 0.5rem 0 0.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  background: #eef1f8;
+  border: solid 3px transparent;
+  overflow: hidden;
+  border-radius: 12px;
+  background-image: linear-gradient(white, white, white),
+    radial-gradient(circle at top left, #6578f8, #64b5ff);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  @media (max-width: 1023px) {
+    font-size: 0.75rem;
+    padding: 0.55rem 2rem 0.55rem 2rem;
+    margin: 0;
+    margin-bottom: 0.4rem;
+  }
+`;
+const TabIcon = styled.div`
+  width: 1.4rem;
+  margin-right: 0.75rem;
+`;
+
+const MainTab = styled.div`
+  padding: 0.75rem 2rem 0.75rem 2rem;
+  font-weight: 500;
+  margin: 0 0.5rem 0 0.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: #f3f7fa;
+  @media (max-width: 1023px) {
+    font-size: 0.75rem;
+    margin: 0;
+    background-color: transparent;
+    margin-bottom: 0.4rem;
+    padding: 0.55rem 2rem 0.55rem 2rem;
+  }
+`;
+
+const ContinueBtn = styled.button`
+  border: solid 3px transparent;
+  border-radius: 15px;
+  position: relative;
+  color: white;
+  font-weight: 500;
+  width: 100%;
+  height: 3rem;
+  background: linear-gradient(40deg, #6578f8, #64b5ff);
+  background-size: 110%;
+  background-position-x: -1rem;
+  transition: all 0.4s ease;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    transform: scale(0.95);
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
+      inset -1px -1px 4px #fafbff;
+  }
+`;
+const ButtonContainer = styled.div`
+  width: 100%;
+  padding: 0 7rem 0 7rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10rem;
+  @media (max-width: 1023px) {
+    padding: 0 1rem 0 1rem;
+    margin-top: 4rem;
   }
 `;

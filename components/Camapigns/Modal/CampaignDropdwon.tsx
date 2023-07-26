@@ -37,7 +37,7 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values }) => {
         onClick={() => setIsCategoryOpen((prev) => !prev)}
         className="flex justify-between rounded-full  items-center "
       >
-        <div className="flex w-full justify-between items-center px-2">
+        <div className="flex w-full gap-4 items-center px-2">
           <div>
             <Image src={category.icon} alt="icon" width={22} height={22} />
           </div>
@@ -58,7 +58,7 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values }) => {
               <div
                 key={id}
                 onClick={() => toggleCategory(item.name)}
-                className="flex justify-between items-center p-2"
+                className="flex gap-2 items-center p-2"
               >
                 <div>
                   <Image src={item.icon} alt="icon" height={20} width={20} />
