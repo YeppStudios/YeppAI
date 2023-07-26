@@ -134,6 +134,7 @@ const IdeaCreator = ({back, query, template}: any) => {
                         {template.title === "TikTok hooks" && "TikTok hook ideas for:"}
                         {template.title === "Subject Lines" && "best subject lines for:"}
                         {template.title === "Creative Ideas" && "best, creative ideas for:"}
+                        {(template.title === "Google Ads Keywords") && "best Google Keywords for:"}
                         {template.page === "ideas" && "unique ideas for:"}
                       </Prompt>
                       </InputContainer>
