@@ -63,10 +63,10 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                     {/* <Link href="/docs/getting-started"><NavLink>Dokumentacja</NavLink></Link> */}
                     <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Log in</LoginButton>
                     {(mobile && !loading && isFixed) &&
-                        <TestButton className='start-free-trial-landing' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
+                        <TestButton className='trial-btn' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                     }
                     {!mobile &&
-                        <TestButton className='start-free-trial-landing' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
+                        <TestButton className='trial-btn' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                     }
                 </Container>
             </Nav>
@@ -127,15 +127,6 @@ const Nav = styled.div<NavContainerProps>`
     }
 `
 
-const FakeNavbar = styled.div`
-    position: relative; 
-    width: 100%; 
-    height: 7rem;
-    @media (max-width: 1023px) {
-        height: 6rem;
-    }
-`
-
 const TestButton = styled.button`
     padding: 0.75rem 2.7rem 0.75rem 2.7rem;
     border: solid 3px transparent;
@@ -174,11 +165,18 @@ const TestText = styled.p`
 const LoginButton = styled.button`
     font-size: 0.9rem;
     margin-right: 2vw;
-    padding: 0.75rem 2rem 0.75rem 2rem;
+    padding: 0.75rem 2.4rem 0.75rem 2.4rem;
+    border: solid 3px transparent;
+    display: flex;
+    border-radius: 25px;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
     background: #F0F3F8;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.13), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    align-items: center;
+    background-size: 120%;
+    background-position-x: -0.5rem;
     transition: all 0.3s ease;
-    border-radius: 15px;
-    border: none;
     color: black;
     font-weight: 700;
     &:hover {

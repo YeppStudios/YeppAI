@@ -77,11 +77,11 @@ const Homepage = () => {
               </Centered>
               <Centered>
                 {mobile ?
-                  <TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
+                  <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                   :
-                  <TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
+                  <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                 }
-                {!mobile && <FreeConsultationBtn href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn>}
+                {!mobile && <FreeConsultationBtn id="demo-btn" href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn>}
               </Centered>
               <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
               <Centered>
@@ -101,7 +101,7 @@ const Homepage = () => {
                   </IphoneContainerMobile>
                 </Centered>
           </SlideBottom>
-          {mobile && <Centered><FreeConsultationBtn href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>}
+          {mobile && <Centered><FreeConsultationBtn id="demo-btn" href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>}
           <Section>
             <Centered>
             <SlideBottom>
@@ -153,14 +153,14 @@ const Homepage = () => {
                 marginTop='3vh'
             /> */}
              {!mobile && <Space margin='5rem'/>}
-             {!mobile &&<Centered><TestButton id="landing-big-test-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
+             {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
             <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
           <div id="offer"></div>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
           <Centered><SlideBottom><HeroText>Boost your productivity now.</HeroText></SlideBottom></Centered>
           {!mobile && <Space margin='5rem'/>}
-          <Plans openRegistration={true}/>
+          <Plans openRegistration={true} purchase={false}/>
           </Section>
           <Section>
             <div id="newsletter"></div>

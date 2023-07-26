@@ -198,6 +198,7 @@ const NavigationBar = () => {
         <UpgradeSubscription
           onClose={() => setOpenSubscriptionModal(false)}
           closeable={true}
+          purchase={true}
         />
       )}
       {mobile && (

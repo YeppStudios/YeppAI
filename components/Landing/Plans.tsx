@@ -6,12 +6,12 @@ import tickIcon from "../../public/images/tickGreen.png";
 import plusIcon from "../../public/images/plus.png";
 import Centered from "../Centered";
 import { useRouter } from "next/router";
-import { FiPhoneCall, FiShoppingBag } from "react-icons/fi";
+import { FiPhoneCall } from "react-icons/fi";
+import { BiGift } from "react-icons/bi";
 import api from "@/pages/api";
 import LoginModal from "../Modals/OnboardingModals/LoginModal";
 import { Loader } from "../Common/Loaders";
 import PhoneNumberPopup from "../Modals/InformationalModals/PhoneNumberPopup";
-import { BsPhone, BsPhoneFill } from "react-icons/bs";
 
 const tabs = [
     { name: 'monthly', period: 1, discount: 0},
@@ -43,7 +43,7 @@ const plans = [
         monthlyPriceId: {default: "price_1NSZghFe80Kn2YGGOiClJUPM", polish: "price_1NUPofFe80Kn2YGG6dYxHNk9"}, 
         threeMonthPriceId: {default: "price_1NSai5Fe80Kn2YGGHrwmUEqe", polish: "price_1NUPozFe80Kn2YGGComghBF5"}, 
         sixMonthPriceId: {default: "price_1NSaiNFe80Kn2YGGG88egvhI", polish: "price_1NUPpBFe80Kn2YGGW0muvINv"}, 
-        yearlyPriceId: {default: "price_1NSaieFe80Kn2YGGilwS3SNl", polish: "price_1NUPpNFe80Kn2YGG3PaQgZW7"}
+        yearlyPriceId: {default: "price_1NSaieFe80Kn2YGGilwS3SNl", polish: "price_1NY1QdFe80Kn2YGGaQBjxlGP"}
     },
     {
         title: "Custom", 
@@ -75,7 +75,7 @@ interface PlanContainer {
     width: string
 }
 
-const Plans = (props: {openRegistration: boolean}) => {
+const Plans = (props: {openRegistration: boolean, purchase: boolean}) => {
 
     const [mobile, setMobile] = useState(false);
     const [discount, setDiscount] = useState(0.1);
@@ -84,6 +84,7 @@ const Plans = (props: {openRegistration: boolean}) => {
     const [loadingBtn, setLoadingBtn] = useState("");
     const [openContact, setOpenContact] = useState(false);
     const [country, setCountry] = useState<string | null>("United States");
+    const [userEmail, setUserEmail] = useState<string | null>("");
 
     const router = useRouter();
 
@@ -118,19 +119,36 @@ const Plans = (props: {openRegistration: boolean}) => {
               authorization: token
             }
         });
-        let res = await api.post(`/create-checkout-session`, 
-        {
-            priceId,
-            mode: "subscription",
-            successURL: successUrl,
-            cancelURL: `${window.location.origin}${router.asPath}`,
-            planId: planId,
-            email: data.email,
-            months: billingPeriod,
-            global: true
-        });
-        const { url } = await res.data;
-        window.location.href = url;
+        if (props.purchase) {
+            let res = await api.post(`/create-checkout-session`, 
+            {
+                priceId,
+                mode: "subscription",
+                successURL: successUrl,
+                cancelURL: `${window.location.origin}${router.asPath}`,
+                planId: planId,
+                email: data.email,
+                months: billingPeriod,
+                global: true,
+            });
+            const { url } = await res.data;
+            window.location.href = url;
+        } else {
+            let res = await api.post(`/create-checkout-session`, 
+            {
+                priceId,
+                mode: "subscription",
+                successURL: successUrl,
+                cancelURL: `${window.location.origin}${router.asPath}`,
+                planId: planId,
+                email: data.email,
+                months: billingPeriod,
+                global: true,
+                trial: true
+            });
+            const { url } = await res.data;
+            window.location.href = url;
+        }
     }
 
 
@@ -167,9 +185,12 @@ const Plans = (props: {openRegistration: boolean}) => {
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon><p>Start free trial</p></>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <>
+                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
+                                        </>
+                                        
                                         }
                                     </Centered>
                                     <FeaturesList>  
@@ -206,9 +227,9 @@ const Plans = (props: {openRegistration: boolean}) => {
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon><p>Start free trial</p></>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         }
                                     </Centered>
                                     <FeaturesList>  

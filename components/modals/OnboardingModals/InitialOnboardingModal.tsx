@@ -154,7 +154,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                         <ModalTitle><p style={{fontSize: "3rem", marginBottom: "0.5rem"}}>👋</p>Hello {username}!</ModalTitle>
                 </Centered>
                 <Centered>
-                <ModalDescription>We&apos;ve prepared for you a short onboarding that will help you get started and us provide a service tailored for your needs. </ModalDescription>
+                <ModalDescription>We&apos;ve prepared for you a short onboarding that will help you get started and us provide a service tailored to your needs. </ModalDescription>
                 </Centered>
                 <Centered>
                     <EstimatedTime>Est. onboarding time: ~ 4 min</EstimatedTime>
@@ -169,7 +169,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                 {selectedTab === 1 &&
                     <>
                     <ModalTitle>What is your industry?</ModalTitle>
-                    <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
+                    <Centered><ModalDescription>This will help us develop a platform tailored to your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
                         {industries.map((industry: any) => {
                             return (
@@ -184,7 +184,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                 {selectedTab === 2 &&
                     <>
                     <ModalTitle>What is your role?</ModalTitle>
-                    <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
+                    <Centered><ModalDescription>This will help us develop a platform tailored to your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
                         {roles.map((role: any) => {
                             return (
@@ -199,7 +199,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                 {selectedTab === 3 &&
                     <>
                     <ModalTitle>How big is your company?</ModalTitle>
-                    <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
+                    <Centered><ModalDescription>This will help us develop a platform tailored to your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
                         {companySize.map((size: any) => {
                             return (
@@ -214,7 +214,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                 {selectedTab === 4 &&
                     <>
                     <ModalTitle>Did you use AI before?</ModalTitle>
-                    <Centered><ModalDescription>This will help us develop a platform tailored for your needs.</ModalDescription></Centered>
+                    <Centered><ModalDescription>This will help us develop a platform tailored to your needs.</ModalDescription></Centered>
                     <Tabs justifyContent="center">
                         <Tab onClick={() => selectAIExperience(true)}>Yes</Tab>
                         <Tab onClick={() => selectAIExperience(false)}>No</Tab>
