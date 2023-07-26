@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { TiTick } from "react-icons/ti";
+import Image from "next/image";
 
 interface categoryDropdwonProps {
   name: string;
@@ -12,7 +13,7 @@ interface DropdownProps {
   values: categoryDropdwonProps[];
 }
 
-export const CampaignDropdown = () => {
+export const CampaignDropdown: FC<DropdownProps> = ({ category, values }) => {
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
   const [chosenCategories, setChosenCategories] = useState<string[]>([""]);
 
@@ -30,28 +31,34 @@ export const CampaignDropdown = () => {
     console.log(chosenCategories);
   }, [chosenCategories]);
 
-  const exampleArray = ["123", "456", "789"];
-
   return (
     <div className="w-full  relative">
       <div
         onClick={() => setIsCategoryOpen((prev) => !prev)}
         className="flex justify-between rounded-full  items-center "
       >
-        Example
+        <div className="flex w-full justify-between items-center px-2">
+          {category.name}
+          <div>
+            <Image src={category.icon} alt="icon" width={22} height={22} />
+          </div>
+        </div>
         {isCategoryOpen ? <BsChevronUp /> : <BsChevronDown />}
       </div>
       {isCategoryOpen && (
         <div className="bg-blue-300  absolute top-8 p-2  w-full z-20">
-          {exampleArray.map((item) => {
+          {values.map((item, id) => {
             return (
               <div
-                key={item}
-                onClick={() => toggleCategory(item)}
-                className="flex justify-between items-center"
+                key={id}
+                onClick={() => toggleCategory(item.name)}
+                className="flex justify-between items-center p-2"
               >
-                <span>{item}</span>
-                {chosenCategories.includes(item) && <TiTick />}
+                <span>{item.name}</span>
+                <div>
+                  <Image src={item.icon} alt="icon" height={20} width={20} />
+                </div>
+                {chosenCategories.includes(item.name) && <TiTick />}
               </div>
             );
           })}

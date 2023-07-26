@@ -61,18 +61,26 @@ export const CampaignModal: FC<CampaginModalProps> = ({
   const [campaginTitle, setCampaignTitle] = useState<string>("");
   const [useEmojis, setUseEmojis] = useState<boolean>(true);
 
-  const filteredDropdownCategories = templates.filter(
-    (category, index, self) => {
+  const filteredDropdownCategories = templates
+    .filter((category, index, self) => {
       // Return true only for the first occurrence of each category
       return index === self.findIndex((c) => c.category === category.category);
-    }
-  );
+    })
+    .map((category) => ({
+      name: category.category,
+      icon: category.icon,
+    }));
 
-  const filterDropdownValues = (category: string): string[] => {
+  const filterDropdownValues = (category: string) => {
     const templatesInCategory = templates.filter(
       (template) => template.category === category
     );
-    return templatesInCategory.map((template) => template.title);
+    const dropdownValues = templatesInCategory.map((template) => ({
+      name: template.title,
+      icon: template.icon,
+    }));
+
+    return dropdownValues;
   };
 
   const handleToggleEmojis = () => {
@@ -246,11 +254,8 @@ export const CampaignModal: FC<CampaginModalProps> = ({
         {step === 1 && (
           <div className="grid grid-cols-2">
             {filteredDropdownCategories.map((template) => {
-              const dropdownValues = filterDropdownValues(template.category);
+              const dropdownValues = filterDropdownValues(template.name);
               return (
-                // <div className="p-2">
-                //   <Dropdown value={template.category} values={dropdownValues} />
-                // </div>
                 <div
                   style={{
                     fontWeight: "500",
@@ -259,10 +264,13 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                       "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
                   }}
                   className={
-                    "  appearance-none border-2 flex text-black items-center pl-3  m-2 h-full pr-4 relative py-2 rounded-2xl placeholder-[#DCDCDC] focus:outline-none text-md"
+                    "  appearance-none border-2 flex text-black items-center pl-3  m-2 h-full pr-4 relative py-2 rounded-full placeholder-[#DCDCDC] focus:outline-none text-md"
                   }
                 >
-                  <CampaignDropdown />
+                  <CampaignDropdown
+                    category={template}
+                    values={dropdownValues}
+                  />
                 </div>
               );
             })}
