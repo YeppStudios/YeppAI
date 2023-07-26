@@ -94,6 +94,42 @@ const Command = Extension.create({
   },
 });
 
+function resizeImage(file: File, maxWidth: number, maxHeight: number): Promise<Blob> {
+  return new Promise<Blob>((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      if (!context) {
+        reject(new Error("Failed to create canvas context"));
+        return;
+      }
+      let width = image.width;
+      let height = image.height;
+      if (width > maxWidth) {
+        height *= maxWidth / width;
+        width = maxWidth;
+      }
+      if (height > maxHeight) {
+        width *= maxHeight / height;
+        height = maxHeight;
+      }
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(image, 0, 0, width, height);
+      canvas.toBlob((blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error("Failed to create blob"));
+        }
+      }, file.type);
+    };
+    image.onerror = reject;
+    image.src = URL.createObjectURL(file);
+  });
+}
+
 const getSuggestionItems = ({ query }: { query: string }) => {
   return [
     {
@@ -207,26 +243,36 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       command: ({ editor, range }: CommandProps) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
-    // {
-    //   title: "Image",
-    //   description: "Upload an image from your computer.",
-    //   searchTerms: ["photo", "picture", "media"],
-    //   icon: <ImageIcon size={18} />,
-    //   command: ({ editor, range }: CommandProps) => {
-    //     editor.chain().focus().deleteRange(range).run();
-    //     // upload image
-    //     const input = document.createElement("input");
-    //     input.type = "file";
-    //     input.accept = "image/*";
-    //     input.onchange = async (event) => {
-    //       if (input.files?.length) {
-    //         const file = input.files[0];
-    //         return handleImageUpload(file, editor.view, event);
-    //       }
-    //     };
-    //     input.click();
-    //   },
-    // },
+    {
+      title: "Image",
+      description: "Upload an image from your computer.",
+      searchTerms: ["photo", "picture", "media"],
+      icon: <ImageIcon size={18} />,
+      command: ({ editor, range }: CommandProps) => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = async () => {
+          const file = input.files?.[0];
+          if (!file) return;
+          const resizedFile = await resizeImage(file, 800, 600);
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const imageUrl = event?.target?.result;
+            if (!imageUrl) return;
+            const { from } = editor.state.selection;
+            editor.view.dispatch(
+              editor.view.state.tr
+                .insert(from, editor.state.schema.nodes.image.create({ src: imageUrl }))
+                .setMeta("addToHistory", true),
+            );
+          };
+          reader.readAsDataURL(resizedFile);
+        };
+        input.click();
+      },
+      isActive: () => false,
+    },
   ].filter((item) => {
     if (typeof query === "string" && query.length > 0) {
       const search = query.toLowerCase();

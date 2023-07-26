@@ -286,7 +286,6 @@ const AddDocument = (props: {
                 Authorization: token
               }
             });
-            console.log(createdDocument.data);
             setCreatedDocs(prevDocs => [...prevDocs, createdDocument.data.document]);
 
           if (selectedFolder._id) {
