@@ -477,7 +477,7 @@ const BottomPanel = () => {
              }
             <SlideBottom>
              <>
-            {(user._id !== workspaceCompany._id || (user.plan !== "6444d4394ab2cf9819e5b5f4" && user.plan !== "64ad0d250e40385f299bceea" && user.plan !== "647c3294ff40f15b5f6796bf" && user.plan !== "64ad0d740e40385f299bcef9")) ?
+            {(user._id !== workspaceCompany._id && (user.plan !== "6444d4394ab2cf9819e5b5f4" && user.plan !== "64ad0d250e40385f299bceea" && user.plan !== "647c3294ff40f15b5f6796bf" && user.plan !== "64ad0d740e40385f299bcef9")) ?
                 <ListContainer>
                     <Title>Elixir transactions</Title>
                     {renderTransactions()}
@@ -892,7 +892,7 @@ const Button = styled.button`
 `
 
 const SendBtn = styled.button`
-    height: 5vh;
+    height: 2.6rem;
     width: 8vw;
     text-align: center;
     background-color: transparent;
