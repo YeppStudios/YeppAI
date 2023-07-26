@@ -43,37 +43,37 @@ interface Prompt {
 }
 
 const categories = [
-    {title: "Favorite", icon:  <BsHeartFill style={{height: "100%", width: "auto"}}/>},
-    {title: "Marketing Strategy", icon:  <BsFillEaselFill style={{height: "100%", width: "auto"}}/>},
+  {title: "Ulubione", icon:  <BsHeartFill style={{height: "100%", width: "auto"}}/>},
+    {title: "Strategia Marketingowa", icon:  <BsFillEaselFill style={{height: "100%", width: "auto"}}/>},
     {title: "Branding", icon:  <BsApple style={{height: "100%", width: "auto"}}/>},
     {title: "Copywriting", icon:  <BsReverseListColumnsReverse style={{height: "100%", width: "auto"}}/>},
     {title: "Email Marketing", icon:  <BsFillEnvelopeFill style={{height: "100%", width: "auto"}}/>},
     {title: "Social Media", icon:  <BsFillPhoneFill style={{height: "100%", width: "auto"}}/>},
     {title: "SEO & SEM", icon:  <BsSearch style={{height: "100%", width: "auto"}}/>},
-    {title: "Analitytics", icon:  <BsFillBarChartFill style={{height: "100%", width: "auto"}}/>},
-    {title: "Lead Generation", icon:  <BsFillPersonPlusFill style={{height: "100%", width: "auto"}}/>},
-    {title: "Customer Retention", icon:  <BsFillEmojiLaughingFill style={{height: "100%", width: "auto"}}/>},
-    {title: "Sales Optimization", icon:  <BsCreditCardFill style={{height: "100%", width: "auto"}}/>},
-    {title: "Act as...", icon:  <BsSunglasses style={{height: "100%", width: "auto"}}/>},
-    {title: "Company", icon:  <BsBuildingFill style={{height: "100%", width: "auto"}}/>},
-    {title: "Ideas", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>}
+    {title: "Analityka i Raportowanie", icon:  <BsFillBarChartFill style={{height: "100%", width: "auto"}}/>},
+    {title: "Pozyskiwanie Klientów", icon:  <BsFillPersonPlusFill style={{height: "100%", width: "auto"}}/>},
+    {title: "Utrzymanie Klientów", icon:  <BsFillEmojiLaughingFill style={{height: "100%", width: "auto"}}/>},
+    {title: "Optymalizacja Sprzedaży", icon:  <BsCreditCardFill style={{height: "100%", width: "auto"}}/>},
+    {title: "Zachowuj Się Jak...", icon:  <BsSunglasses style={{height: "100%", width: "auto"}}/>},
+    {title: "Firma", icon:  <BsBuildingFill style={{height: "100%", width: "auto"}}/>},
+    {title: "Pomysły", icon:  <BsLightbulbFill style={{height: "100%", width: "auto"}}/>}
 ]
 
 const getEmojiForCategory = (category: string): StaticImageData => {
   const emojiMap: Record<string, StaticImageData> = {
-    'Ideas': ideasIcon,
-    'Marketing Strategy': strategyIcon,
+    'Pomysły': ideasIcon,
+    'Strategia Marketingowa': strategyIcon,
     'Branding': brandingIcon,
     'Copywriting': copywritingIcon,
     'Email Marketing': emailIcon,
     'Social Media': socialsIcon,
     'SEO & SEM': seoIcon,
-    'Analitytics': analyticsIcon,
-    'Lead Generation': magnetIcon,
-    'Customer Retention': clientIcon,
-    'Sales Optimization': salesIcon,
-    'Act as...': actIcon,
-    'Company': companyIcon,
+    'Analityka i Raportowanie': analyticsIcon,
+    'Pozyskiwanie Klientów': magnetIcon,
+    'Utrzymanie Klientów': clientIcon,
+    'Optymalizacja Sprzedaży': salesIcon,
+    'Zachowuj Się Jak...': actIcon,
+    'Firma': companyIcon,
   };
 
   return emojiMap[category] || copywritingIcon;
