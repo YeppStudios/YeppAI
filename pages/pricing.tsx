@@ -48,7 +48,7 @@ const Pricing = () => {
             <StartBtnContainer>
             </StartBtnContainer>
         </HeroSection>
-        <Plans openRegistration={true}/>
+        <Plans openRegistration={true} purchase={false}/>
         <TrialBanner />
         {!mobile &&
         <PlanComparison />

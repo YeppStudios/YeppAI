@@ -124,7 +124,7 @@ const PageTemplate = ({children}: any) => {
       {mobile &&
         <Loading />
       }
-      {showPlans && <UpgradeSubscription onClose={() => setShowPlans(false)} closeable={false}/>}
+      {showPlans && <UpgradeSubscription purchase={false} onClose={() => setShowPlans(false)} closeable={false}/>}
       {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
       <Page>
           <NavigationBar />
