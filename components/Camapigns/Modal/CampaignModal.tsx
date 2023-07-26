@@ -252,28 +252,38 @@ export const CampaignModal: FC<CampaginModalProps> = ({
           })}
         </div>
         {step === 1 && (
-          <div className="grid grid-cols-2">
-            {filteredDropdownCategories.map((template) => {
-              const dropdownValues = filterDropdownValues(template.name);
-              return (
-                <div
-                  style={{
-                    fontWeight: "500",
-                    height: "auto",
-                    boxShadow:
-                      "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
-                  }}
-                  className={
-                    "  appearance-none border-2 flex text-black items-center pl-3  m-2 h-full pr-4 relative py-2 rounded-full placeholder-[#DCDCDC] focus:outline-none text-md"
-                  }
-                >
-                  <CampaignDropdown
-                    category={template}
-                    values={dropdownValues}
-                  />
-                </div>
-              );
-            })}
+          <div>
+            <div className="grid grid-cols-2 relative">
+              {filteredDropdownCategories.map((template) => {
+                const dropdownValues = filterDropdownValues(template.name);
+                return (
+                  <div
+                    style={{
+                      fontWeight: "500",
+                      height: "auto",
+                      boxShadow:
+                        "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
+                    }}
+                    className={
+                      "  appearance-none border-2 flex text-black items-center pl-3  m-2 h-full pr-4 relative py-2 rounded-full placeholder-[#DCDCDC] focus:outline-none text-md"
+                    }
+                  >
+                    <CampaignDropdown
+                      category={template}
+                      values={dropdownValues}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <div className="w-full flex items-center justify-center absolute bottom-10 left-0 ">
+              <button
+                className="p-4 w-[40%] bg-blue-400 rounded-2xl text-white text-lg"
+                onClick={() => setStep((prev) => prev + 1)}
+              >
+                Continue
+              </button>
+            </div>
           </div>
         )}
         {step === 2 && (
@@ -355,9 +365,12 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                 </Switch>
               </div>
             </div>
-            <div className="w-full flex items-center justify-center absolute bottom-10 left-0 bg-red-300">
-              <button type="submit" className="p-4 w-[40%] bg-blue-300">
-                Submit
+            <div className="w-full flex items-center justify-center absolute bottom-10 left-0 ">
+              <button
+                type="submit"
+                className="p-4 w-[40%] bg-blue-400 rounded-2xl text-white text-lg"
+              >
+                Continue
               </button>
             </div>
           </form>
@@ -395,22 +408,15 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                 onChange={(e) => setKeywords(e.target.value)}
               />
             </div>
-            <div className="w-full flex items-center justify-center absolute bottom-10 left-0 bg-red-300">
-              <button type="submit" className="p-4 w-[40%] bg-blue-300">
+            <div className="w-full flex items-center justify-center absolute bottom-10 left-0">
+              <button
+                type="submit"
+                className="p-4 w-[40%] bg-blue-400 rounded-2xl text-white text-lg"
+              >
                 Submit
               </button>
             </div>
           </form>
-        )}
-        {step !== 3 && (
-          <div className=" bg-red-300 flex items-center justify-center absolute bottom-10 left-0 w-full">
-            <button
-              className="p-4 w-[40%] bg-blue-300 "
-              onClick={() => setStep((prev) => prev + 1)}
-            >
-              Continue
-            </button>
-          </div>
         )}
       </ModalContainer>
     </ModalBackground>
