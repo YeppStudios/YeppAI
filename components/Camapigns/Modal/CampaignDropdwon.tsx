@@ -27,10 +27,6 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(chosenCategories);
-  }, [chosenCategories]);
-
   return (
     <div className="w-full  relative">
       <div

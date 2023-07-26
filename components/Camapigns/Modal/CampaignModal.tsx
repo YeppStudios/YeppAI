@@ -288,7 +288,7 @@ export const CampaignModal: FC<CampaginModalProps> = ({
         </div>
         {step === 1 && (
           <div className="flex justify-around flex-col py-8">
-            <div className="grid grid-cols-2 relative ">
+            <div className="grid  sm:grid-cols-2 grid-cols-1 relative ">
               {filteredDropdownCategories.map((template) => {
                 const dropdownValues = filterDropdownValues(template.name);
                 return (
