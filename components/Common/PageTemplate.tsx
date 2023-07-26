@@ -59,24 +59,7 @@ const PageTemplate = ({children}: any) => {
             },
           });
           if (!data.dashboardAccess) {
-            let stripePriceId = 'price_1NSZghFe80Kn2YGGOiClJUPM'
-            if (localStorage.getItem("country") === "Poland") {
-                stripePriceId = "price_1NUPofFe80Kn2YGG6dYxHNk9"
-            }
-            let res = await api.post(`/create-checkout-session`, 
-            {
-                priceId: stripePriceId,
-                mode: "subscription",
-                successURL: "https://www.yepp.ai/assets",
-                cancelURL: `${window.location.origin}${router.asPath}`,
-                planId: "64ad0d250e40385f299bceea",
-                email: data.email,
-                trial: true,
-                months: 1,
-                global: true
-            });
-            const { url } = await res.data;
-            window.location.href = url;
+            setShowPlans(true);
           }
           if (data.workspace) {
               const workspaceCompany = await api.get(`/workspace-company/${data.workspace}`, {
