@@ -199,6 +199,7 @@ const NavigationBar = () => {
           onClose={() => setOpenSubscriptionModal(false)}
           closeable={true}
           purchase={true}
+          landing={false}
         />
       )}
       {mobile && (
