@@ -90,7 +90,7 @@ const TopPanel = (props: {stats: any}) => {
             <div style={{width: "100%", height: "100%"}}>
             {openReferralModal && <ReferralModal showDescription={true} onClose={() => setOpenReferralModal(false)} />}
             {openDeleteModal && <DeleteAccount onClose={() => setOpenDeleteModal(false)}/>}  
-            {openUpgradeModal && <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)} closeable={true}/>}
+            {openUpgradeModal && <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)} closeable={true} landing={false}/>}
             <HeaderButtons>
                 <SubscriptionButton onClick={() => openStripePanel()}>Billing</SubscriptionButton>
                 <Menu as="div" className="relative inline-block text-left">
