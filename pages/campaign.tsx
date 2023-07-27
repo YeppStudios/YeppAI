@@ -17,7 +17,6 @@ import { CampaignModal } from "@/components/Camapigns/Modal/CampaignModal";
 const Campagin = () => {
   //place to fetch content for campaigns. For now i will use copywrite content as placeholder.
 
-  const [openAddAssistant, setOpenAddAssistant] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [loading, setLoading] = useState(true);
   const [savedContent, setSavedContent] = useState<any[]>([]);
@@ -78,13 +77,9 @@ const Campagin = () => {
     const renderedContent = savedContent.map((content, index) => {
       return (
         <tr key={content._id} onClick={() => handleOpenDocument(content._id)}>
-          {/* <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-            <Image
-              src={documentIcon}
-              className="flex-none w-8 h-8"
-              alt={"icon"}
-            />
-          </td> */}
+          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+
+          </td>
           <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
             {mobile ? `${content.title.slice(0, 28)}...` : content.title}
           </td>
@@ -175,12 +170,10 @@ const Campagin = () => {
       </ActionContaienr>
     );
   };
-  if (openCreateCamapginModal)
-    return (
-      <CampaignModal setOpenCreateCampaignModal={setOpenCreateCampaignModal} />
-    );
+
   return (
     <PageTemplate>
+      {openCreateCamapginModal && <CampaignModal setOpenCreateCampaignModal={setOpenCreateCampaignModal} />}
       <FirstPageTemplate
         name="Campagin"
         description="Campaign description"

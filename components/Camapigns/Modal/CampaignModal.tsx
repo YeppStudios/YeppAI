@@ -9,7 +9,7 @@ import {
 import { BsTools, BsChevronLeft } from "react-icons/bs";
 import { FaBook } from "react-icons/fa";
 import { GiOpenBook } from "react-icons/gi";
-import { AiOutlineClose } from "react-icons/ai";
+import { BsXLg } from "react-icons/bs";
 import styled from "styled-components";
 import Dropdown from "@/components/forms/Dropdown";
 import { useRouter } from "next/router";
@@ -19,7 +19,15 @@ import Input from "../../forms/Input";
 import { Switch } from "@headlessui/react";
 import Label from "@/components/Common/Label";
 import TextArea from "@/components/forms/TextArea";
+import BackBtn from '@/components/Common/BackBtn';
+import BackBtnIcon from '@/components/Common/BackBtnIcon';
 import { CampaignDropdown } from "./CampaignDropdwon";
+import ModalBackground from "@/components/Modals/common/ModalBackground";
+import SlideBottom from "@/components/Animated/SlideBottom";
+import { Textarea } from "@mantine/core";
+import CustomDropdown from "@/components/forms/CustomDropdown";
+import { set } from "lodash";
+import { BlueLoader } from "@/components/Common/Loaders";
 
 interface CampaginModalProps {
   setOpenCreateCampaignModal: Dispatch<SetStateAction<boolean>>;
@@ -54,12 +62,15 @@ export const CampaignModal: FC<CampaginModalProps> = ({
   const [targetAudience, setTargetAudience] = useState<string>("");
   const [objectives, setObjectives] = useState<string>("");
   const [keywords, setKeywords] = useState<string>("");
-  const [tone, setTone] = useState<string>("");
-  const [language, setLanguage] = useState<string>("");
-  const [campaignType, setCampaignType] = useState<string>("");
+  const [tone, setTone] = useState<string>("Informal 😎");
+  const [language, setLanguage] = useState<string>("English");
+  const [campaignType, setCampaignType] = useState<string>("Advertisement");
+  const [openedCategory, setOpenedCategory] = useState<string>("");
   const [productType, setProductType] = useState<string>("");
   const [campaginTitle, setCampaignTitle] = useState<string>("");
   const [useEmojis, setUseEmojis] = useState<boolean>(true);
+  const [allChosenCategories, setAllChosenCategories] = useState<string[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState<boolean>(true);
 
   const filteredDropdownCategories = templates
     .filter((category, index, self) => {
@@ -145,10 +156,12 @@ export const CampaignModal: FC<CampaginModalProps> = ({
   };
 
   useEffect(() => {
+    setLoadingCategories(true);
     const fetchTemplates = async () => {
       const { data } = await api.get("/templates");
       if (data) {
         setTemplates(data);
+        setLoadingCategories(false);
       } else {
         console.log("wrong fetch");
       }
@@ -200,11 +213,12 @@ export const CampaignModal: FC<CampaginModalProps> = ({
   ];
 
   const tones = [
-    "Formal",
-    "Friendly",
-    "Informative",
-    "Persuasive",
-    "Motivational",
+    "Formal ",
+    "Formal 💼",
+    "Friendly 😊",
+    "Informative 📃",
+    "Persuasive 🫵🏼",
+    "Informal 😎",
   ];
 
   const languages = [
@@ -250,29 +264,28 @@ export const CampaignModal: FC<CampaginModalProps> = ({
     }
   };
 
+  const handleModalClick = (e: any) => {
+    e.stopPropagation();
+    setOpenedCategory("");
+  }
+
   return (
-    <ModalBackground>
-      <ModalContainer step={step} className="relative ">
-        <div className="flex w-full justify-between ">
-          <div className="flex items-center justify-center ">
-            {step > 1 && (
-              <BackArrow selectedTab={step} onClick={() => setStep(step - 1)}>
-                <BsChevronLeft style={{ width: "150%", height: "auto" }} />
-              </BackArrow>
-            )}
-          </div>
-          <button onClick={() => setOpenCreateCampaignModal(false)}>
-            <AiOutlineClose className="h-6 w-6" />
-          </button>
+    <ModalBackground onClose={() => setOpenCreateCampaignModal(false)} closeable={true}>
+      <SlideBottom>
+      <ModalContainer onClick={(e) => handleModalClick(e)} step={step} className="relative ">
+        <div className="flex w-full justify-between">
+          <CloseIcon onClick={() => setOpenCreateCampaignModal(false)}>
+                    <BsXLg style={{width: "100%", height: "auto"}}/>
+            </CloseIcon>
         </div>
-        <div className="flex w-full items-center justify-center py-4 mb-2">
+        <Title>
           {renderStepText()}
-        </div>
-        <div className="flex gap-8 items-center justify-center flex-wrap mb-4">
-          {sections.map((section) => {
+        </Title>
+        <div className="flex gap-8 items-center justify-center flex-wrap mb-8">
+          {sections.map((section, index) => {
             if (step === section.stepNumber) {
               return (
-                <SelectedMainTab onClick={() => setStep(section.stepNumber)}>
+                <SelectedMainTab key={index} onClick={() => setStep(section.stepNumber)}>
                   <TabIcon>{section.icon} </TabIcon>
                   <span>{section.stepName}</span>
                 </SelectedMainTab>
@@ -287,30 +300,29 @@ export const CampaignModal: FC<CampaginModalProps> = ({
           })}
         </div>
         {step === 1 && (
-          <div className="flex justify-around flex-col py-8">
+          <div className="flex justify-around flex-col">
+            {loadingCategories ?
+            <div className="w-full py-8 flex justify-center"><BlueLoader /></div>
+            :
+            <SlideBottom>
             <div className="grid  sm:grid-cols-2 grid-cols-1 relative ">
-              {filteredDropdownCategories.map((template) => {
-                const dropdownValues = filterDropdownValues(template.name);
-                return (
-                  <div
-                    style={{
-                      fontWeight: "500",
-                      height: "auto",
-                      boxShadow:
-                        "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
-                    }}
-                    className={
-                      "  appearance-none border-2 flex text-black items-center pl-3  m-2 h-full pr-4 relative py-2 rounded-full placeholder-[#DCDCDC] focus:outline-none text-md"
-                    }
-                  >
-                    <CampaignDropdown
-                      category={template}
-                      values={dropdownValues}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            {filteredDropdownCategories.map((template, index) => {
+              const dropdownValues = filterDropdownValues(template.name);
+              return (
+                <div key={index} onClick={(e) => e.stopPropagation()}>
+                  <CampaignDropdown
+                    category={template}
+                    values={dropdownValues}
+                    openedCategory={openedCategory}
+                    setOpenedCategory={setOpenedCategory}
+                    setAllChosenCategories={setAllChosenCategories}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          </SlideBottom>
+            }
             <ButtonContainer>
               <ContinueBtn onClick={() => setStep((prev) => prev + 1)}>
                 Continue
@@ -320,21 +332,22 @@ export const CampaignModal: FC<CampaginModalProps> = ({
         )}
         {step === 2 && (
           <form onSubmit={submitSecondPageForm}>
-            <div className="grid grid-cols-2 py-4">
-              <div className="p-4">
+            <div className="grid grid-cols-2">
+              <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>Title</Label>
                 <Input
                   name="campaignTitle"
                   height="2.75rem"
+                  placeholder="Campaign title"
                   padding="1rem"
                   type="text"
                   value={campaginTitle}
                   onChange={(e) => setCampaignTitle(e.target.value)}
                 />
               </div>
-              <div className="p-4">
+              <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>Campaign type</Label>
-                <Dropdown
+                <CustomDropdown
                   name="campaignType"
                   value={campaignType}
                   values={campaignTypes}
@@ -342,9 +355,9 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                   placeholder="Educational"
                 />
               </div>
-              <div className="p-4">
+              <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>Language</Label>
-                <Dropdown
+                <CustomDropdown
                   name="language"
                   value={language}
                   values={languages}
@@ -352,9 +365,9 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                   placeholder="English"
                 />
               </div>
-              <div className="p-4">
+              <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>Tone of voice</Label>
-                <Dropdown
+                <CustomDropdown
                   name="tone"
                   value={tone}
                   values={tones}
@@ -362,18 +375,19 @@ export const CampaignModal: FC<CampaginModalProps> = ({
                   placeholder="Friendly"
                 />
               </div>
-              <div className="p-4">
+              <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>What is it promoting?</Label>
                 <Input
                   name="productType"
                   height="2.75rem"
                   padding="1rem"
+                  placeholder="Product"
                   type="text"
                   value={productType}
                   onChange={(e) => setProductType(e.target.value)}
                 />
               </div>
-              <div className="p-4">
+              <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label className="pb-2">Use relevant emojis</Label>
                 <Switch
                   name="useEmojis"
@@ -404,33 +418,35 @@ export const CampaignModal: FC<CampaginModalProps> = ({
         )}
         {step === 3 && (
           <form onSubmit={submitThirdPageForm}>
-            <div className="p-2">
-              <label>Target autdience</label>
+            <div className="pb-6 pr-3 pl-3 pt-0">
+              <Label>Target autdience</Label>
               <Input
-                height="4rem"
+                height="2.8rem"
                 padding="1rem"
                 name="targetAudience"
+                placeholder="Marketing agencies looking for AI tools"
                 type="text"
                 value={targetAudience}
                 onChange={(e) => setTargetAudience(e.target.value)}
               />
             </div>
-            <div className="p-2">
-              <label>Campaign's objective</label>
+            <div className="pb-6 pr-3 pl-3 pt-0">
+              <Label>Campaign&apos;s objective</Label>
               <TextArea
                 height="5.8rem"
                 padding="0.75rem"
                 placeholder="Set campaign's objectives"
+                value={objectives}
                 onChange={(e) => setObjectives(e.target.value)}
               />
             </div>
-            <div className="p-2">
-              <label>Keywords</label>
-              <Input
+            <div className="pb-6 pr-3 pl-3 pt-0">
+              <Label>Keywords</Label>
+              <TextArea
                 height="4rem"
-                padding="1rem"
+                padding="0.65rem"
+                placeholder="marketing, ai, generative ai, content creation"
                 name="keywords"
-                type="text"
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
               />
@@ -441,73 +457,49 @@ export const CampaignModal: FC<CampaginModalProps> = ({
           </form>
         )}
       </ModalContainer>
+      </SlideBottom>
     </ModalBackground>
   );
 };
-const BackArrow = styled.button<{ selectedTab: any }>`
-  background: transparent;
-  width: 1.2rem;
-  height: 1.2rem;
-  top: 1rem;
-  left: 1.5rem;
-  z-index: 10;
-  color: black;
-`;
 
-const ModalContainer = styled.div<{ step: number }>`
-  width: ${((props: { step: number }) => props.step === 3 || props.step === 2)
-    ? "44rem"
-    : "50rem"};
-  padding: 1.5rem;
-  background: white;
-  box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
-  border-radius: 25px;
-  cursor: auto;
-  z-index: 100;
-  overflow: visible;
+const ModalContainer = styled.div<{step: number}>`
+    width: 42rem;
+    padding: 3rem 4rem 3.5rem 4rem;
+    background: white;
+    box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
+    cursor: auto;
+    z-index: 100;
+    overflow: visible;
+    @media (max-width: 1023px) {
+        width: 90vw;
+        padding: 4vh 5vw 5vh 5vw;
+        box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.15);
+    }
+`
+const Title = styled.h1`
+    font-size: 2rem;
+    margin-bottom: 2.2rem;
+    text-align: center;
+    color: black;
+    font-weight: 700;
+    @media (max-width: 1023px) {
+      font-size: 1.7rem;
+      line-height: 1.2;
+      margin-top: 2vh;
+  }
+`
 
-  @media (max-width: 1023px) {
-    width: 90vw;
-    padding: 4vh 5vw 5vh 5vw;
-    box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.15);
-  }
-`;
-
-const ModalBackground = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  flex-wrap: wrap;
-  backdrop-filter: blur(7px);
-  z-index: 100;
-  top: 0;
-  left: 0;
-  padding: 4rem 0 4rem 0;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  overflow: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  color: black;
-  @media (max-width: 768px) {
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-    padding: 1vw 0 1vw 0;
-  }
-`;
 const SelectedMainTab = styled.div`
-  padding: 0.75rem 3rem 0.75rem 3rem;
+  padding: 0.65rem 2rem 0.65rem 2rem;
   font-weight: 500;
-  margin: 0 0.5rem 0 0.5rem;
+  margin: 0 0rem 0 0rem;
   display: flex;
   align-items: center;
   font-size: 1rem;
   background: #eef1f8;
   border: solid 3px transparent;
+  color: black;
   overflow: hidden;
   border-radius: 12px;
   background-image: linear-gradient(white, white, white),
@@ -527,9 +519,10 @@ const TabIcon = styled.div`
 `;
 
 const MainTab = styled.div`
-  padding: 0.75rem 2rem 0.75rem 2rem;
+  padding: 0.65rem 0.5rem 0.65rem 0.5rem;
   font-weight: 500;
   margin: 0 0.5rem 0 0.5rem;
+  color: black;
   display: flex;
   align-items: center;
   font-size: 0.85rem;
@@ -573,9 +566,27 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 10rem;
+  margin-top: 2.8rem;
   @media (max-width: 1023px) {
     padding: 0 1rem 0 1rem;
     margin-top: 4rem;
   }
 `;
+
+
+const CloseIcon = styled.button`
+    background: transparent;
+    width: 1.2rem;
+    height: 1.2rem;
+    position: absolute;
+    top: 1.2rem;
+    right: 1.4rem;
+    z-index: 10;
+    color: black;
+    @media (max-width: 1023px) {
+        top: 1rem;
+        right: 1.2rem;
+        width: 1rem;
+        height: 1rem;
+    }
+`
