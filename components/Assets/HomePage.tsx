@@ -286,7 +286,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             <Option id="upload-files" onClick={() => setAddDocument("file")}>
                 <OptionIcon><BsFolderSymlinkFill style={{width: "100%", height: "auto"}} /></OptionIcon>
                 <OptionTitle>Upload files</OptionTitle>
-                <OptionDescription>Upload TXT, DOCX, PPTX or PDF files for AI to learn from</OptionDescription>
+                <OptionDescription>Upload TXT, DOCX, PPTX, CSV or PDF files for AI to learn from</OptionDescription>
                 </Option>
             <Option id="upload-website" onClick={() => setAddDocument("website")}>
                 <OptionIcon><BsFillLaptopFill style={{width: "100%", height: "auto"}} /></OptionIcon>

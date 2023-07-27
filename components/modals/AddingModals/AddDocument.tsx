@@ -22,7 +22,7 @@ import FoldersDropdown from '../../forms/FoldersDropdown';
 import Space from '../../Docs/common/Space';
 import { selectedWorkspaceCompanyState } from '@/store/workspaceCompany';
 
-const fileTypes = ["TXT", "DOCX", "PPTX", "PDF"];
+const fileTypes = ["TXT", "DOCX", "PPTX", "PDF", "CSV"];
 
 const AddDocument = (props: {
     onClose: any, documentType: string, setDocuments: any, documentsLimit:any, spaceLimit: any, folders: any[], setFolders: any, folderLimit: any
@@ -152,8 +152,21 @@ const AddDocument = (props: {
                     setFileLoading(false);
                     return;
                   }
-  
-                  const upsertResponse = await axios.post(
+
+                  let upsertResponse = {data: {text: '', ids: ['']}};
+                  if (file.name.split('.')[1] === "csv") {
+                    upsertResponse = await axios.post(
+                      'https://whale-app-p64f5.ondigitalocean.app/upsert-csv', {file},
+                      {
+                        headers: {
+                          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
+                          'Content-Type': 'multipart/form-data'  
+                        }
+                      }
+                  );
+                  console.log(upsertResponse.data.text);
+                  } else {
+                    upsertResponse = await axios.post(
                       'https://whale-app-p64f5.ondigitalocean.app/upsert-file', {file},
                       {
                         headers: {
@@ -162,6 +175,7 @@ const AddDocument = (props: {
                         }
                       }
                   );
+                  }
   
                   const createdDocument = await api.post("/add-document", {
                         owner: fetchedUser._id,
@@ -372,7 +386,7 @@ const AddDocument = (props: {
                   {(props.documentType === "file" && !openChooseFolder && !fileLoading && !success) &&
                   <>
                     <Title>Upload a file</Title>
-                    <Centered><Description>Upload a PDF, PPTX, TXT or DOCX file. <p className='text-gray-500 text-sm'>(make sure it&apos;s not a scan)</p> </Description></Centered>
+                    <Centered><Description>Upload a PDF, PPTX, TXT, CSV or DOCX file. <p className='text-gray-500 text-sm'>(make sure it&apos;s not a scan)</p> </Description></Centered>
                     <Form autoComplete="off">
                             <Centered>
                                 <FileUploader hoverTitle="Drop here" handleChange={handleFiles} name="file" types={fileTypes} multiple={true} >
