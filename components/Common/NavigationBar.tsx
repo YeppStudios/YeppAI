@@ -604,6 +604,7 @@ const SwitchIcon = styled.div`
 const PersonName = styled.div`
   font-weight: 600;
   color: black;
+  white-space: nowrap;
   display: flex;
   margin-left: 0.7rem;
   margin-right: 0.5rem;
