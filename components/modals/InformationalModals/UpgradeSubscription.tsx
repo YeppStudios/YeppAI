@@ -36,12 +36,6 @@ interface Button {
     color: string,
 }
 
-const plans = [
-    {title: "Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", query: "/order/basic?price=99&priceId=price_1NFwcqFe80Kn2YGGi4iIulhc&months=1", description: "Generate content such as posts, articles, and emails using AI.", isPro: false, features: ["75 000 elixir/month. (~200 posts)", "1 AI Assistant", "3 uploaded content up to 5MB", "Content Creator (emails, posts, descriptions...)"], price: "99,99zł"}, 
-    {title: "Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", query: "/order/pro?price=299&priceId=price_1NFwxWFe80Kn2YGGvpHuUfpi&months=1", description: "Upload your own content and define your AI assistants.", isPro: false, features: ["250 000 elixir/month. (~700 posts)", "3 AI Assistants", "5 uploaded files up to 15MB", "Intelligent AI Editor", "Chat with AI Assistants", "Scanning websites", "Uploading PDF, PPTX, TXT and DOCX", "Uploading YouTube videos"], price: "299,00zł", extraFunctionalities: "Basic"}, 
-    {title: "Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/business?price=799&priceId=price_1NFx0EFe80Kn2YGGCWikSSti&months=1", description: "Maximum possibilities for business, no limits.", isPro: false, features: ["1M elixir/month. (~2 800 posts)", "Unlimited number of AI Assistants", "Unlimited amount of uploaded knowledge", "Unlimited number of users", "Access to the latest features", "1000+ AI command templates"], price: "799,00zł", extraFunctionalities: "Assistant + Basic"},
-]
-
 
 const UpgradeSubscription = (props: {onClose: any, closeable: boolean, purchase: boolean, landing: boolean}) => {
 
