@@ -43,7 +43,7 @@ const plans = [
 ]
 
 
-const UpgradeSubscription = (props: {onClose: any, closeable: boolean, purchase: boolean}) => {
+const UpgradeSubscription = (props: {onClose: any, closeable: boolean, purchase: boolean, landing: boolean}) => {
 
     const [loadingPlan, setLoadingPlan] = useState("");
     const [mobile, setMobile] = useState(false);
@@ -118,7 +118,7 @@ const UpgradeSubscription = (props: {onClose: any, closeable: boolean, purchase:
                     <BsXLg style={{width: "100%", height: "auto"}}/>
                 </CloseIcon>
                 }
-                <Plans openRegistration={false} purchase={props.purchase}/>
+                <Plans openRegistration={false} purchase={props.purchase} landing={props.landing}/>
             </ModalContainer>
             </SlideBottom>
         </ModalBackground>

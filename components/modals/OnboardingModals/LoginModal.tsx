@@ -140,7 +140,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     props.onClose();
                 } else {
                     response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId, blockAccess: true }); //set to true to require credit card
-                    if (priceId && billingPeriod) {
+                    if (priceId) {
                         let res = await api.post(`/create-checkout-session`, 
                         {
                             priceId: priceId,
@@ -149,7 +149,6 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             cancelURL: `${window.location.origin}${router.asPath}`,
                             planId: "64ad0d250e40385f299bceea",
                             email,
-                            trial: true,
                             months: billingPeriod,
                             global: true
                         });
@@ -258,7 +257,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
 
     return (
         <ModalBackground closeable={false}>
-            {openPlans && <Centered><UpgradeSubscription purchase={false} onClose={() => console.log("")} closeable={false} /></Centered>}
+            {openPlans && <Centered><UpgradeSubscription purchase={false} landing={false} onClose={() => console.log("")} closeable={false} /></Centered>}
             <SlideBottom>
             <LoginContainer>
                 {registration ?
