@@ -38,6 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <main className={inter.className}>
       <Head>
+            <meta name="google-site-verification" content="DOR8UD5KTC5NxWUpLMk4JfrbcFMW3itZdlQaI1dYkaA" />
             <meta name="viewport" content="initial-scale=1, width=device-width" />
 
             <meta property="og:title" content="Yepp AI | Marketing For Your Business" />
