@@ -160,7 +160,7 @@ const Homepage = () => {
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
           <Centered><SlideBottom><HeroText>Boost your productivity now.</HeroText></SlideBottom></Centered>
           {!mobile && <Space margin='5rem'/>}
-          <Plans openRegistration={true} purchase={false}/>
+          <Plans openRegistration={true} purchase={false} landing={true}/>
           </Section>
           <Section>
             <div id="newsletter"></div>

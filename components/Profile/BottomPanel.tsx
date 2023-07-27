@@ -399,13 +399,13 @@ const BottomPanel = () => {
                 <AddElixir onClose={() => setOpenElixirModal(false)} />
                 :
                 openElixirModal &&
-                <UpgradeSubscription purchase={true} onClose={() => setOpenElixirModal(false)} closeable={true} />
+                <UpgradeSubscription purchase={true} onClose={() => setOpenElixirModal(false)} closeable={true} landing={false} />
             }
             {openUpgradeModal && plan ? 
-            <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)} closeable={true} />
+            <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)} closeable={true} landing={false} />
             :
             openUpgradeModal &&
-            <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)}closeable={true} />
+            <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)}closeable={true} landing={false}/>
             }
             {openReferralModal && <ReferralModal showDescription={true} onClose={() => setOpenReferralModal(false)} />}
             {mobile &&

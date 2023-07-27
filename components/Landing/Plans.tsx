@@ -75,7 +75,7 @@ interface PlanContainer {
     width: string
 }
 
-const Plans = (props: {openRegistration: boolean, purchase: boolean}) => {
+const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: boolean}) => {
 
     const [mobile, setMobile] = useState(false);
     const [discount, setDiscount] = useState(0.1);
@@ -185,7 +185,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean}) => {
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon><p>Start free trial</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         :
                                         <>
                                         <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
@@ -227,7 +227,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean}) => {
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon><p>Start free trial</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         :
                                         <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         }
