@@ -510,7 +510,7 @@ const SelectedNavigationTab = styled.div<{ hovered: boolean }>`
   border: double 3px transparent;
   border-radius: 15px;
   background-image: linear-gradient(white, white, white),
-    radial-gradient(circle at top left, #6578f8, #64b5ff);
+  radial-gradient(circle at top left, #6578f8, #64b5ff);
   background-origin: border-box;
   background-clip: padding-box, border-box;
   position: relative;
