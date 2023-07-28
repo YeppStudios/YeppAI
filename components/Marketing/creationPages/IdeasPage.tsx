@@ -56,6 +56,9 @@ const IdeaCreator = ({back, query, template}: any) => {
     if(window.innerWidth <= 1023){
         setMobile(true);
     }
+    if (localStorage.getItem("country") === "Poland") {
+      setLanguage("Polish");
+    }
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
       const fetchUserElixir = async () => {
