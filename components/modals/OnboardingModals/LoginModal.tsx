@@ -140,16 +140,15 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     props.onClose();
                 } else {
                     response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId, blockAccess: true }); //set to true to require credit card
-                    if (priceId && billingPeriod) {
+                    if (priceId && billingPeriod && planId) {
                         let res = await api.post(`/create-checkout-session`, 
                         {
                             priceId: priceId,
                             mode: "subscription",
                             successURL: successUrl,
                             cancelURL: `${window.location.origin}${router.asPath}`,
-                            planId: "64ad0d250e40385f299bceea",
+                            planId: planId,
                             email,
-                            trial: true,
                             months: billingPeriod,
                             global: true
                         });
@@ -157,38 +156,6 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                         window.location.href = url;
                     } else if (trial) {
                         setOpenPlans(true);
-                    } else {
-                    if (planId) {
-                        if (localStorage.getItem("country") === "Poland" && Number(billingPeriod) > 1) {
-                            let res = await api.post(`/create-checkout-session`, 
-                            {
-                                priceId,
-                                mode: "payment",
-                                successURL: successUrl,
-                                cancelURL: `${window.location.origin}${router.asPath}`,
-                                planId: planId,
-                                email,
-                                months: Number(billingPeriod),
-                                global: true
-                            });
-                            const { url } = await res.data;
-                            window.location.href = url;
-                        } else {
-                            let res = await api.post(`/create-checkout-session`, 
-                            {
-                                priceId,
-                                mode: "subscription",
-                                successURL: successUrl,
-                                cancelURL: `${window.location.origin}${router.asPath}`,
-                                planId: planId,
-                                email,
-                                months: Number(billingPeriod),
-                                global: true
-                            });
-                            const { url } = await res.data;
-                            window.location.href = url;
-                        }
-                    }
                     }
                     setLoading(false);
                     Cookies.set("token", "Bearer " + response.data.token, { expires: 7 });
