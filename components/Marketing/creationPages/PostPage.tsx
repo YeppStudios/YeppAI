@@ -75,6 +75,9 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     if (window.innerWidth < 1023) {
       setMobile(true);
     }
+    if (localStorage.getItem("country") === "Poland") {
+      setLanguage("Polish");
+    }
 
     if (template) {
       if (template.title === "Tweet") {
