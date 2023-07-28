@@ -13,6 +13,8 @@ import { useDispatch } from "react-redux";
 import { setSelectedUser } from "../../../store/userSlice";
 import ColorfulText from "@/components/Common/ColorfulText";
 import { AxiosResponse } from "axios";
+import Plans from "@/components/Landing/Plans";
+import UpgradeSubscription from "../InformationalModals/UpgradeSubscription";
 
 const LoginModal = (props: {onClose: any, registration: boolean}) => {
 
@@ -34,6 +36,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
     const [resetError, setResetError] = useState(false);
     const [mobile, setMobile] = useState(false);
     const router = useRouter();
+    const [openPlans, setOpenPlans] = useState(false);
 
     const dispatch = useDispatch();
     const { invitedEmail, trial, priceId, planName, planId, billingPeriod } = router.query;
@@ -136,23 +139,25 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     setLoading(false);
                     props.onClose();
                 } else {
-                    response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId, blockAccess: false }); //set to true to require credit card
-                    // if (trial) {
-                    //     let res = await api.post(`/create-checkout-session`, 
-                    //     {
-                    //         priceId: "price_1NSZghFe80Kn2YGGOiClJUPM",
-                    //         mode: "subscription",
-                    //         successURL: successUrl,
-                    //         cancelURL: `${window.location.origin}${router.asPath}`,
-                    //         planId: "64ad0d250e40385f299bceea",
-                    //         email,
-                    //         trial,
-                    //         months: 1,
-                    //         global: true
-                    //     });
-                    //     const { url } = await res.data;
-                    //     window.location.href = url;
-                    // } else 
+                    response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId, blockAccess: true }); //set to true to require credit card
+                    if (priceId && billingPeriod) {
+                        let res = await api.post(`/create-checkout-session`, 
+                        {
+                            priceId: priceId,
+                            mode: "subscription",
+                            successURL: successUrl,
+                            cancelURL: `${window.location.origin}${router.asPath}`,
+                            planId: "64ad0d250e40385f299bceea",
+                            email,
+                            trial: true,
+                            months: billingPeriod,
+                            global: true
+                        });
+                        const { url } = await res.data;
+                        window.location.href = url;
+                    } else if (trial) {
+                        setOpenPlans(true);
+                    } else {
                     if (planId) {
                         if (localStorage.getItem("country") === "Poland" && Number(billingPeriod) > 1) {
                             let res = await api.post(`/create-checkout-session`, 
@@ -184,6 +189,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             window.location.href = url;
                         }
                     }
+                    }
                     setLoading(false);
                     Cookies.set("token", "Bearer " + response.data.token, { expires: 7 });
                     Cookies.set("user_id", response.data.newUser._id, { expires: 7 });
@@ -196,8 +202,6 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     localStorage.setItem('workspace', response.data.newUser.workspace);
                     localStorage.setItem('account_type', response.data.newUser.accountType);
                     localStorage.setItem('onboarding_step', "1");
-                    props.onClose();
-                    router.push("/assets");
                 }
             } else {
                 response = await api.post('/login', { email, password });
@@ -254,6 +258,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
 
     return (
         <ModalBackground closeable={false}>
+            {openPlans && <Centered><UpgradeSubscription purchase={false} onClose={() => console.log("")} closeable={false} landing={false} /></Centered>}
             <SlideBottom>
             <LoginContainer>
                 {registration ?
@@ -325,7 +330,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                     required
                                 />
                                 <RegisterText>
-                                    <a href={"/Regulamin_AsystentAI.pdf"} download>I agree with <b>terms of use & privacy policy</b></a>
+                                    <a href={"/Yepp_AI_Terms.pdf"} download>I agree with <b>terms of use & privacy policy</b></a>
                                 </RegisterText>
                             </CheckboxContainer>
 
@@ -340,8 +345,9 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 }
                             </Button>
                             :
-                            <div>
+                            <div className="w-full">
                             {planName ?
+                            <Centered>
                             <Button id="send-email-btn" type="submit">
                                 {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
@@ -351,7 +357,9 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 <p>Continue</p>
                                 }
                             </Button>
+                            </Centered>
                             :
+                            <Centered>
                             <Button id="send-email-btn" type="submit">
                                 {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
@@ -361,6 +369,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 <p>Register</p>
                                 }
                             </Button>
+                            </Centered>
                             }
                             </div>
                             }
@@ -445,9 +454,9 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             </div>
                             <DisclaimersContainer>
                                 {mobile ?
-                                 <RegisterText><RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
+                                 <RegisterText><RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
                                  :
-                                 <RegisterText>No account?<RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
+                                 <RegisterText>No account?<RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
                                 }
                                 <ResetPassword onClick={() => setResetPassword(true)}>Reset password</ResetPassword>
                             </DisclaimersContainer>
@@ -488,9 +497,9 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                         </div>
                         <DisclaimersContainer>
                                 {mobile ?
-                                 <RegisterText><RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
+                                 <RegisterText><RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
                                  :
-                                 <RegisterText>No account?<RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
+                                 <RegisterText>No account?<RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
                                 }
                             <ResetPassword onClick={() => setResetPassword(false)}>Log in</ResetPassword>
                         </DisclaimersContainer>
