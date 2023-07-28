@@ -3,9 +3,17 @@ import PageTemplate from "@/components/Common/PageTemplate";
 import React, { useState, useEffect, Fragment } from "react";
 
 import { useRouter } from "next/router";
-import { BsFillArchiveFill, BsPencilFill, BsTrash } from "react-icons/bs";
+import {
+  BsFillArchiveFill,
+  BsPencilFill,
+  BsTrash,
+  BsChevronLeft,
+  BsChevronDown,
+  BsChevronUp,
+} from "react-icons/bs";
 import styled from "styled-components";
 import classNames from "classnames";
+import Image from "next/image";
 
 import api from "@/pages/api";
 
@@ -13,16 +21,71 @@ import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
 
 import { CampaignModal } from "@/components/Camapigns/Modal/CampaignModal";
+import Centered from "@/components/Centered";
 
 const Campagin = () => {
   //place to fetch content for campaigns. For now i will use copywrite content as placeholder.
+
+  interface TemplateProps {
+    _id: string;
+    title: string;
+    description: string;
+    category: string;
+    author: string;
+    likes: any[];
+    icon: string;
+    query: string;
+  }
 
   const [mobile, setMobile] = useState(false);
   const [loading, setLoading] = useState(true);
   const [savedContent, setSavedContent] = useState<any[]>([]);
   const [page, setPage] = useState(1);
+  const [isFirstPage, setIsFirstPage] = useState<boolean>(false);
+  const [templates, setTemplates] = useState<TemplateProps[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState<any>();
+  const [templateCategories, setTemplateCategories] = useState<string[]>([]);
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([""]);
 
   const router = useRouter();
+  const { query } = router;
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      const { data } = await api.get("/templates");
+      if (data) {
+        setTemplates(data);
+      } else {
+        console.log("wrong fetch");
+      }
+      if (query.contentId) {
+        try {
+          const token = localStorage.getItem("token");
+          const { data } = await api.get(
+            `/getContentPiece/${query.contentId}`,
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          setSelectedTemplate(data);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      data
+        .filter((category: { category: string }, index: any, self: any[]) => {
+          return (
+            index === self.findIndex((c) => c.category === category.category)
+          );
+        })
+        .map((category: { category: string }) => {
+          setTemplateCategories((prev) => [...prev, category.category]);
+        });
+    };
+    fetchTemplates();
+  }, []);
 
   useEffect(() => {
     if (window.innerWidth <= 1023) {
@@ -70,16 +133,24 @@ const Campagin = () => {
     }
   };
 
+  const toggleCategoryExpansion = (category: string) => {
+    setExpandedCategories((prevExpanded) =>
+      prevExpanded.includes(category)
+        ? prevExpanded.filter((c) => c !== category)
+        : [...prevExpanded, category]
+    );
+  };
+
   const [openCreateCamapginModal, setOpenCreateCampaignModal] = useState(false);
+  const LoremIpsum =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam gravida lorem a ante condimentum pretium. Aliquam in arcu non ex laoreet dictum ornare ut arcu. Suspendisse a augue tincidunt, consectetur risus at, auctor metus. Duis magna dui, ornare eu mattis vel, eleifend sed nisi. Vestibulum porta massa at risus imperdiet efficitur. Nam ut justo a lectus venenatis rutrum. Cras eleifend venenatis efficitur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta nunc rutrum nunc accumsan laoreet.";
 
   //not sure if this component should be here, or template file
   const renderContent = () => {
     const renderedContent = savedContent.map((content, index) => {
       return (
         <tr key={content._id} onClick={() => handleOpenDocument(content._id)}>
-          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-
-          </td>
+          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
           <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
             {mobile ? `${content.title.slice(0, 28)}...` : content.title}
           </td>
@@ -170,23 +241,133 @@ const Campagin = () => {
       </ActionContaienr>
     );
   };
-
   return (
     <PageTemplate>
-      {openCreateCamapginModal && <CampaignModal setOpenCreateCampaignModal={setOpenCreateCampaignModal} />}
-      <FirstPageTemplate
-        name="Campagin"
-        description="Campaign description"
-        renderContent={renderContent}
-        actionButtons={
-          <ActionButtons openModal={() => setOpenCreateCampaignModal(true)} />
-        }
-        savedContent={savedContent}
-        loading={loading}
-      />
+      {openCreateCamapginModal && (
+        <CampaignModal
+          setOpenCreateCampaignModal={setOpenCreateCampaignModal}
+        />
+      )}
+      {isFirstPage ? (
+        <FirstPageTemplate
+          name="Campagin"
+          description="Campaign description"
+          renderContent={renderContent}
+          actionButtons={
+            <ActionButtons openModal={() => setOpenCreateCampaignModal(true)} />
+          }
+          savedContent={savedContent}
+          loading={loading}
+        />
+      ) : (
+        <PageContainer>
+          <Header>
+            <div className="w-full flex items-center justify-between">
+              <div className="flex gap-4 items-center">
+                <BsChevronLeft className="w-4 h-4 fill-black" />
+                <span>Back</span>
+              </div>
+              <div className="text-black flex gap-4">
+                <button>Saved</button>
+                <button>Capmaign settings</button>
+              </div>
+            </div>
+          </Header>
+          <Centered>
+            <div className="grid grid-cols-3 w-full">
+              {templates
+                .filter((category, index, self) => {
+                  // Return true only for the first occurrence of each category
+                  return (
+                    index ===
+                    self.findIndex((c) => c.category === category.category)
+                  );
+                })
+                .map((category) => {
+                  const isCategoryExpanded = expandedCategories.includes(
+                    category.category
+                  );
+                  return (
+                    <div
+                      className={`h-auto text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-10 py-6 flex flex-col items-center justify-between gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300`}
+                      key={category._id}
+                      onClick={() => toggleCategoryExpansion(category.category)}
+                    >
+                      <div className="flex justify-between w-full">
+                        <div className="flex gap-2 ">
+                          <Image
+                            src={category.icon}
+                            height={22}
+                            width={22}
+                            alt={`${category.category}'s icon`}
+                          />
+                          <span className="ml-2">{category.category}</span>
+                        </div>
+                        <div>
+                          {isCategoryExpanded ? (
+                            <BsChevronUp />
+                          ) : (
+                            <BsChevronDown />
+                          )}
+                        </div>
+                      </div>
+
+                      {isCategoryExpanded && (
+                        <div>
+                          <p>{LoremIpsum}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
+          </Centered>
+        </PageContainer>
+      )}
     </PageTemplate>
   );
 };
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+  color: black;
+  margin-bottom: 4rem;
+  @media (max-width: 1023px) {
+    display: flex;
+    padding: 1.5rem 1rem;
+    border-radius: 25px;
+    box-shadow: 0px 4px 10px rgba(15, 27, 40, 0.15);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const PageContainer = styled.div`
+  min-height: calc(100vh - 1.5rem);
+  align-items: center;
+  border: 2px solid #eaedf5;
+  width: 100%;
+  border-radius: 25px;
+  padding: 1.5rem 3rem 1.5rem 3rem;
+  @media (max-width: 1023px) {
+    width: 100%;
+    display: block;
+    background-color: transparent;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 0rem 0rem 4rem 0em;
+    box-shadow: none;
+    margin-bottom: 4rem;
+  }
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.15);
+`;
 
 const ActionBtn = styled.div`
   width: 3.5rem;
