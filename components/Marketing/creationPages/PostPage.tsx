@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import backIcon from "../../../public/images/backArrow.png";
 import Image from "next/image";
-import magicalWand from "../../../public/images/magical_wand.png";
 import { FormEvent, use, useEffect, useState } from "react";
-import Dropdown from "../../forms/Dropdown";
 import ResultsContainer from "../../Common/ResultsContainer";
 import PageContent from "../../Common/PageContent";
 import FormContainer from "../../Common/FormContainer";
@@ -77,12 +75,12 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     if (window.innerWidth < 1023) {
       setMobile(true);
     }
+
     if (template) {
       if (template.title === "Tweet") {
         setCompletionLength(20);
       }
     }
-
   }, []);
 
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
