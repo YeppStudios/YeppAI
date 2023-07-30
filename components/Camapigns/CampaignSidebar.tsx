@@ -142,7 +142,7 @@ export default function CampaignSidebar(props: {
                       <div className="border-b border-gray-200">
                         <div className="px-6">
                           {/*content*/}
-                          <form className="lg:mt-24">
+                          <form className="lg:mt-14">
                             <div className="grid grid-cols-1">
                               <div className="grid grid-cols-2">
                                 <div className="pb-6 pr-3 pl-3 pt-0">
