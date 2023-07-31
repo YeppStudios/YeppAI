@@ -56,7 +56,6 @@ export const documentation = [
               '   "query": "What is the weather like today?",\n' +
               '   "assistant_id": "your_assistant_id_here",\n' +
               '   "conversation_id": "your_conversation_id_here",\n' +
-              '   "knowledge_based": true,\n' +
               '   "llm": "gpt-4"\n' +
               '}\'' +
               '\n',
@@ -69,7 +68,6 @@ export const documentation = [
             {title: "query", paramType: "string, required", description: "The text input to the assistant from the user."},
             {title: "assistant_id", paramType: "string", description: "The unique ID of the assistant to be used. If not provided, the default assistant is used."},
             {title: "conversation_id", paramType: "string", description: "The unique ID of the ongoing conversation. If not provided, a new conversation is created."},
-            {title: "knowledge_based", paramType: "boolean", description: "A flag to determine if the assistant should use your uploaded knowledge. Default is false."},
             {title: "llm", paramType: "string", description: "The large language model to be used. If not provided, the default model gpt-4 is used."}
         ],
         response: [
@@ -92,7 +90,6 @@ export const documentation = [
               '   "query": "What is the weather like today?",\n' +
               '   "assistant_id": "your_assistant_id_here",\n' +
               '   "conversation_id": "your_conversation_id_here",\n' +
-              '   "knowledge_based": true,\n' +
               '   "llm": "gpt-4"\n' +
               '}\'' +
               '\n',
@@ -105,7 +102,6 @@ export const documentation = [
             {title: "query", paramType: "string, required", description: "The text input to the assistant from the user."},
             {title: "assistant_id", paramType: "string", description: "The unique ID of the assistant to be used. If not provided, the default assistant is used."},
             {title: "conversation_id", paramType: "string", description: "The unique ID of the ongoing conversation. If not provided, a new conversation is created."},
-            {title: "knowledge_based", paramType: "boolean", description: "A flag to determine if the assistant should use your uploaded knowledge. Default is false."},
             {title: "llm", paramType: "string", description: "The large language model to be used. If not provided, the default model gpt-4 is used."}
         ],
         response: [
