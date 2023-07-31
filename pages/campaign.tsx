@@ -274,11 +274,13 @@ const Campagin = () => {
         />
       ) : (
         <PageContainer>
+          <CampaignSidebar open={openSidebar} setOpen={setOpenSidebar} />
+
           <Header>
             <div className="w-full flex items-center justify-between">
               <button className="flex gap-4 items-center">
-                <BsChevronLeft className="w-4 h-4 fill-black" />
-                <span>Back</span>
+                <BsChevronLeft className="w-6 h-6 fill-black" />
+                <span className="font-bold">Back</span>
               </button>
               <div className="text-black flex gap-4">
                 <button
