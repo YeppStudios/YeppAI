@@ -27,6 +27,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { CampaignModal } from "@/components/Camapigns/Modal/CampaignModal";
 import Centered from "@/components/Centered";
 import { CiRedo } from "react-icons/ci";
+import CampaignSidebar from "@/components/Camapigns/CampaignSidebar";
 
 const Campagin = () => {
   //place to fetch content for campaigns. For now i will use copywrite content as placeholder.
@@ -51,6 +52,7 @@ const Campagin = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<any>();
   const [templateCategories, setTemplateCategories] = useState<string[]>([]);
   const [expandedCategories, setExpandedCategories] = useState<string[]>([""]);
+  const [openSidebar, setOpenSidebar] = useState(false);
 
   const router = useRouter();
   const breakpointColumnsObj = {
@@ -287,6 +289,7 @@ const Campagin = () => {
                 </button>
                 <button
                   className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-8 py-5 flex items-center justify-between gap-6 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${"border border-gray-100 shadow-lg"}`}
+                  onClick={() => setOpenSidebar(true)}
                 >
                   <div>
                     <TbAdjustmentsHorizontal className="h-6 w-6" />
