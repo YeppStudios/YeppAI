@@ -116,6 +116,7 @@ const Section = styled.div`
     width: 100%;
     display: grid; 
     grid-template-columns: 1.2fr 0.8fr; 
+    padding: 0 7vw 0 7vw;
     grid-template-rows: 1fr; 
     gap: 0px 0px; 
     grid-template-areas:
@@ -123,6 +124,7 @@ const Section = styled.div`
       @media (max-width: 1023px) {
         display: flex;
         flex-wrap: wrap;
+        padding: 0 5vw 0 5vw;
       }
 `
 

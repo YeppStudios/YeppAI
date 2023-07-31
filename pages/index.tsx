@@ -5,7 +5,7 @@ import Navbar from '@/components/Landing/Navbar';
 import Head from 'next/head'
 import styled from 'styled-components';
 import Image from 'next/image';
-import laptopVisualization from "../public/images/laptopVisualization.png";
+import laptopVisualization from "../public/images/visualization-landing.png";
 import Section from '@/components/Landing/Section';
 import LeftFeature from '@/components/Landing/LeftFeature';
 import RightFeature from '@/components/Landing/RightFeature';
@@ -20,6 +20,7 @@ import webBackground from "../public/images/webBackground.png";
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
+import HeroSection from '@/components/Landing/HeroSection';
 
 interface Background {
   image: any
@@ -62,33 +63,7 @@ const Homepage = () => {
         <PageContent>
           <Loading />
           <Navbar onNewsletterClick={() => handleNewsletterScroll()} />
-          <Background>
-            <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
-          </Background>
-          <HeroSection>
-              <Centered><HeroText>Upload your assets,</HeroText></Centered>
-              <Centered><TypewriterSection /></Centered>
-              {/* <Centered><TypewriterSection/></Centered> */}
-              <div>
-                <Centered>
-              <DescriptionHero color="black">
-                #1 Generative AI tool among marketing agencies.
-              </DescriptionHero>
-              </Centered>
-              <Centered>
-                {mobile ?
-                  <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
-                  :
-                  <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
-                }
-                {!mobile && <FreeConsultationBtn id="demo-btn" href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn>}
-              </Centered>
-              <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
-              <Centered>
-              <LoginButton onClick={() => router.push("/chat")}>Log in</LoginButton>
-              </Centered>
-              </div>
-          </HeroSection>
+          <HeroSection></HeroSection>
           <SlideBottom>
                 <Centered>
                   <LaptopContainer>
@@ -107,15 +82,17 @@ const Homepage = () => {
             <SlideBottom>
             <div id="functionalities"></div>
             <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
+            <Centered>
             <HeroText>
               <ColorfulText>Reduce workload</ColorfulText> and watch your online presence grow.
             </HeroText>
+            </Centered>
             <Space margin="5vh"/>
             </SlideBottom>
             </Centered>
             </Section>
             <LeftFeature
-                title="Create Client Profiles" 
+                title="Teach AI any relevant informations." 
                 gif="/videos/uploading.gif" 
                 text="Upload the content and information about your clients, their industry, products etc."
                 bulletpoints={["Upload PDF, TXT, PPTX & DOCX files", "Transcribe YouTube content", "Scrape websites"]}
@@ -123,14 +100,14 @@ const Homepage = () => {
                 marginTop='3vh'
             />
             <RightFeature 
-                title="Use ready templates" 
+                title="Effortlessly generate content." 
                 gif="/videos/marketer.gif"
                 text="Based on company and industry-specific knowledge:"
                 bulletpoints={["Generate Google Ads", "Create unique posts and product descriptions", "Engineer growth hacking strategies"]}
                 color="black"
             />
             <LeftFeature
-                title="Generate SEO content" 
+                title="Generate SEO articles that rank." 
                 gif="/videos/copywriter.gif" 
                 text="Based on company knowledge and current internet trends:"
                 bulletpoints={["Write SEO articles", "Generate insightful blogs", "Craft guides and rankings"]}
@@ -138,7 +115,7 @@ const Homepage = () => {
                 marginTop='3vh'
             />
             <RightFeature 
-                title="Chat with assets" 
+                title="Access years of wisdom in seconds." 
                 gif="/videos/dataAssistant.gif"
                 text="Based on the uploaded content:"
                 bulletpoints={["Talk with your company's documents", "Search information about your clients", "Ask your documents for advice"]}
@@ -158,9 +135,11 @@ const Homepage = () => {
           <div id="offer"></div>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
-          <Centered><SlideBottom><HeroText>Boost your productivity now.</HeroText></SlideBottom></Centered>
+          <SlideBottom><Centered><HeroText>Boost your productivity now.</HeroText></Centered></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
+          <div className='w-full px-4 sm:px-28'>
           <Plans openRegistration={true} purchase={false} landing={true}/>
+          </div>
           </Section>
           <Section>
             <div id="newsletter"></div>
@@ -179,10 +158,6 @@ const PageContent = styled.div`
   position: relative;
   height: 100%;
   overflow: hidden;
-  padding: 0 8vw 0 8vw;
-  @media (max-width: 1023px) {
-    padding: 0 5vw 0 5vw;
-  }
 `
 
 const Background = styled.div`
@@ -193,52 +168,6 @@ const Background = styled.div`
     top: -6rem;
     left: 0;
   `
-
-const HeroSection = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 9rem;
-  @media (max-width: 1023px) {
-    display: flex;
-    margin-top: 8rem;
-  }
-`
-
-const DescriptionHero = styled.p<CustomColor>`
-    color: ${props => props.color || '#000000'};
-    font-size: 1.5rem;
-    width: 100%;
-    text-align: center;
-    font-weight: 500;
-    margin-top: 8vh;
-    @media (max-width: 1023px) {
-        margin-top: 1.5rem;
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-        width: 95%;
-        padding: 0 0.7rem 0 0.7rem;
-    }
-`
-
-
-const LoginButton = styled.button`
-    font-size: 1.2rem;
-    margin-top: 3vh;
-    padding: 2vh 5vw 2vh 5vw;
-    width: 70vw;
-    background: #EDEEF3;
-    transition: all 0.3s ease;
-    border-radius: 25px;
-    font-weight: 600;
-    font-family: 'Lato', sans-serif;
-    border: none;
-    color: black;
-    font-weight: 700;
-    @media (min-width: 1023px) {
-      display: none;
-    }
-`
 
 const TestButton = styled.button`
     font-size: 1.2rem;

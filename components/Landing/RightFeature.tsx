@@ -86,14 +86,13 @@ export default RightFeature;
 const FeatureContainer = styled.div<{ color: string }>`
   width: 100vw;
   height: auto;
-  padding: 0vh 8vw 0vh 0vw;
-  margin-left: -8vw;
+  padding: 0vh 7vw 0vh 7vw;
   margin-top: 14rem;
   color: ${(props) => props.color};
   display: grid;
-  grid-template-columns: 1.3fr 0.7fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
-  gap: 0px 0px;
+  gap: 0px 100px;
   grid-template-areas: ". .";
   align-items: center;
   @media (max-width: 1023px) {
@@ -101,7 +100,6 @@ const FeatureContainer = styled.div<{ color: string }>`
     flex-wrap: wrap;
     justify-content: center;
     width: 100vw;
-    margin-left: -5vw;
     padding: 5vh 0 10vh 0;
     margin-top: 0;
   }
@@ -111,6 +109,7 @@ const FeatureTitle = styled.h2`
   font-size: 2.5rem;
   font-family: "Satoshi", sans-serif;
   font-weight: 900;
+  line-height: 1.35;
   @media (max-width: 1023px) {
     font-size: 2rem;
     width: 100%;
@@ -142,7 +141,6 @@ const FeatureDescription = styled.p<{ color: string }>`
 
 const GifContainer = styled.div`
   overflow: visible;
-  margin-left: 8vw;
   max-height: 90vh;
   width: 40rem;
   border-radius: 25px;
