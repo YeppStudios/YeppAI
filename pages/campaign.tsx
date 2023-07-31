@@ -277,20 +277,20 @@ const Campagin = () => {
           <CampaignSidebar open={openSidebar} setOpen={setOpenSidebar} />
 
           <Header>
-            <div className="w-full flex items-center justify-between">
+            <div className=" w-full flex items-center justify-between">
               <button className="flex gap-4 items-center">
                 <BsChevronLeft className="w-6 h-6 fill-black" />
                 <span className="font-bold">Back</span>
               </button>
-              <div className="text-black flex gap-4">
+              <div className="text-black flex gap-4 lg:flex-row flex-col">
                 <button
-                  className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-6 py-5 flex items-center justify-between gap-6 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${"border border-gray-100 shadow-lg"}`}
+                  className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-6  py-5 flex items-center justify-around lg:gap-6 gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${"border border-gray-100 shadow-lg"}`}
                 >
                   <FaRegBookmark className="h-6 w-6" />
                   <span>Saved</span>
                 </button>
                 <button
-                  className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-8 py-5 flex items-center justify-between gap-6 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${"border border-gray-100 shadow-lg"}`}
+                  className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 sm:px-8 px-4 py-5 flex items-center justify-between  lg:gap-6 gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${"border border-gray-100 shadow-lg"}`}
                   onClick={() => setOpenSidebar(true)}
                 >
                   <div>
