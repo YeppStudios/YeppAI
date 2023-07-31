@@ -4,6 +4,7 @@ import React, { useState, useEffect, Fragment } from "react";
 
 import { useRouter } from "next/router";
 import { BsFillArchiveFill, BsPencilFill, BsTrash } from "react-icons/bs";
+import { FaCog } from "react-icons/fa";
 import styled from "styled-components";
 import classNames from "classnames";
 
@@ -13,6 +14,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
 
 import { CampaignModal } from "@/components/Camapigns/Modal/CampaignModal";
+import CampaignSidebar from "@/components/Camapigns/CampaignSidebar";
 
 const Campagin = () => {
   //place to fetch content for campaigns. For now i will use copywrite content as placeholder.
@@ -21,6 +23,7 @@ const Campagin = () => {
   const [loading, setLoading] = useState(true);
   const [savedContent, setSavedContent] = useState<any[]>([]);
   const [page, setPage] = useState(1);
+  const [openSidebar, setOpenSidebar] = useState(false);
 
   const router = useRouter();
 
@@ -77,9 +80,7 @@ const Campagin = () => {
     const renderedContent = savedContent.map((content, index) => {
       return (
         <tr key={content._id} onClick={() => handleOpenDocument(content._id)}>
-          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-
-          </td>
+          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
           <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
             {mobile ? `${content.title.slice(0, 28)}...` : content.title}
           </td>
@@ -156,12 +157,15 @@ const Campagin = () => {
   };
 
   //placeholder for custom action buttons
-  const ActionButtons = (props: { openModal: any }) => {
+  const ActionButtons = (props: { openModal: any; openSidebar: any }) => {
     const router = useRouter();
     return (
       <ActionContaienr>
         <ActionBtn onClick={() => router.push("/assets")}>
           <BsFillArchiveFill style={{ width: "auto", height: "35%" }} />
+        </ActionBtn>
+        <ActionBtn onClick={props.openSidebar}>
+          <FaCog style={{ width: "auto", height: "35%" }} />
         </ActionBtn>
         <WriteBtn onClick={props.openModal}>
           <BsPencilFill style={{ width: "auto", height: "35%" }} />
@@ -172,19 +176,29 @@ const Campagin = () => {
   };
 
   return (
-    <PageTemplate>
-      {openCreateCamapginModal && <CampaignModal setOpenCreateCampaignModal={setOpenCreateCampaignModal} />}
-      <FirstPageTemplate
-        name="Campagin"
-        description="Campaign description"
-        renderContent={renderContent}
-        actionButtons={
-          <ActionButtons openModal={() => setOpenCreateCampaignModal(true)} />
-        }
-        savedContent={savedContent}
-        loading={loading}
-      />
-    </PageTemplate>
+    <>
+      <CampaignSidebar open={openSidebar} setOpen={setOpenSidebar} />
+      <PageTemplate>
+        {openCreateCamapginModal && (
+          <CampaignModal
+            setOpenCreateCampaignModal={setOpenCreateCampaignModal}
+          />
+        )}
+        <FirstPageTemplate
+          name="Campagin"
+          description="Campaign description"
+          renderContent={renderContent}
+          actionButtons={
+            <ActionButtons
+              openModal={() => setOpenCreateCampaignModal(true)}
+              openSidebar={() => setOpenSidebar(true)}
+            />
+          }
+          savedContent={savedContent}
+          loading={loading}
+        />
+      </PageTemplate>
+    </>
   );
 };
 
