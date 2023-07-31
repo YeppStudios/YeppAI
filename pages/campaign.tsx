@@ -1,6 +1,7 @@
 import FirstPageTemplate from "@/components/Common/FirstPageTemplate";
 import PageTemplate from "@/components/Common/PageTemplate";
 import React, { useState, useEffect, Fragment } from "react";
+import Masonry from "react-masonry-css";
 
 import { useRouter } from "next/router";
 import {
@@ -11,6 +12,9 @@ import {
   BsChevronDown,
   BsChevronUp,
 } from "react-icons/bs";
+import { TbAdjustmentsHorizontal } from "react-icons/tb";
+import { MdContentCopy } from "react-icons/md";
+import { FaRegBookmark } from "react-icons/fa";
 import styled from "styled-components";
 import classNames from "classnames";
 import Image from "next/image";
@@ -22,6 +26,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 
 import { CampaignModal } from "@/components/Camapigns/Modal/CampaignModal";
 import Centered from "@/components/Centered";
+import { CiRedo } from "react-icons/ci";
 
 const Campagin = () => {
   //place to fetch content for campaigns. For now i will use copywrite content as placeholder.
@@ -48,6 +53,12 @@ const Campagin = () => {
   const [expandedCategories, setExpandedCategories] = useState<string[]>([""]);
 
   const router = useRouter();
+  const breakpointColumnsObj = {
+    default: 4,
+    2000: 3,
+    1250: 2,
+    770: 1,
+  };
   const { query } = router;
 
   useEffect(() => {
@@ -263,18 +274,33 @@ const Campagin = () => {
         <PageContainer>
           <Header>
             <div className="w-full flex items-center justify-between">
-              <div className="flex gap-4 items-center">
+              <button className="flex gap-4 items-center">
                 <BsChevronLeft className="w-4 h-4 fill-black" />
                 <span>Back</span>
-              </div>
+              </button>
               <div className="text-black flex gap-4">
-                <button>Saved</button>
-                <button>Capmaign settings</button>
+                <button
+                  className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-6 py-5 flex items-center justify-between gap-6 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${"border border-gray-100 shadow-lg"}`}
+                >
+                  <FaRegBookmark className="h-6 w-6" />
+                  <span>Saved</span>
+                </button>
+                <button
+                  className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-8 py-5 flex items-center justify-between gap-6 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${"border border-gray-100 shadow-lg"}`}
+                >
+                  <div>
+                    <TbAdjustmentsHorizontal className="h-6 w-6" />
+                  </div>
+                  <span>Capmaign settings</span>
+                </button>
               </div>
             </div>
           </Header>
           <Centered>
-            <div className="grid grid-cols-3 w-full">
+            <SectionsContanier
+              className="my-masonry-grid"
+              breakpointCols={breakpointColumnsObj}
+            >
               {templates
                 .filter((category, index, self) => {
                   // Return true only for the first occurrence of each category
@@ -313,20 +339,42 @@ const Campagin = () => {
                       </div>
 
                       {isCategoryExpanded && (
-                        <div>
-                          <p>{LoremIpsum}</p>
+                        <div className="flex flex-col items-stretch">
+                          <div className=" pb-4 ">
+                            <p className="text-justify">{LoremIpsum}</p>
+                          </div>
+                          <div className="border w-full border-gray-300  " />
+                          <div className="flex w-full justify-between items-center pt-4">
+                            <div className="flex gap-2 items-center">
+                              <CiRedo className="w-6 h-6" />
+                              <span>Rewrite</span>
+                            </div>
+                            <div className="flex gap-4 items-center">
+                              <TbAdjustmentsHorizontal className="h-5 w-5" />
+                              <MdContentCopy className="h-5 w-5" />
+                              <FaRegBookmark className="h-5 w-5" />
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
                   );
                 })}
-            </div>
+            </SectionsContanier>
           </Centered>
         </PageContainer>
       )}
     </PageTemplate>
   );
 };
+
+const SectionsContanier = styled(Masonry)`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 1rem;
+`;
 
 const Header = styled.div`
   display: flex;
