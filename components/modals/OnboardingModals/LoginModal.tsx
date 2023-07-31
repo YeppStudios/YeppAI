@@ -109,7 +109,6 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
         if (Number(billingPeriod) > 1) {
             invoiceTitle = `Yepp.ai - ${billingPeriod} months of ${planName} subscription`;
         }
-
         try {
             let response: AxiosResponse<any, any>;
             if (registration) {
@@ -182,36 +181,21 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 localStorage.setItem('plan', response.data.user.plan);
                 localStorage.setItem('workspace', response.data.user.workspace);
                 localStorage.setItem('account_type', response.data.user.accountType);
-                if (planId) {
-                    if (localStorage.getItem("country") === "Poland" && Number(billingPeriod) > 1) {
-                        let res = await api.post(`/create-checkout-session`, 
-                        {
-                            priceId,
-                            mode: "payment",
-                            successURL: successUrl,
-                            cancelURL: `${window.location.origin}${router.asPath}`,
-                            planId: planId,
-                            email,
-                            months: Number(billingPeriod),
-                        });
-                        const { url } = await res.data;
-                        window.location.href = url;
-                    } else {
-                        let res = await api.post(`/create-checkout-session`, 
-                        {
-                            priceId,
-                            mode: "subscription",
-                            successURL: successUrl,
-                            cancelURL: `${window.location.origin}${router.asPath}`,
-                            planId: planId,
-                            email,
-                            months: Number(billingPeriod),
-                            global: true
-                        });
-                        const { url } = await res.data;
-                        window.location.href = url;
-                    }
-                } else {
+                if (priceId && billingPeriod && planId) {
+                    let res = await api.post(`/create-checkout-session`, 
+                    {
+                        priceId: priceId,
+                        mode: "subscription",
+                        successURL: successUrl,
+                        cancelURL: `${window.location.origin}${router.asPath}`,
+                        planId: planId,
+                        email,
+                        months: billingPeriod,
+                        global: true
+                    });
+                    const { url } = await res.data;
+                    window.location.href = url;
+                }  else {
                     props.onClose();
                 }
                 setLoading(false);
