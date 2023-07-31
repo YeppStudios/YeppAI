@@ -119,6 +119,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
               authorization: token
             }
         });
+        console.log(priceId)
         if (props.purchase) {
             let res = await api.post(`/create-checkout-session`, 
             {
