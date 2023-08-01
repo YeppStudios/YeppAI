@@ -26,12 +26,12 @@ const plans = [
         planId: "64ad0d740e40385f299bcef9", 
         description: "Basic version of Assistant, enhanced skills.", 
         features: ["200 000 elixir/mo (~100 A4 pages)", "1 AI profile", "10 assets to upload (max 15MB total)", "Single web pages scanning", "Uploading PDF, PPTX, TXT and DOCX", "Chat with your AI", "Marketer AI", "Copywriter AI"],
-        price: 59, 
+        price: 79, 
         polishPrice: 299, 
-        monthlyPriceId: {default: "price_1NSZjsFe80Kn2YGGYa3pzseT", polish: "price_1NUPqFFe80Kn2YGG0FZyaRXH"}, 
-        threeMonthPriceId: {default: "price_1NSafTFe80Kn2YGG5LVrITu1", polish: "price_1NUPqQFe80Kn2YGGAjjfYZXQ"}, 
-        sixMonthPriceId: {default: "price_1NSagKFe80Kn2YGGFhOuum7Z", polish: "price_1NUPqcFe80Kn2YGG5zUJqhKq"}, 
-        yearlyPriceId: {default: "price_1NSaglFe80Kn2YGGZZ8msY1r", polish: "price_1NUPr0Fe80Kn2YGGd6BuzOAs"}
+        monthlyPriceId: {default: "price_1NaF8EFe80Kn2YGGAuVBGHjh", polish: "price_1NUPqFFe80Kn2YGG0FZyaRXH"}, 
+        threeMonthPriceId: {default: "price_1NaFKUFe80Kn2YGGN8gOfDnT", polish: "price_1NUPqQFe80Kn2YGGAjjfYZXQ"}, 
+        sixMonthPriceId: {default: "price_1NaFLfFe80Kn2YGGFtgjV1CI", polish: "price_1NUPqcFe80Kn2YGG5zUJqhKq"}, 
+        yearlyPriceId: {default: "price_1NaFMhFe80Kn2YGGsXAeqFPF", polish: "price_1NUPr0Fe80Kn2YGGd6BuzOAs"}
     }, 
     {
         title: "Agency",
