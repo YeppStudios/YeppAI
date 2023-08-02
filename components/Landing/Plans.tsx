@@ -119,7 +119,6 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
               authorization: token
             }
         });
-        console.log(priceId)
         if (props.purchase) {
             let res = await api.post(`/create-checkout-session`, 
             {
@@ -172,15 +171,15 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                 <PlanContainer backgroundColor="white" color="black" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">✏️</span> </Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a freelancer</BriefDescription>
-                                    <MainDescription>Your personal AI content creator with knowledge from uploaded assets.</MainDescription>
+                                    <MainDescription>Your custom AI content creator with knowledge from uploaded assets.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
                                     <Price>
-                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><b>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</b></Gross></Price>}
                                     </Price>
                                     :
                                     <Price>
-                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><b>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</b></Gross></Price>}
                                     </Price>
                                     }
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
@@ -211,18 +210,18 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                 </PlanContainer>                   
                             }
                             {plan.title === "Agency" &&
-                                <MiddlePlanContainer backgroundColor="rgba(100, 181, 255, 0.2)" color="black" width="auto">
-                                    <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText><ColorfulText>{plan.title}</ColorfulText></PlanTitleText> </PlanTitle>
+                                <MiddlePlanContainer backgroundColor="white" color="black" width="auto">
+                                    <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a marketing agency</BriefDescription>
                                     <MainDescription>Define AI profiles for your clients and streamline the conetnt creation.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
                                     <Price>
-                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><b>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</b></Gross></Price>}
                                     </Price>
                                     :
                                     <Price>
-                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><b>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</b></Gross></Price>}
                                     </Price>
                                     }
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
@@ -245,7 +244,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                                         </TickIcon>
                                                         <FeatureText>
                                                             {parts[0]}
-                                                            <ColorfulText><b>Unlimited</b></ColorfulText>
+                                                            <b><b>Unlimited</b></b>
                                                             {parts[1]}
                                                         </FeatureText>
                                                     </Feature>
@@ -268,7 +267,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                         <TickIcon>
                                             <Image style={{ height: "auto", width: "100%" }}  src={plusIcon} alt={'icon'}></Image> 
                                         </TickIcon>
-                                        <FeatureText><ColorfulText><b>Everything from Standard plan</b></ColorfulText></FeatureText>
+                                        <FeatureText><b><b>Everything from Standard plan</b></b></FeatureText>
                                     </Feature>            
                                     </FeaturesList>
                                 </MiddlePlanContainer>            
@@ -296,7 +295,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                                         </TickIcon>
                                                         <FeatureText>
                                                             {parts[0]}
-                                                            <ColorfulText><b>Unlimited</b></ColorfulText>
+                                                            <b><b>Unlimited</b></b>
                                                             {parts[1]}
                                                         </FeatureText>
                                                     </Feature>
@@ -362,13 +361,13 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                 <div className="cursor-pointer" key={tab.name} onClick={() => setBillingPeriod(tab.period)}>
                 <button
                 className={classNames(
-                    tab.period === billingPeriod ? 'bg-blue-100 py-4 text-blue-700' : 'text-gray-500 hover:text-gray-700',
+                    tab.period === billingPeriod ? 'bg-[#F0F3F8] py-4 text-blue-700' : 'text-gray-500 hover:text-gray-700',
                     'rounded-lg px-14 text-lg font-medium'
                 )}
                 >
-                {tab.period === billingPeriod ?<ColorfulText>{tab.name}</ColorfulText> : tab.name}
+                {tab.period === billingPeriod ? <b className="text-black font-900">{tab.name}</b> : tab.name}
                 </button>
-                    {(tab.period !== billingPeriod && tab.period !== 1) && <div className="text-gray-500"><ColorfulText><b>{tab.discount*100}% off</b></ColorfulText></div>}
+                    {(tab.period !== billingPeriod && tab.period !== 1) && <div className="text-gray-500"><b className="text-black font-900">{tab.discount*100}% off</b></div>}
                 </div>
             ))}
             </nav>
@@ -400,7 +399,7 @@ const PlansContainer = styled.div`
     }
 `
 
-const ColorfulText = styled.span`
+const b = styled.span`
   background: -webkit-linear-gradient(40deg, #6578F8, #64B5FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -422,7 +421,6 @@ const PlanContainer = styled.div<PlanContainer>`
     height: 100%;
     border: solid 3px #ECECEC;
     border-radius: 25px;
-    box-shadow: 0px 0px 20px rgba(22, 27, 29, 0.2);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     color: ${props => props.color || 'black'};
@@ -436,12 +434,10 @@ const PlanContainer = styled.div<PlanContainer>`
 
 const MiddlePlanContainer = styled.div<PlanContainer>`
     width: ${props => props.width || '22vw'};
-    background-color: #0D0E16;
     padding: 4vh 4vh 6vh 4vh;
     height: 100%;
-    border: solid 3px transparent;
     border-radius: 25px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
+    border: 3px solid black;
     box-shadow: 3px 3px 6px rgba(22, 27, 29, 0.2);
     background-origin: border-box;
     background-clip: padding-box, border-box;
@@ -555,8 +551,7 @@ const BuyButton = styled.button<Button>`
     border: solid 3px transparent;
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
+    background: ${props => props.backgroundColor || 'linear-gradient(90deg, #FF4646 0%, #FF4646 100%)'};
     background-size: 110%;
     background-position-x: -1rem;
     color: ${props => props.color || 'white'};

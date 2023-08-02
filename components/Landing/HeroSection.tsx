@@ -49,11 +49,11 @@ const HeroSection = () => {
           <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-28">
             <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none">
               <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl mt-48">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                <h1 className="text-4xl font-medium tracking-tight text-gray-900 sm:text-6xl">
                 Upload your assets,
                 </h1>
                 <TypewriterSection />
-                <p className="relative mt-8 text-xl leading-8 font-medium text-gray-600 sm:max-w-md lg:max-w-lg flex items-center">
+                <p className="relative mt-8 text-xl leading-8 font-medium text-gray-900 sm:max-w-md lg:max-w-lg flex items-center">
                     <BsStars className="mr-4" /> No. 1 Generative AI tool among marketing agencies.
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
@@ -153,6 +153,7 @@ const DemoButton = styled.a`
     border-radius: 15px;
     box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 5px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     color: black;
+    background: white;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;

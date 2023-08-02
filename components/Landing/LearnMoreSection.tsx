@@ -79,7 +79,7 @@ const LearnMoreSection = () => {
                 <Accordion openedAccordion={openedAccordion} index={4} onClick={() => setOpenedAccordion(4)} question="Doesn't it generate the same content for everyone?" answer={"No. Yepp is creative and generates unique and tailored content for each query."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
             </div>
             <ContactContainer>
-                <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-900">Learn more.</b></Title>
+                <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-semibold">Learn more.</b></Title>
                 <Description>Stay up to date with latest AI trends and learn how to make use of most our latest features.</Description>
                 <SignupLabel>Join our <b>AI newsletter!</b></SignupLabel>
                 <Form onSubmit={subscribe}>

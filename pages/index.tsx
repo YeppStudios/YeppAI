@@ -15,8 +15,7 @@ import Loading from '@/components/Common/Loading';
 import { useRouter } from 'next/router';
 import { BsFillGiftFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
-import Title from '@/components/Common/Title';
-import webBackground from "../public/images/webBackground.png";
+import growthIcon from "../public/images/growthIcon.png";
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
@@ -81,10 +80,10 @@ const Homepage = () => {
             <Centered>
             <SlideBottom>
             <div id="functionalities"></div>
-            <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
+            <Centered><Icon><Image src={growthIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
             <Centered>
             <HeroText>
-              <ColorfulText>Reduce workload</ColorfulText> and watch your online presence grow.
+              Reduce workload and watch your online presence <b className='font-black'>grow.</b>
             </HeroText>
             </Centered>
             <Space margin="5vh"/>
@@ -134,8 +133,8 @@ const Homepage = () => {
             <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
           <div id="offer"></div>
           <Section>
-          <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
-          <SlideBottom><Centered><HeroText>Boost your productivity now.</HeroText></Centered></SlideBottom>
+          <Centered><Icon><Image src={growthIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
+          <SlideBottom><Centered><HeroText><b>Empower your team</b> with AI today.</HeroText></Centered></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
           <div className='w-full px-4 sm:px-28'>
           <Plans openRegistration={true} purchase={false} landing={true}/>
@@ -174,14 +173,12 @@ const TestButton = styled.button`
     padding: 2vh 5vw 2vh 5vw;
     width: 70vw;
     border: solid 3px transparent;
-    border-radius: 25px;
+    border-radius: 15px;
     box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     align-items: center;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 120%;
-    background-position-x: -1rem;
+    background: black;
     margin-top: 3vh;
     color: white;
     display: flex;
@@ -300,4 +297,10 @@ const FreeConsultationBtn = styled.a`
       padding: 1.5vh 0vw 1.5vh 0vw;
       margin-left: 1rem;
     }
+`
+
+const Icon = styled.div`
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1.25rem;
 `
