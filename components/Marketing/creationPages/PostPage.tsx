@@ -72,11 +72,11 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [enableEmojis, setEnableEmojis] = useState(true);
 
   useEffect(() => {
-    if (window.innerWidth < 1023) {
-      setMobile(true);
-    }
     if (localStorage.getItem("country") === "Poland") {
       setLanguage("Polish");
+    }
+    if (window.innerWidth < 1023) {
+      setMobile(true);
     }
 
     if (template) {
