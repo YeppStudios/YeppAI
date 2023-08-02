@@ -11,7 +11,7 @@ const Section = (props: {children: any}) => {
 export default Section;
 
 const SectionContainer = styled.div`
-    margin-top: 20vh;
+    margin-top: 30vh;
     @media (max-width: 1023px) {
         margin-top: 10vh;
         display: flex;

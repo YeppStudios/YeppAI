@@ -18,7 +18,7 @@ export const TypewriterSection = () => {
   }, []);
 
   return (
-    <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl mt-4">
+    <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl mt-4">
         <TypeAnimation
           sequence={[
             "chat with your data.",

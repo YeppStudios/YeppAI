@@ -39,23 +39,21 @@ const RightFeature = (props: {
           <FeatureTitle>{props.title}</FeatureTitle>
           <FeatureDescription color={props.color}>
             {!mobile && props.text}
-            <ul className="mt-6">
+            <div className="mt-6">
               {props.bulletpoints.map((item, index, array) => {
                 return (
-                  <li key={item}>
-                    {item}
+                  <p key={item}>
+                    <span aria-hidden="true" className="mr-3">&rarr;</span> {item}
                     {index !== array.length - 1 && mobile ? "," : ""}
-                  </li>
+                  </p>
                 );
               })}
-            </ul>
+            </div>
           </FeatureDescription>
           {!mobile && (
-            <Link href="/assets?registration=true&trial=true">
-              <Button color={props.color} className="">
-                <BtnText>Try now</BtnText>
-              </Button>
-            </Link>
+          <Button href="/assets?registration=true&trial=true" color={props.color} className="">
+            <BtnText>Try now</BtnText>
+          </Button>
           )}
         </div>
       </SlideBottom>
@@ -70,11 +68,9 @@ const RightFeature = (props: {
               alt={"gif"}
             />
           </GifContainer>
-          <Link href="/assets?registration=true&trial=true">
-            <Button color={props.color} className="">
-              <BtnText>Try now</BtnText>
-            </Button>
-          </Link>
+          <Button href="/assets?registration=true&trial=true" color={props.color} className="">
+            <BtnText>Try now</BtnText>
+          </Button>
         </>
       )}
     </FeatureContainer>
@@ -92,7 +88,7 @@ const FeatureContainer = styled.div<{ color: string }>`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
-  gap: 0px 100px;
+  gap: 0px 120px;
   grid-template-areas: ". .";
   align-items: center;
   @media (max-width: 1023px) {
@@ -108,8 +104,8 @@ const FeatureContainer = styled.div<{ color: string }>`
 const FeatureTitle = styled.h2`
   font-size: 2.5rem;
   font-family: "Satoshi", sans-serif;
-  font-weight: 900;
-  line-height: 1.35;
+  font-weight: 700;
+  line-height: 1.3;
   @media (max-width: 1023px) {
     font-size: 2rem;
     width: 100%;
@@ -121,7 +117,7 @@ const FeatureTitle = styled.h2`
 const FeatureDescription = styled.p<{ color: string }>`
   margin-top: 1.5vh;
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 400;
   color: ${(props) => (props.color === "white" ? "#D1D6E2" : "black")};
 
   @media (min-width: 1023px) {
@@ -154,19 +150,17 @@ const GifContainer = styled.div`
   }
 `;
 
-const Button = styled.div`
+const Button = styled.a`
   color: white;
-  padding: 1.75vh 0 1.75vh 0;
+  padding: 0.55rem 0 0.55rem 0;
   border: solid 3px transparent;
-  border-radius: 25px;
+  border-radius: 15px;
   box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
     inset -2px -2px 4px #fafbff, 2px 2px 6px rgba(22, 27, 29, 0.23);
   background-origin: border-box;
   background-clip: padding-box, border-box;
   align-items: center;
-  background: linear-gradient(40deg, #6578f8, #64b5ff);
-  background-size: 120%;
-  background-position-x: -1rem;
+  background: black;
   width: 14rem;
   display: flex;
   justify-content: center;
@@ -193,14 +187,5 @@ const BtnText = styled.div`
   font-family: "Lato", sans-serif;
   @media (max-width: 1023px) {
     font-size: 1rem;
-  }
-`;
-
-const LearnMoreArrow = styled.div`
-  margin-left: 1.5vw;
-  height: 0.65rem;
-  @media (max-width: 1023px) {
-    margin-left: 0.75rem;
-    height: 1.5rem;
   }
 `;

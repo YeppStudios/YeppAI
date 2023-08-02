@@ -11,13 +11,13 @@ export default HeroText;
 
 const Text = styled.h1`
     color: black;
-    font-size: 5vw;
+    font-size: 3.75rem;
     line-height: 1.25;
-    font-family: 'Satoshi', sans-serif;
-    font-weight: 900;
+    font-family: 'SanFrancisco', sans-serif;
+    font-weight: 500;
     text-align: center;
     margin-top: 2vh;
-    max-width: 80%;
+    max-width: 68vw;
     @media (max-width: 1023px) {
         margin-top: 0;
         line-height: auto;

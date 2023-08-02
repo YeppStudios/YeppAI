@@ -81,7 +81,7 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                 <Container>
                 <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                     <Popover className="relative">
-                        <Popover.Button className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 outline-none">
+                        <Popover.Button className="inline-flex items-center gap-x-1 text-sm font-medium leading-6 text-black outline-none">
                             <span>Solutions</span>
                             <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
                         </Popover.Button>
@@ -240,7 +240,6 @@ const LoginButton = styled.button`
     background-origin: border-box;
     background-clip: padding-box, border-box;
     background: #F0F3F8;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.13), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     align-items: center;
     background-size: 120%;
     background-position-x: -0.5rem;
