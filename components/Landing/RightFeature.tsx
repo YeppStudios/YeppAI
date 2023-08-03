@@ -8,7 +8,7 @@ import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 
 const RightFeature = (props: {
   text: string;
-  gif: string;
+  image: any;
   title: string;
   bulletpoints: any[];
   color: string;
@@ -23,74 +23,39 @@ const RightFeature = (props: {
 
   return (
     <FeatureContainer color={props.color}>
-      {!mobile && (
-        <GifContainer>
+        <ImageContainer>
           <Image
-            src={props.gif}
+            src={props.image}
             width={700}
             height={400}
-            style={{ borderRadius: "25px" }}
-            alt={"gif"}
+            style={{width: "100%", borderTopRightRadius: "25px", borderBottomRightRadius: "25px"}}
+            alt={"image"}
           />
-        </GifContainer>
-      )}
-      <SlideBottom>
-        <div>
-          <FeatureTitle>{props.title}</FeatureTitle>
+        </ImageContainer>
+      <div style={{borderTopLeftRadius: "25px", borderBottomLeftRadius: "25px"}} className="bg-black text-white w-[85vw] lg:w-[60vw] left-0 p-10 lg:p-24 lg:pt-20 pb-36 lg:pl-[22vw] ml-[15vw] lg:ml-[40vw]">
+        <SlideBottom><FeatureTitle>{props.title}</FeatureTitle></SlideBottom>
+          <SlideBottom>
+            <FeatureDescription color={props.color}>
+            {props.text}
+            </FeatureDescription>
+          </SlideBottom>
           <FeatureDescription color={props.color}>
-            {!mobile && props.text}
-            <div className="mt-6">
-              {props.bulletpoints.map((item, index, array) => {
-                return (
-                  <p key={item}>
-                    <span aria-hidden="true" className="mr-3">&rarr;</span> {item}
-                    {index !== array.length - 1 && mobile ? "," : ""}
-                  </p>
-                );
-              })}
-            </div>
+            <a href="#" style={{textDecoration: "underline"}}>Learn more</a>
           </FeatureDescription>
-          {!mobile && (
-          <Button href="/assets?registration=true&trial=true" color={props.color} className="">
-            <BtnText>Try now</BtnText>
-          </Button>
-          )}
         </div>
-      </SlideBottom>
-      {mobile && (
-        <>
-          <GifContainer>
-            <Image
-              src={props.gif}
-              width={400}
-              height={200}
-              style={{ borderRadius: "20px" }}
-              alt={"gif"}
-            />
-          </GifContainer>
-          <Button href="/assets?registration=true&trial=true" color={props.color} className="">
-            <BtnText>Try now</BtnText>
-          </Button>
-        </>
-      )}
     </FeatureContainer>
   );
 };
 
 export default RightFeature;
 
-const FeatureContainer = styled.div<{ color: string }>`
+const FeatureContainer = styled.div<{color: string }>`
   width: 100vw;
   height: auto;
-  padding: 0vh 7vw 0vh 7vw;
+  padding: 0vh 0vw 0vh 0vw;
   margin-top: 14rem;
   color: ${(props) => props.color};
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
-  gap: 0px 120px;
-  grid-template-areas: ". .";
-  align-items: center;
+  display: flex;
   @media (max-width: 1023px) {
     display: flex;
     flex-wrap: wrap;
@@ -98,28 +63,37 @@ const FeatureContainer = styled.div<{ color: string }>`
     width: 100vw;
     padding: 5vh 0 10vh 0;
     margin-top: 0;
+    margin-bottom: 10vh;
+  }
+  @media (max-width: 600px) {
+    margin-bottom: 24vh;
   }
 `;
 
 const FeatureTitle = styled.h2`
-  font-size: 2.5rem;
+  font-size: 4vw;
   font-family: "Satoshi", sans-serif;
   font-weight: 700;
-  line-height: 1.3;
+  max-width: 30vw;
+  line-height: 1.2;
   @media (max-width: 1023px) {
-    font-size: 2rem;
-    width: 100%;
+    font-size: 4.5vw;
+    max-width: 14rem;
     line-height: 1.2;
-    text-align: center;
+    margin-left: 40vw;
+  }
+  @media (max-width: 600px) {
+    font-size: 2rem;
+    margin-left: 0vw;
   }
 `;
 
 const FeatureDescription = styled.p<{ color: string }>`
-  margin-top: 1.5vh;
+  margin-top: 3rem;
   font-size: 1.25rem;
   font-weight: 400;
-  color: ${(props) => (props.color === "white" ? "#D1D6E2" : "black")};
-
+  max-width: 20vw;
+  color: #989898;
   @media (min-width: 1023px) {
     ul {
       list-style-type: disc;
@@ -128,64 +102,33 @@ const FeatureDescription = styled.p<{ color: string }>`
   }
 
   @media (max-width: 1023px) {
-    width: 95vw;
-    text-align: center;
+    max-width: 14rem;
     margin-top: 2.5vh;
-    font-size: 1.2rem;
-  }
-`;
-
-const GifContainer = styled.div`
-  overflow: visible;
-  max-height: 90vh;
-  width: 40rem;
-  border-radius: 25px;
-  border: 7px solid black;
-  box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.3);
-  @media (max-width: 1023px) {
-    margin-top: 2rem;
-    margin-left: 0;
-    width: 95vw;
-    border: 4px solid black;
-  }
-`;
-
-const Button = styled.a`
-  color: white;
-  padding: 0.55rem 0 0.55rem 0;
-  border: solid 3px transparent;
-  border-radius: 15px;
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-    inset -2px -2px 4px #fafbff, 2px 2px 6px rgba(22, 27, 29, 0.23);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  align-items: center;
-  background: black;
-  width: 14rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  margin-top: 2rem;
-  align-items: center;
-  cursor: pointer;
-  transition: 0.4s;
-  &:hover {
-    transform: scale(0.96);
-    box-shadow: none;
-  }
-  @media (max-width: 1023px) {
-    width: 80vw;
-    margin-top: 2rem;
-    justify-content: center;
-  }
-`;
-
-const BtnText = styled.div`
-  font-size: 1rem;
-  font-weight: 700;
-  font-family: "Lato", sans-serif;
-  @media (max-width: 1023px) {
     font-size: 1rem;
+    margin-left: 40vw;
+  }
+  @media (max-width: 600px) {
+    margin-left: 0vw;
   }
 `;
+
+
+const ImageContainer = styled.div`
+  position: absolute;
+  left: 0;
+  width: 55vw;
+  margin-top: 8rem;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.35);
+  @media (max-width: 1023px) {
+    margin-top: 20vh;
+    margin-right: 0;
+    width: 55%;
+  }
+  @media (max-width: 600px) {
+    margin-top: 20rem;
+    width: 85%;
+  }
+`;
+

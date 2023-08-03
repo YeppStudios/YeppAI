@@ -3,10 +3,10 @@ import styled from "styled-components";
 import SlideBottom from "../Animated/SlideBottom";
 import Image from "next/image";
 import tickIcon from "../../public/images/tickGreen.png";
-import plusIcon from "../../public/images/plus.png";
+import plusIcon from "../../public/images/plusIcon.png";
 import Centered from "../Centered";
 import { useRouter } from "next/router";
-import { FiPhoneCall } from "react-icons/fi";
+import { FiPhoneCall, FiShoppingBag } from "react-icons/fi";
 import { BiGift } from "react-icons/bi";
 import api from "@/pages/api";
 import LoginModal from "../Modals/OnboardingModals/LoginModal";
@@ -170,7 +170,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                             {plan.title === "Standard" &&
                                 <PlanContainer backgroundColor="white" color="black" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">✏️</span> </Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
-                                    <BriefDescription>Best for a freelancer</BriefDescription>
+                                    <BriefDescription borderColor="#DCDCDC">Best for a freelancer</BriefDescription>
                                     <MainDescription>Your custom AI content creator with knowledge from uploaded assets.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
@@ -185,12 +185,9 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
+                                        <BuyButton id="order-agency" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon>{props.landing ? <FiShoppingBag style={{width: "100%", height: "auto"}} /> : <BiGift style={{width: "100%", height: "auto"}} />}</BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         :
-                                        <>
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
-                                        </>
-                                        
+                                        <BuyButton id="order-agency" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon>{props.purchase ? <FiShoppingBag style={{width: "100%", height: "auto"}} /> : <BiGift style={{width: "100%", height: "auto"}} />}</BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         }
                                     </Centered>
                                     <FeaturesList>  
@@ -210,9 +207,9 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                 </PlanContainer>                   
                             }
                             {plan.title === "Agency" &&
-                                <MiddlePlanContainer backgroundColor="white" color="black" width="auto">
+                                <MiddlePlanContainer backgroundColor="black" color="white" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
-                                    <BriefDescription>Best for a marketing agency</BriefDescription>
+                                    <BriefDescription borderColor="#424242">Best for a marketing agency</BriefDescription>
                                     <MainDescription>Define AI profiles for your clients and streamline the conetnt creation.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
@@ -227,9 +224,9 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
+                                        <BuyButton id="order-agency" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="white" color="black">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon>{props.landing ? <FiShoppingBag style={{width: "100%", height: "auto"}} /> : <BiGift style={{width: "100%", height: "auto"}} />}</BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
+                                        <BuyButton id="order-agency" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="white" color="black">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon>{props.purchase ? <FiShoppingBag style={{width: "100%", height: "auto"}} /> : <BiGift style={{width: "100%", height: "auto"}} />}</BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         }
                                     </Centered>
                                     <FeaturesList>  
@@ -275,7 +272,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                             {plan.title === "Custom" &&
                                 <PlanContainer backgroundColor="rgba(101, 120, 248, 0.2)" color="black" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">📐</span></Emoji><PlanTitleText>{plan.title}</PlanTitleText></PlanTitle>
-                                    <BriefDescription>Tailored to your needs</BriefDescription>
+                                    <BriefDescription borderColor="#DCDCDC">Tailored to your needs</BriefDescription>
                                     <MainDescription>Unleash the full potential of AI profiles prepared by experts and API access.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Price:</PriceLabel>}
                                     <Price>Individual</Price>
@@ -361,11 +358,11 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                 <div className="cursor-pointer" key={tab.name} onClick={() => setBillingPeriod(tab.period)}>
                 <button
                 className={classNames(
-                    tab.period === billingPeriod ? 'bg-[#F0F3F8] py-4 text-blue-700' : 'text-gray-500 hover:text-gray-700',
-                    'rounded-lg px-14 text-lg font-medium'
+                    tab.period === billingPeriod ? 'bg-[#F1F1F1] py-4 text-blue-700 border-2 border-black' : 'text-gray-500 hover:text-gray-700',
+                    'rounded-lg px-4 lg:px-14 text-sm lg:text-lg font-base'
                 )}
                 >
-                {tab.period === billingPeriod ? <b className="text-black font-900">{tab.name}</b> : tab.name}
+                {tab.period === billingPeriod ? <b className="text-black font-medium">{tab.name}</b> : tab.name}
                 </button>
                     {(tab.period !== billingPeriod && tab.period !== 1) && <div className="text-gray-500"><b className="text-black font-900">{tab.discount*100}% off</b></div>}
                 </div>
@@ -465,7 +462,7 @@ const PlanTitle = styled.div`
     justify-content: center;
     width: 100%;
     @media (max-width: 1280px) {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 `
 
@@ -478,13 +475,13 @@ const PlanTitleText = styled.p`
 `
 
 
-const BriefDescription = styled.p`
+const BriefDescription = styled.p<{borderColor: string}>`
     font-family: 'Lato', sans-serif;
     margin-top: 1vh;
     width: 100%;
     font-weight: 700;
     text-align: center;
-    border-bottom: solid 1.5px #DCDCDC;
+    border-bottom: solid 1.5px ${props => props.borderColor || '#DCDCDC'};
     padding-bottom: 2vh;
     
 `

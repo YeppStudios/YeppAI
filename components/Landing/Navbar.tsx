@@ -5,7 +5,6 @@ import logo from "../../public/images/logo.png";
 import { BsFillGiftFill } from "react-icons/bs";
 import { useEffect, useInsertionEffect, useState } from "react";
 import Link from "next/link";
-import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 import {
@@ -15,18 +14,18 @@ import {
   FingerPrintIcon,
   SquaresPlusIcon,
 } from '@heroicons/react/24/outline'
-import Space from "../Docs/common/Space";
 
 const solutions = [
-  { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Security', description: "Your customers' data will be safe and secure", href: '#', icon: FingerPrintIcon },
-  { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Marketing Templates', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
+  { name: 'Copywriting', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
+  { name: 'Chat with data', description: "Your customers' data will be safe and secure", href: '#', icon: FingerPrintIcon },
+  { name: 'Marketing Campaigns', description: 'Effortlessly genrate content for the entire campaign', href: '#', icon: SquaresPlusIcon },
+  { name: 'Uploading content', description: 'Teach AI about your client or any niche topic', href: '#', icon: ArrowPathIcon },
 ]
+
 const callsToAction = [
   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-  { name: 'Contact sales', href: '#', icon: PhoneIcon },
+  { name: 'Schedule a demo', href: '#', icon: PhoneIcon },
 ]
 
 const Navbar = (props: {onNewsletterClick: any}) =>{
@@ -98,7 +97,7 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                             <div className="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
                                 <div className="p-4">
                                 {solutions.map((item) => (
-                                    <div key={item.name} className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                                    <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
                                     <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                                         <item.icon className="h-6 w-6 text-gray-500 group-hover:text-black group-hover:scale-105" aria-hidden="true" />
                                     </div>
@@ -173,7 +172,7 @@ const NavContainer = styled.div<NavContainerProps>`
         justify-content: center;
         padding: 0vh 5vw 0.2vh 5vw;
         margin-left: ${({ isFixed }) => isFixed ? "0" : "0vw"};
-        margin-top: ${({ isFixed }) => isFixed ? "0" : "2rem"};
+        margin-top: ${({ isFixed }) => isFixed ? "0" : "0rem"};
         height: 4.2rem;
         border: none;
     }
@@ -204,7 +203,6 @@ const TestButton = styled.button`
     padding: 0.55rem 2.7rem 0.55rem 2.7rem;
     border: solid 3px transparent;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 5px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     background-color: black;
     color: white;
     transition: all 0.3s ease;
@@ -216,6 +214,7 @@ const TestButton = styled.button`
     &:hover {
         box-shadow: none;
         transform: scale(0.95);
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 5px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     }
     @media (max-width: 1023px) {
         padding: 1.3vh 7vw 1.3vh 7vw;
@@ -239,7 +238,7 @@ const LoginButton = styled.button`
     border-radius: 15px;
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    background: #F0F3F8;
+    background: rgba(101, 120, 248, 0.1);
     align-items: center;
     background-size: 120%;
     background-position-x: -0.5rem;

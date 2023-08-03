@@ -20,6 +20,15 @@ import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
 import HeroSection from '@/components/Landing/HeroSection';
+import Stats from '@/components/Landing/Stats';
+import uploadingImage from "../public/images/uploading_image.png";
+import contentImage from "../public/images/content_image.png";
+import seoImage from "../public/images/seo_image.png";
+import chatImage from "../public/images/chat_image.png";
+import questionmarkIcon from "../public/images/questionmarkIcon.png";
+import reviewsImage from "../public/images/reviews_image.png";
+import teamIcon from "../public/images/teamIcon.png";
+import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
 
 interface Background {
   image: any
@@ -63,19 +72,10 @@ const Homepage = () => {
           <Loading />
           <Navbar onNewsletterClick={() => handleNewsletterScroll()} />
           <HeroSection></HeroSection>
-          <SlideBottom>
-                <Centered>
-                  <LaptopContainer>
-                      <Image style={{ width: "auto", height: "100%" }}  src={laptopVisualization} alt={'preview'}></Image> 
-                  </LaptopContainer>
-                  </Centered>
-                  <Centered>
-                  <IphoneContainerMobile>
-                      <Image style={{ width: "100%", height: "auto" }}  src={laptopVisualization} alt={'preview'}></Image> 
-                  </IphoneContainerMobile>
-                </Centered>
-          </SlideBottom>
-          {mobile && <Centered><FreeConsultationBtn id="demo-btn" href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>}
+          <Stats />
+          
+          {mobile && <><Space margin="10vh"/><Centered><TestButton id="free-trial-btn"> <BsFillGiftFill className="mr-4"/>Start free trial</TestButton></Centered><Space margin="10vh"/></>}
+          
           <Section>
             <Centered>
             <SlideBottom>
@@ -92,7 +92,7 @@ const Homepage = () => {
             </Section>
             <LeftFeature
                 title="Teach AI any relevant informations." 
-                gif="/videos/uploading.gif" 
+                image={uploadingImage}
                 text="Upload the content and information about your clients, their industry, products etc."
                 bulletpoints={["Upload PDF, TXT, PPTX & DOCX files", "Transcribe YouTube content", "Scrape websites"]}
                 color="black"
@@ -100,23 +100,23 @@ const Homepage = () => {
             />
             <RightFeature 
                 title="Effortlessly generate content." 
-                gif="/videos/marketer.gif"
-                text="Based on company and industry-specific knowledge:"
+                image={contentImage}
+                text="Craft unique ads, posts and strategies based on company and industry-specific knowledge."
                 bulletpoints={["Generate Google Ads", "Create unique posts and product descriptions", "Engineer growth hacking strategies"]}
                 color="black"
             />
             <LeftFeature
-                title="Generate SEO articles that rank." 
-                gif="/videos/copywriter.gif" 
-                text="Based on company knowledge and current internet trends:"
+                title="Generate SEO articles that ranks." 
+                image={seoImage} 
+                text="Craft unique ads, posts and strategies based on company and industry-specific knowledge."
                 bulletpoints={["Write SEO articles", "Generate insightful blogs", "Craft guides and rankings"]}
                 color="black"
                 marginTop='3vh'
             />
             <RightFeature 
                 title="Access years of wisdom in seconds." 
-                gif="/videos/dataAssistant.gif"
-                text="Based on the uploaded content:"
+                image={chatImage}
+                text="Craft unique ads, posts and strategies based on company and industry-specific knowledge."
                 bulletpoints={["Talk with your company's documents", "Search information about your clients", "Ask your documents for advice"]}
                 color="black"
             />
@@ -128,12 +128,20 @@ const Homepage = () => {
                 color="black"
                 marginTop='3vh'
             /> */}
-             {!mobile && <Space margin='5rem'/>}
+             {!mobile && <Space margin='8rem'/>}
              {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
             <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
+            <Section>
+              <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
+              <Centered><Icon><Image src={questionmarkIcon} style={{width: "100%", filter: "invert(1)"}} alt="icon" /></Icon></Centered>
+              <SlideBottom><Centered><HeroText><p className='text-white'>What do marketing agencies say about Yepp?</p></HeroText></Centered></SlideBottom>
+              {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
+              </div>
+
+          </Section>
           <div id="offer"></div>
           <Section>
-          <Centered><Icon><Image src={growthIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
+          <Centered><Icon><Image src={teamIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
           <SlideBottom><Centered><HeroText><b>Empower your team</b> with AI today.</HeroText></Centered></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
           <div className='w-full px-4 sm:px-28'>
@@ -174,7 +182,6 @@ const TestButton = styled.button`
     width: 70vw;
     border: solid 3px transparent;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     align-items: center;
@@ -190,6 +197,7 @@ const TestButton = styled.button`
     &:hover {
       box-shadow: none;
       transform: scale(0.95);
+      box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     }
     @media (min-width: 1023px) {
       width: 28rem;
@@ -264,7 +272,7 @@ const MiniTitle = styled.p`
     }
 `
 
-const FreeConsultationBtn = styled.a`
+const FreeTrialBtn = styled.a`
     font-size: 1.2rem;
     padding: 2vh 0 2vh 0;
     width: 80vw;
@@ -273,12 +281,13 @@ const FreeConsultationBtn = styled.a`
     border-radius: 25px;
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    background: #F0F3F8;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.13), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    color: white;
+    background: black;
     align-items: center;
     background-size: 120%;
     background-position-x: -1rem;
     margin-top: 16vh;
+    margin-bottom: 8vh;
     display: none;
     align-items: center;
     justify-content: center;
@@ -290,6 +299,7 @@ const FreeConsultationBtn = styled.a`
     &:hover {
       box-shadow: none;
       transform: scale(0.95);
+      box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 5px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     }
     @media (min-width: 1023px) {
       width: 28rem;
