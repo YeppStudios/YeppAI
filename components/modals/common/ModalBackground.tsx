@@ -35,7 +35,7 @@ const BlurBackground = styled.div<{path: string}>`
     height: 100%;
     position: fixed;
     backdrop-filter: ${props => props.path.includes("/register") ? "blur(0px)" : "blur(10px)"}};
-    background-color: ${props => props.path.includes("/register") ? "rgba(0,0,0,0)" : "rgba(195, 202, 227, 0.3)"}};
+    background-color: ${props => props.path.includes("/register") ? "rgba(0,0,0,0)" : "rgba(0, 0, 0, 0.15)"}};
     z-index: 101;
     top: 0;
     left: 0;

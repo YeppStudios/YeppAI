@@ -23,6 +23,7 @@ import { FaSearch } from "react-icons/fa";
 import { HiMenu } from "react-icons/hi";
 import { motion, useAnimation } from "framer-motion";
 import ColorfulText from "./ColorfulText";
+import { MdCampaign } from "react-icons/md";
 
 const tabs = [
   {

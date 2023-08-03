@@ -6,26 +6,26 @@ import { BsFillGiftFill } from "react-icons/bs";
 import { useEffect, useInsertionEffect, useState } from "react";
 import Link from "next/link";
 import { Popover, Transition } from '@headlessui/react'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, CalendarDaysIcon, GiftIcon } from '@heroicons/react/20/solid'
 import {
-  ArrowPathIcon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
+  FolderArrowDownIcon,
+  ClipboardDocumentListIcon,
+  DocumentTextIcon,
+  ChatBubbleBottomCenterTextIcon,
+  MegaphoneIcon,
 } from '@heroicons/react/24/outline'
 
 const solutions = [
-  { name: 'Marketing Templates', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Copywriting', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Chat with data', description: "Your customers' data will be safe and secure", href: '#', icon: FingerPrintIcon },
-  { name: 'Marketing Campaigns', description: 'Effortlessly genrate content for the entire campaign', href: '#', icon: SquaresPlusIcon },
-  { name: 'Uploading content', description: 'Teach AI about your client or any niche topic', href: '#', icon: ArrowPathIcon },
+  { name: 'Marketing Templates', description: 'Get a better understanding of your traffic', href: '#', icon: ClipboardDocumentListIcon },
+  { name: 'Copywriting', description: 'Speak directly to your customers', href: '#', icon: DocumentTextIcon },
+  { name: 'Chat with data', description: "Your customers' data will be safe and secure", href: '#', icon: ChatBubbleBottomCenterTextIcon },
+  { name: 'Marketing Campaigns', description: 'Effortlessly genrate content for the entire campaign', href: '#', icon: MegaphoneIcon },
+  { name: 'Uploading content', description: 'Teach AI about your client or any niche topic', href: '#', icon: FolderArrowDownIcon },
 ]
 
 const callsToAction = [
-  { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-  { name: 'Schedule a demo', href: '#', icon: PhoneIcon },
+  { name: 'Start free trial', href: '#', icon: GiftIcon },
+  { name: 'Schedule free demo', href: '#', icon: CalendarDaysIcon },
 ]
 
 const Navbar = (props: {onNewsletterClick: any}) =>{
@@ -116,9 +116,9 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                                     <a
                                     key={item.name}
                                     href={item.href}
-                                    className="flex items-center justify-center gap-x-2.5 p-3 font-semibold text-gray-900 hover:bg-gray-100"
+                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
                                     >
-                                    <item.icon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+                                    <item.icon className="h-5 w-5 flex-none" aria-hidden="true" />
                                     {item.name}
                                     </a>
                                 ))}

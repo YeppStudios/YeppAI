@@ -547,7 +547,7 @@ const Button = styled.button`
   margin-top: 1.5rem;
   color: white;
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 500;
   transition: all 0.4s ease;
   cursor: pointer;
   border: solid 3px transparent;

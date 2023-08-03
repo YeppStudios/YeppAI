@@ -16,15 +16,15 @@ export default TypingAnimation;
 const colorfulAnimation = keyframes`
   0% {
     transform: translateY(0px);
-    background-color: #6578F8;
+    background-color: #000000;
   }
   28% {
     transform: translateY(-7px);
-    background-color: #64B5FF;
+    background-color: #8C8C8C;
   }
   44% {
     transform: translateY(0px);
-    background-color: #6578F8;
+    background-color: #4B4B4B;
   }
 `
 
@@ -52,7 +52,7 @@ const TypingContainer = styled.div`
 
 const Dot = styled.div<{colorful: boolean}>`
   animation: ${props => !props.colorful ? whiteDotsAnimation : colorfulAnimation} 2s infinite ease-in-out;
-  background-color: ${props => !props.colorful ? "rgba(255, 255, 255, 0.6)" : "#6578F8"};
+  background-color: ${props => !props.colorful ? "rgba(255, 255, 255, 0.6)" : "#000000"};
   border-radius: 50%;
   height: 7px;
   margin-right: 4px;
