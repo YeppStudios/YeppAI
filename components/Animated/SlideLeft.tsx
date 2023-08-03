@@ -6,7 +6,7 @@ const animationVariants = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 1.5, type: "spring", stiffness: 100, damping: 10 },
+    transition: { duration: 2, type: "spring", stiffness: 100, damping: 10 },
     x: 0,
   },
   hidden: { opacity: 0.8, scale: 0.9, x: -30 },

@@ -552,18 +552,17 @@ const Button = styled.button`
   cursor: pointer;
   border: solid 3px transparent;
   border-radius: 25px;
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
   background-origin: border-box;
   background-clip: padding-box, border-box;
   align-items: center;
-  background: linear-gradient(40deg, #6578F8, #64B5FF);
+  background: black;
   background-size: 120%;
   background-position-x: -1rem;
   &:hover {
     transform: scale(0.95);
     box-shadow: none;
     translateX: 10px;
-    box-shadow: 0 2px 2px 1px rgb(0, 0, 0, 0.1);
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
 }
   box-shadow: 0 4px 20px rgb(0, 0, 0, 0.2);
   @media (max-width: 1023px) {
@@ -600,18 +599,12 @@ const RegisterLink = styled.div`
   font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
-  background: -webkit-linear-gradient(45deg, #6578F8, #64B5FF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 `
 
 const ResetPassword = styled.div`
   font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
-  background: -webkit-linear-gradient(45deg, #6578F8, #64B5FF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 `
 
 const LabelErrorMessage = styled.p`
