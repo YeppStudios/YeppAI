@@ -3,15 +3,15 @@ import styled from "styled-components";
 import SlideBottom from "../Animated/SlideBottom";
 import Image from "next/image";
 import tickIcon from "../../public/images/tickGreen.png";
-import plusIcon from "../../public/images/plus.png";
+import plusIcon from "../../public/images/plusIcon.png";
 import Centered from "../Centered";
 import { useRouter } from "next/router";
 import { FiPhoneCall, FiShoppingBag } from "react-icons/fi";
+import { BiGift } from "react-icons/bi";
 import api from "@/pages/api";
 import LoginModal from "../Modals/OnboardingModals/LoginModal";
 import { Loader } from "../Common/Loaders";
 import PhoneNumberPopup from "../Modals/InformationalModals/PhoneNumberPopup";
-import { BsPhone, BsPhoneFill } from "react-icons/bs";
 
 const tabs = [
     { name: 'monthly', period: 1, discount: 0},
@@ -43,7 +43,7 @@ const plans = [
         monthlyPriceId: {default: "price_1NSZghFe80Kn2YGGOiClJUPM", polish: "price_1NUPofFe80Kn2YGG6dYxHNk9"}, 
         threeMonthPriceId: {default: "price_1NSai5Fe80Kn2YGGHrwmUEqe", polish: "price_1NUPozFe80Kn2YGGComghBF5"}, 
         sixMonthPriceId: {default: "price_1NSaiNFe80Kn2YGGG88egvhI", polish: "price_1NUPpBFe80Kn2YGGW0muvINv"}, 
-        yearlyPriceId: {default: "price_1NSaieFe80Kn2YGGilwS3SNl", polish: "price_1NUPpNFe80Kn2YGG3PaQgZW7"}
+        yearlyPriceId: {default: "price_1NSaieFe80Kn2YGGilwS3SNl", polish: "price_1NY1QdFe80Kn2YGGaQBjxlGP"}
     },
     {
         title: "Custom", 
@@ -75,7 +75,7 @@ interface PlanContainer {
     width: string
 }
 
-const Plans = (props: {openRegistration: boolean}) => {
+const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: boolean}) => {
 
     const [mobile, setMobile] = useState(false);
     const [discount, setDiscount] = useState(0.1);
@@ -84,6 +84,7 @@ const Plans = (props: {openRegistration: boolean}) => {
     const [loadingBtn, setLoadingBtn] = useState("");
     const [openContact, setOpenContact] = useState(false);
     const [country, setCountry] = useState<string | null>("United States");
+    const [userEmail, setUserEmail] = useState<string | null>("");
 
     const router = useRouter();
 
@@ -118,19 +119,36 @@ const Plans = (props: {openRegistration: boolean}) => {
               authorization: token
             }
         });
-        let res = await api.post(`/create-checkout-session`, 
-        {
-            priceId,
-            mode: "subscription",
-            successURL: successUrl,
-            cancelURL: `${window.location.origin}${router.asPath}`,
-            planId: planId,
-            email: data.email,
-            months: billingPeriod,
-            global: true
-        });
-        const { url } = await res.data;
-        window.location.href = url;
+        if (props.purchase) {
+            let res = await api.post(`/create-checkout-session`, 
+            {
+                priceId,
+                mode: "subscription",
+                successURL: successUrl,
+                cancelURL: `${window.location.origin}${router.asPath}`,
+                planId: planId,
+                email: data.email,
+                months: billingPeriod,
+                global: true,
+            });
+            const { url } = await res.data;
+            window.location.href = url;
+        } else {
+            let res = await api.post(`/create-checkout-session`, 
+            {
+                priceId,
+                mode: "subscription",
+                successURL: successUrl,
+                cancelURL: `${window.location.origin}${router.asPath}`,
+                planId: planId,
+                email: data.email,
+                months: billingPeriod,
+                global: true,
+                trial: true
+            });
+            const { url } = await res.data;
+            window.location.href = url;
+        }
     }
 
 
@@ -152,24 +170,24 @@ const Plans = (props: {openRegistration: boolean}) => {
                             {plan.title === "Standard" &&
                                 <PlanContainer backgroundColor="white" color="black" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">✏️</span> </Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
-                                    <BriefDescription>Best for a freelancer</BriefDescription>
-                                    <MainDescription>Your personal AI content creator with knowledge from uploaded assets.</MainDescription>
+                                    <BriefDescription borderColor="#DCDCDC">Best for a freelancer</BriefDescription>
+                                    <MainDescription>Your custom AI content creator with knowledge from uploaded assets.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
                                     <Price>
-                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><b>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</b></Gross></Price>}
                                     </Price>
                                     :
                                     <Price>
-                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><b>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</b></Gross></Price>}
                                     </Price>
                                     }
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-agency" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon>{props.landing ? <FiShoppingBag style={{width: "100%", height: "auto"}} /> : <BiGift style={{width: "100%", height: "auto"}} />}</BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-agency" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon>{props.purchase ? <FiShoppingBag style={{width: "100%", height: "auto"}} /> : <BiGift style={{width: "100%", height: "auto"}} />}</BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         }
                                     </Centered>
                                     <FeaturesList>  
@@ -189,26 +207,26 @@ const Plans = (props: {openRegistration: boolean}) => {
                                 </PlanContainer>                   
                             }
                             {plan.title === "Agency" &&
-                                <MiddlePlanContainer backgroundColor="rgba(100, 181, 255, 0.2)" color="black" width="auto">
-                                    <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText><ColorfulText>{plan.title}</ColorfulText></PlanTitleText> </PlanTitle>
-                                    <BriefDescription>Best for a marketing agency</BriefDescription>
+                                <MiddlePlanContainer backgroundColor="black" color="white" width="auto">
+                                    <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
+                                    <BriefDescription borderColor="#424242">Best for a marketing agency</BriefDescription>
                                     <MainDescription>Define AI profiles for your clients and streamline the conetnt creation.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
                                     <Price>
-                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>${plan.price}<Monthly>/mo</Monthly></Price> :  <Price>${(plan.price*billingPeriod-(billingPeriod*plan.price*discount)).toFixed(0)}<Monthly>/{billingPeriod}mo</Monthly><Gross><b>you save ${(billingPeriod*plan.price*discount).toFixed(0)}</b></Gross></Price>}
                                     </Price>
                                     :
                                     <Price>
-                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><ColorfulText>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</ColorfulText></Gross></Price>}
+                                        {billingPeriod === 1 ? <Price>{plan.polishPrice}zł<Monthly>/mo</Monthly></Price> :  <Price>{(plan.polishPrice*billingPeriod-(billingPeriod*plan.polishPrice*discount)).toFixed(0)}zł<Monthly>/{billingPeriod}mo</Monthly><Gross><b>you save {(billingPeriod*plan.polishPrice*discount).toFixed(0)}zł</b></Gross></Price>}
                                     </Price>
                                     }
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-agency" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="white" color="black">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon>{props.landing ? <FiShoppingBag style={{width: "100%", height: "auto"}} /> : <BiGift style={{width: "100%", height: "auto"}} />}</BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-agency" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="white" color="black">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon>{props.purchase ? <FiShoppingBag style={{width: "100%", height: "auto"}} /> : <BiGift style={{width: "100%", height: "auto"}} />}</BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         }
                                     </Centered>
                                     <FeaturesList>  
@@ -223,7 +241,7 @@ const Plans = (props: {openRegistration: boolean}) => {
                                                         </TickIcon>
                                                         <FeatureText>
                                                             {parts[0]}
-                                                            <ColorfulText><b>Unlimited</b></ColorfulText>
+                                                            <b><b>Unlimited</b></b>
                                                             {parts[1]}
                                                         </FeatureText>
                                                     </Feature>
@@ -246,7 +264,7 @@ const Plans = (props: {openRegistration: boolean}) => {
                                         <TickIcon>
                                             <Image style={{ height: "auto", width: "100%" }}  src={plusIcon} alt={'icon'}></Image> 
                                         </TickIcon>
-                                        <FeatureText><ColorfulText><b>Everything from Standard plan</b></ColorfulText></FeatureText>
+                                        <FeatureText><b><b>Everything from Standard plan</b></b></FeatureText>
                                     </Feature>            
                                     </FeaturesList>
                                 </MiddlePlanContainer>            
@@ -254,7 +272,7 @@ const Plans = (props: {openRegistration: boolean}) => {
                             {plan.title === "Custom" &&
                                 <PlanContainer backgroundColor="rgba(101, 120, 248, 0.2)" color="black" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">📐</span></Emoji><PlanTitleText>{plan.title}</PlanTitleText></PlanTitle>
-                                    <BriefDescription>Tailored to your needs</BriefDescription>
+                                    <BriefDescription borderColor="#DCDCDC">Tailored to your needs</BriefDescription>
                                     <MainDescription>Unleash the full potential of AI profiles prepared by experts and API access.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Price:</PriceLabel>}
                                     <Price>Individual</Price>
@@ -274,7 +292,7 @@ const Plans = (props: {openRegistration: boolean}) => {
                                                         </TickIcon>
                                                         <FeatureText>
                                                             {parts[0]}
-                                                            <ColorfulText><b>Unlimited</b></ColorfulText>
+                                                            <b><b>Unlimited</b></b>
                                                             {parts[1]}
                                                         </FeatureText>
                                                     </Feature>
@@ -340,13 +358,13 @@ const Plans = (props: {openRegistration: boolean}) => {
                 <div className="cursor-pointer" key={tab.name} onClick={() => setBillingPeriod(tab.period)}>
                 <button
                 className={classNames(
-                    tab.period === billingPeriod ? 'bg-blue-100 py-4 text-blue-700' : 'text-gray-500 hover:text-gray-700',
-                    'rounded-lg px-14 text-lg font-medium'
+                    tab.period === billingPeriod ? 'bg-[#F1F1F1] py-4 text-blue-700 border-2 border-black' : 'text-gray-500 hover:text-gray-700',
+                    'rounded-lg px-4 lg:px-14 text-sm lg:text-lg font-base'
                 )}
                 >
-                {tab.period === billingPeriod ?<ColorfulText>{tab.name}</ColorfulText> : tab.name}
+                {tab.period === billingPeriod ? <b className="text-black font-medium">{tab.name}</b> : tab.name}
                 </button>
-                    {(tab.period !== billingPeriod && tab.period !== 1) && <div className="text-gray-500"><ColorfulText><b>{tab.discount*100}% off</b></ColorfulText></div>}
+                    {(tab.period !== billingPeriod && tab.period !== 1) && <div className="text-gray-500"><b className="text-black font-900">{tab.discount*100}% off</b></div>}
                 </div>
             ))}
             </nav>
@@ -378,7 +396,7 @@ const PlansContainer = styled.div`
     }
 `
 
-const ColorfulText = styled.span`
+const b = styled.span`
   background: -webkit-linear-gradient(40deg, #6578F8, #64B5FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -400,7 +418,6 @@ const PlanContainer = styled.div<PlanContainer>`
     height: 100%;
     border: solid 3px #ECECEC;
     border-radius: 25px;
-    box-shadow: 0px 0px 20px rgba(22, 27, 29, 0.2);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     color: ${props => props.color || 'black'};
@@ -414,12 +431,10 @@ const PlanContainer = styled.div<PlanContainer>`
 
 const MiddlePlanContainer = styled.div<PlanContainer>`
     width: ${props => props.width || '22vw'};
-    background-color: #0D0E16;
     padding: 4vh 4vh 6vh 4vh;
     height: 100%;
-    border: solid 3px transparent;
     border-radius: 25px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
+    border: 3px solid black;
     box-shadow: 3px 3px 6px rgba(22, 27, 29, 0.2);
     background-origin: border-box;
     background-clip: padding-box, border-box;
@@ -447,7 +462,7 @@ const PlanTitle = styled.div`
     justify-content: center;
     width: 100%;
     @media (max-width: 1280px) {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 `
 
@@ -460,13 +475,13 @@ const PlanTitleText = styled.p`
 `
 
 
-const BriefDescription = styled.p`
+const BriefDescription = styled.p<{borderColor: string}>`
     font-family: 'Lato', sans-serif;
     margin-top: 1vh;
     width: 100%;
     font-weight: 700;
     text-align: center;
-    border-bottom: solid 1.5px #DCDCDC;
+    border-bottom: solid 1.5px ${props => props.borderColor || '#DCDCDC'};
     padding-bottom: 2vh;
     
 `
@@ -533,8 +548,7 @@ const BuyButton = styled.button<Button>`
     border: solid 3px transparent;
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
+    background: ${props => props.backgroundColor || 'linear-gradient(90deg, #FF4646 0%, #FF4646 100%)'};
     background-size: 110%;
     background-position-x: -1rem;
     color: ${props => props.color || 'white'};

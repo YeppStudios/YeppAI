@@ -22,7 +22,6 @@ import { setSelectedCopywritingAssistant } from "@/store/copywritingAssistantSli
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import elixirIcon from "../../../public/images/elixir.png";
 import { selectedUserState } from "@/store/userSlice";
-import { set } from "lodash";
 
 const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
@@ -498,9 +497,9 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 </Centered>
                 <Tabs justifyContent="space-evenly">
                     {selectedTab === 1 ? 
-                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>General</SelectedMainTab> 
+                    <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>About</SelectedMainTab> 
                     :
-                    <MainTab onClick={() => setSelectedTab(1)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>General</MainTab>
+                    <MainTab onClick={() => setSelectedTab(1)}><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>About</MainTab>
                     } 
                     {selectedTab === 2 ? 
                     <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={openedBookIcon} alt={'Icon'}></Image></TabIcon>Assets</SelectedMainTab>

@@ -32,7 +32,7 @@ import { MdTitle } from 'react-icons/md';
 import CustomDropdown from '@/components/forms/CustomDropdown';
 
 const types = ["article", "blog", "guide", "ranking"];
-const languagesList = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Ukraiński", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski"];
+const languagesList = ["Polish", "English", "Spanish", "French", "Italian", "Ukrainian", "German", "Chinese", "Bulgarian", "Russian"];
 const tones = ["Formal", "Friendly", "Informative", "Persuasive", "Scientific", "Lifestyle"];
 
 const CopywritingModal = (props: {
@@ -71,7 +71,7 @@ const CopywritingModal = (props: {
     const [selectedLinksError, setSelectedLinksError] = useState(false);
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [searchResults, setSearchResults] = useState<any[]>([]);
-    const [length, setLength] = useState("750");
+    const [length, setLength] = useState("5000");
     const [peopleAlsoAsk, setPeopleAlsoAsk] = useState<{question: string, snippet: string, title: string}[]>([]);
     const [tabInput, setTabInput] = useState<string>("");
     const [conspectText, setConspectText] = useState<string>("");
@@ -588,6 +588,7 @@ const CopywritingModal = (props: {
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
           props.setConspect(completionJSON);
           try {
+            console.log(links);
             const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
               urls: [links[0]]
             }, {
@@ -595,6 +596,7 @@ const CopywritingModal = (props: {
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
               }
             });
+            console.log(scrapingResponse.data);
             props.setEmbeddedVectorIds(scrapingResponse.data.ids)
           } catch (e) {
             console.log(e);
@@ -696,10 +698,11 @@ const CopywritingModal = (props: {
                                   <LabelIcon>
                                       <BsFillMicFill style={{width: "100%", height: "auto"}}/>
                                   </LabelIcon>
-                                  <Label>
+                                  <Label className='-mt-2'>
                                       Tone of voice
                                   </Label>
                               </div>
+                              <div className='-mt-3'>
                               <CustomDropdown
                                 id="tones"
                                 type="text"
@@ -710,12 +713,13 @@ const CopywritingModal = (props: {
                                 onChange={props.setToneOfVoice}
                             />
                             </div>
+                            </div>
                             <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                               <LabelIcon>
                                   <FaRuler style={{ width: "100%", height: "auto" }} />
                               </LabelIcon>
-                              <Label>Total words</Label>
+                              <Label>Total characters</Label>
                               </div>
                                 <Input
                                     type="number"

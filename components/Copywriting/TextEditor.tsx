@@ -230,7 +230,7 @@ useEffect(() => {
       console.log("Combined ID array is empty. Not sending query.");
     }
 
-    let prompt = `Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in around ${sectionLength} words.
+    let prompt = `Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     This is the introduction header:
     ${conspect[0].header}
     And this is how I want you to write the introduction:
@@ -267,7 +267,7 @@ useEffect(() => {
               const endPos = startPos + reply.length;
               const rect = editor.view.coordsAtPos(endPos);
               setBottomMenuPosition({
-                top: rect.top + window.scrollY + 50,
+                top: rect.top + window.scrollY + 75,
                 left: rect.left -250
               });
             }
@@ -426,7 +426,7 @@ useEffect(() => {
     }
 
     const text = editor.getText();
-    let prompt = `I have ended writing the last section of ${contentType} with: "...${text.slice(-250)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in around ${sectionLength} words.
+    let prompt = `I have ended writing the last section of ${contentType} with: "...${text.slice(-250)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     Next section header:
     ${conspect[sectionIndex].header}
     This is a brief instruction on what I want you to write about in this section:
@@ -468,12 +468,12 @@ useEffect(() => {
                 // Adjust the bottom menu's position
                 if (sectionIndex + 2 === conspect.length ) {
                   setBottomMenuPosition({
-                    top: rect.top - containerRect.top + container.scrollTop + 56,
+                    top: rect.top - containerRect.top + container.scrollTop + 45,
                     left: rect.left - containerRect.left -10
                   });
                 } else {
                   setBottomMenuPosition({
-                    top: rect.top - containerRect.top + container.scrollTop + 56,
+                    top: rect.top - containerRect.top + container.scrollTop + 45,
                     left: rect.left - containerRect.left -150
                   });
                 }
@@ -602,6 +602,7 @@ useEffect(() => {
           </BackBtnIcon> 
         </BackBtn>  
       </div> 
+      {/* {editor && <Toolbar editor={editor} />} */}
       {editor &&  
         <div className="flex items-center h-full -mr-12">
           <div className="ml-4">
@@ -720,4 +721,21 @@ const EditorContainer = styled.div`
 
 const EditorText = styled.div`
   width: 44rem;
+`
+
+const ToolbarBtn = styled.div`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 12px;
+  margin: 0 1rem 0 1rem;
+  color: black;
+  box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.23);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 `

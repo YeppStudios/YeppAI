@@ -64,7 +64,6 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                     Authorization: `${localStorage.getItem("token")}`
                 }
             });
-            console.log(folder.data);
             setDocuments(folder.data.documents);
             let onboardingSetp = localStorage.getItem("onboarding_step");
             if (onboardingSetp === "2" && folder.data.documents.length === 1) {
@@ -235,7 +234,7 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                         <Option id="upload-file" onClick={() => setAddDocument("file")}>
                             <OptionIcon><BsFolderSymlinkFill style={{width: "100%", height: "auto"}} /></OptionIcon>
                             <OptionTitle>Upload files</OptionTitle>
-                            <OptionDescription>Upload TXT, DOCX, PPTX or PDF files</OptionDescription>
+                            <OptionDescription>Upload TXT, DOCX, PPTX, CSV or PDF files</OptionDescription>
                         </Option>
                         <Option id="upload-website" onClick={() => setAddDocument("website")}>
                             <OptionIcon><BsFillLaptopFill style={{width: "100%", height: "auto"}} /></OptionIcon>

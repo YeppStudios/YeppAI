@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import backIcon from "../../../public/images/backArrow.png";
 import Image from "next/image";
-import magicalWand from "../../../public/images/magical_wand.png";
 import { FormEvent, use, useEffect, useState } from "react";
-import Dropdown from "../../forms/Dropdown";
 import ResultsContainer from "../../Common/ResultsContainer";
 import PageContent from "../../Common/PageContent";
 import FormContainer from "../../Common/FormContainer";
@@ -77,12 +75,15 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     if (window.innerWidth < 1023) {
       setMobile(true);
     }
+    if (localStorage.getItem("country") === "Poland") {
+      setLanguage("Polish");
+    }
+
     if (template) {
       if (template.title === "Tweet") {
         setCompletionLength(20);
       }
     }
-
   }, []);
 
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
@@ -115,7 +116,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     } else {
       setPrompt(
         `As an experienced social media content creator for ${query.type} you always write unique and novel content. 
-        Write exactly 1 unique ${template.title} about ${about} ${replyLength} Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. 
+        Write exactly 1 unique ${template.title} about ${about} ${replyLength} Always start with unique and new sentence. Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. 
         The post should draw the attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and post type. ${
           enableEmojis
             ? "Please use relevant emojis related to the topic."
