@@ -8,7 +8,7 @@ import { BsFillGiftFill } from "react-icons/bs";
 
 const SolutionPage = () => {
   return (
-    <PageContent>
+    <>
       <Head>
         <meta name="theme-color" content="#ffffff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,15 +20,19 @@ const SolutionPage = () => {
         <title>Yepp AI | Solution</title>
       </Head>
       <Navbar />
-      <div className="h-[100vh] relative">
-        <div className="h-[85vh] relative">
+      <div className="mt-[6rem] " />
+
+      <section className="relative  lg:mb-24 mb-56">
+        <div className="h-[80vh]  relative ">
           <Image src={placeholderImg} alt="chat with your data image" fill />
         </div>
         {/* Adjust shadow and font weight */}
-        <div className="absolute inset-x-0 bottom-0 h-[25%] bg-white z-20 flex flex-col gap-12 px-12 pt-12 shadow-[0px_-40px_40px_50px_#fff] shadow-white">
-          <div className="flex w-full justify-between ">
-            <h2 className=" text-6xl">Chat with your data</h2>
-            <div className="flex gap-8 h-12">
+        <div className="absolute inset-x-0 bottom-0 h-[25%]   bg-white z-20 flex flex-col gap-12 px-12 pt-12  shadow-[0px_-40px_40px_50px_#fff] shadow-white ">
+          <div className="lg:grid lg:grid-cols-2 flex flex-col w-full   ">
+            <h2 className=" lg:text-[4vw] text-[8vw] lg:pb-12 lg:text-start text-center pb-24">
+              Chat with your data
+            </h2>
+            <div className=" gap-8 h-12 flex flex-col lg:flex-row justify-end">
               <TestButton className="start-free-trial-landing">
                 <BsFillGiftFill />
                 <TestText>Start free trial</TestText>
@@ -37,20 +41,28 @@ const SolutionPage = () => {
                 Request the pricing
               </button>
             </div>
+            <div className="flex items-center lg:justify-start justify-center pt-6 mb-6 text-center">
+              <p className="text-xl pl-2 text-center lg:text-start  ">
+                Unleash the full potential of AI and chat with your data.
+              </p>
+            </div>
           </div>
-          <p className="text-xl pl-2">
-            Unleash the full potential of AI and chat with your data.
-          </p>
         </div>
-      </div>
-    </PageContent>
+      </section>
+      <PageContent>
+        <section className="bg-red-300 h-full border-t border-blue-400 p-12">
+          <div className="h-[80vh]">123</div>
+        </section>
+      </PageContent>
+    </>
   );
 };
 
 const PageContent = styled.div`
-  width: 100vw;
   position: relative;
   height: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
 `;
 
 const TestText = styled.p`

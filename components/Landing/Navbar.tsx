@@ -111,7 +111,7 @@ interface NavContainerProps {
 }
 
 const NavContainer = styled.div<NavContainerProps>`
-  width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
   position: ${({ isFixed }) => (isFixed ? "fixed" : "absolute")};
