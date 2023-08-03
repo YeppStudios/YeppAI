@@ -1,27 +1,4 @@
-<<<<<<< HEAD
-import SlideBottom from "@/components/Animated/SlideBottom";
-import Centered from "@/components/Centered";
-import HeroText from "@/components/Landing/HeroText";
-import Navbar from "@/components/Landing/Navbar";
-import Head from "next/head";
-import styled from "styled-components";
-import Image from "next/image";
-import laptopVisualization from "../public/images/laptopVisualization.png";
-import Section from "@/components/Landing/Section";
-import LeftFeature from "@/components/Landing/LeftFeature";
-import RightFeature from "@/components/Landing/RightFeature";
-import LearnMoreSection from "@/components/Landing/LearnMoreSection";
-import Footer from "@/components/Landing/Footer";
-import Loading from "@/components/Common/Loading";
-import { useRouter } from "next/router";
-import { BsFillGiftFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
-import Title from "@/components/Common/Title";
-import webBackground from "../public/images/webBackground.png";
-import { TypewriterSection } from "@/components/Landing/TypewriterSection";
-import Plans from "@/components/Landing/Plans";
-import Space from "@/components/Docs/common/Space";
-=======
+
 import SlideBottom from '@/components/Animated/SlideBottom';
 import Centered from '@/components/Centered';
 import HeroText from '@/components/Landing/HeroText';
@@ -53,7 +30,6 @@ import questionmarkIcon from "../public/images/questionmarkIcon.png";
 import reviewsImage from "../public/images/reviews_image.png";
 import teamIcon from "../public/images/teamIcon.png";
 import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
->>>>>>> develop
 
 interface Background {
   image: any;
@@ -75,7 +51,7 @@ const Homepage = () => {
     contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const [mobile, setMobile] = useState(true);
+  const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -93,166 +69,6 @@ const Homepage = () => {
     }
   }, []);
 
-<<<<<<< HEAD
-  return (
-    <div>
-      <Head>
-        <meta name="theme-color" content="#ffffff" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="description"
-          content="Platforma AI do marketingu. Wykorzystaj firmowe dane, które już posiadasz przez własne AI."
-        />
-        <title>Yepp AI</title>
-      </Head>
-      <PageContent>
-        <Loading />
-        <Navbar onNewsletterClick={() => handleNewsletterScroll()} />
-        <Background>
-          <Image
-            style={{ width: "100%", height: "100%", opacity: 0.4 }}
-            src={webBackground}
-            alt={"preview"}
-          ></Image>
-        </Background>
-        <HeroSection>
-          <Centered>
-            <HeroText>Upload your assets,</HeroText>
-          </Centered>
-          <Centered>
-            <TypewriterSection />
-          </Centered>
-          {/* <Centered><TypewriterSection/></Centered> */}
-          <div>
-            <Centered>
-              <DescriptionHero color="black">
-                #1 Generative AI tool among marketing agencies.
-              </DescriptionHero>
-            </Centered>
-            <Centered>
-              {mobile ? (
-                <TestButton
-                  id="landing-big-test-btn"
-                  onClick={() =>
-                    router.push(
-                      "/register?registration=true&company=true&trial=true"
-                    )
-                  }
-                >
-                  <BsFillGiftFill />
-                  <TestText>Start free trial</TestText>
-                </TestButton>
-              ) : (
-                <TestButton
-                  id="landing-big-test-btn"
-                  onClick={() =>
-                    router.push(
-                      "/register?registration=true&company=true&trial=true"
-                    )
-                  }
-                >
-                  <BsFillGiftFill />
-                  <TestText>Start free trial</TestText>
-                </TestButton>
-              )}
-            </Centered>
-            <Centered>
-              {!mobile && (
-                <div className="font-medium mt-4">
-                  Claim ~10 000 words or 5 days for free
-                </div>
-              )}
-            </Centered>
-            <Centered>
-              <LoginButton onClick={() => router.push("/chat")}>
-                Log in
-              </LoginButton>
-            </Centered>
-          </div>
-        </HeroSection>
-        <SlideBottom>
-          <Centered>
-            <LaptopContainer>
-              <Image
-                style={{ width: "auto", height: "100%" }}
-                src={laptopVisualization}
-                alt={"preview"}
-              ></Image>
-            </LaptopContainer>
-          </Centered>
-          <Centered>
-            <IphoneContainerMobile>
-              <Image
-                style={{ width: "100%", height: "auto" }}
-                src={laptopVisualization}
-                alt={"preview"}
-              ></Image>
-            </IphoneContainerMobile>
-          </Centered>
-        </SlideBottom>
-        <Section>
-          <Centered>
-            <SlideBottom>
-              <div id="functionalities"></div>
-              <Centered>
-                <MiniTitle>YEPP AI WILL HELP YOU</MiniTitle>
-              </Centered>
-              <HeroText>
-                <ColorfulText>Reduce workload</ColorfulText> and watch your
-                online presence grow.
-              </HeroText>
-              <Space margin="5vh" />
-            </SlideBottom>
-          </Centered>
-        </Section>
-        <LeftFeature
-          title="Create Client Profiles"
-          gif="/videos/uploading.gif"
-          text="Upload the content and information about your clients, their industry, products etc."
-          bulletpoints={[
-            "Upload PDF, TXT, PPTX & DOCX files",
-            "Transcribe YouTube content",
-            "Scrape websites",
-          ]}
-          color="black"
-          marginTop="3vh"
-        />
-        <RightFeature
-          title="Use ready templates"
-          gif="/videos/marketer.gif"
-          text="Based on company and industry-specific knowledge:"
-          bulletpoints={[
-            "Generate Google Ads",
-            "Create unique posts and product descriptions",
-            "Engineer growth hacking strategies",
-          ]}
-          color="black"
-        />
-        <LeftFeature
-          title="Generate SEO content"
-          gif="/videos/copywriter.gif"
-          text="Based on company knowledge and current internet trends:"
-          bulletpoints={[
-            "Write SEO articles",
-            "Generate insightful blogs",
-            "Craft guides and rankings",
-          ]}
-          color="black"
-          marginTop="3vh"
-        />
-        <RightFeature
-          title="Chat with assets"
-          gif="/videos/dataAssistant.gif"
-          text="Based on the uploaded content:"
-          bulletpoints={[
-            "Talk with your company's documents",
-            "Search information about your clients",
-            "Ask your documents for advice",
-          ]}
-          color="black"
-        />
-        {/* <LeftFeature 
-=======
     return (
       <div>
         <Head>
@@ -313,62 +129,7 @@ const Homepage = () => {
                 bulletpoints={["Talk with your company's documents", "Search information about your clients", "Ask your documents for advice"]}
                 color="black"
             />
-            {/* <LeftFeature 
->>>>>>> develop
-                title="Sales" 
-                gif="/videos/sales.gif" 
-                text="Based on knowledge about your clients and your services:"
-                bulletpoints={[ "Identify your target group", "Define your clients' needs", "Create personalized sales emails"]}
-                color="black"
-                marginTop='3vh'
-            /> */}
-<<<<<<< HEAD
-        {!mobile && <Space margin="5rem" />}
-        {!mobile && (
-          <Centered>
-            <TestButton
-              id="landing-big-test-btn"
-              onClick={() =>
-                router.push(
-                  "/register?registration=true&company=true&trial=true"
-                )
-              }
-            >
-              <BsFillGiftFill />
-              <TestText>Start free trial</TestText>
-            </TestButton>
-          </Centered>
-        )}
-        <Centered>
-          {!mobile && (
-            <div className="font-medium mt-4">
-              Claim ~10 000 words or 5 days for free
-            </div>
-          )}
-        </Centered>
-        <div id="offer"></div>
-        <Section>
-          <Centered>
-            <MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle>
-          </Centered>
-          <Centered>
-            <SlideBottom>
-              <HeroText>Boost your productivity now.</HeroText>
-            </SlideBottom>
-          </Centered>
-          {!mobile && <Space margin="5rem" />}
-          <Plans openRegistration={true} />
-        </Section>
-        <Section>
-          <div id="newsletter"></div>
-          <LearnMoreSection />
-        </Section>
-        <Footer />
-      </PageContent>
-    </div>
-  );
-};
-=======
+
              {!mobile && <Space margin='8rem'/>}
              {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
             <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
@@ -398,7 +159,6 @@ const Homepage = () => {
       </div>
     )
 }
->>>>>>> develop
 
 export default Homepage;
 
@@ -407,15 +167,9 @@ const PageContent = styled.div`
   position: relative;
   height: 100%;
   overflow: hidden;
-<<<<<<< HEAD
-  padding: 0 8vw 0 8vw;
   @media (max-width: 1023px) {
-    padding: 0 5vw 0 5vw;
   }
 `;
-=======
-`
->>>>>>> develop
 
 const Background = styled.div`
   position: absolute;
@@ -426,17 +180,6 @@ const Background = styled.div`
   left: 0;
 `;
 
-<<<<<<< HEAD
-const HeroSection = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 9rem;
-  @media (max-width: 1023px) {
-    display: flex;
-    margin-top: 8rem;
-  }
-`;
 
 const DescriptionHero = styled.p<CustomColor>`
   color: ${(props) => props.color || "#000000"};
@@ -472,39 +215,7 @@ const LoginButton = styled.button`
   }
 `;
 
-const TestButton = styled.button`
-  font-size: 1.2rem;
-  padding: 2vh 5vw 2vh 5vw;
-  width: 70vw;
-  border: solid 3px transparent;
-  border-radius: 25px;
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-    inset -2px -2px 4px #fafbff, 2px 2px 6px rgba(22, 27, 29, 0.23);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  align-items: center;
-  background: linear-gradient(40deg, #6578f8, #64b5ff);
-  background-size: 120%;
-  background-position-x: -1rem;
-  margin-top: 3vh;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  font-family: "Satoshi", sans-serif;
-  font-weight: 700;
-  &:hover {
-    box-shadow: none;
-    transform: scale(0.95);
-  }
-  @media (min-width: 1023px) {
-    width: 28rem;
-    margin-top: 8vh;
-    padding: 1.5vh 0vw 1.5vh 0vw;
-  }
-`;
-=======
+
 const TestButton = styled.button`
     font-size: 1.2rem;
     padding: 2vh 5vw 2vh 5vw;
@@ -534,7 +245,6 @@ const TestButton = styled.button`
       padding: 1.5vh 0vw 1.5vh 0vw;
     }
 `
->>>>>>> develop
 
 const LaptopContainer = styled.div`
   width: auto;
@@ -588,31 +298,6 @@ const ColorfulText = styled.span`
   -webkit-text-fill-color: transparent;
 `;
 
-const MiniTitle = styled.p`
-<<<<<<< HEAD
-  font-size: 1rem;
-  margin-bottom: 0.75rem;
-  text-align: center;
-  padding: 1rem 4rem 1rem 4rem;
-  border-radius: 25px;
-  background: #f0f3f8;
-  font-weight: 700;
-  @media (max-width: 1023px) {
-    font-size: 0.8rem;
-  }
-`;
-=======
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-    text-align: center;
-    padding: 1rem 4rem 1rem 4rem;
-    border-radius: 25px;
-    background: #F0F3F8;
-    font-weight: 700;
-    @media (max-width: 1023px) {
-        font-size: 0.8rem;
-    }
-`
 
 const FreeTrialBtn = styled.a`
     font-size: 1.2rem;
@@ -656,4 +341,4 @@ const Icon = styled.div`
   height: 3.5rem;
   margin-bottom: 1.25rem;
 `
->>>>>>> develop
+
