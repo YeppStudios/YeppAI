@@ -13,7 +13,6 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import SlideBottom from "../Animated/SlideBottom";
-import lock from "../../public/images/lock.png";
 import Centered from "../Centered";
 import AddTeammate from "../Modals/AddingModals/AddTeammate";
 import { selectedUserState } from "../../store/userSlice";
@@ -24,7 +23,6 @@ import { FaSearch } from "react-icons/fa";
 import { HiMenu } from "react-icons/hi";
 import { motion, useAnimation } from "framer-motion";
 import ColorfulText from "./ColorfulText";
-import { MdCampaign } from "react-icons/md";
 
 const tabs = [
   {
@@ -206,6 +204,8 @@ const NavigationBar = () => {
         <UpgradeSubscription
           onClose={() => setOpenSubscriptionModal(false)}
           closeable={true}
+          purchase={true}
+          landing={false}
         />
       )}
       {mobile && (
@@ -526,7 +526,7 @@ const SelectedNavigationTab = styled.div<{ hovered: boolean }>`
   border: double 3px transparent;
   border-radius: 15px;
   background-image: linear-gradient(white, white, white),
-    radial-gradient(circle at top left, #6578f8, #64b5ff);
+  radial-gradient(circle at top left, #6578f8, #64b5ff);
   background-origin: border-box;
   background-clip: padding-box, border-box;
   position: relative;
@@ -603,6 +603,7 @@ const SwitchIcon = styled.div`
 const PersonName = styled.div`
   font-weight: 600;
   color: black;
+  white-space: nowrap;
   display: flex;
   margin-left: 0.7rem;
   margin-right: 0.5rem;

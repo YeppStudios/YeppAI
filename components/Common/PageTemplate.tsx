@@ -58,22 +58,9 @@ const PageTemplate = ({children}: any) => {
               authorization: token,
             },
           });
-          // if (!data.dashboardAccess) {
-          //   let res = await api.post(`/create-checkout-session`, 
-          //   {
-          //       priceId: "price_1NSZghFe80Kn2YGGOiClJUPM",
-          //       mode: "subscription",
-          //       successURL: "https://www.yepp.ai/assets",
-          //       cancelURL: `${window.location.origin}${router.asPath}`,
-          //       planId: "64ad0d250e40385f299bceea",
-          //       email: data.email,
-          //       trial: true,
-          //       months: 1,
-          //       global: true
-          //   });
-          //   const { url } = await res.data;
-          //   window.location.href = url;
-          // }
+          if (!data.dashboardAccess) {
+            setShowPlans(true);
+          }
           if (data.workspace) {
               const workspaceCompany = await api.get(`/workspace-company/${data.workspace}`, {
                 headers: {
@@ -112,7 +99,7 @@ const PageTemplate = ({children}: any) => {
       <Helmet>
         <meta name="theme-color" content="#ffffff" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Asystent AI</title>
+        <title>Yepp AI</title>
       </Helmet>
       {!mobile &&
           <DashboardLoading />
@@ -120,7 +107,7 @@ const PageTemplate = ({children}: any) => {
       {mobile &&
         <Loading />
       }
-      {showPlans && <UpgradeSubscription onClose={() => setShowPlans(false)} closeable={false}/>}
+      {showPlans && <UpgradeSubscription purchase={false} onClose={() => setShowPlans(false)} closeable={false} landing={false}/>}
       {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
       <Page>
           <NavigationBar />

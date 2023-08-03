@@ -18,27 +18,26 @@ export const TypewriterSection = () => {
   }, []);
 
   return (
-    <ColorfulText><h2 className="font-black text-[1.5rem] lg:text-[4.5vw] pb-2 lg:mt-6 lg:text-6xl text-center lg:text-left">
+    <h2 className="text-[6vw] font-semibold tracking-tight text-gray-900 lg:text-5xl lg:mt-4">
         <TypeAnimation
           sequence={[
-            "chat with your data",
+            "chat with your data.",
             3000,
-            "generate SEO content",
+            "generate SEO content.",
             3000,
-            "save time & money",
+            "save time & money.",
             3000,
-            "generate unique content",
+            "generate unique content.",
             3000,
-            "personalize communication",
+            "personalize outreach.",
             3000,
-            "overcome writer's block",
+            "overcome writer's block.",
             3000,
-            "personalize offers",
+            "personalize offers.",
             3000,
           ]}
           repeat={Infinity}
         />
     </h2>
-    </ColorfulText>
   );
 };

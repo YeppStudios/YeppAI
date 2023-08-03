@@ -161,13 +161,21 @@ const BottomPanel = () => {
                     Authorization: `${token}`
                 }
             });
-
-            const templateParams = {
-                invitationLink: `${data.invitationLink}`,
-                email: `${email}`
+            const msg = {
+                to: `${email}`,
+                nickname: "Yepp AI",
+                from: {
+                  email: "hello@yepp.ai",
+                  name: "Yepp AI"
+                },
+                templateId: 'd-9c27954e97a245f4ba67a718fe9ff765',
+                dynamicTemplateData: {
+                name: `${user.name}`,
+                email: `${user.email}`,
+                link: `${data.invitationLink}`
+                },
             };
-            send("service_5j2yxyh","template_04xowv7", templateParams, process.env.NEXT_PUBLIC_EMAILJS_USER_KEY);
-
+            const response = await api.post('/send-email', { msg });
             showNotification({
                 id: 'invited',
                 disallowClose: true,
@@ -340,7 +348,7 @@ const BottomPanel = () => {
                                     scope="col"
                                     className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
                                 >
-                                    Imię
+                                    Name
                                 </th>
                                 <th
                                     scope="col"
@@ -391,13 +399,13 @@ const BottomPanel = () => {
                 <AddElixir onClose={() => setOpenElixirModal(false)} />
                 :
                 openElixirModal &&
-                <UpgradeSubscription onClose={() => setOpenElixirModal(false)} closeable={true} />
+                <UpgradeSubscription purchase={true} onClose={() => setOpenElixirModal(false)} closeable={true} landing={false} />
             }
             {openUpgradeModal && plan ? 
-            <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} closeable={true} />
+            <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)} closeable={true} landing={false} />
             :
             openUpgradeModal &&
-            <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)}closeable={true} />
+            <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)}closeable={true} landing={false}/>
             }
             {openReferralModal && <ReferralModal showDescription={true} onClose={() => setOpenReferralModal(false)} />}
             {mobile &&
@@ -469,7 +477,7 @@ const BottomPanel = () => {
              }
             <SlideBottom>
              <>
-            {(user._id !== workspaceCompany._id || (user.plan !== "6444d4394ab2cf9819e5b5f4" && user.plan !== "64ad0d250e40385f299bceea")) ?
+            {(user._id !== workspaceCompany._id && (user.plan !== "6444d4394ab2cf9819e5b5f4" && user.plan !== "64ad0d250e40385f299bceea" && user.plan !== "647c3294ff40f15b5f6796bf" && user.plan !== "64ad0d740e40385f299bcef9")) ?
                 <ListContainer>
                     <Title>Elixir transactions</Title>
                     {renderTransactions()}
@@ -884,7 +892,7 @@ const Button = styled.button`
 `
 
 const SendBtn = styled.button`
-    height: 5vh;
+    height: 2.6rem;
     width: 8vw;
     text-align: center;
     background-color: transparent;

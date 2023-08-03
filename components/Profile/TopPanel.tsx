@@ -88,16 +88,11 @@ const TopPanel = (props: {stats: any}) => {
         <Panel>
             {user &&
             <div style={{width: "100%", height: "100%"}}>
-            {openSubscriptionModal && user.plan ? <SubscriptionModal onClose={() => setOpenSubscriptionModal(false)} /> : openSubscriptionModal && <UpgradeSubscription onClose={() => setOpenSubscriptionModal(false)} closeable={true} />}
             {openReferralModal && <ReferralModal showDescription={true} onClose={() => setOpenReferralModal(false)} />}
             {openDeleteModal && <DeleteAccount onClose={() => setOpenDeleteModal(false)}/>}  
-            {openUpgradeModal && <UpgradeSubscription onClose={() => setOpenUpgradeModal(false)} closeable={true}/>}
+            {openUpgradeModal && <UpgradeSubscription purchase={true} onClose={() => setOpenUpgradeModal(false)} closeable={true} landing={false}/>}
             <HeaderButtons>
-                {user.plan !== "647c3294ff40f15b5f6796bf" ?
-                 <SubscriptionButton onClick={() => openStripePanel()}>Manage subscription</SubscriptionButton>
-                 :
-                 <SubscriptionButton onClick={() => setOpenUpgradeModal(true)}>Manage subscription</SubscriptionButton>
-                }
+                <SubscriptionButton onClick={() => openStripePanel()}>Billing</SubscriptionButton>
                 <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="inline-flex w-10 justify-center text-sm font-semibold text-gray-900 focus:outline-none">

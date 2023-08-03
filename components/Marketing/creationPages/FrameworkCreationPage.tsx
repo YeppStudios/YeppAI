@@ -56,6 +56,9 @@ const FrameworkCreationPage = ({back, query, template}: any) => {
         if (window.innerWidth < 1023) {
             setMobile(true);
         }
+        if (localStorage.getItem("country") === "Poland") {
+            setLanguage("Polish");
+        }
     }, [])
     
     const generateContent = async (e: FormEvent<HTMLFormElement>) => {

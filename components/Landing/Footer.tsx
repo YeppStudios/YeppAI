@@ -25,7 +25,7 @@ const navigation = {
       },
       {
         name: 'Instagram',
-        href: 'https://www.instagram.com/asystentai/',
+        href: 'https://www.instagram.com/sayyepp.ai/',
         icon: (props: any) => (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
             <path
@@ -62,7 +62,7 @@ const navigation = {
   }
 const Footer = () => {
     return (
-        <footer className="bg-black w-[100vw] -ml-[5vw] lg:-ml-[8vw] mt-36">
+        <footer className="bg-black w-[100vw] mt-36">
             <Centered>
                 <Image src={logo} alt="logo" className="w-12 h-12 mt-20"/>
             </Centered>
@@ -70,7 +70,7 @@ const Footer = () => {
           <nav className="-mb-6 columns-2 flex justify-center space-x-6 sm:space-x-12" aria-label="Footer">
             {navigation.main.map((item) => (
               <div key={item.name} className="pb-6">
-                <a href={item.href} className="text-sm sm:text-lg leading-6 text-gray-400 hover:text-blue-500">
+                <a href={item.href} className="text-sm sm:text-lg leading-6 text-gray-400 hover:text-white">
                   {item.name}
                 </a>
               </div>
@@ -78,7 +78,7 @@ const Footer = () => {
           </nav>
           <div className="mt-10 flex justify-center space-x-8 sm:space-x-12">
             {navigation.social.map((item) => (
-              <a key={item.name} href={item.href} className="text-gray-400 hover:text-blue-500">
+              <a key={item.name} href={item.href} className="text-gray-400 hover:text-white">
                 <span className="sr-only">{item.name}</span>
                 <item.icon className="h-8 w-8" aria-hidden="true" />
               </a>
@@ -87,6 +87,11 @@ const Footer = () => {
           <p className="mt-10 text-center text-xs leading-5 text-gray-600">
             &copy; 2023 Yepp, Inc. All rights reserved.
           </p>
+          <Centered>
+          <a href={"/Yepp_AI_Terms.pdf"} download className="mt-10 text-center text-xs leading-5 text-gray-500">
+              Terms of use & Privacy Policy
+          </a>
+          </Centered>
         </div>
       </footer>
     )
