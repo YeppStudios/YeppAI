@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Landing/Navbar";
 import Head from "next/head";
 import styled from "styled-components";
 import placeholderImg from "@/public/images/blueAbstractBg.png";
 import Image from "next/image";
 import { BsFillGiftFill } from "react-icons/bs";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 
 const SolutionPage = () => {
+  const [mobile, setMobile] = useState(true);
+
+  useEffect(() => {
+    if (window.innerWidth >= 1023) {
+      setMobile(false);
+      if (typeof window !== undefined) {
+        const handleResize = () => {
+          if (window.innerWidth >= 1023) {
+            setMobile(false);
+          } else setMobile(true);
+        };
+        // Add event listener to listen for window resize
+        window.addEventListener("resize", handleResize);
+        // Cleanup the event listener when the component is unmounted
+        return () => {
+          window.removeEventListener("resize", handleResize);
+        };
+      }
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -41,7 +63,7 @@ const SolutionPage = () => {
                 Request the pricing
               </button>
             </div>
-            <div className="flex items-center lg:justify-start justify-center pt-6 mb-6 text-center">
+            <div className="flex items-center lg:justify-start justify-center  mb-6 text-center">
               <p className="text-xl pl-2 text-center lg:text-start  ">
                 Unleash the full potential of AI and chat with your data.
               </p>
@@ -49,9 +71,76 @@ const SolutionPage = () => {
           </div>
         </div>
       </section>
-      <PageContent>
-        <section className="bg-red-300 h-full border-t border-blue-400 p-12">
-          <div className="h-[80vh]">123</div>
+      <PageContent className="p-12">
+        <section className=" h-full border-t-2  border-slate-300  p-8 relative">
+          <div className="flex h-full w-full ">
+            {/* {!mobile && (
+              <div className="h-full w-4 bg-red-300 flex flex-grow"></div>
+            )} */}
+
+            <div className="flex flex-col  gap-48">
+              <div className="flex lg:flex-row items-center justify-center flex-col">
+                <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
+                  <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
+                    <AiOutlineCloudUpload className="h-8 w-8" />
+                    <h2 className="lg:text-[3.5vw]  text-4xl pl-1">
+                      1.Upload your data
+                    </h2>
+                  </div>
+                  <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
+                    Our comunity is full of proliftic developers, creative
+                    builders, and fantastic teachers. Check out YouTube
+                    tutorials for great tutorials from folks in the comunity,
+                    and Gallery for a list of awesome LangChain projects,
+                    compiled by the folks
+                  </p>
+                </div>
+                <div className="relative  lg:w-1/2 w-full aspect-video flex items-center justify-center  rounded-2xl  overflow-x-hidden ">
+                  <Image src={placeholderImg} alt="Upload data image" fill />
+                </div>
+              </div>
+              <div className="flex lg:flex-row items-center justify-center flex-col">
+                <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
+                  <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
+                    <AiOutlineCloudUpload className="h-8 w-8" />
+                    <h2 className="lg:text-[3.5vw]  text-4xl pl-1">
+                      1.Upload your data
+                    </h2>
+                  </div>
+                  <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
+                    Our comunity is full of proliftic developers, creative
+                    builders, and fantastic teachers. Check out YouTube
+                    tutorials for great tutorials from folks in the comunity,
+                    and Gallery for a list of awesome LangChain projects,
+                    compiled by the folks
+                  </p>
+                </div>
+                <div className="relative  lg:w-1/2 w-full aspect-video flex items-center justify-center  rounded-2xl  overflow-x-hidden ">
+                  <Image src={placeholderImg} alt="Upload data image" fill />
+                </div>
+              </div>
+              <div className="flex lg:flex-row items-center justify-center flex-col">
+                <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
+                  <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
+                    <AiOutlineCloudUpload className="h-8 w-8" />
+                    <h2 className="lg:text-[3.5vw]  text-4xl pl-1">
+                      1.Upload your data
+                    </h2>
+                  </div>
+                  <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
+                    Our comunity is full of proliftic developers, creative
+                    builders, and fantastic teachers. Check out YouTube
+                    tutorials for great tutorials from folks in the comunity,
+                    and Gallery for a list of awesome LangChain projects,
+                    compiled by the folks
+                  </p>
+                </div>
+                <div className="relative  lg:w-1/2 w-full aspect-video flex items-center justify-center  rounded-2xl  overflow-x-hidden ">
+                  <Image src={placeholderImg} alt="Upload data image" fill />
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </PageContent>
     </>
@@ -61,8 +150,10 @@ const SolutionPage = () => {
 const PageContent = styled.div`
   position: relative;
   height: 100%;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  @media (max-width: 1023px) {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
 `;
 
 const TestText = styled.p`
