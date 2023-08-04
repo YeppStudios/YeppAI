@@ -848,7 +848,7 @@ const Fuel = styled.div<Props>`
   width: ${props => props.width}%;
   height: 0.75rem;
   border-radius: 15px;
-  background: linear-gradient(45deg, #6578F8, #64B5FF);
+  background: #242424;
 `
 
 const Balance = styled.div`
@@ -867,13 +867,8 @@ const Button = styled.button`
     border: solid 3px transparent;
     font-weight: 500;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     align-items: center;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 120%;
-    background-position-x: -1rem;
+    background: #242424;
     justify-content: center;
     margin-left: 2.5vw;
     cursor: pointer;
@@ -882,7 +877,7 @@ const Button = styled.button`
     transition: all 0.4s ease;
     &:hover {
         transform: scale(0.95);
-        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
     }
     @media (max-width: 1023px) {
         height: 6vh;
@@ -901,11 +896,8 @@ const SendBtn = styled.button`
     border: solid 3px transparent;
     font-weight: 500;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     align-items: center;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
+    background: #242424;
     background-size: 120%;
     background-position-x: -1rem;
     justify-content: center;
@@ -915,7 +907,7 @@ const SendBtn = styled.button`
     transition: all 0.4s ease;
     &:hover {
         transform: scale(0.95);
-        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
     }
     @media (max-width: 1023px) {
         height: 6vh;

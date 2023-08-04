@@ -11,7 +11,6 @@ import assistantIcon from "../../public/images/assistant_profile.png";
 import useAutosizeTextArea from "@/hooks/useAutosizeTextArea";
 import api from "@/pages/api";
 import TypingAnimation from "../Modals/common/TypingAnimation";
-import ReminderModal from "../Modals/InformationalModals/ReminderModal";
 import AddElixir from "../Modals/AddingModals/AddElixir";
 import fuelIcon from "../../public/images/fuel.png";
 import NoElixir from "../Modals/LimitModals/NoElixir";
@@ -64,7 +63,6 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
   const [reply, setReply] = useState('');
   const [workspace, setWorkspace] = useState<any>({});
   const [elixirWidth, setElixirWidth] = useState<string>("0");
-  const [openElixirReminder, setOpenElixirReminder] = useState(false);
   const [openElixirModal, setOpenElixirModal] = useState(false);
   const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
   const [mobile, setMobile] = useState(false);
@@ -88,14 +86,6 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
             percentage = (user.tokenBalance/75);
           }
           let elixir = Number(percentage) > 100 ? 100 : Number(percentage) < 0 ? 0 : percentage;
-          if(elixir < 85 && !user.elixirAware){
-              setOpenElixirReminder(true);
-              await api.put("/displayElixirInfo", {}, { 
-                  headers: {
-                      authorization: token
-                }})
-          }
-          setElixirWidth((elixir).toString());
       }
       }
     } 
@@ -338,7 +328,6 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
 
   return (
       <div>
-        {openElixirReminder && <ReminderModal onClose={() => setOpenElixirReminder(false)} elixirWidth={elixirWidth}/>}
         {openElixirModal && <AddElixir onClose={() => setOpenElixirModal(false)} />}
         {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
         <Sidebar variants={sidebarVariants} animate={controls} initial="closed" onClick={(e) => e.stopPropagation()}>
@@ -491,20 +480,16 @@ const ProfileIcon = styled.div`
 const AskBtn = styled.button`
     padding: 0.75vh 3vw 0.75vh 3vw;
     border: solid 3px transparent;
+    background: black;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 120%;
-    background-position-x: -1rem;
     font-weight: 500;
     align-items: center;
     margin-top: 2vh;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     &:hover {
         transform: scale(0.95);
         box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
       }
 `
 

@@ -464,7 +464,7 @@ export const CampaignModal: FC<CampaginModalProps> = ({
 
 const ModalContainer = styled.div<{step: number}>`
     width: 42rem;
-    padding: 3rem 4rem 3.5rem 4rem;
+    padding: 4rem 4rem 4rem 4rem;
     background: white;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
@@ -490,53 +490,52 @@ const Title = styled.h1`
   }
 `
 
+
+const MainTab = styled.div`
+    padding: 0.75rem 0rem 0.75rem 0rem;
+    font-weight: 500;
+    margin: 0 0.5rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    cursor: pointer;
+    background-color: #F3F7FA;
+    color: black;
+    @media (max-width: 1023px) {
+        font-size: 0.75rem;
+        margin: 0;
+        background-color: transparent;
+        margin-bottom: 0.4rem;
+        padding: 0.55rem 2rem 0.55rem 2rem;
+    }
+`
+
 const SelectedMainTab = styled.div`
-  padding: 0.65rem 2rem 0.65rem 2rem;
-  font-weight: 500;
-  margin: 0 0rem 0 0rem;
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-  background: #eef1f8;
-  border: solid 3px transparent;
-  color: black;
-  overflow: hidden;
-  border-radius: 12px;
-  background-image: linear-gradient(white, white, white),
-    radial-gradient(circle at top left, #6578f8, #64b5ff);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  @media (max-width: 1023px) {
-    font-size: 0.75rem;
-    padding: 0.55rem 2rem 0.55rem 2rem;
-    margin: 0;
-    margin-bottom: 0.4rem;
-  }
-`;
+    padding: 0.75rem 3rem 0.75rem 3rem; 
+    font-weight: 500;
+    margin: 0 0.5rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: black;
+    background: #F1F1F1;
+    border: solid 3px black;
+    overflow: hidden;
+    border-radius: 12px;
+    @media (max-width: 1023px) {
+        font-size: 0.75rem;
+        padding: 0.55rem 2rem 0.55rem 2rem;
+        margin: 0;
+        margin-bottom: 0.4rem;
+    }
+`
+
 const TabIcon = styled.div`
   width: 1.4rem;
   margin-right: 0.75rem;
 `;
 
-const MainTab = styled.div`
-  padding: 0.65rem 0.5rem 0.65rem 0.5rem;
-  font-weight: 500;
-  margin: 0 0.5rem 0 0.5rem;
-  color: black;
-  display: flex;
-  align-items: center;
-  font-size: 0.85rem;
-  border-radius: 12px;
-  cursor: pointer;
-  background-color: #f3f7fa;
-  @media (max-width: 1023px) {
-    font-size: 0.75rem;
-    margin: 0;
-    background-color: transparent;
-    margin-bottom: 0.4rem;
-    padding: 0.55rem 2rem 0.55rem 2rem;
-  }
-`;
 
 const ContinueBtn = styled.button`
   border: solid 3px transparent;
@@ -546,10 +545,8 @@ const ContinueBtn = styled.button`
   font-weight: 500;
   width: 100%;
   height: 3rem;
-  background: linear-gradient(40deg, #6578f8, #64b5ff);
-  background-size: 110%;
-  background-position-x: -1rem;
-  transition: all 0.4s ease;
+  background: black;
+  transition: all 0.3s ease;
   font-size: 1.2rem;
   display: flex;
   align-items: center;

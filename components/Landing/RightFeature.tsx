@@ -28,7 +28,7 @@ const RightFeature = (props: {
             src={props.image}
             width={700}
             height={400}
-            style={{width: "100%", borderTopRightRadius: "25px", borderBottomRightRadius: "25px"}}
+            style={{width: "100%", borderRadius: "25px"}}
             alt={"image"}
           />
         </ImageContainer>
@@ -118,9 +118,12 @@ const ImageContainer = styled.div`
   left: 0;
   width: 55vw;
   margin-top: 8rem;
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
+  border-radius: 25px;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.35);
+  @media (min-width: 1680px) {
+    width: 35vw;
+    margin-left:  20vw;
+  }
   @media (max-width: 1023px) {
     margin-top: 20vh;
     margin-right: 0;

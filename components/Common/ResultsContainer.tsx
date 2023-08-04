@@ -9,7 +9,6 @@ import IdeasContainer from "./contentContainers/IdeasContainer";
 import AddElixir from "../Modals/AddingModals/AddElixir";
 import MultiLineSkeletonLoader from "./MultilineSkeletonLoader";
 import Centered from "../Centered";
-import ReminderModal from "../Modals/InformationalModals/ReminderModal";
 import NoElixir from "../Modals/LimitModals/NoElixir";
 import FeedbackPopover from "./FeedbackPopover";
 import useAutosizeTextArea from "@/hooks/useAutosizeTextArea";
@@ -67,7 +66,6 @@ const ResultsContainer = (
     const user = useSelector(selectedUserState);
     const [generationCost, setGenerationCost] = useState(0);
     const [elixirWidth, setElixirWidth] = useState<string>("0");
-    const [openElixirReminder, setOpenElixirReminder] = useState(false);
     const [workspace, setWorkspace] = useState<any>({})
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [isSSEComplete, setIsSSEComplete] = useState(false);
@@ -136,15 +134,6 @@ const ResultsContainer = (
             if (user.accountType === "company") {
               percentage = user.tokenBalance/75;
             }
-            let elixir = Number(percentage) > 100 ? 100 : Number(percentage) < 0 ? 0 : percentage;
-            if(elixir < 85 && !user.elixirAware){
-                setOpenElixirReminder(true);
-                await api.put("/displayElixirInfo", {}, { 
-                    headers: {
-                        authorization: token
-                  }})
-            }
-            setElixirWidth((elixir).toString());
           }
         } 
         getElixirUsage();
@@ -511,9 +500,8 @@ const ResultsContainer = (
 
     return (
         <MainContainer isTemplate={props.template ? true : false}>
-        {openElixirReminder && <ReminderModal onClose={() => setOpenElixirReminder(false)} elixirWidth={elixirWidth}/>}
         {openElixirModal && <AddElixir user={user} onClose={() => setOpenElixirModal(false)} />}
-        {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
+        <NoElixir  onClose={() => setOpenNoElixirModal(false)} />
         <ElixirHeader>
                 <GenerationCost>
 
@@ -703,7 +691,7 @@ const Fuel = styled.div<WidthProp>`
   width: ${props => props.width}%;
   height: 0.75rem;
   border-radius: 15px;
-  background: linear-gradient(40deg, #6578F8, #64B5FF, #6578F8);
+  background: black
   background-size: 200% 100%;
   animation: ${pulse} 8s linear infinite;
 `
@@ -806,17 +794,12 @@ const AskBtn = styled.button`
     padding: 0.75vh 2vw 0.75vh 2vw;
     border: solid 3px transparent;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 110%;
-    background-position-x: -0.3rem;
+    background: black;
     margin-top: 2vh;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     &:hover {
-        transform: scale(1.05);
-        box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.45);
+        transform: scale(0.95);
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
       }
     @media (max-width: 1023px) {
       padding: 1vh 3vw 1vh 3vw;

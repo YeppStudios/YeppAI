@@ -133,10 +133,10 @@ const FirstPage = (props: {nextPage: any}) => {
                 <ActionBtn onClick={() => router.push("/assets")}>
                 <BsFillArchiveFill style={{width: "auto", height: "35%"}}/>
                 </ActionBtn>
-                <BlueBtn onClick={handleOpenAddAssistant}>
+                <AddChatBtn onClick={handleOpenAddAssistant}>
                     <FaPlus style={{width: "auto", height: "35%"}}/>
                     <BtnText>New Chat</BtnText>
-                </BlueBtn>
+                </AddChatBtn>
             </ActionContaienr>
             </Header>
             <Assistants>
@@ -286,7 +286,7 @@ const ActionBtn = styled.div`
     }
 `
 
-const BlueBtn = styled.div`
+const AddChatBtn = styled.div`
     width: 14rem;
     height: 3.5rem;
     margin-left: 1.4rem;
@@ -294,23 +294,18 @@ const BlueBtn = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 20px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
     border: solid 3px transparent;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     position: relative;
     white-space: nowrap;
     color: white;
-    font-weight: 500;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 110%;
-    background-position-x: -0.5rem;
+    background: #252525;
     align-items: center;
     transition: all 0.4s ease;
     cursor: pointer;
     &:hover {
       box-shadow: none;
       transform: scale(0.95);
+      box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
     }
     @media (max-width: 1023px) {
       margin-left: 0;
@@ -404,11 +399,7 @@ const AddAssistant = styled.div`
         color: black;
     }
     &:hover ${AddAssistantTitle} {
-        color: transparent;
-        background-image: linear-gradient(-70deg, #6578F8, #64B5FF);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: black;
     }
     @media(max-width: 1023px) {
         width: 95vw;

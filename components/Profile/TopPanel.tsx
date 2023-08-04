@@ -135,7 +135,7 @@ const TopPanel = (props: {stats: any}) => {
                             onClick={() => setOpenDeleteModal(true)}
                             className={classNames(
                               active ? 'bg-red-100 text-red-900' : 'text-red-500',
-                              'group w-full flex items-center px-4 py-2 text-sm'
+                              'group w-full flex items-center px-4 py-2 text-xrsm'
                             )}
                           >
                             <BsTrash className="mr-3 h-5 w-5 text-red-400 group-hover:text-gray-500" aria-hidden="true" />
@@ -330,21 +330,16 @@ const GenerationNumberDescription = styled.p`
 const SubscriptionButton = styled.button`
     padding: 0.4vh 2vw 0.4vh 2vw;
     margin-left: 2.5vw;
-    border: solid 3px transparent;
+    border: solid 3px black;
     border-radius: 15px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
+    box-shadow: inset 1px 1px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
     color: black;
     font-size: 2vh;
     transition: all 0.4s ease;
     &:hover {
         transform: scale(0.95);
-        background: linear-gradient(40deg, #6578F8, #64B5FF);
         color: white;
-        background-size: 120%;
-        background-position-x: -1rem;
+        background: black;
     }
     @media (max-width: 1023px) {
         margin-left: 0;
@@ -353,10 +348,7 @@ const SubscriptionButton = styled.button`
 `
 
 const ShareLink = styled.button`
-    background: -webkit-linear-gradient(45deg, #6578F8, #64B5FF);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: left;
+    color: black;
 `
 
 const SwitchIcon = styled.div`

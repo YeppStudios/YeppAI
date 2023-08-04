@@ -610,7 +610,7 @@ const SubmitBtn = styled.div`
   align-items: center;
   justify-content: center;
   align-items: center;
-  background-color: #0D0E16;
+  background-color: #000000;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
   cursor: pointer;
@@ -780,14 +780,13 @@ const PromptHashtag = styled.div`
 const PromptSubmit = styled.button`
     padding: 1vh;
     border-radius: 50%;
-    background: linear-gradient(45deg, #6578F8, #64B5FF);
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
+    background: black;
     margin-top: 2vh;
     transition: all 0.4s ease;
+    border: solid 2px transparent;
     color: white;
     &:hover {
         transform: scale(0.95);
-        box-shadow: none;
       }
 `
 
@@ -795,7 +794,7 @@ const PromptSubmitIcon = styled.div`
     width: 3vh;
     height: 3vh;
     border-radius: 50%;
-    background: linear-gradient(#6578F8, #64B5FF);
+    background: black;
 `
 
 const PageNavigation = styled.div`
@@ -825,7 +824,7 @@ const UpButton = styled.button`
   height: 5vh;
   padding: 1vh;
   border-radius: 50%;
-  background: linear-gradient(45deg, #E497FF, #7EC5FF);
+  background: black;
   margin-top: 2vh;
   transition: all 0.4s ease;
   &:hover {

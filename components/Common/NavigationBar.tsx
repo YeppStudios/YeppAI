@@ -9,6 +9,7 @@ import {
   BsFillFileTextFill,
   BsFillArchiveFill,
   BsLightbulbFill,
+  BsFillMegaphoneFill,
 } from "react-icons/bs";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -52,16 +53,9 @@ const tabs = [
   },
   {
     title: "Campaigns",
-    icon: <MdCampaign style={{ height: "100%", width: "auto" }} />,
+    icon: <BsFillMegaphoneFill style={{ height: "100%", width: "auto" }} />,
     path: "/campaign",
     id: "navbar-campaign",
-  },
-
-  {
-    title: "Pomysły",
-    icon: <BsLightbulbFill style={{ height: "100%", width: "auto" }} />,
-    path: "/ideacreator",
-    id: "navbar-idea-creator",
   },
 ];
 
@@ -524,12 +518,8 @@ const SelectedNavigationTab = styled.div<{ hovered: boolean }>`
   white-space: nowrap;
   margin-top: 1rem;
   align-items: center;
-  border: double 3px transparent;
+  border: solid 3px black;
   border-radius: 15px;
-  background-image: linear-gradient(white, white, white),
-  radial-gradient(circle at top left, #6578f8, #64b5ff);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
   position: relative;
   display: flex;
   @media (min-width: 1023px) {

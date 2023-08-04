@@ -109,7 +109,7 @@ const ModalContainer = styled.div`
     padding: 6vh 0vw 7vh 0vw;
     width: 70vw;
     background: white;
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
+    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23);
     border: 2px solid #E5E8F0;
     border-radius: 25px;
     backdrop-filter: blur(25px);
@@ -206,18 +206,14 @@ const Button = styled.button`
     font-weight: 500;
     font-size: 2vh; 
     border-radius: 15px;
-    border: solid 3px transparent;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
+    border: solid 3px black;
     color: black;
     margin-top: 2vh;
     transition: all 0.3s ease;
     &:hover {
         transform: scale(0.95);
         border: none;
-        background: linear-gradient(40deg, #6578F8, #64B5FF);
+        background: black;
         box-shadow: none;
         color: white;
     }

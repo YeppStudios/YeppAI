@@ -70,9 +70,8 @@ export default function FoldersDropdown() {
   return (
     <Listbox className="w-full" as="div" value={selectedFolders[0]}>
       <div className="relative mt-2">
-        <Listbox.Button className="w-full py-3" style={{boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF", border: "solid 3px transparent", borderRadius: "20px",
-          backgroundImage: "linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF)", backgroundOrigin: "border-box",
-          backgroundClip: "padding-box, border-box", overflow: "hiddens", display: "flex", alignItems: "center"}}
+        <Listbox.Button className="w-full py-3" style={{boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF", border: "solid 3px black", borderRadius: "20px",
+           overflow: "hidden", display: "flex", alignItems: "center"}}
         >
         <div className="h-10 w-10 ml-4 flex items-center flex-shrink-0 text-black">
             <BsFolder style={{width: "60%", height: "auto"}} />

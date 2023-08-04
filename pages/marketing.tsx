@@ -255,9 +255,9 @@ const ContentCreator = () => {
                 .map((category) => {
                   return (
                     <div
-                      className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-10 py-6 flex items-center justify-center gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${
+                      className={`h-4 text-black font-bold border-2 rounded-xl m-2 px-10 py-6 flex items-center justify-center gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${
                         currentCategory === category.category
-                          ? "border-2  border-blue-400"
+                          ? "border-2  border-black"
                           : "border border-gray-100 shadow-lg"
                       }`}
                       key={category._id}
@@ -322,8 +322,8 @@ const PageContainer = styled.div`
   align-items: center;
   border: 2px solid #eaedf5;
   border-radius: 20px;
-  background-color: white;
-  box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.15);
+  background-color: #FFFFFF;
+  box-shadow: inner 2px 2px 10px rgba(15, 27, 40, 0.15);
   width: 100%;
   border-radius: 25px;
   padding: 1.5rem 3rem 1.5rem 3rem;

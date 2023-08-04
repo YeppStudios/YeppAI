@@ -63,15 +63,13 @@ const NoElixir = (props: {onClose: any}) => {
                 <Centered>
                 <Description>AI Assistant needs elixir to continue generating unique content for you.</Description>
                 </Centered>
-                {showBuyBtn &&
-               <Centered>
+                <Centered>
                     <BtnContainer>
                     <BuyBtn onClick={() => goToProfile("openSubscriptions")}>
                         Continue
                     </BuyBtn>
                     </BtnContainer>
                 </Centered>
-                }
             </div>
             :
             <div>
@@ -157,7 +155,7 @@ const PlanContainer = styled.div<PlanContainer>`
 `
 
 const Description = styled.div`
-    font-size: 2vh;
+    font-size: 1.2rem;
     margin-top: 1vh;
     text-align: center;
     width: 70%;
@@ -205,24 +203,21 @@ const BuyBtn = styled.button`
     margin: 0 2rem 0 2rem;
     border: solid 3px transparent;
     border-radius: 15px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: 2px 2px 6px rgba(22, 27, 29, 0.23), -2px -2px 4px #FAFBFF;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
+    background: black;
     font-size: 1em;
     margin-top: 1rem;
-    color: black;
+    color: white;
     display: flex;
     align-items: center;
       font-weight: 700;
     justify-content: center;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
     @media (min-width: 1023px) {
       &:hover {
         transform: scale(0.95);
         border: none;
-        background: linear-gradient(40deg, #6578F8, #64B5FF);
+        box-shadow: 2px 2px 6px rgba(22, 27, 29, 0.23), -1px -1px 4px #FAFBFF;
         box-shadow: none;
         color: white;
     }

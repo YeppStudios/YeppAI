@@ -564,7 +564,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                             ...folders.map((folder) => {
                                 if (selectedFolders?.includes(folder._id)) {
                                     return (
-                                        <SelectedFolder onClick={() => setSelectedFolders(selectedFolders.filter((id) => id !== folder._id))} key={folder._id}>
+                                        <SelectedTab onClick={() => setSelectedFolders(selectedFolders.filter((id) => id !== folder._id))} key={folder._id}>
                                             <div style={{ display: "flex", flexWrap: "wrap" }}>
                                             <FolderTitle style={{ color: "black" }}>
                                                 <FolderIcon>
@@ -573,11 +573,11 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                                                 {folder.title}
                                             </FolderTitle>
                                             </div>
-                                        </SelectedFolder>
+                                        </SelectedTab>
                                     )
                                 } else {
                                     return (
-                                        <Folder onClick={() => handleFolderClick(folder._id)} key={folder._id}>
+                                        <Tab onClick={() => handleFolderClick(folder._id)} key={folder._id}>
                                             <div style={{ display: "flex", flexWrap: "wrap" }}>
                                             <FolderTitle style={{ color: "black" }}>
                                                 <FolderIcon>
@@ -586,11 +586,11 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                                                 {folder.title}
                                             </FolderTitle>
                                             </div>
-                                        </Folder>
+                                        </Tab>
                                     );
                                 }
                             }),
-                            <AddFolder key="addfolder" onClick={handleOpenAddFolder}><BsPlusLg style={{width: "auto", height: "60%"}}/></AddFolder>
+                            <AddTab key="addfolder" onClick={handleOpenAddFolder}><BsPlusLg style={{width: "auto", height: "60%"}}/></AddTab>
                         ]
                         :
                         <div style={{display: "flex", width: "100%", marginTop: "0.25rem", justifyContent: "flex-start"}}>
@@ -825,13 +825,10 @@ const SelectedMainTab = styled.div`
     display: flex;
     align-items: center;
     font-size: 1rem;
-    background: #EEF1F8;
-    border: solid 3px transparent;
+    background: #F1F1F1;
+    border: solid 3px black;
     overflow: hidden;
     border-radius: 12px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     @media (max-width: 1023px) {
         font-size: 0.75rem;
         padding: 0.55rem 2rem 0.55rem 2rem;
@@ -848,131 +845,85 @@ const HalfInputContainer = styled.div`
 `
 
 const Tab = styled.div`
-    padding: 0rem 1.75rem 0rem 1.75rem;
-    height: 2.5rem;
-    font-weight: 500;
-    margin: 0 0.5rem 0.5rem 0rem;
-    display: flex;
-    align-items: center;
-    font-size: 0.85rem;
-    background: #EEF1F8;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    &:hover {
-        transform: scale(0.95);
-    }
+height: 3rem;
+position: relative;
+display: flex;
+justify-content: space-between;
+align-items: center;
+box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23), -1px -1px 4px #FAFBFF;
+padding: 0.2rem 2rem 0.2rem 2rem;
+border: 2px solid #E5E8F0;
+border-radius: 15px;
+cursor: pointer;
+margin: 0.7rem 0.35rem 0 0.35rem;
+align-items: center;
+overflow: hidden;
+transition: all 0.3s ease;
+&:hover {
+    box-shadow: none;
+    transform: scale(0.95);
+}
+@media (max-width: 1023px) {
+    padding: 0.2rem 1rem 0.2rem 1rem;
+}
 `
 
 const SelectedTab = styled.div`
-    padding: 0rem 1.75rem 0rem 1.75rem;
-    height: 2.5rem;
-    font-weight: 500;
-    margin: 0 0.5rem 0.5rem 0rem;
-    display: flex;
-    align-items: center;
-    font-size: 0.85rem;
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 12px;
-    background-color: #0D0E16;
-    color: white;
-`
-
-const AssistantTab = styled.div`
-    padding: 2rem 1.5vw 2.5rem 1.5vw;
-    width: 10vw;
-    font-weight: 500;
-    margin: 0 0.5rem 0.5rem 0rem;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    font-size: 1rem;
-    background: #EEF1F8;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    &:hover {
-        transform: scale(0.95);
-        background: #E3E6F1;
-    }
-`
-
-const SelectedAssistantTab = styled.div`
-    padding: 2rem 1.5rem 2.5rem 1.5rem;
-    font-weight: 700;
-    width: 16vw;
-    height: 14.5rem;
-    margin: 0 0.5rem 0.5rem 0rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    border: solid 3px transparent;
-    overflow: hidden;
-    border-radius: 12px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    cursor: pointer;
-    transition: all 0.4s ease;
-`
-
-const AddFolder = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    margin: 0.7rem 0.35rem 0 0.75rem;
     height: 3rem;
-    width: 3rem;
-    color: black;
-    border: dashed 2px black;
-    text-align: center;
-    border-radius: 10px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid 3px black;
+    border-radius: 15px;
+    padding: 0.2rem 2rem 0.2rem 2rem;
     cursor: pointer;
+    margin: 0.7rem 0.4rem 0rem 0.4rem;
+    align-items: center;
+    overflow: hidden;
     transition: all 0.4s ease;
     &:hover {
-        border: dashed 2px black;
         transform: scale(0.95);
-        color: black;
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
     }
 `
+
 
 const AddTab = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    height: 2.5rem;
-    width: 2.5rem;
-    color: black;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: center;
+margin: 0.7rem 0.35rem 0 0.75rem;
+height: 3rem;
+width: 3rem;
+color: black;
+border: dashed 2px black;
+text-align: center;
+border-radius: 10px;
+cursor: pointer;
+transition: all 0.3s ease;
+&:hover {
     border: dashed 2px black;
-    text-align: center;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    &:hover {
-        border: dashed 2px black;
-        transform: scale(0.95);
-        color: black;
-    }
+    transform: scale(0.95);
+    color: black;
+}
 `
 
 const TabInput = styled.input`
-    padding: 0rem 1.75rem 0rem 1.75rem;
-    height: 2.5rem;
-    width: 15rem;
-    font-weight: 500;
-    margin: 0 0.5rem 0.5rem 0rem;
+    height: 3rem;
+    position: relative;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
-    background: #EEF1F8;
-    border-radius: 12px;
+    border: solid 3px #DCDCDC;
+    border-radius: 15px;
+    padding: 0.2rem 2rem 0.2rem 2rem;
     cursor: pointer;
+    outline: none;
+    margin: 0.7rem 0.4rem 0rem 0.4rem;
+    align-items: center;
+    overflow: hidden;
 `
 
 const TabIcon = styled.div`
@@ -1148,54 +1099,6 @@ const FolderIcon = styled.div`
     transition: all 0.4s ease;
 `
 
-const Folder = styled.div`
-    height: 3rem;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23), -1px -1px 4px #FAFBFF;
-    padding: 0.2rem 2rem 0.2rem 2rem;
-    border: 2px solid #E5E8F0;
-    border-radius: 15px;
-    cursor: pointer;
-    margin: 0.7rem 0.35rem 0 0.35rem;
-    align-items: center;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    &:hover {
-        box-shadow: none;
-        transform: scale(0.95);
-    }
-    @media (max-width: 1023px) {
-        padding: 0.2rem 1rem 0.2rem 1rem;
-    }
-`
-
-const SelectedFolder = styled.div`
-    height: 3rem;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: solid 3px transparent;
-    border-radius: 15px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: 2px 2px 6px rgba(22, 27, 29, 0.23), -1px -1px 4px #FAFBFF;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    padding: 0.2rem 2rem 0.2rem 2rem;
-    cursor: pointer;
-    margin: 0.7rem 0.4rem 0rem 0.4rem;
-    align-items: center;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    &:hover {
-        box-shadow: none;
-        transform: scale(0.95);
-    }
-`
-
 const FolderTitle = styled.p`
     margin-left: 0rem;
     font-weight: 700;
@@ -1214,10 +1117,8 @@ const ContinueBtn = styled.button`
         font-weight: 500;
         width: 100%;
         height: 3rem;
-        background: linear-gradient(40deg, #6578F8, #64B5FF);
-        background-size: 110%;
-        background-position-x: -1rem;
-        transition: all 0.4s ease;
+        background: black;
+        transition: all 0.3s ease;
         font-size: 1.2rem;
         display: flex;
         align-items: center;
@@ -1260,7 +1161,7 @@ const AddFolderBtn = styled.button`
     padding: 0.5rem 2rem 0.5rem 2rem; 
     border-radius: 12px; 
     box-shadow: 0px 3px 8px 2px rgba(0, 0, 0, 0.10);
-    transition: all 0.4s ease;  
+    transition: all 0.3s ease;  
     &:hover {
         transform: scale(0.97);
         box-shadow: none;

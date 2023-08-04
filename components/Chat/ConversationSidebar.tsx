@@ -346,12 +346,7 @@ const NewConversationBtn = styled.button`
     font-weight: 500;
     border: solid 3px transparent;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 120%;
-    background-position-x: -1rem;
+    background: black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -360,7 +355,7 @@ const NewConversationBtn = styled.button`
     cursor: pointer;
     &:hover {
         transform: scale(0.95);
-        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     }
 `
 

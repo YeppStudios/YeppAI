@@ -47,7 +47,7 @@ const Campagin = () => {
   const [loading, setLoading] = useState(true);
   const [savedContent, setSavedContent] = useState<any[]>([]);
   const [page, setPage] = useState(1);
-  const [isFirstPage, setIsFirstPage] = useState<boolean>(false);
+  const [isFirstPage, setIsFirstPage] = useState<boolean>(true);
   const [templates, setTemplates] = useState<TemplateProps[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<any>();
   const [templateCategories, setTemplateCategories] = useState<string[]>([]);
@@ -105,45 +105,40 @@ const Campagin = () => {
       setMobile(true);
     }
     const token = localStorage.getItem("token");
-    const fetchSavedContent = async () => {
-      setLoading(true);
-      try {
-        const fetchedContent = await api.get(`/getUserSeoContent`, {
-          headers: {
-            authorization: token,
-          },
-        });
-        setSavedContent(fetchedContent.data);
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchSavedContent();
+    // const fetchSavedContent = async () => {
+    //   setLoading(true);
+    //   try {
+    //     const fetchedContent = await api.get(`/getUserSeoContent`, {
+    //       headers: {
+    //         authorization: token,
+    //       },
+    //     });
+    //     setSavedContent(fetchedContent.data);
+    //     setLoading(false);
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
+    // fetchSavedContent();
   }, []);
 
-  const handleOpenDocument = (id: string) => {
-    router.push(`/copywriting?contentId=${id}`);
-    setPage(2);
-  };
-
   const handleDeleteDocument = async (id: string) => {
-    const token = localStorage.getItem("token");
-    setLoading(true);
-    try {
-      await api.delete(`/deleteSeoContent/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      });
-      const documentContent = savedContent.filter(
-        (content: { _id: string }) => content._id !== id
-      );
-      setSavedContent(documentContent);
-      setLoading(false);
-    } catch (e) {
-      console.log(e);
-    }
+    // const token = localStorage.getItem("token");
+    // setLoading(true);
+    // try {
+    //   await api.delete(`/deleteSeoContent/${id}`, {
+    //     headers: {
+    //       authorization: token,
+    //     },
+    //   });
+    //   const documentContent = savedContent.filter(
+    //     (content: { _id: string }) => content._id !== id
+    //   );
+    //   setSavedContent(documentContent);
+    //   setLoading(false);
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   const toggleCategoryExpansion = (category: string) => {
@@ -162,7 +157,9 @@ const Campagin = () => {
   const renderContent = () => {
     const renderedContent = savedContent.map((content, index) => {
       return (
-        <tr key={content._id} onClick={() => handleOpenDocument(content._id)}>
+        <tr key={content._id} 
+        // onClick={() => handleOpenDocument(content._id)}
+        >
           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
           <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
             {mobile ? `${content.title.slice(0, 28)}...` : content.title}
@@ -175,7 +172,7 @@ const Campagin = () => {
           </td>
           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
             <button
-              onClick={() => handleOpenDocument(content._id)}
+              // onClick={() => handleOpenDocument(content._id)}
               className="text-blue-600 hover:text-blue-900 font-semibold"
             >
               Open
@@ -254,6 +251,7 @@ const Campagin = () => {
       </ActionContaienr>
     );
   };
+
   return (
     <PageTemplate>
       {openCreateCamapginModal && (
@@ -263,8 +261,8 @@ const Campagin = () => {
       )}
       {isFirstPage ? (
         <FirstPageTemplate
-          name="Campagin"
-          description="Campaign description"
+          name="Campagins"
+          description="Effortlessly craft content for your campaigns."
           renderContent={renderContent}
           actionButtons={
             <ActionButtons openModal={() => setOpenCreateCampaignModal(true)} />
@@ -345,7 +343,7 @@ const Campagin = () => {
 
                       {isCategoryExpanded && (
                         <div className="flex flex-col items-stretch">
-                          <div className=" pb-4 ">
+                          <div className="pb-4 ">
                             <p className="text-justify">{LoremIpsum}</p>
                           </div>
                           <div className="border w-full border-gray-300  " />
@@ -454,23 +452,18 @@ const WriteBtn = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-    inset -2px -2px 4px #fafbff, 1px 1px 3px rgba(22, 27, 29, 0.23);
   border: solid 3px transparent;
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
   position: relative;
   white-space: nowrap;
   color: white;
   font-weight: 500;
-  background: linear-gradient(40deg, #6578f8, #64b5ff);
-  background-size: 110%;
-  background-position-x: -0.5rem;
+  background: black;
   align-items: center;
   transition: all 0.4s ease;
   cursor: pointer;
   &:hover {
-    box-shadow: none;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
+    inset -2px -2px 4px #fafbff, 1px 1px 4px rgba(22, 27, 29, 0.23);
     transform: scale(0.95);
   }
   @media (max-width: 1023px) {

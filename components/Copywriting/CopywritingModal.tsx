@@ -755,7 +755,7 @@ const CopywritingModal = (props: {
                             </Tabs>
                             </div>
                             <Centered>
-                                <Button type="submit" onClick={fetchSource}>
+                                <ContinueBtn type="submit" onClick={fetchSource}>
                                     {loading ?
                                     <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                         <Loader color="black"/>
@@ -763,7 +763,7 @@ const CopywritingModal = (props: {
                                     :
                                     <p>Continue</p>
                                     }
-                                </Button>
+                                </ContinueBtn>
                             </Centered>
                         </div>
                     </div> 
@@ -792,7 +792,7 @@ const CopywritingModal = (props: {
                     <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />
                     :
                     searchResults.map((result, index) => {
-                        const displayedTitle = result.title.length > 62 ? `${result.title.substring(0, 62)}...` : result.title;
+                        const displayedTitle = result.title.length > 58 ? `${result.title.substring(0, 58)}...` : result.title;
                         let isSelected = selectedLinks.some(link => link.link === result.link);
                     
                         if (isSelected) {
@@ -834,7 +834,7 @@ const CopywritingModal = (props: {
                     </div>
                 }                
                     <Centered>
-                        <Button type="submit" onClick={nextStep}>
+                        <ContinueBtn type="submit" onClick={nextStep}>
                             {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <Loader color="black"/>
@@ -842,7 +842,7 @@ const CopywritingModal = (props: {
                                 :
                                 <p>Continue</p>
                             }
-                        </Button>
+                        </ContinueBtn>
                     </Centered>
                     </div>
                 </div> 
@@ -945,7 +945,7 @@ const CopywritingModal = (props: {
                     </>
                     }
                         <Centered>
-                            <Button type="submit" onClick={nextStep}>
+                            <ContinueBtn type="submit" onClick={nextStep}>
                                 {loading ?
                                     <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                         <Loader color="black"/>
@@ -953,7 +953,7 @@ const CopywritingModal = (props: {
                                     :
                                     <p>Continue</p>
                                 }
-                            </Button>
+                            </ContinueBtn>
                         </Centered>
                     </div>
                 </div> 
@@ -1010,7 +1010,7 @@ const CopywritingModal = (props: {
                 />
                     <Centered>
                       {!generatingOutline &&
-                        <Button type="submit" onClick={() => submit()}>
+                        <ContinueBtn type="submit" onClick={() => submit()}>
                             {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <Loader color="black"/>
@@ -1023,7 +1023,7 @@ const CopywritingModal = (props: {
                                     <p>Generate the {props.contentType}</p>
                                 </div>
                             }
-                        </Button>
+                        </ContinueBtn>
                         }
                     </Centered>
                 </div>
@@ -1165,34 +1165,26 @@ const Input = styled.input`
 }
 `;
 
-const Button = styled.button`
-  display: block;
-  width: 22vw;
-  height: 3rem;
-  margin-top: 2rem;
-  color: black;
-  font-size: 1.1rem;
-  border: solid 3px transparent;
-  background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  font-weight: 700;
-  border-radius: 15px;
-  transition: all 0.4s ease;
-  cursor: pointer;
-  &:hover {
+const ContinueBtn = styled.button`
+        border: solid 3px transparent;
+        border-radius: 15px;
+        position: relative;
+        color: white;
+        font-weight: 500;
+        width: calc(100% - 14rem);
+        margin-top: 3rem;
+        height: 3rem;
+        background: black;
+        transition: all 0.3s ease;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    &:hover {
     transform: scale(0.95);
-    box-shadow: none;
-    translateX: 10px;
-    box-shadow: 0 2px 2px 1px rgb(0, 0, 0, 0.1);
-}
-  box-shadow: 0 4px 4px 1px rgb(0, 0, 0, 0.2);
-  @media (max-width: 1023px) {
-    margin-top: 3vh;
-    width: 65vw;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
     }
-`;
+`
 
 const EstimatedTime = styled.p`
     margin-top: 1vh;
@@ -1233,42 +1225,47 @@ const CloseIcon = styled.button`
 `
 
 const Tab = styled.div`
-    padding: 0rem 1.75rem 0rem 1.75rem;
-    height: 2.5rem;
-    font-weight: 500;
-    margin: 0 0.5rem 0.5rem 0rem;
-    display: flex;
-    align-items: center;
-    color: black;
-    font-size: 0.85rem;
-    background: #EEF1F8;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    &:hover {
-        transform: scale(0.95);
-    }
+height: 3rem;
+position: relative;
+display: flex;
+justify-content: space-between;
+align-items: center;
+box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23), -1px -1px 4px #FAFBFF;
+padding: 0.2rem 2rem 0.2rem 2rem;
+border: 2px solid #E5E8F0;
+border-radius: 15px;
+cursor: pointer;
+margin: 0.7rem 0.35rem 0 0.35rem;
+align-items: center;
+overflow: hidden;
+transition: all 0.3s ease;
+&:hover {
+    box-shadow: none;
+    transform: scale(0.95);
+}
+@media (max-width: 1023px) {
+    padding: 0.2rem 1rem 0.2rem 1rem;
+}
 `
 
 const SelectedTab = styled.div`
-    padding: 0rem 1.75rem 0rem 1.75rem;
-    height: 2.5rem;
-    font-weight: 500;
-    margin: 0 0.5rem 0.5rem 0rem;
+    height: 3rem;
+    position: relative;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
-    color: black;
+    border: solid 3px black;
+    border-radius: 15px;
+    padding: 0.2rem 2rem 0.2rem 2rem;
     cursor: pointer;
+    margin: 0.7rem 0.4rem 0rem 0.4rem;
+    align-items: center;
     overflow: hidden;
-    border-radius: 12px;
-    border: solid 3px transparent;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    color: black;
-    font-weight: 700;
+    transition: all 0.4s ease;
+    &:hover {
+        transform: scale(0.95);
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
+    }
 `
 
 const AddTab = styled.div`
@@ -1276,11 +1273,11 @@ const AddTab = styled.div`
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     height: 2.5rem;
     width: 2.5rem;
     color: black;
-    border: dashed 2px #CFD5E8;
+    border: dashed 2px black;
     text-align: center;
     border-radius: 10px;
     cursor: pointer;

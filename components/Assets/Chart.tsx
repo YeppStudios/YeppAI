@@ -44,7 +44,7 @@ const Chart = (props: {data: Array<any>, title: string, textInside: string, plan
           {
             data: data, // use state variable
             backgroundColor: [
-              '#6596FB',
+              '#000000',
               '#FFFFFF',
             ],
             borderColor: [

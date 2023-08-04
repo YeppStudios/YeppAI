@@ -162,7 +162,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 <td className="whitespace-nowrap px-3 py-4 text-base text-black">{folder.title}</td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-base text-black lg:table-cell">{date}</td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-black text-sm font-medium sm:pr-6">
-                <button onClick={() => dispatch(setSelectedFolder(folder))} className="mr-4 text-500 text-blue-500 hover:text-blue-800">Open folder</button>
+                <button onClick={() => dispatch(setSelectedFolder(folder))} className="mr-4 text-500 text-gray-500 hover:text-black">Open folder</button>
                 <Menu as="div" className="relative inline-block text-left">
                     <div>
                     <Menu.Button className="inline-flex w-full justify-center text-sm font-semibold text-gray-900 focus:outline-none">
@@ -223,7 +223,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             {openDeleteFolder && <DeleteFolderModal onClose={() => setOpenDeleteFolder(false)} folder={folderToDelete} deleteFolderState={handleDeleteFolder} />}
             <HeaderContainer>
                 <div>
-                    <Title fontSize={"2.4rem"} width={"auto"} textAlign={"left"} color={"black"} mobileFontSize={"2rem"} mobileTextAlign={"left"}>Your <ColorfulText>Assets</ColorfulText></Title>
+                    <Title fontSize={"2.4rem"} width={"auto"} textAlign={"left"} color={"black"} mobileFontSize={"2rem"} mobileTextAlign={"left"}>Your Assets.</Title>
                     <Description>Assets for AI to reference while generating content.</Description>
                 </div>
                 {plan._id &&
@@ -462,11 +462,8 @@ const Usage = styled.p`
 
 const Option = styled.div`
     width: calc(25% - 0.5rem);
-    border: solid 3px transparent;
+    border: solid 3px black;
     border-radius: 25px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     padding: 1.5rem 1.7rem 1.5rem 1.7rem;
     margin-bottom: 1rem;
     color: black;
@@ -539,10 +536,9 @@ const AddBtn = styled.button`
     font-weight: 500;
     border: solid 3px transparent;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
+    background: black;
     background-size: 120%;
     background-position-x: -1rem;
     display: flex;
@@ -553,7 +549,7 @@ const AddBtn = styled.button`
     cursor: pointer;
     &:hover {
         transform: scale(0.95);
-        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     }
     @media (max-width: 1023px) {
         width: 11rem;

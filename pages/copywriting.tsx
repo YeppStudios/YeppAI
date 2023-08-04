@@ -109,7 +109,7 @@ const DocumentCreator = () => {
           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
             <button
               onClick={() => handleOpenDocument(content._id)}
-              className="text-blue-600 hover:text-blue-900 font-semibold"
+              className="text-gray-600 hover:text-gray-900 font-semibold"
             >
               Open
             </button>
@@ -301,23 +301,18 @@ const WriteBtn = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-    inset -2px -2px 4px #fafbff, 1px 1px 3px rgba(22, 27, 29, 0.23);
   border: solid 3px transparent;
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
   position: relative;
   white-space: nowrap;
   color: white;
   font-weight: 500;
-  background: linear-gradient(40deg, #6578f8, #64b5ff);
-  background-size: 110%;
-  background-position-x: -0.5rem;
+  background: black;
   align-items: center;
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
   &:hover {
-    box-shadow: none;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
+    inset -2px -2px 4px #fafbff, 1px 1px 3px rgba(22, 27, 29, 0.23);
     transform: scale(0.95);
   }
   @media (max-width: 1023px) {

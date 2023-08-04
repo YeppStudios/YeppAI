@@ -24,8 +24,8 @@ export const BlueLoader = styled.div`
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: radial-gradient(farthest-side,#6578F8 94%,#0000) top/9px 9px no-repeat,
-        conic-gradient(#0000 30%,#6578F8);
+    background: radial-gradient(farthest-side,#000 94%,#0000) top/9px 9px no-repeat,
+        conic-gradient(#0000 30%,#000);
     -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 9px),#000 0);
     animation: ${spinAnimation} 1s infinite linear;
 `

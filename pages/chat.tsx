@@ -1148,20 +1148,14 @@ const SendButton = styled.button`
     justify-content: center;
     border: solid 3px transparent;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     align-items: center;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 120% 120%;
-    background-position-x: -0.3rem;
-    background-position-y: -0.3rem;
-    transition: all 0.4s ease;
+    background: black;
+    transition: all 0.3s ease;
     z-index: 1;
     cursor: pointer;
     &:hover {
     transform: scale(0.95);
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+    box-shadow: inset 1px 1px 4px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 4px rgba(22, 27, 29, 0.23);
     }
     @media (max-width: 1023px) {
       margin-left: 1rem;
