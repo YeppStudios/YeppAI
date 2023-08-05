@@ -51,9 +51,9 @@ const SolutionPage = () => {
         {/* Adjust shadow and font weight */}
         <div className="absolute inset-x-0 bottom-0 h-[25%]   bg-white z-20 flex flex-col gap-12 px-12 pt-12  shadow-[0px_-40px_40px_50px_#fff] shadow-white ">
           <div className="lg:grid lg:grid-cols-2 flex flex-col w-full   ">
-            <h2 className=" lg:text-[4vw] text-[8vw] lg:pb-12 lg:text-start text-center pb-24">
+            <h3 className=" lg:text-[4vw] text-[8vw] lg:pb-12 lg:text-start text-center pb-24">
               Chat with your data
-            </h2>
+            </h3>
             <div className=" gap-8 h-12 flex flex-col lg:flex-row justify-end">
               <TestButton className="start-free-trial-landing">
                 <BsFillGiftFill />
@@ -72,20 +72,25 @@ const SolutionPage = () => {
         </div>
       </section>
       <PageContent className="p-12">
-        <section className=" h-full border-t-2  border-slate-300  p-8 relative">
+        <section className=" h-full border-t-4  border-slate-300  p-8 relative">
           <div className="flex h-full w-full ">
-            {/* {!mobile && (
-              <div className="h-full w-4 bg-red-300 flex flex-grow"></div>
-            )} */}
+            {!mobile && (
+              // Adjust bar with dots
+              <div className="h-[165vh] mt-24 rounded-full w-4 bg-black overflow-visible relative">
+                <div className="w-6 h-6 rounded-full absolute top-0 bg-black -translate-x-[50%] ml-[.2rem]" />
+                <div className="w-6 h-6 rounded-full absolute top-[49%] bg-black -translate-x-[50%] ml-[.2rem]" />
+                <div className="w-6 h-6 rounded-full absolute bottom-0 bg-black -translate-x-[50%] ml-[.2rem]" />
+              </div>
+            )}
 
-            <div className="flex flex-col  gap-48">
+            <div className="flex flex-col  gap-[18vh]">
               <div className="flex lg:flex-row items-center justify-center flex-col">
                 <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
                   <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
                     <AiOutlineCloudUpload className="h-8 w-8" />
-                    <h2 className="lg:text-[3.5vw]  text-4xl pl-1">
+                    <h3 className="lg:text-[3.5vw]  text-4xl pl-1">
                       1.Upload your data
-                    </h2>
+                    </h3>
                   </div>
                   <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
@@ -103,9 +108,9 @@ const SolutionPage = () => {
                 <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
                   <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
                     <AiOutlineCloudUpload className="h-8 w-8" />
-                    <h2 className="lg:text-[3.5vw]  text-4xl pl-1">
+                    <h3 className="lg:text-[3.5vw]  text-4xl pl-1">
                       1.Upload your data
-                    </h2>
+                    </h3>
                   </div>
                   <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
@@ -123,9 +128,9 @@ const SolutionPage = () => {
                 <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
                   <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
                     <AiOutlineCloudUpload className="h-8 w-8" />
-                    <h2 className="lg:text-[3.5vw]  text-4xl pl-1">
+                    <h3 className="lg:text-[3.5vw]  text-4xl pl-1">
                       1.Upload your data
-                    </h2>
+                    </h3>
                   </div>
                   <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
@@ -139,6 +144,65 @@ const SolutionPage = () => {
                   <Image src={placeholderImg} alt="Upload data image" fill />
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+        <section className="mt-24">
+          <div className="flex w-full pb-8 border-b-4 mb-24">
+            {/* Adjust font */}
+            <h2 className="lg:text-[3.5vw]  text-4xl">Use cases</h2>
+          </div>
+          <div className="grid md:grid-cols-2 grid-cols-1 ">
+            <div className="flex flex-col gap-8 pb-[8vw]">
+              <AiOutlineCloudUpload className="h-8 w-8" />
+              <h3 className="lg:text-[3vw]  text-3xl">Customer service</h3>
+              <p className="pr-8 lg:text-[1.5vw] md:text-2xl text-xl">
+                Our comunity is full of proliftic developers, creative builders,
+                and fantastic teachers. Check out YouTube tutorials for great
+                tutorials from folks in the comunity, and Gallery for a list of
+                awesome LangChain projects, compiled by the folks
+              </p>
+            </div>
+            <div className="flex flex-col gap-8 pb-[8vw]">
+              <AiOutlineCloudUpload className="h-8 w-8" />
+              <h3 className="lg:text-[3vw]  text-3xl">Customer service</h3>
+              <p className="pr-8 lg:text-[1.5vw] md:text-2xl text-xl">
+                Our comunity is full of proliftic developers, creative builders,
+                and fantastic teachers. Check out YouTube tutorials for great
+                tutorials from folks in the comunity, and Gallery for a list of
+                awesome LangChain projects, compiled by the folks
+              </p>
+            </div>
+            <div className="flex flex-col gap-8 pb-[8vw]">
+              <AiOutlineCloudUpload className="h-8 w-8" />
+              <h3 className="lg:text-[3vw]  text-3xl">Customer service</h3>
+              <p className="pr-8 lg:text-[1.5vw] md:text-2xl text-xl">
+                Our comunity is full of proliftic developers, creative builders,
+                and fantastic teachers. Check out YouTube tutorials for great
+                tutorials from folks in the comunity, and Gallery for a list of
+                awesome LangChain projects, compiled by the folks
+              </p>
+            </div>
+          </div>
+        </section>
+        <section className="mt-24">
+          <div className="flex w-full pb-8 border-b-4 mb-24">
+            {/* Adjust font */}
+            <h2 className="lg:text-[3.5vw]  text-4xl">Other solutions</h2>
+          </div>
+          <div className="grid lg:grid-cols-2 grid-cols-1">
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl ">
+              <div className="absolute bottom-0 left-0 w-full h-[55%] bg-white gap-3 z-20 flex flex-col p-4">
+                <h4 className="text-2xl">Marketing campaigns</h4>
+                <p className="text-lg ">
+                  Our comunity is full of proliftic developers, creative
+                  builders, and fantastic teachers. Check out YouTube tutorials
+                  for great tutorials from folks in the comunity, and Gallery
+                  for a list of awesome LangChain projects, compiled by the
+                  folks
+                </p>
+              </div>
+              <Image src={placeholderImg} fill alt="other solutions image" />
             </div>
           </div>
         </section>
