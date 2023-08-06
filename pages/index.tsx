@@ -81,7 +81,6 @@ const Homepage = () => {
                   :
                   <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                 }
-                {!mobile && <FreeConsultationBtn id="demo-btn" href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn>}
               </Centered>
               <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
               <Centered>
@@ -101,7 +100,6 @@ const Homepage = () => {
                   </IphoneContainerMobile>
                 </Centered>
           </SlideBottom>
-          {mobile && <Centered><FreeConsultationBtn id="demo-btn" href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>}
           <Section>
             <Centered>
             <SlideBottom>
@@ -198,7 +196,7 @@ const HeroSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 9rem;
+  margin-top: 10rem;
   @media (max-width: 1023px) {
     display: flex;
     margin-top: 8rem;
