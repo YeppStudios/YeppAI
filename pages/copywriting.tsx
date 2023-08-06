@@ -277,6 +277,7 @@ const ActionBtn = styled.div`
   align-items: center;
   color: black;
   border: 2px solid #eaedf5;
+  background: #ffffff;
   border-radius: 15px;
   box-shadow: 0px 2px 5px rgba(15, 27, 40, 0.1);
   align-items: center;

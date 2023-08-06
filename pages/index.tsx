@@ -75,7 +75,7 @@ const Homepage = () => {
           <meta name = "theme-color" content = "#ffffff" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="description" content="Platforma AI do marketingu. Wykorzystaj firmowe dane, które już posiadasz przez własne AI." />
-          <title>Yepp AI</title>
+          <title>Yepp AI | Your AI Marketing</title>
         </Head>
         <PageContent>
           <Loading />
@@ -166,34 +166,9 @@ const PageContent = styled.div`
   width: 100vw;
   position: relative;
   height: 100%;
+  background: #F4F0EA;
   overflow: hidden;
   @media (max-width: 1023px) {
-  }
-`;
-
-const Background = styled.div`
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  top: -6rem;
-  left: 0;
-`;
-
-
-const DescriptionHero = styled.p<CustomColor>`
-  color: ${(props) => props.color || "#000000"};
-  font-size: 1.5rem;
-  width: 100%;
-  text-align: center;
-  font-weight: 500;
-  margin-top: 8vh;
-  @media (max-width: 1023px) {
-    margin-top: 1.5rem;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    width: 95%;
-    padding: 0 0.7rem 0 0.7rem;
   }
 `;
 

@@ -312,10 +312,9 @@ const MainContainer = styled.div`
     width: 100%;
     height: auto;
     overflow-y: scroll;
-    background: white;
+    background: #F8F4ED;
     border-radius: 25px;
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13), -7px -7px 10px #FAFBFF;
-    border: 1.5px solid #EAEDF5;
+    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
     padding: 1.5rem 20em 1.5rem 2.5rem;
     @media (max-width: 1023px) {
         padding: 0;
@@ -395,15 +394,12 @@ const UploadOptionsContainer = styled.div`
 
 const Option = styled.div`
     width: calc(25% - 0.5rem);
-    border: solid 3px transparent;
+    border: solid 3px black;
     border-radius: 25px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     padding: 1.5rem 1.7rem 1.5rem 1.7rem;
     margin-bottom: 1rem;
     color: black;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
     &:hover {
         transform: scale(0.95);

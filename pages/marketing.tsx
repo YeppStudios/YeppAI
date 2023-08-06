@@ -255,10 +255,10 @@ const ContentCreator = () => {
                 .map((category) => {
                   return (
                     <div
-                      className={`h-4 text-black font-bold border-2 rounded-xl m-2 px-10 py-6 flex items-center justify-center gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${
+                      className={`h-4 bg-white text-black font-bold border-2 rounded-xl m-2 px-10 py-6 flex items-center justify-center gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${
                         currentCategory === category.category
                           ? "border-2  border-black"
-                          : "border border-gray-100 shadow-lg"
+                          : "border border-gray-100 shadow-md"
                       }`}
                       key={category._id}
                       onClick={() => HandleCategoryChange(category.category)}
@@ -322,7 +322,7 @@ const PageContainer = styled.div`
   align-items: center;
   border: 2px solid #eaedf5;
   border-radius: 20px;
-  background-color: #FFFFFF;
+  background-color: #F8F4ED;
   box-shadow: inner 2px 2px 10px rgba(15, 27, 40, 0.15);
   width: 100%;
   border-radius: 25px;
@@ -411,6 +411,7 @@ const ActionBtn = styled.div<{ square: boolean }>`
   align-items: center;
   color: black;
   border: 2px solid #eaedf5;
+  background-color: white;
   border-radius: 15px;
   box-shadow: 0px 2px 5px rgba(15, 27, 40, 0.1);
   align-items: center;

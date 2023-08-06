@@ -480,7 +480,7 @@ const LoginContainer = styled.div`
     padding: 3rem 4rem 4rem 4rem;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
-    background: white;
+    background: #F8F4ED;
     margin-bottom: 1.5rem;
     cursor: auto;
     @media (max-width: 1023px) {
@@ -516,13 +516,13 @@ const Input = styled.input`
   padding: 12px;
   border: none;
   border-radius: 10px;
-  background: transparent;
-  border: solid 2px #ECEEF2;
+  background-color: transparent;
+  border: solid 2px #ECECEC;
   color: black;
   font-weight: 500;
   font-size: 1rem;
   margin-bottom: 1rem;
-  box-shadow: inset 3px 3px 10px rgba(22, 27, 29, 0.23), inset -3px -3px 10px #FAFBFF;
+  box-shadow: inset 3px 3px 10px rgba(22, 27, 29, 0.23);
   outline: none;
   ::placeholder,
   ::-webkit-input-placeholder {

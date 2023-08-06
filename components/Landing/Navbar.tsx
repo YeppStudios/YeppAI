@@ -164,7 +164,7 @@ const NavContainer = styled.div<NavContainerProps>`
     margin-top: 0};
     z-index: 100;
     backdrop-filter: blur(5px);
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: ${({ isFixed }) => isFixed ? "rgba(255, 255, 255, 0.8)" : "transparent"};
     box-shadow: ${({ isFixed }) => isFixed ? "0 6px 20px 0 rgba(50, 58, 58, 0.15);" : "none"};
     left: 0;
     justify-content: center;
@@ -238,7 +238,7 @@ const LoginButton = styled.button`
     border-radius: 15px;
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    background: rgba(101, 120, 248, 0.1);
+    background: rgba(255, 255, 255, 0.4);
     align-items: center;
     background-size: 120%;
     background-position-x: -0.5rem;

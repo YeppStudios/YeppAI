@@ -346,25 +346,25 @@ const BottomPanel = () => {
                                 <tr>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+                                    className="sticky top-0 z-10 border-b border-gray-300 bg-transparent bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
                                 >
                                     Name
                                 </th>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
+                                    className="sticky top-0 z-10 hidden border-b border-gray-300 bg-transparent bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
                                 >
                                     Email
                                 </th>
                                 {/* <th
                                     scope="col"
-                                    className="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
+                                    className="sticky top-0 z-10 hidden border-b border-gray-300 bg-transparent bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
                                 >
                                     Zużycie
                                 </th> */}
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
+                                    className="sticky top-0 z-10 border-b border-gray-300 bg-transparent bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
                                 >
                                     <span className="sr-only">Delete</span>
                                 </th>
@@ -497,7 +497,8 @@ const BottomPanel = () => {
                             required
                             type="email"
                             placeholder="email@gmail.com"
-                            className="border-2 text-black font-medium rounded-2xl px-4 py-2 w-10/12 sm:w-56"
+                            style={{boxShadow: "inset -1px -1px 4px rgba(0,0,0,0.15)"}}
+                            className="border-2 border-gray-300 text-black bg-transparent font-medium rounded-2xl px-4 py-2 w-10/12 sm:w-56"
                         >
                         </input>
                         <SendBtn type="submit">
@@ -641,10 +642,9 @@ const ListContainer = styled.div`
     padding: 3vh 2vw 4vh 2vw;
     height: 78vh;
     margin: 2vh 0 1.5vh 0vh;
-    background: white;
+   background: #F8F4ED;
     overflow: hidden;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
-    border: 1.5px solid #EAEDF5;
     border-radius: 25px;
     color: black;
     display: flex;
@@ -744,9 +744,8 @@ const BalanceContainer = styled.div`
     padding: 3vh 2vw 4vh 2vw;
     width: 100%;
     height: 28vh;
-    background: white;
+   background: #F8F4ED;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
-    border: 1.5px solid #EAEDF5;
     display: flex;
     color: black;
     flex-wrap: wrap;
@@ -762,9 +761,8 @@ const BalanceContainer = styled.div`
 
 const PlanContainer = styled.div`
     padding: 3vh 2vw 4vh 2vw;
-    background: white;
+   background: #F8F4ED;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
-    border: 1.5px solid #EAEDF5;
     border-radius: 25px;
     display: flex;
     align-items: space-between;
@@ -782,10 +780,9 @@ const PlanContainer = styled.div`
 
 const APIContainer = styled.div`
     padding: 3vh 2vw 4vh 2vw;
-    background: white;
+   background: #F8F4ED;
     height: 19vh;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
-    border: 1.5px solid #EAEDF5;
     border-radius: 25px;
     display: flex;
     align-items: space-between;
@@ -803,7 +800,7 @@ const APIContainer = styled.div`
 
 const ShareContainer = styled.div<{background: any}>`
     padding: 3vh 2vw 4vh 2vw;
-    background: white;
+   background: #F8F4ED;
     height: 19vh;
     background-image: url(${props => props.background.src});
     background-repeat: no-repeat;
@@ -838,7 +835,7 @@ const FuelBar = styled.div`
   width: 100%;
   height: 0.75rem;
   border-radius: 15px;
-  background: white;
+ background: #F8F4ED;
   box-shadow: inset 2px 2px 4px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
   @media (max-width: 1023px) {
 }

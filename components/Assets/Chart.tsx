@@ -39,16 +39,16 @@ const Chart = (props: {data: Array<any>, title: string, textInside: string, plan
 
     const dataSettings = {
         labels: [],
-        title: "Wgrane dane",
+        title: "Uploaded",
         datasets: [
           {
             data: data, // use state variable
             backgroundColor: [
               '#000000',
-              '#FFFFFF',
+              '#F9F6F1',
             ],
             borderColor: [
-              '#DDE4F0',
+              '#DCDCDC',
             ],
             borderWidth: 1,
           },

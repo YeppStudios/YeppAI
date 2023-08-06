@@ -195,7 +195,7 @@ const PageContainer = styled.div`
   align-items: center;
   border: 2px solid #EAEDF5;
   border-radius: 20px;
-  background-color: white;
+  background-color: #F8F4ED;
   box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.15);
   width: 100%;
   border-radius: 25px;
@@ -236,7 +236,6 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-bottom: 2rem;
-  background-color: white;
   border-bottom: 2px solid #EAEDF5;
   @media (max-width: 1023px) {
     display: flex;
@@ -269,6 +268,7 @@ const ActionBtn = styled.div`
     justify-content: center;
     align-items: center;
     color: black;
+    background-color: white;
     border: 2px solid #EAEDF5;
     border-radius: 15px;
     box-shadow: 0px 2px 5px rgba(15, 27, 40, 0.1);
@@ -340,7 +340,6 @@ const Assistant = styled.div`
     color: black;
     overflow: hidden;
     background-color: white;
-    border: 2px solid #EAEDF5;
     border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(15, 27, 40, 0.15);
     text-align: center;
@@ -384,7 +383,7 @@ const AddAssistant = styled.div`
     width: 17rem;
     height: 17rem;
     color: black;
-    border: dashed 3px #CFD5E8;
+    border: dashed 3px #DCDCDC;
     text-align: center;
     margin: 0.75rem 0.6rem 0.75rem 0.6rem;
     border-radius: 20px;

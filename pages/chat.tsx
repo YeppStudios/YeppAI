@@ -1030,10 +1030,10 @@ const ConversationContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 1rem 1rem 0rem 1rem;
-  background-color: white;
+  background-color: #F8F4ED;
   border-radius: 25px;
+  box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.2);
   margin-right: 0.75rem;
-  border: 2px solid #E5E8F0;
   height: 100%;
   @media (max-width: 1023px) {
     padding: 2rem 1.5rem 1.5rem 1.5rem;
@@ -1100,12 +1100,12 @@ const Input = styled.textarea`
     padding: 0.7rem 0.7rem 0.7rem 0.7rem;
     font-weight: 500;
     font-size: 1rem;
-    border-radius: 10px;
+    border-radius: 15px;
     background-color: white;
-    box-shadow: inset 3px 3px 5px rgba(15, 27, 40, 0.23), inset -3px -3px 5px #FAFBFF;
-    -webkit-box-shadow: inset 3px 3px 5px rgba(15, 27, 40, 0.23), inset -3px -3px 5px #FAFBFF;
-    border: 2px solid #E5E8F0;
-    background-color: #EEF1FA;
+    box-shadow: inset 3px 3px 7px rgba(15, 27, 40, 0.23);
+    -webkit-box-shadow: inset 3px 3px 7px rgba(15, 27, 40, 0.23);
+    border: 2px solid #EAE1D7;
+    background-color: transparent;
     outline: none;
     resize: none;
     color: black;
@@ -1237,7 +1237,7 @@ const FetchingContainer = styled.div`
   margin-top: 0.2rem;
   border-radius: 12px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-  background-color: #EEF1F8;
+  background-color: white;
   color: black;
   font-weight: 500;
   @media (max-width: 1023px) {

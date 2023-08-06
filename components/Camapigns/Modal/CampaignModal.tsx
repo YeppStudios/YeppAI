@@ -465,7 +465,7 @@ export const CampaignModal: FC<CampaginModalProps> = ({
 const ModalContainer = styled.div<{step: number}>`
     width: 42rem;
     padding: 4rem 4rem 4rem 4rem;
-    background: white;
+    background: #F8F4ED;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
     cursor: auto;
@@ -500,7 +500,6 @@ const MainTab = styled.div`
     font-size: 0.85rem;
     border-radius: 12px;
     cursor: pointer;
-    background-color: #F3F7FA;
     color: black;
     @media (max-width: 1023px) {
         font-size: 0.75rem;
@@ -519,7 +518,7 @@ const SelectedMainTab = styled.div`
     align-items: center;
     font-size: 1rem;
     color: black;
-    background: #F1F1F1;
+    background: rgba(0, 0, 0, 0.1));
     border: solid 3px black;
     overflow: hidden;
     border-radius: 12px;

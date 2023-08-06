@@ -243,7 +243,7 @@ const SidebarContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background: white;
+    background: #F9F6F1;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
     box-shadow: 0px 0px 8px rgba(15, 27, 40, 0.13);
@@ -336,11 +336,8 @@ const SelectedFolder = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: solid 2px transparent;
+    border: solid 3px black;
     border-radius: 15px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     padding: 0.2rem 0.75rem 0.2rem 1rem;
     cursor: pointer;
     margin: 0.7rem 0 1rem 0;
@@ -401,21 +398,16 @@ const AddBtn = styled.button`
     font-weight: 500;
     border: solid 3px transparent;
     border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 120%;
-    background-position-x: -1rem;
+    background: black;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    transition: all 0.4s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
     &:hover {
         transform: scale(0.95);
-        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 4px rgba(22, 27, 29, 0.23);
     }
 `
 

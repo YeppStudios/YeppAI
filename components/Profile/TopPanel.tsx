@@ -111,7 +111,7 @@ const TopPanel = (props: {stats: any}) => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 z-20 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 z-20 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-lg bg-[#F8F4ED] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <Menu.Item>
                         {({ active }) => (
                           <button
@@ -210,9 +210,8 @@ const Panel = styled.div`
     width: 100%;
     padding: 2vh 2vw 3vh 2vw;
     border-radius: 20px;
-    background: white;
+    background: #F8F4ED;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
-    border: 1.5px solid #E5E8F0;
     @media (max-width: 1023px) {
         width: 97%;
         padding: 2vh 5vw 3.5vh 5vw;

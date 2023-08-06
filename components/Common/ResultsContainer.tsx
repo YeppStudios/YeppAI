@@ -501,7 +501,7 @@ const ResultsContainer = (
     return (
         <MainContainer isTemplate={props.template ? true : false}>
         {openElixirModal && <AddElixir user={user} onClose={() => setOpenElixirModal(false)} />}
-        <NoElixir  onClose={() => setOpenNoElixirModal(false)} />
+        {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
         <ElixirHeader>
                 <GenerationCost>
 
@@ -611,7 +611,7 @@ const MainContainer = styled.div<{isTemplate: boolean}>`
   min-height: 90vh;
   z-index: 1; 
   overflow: hidden;
-  box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
+  box-shadow: 3px 3px 8px rgba(15, 27, 40, 0.2);
   border: 2px solid #E5E8F0;
   border-radius: 25px;
   background-color: white;

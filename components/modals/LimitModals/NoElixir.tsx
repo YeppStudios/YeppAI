@@ -101,7 +101,7 @@ const ModalContainer = styled.div`
     width: 50vw;
     height: auto;
     background: white;
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
+    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23);
     border: 2px solid #E5E8F0;
     margin: 1.4rem 0rem 1.4rem 1.4rem;
     border-radius: 25px;
@@ -110,7 +110,7 @@ const ModalContainer = styled.div`
     overflow: hidden;
     color: black;
     font-weight: 500;
-    padding: 6vh 3.5vw 10vh 3.5vw;
+    padding: 8vh 3.5vw 10vh 3.5vw;
     @media (max-width: 1023px) {
         width: 90vw;
         margin: 0;
@@ -172,8 +172,8 @@ const CloseIcon = styled.button`
     width: 1.2rem;
     height: 1.2rem;
     position: absolute;
-    top: 3rem;
-    right: 2rem;
+    top: 1.5rem;
+    right: 1.5rem;
     z-index: 10;
     color: black;
     @media (max-width: 1023px) {

@@ -186,10 +186,9 @@ const SidebarContainer = styled.div`
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   align-items: center;
-  background: white;
-  border: 2px solid #E5E8F0;
+  background: #F8F4ED;
   border-radius: 25px;
-  box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.23), -2px -2px 10px #FAFBFF;
+  box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.23);
   @media (max-width: 1023px) {
     display: none;
 }
@@ -283,9 +282,9 @@ const SavedConversation = styled.div`
     position: relative;
     display: grid; 
     grid-template-columns: 0.2fr 1.6fr 0.2fr; 
-    box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23), -2px -2px 4px #FAFBFF;
+    box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23);
     padding: 0.2rem 0.5rem 0.2rem 0.5rem;
-    border: 2px solid #E5E8F0;
+    background: white;
     border-radius: 15px;
     grid-template-rows: 1fr; 
     gap: 0px 0px; 

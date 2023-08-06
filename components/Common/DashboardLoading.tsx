@@ -57,7 +57,7 @@ border: 2px solid #EAEDF5;
 z-index: 10;
 border-radius: 20px;
 box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.15);
-background: white;
+background: #F8F4ED;
 width: calc(100% - 5.75rem);
 border-radius: 25px;
 margin: 0.75rem 1rem 0.75rem 5.5rem;

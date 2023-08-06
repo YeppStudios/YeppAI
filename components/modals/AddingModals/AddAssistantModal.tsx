@@ -732,7 +732,7 @@ export default AddAssistant;
 const Modal = styled.div`
     width: 54vw;
     border-radius: 25px;
-    background: white;
+    background: #F9F6F1;
     padding: 2.4rem 6rem 3rem 6rem;
     border: 2px solid #E5E8F0;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
@@ -808,7 +808,6 @@ const MainTab = styled.div`
     font-size: 0.85rem;
     border-radius: 12px;
     cursor: pointer;
-    background-color: #F3F7FA;
     @media (max-width: 1023px) {
         font-size: 0.75rem;
         margin: 0;
@@ -850,9 +849,10 @@ position: relative;
 display: flex;
 justify-content: space-between;
 align-items: center;
-box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23), -1px -1px 4px #FAFBFF;
+box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23);
 padding: 0.2rem 2rem 0.2rem 2rem;
 border: 2px solid #E5E8F0;
+background: #F9F6F1;
 border-radius: 15px;
 cursor: pointer;
 margin: 0.7rem 0.35rem 0 0.35rem;

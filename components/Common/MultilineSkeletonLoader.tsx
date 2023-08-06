@@ -17,7 +17,7 @@ type LineProps = {
 const Line = styled.div<LineProps>`
   width: ${({ isLast }) => (isLast ? '50%' : '100%')};
   height: 1.2rem;
-  background: linear-gradient(90deg, #DCDCDC, white, #DCDCDC);
+  background: linear-gradient(90deg, #CEC3AE, #EEE9DF, #CEC3AE);
   background-size: 200% 100%;
   animation: ${pulse} 1.75s linear infinite;
   border-radius: 7px;

@@ -358,7 +358,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                 <div className="cursor-pointer" key={tab.name} onClick={() => setBillingPeriod(tab.period)}>
                 <button
                 className={classNames(
-                    tab.period === billingPeriod ? 'bg-[#F1F1F1] py-4 text-blue-700 border-2 border-black' : 'text-gray-500 hover:text-gray-700',
+                    tab.period === billingPeriod ? 'py-4 text-blue-700 border-2 border-black' : 'text-gray-500 hover:text-gray-700',
                     'rounded-lg px-4 lg:px-14 text-sm lg:text-lg font-base'
                 )}
                 >
@@ -413,15 +413,13 @@ height: 100%;
 `
 const PlanContainer = styled.div<PlanContainer>`
     width: ${props => props.width || '22vw'};
-    background-color: #0D0E16;
+    background-color: transparent;
     padding: 4vh 4vh 6vh 4vh;
     height: 100%;
-    border: solid 3px #ECECEC;
+    border: solid 3px #FFFFFF;
+    box-shadow: 0px 0px 6px rgba(22, 27, 29, 0.2);
     border-radius: 25px;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
     color: ${props => props.color || 'black'};
-    background-color: white;
     transition: all 0.5s ease;
     @media (max-width: 1023px) {
         height: auto;

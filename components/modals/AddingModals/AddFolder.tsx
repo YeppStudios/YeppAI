@@ -124,7 +124,7 @@ export default AddFolder;
 const Container = styled.div`
     width: 34rem;
     padding: 3rem 4rem 4rem 4rem;
-    background: white;
+    background: #F8F4ED;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
     cursor: auto;
@@ -206,11 +206,8 @@ const Button = styled.button`
   border: none;
   color: black;
   font-size: 1.2rem;
-  border: solid 3px transparent;
-  background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+  border: solid 3px black;
+  background: transparent;
   font-weight: 700;
   border-radius: 15px;
   transition: all 0.4s ease;
@@ -219,7 +216,7 @@ const Button = styled.button`
     transform: scale(0.95);
     box-shadow: none;
     translateX: 10px;
-    box-shadow: 0 2px 2px 1px rgb(0, 0, 0, 0.1);
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
 }
   box-shadow: 0 4px 4px 1px rgb(0, 0, 0, 0.2);
   @media (max-width: 1023px) {

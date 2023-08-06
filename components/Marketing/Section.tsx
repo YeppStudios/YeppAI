@@ -31,7 +31,7 @@ const SectionContainer = styled.div`
   margin: 1.4rem 0rem 1.4rem 0.75rem;
   border: 2px solid #eaedf5;
   border-radius: 20px;
-  box-shadow: 0px 4px 10px rgba(15, 27, 40, 0.15);
+  box-shadow: 2px 4px 8px rgba(15, 27, 40, 0.15);
   padding: 1.75rem;
   cursor: pointer;
   transition: all 0.3s ease;

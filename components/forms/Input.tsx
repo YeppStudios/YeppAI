@@ -17,8 +17,7 @@ const Input = styled.input<InputProps>`
   border: none;
   border-radius: 10px;
   font-size: 1rem;
-  background-color: white;
-  box-shadow: inset 1px 1px 5px rgba(15, 27, 40, 0.2), inset -1px -1px 4px #FAFBFF;
+  box-shadow: inset 1px 1px 6px rgba(15, 27, 40, 0.2);
   border: solid 2px #ECEEF2;
   color: black;
   font-weight: 500;

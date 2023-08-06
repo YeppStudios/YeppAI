@@ -127,6 +127,7 @@ position: relative;
 width: 100%;
 height: calc(100vh - 1.5rem);
 border-radius: 25px;
+background: #F8F4ED;
 @media (max-width: 1023px) {
   width: 100%;
   height: 100svh;

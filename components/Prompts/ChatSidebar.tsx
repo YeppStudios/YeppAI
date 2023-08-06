@@ -401,7 +401,7 @@ const Sidebar = styled(motion.div)`
   height: 100vh;
   width: 50vw;
   box-shadow: -5px -5px 10px rgba(15, 27, 40, 0.23);
-  background-color: white;
+  background-color: #F9F6F1;
   padding: 2rem 0 0 1.4rem;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
@@ -433,9 +433,9 @@ const PromptInput = styled.textarea`
     box-sizing: border-box;
     resize: none;
     border-radius: 15px;
-    background-color: white;
-    box-shadow: inset 3px 3px 5px rgba(15, 27, 40, 0.23), inset -3px -3px 5px #FAFBFF;
-    border: 2px solid #E5E8F0;
+    background-color: transparent;
+    box-shadow: inset 3px 3px 5px rgba(15, 27, 40, 0.23);
+    border: 2px solid #EEE9DF;
     padding: 1.7vh 1vw 2vh 1vw;
     font-weight: 500;
     color: black;

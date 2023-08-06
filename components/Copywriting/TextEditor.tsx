@@ -594,7 +594,7 @@ useEffect(() => {
         onClick={() => {editor?.chain().focus().run()}}
         id="scrollable-editor"
       >
-      <div className="sticky w-full bg-white overflow-visible rounded-lg left-0 mb-10 py-4 pb-2 -top-1 text-sm text-stone-400 flex items-center justify-between z-10">
+      <div className="sticky w-full bg-[#F8F4ED] overflow-visible rounded-lg left-0 mb-10 py-4 pb-2 -top-1 text-sm text-stone-400 flex items-center justify-between z-10">
       <div className="-mt-4 -ml-12">
         <BackBtn onClick={() => handleBack()}>
           <BackBtnIcon>
@@ -682,6 +682,7 @@ const ConspectTab = styled.div`
     margin-bottom: 0.5rem;
     font-weight: 500;
     margin-left: 1rem;
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -708,11 +709,10 @@ const EditorContainer = styled.div`
   }
   overflow-y: scroll;
   overflow-x: visible;
-  box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.2), 0px -20px 20px #EEF1FA;
+  box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.2);
   position: relative;
   cursor: auto;
-  background: white;
-  border: 2px solid #EAEDF5;
+  background: #F8F4ED;
   padding: 0 6rem 4rem 6rem;
   border-radius: 25px;
   color: black;

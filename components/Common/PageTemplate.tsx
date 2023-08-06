@@ -125,7 +125,7 @@ const Page = styled.div`
     min-height: 100vh;
     padding: 0.75rem 1rem 0.75rem 5rem;
     height: auto;
-    background-color: #F1F1F1;
+    background-color: #EEE9DF;
     color: white;
     position: absolute;
     @media (max-width: 1023px) {

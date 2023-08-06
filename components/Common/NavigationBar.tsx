@@ -326,12 +326,11 @@ const Navbar = styled(motion.div)`
   align-items: center;
   top: 0;
   left: 0;
-  border: 2px solid #eaedf5;
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
-  box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.2), 0px -20px 20px #eef1fa;
-  background: white;
+  box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.2);
+  background: #F8F4ED;
   z-index: 16;
   flex-direction: column;
   transition: all 0.4s ease;
@@ -428,13 +427,13 @@ const NavigationTab = styled.div<{
   transition: all 0.15s ease;
   @media (min-width: 1023px) {
     &:hover {
-      background-color: #f3f7fa;
+      background-color: #EEE9DF;
     }
   }
   @media (max-width: 1023px) {
     margin-top: 3vh;
     height: auto;
-    border: 2px solid #e9eff6;
+    border: 2px solid #ECECEC;
     padding: 0.75rem 1.5rem 0.75rem 1.5rem;
     border-radius: 12px;
     color: ${(props) =>
@@ -543,6 +542,7 @@ const SelectedNavigationIcon = styled.div`
   width: 1rem;
   height: 1rem;
   color: black;
+  margin-left: 0.2rem;
   @media (max-width: 1023px) {
     width: 1.2rem;
     height: 1.2rem;

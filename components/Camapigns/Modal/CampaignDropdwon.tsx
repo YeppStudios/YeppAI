@@ -46,10 +46,10 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCa
       fontWeight: "500",
       height: "auto",
       boxShadow:
-        "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
+        "2px 2px 5px rgba(15, 27, 40, 0.23)",
     }}
     className={
-      "cursor-pointer appearance-none border-2 flex bg-white text-black items-center m-2 h-full pr-4 relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"
+      "cursor-pointer appearance-none border-2 flex bg-[#F9F6F1] text-black items-center m-2 h-full pr-4 relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"
     }
   >
       <div
@@ -69,16 +69,16 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCa
         <div
           style={{
             boxShadow:
-              "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
+              "2px 2px 5px rgba(15, 27, 40, 0.23)",
           }}
-          className="bg-white border-2 border-gray-200 max-h-48 overflow-scroll rounded-xl z-20 absolute top-12 p-2  w-full"
+          className="bg-[#F8F4ED] border-2 border-gray-200 max-h-48 overflow-scroll rounded-xl z-20 absolute top-12 p-2  w-full"
         >
           {values.map((item, id) => {
             return (
               <div
                 key={id}
                 onClick={() => toggleCategory(item.name)}
-                className="flex bg-white gap-2 items-center p-2 z-100 hover:bg-gray-100 rounded-xl cursor-pointer"
+                className="flex bg-[#F8F4ED] gap-2 items-center p-2 z-100 hover:bg-[#EEE9DF] rounded-xl cursor-pointer"
               >
                 <div>
                   <Image className="rounded-md" src={item.icon} alt="icon" height={20} width={20} />

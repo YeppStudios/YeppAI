@@ -202,7 +202,7 @@ const Campagin = () => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 z-20 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 z-20 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-transparent shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <Menu.Item>
                     {({ active }) => (
                       <button
@@ -230,7 +230,7 @@ const Campagin = () => {
       );
     });
     return (
-      <tbody className="divide-y divide-gray-200 bg-white">
+      <tbody className="divide-y divide-gray-200 bg-transparent">
         {renderedContent}
       </tbody>
     );
@@ -401,7 +401,6 @@ const Header = styled.div`
 const PageContainer = styled.div`
   min-height: calc(100vh - 1.5rem);
   align-items: center;
-  border: 2px solid #eaedf5;
   width: 100%;
   border-radius: 25px;
   padding: 1.5rem 3rem 1.5rem 3rem;
@@ -416,7 +415,7 @@ const PageContainer = styled.div`
     margin-bottom: 4rem;
   }
   border-radius: 20px;
-  background-color: white;
+  background: #F8F4ED;
   box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.15);
 `;
 

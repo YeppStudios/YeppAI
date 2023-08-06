@@ -471,7 +471,7 @@ export default PromptsBrowser;
 const Page = styled.div`
   height: 100%;
   min-height: calc(100vh - 1.5rem);
-  background: white;
+  background: #F8F4ED;
   width: calc(100% - 1.4rem);
   margin-left: 0.7vw;
   border-radius: 25px;
@@ -572,7 +572,7 @@ const Input = styled.input`
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   backdrop-filter: blur(15px);
-  box-shadow: inset 2px 2px 4px rgba(15, 27, 40, 0.23), inset -2px -2px 4px #FAFBFF;
+  box-shadow: inset 2px 2px 4px rgba(15, 27, 40, 0.23);
   border: 2px solid #E5E8F0;
   color: black;
   font-weight: 500;
@@ -643,7 +643,7 @@ const Category = styled.div`
   margin: 1vh 0.3vw 0.5vh 0.3vw;
   padding: 1vh 1vw 1vh 1vw;
   border-radius: 7px;
-  background: #F3F7FA;
+  background: #EEE9DF;
   cursor: pointer;
   transition: all 0.4s ease;
   color: black;
@@ -651,7 +651,7 @@ const Category = styled.div`
       background-color: rgba(255, 255, 255, 0.25);
       box-shadow: none;
       transform: scale(0.95);
-      background: #EEF1FA;
+      background: #EAE1D7;
   }
   @media (max-width: 1023px) {
     padding: 1.2vh 2vh 1.2vh 2vh;
@@ -667,12 +667,9 @@ const SelectedCategory = styled.div`
   margin: 1vh 0.3vw 0.5vh 0.3vw;
   padding: 1vh 1vw 1vh 1vw;
   border-radius: 7px;
-  border: double 3px transparent;
+  border: solid 3px black;
   border-radius: 15px;
-  background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  box-shadow: inset 3px 3px 5px rgba(22, 27, 29, 0.23), inset -3px -3px 5px #FAFBFF;
+  box-shadow: inset 3px 3px 5px rgba(22, 27, 29, 0.23);
   transition: all 0.4s ease;
   color: black;
   @media (max-width: 1023px) {
@@ -704,10 +701,10 @@ const PromptContainer = styled.div`
   border-radius: 25px;
   padding: 4vh;
   backdrop-filter: blur(15px);
-  box-shadow: 7px 7px 15px rgba(15, 27, 40, 0.23), -7px -7px 15px #FAFBFF;
-  border: 2px solid #E5E8F0;
+  box-shadow: 7px 7px 15px rgba(15, 27, 40, 0.23), -7px -7px 15px #F8F4ED;
+  border: 2px solid #EEE9DF;
   margin: 1.4rem 1.4rem 1.4rem 1.4rem;
-  background-color: white;
+  background-color: #F8F4ED;
   width: calc(100% - 1.7rem);
   display: flex;
   position: relative;
@@ -772,7 +769,7 @@ const PromptHashtag = styled.div`
     padding: 0.7vh 1rem 0.7vh 1rem;
     border-radius: 5px;
     backdrop-filter: blur(15px);
-    background-color: #E9ECF1;
+    background-color: #EEE9DF;
     cursor: pointer;
     transition: all 0.4s ease;
 `

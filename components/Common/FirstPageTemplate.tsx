@@ -42,10 +42,10 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
       {/*table with content*/}
       <Centered>
         <TableContainer>
-          <div className="w-full mt-6 lg:mt-12 flow-root">
+          <div className="w-full mt-6 border rounded-2xl lg:mt-12 flow-root">
             <div className="w-full">
-              <div className="inline-block w-full py-2 align-middle">
-                <div className=" shadow ring-1 ring-black ring-opacity-5 rounded-2xl overflow-hidden">
+              <div className="inline-block w-full  align-middle">
+                <div className="rounded-2xl overflow-hidden">
                   {loading ? (
                     <div className="flex justify-center items-center w-full h-64">
                       <BlueLoader />
@@ -122,7 +122,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: #F8F4ED;
   width: 100%;
   @media (max-width: 1023px) {
     display: flex;
@@ -143,7 +143,6 @@ const TableContainer = styled.div`
 const PageContainer = styled.div`
   min-height: calc(100vh - 1.5rem);
   align-items: center;
-  border: 2px solid #eaedf5;
   width: 100%;
   border-radius: 25px;
   padding: 1.5rem 3rem 1.5rem 3rem;
@@ -158,7 +157,7 @@ const PageContainer = styled.div`
     margin-bottom: 4rem;
   }
   border-radius: 20px;
-  background-color: white;
+  background-color: #F8F4ED;
   box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.15);
 `;
 

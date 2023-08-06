@@ -181,7 +181,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                     >
-                    <Menu.Items className="absolute right-0 z-20 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-20 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-transparent shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                             {({ active }) => (
                             <button
@@ -204,7 +204,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             )
     })
     return (
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-gray-200 bg-transparent">
             {renderedContent}
         </tbody>
     )
@@ -316,7 +316,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                     <div className="shadow ring-1 ring-black ring-opacity-5 sm:rounded-2xl">
                     <table className="min-w-full divide-y divide-gray-300">
-                    <thead className="bg-slate-50">
+                    <thead className="bg-transparent">
                         <tr>
                             <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                             </th>
@@ -363,10 +363,9 @@ export default Home;
 const MainContainer = styled.div`
     width: 100%;
     height: auto;
-    background: white;
+    background: #F8F4ED;
     border-radius: 25px;
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13), -7px -7px 10px #FAFBFF;
-    border: 1.5px solid #EAEDF5;
+    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
     overflow-y: scroll;
     padding: 1.5rem 2.5rem 3.5em 2.5rem;
     -ms-overflow-style: none;

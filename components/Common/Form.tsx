@@ -5,7 +5,7 @@ const Form = styled.form`
     width: 30rem;
     height: auto;
     background: white;
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
+    box-shadow: 3px 3px 10px rgba(15, 27, 40, 0.2);
     border: 2px solid #E5E8F0;
     border-radius: 25px;
     padding: 2rem 1.5rem 3rem 1.5rem;

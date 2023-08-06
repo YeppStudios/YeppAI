@@ -30,7 +30,7 @@ export default function Dropdown({values, value, onChange, placeholder}: any) {
   return (
       <Listbox value={selected} onChange={handleChange}>
         <DropdownContainer >
-          <Listbox.Button style={{fontWeight: "500", height: "auto", boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF"}} className={"appearance-none border-2 flex text-black items-center pl-3 block w-full h-full pr-10 relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"}>
+          <Listbox.Button style={{fontWeight: "500", height: "auto", boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23)"}} className={"appearance-none border-2 flex text-black bg-transparent items-center pl-3 block w-full h-full pr-10 relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"}>
             <span className="block truncate text-left">{selected ? selected : <div className='text-black'>{value ?  value : <p className='text-gray-400'>{placeholder}</p>}</div>}</span>
             <span className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
             <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
