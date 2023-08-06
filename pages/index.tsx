@@ -159,6 +159,14 @@ const Homepage = () => {
             <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
           <div id="offer"></div>
           <Section>
+              <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
+              <Centered><Icon><Image src={questionmarkIcon} style={{width: "100%", filter: "invert(1)"}} alt="icon" /></Icon></Centered>
+              <SlideBottom><Centered><HeroText><p className='text-white'>What do marketing agencies say about Yepp?</p></HeroText></Centered></SlideBottom>
+              {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
+              </div>
+
+          </Section>
+          <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
           <SlideBottom><HeroText>Empower your team with AI.</HeroText></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
