@@ -2,13 +2,10 @@ import styled from "styled-components";
 import Image from "next/image";
 import SlideBottom from "../Animated/SlideBottom";
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import thinArrow from "../../public/images/thinArrow.png";
-import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 
 const LeftFeature = (props: {
   text: string;
-  gif: string;
+  gif: any;
   title: string;
   bulletpoints: any[];
   marginTop: string;
@@ -24,49 +21,26 @@ const LeftFeature = (props: {
 
   return (
     <FeatureContainer marginTop={props.marginTop} color={props.color}>
-      <SlideBottom>
-        <div>
-          <FeatureTitle>{props.title}</FeatureTitle>
-          <FeatureDescription color={props.color}>
-            {!mobile && props.text}
-            <ul className="mt-6">
-              {props.bulletpoints.map((item, index, array) => {
-                return (
-                  <li key={item}>
-                    {item}
-                    {index !== array.length - 1 && mobile ? "," : ""}
-                  </li>
-                );
-              })}
-            </ul>
-          </FeatureDescription>
-          {!mobile && (
-            <Link href="/assets?registration=true&trial=true">
-              <Button color={props.color} className="">
-                <BtnText>Try now</BtnText>
-              </Button>
-            </Link>
-          )}
-        </div>
-      </SlideBottom>
-      <GifLayout>
-        <GifContainer>
+        <div style={{borderTopRightRadius: "25px", borderBottomRightRadius: "25px"}} className="bg-black text-white w-[85vw] lg:w-[60vw] left-0 p-10 lg:p-24 lg:pt-20 pb-36">
+          <SlideBottom><FeatureTitle>{props.title}</FeatureTitle></SlideBottom>
+          <SlideBottom>
+            <FeatureDescription color={props.color}>
+            {props.text}
+            </FeatureDescription>
+            <FeatureDescription color={props.color}>
+              <a href="#" style={{textDecoration: "underline"}}>Learn more</a>
+            </FeatureDescription>
+          </SlideBottom>
+          </div>
+        <ImageContainer>
           <Image
             src={props.gif}
             width={700}
             height={400}
-            style={{ borderRadius: "20px" }}
-            alt={"gif"}
+            style={{width: "100%", borderRadius: "25px"}}
+            alt={"image"}
           />
-        </GifContainer>
-      </GifLayout>
-      {mobile && (
-        <Link href="/assets?registration=true&trial=true">
-          <Button color={props.color} className="">
-            <BtnText>Try now</BtnText>
-          </Button>
-        </Link>
-      )}
+        </ImageContainer>
     </FeatureContainer>
   );
 };
@@ -76,42 +50,45 @@ export default LeftFeature;
 const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
   width: 100vw;
   height: auto;
-  padding: 0vh 0vw 0vh 8vw;
+  padding: 0vh 0vw 0vh 0vw;
   margin-top: 14rem;
   color: ${(props) => props.color};
-  display: grid;
-  grid-template-columns: 0.7fr 1.3fr;
-  grid-template-rows: 1fr;
-  gap: 0px 0px;
-  grid-template-areas: ". .";
-  align-items: center;
+  display: flex;
   @media (max-width: 1023px) {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     width: 100vw;
     padding: 5vh 0 10vh 0;
     margin-top: 0;
+    margin-bottom: 10vh;
+  }
+  @media (max-width: 600px) {
+    margin-bottom: 24vh;
   }
 `;
 
 const FeatureTitle = styled.h2`
-  font-size: 2.5rem;
+  font-size: 4vw;
   font-family: "Satoshi", sans-serif;
-  font-weight: 900;
+  font-weight: 700;
+  max-width: 28vw;
+  line-height: 1.2;
   @media (max-width: 1023px) {
-    font-size: 2rem;
-    width: 100%;
+    font-size: 4.5vw;
+    max-width: 14rem;
     line-height: 1.2;
-    text-align: center;
+  }
+  @media (max-width: 600px) {
+    font-size: 2rem;
   }
 `;
 
 const FeatureDescription = styled.p<{ color: string }>`
-  margin-top: 1.5vh;
+  margin-top: 3rem;
   font-size: 1.25rem;
-  font-weight: 500;
-
+  font-weight: 400;
+  max-width: 20vw;
+  color: #989898;
   @media (min-width: 1023px) {
     ul {
       list-style-type: disc;
@@ -119,70 +96,35 @@ const FeatureDescription = styled.p<{ color: string }>`
     }
   }
 
-  color: ${(props) => (props.color === "white" ? "#D1D6E2" : "black")};
   @media (max-width: 1023px) {
-    width: 90vw;
-    text-align: center;
+    max-width: 14rem;
     margin-top: 2.5vh;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 `;
 
-const GifLayout = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  @media (max-width: 1023px) {
-    justify-content: center;
-  }
-`;
 
-const GifContainer = styled.div`
-  overflow: visible;
-  margin-right: 8vw;
-  max-height: 90vh;
-  width: 40rem;
+const ImageContainer = styled.div`
+  position: absolute;
+  right: 0;
+  width: 60vw;
+  margin-top: 12rem;
   border-radius: 25px;
-  border: 7px solid black;
-  box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.3);
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.35);
+  @media (min-width: 1680px) {
+    width: 35vw;
+    margin-right:  20vw;
+  }
   @media (max-width: 1023px) {
-    margin-top: 2rem;
+    margin-top: 20vh;
     margin-right: 0;
-    width: 95%;
-    border: 4px solid black;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    width: 55%;
   }
-`;
-
-const Button = styled.div`
-  color: white;
-  padding: 1.75vh 0 1.75vh 0;
-  border: solid 3px transparent;
-  border-radius: 25px;
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-    inset -2px -2px 4px #fafbff, 2px 2px 6px rgba(22, 27, 29, 0.23);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  align-items: center;
-  background: linear-gradient(40deg, #6578f8, #64b5ff);
-  background-size: 120%;
-  background-position-x: -1rem;
-  width: 14rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  margin-top: 2rem;
-  align-items: center;
-  cursor: pointer;
-  transition: 0.4s;
-  &:hover {
-    transform: scale(0.96);
-    box-shadow: none;
-  }
-  @media (max-width: 1023px) {
-    width: 80vw;
-    margin-top: 2rem;
-    justify-content: center;
+  @media (max-width: 600px) {
+    margin-top: 20rem;
+    width: 85%;
   }
 `;
 
