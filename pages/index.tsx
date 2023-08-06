@@ -70,7 +70,7 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><h1 className='text-7xl font-black'>Upload your assets,</h1></Centered>
+              <Centered><h1 className='text-3xl lg:text-7xl font-black text-center'>Upload your assets,</h1></Centered>
               <Centered><TypewriterSection /></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
@@ -115,10 +115,14 @@ const Homepage = () => {
             <Centered>
             <SlideBottom>
             <div id="functionalities"></div>
-            <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
-            <HeroText>
-              Reduce workload and watch your online presence <ColorfulText><b className='font-black'>grow.</b></ColorfulText>
-            </HeroText>
+            {!mobile &&
+              <div>
+                <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
+                <HeroText>
+                  Reduce workload and watch your online presence <ColorfulText><b className='font-black'>grow.</b></ColorfulText>
+                </HeroText>
+              </div>
+            }
             <Space margin="5vh"/>
             </SlideBottom>
             </Centered>
@@ -173,7 +177,7 @@ const Homepage = () => {
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
           <SlideBottom><HeroText>Empower your team with AI.</HeroText></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
-          <div className='px-[8vw]'><Plans openRegistration={true} purchase={false} landing={true}/></div>
+          <div className='px-[5vw] lg:px-[8vw]'><Plans openRegistration={true} purchase={false} landing={true}/></div>
           </Section>
           <Section>
             <div id="newsletter"></div>
