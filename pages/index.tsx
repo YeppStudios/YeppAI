@@ -21,6 +21,9 @@ import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
 import Stats from '@/components/Landing/Stats';
+import reviewsImage from "../public/images/reviews_image.png";
+import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
+import questionmarkIcon from "../public/images/questionmark_icon.png";
 
 interface Background {
   image: any
@@ -67,7 +70,7 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><HeroText>Upload your assets,</HeroText></Centered>
+              <Centered><h1 className='text-7xl font-black'>Upload your assets,</h1></Centered>
               <Centered><TypewriterSection /></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
@@ -89,10 +92,8 @@ const Homepage = () => {
               </Centered>
               </div>
           </HeroSection>
-          <Section>
-            <Stats />
-          </Section>
-          <SlideBottom>
+          <div id="offer"></div>
+                    <SlideBottom>
                 <Centered>
                   <LaptopContainer>
                       <Image style={{ width: "auto", height: "100%" }}  src={laptopVisualization} alt={'preview'}></Image> 
@@ -104,20 +105,26 @@ const Homepage = () => {
                   </IphoneContainerMobile>
                 </Centered>
           </SlideBottom>
+             {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
+            <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
+          <Section>
+            <Stats />
+          </Section>
+
           <Section>
             <Centered>
             <SlideBottom>
             <div id="functionalities"></div>
             <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
             <HeroText>
-              <ColorfulText>Reduce workload</ColorfulText> and watch your online presence grow.
+              Reduce workload and watch your online presence <ColorfulText><b className='font-black'>grow.</b></ColorfulText>
             </HeroText>
             <Space margin="5vh"/>
             </SlideBottom>
             </Centered>
             </Section>
             <LeftFeature
-                title="Teach AI about your clients." 
+                title="Teach AI about your client's niche." 
                 gif="/videos/uploading.gif" 
                 text="Upload the content and information about your clients, their industry, products etc."
                 bulletpoints={["Upload PDF, TXT, PPTX & DOCX files", "Transcribe YouTube content", "Scrape websites"]}
@@ -154,13 +161,9 @@ const Homepage = () => {
                 color="black"
                 marginTop='3vh'
             /> */}
-             {!mobile && <Space margin='5rem'/>}
-             {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
-            <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
-          <div id="offer"></div>
           <Section>
               <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
-              <Centered><Icon><Image src={questionmarkIcon} style={{width: "100%", filter: "invert(1)"}} alt="icon" /></Icon></Centered>
+              <Centered><Icon><Image src={questionmarkIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
               <SlideBottom><Centered><HeroText><p className='text-white'>What do marketing agencies say about Yepp?</p></HeroText></Centered></SlideBottom>
               {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
               </div>
@@ -204,7 +207,7 @@ const HeroSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 11rem;
+  margin-top: 14rem;
   @media (max-width: 1023px) {
     display: flex;
     margin-top: 8rem;
@@ -378,3 +381,9 @@ const FreeConsultationBtn = styled.a`
       margin-left: 1rem;
     }
 `
+const Icon = styled.div`
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.25rem;
+`
+

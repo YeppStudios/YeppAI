@@ -31,14 +31,14 @@ const stats = [
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
+          <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-2xl">
             <SlideLeft>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-5xl">
+            <p className="mt-2 text-3xl font-bold text-white sm:text-6xl">
               Trusted by thousands of creators&nbsp;worldwide
             </p>
             </SlideLeft>
             <SlideLeft>
-            <p className="mt-6 text-lg leading-8 text-gray-300">
+            <p className="mt-6 text-xl leading-8 text-gray-300">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste
               dolor cupiditate blanditiis ratione.
             </p>
@@ -66,9 +66,9 @@ const stats = [
     overflow: hidden;
     padding: 8em 0 10rem 0;
     -webkit-mask: 
-    linear-gradient(to top,    black 90%, transparent) top   /100% 51%,
-    linear-gradient(to bottom, black 90%, transparent) bottom/100% 50%,
-    linear-gradient(to left  , black, transparent) left  /100% 0%,
-    linear-gradient(to right , black, transparent) right /100% 0%;
-    -webkit-mask-repeat:no-repeat;
+    // linear-gradient(to top,    black 90%, transparent) top   /100% 51%,
+    // linear-gradient(to bottom, black 90%, transparent) bottom/100% 50%,
+    // linear-gradient(to left  , black, transparent) left  /100% 0%,
+    // linear-gradient(to right , black, transparent) right /100% 0%;
+    // -webkit-mask-repeat:no-repeat;
   `

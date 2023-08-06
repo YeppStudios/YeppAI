@@ -211,7 +211,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                 </PlanContainer>                   
                             }
                             {plan.title === "Agency" &&
-                                <MiddlePlanContainer backgroundColor="rgba(100, 181, 255, 0.2)" color="black" width="auto">
+                                <MiddlePlanContainer backgroundColor="black" color="white" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText><ColorfulText>{plan.title}</ColorfulText></PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a marketing agency</BriefDescription>
                                     <MainDescription>Define AI profiles for your clients and streamline the conetnt creation.</MainDescription>
@@ -436,13 +436,11 @@ const PlanContainer = styled.div<PlanContainer>`
 
 const MiddlePlanContainer = styled.div<PlanContainer>`
     width: ${props => props.width || '22vw'};
-    background-color: #0D0E16;
+    background-color: black;
     padding: 4vh 4vh 6vh 4vh;
     height: 100%;
-    border: solid 3px transparent;
     border-radius: 25px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: 3px 3px 6px rgba(22, 27, 29, 0.2);
+    box-shadow: 2px 2px 20px rgba(22, 27, 200, 0.4);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     color: ${props => props.color || 'black'};
