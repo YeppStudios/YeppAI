@@ -117,7 +117,7 @@ const Homepage = () => {
             </Centered>
             </Section>
             <LeftFeature
-                title="Create Client Profiles" 
+                title="Teach AI about your clients." 
                 gif="/videos/uploading.gif" 
                 text="Upload the content and information about your clients, their industry, products etc."
                 bulletpoints={["Upload PDF, TXT, PPTX & DOCX files", "Transcribe YouTube content", "Scrape websites"]}
@@ -125,24 +125,24 @@ const Homepage = () => {
                 marginTop='3vh'
             />
             <RightFeature 
-                title="Use ready templates" 
+                title="Effortlessly generate content." 
                 gif="/videos/marketer.gif"
-                text="Based on company and industry-specific knowledge:"
+                text="Upload the content and information about your clients, their industry, products etc."
                 bulletpoints={["Generate Google Ads", "Create unique posts and product descriptions", "Engineer growth hacking strategies"]}
                 color="black"
             />
             <LeftFeature
-                title="Generate SEO content" 
+                title="Generate enticing SEO articles." 
                 gif="/videos/copywriter.gif" 
-                text="Based on company knowledge and current internet trends:"
+                text="Upload the content and information about your clients, their industry, products etc."
                 bulletpoints={["Write SEO articles", "Generate insightful blogs", "Craft guides and rankings"]}
                 color="black"
                 marginTop='3vh'
             />
             <RightFeature 
-                title="Chat with assets" 
+                title="Access years of wisdom in seconds." 
                 gif="/videos/dataAssistant.gif"
-                text="Based on the uploaded content:"
+                text="Upload the content and information about your clients, their industry, products etc."
                 bulletpoints={["Talk with your company's documents", "Search information about your clients", "Ask your documents for advice"]}
                 color="black"
             />

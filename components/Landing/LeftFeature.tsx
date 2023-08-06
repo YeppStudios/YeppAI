@@ -50,7 +50,7 @@ export default LeftFeature;
 const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
   width: 100vw;
   height: auto;
-  padding: 0vh 0vw 0vh 0vw;
+  padding: 0vh 0vw 10vh 0vw;
   margin-top: 14rem;
   color: ${(props) => props.color};
   display: flex;
@@ -107,7 +107,9 @@ const FeatureDescription = styled.p<{ color: string }>`
 const ImageContainer = styled.div`
   position: absolute;
   right: 0;
-  width: 60vw;
+  width: 50vw;
+  margin-right: 10vw;
+  border: 6px solid #000000;
   margin-top: 12rem;
   border-radius: 25px;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.35);
