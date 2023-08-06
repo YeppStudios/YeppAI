@@ -20,6 +20,7 @@ import webBackground from "../public/images/webBackground.png";
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
+import Stats from '@/components/Landing/Stats';
 
 interface Background {
   image: any
@@ -88,6 +89,9 @@ const Homepage = () => {
               </Centered>
               </div>
           </HeroSection>
+          <Section>
+            <Stats />
+          </Section>
           <SlideBottom>
                 <Centered>
                   <LaptopContainer>
@@ -156,9 +160,9 @@ const Homepage = () => {
           <div id="offer"></div>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
-          <Centered><SlideBottom><HeroText>Boost your productivity now.</HeroText></SlideBottom></Centered>
+          <SlideBottom><HeroText>Empower your team with AI.</HeroText></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
-          <Plans openRegistration={true} purchase={false} landing={true}/>
+          <div className='px-[8vw]'><Plans openRegistration={true} purchase={false} landing={true}/></div>
           </Section>
           <Section>
             <div id="newsletter"></div>
@@ -177,10 +181,6 @@ const PageContent = styled.div`
   position: relative;
   height: 100%;
   overflow: hidden;
-  padding: 0 8vw 0 8vw;
-  @media (max-width: 1023px) {
-    padding: 0 5vw 0 5vw;
-  }
 `
 
 const Background = styled.div`
@@ -196,7 +196,7 @@ const HeroSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 10rem;
+  margin-top: 11rem;
   @media (max-width: 1023px) {
     display: flex;
     margin-top: 8rem;

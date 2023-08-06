@@ -88,7 +88,6 @@ const NavContainer = styled.div<NavContainerProps>`
     position: ${({ isFixed }) => isFixed ? "fixed" : "absolute"};
     top: 0rem;
     height: 6rem;
-    margin-left: ${({ isFixed }) => isFixed ? "0" : "-8vw"};
     margin-top: ${({ isFixed }) => isFixed ? "0" : "1.5rem"};
     z-index: 100;
     backdrop-filter: blur(5px);

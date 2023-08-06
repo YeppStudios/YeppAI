@@ -3,7 +3,7 @@ import Centered from "../Centered";
 
 const HeroText = (props: {children: any}) => {
     return (
-        <Text>{props.children}</Text>
+        <Centered><Text>{props.children}</Text></Centered>
     )
 }
 
@@ -17,7 +17,7 @@ const Text = styled.h1`
     font-weight: 900;
     text-align: center;
     margin-top: 2vh;
-    width: 100%;
+    width: 80%;
     @media (max-width: 1023px) {
         margin-top: 0;
         line-height: auto;

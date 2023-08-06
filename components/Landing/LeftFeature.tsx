@@ -77,7 +77,6 @@ const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
   width: 100vw;
   height: auto;
   padding: 0vh 0vw 0vh 8vw;
-  margin-left: -8vw;
   margin-top: 14rem;
   color: ${(props) => props.color};
   display: grid;
@@ -91,7 +90,6 @@ const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
     flex-wrap: wrap;
     justify-content: center;
     width: 100vw;
-    margin-left: -5vw;
     padding: 5vh 0 10vh 0;
     margin-top: 0;
   }

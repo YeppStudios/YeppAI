@@ -118,6 +118,7 @@ const Section = styled.div`
     grid-template-columns: 1.2fr 0.8fr; 
     grid-template-rows: 1fr; 
     gap: 0px 0px; 
+    padding-left: 8vw;
     grid-template-areas:
       ". ."; 
       @media (max-width: 1023px) {
