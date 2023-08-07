@@ -33,6 +33,7 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
     const [mobile, setMobile] = useState(true);
     const [isFixed, setIsFixed] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [isOpen, setIsOpen] = useState(false)
     
     const router = useRouter();
     const { pathname } = router;
@@ -77,6 +78,56 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                     <Link href="/"><AppName>Yepp AI</AppName></Link>
                 </Container>
                 <Container>
+                <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                    <Popover className="relative">
+                        <Popover.Button className="inline-flex items-center gap-x-1 text-sm leading-6 text-black outline-none">
+                            <span>Solutions</span>
+                            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                        </Popover.Button>
+                        <Transition
+                            show={isOpen}
+                            enter="transition ease-out duration-200"
+                            enterFrom="opacity-0 translate-y-1"
+                            enterTo="opacity-100 translate-y-0"
+                            leave="transition ease-in duration-150"
+                            leaveFrom="opacity-100 translate-y-0"
+                            leaveTo="opacity-0 translate-y-1"
+                        >
+                            <Popover.Panel className="absolute left-1/2 mt-4 z-10 flex w-screen max-w-max -translate-x-1/2 px-4">
+                            <div className="w-screen max-w-md text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+                                <div className="p-4">
+                                {solutions.map((item) => (
+                                    <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                        <item.icon className="h-6 w-6 text-gray-500 group-hover:text-black group-hover:scale-105" aria-hidden="true" />
+                                    </div>
+                                    <div>
+                                        <a href={item.href} className="font-semibold text-gray-900">
+                                        {item.name}
+                                        <span className="absolute inset-0" />
+                                        </a>
+                                        <p className="mt-1 text-left text-gray-600">{item.description}</p>
+                                    </div>
+                                    </div>
+                                ))}
+                                </div>
+                                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                                {callsToAction.map((item) => (
+                                    <a
+                                    key={item.name}
+                                    href={item.href}
+                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
+                                    >
+                                    <item.icon className="h-5 w-5 flex-none" aria-hidden="true" />
+                                    {item.name}
+                                    </a>
+                                ))}
+                                </div>
+                            </div>
+                            </Popover.Panel>
+                        </Transition>
+                    </Popover>
+                    </NavLink>
                     {pathname.includes("assistant") ?
                         <Link href="/pricing?type=individual"><NavLink>Pricing</NavLink></Link>
                         :
