@@ -6,6 +6,7 @@ import placeholderImg from "@/public/images/blueAbstractBg.png";
 import Image from "next/image";
 import { BsFillGiftFill } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import Footer from "@/components/Landing/Footer";
 
 const SolutionPage = () => {
   const [mobile, setMobile] = useState(true);
@@ -48,23 +49,22 @@ const SolutionPage = () => {
         <div className="h-[80vh]  relative ">
           <Image src={placeholderImg} alt="chat with your data image" fill />
         </div>
-        {/* Adjust shadow and font weight */}
         <div className="absolute inset-x-0 bottom-0 h-[25%]   bg-white z-20 flex flex-col gap-12 px-12 pt-12  shadow-[0px_-40px_40px_50px_#fff] shadow-white ">
           <div className="lg:grid lg:grid-cols-2 flex flex-col w-full   ">
-            <h3 className=" lg:text-[4vw] text-[8vw] lg:pb-12 lg:text-start text-center pb-24">
+            <SectionTitle className=" lg:text-[4vw] text-[8vw] lg:pb-12 lg:text-start text-center pb-24">
               Chat with your data
-            </h3>
-            <div className=" gap-8 h-12 flex flex-col lg:flex-row justify-end">
+            </SectionTitle>
+            <div className=" gap-8 h-12 flex flex-col lg:flex-row p-8 lg:p-0 justify-end mt-6 lg:mt-0">
               <TestButton className="start-free-trial-landing">
                 <BsFillGiftFill />
                 <TestText>Start free trial</TestText>
               </TestButton>
-              <button className="bg-white border-2 border-black rounded-xl px-12 py-1">
+              <button className="bg-white border-2 border-black rounded-xl  px-12 py-1">
                 Request the pricing
               </button>
             </div>
             <div className="flex items-center lg:justify-start justify-center  mb-6 text-center">
-              <p className="text-xl pl-2 text-center lg:text-start  ">
+              <p className="text-xl mt-4 pl-2 text-center lg:text-start  ">
                 Unleash the full potential of AI and chat with your data.
               </p>
             </div>
@@ -72,10 +72,11 @@ const SolutionPage = () => {
         </div>
       </section>
       <PageContent className="p-12">
-        <section className=" h-full border-t-4  border-slate-300  p-8 relative">
+        <section className=" h-full border-t-2  border-slate-300  p-8 relative">
           <div className="flex h-full w-full ">
             {!mobile && (
-              // Adjust bar with dots
+              // Adjust bar with dots and tiles with icons
+
               <div className="h-[165vh] mt-24 rounded-full w-4 bg-black overflow-visible relative">
                 <div className="w-6 h-6 rounded-full absolute top-0 bg-black -translate-x-[50%] ml-[.2rem]" />
                 <div className="w-6 h-6 rounded-full absolute top-[49%] bg-black -translate-x-[50%] ml-[.2rem]" />
@@ -88,9 +89,9 @@ const SolutionPage = () => {
                 <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
                   <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
                     <AiOutlineCloudUpload className="h-8 w-8" />
-                    <h3 className="lg:text-[3.5vw]  text-4xl pl-1">
+                    <SectionSubtitle className="lg:text-[3.5vw]  text-4xl pl-1">
                       1.Upload your data
-                    </h3>
+                    </SectionSubtitle>
                   </div>
                   <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
@@ -108,9 +109,9 @@ const SolutionPage = () => {
                 <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
                   <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
                     <AiOutlineCloudUpload className="h-8 w-8" />
-                    <h3 className="lg:text-[3.5vw]  text-4xl pl-1">
+                    <SectionSubtitle className="lg:text-[3.5vw]  text-4xl pl-1">
                       1.Upload your data
-                    </h3>
+                    </SectionSubtitle>
                   </div>
                   <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
@@ -128,9 +129,9 @@ const SolutionPage = () => {
                 <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
                   <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
                     <AiOutlineCloudUpload className="h-8 w-8" />
-                    <h3 className="lg:text-[3.5vw]  text-4xl pl-1">
+                    <SectionSubtitle className="lg:text-[3.5vw]  text-4xl pl-1">
                       1.Upload your data
-                    </h3>
+                    </SectionSubtitle>
                   </div>
                   <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
@@ -148,14 +149,18 @@ const SolutionPage = () => {
           </div>
         </section>
         <section className="mt-24">
-          <div className="flex w-full pb-8 border-b-4 mb-24">
-            {/* Adjust font */}
-            <h2 className="lg:text-[3.5vw]  text-4xl">Use cases</h2>
+          <div className="flex w-full pb-8 border-b-2 mb-24">
+            <SectionTitle className="lg:text-[3.5vw]  text-4xl">
+              Use cases
+            </SectionTitle>
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 ">
+            {/* Adjust titles and icons */}
             <div className="flex flex-col gap-8 pb-[8vw]">
               <AiOutlineCloudUpload className="h-8 w-8" />
-              <h3 className="lg:text-[3vw]  text-3xl">Customer service</h3>
+              <SectionSubtitle className="lg:text-[3vw]  text-3xl">
+                Customer service
+              </SectionSubtitle>
               <p className="pr-8 lg:text-[1.5vw] md:text-2xl text-xl">
                 Our comunity is full of proliftic developers, creative builders,
                 and fantastic teachers. Check out YouTube tutorials for great
@@ -165,7 +170,9 @@ const SolutionPage = () => {
             </div>
             <div className="flex flex-col gap-8 pb-[8vw]">
               <AiOutlineCloudUpload className="h-8 w-8" />
-              <h3 className="lg:text-[3vw]  text-3xl">Customer service</h3>
+              <SectionSubtitle className="lg:text-[3vw]  text-3xl">
+                Customer service
+              </SectionSubtitle>
               <p className="pr-8 lg:text-[1.5vw] md:text-2xl text-xl">
                 Our comunity is full of proliftic developers, creative builders,
                 and fantastic teachers. Check out YouTube tutorials for great
@@ -175,7 +182,9 @@ const SolutionPage = () => {
             </div>
             <div className="flex flex-col gap-8 pb-[8vw]">
               <AiOutlineCloudUpload className="h-8 w-8" />
-              <h3 className="lg:text-[3vw]  text-3xl">Customer service</h3>
+              <SectionSubtitle className="lg:text-[3vw]  text-3xl">
+                Customer service
+              </SectionSubtitle>
               <p className="pr-8 lg:text-[1.5vw] md:text-2xl text-xl">
                 Our comunity is full of proliftic developers, creative builders,
                 and fantastic teachers. Check out YouTube tutorials for great
@@ -186,34 +195,171 @@ const SolutionPage = () => {
           </div>
         </section>
         <section className="mt-24">
-          <div className="flex w-full pb-8 border-b-4 mb-24">
-            {/* Adjust font */}
-            <h2 className="lg:text-[3.5vw]  text-4xl">Other solutions</h2>
+          {/* Adjust titles and icons */}
+
+          <div className="flex w-full pb-8 border-b-2 mb-24">
+            <SectionTitle>Other solutions</SectionTitle>
           </div>
-          <div className="grid lg:grid-cols-2 grid-cols-1">
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl ">
-              <div className="absolute bottom-0 left-0 w-full h-[55%] bg-white gap-3 z-20 flex flex-col p-4">
-                <h4 className="text-2xl">Marketing campaigns</h4>
-                <p className="text-lg ">
+          <div className="grid lg:grid-cols-2 gap-8 grid-cols-1">
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black z-10">
+              <div className="absolute bottom-0 left-0 w-full h-[55%] bg-white gap-3 z-20 flex flex-col p-6 ">
+                <CardTitle className="text-2xl">Marketing campaigns</CardTitle>
+                <CardText>
                   Our comunity is full of proliftic developers, creative
                   builders, and fantastic teachers. Check out YouTube tutorials
                   for great tutorials from folks in the comunity, and Gallery
                   for a list of awesome LangChain projects, compiled by the
                   folks
-                </p>
+                </CardText>
               </div>
-              <Image src={placeholderImg} fill alt="other solutions image" />
+              <Image
+                src={placeholderImg}
+                fill
+                alt="other solutions image"
+                className="opacity-70"
+              />
+            </div>
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black z-10">
+              <div className="absolute bottom-0 left-0 w-full h-[55%] bg-white gap-3 z-20 flex flex-col p-6 ">
+                <CardTitle className="text-2xl">Marketing campaigns</CardTitle>
+                <CardText>
+                  Our comunity is full of proliftic developers, creative
+                  builders, and fantastic teachers. Check out YouTube tutorials
+                  for great tutorials from folks in the comunity, and Gallery
+                  for a list of awesome LangChain projects, compiled by the
+                  folks
+                </CardText>
+              </div>
+              <Image
+                src={placeholderImg}
+                fill
+                alt="other solutions image"
+                className="opacity-70"
+              />
+            </div>
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black z-10">
+              <div className="absolute bottom-0 left-0 w-full h-[55%] bg-white gap-3 z-20 flex flex-col p-6 ">
+                <CardTitle className="text-2xl">Marketing campaigns</CardTitle>
+                <CardText>
+                  Our comunity is full of proliftic developers, creative
+                  builders, and fantastic teachers. Check out YouTube tutorials
+                  for great tutorials from folks in the comunity, and Gallery
+                  for a list of awesome LangChain projects, compiled by the
+                  folks
+                </CardText>
+              </div>
+              <Image
+                src={placeholderImg}
+                fill
+                alt="other solutions image"
+                className="opacity-70"
+              />
+            </div>
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black z-10">
+              <div className="absolute bottom-0 left-0 w-full h-[55%] bg-white gap-3 z-20 flex flex-col p-6 ">
+                <CardTitle className="text-2xl">Marketing campaigns</CardTitle>
+                <CardText>
+                  Our comunity is full of proliftic developers, creative
+                  builders, and fantastic teachers. Check out YouTube tutorials
+                  for great tutorials from folks in the comunity, and Gallery
+                  for a list of awesome LangChain projects, compiled by the
+                  folks
+                </CardText>
+              </div>
+              <Image
+                src={placeholderImg}
+                fill
+                alt="other solutions image"
+                className="opacity-70"
+              />
+            </div>
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black z-10">
+              <div className="absolute bottom-0 left-0 w-full h-[55%] bg-white gap-3 z-20 flex flex-col p-6 ">
+                <CardTitle className="text-2xl">Marketing campaigns</CardTitle>
+                <CardText>
+                  Our comunity is full of proliftic developers, creative
+                  builders, and fantastic teachers. Check out YouTube tutorials
+                  for great tutorials from folks in the comunity, and Gallery
+                  for a list of awesome LangChain projects, compiled by the
+                  folks
+                </CardText>
+              </div>
+              <Image
+                src={placeholderImg}
+                fill
+                alt="other solutions image"
+                className="opacity-70"
+              />
+            </div>
+          </div>
+        </section>
+        <section className="mt-60 mb-60">
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="flex flex-col gap-10">
+              <div className="w-full h-16 flex items-center justify-between bg-slate-400 rounded-2xl py-2 px-8">
+                <p>Is uploaded content safe?</p>
+                <div>+</div>
+              </div>
+              <div className="w-full h-16 flex items-center justify-between bg-slate-400 rounded-2xl py-2 px-8">
+                <p>Is uploaded content safe?</p>
+                <div>+</div>
+              </div>
+              <div className="w-full h-16 flex items-center justify-between bg-slate-400 rounded-2xl py-2 px-8">
+                <p>Is uploaded content safe?</p>
+                <div>+</div>
+              </div>
+              <div className="w-full h-16 flex items-center justify-between bg-slate-400 rounded-2xl py-2 px-8">
+                <p>Is uploaded content safe?</p>
+                <div>+</div>
+              </div>
             </div>
           </div>
         </section>
       </PageContent>
+
+      <Footer isLanding />
     </>
   );
 };
 
+const CardText = styled.p`
+  padding-top: 1.5rem;
+  padding-right: 5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+`;
+
+const CardTitle = styled.h4`
+  font-size: 3vw;
+  font-weight: 500;
+  @media (max-width: 1023px) {
+    font-size: 5vw;
+    line-height: 2.5rem;
+  }
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 3.5vw;
+  font-weight: 500;
+  @media (max-width: 1023px) {
+    font-size: 2.25rem /* 36px */;
+    line-height: 2.5rem /* 40px */;
+  }
+`;
+
+const SectionSubtitle = styled.h3`
+  font-size: 3vw;
+  font-weight: 500;
+  @media (max-width: 1023px) {
+    font-size: 1.875rem /* 30px */;
+    line-height: 2.25rem /* 36px */;
+  }
+`;
+
 const PageContent = styled.div`
   position: relative;
   height: 100%;
+  width: 100%;
   @media (max-width: 1023px) {
     padding-left: 3rem;
     padding-right: 3rem;
