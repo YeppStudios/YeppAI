@@ -71,7 +71,7 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCa
             boxShadow:
               "2px 2px 5px rgba(15, 27, 40, 0.23)",
           }}
-          className="bg-white border-2 border-[#eaedf5] max-h-48 overflow-scroll rounded-xl z-100 absolute top-12 p-2 w-full"
+          className="bg-white border-2 border-[#eaedf5] max-h-48 overflow-scroll rounded-xl absolute top-12 p-2 w-full"
         >
           {values.map((item, id) => {
             return (

@@ -423,7 +423,6 @@ import {
       box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
       border-radius: 25px;
       cursor: auto;
-      z-index: 100;
       overflow: visible;
       @media (max-width: 1023px) {
           width: 90vw;
