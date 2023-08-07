@@ -24,10 +24,10 @@ import api from "@/pages/api";
 import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
 
-import { CampaignModal } from "@/components/Camapigns/Modal/CampaignModal";
+import { CampaignModal } from "@/components/Camapign/Modal/CampaignModal";
 import Centered from "@/components/Centered";
 import { CiRedo } from "react-icons/ci";
-import CampaignSidebar from "@/components/Camapigns/CampaignSidebar";
+import CampaignSidebar from "@/components/Camapign/CampaignSidebar";
 
 const Campagin = () => {
   //place to fetch content for campaigns. For now i will use copywrite content as placeholder.
