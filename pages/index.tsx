@@ -20,9 +20,7 @@ import webBackground from "../public/images/webBackground.png";
 import { TypewriterSection } from "@/components/Landing/TypewriterSection";
 import Plans from "@/components/Landing/Plans";
 import Space from "@/components/Docs/common/Space";
-import { TypewriterSection } from "@/components/Landing/TypewriterSection";
-import Plans from "@/components/Landing/Plans";
-import Space from "@/components/Docs/common/Space";
+
 import Stats from "@/components/Landing/Stats";
 import reviewsImage from "../public/images/reviews_image.png";
 import reviewsImageMobile from "../public/images/reviews_image_mobile.png";

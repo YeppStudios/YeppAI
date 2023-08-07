@@ -57,12 +57,12 @@ const tabs = [
   //   id: "navbar-campaign",
   // },
 
-  {
-    title: "Pomysły",
-    icon: <BsLightbulbFill style={{ height: "100%", width: "auto" }} />,
-    path: "/ideacreator",
-    id: "navbar-idea-creator",
-  },
+  // {
+  //   title: "Pomysły",
+  //   icon: <BsLightbulbFill style={{ height: "100%", width: "auto" }} />,
+  //   path: "/ideacreator",
+  //   id: "navbar-idea-creator",
+  // },
 ];
 
 const animationVariants = {

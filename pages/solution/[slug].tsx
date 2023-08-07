@@ -8,6 +8,7 @@ import { BsFillGiftFill } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import Footer from "@/components/Landing/Footer";
 import LearnMoreSection from "@/components/Landing/LearnMoreSection";
+import NavigationBar from "@/components/Common/NavigationBar";
 
 const SolutionPage = () => {
   const [mobile, setMobile] = useState(true);
@@ -43,7 +44,7 @@ const SolutionPage = () => {
         />
         <title>Yepp AI | Solution</title>
       </Head>
-      <Navbar />
+      {/* <Navbar onNewsletterClick={() => console.log("NewsletterClick")} /> */}
       <div className="mt-[6rem] " />
 
       <section className="relative  lg:mb-24 mb-56">
@@ -78,7 +79,7 @@ const SolutionPage = () => {
             {!mobile && (
               // Adjust bar with dots and tiles with icons
 
-              <div className="h-[151vh] mt-24 rounded-full w-2 bg-black overflow-visible relative">
+              <div className="h-[151vh] mt-36 rounded-full w-2 bg-black overflow-visible relative">
                 <div className="w-6 h-6 rounded-full absolute top-0 bg-black -translate-x-[50%] ml-[.1rem]" />
                 <div className="w-6 h-6 rounded-full absolute top-[49%] bg-black -translate-x-[50%] ml-[.1rem]" />
                 <div className="w-6 h-6 rounded-full absolute bottom-0 bg-black -translate-x-[50%] ml-[.1rem]" />
@@ -295,9 +296,10 @@ const SolutionPage = () => {
           </div>
         </section>
         <LearnMoreSection />
+        <div className="pb-48" />
       </PageContent>
 
-      <Footer isLanding />
+      {/* <Footer /> */}
     </>
   );
 };
