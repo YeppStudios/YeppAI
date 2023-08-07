@@ -6,7 +6,7 @@ import {
     useEffect,
     FormEvent,
   } from "react";
-  import { BsTools, BsChevronLeft } from "react-icons/bs";
+  import { BsFillCollectionFill, BsChevronLeft } from "react-icons/bs";
   import { FaBook } from "react-icons/fa";
   import { GiOpenBook } from "react-icons/gi";
   import { BsXLg } from "react-icons/bs";
@@ -52,7 +52,7 @@ import {
   const sections: SectionsProps[] = [
     {
       stepName: "Placements",
-      icon: <BsTools />,
+      icon: <BsFillCollectionFill />,
       stepNumber: 1,
     },
     {
@@ -257,7 +257,6 @@ import {
               {loadingCategories ?
               <div className="w-full py-8 flex justify-center"><BlueLoader /></div>
               :
-              <SlideBottom>
               <div className="grid sm:grid-cols-2 grid-cols-1 relative">
               {filteredDropdownCategories.map((template, index) => {
                 const dropdownValues = filterDropdownValues(template.name);
@@ -274,7 +273,6 @@ import {
                 );
               })}
             </div>
-            </SlideBottom>
               }
               <ButtonContainer>
                 <ContinueBtn onClick={() => setStep((prev) => prev + 1)}>
@@ -416,7 +414,7 @@ import {
   };
   
   const ModalContainer = styled.div<{step: number}>`
-      width: 43rem;
+      width: 44rem;
       padding: 1.4rem 4rem 3rem 4rem;
       background: white;
       border: 2px solid #eaedf5;
