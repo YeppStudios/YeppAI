@@ -72,20 +72,20 @@ const SolutionPage = () => {
           </div>
         </div>
       </section>
-      <PageContent className="p-12">
+      <PageContent className="px-12">
         <section className=" h-full border-t-2  border-slate-300  p-8 relative">
           <div className="flex h-full w-full ">
             {!mobile && (
               // Adjust bar with dots and tiles with icons
 
-              <div className="h-[151vh] mt-24 rounded-full w-4 bg-black overflow-visible relative">
-                <div className="w-6 h-6 rounded-full absolute top-0 bg-black -translate-x-[50%] ml-[.2rem]" />
-                <div className="w-6 h-6 rounded-full absolute top-[49%] bg-black -translate-x-[50%] ml-[.2rem]" />
-                <div className="w-6 h-6 rounded-full absolute bottom-0 bg-black -translate-x-[50%] ml-[.2rem]" />
+              <div className="h-[151vh] mt-24 rounded-full w-2 bg-black overflow-visible relative">
+                <div className="w-6 h-6 rounded-full absolute top-0 bg-black -translate-x-[50%] ml-[.1rem]" />
+                <div className="w-6 h-6 rounded-full absolute top-[49%] bg-black -translate-x-[50%] ml-[.1rem]" />
+                <div className="w-6 h-6 rounded-full absolute bottom-0 bg-black -translate-x-[50%] ml-[.1rem]" />
               </div>
             )}
 
-            <div className="flex flex-col  gap-[18vh]">
+            <div className="flex flex-col pt-12  gap-[18vh]">
               <div className="flex lg:flex-row items-center justify-center flex-col">
                 <div className="flex flex-col gap-6 lg:w-1/2 w-full lg:p-24">
                   <div className="flex lg:flex-col flex-row  lg:items-start items-center gap-4 justify-center ">
@@ -195,7 +195,7 @@ const SolutionPage = () => {
             </div>
           </div>
         </section>
-        <section className="mt-24 mb-60">
+        <section className="mt-24 lg:mb-60 mb-40">
           {/* Adjust titles and icons */}
 
           <div className="flex w-full pb-8 border-b-2 mb-24">
