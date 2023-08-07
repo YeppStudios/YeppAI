@@ -21,7 +21,7 @@ import {
   import TextArea from "@/components/forms/TextArea";
   import BackBtn from '@/components/Common/BackBtn';
   import BackBtnIcon from '@/components/Common/BackBtnIcon';
-  import { CampaignDropdown } from "./CampaignDropdwon";
+  import { CampaignDropdown } from "./CampaignDropdown";
   import ModalBackground from "@/components/Modals/common/ModalBackground";
   import SlideBottom from "@/components/Animated/SlideBottom";
   import { Textarea } from "@mantine/core";
@@ -48,6 +48,53 @@ import {
     icon: string;
     query: string;
   }
+
+  const sections: SectionsProps[] = [
+    {
+      stepName: "Placements",
+      icon: <BsTools />,
+      stepNumber: 1,
+    },
+    {
+      stepName: "General",
+      icon: <FaBook />,
+      stepNumber: 2,
+    },
+    {
+      stepName: "Knowledge",
+      icon: <GiOpenBook />,
+      stepNumber: 3,
+    },
+  ];
+
+  const tones = [
+    "Formal ",
+    "Formal 💼",
+    "Friendly 😊",
+    "Informative 📃",
+    "Persuasive 🫵🏼",
+    "Informal 😎",
+  ];
+
+  const languages = [
+    "English",
+    "Spanish",
+    "French",
+    "Italian",
+    "German",
+    "Ukrainian",
+    "Polish",
+    "Chinese",
+    "Bulgarian",
+    "Russian",
+  ];
+
+  const campaignTypes = [
+    "Educational",
+    "Informative",
+    "Advertisement",
+    "Lifestyle",
+  ];
   
   export const CampaignModal: FC<CampaginModalProps> = ({
     setOpenCreateCampaignModal,
@@ -74,7 +121,6 @@ import {
   
     const filteredDropdownCategories = templates
       .filter((category, index, self) => {
-        // Return true only for the first occurrence of each category
         return (
           index ===
           self.findIndex(
@@ -103,57 +149,6 @@ import {
       setUseEmojis((prev) => !prev);
     };
   
-    const submitThirdPageForm = (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const targetAudienceInput = event.currentTarget.elements.namedItem(
-        "targetAudience"
-      ) as HTMLInputElement;
-      setTargetAudience(targetAudienceInput?.value || "");
-  
-      const campaignObjectiveInput = event.currentTarget.elements.namedItem(
-        "objectives"
-      ) as HTMLInputElement;
-      setObjectives(campaignObjectiveInput?.value || "");
-  
-      const keywordsInput = event.currentTarget.elements.namedItem(
-        "keywords"
-      ) as HTMLInputElement;
-      setKeywords(keywordsInput?.value || "");
-    };
-  
-    const submitSecondPageForm = (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const campaignTitleInput = event.currentTarget.elements.namedItem(
-        "campaignTitle"
-      ) as HTMLInputElement;
-      setCampaignTitle(campaignTitleInput?.value || "");
-  
-      const campaignTypeInput = event.currentTarget.elements.namedItem(
-        "campaignType"
-      ) as HTMLInputElement;
-      setCampaignType(campaignTypeInput?.value || "");
-  
-      const languageInput = event.currentTarget.elements.namedItem(
-        "language"
-      ) as HTMLInputElement;
-      setLanguage(languageInput?.value || "");
-  
-      const toneInput = event.currentTarget.elements.namedItem(
-        "tone"
-      ) as HTMLInputElement;
-      setTone(toneInput?.value || "");
-  
-      const productTypeInput = event.currentTarget.elements.namedItem(
-        "productType"
-      ) as HTMLInputElement;
-      setProductType(productTypeInput?.value || "");
-  
-      const useEmojisInput = event.currentTarget.elements.namedItem(
-        "useEmojis"
-      ) as HTMLInputElement;
-      setUseEmojis(useEmojisInput?.checked || false);
-      setStep((prev) => prev + 1);
-    };
   
     useEffect(() => {
       setLoadingCategories(true);
@@ -194,70 +189,28 @@ import {
       fetchTemplates();
     }, []);
   
-    const sections: SectionsProps[] = [
-      {
-        stepName: "Placements",
-        icon: <BsTools />,
-        stepNumber: 1,
-      },
-      {
-        stepName: "General",
-        icon: <FaBook />,
-        stepNumber: 2,
-      },
-      {
-        stepName: "Knowledge",
-        icon: <GiOpenBook />,
-        stepNumber: 3,
-      },
-    ];
-  
-    const tones = [
-      "Formal ",
-      "Formal 💼",
-      "Friendly 😊",
-      "Informative 📃",
-      "Persuasive 🫵🏼",
-      "Informal 😎",
-    ];
-  
-    const languages = [
-      "English",
-      "Spanish",
-      "French",
-      "Italian",
-      "German",
-      "Ukrainian",
-      "Polish",
-      "Chinese",
-      "Bulgarian",
-      "Russian",
-    ];
-  
-    const campaignTypes = [
-      "Educational",
-      "Informative",
-      "Advertisement",
-      "Lifestyle",
-    ];
+    const createCampaign = async (e: any) => {
+      e.preventDefault();
+      router.push("/campaign/1");
+    }
   
     const renderStepText = () => {
       switch (step) {
         case 1:
           return (
-            <span className="text-4xl font-bold text-center">
+            <span>
               Select campaign placements
             </span>
           );
         case 2:
           return (
-            <span className="text-4xl font-bold text-center">
+            <span>
               Define new campaign
             </span>
           );
         case 3:
           return (
-            <span className="text-4xl font-bold text-center">
+            <span>
               Provide AI with knowledge
             </span>
           );
@@ -305,7 +258,7 @@ import {
               <div className="w-full py-8 flex justify-center"><BlueLoader /></div>
               :
               <SlideBottom>
-              <div className="grid  sm:grid-cols-2 grid-cols-1 relative ">
+              <div className="grid sm:grid-cols-2 grid-cols-1 relative">
               {filteredDropdownCategories.map((template, index) => {
                 const dropdownValues = filterDropdownValues(template.name);
                 return (
@@ -331,7 +284,7 @@ import {
             </div>
           )}
           {step === 2 && (
-            <form onSubmit={submitSecondPageForm}>
+            <form>
               <div className="grid grid-cols-2">
                 <div className="pb-6 pr-3 pl-3 pt-0">
                   <Label>Title</Label>
@@ -417,7 +370,7 @@ import {
             </form>
           )}
           {step === 3 && (
-            <form onSubmit={submitThirdPageForm}>
+            <form onSubmit={(e) => createCampaign(e)}>
               <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>Target autdience</Label>
                 <Input
@@ -463,9 +416,10 @@ import {
   };
   
   const ModalContainer = styled.div<{step: number}>`
-      width: 42rem;
-      padding: 4rem 4rem 4rem 4rem;
-      background: #F8F4ED;
+      width: 43rem;
+      padding: 1.4rem 4rem 3rem 4rem;
+      background: white;
+      border: 2px solid #eaedf5;
       box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
       border-radius: 25px;
       cursor: auto;
@@ -478,21 +432,26 @@ import {
       }
   `
   const Title = styled.h1`
-      font-size: 2rem;
       margin-bottom: 2.2rem;
-      text-align: center;
+      font-size: 1.2rem;
+      width: 41.75rem;
+      margin-left: -4rem;
+      padding-left: 3rem;
+      border-bottom: 1px solid #eaedf5;
+      padding-bottom: 1rem;
       color: black;
-      font-weight: 700;
+      font-weight: 500;
       @media (max-width: 1023px) {
         font-size: 1.7rem;
         line-height: 1.2;
         margin-top: 2vh;
+        width: 90vw;
+        margin-left: -3vw;
     }
   `
   
-  
   const MainTab = styled.div`
-      padding: 0.75rem 0rem 0.75rem 0rem;
+      padding: 0.55rem 0rem 0.55rem 0rem;
       font-weight: 500;
       margin: 0 0.5rem 0 0.5rem;
       display: flex;
@@ -510,26 +469,30 @@ import {
       }
   `
   
+
   const SelectedMainTab = styled.div`
-      padding: 0.75rem 3rem 0.75rem 3rem; 
-      font-weight: 500;
-      margin: 0 0.5rem 0 0.5rem;
-      display: flex;
-      align-items: center;
-      font-size: 1rem;
-      color: black;
-      background: rgba(0, 0, 0, 0.1));
-      border: solid 3px black;
-      overflow: hidden;
-      border-radius: 12px;
-      @media (max-width: 1023px) {
-          font-size: 0.75rem;
-          padding: 0.55rem 2rem 0.55rem 2rem;
-          margin: 0;
-          margin-bottom: 0.4rem;
-      }
+    padding: 0.55rem 2rem 0.55rem 2rem; 
+    font-weight: 500;
+    margin: 0 0.5rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    background: #EEF1F8;
+    border: solid 3px transparent;
+    overflow: hidden;
+    color: black;
+    border-radius: 12px;
+    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    @media (max-width: 1023px) {
+        font-size: 0.75rem;
+        padding: 0.55rem 2rem 0.55rem 2rem;
+        margin: 0;
+        margin-bottom: 0.4rem;
+    }
   `
-  
+    
   const TabIcon = styled.div`
     width: 1.4rem;
     margin-right: 0.75rem;
@@ -537,25 +500,28 @@ import {
   
   
   const ContinueBtn = styled.button`
-    border: solid 3px transparent;
-    border-radius: 15px;
-    position: relative;
-    color: white;
-    font-weight: 500;
-    width: 100%;
-    height: 3rem;
-    background: black;
-    transition: all 0.3s ease;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:hover {
-      transform: scale(0.95);
-      box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-        inset -1px -1px 4px #fafbff;
-    }
-  `;
+  border: solid 3px transparent;
+  border-radius: 15px;
+  position: relative;
+  color: white;
+  font-weight: 500;
+  width: 100%;
+  height: 3rem;
+  z-index: 0;
+  background: linear-gradient(40deg, #6578F8, #64B5FF);
+  background-size: 110%;
+  background-position-x: -1rem;
+  transition: all 0.4s ease;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    transform: scale(0.95);
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
+  }
+  `
+
   const ButtonContainer = styled.div`
     width: 100%;
     padding: 0 7rem 0 7rem;

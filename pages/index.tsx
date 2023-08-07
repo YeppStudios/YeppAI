@@ -179,6 +179,7 @@ const Homepage = () => {
           {!mobile && <Space margin='5rem'/>}
           <div className='px-[5vw] lg:px-[8vw]'><Plans openRegistration={true} purchase={false} landing={true}/></div>
           </Section>
+          <Centered><FreeConsultationBtn href='https://calendly.com/yeppai/yepp-introduction-call'>Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>
           <Section>
             <div id="newsletter"></div>
             <LearnMoreSection />

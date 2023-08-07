@@ -97,7 +97,7 @@ const LearnMoreSection = () => {
                 </Form>
                 <Description className="justify-center lg:justify-start">or</Description>
                 <a href="https://calendly.com/yeppai/yepp-introduction-call">
-                <div className="flex items-center"><b className="cursor-pointer">Schedule a 30 minute demo</b>
+                <div className="flex items-center"><b className="cursor-pointer">Book a free demo</b>
                 </div>
                 </a>
             </ContactContainer>

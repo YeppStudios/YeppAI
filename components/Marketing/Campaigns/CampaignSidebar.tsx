@@ -21,8 +21,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import DeleteDoc from "@/components/Modals/DeletingModals/DeleteDocModal";
 import styled from "styled-components";
-import Label from "../Common/Label";
-import Input from "../forms/Input";
+import Label from "../../Common/Label";
+import Input from "../../forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
 import { Switch } from "@headlessui/react";
 import TextArea from "@/components/forms/TextArea";
@@ -139,10 +139,10 @@ export default function CampaignSidebar(props: {
                           </div>
                         </div>
                       </div>
-                      <div className="border-b border-gray-200">
-                        <div className="px-6">
+                      <div className="border-b border border-[#e5e5e5]">
+                        <div className="px-6 mt-6">
                           {/*content*/}
-                          <form className="lg:mt-14">
+                          <form className="">
                             <div className="grid grid-cols-1">
                               <div className="grid grid-cols-2">
                                 <div className="pb-6 pr-3 pl-3 pt-0">
