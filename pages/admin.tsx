@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import LoginModal from "@/components/Modals/OnboardingModals/LoginModal";
 import { showNotification } from "@mantine/notifications";
+import Cookies from "js-cookie";
 
 interface User {
     _id: string,
@@ -19,9 +20,14 @@ interface User {
 const Admin = () => {
 
     const [email, setEmail] = useState("");
+    const [registrationEmail, setRegistrationEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
     const [amount, setAmount] = useState("");
     const [user, setUser] = useState<User>();
     const [loggedIn, setLoggedIn] = useState(false);
+    const [registrationPasswordError, setRegistrationPasswordError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const router = useRouter();
 
@@ -34,6 +40,39 @@ const Admin = () => {
     const login = () => {
         setLoggedIn(true);
         router.reload();
+    }
+
+
+    const register = async (e: any) => {
+      e.preventDefault();
+      if (password.length < 5) {
+        setRegistrationPasswordError(true);
+        return;
+      }
+      try {
+        await api.post('/register-free-trial', { email: registrationEmail, password, name, isCompany: true, referrerId: "", blockAccess: false });
+        showNotification({
+          id: 'subscribed',
+          disallowClose: true,
+          autoClose: 5000,
+          title: "User registered!",
+          message: `${registrationEmail} has been registered!`,
+          color: "green",
+    
+          styles: (theme: any) => ({
+            root: {
+              backgroundColor: "white",
+              border: "none",
+            },
+    
+            title: { color: "black" },
+            description: { color: "black" },
+          })
+        })
+      } catch (e) {
+        console.log(e);
+      }
+
     }
 
     useEffect(() => {
@@ -169,6 +208,62 @@ const Admin = () => {
             </div>
         </div>
         }
+        <div className="w-full flex justify-center">
+          <form className="w-1/2 mt-10" onSubmit={(e) => register(e)}>
+          <div className="mt-6">
+              <Label>
+                First name
+              </Label>
+              <Input
+                id="name"
+                type="text"
+                height="2.8rem"
+                padding="0.7rem"
+                placeholder="Filip"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />                   
+            </div>
+            <div className="mt-6">
+            <Label>
+              Email
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              height="2.8rem"
+              padding="0.7rem"
+              placeholder="email@gmail.com"
+              value={registrationEmail}
+              onChange={(e) => setRegistrationEmail(e.target.value)}
+              required
+              autoComplete="off"
+            />
+            </div>
+            <div className="mt-6">
+              <Label>
+                Password {registrationPasswordError && <LabelErrorMessage>at least 5 characters</LabelErrorMessage>}
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                height="2.8rem"
+                padding="0.7rem"
+                placeholder="******************"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="off"
+              />
+            </div>
+            <div className="mt-6 -ml-2">
+            <SendBtn id="send-email-btn" type="submit">
+              <p>Register user</p>
+            </SendBtn>  
+            </div>         
+          </form>
+        </div>
     </div>
     </div>
 
@@ -222,3 +317,10 @@ const ButtonText = styled.p`
         margin-left: 1.5vw;
     }
 `
+
+const LabelErrorMessage = styled.p`
+    color: #FF6060;
+    font-size: 0.8rem;
+    margin-left: 1vw;
+`
+  
