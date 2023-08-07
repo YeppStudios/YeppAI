@@ -256,8 +256,8 @@ const Homepage = () => {
           <div id="newsletter"></div>
           <LearnMoreSection />
         </Section>
-        <Footer />
       </PageContent>
+      <Footer />
     </div>
   );
 };

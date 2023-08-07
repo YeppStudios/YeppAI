@@ -7,6 +7,7 @@ import Image from "next/image";
 import { BsFillGiftFill } from "react-icons/bs";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import Footer from "@/components/Landing/Footer";
+import LearnMoreSection from "@/components/Landing/LearnMoreSection";
 
 const SolutionPage = () => {
   const [mobile, setMobile] = useState(true);
@@ -77,7 +78,7 @@ const SolutionPage = () => {
             {!mobile && (
               // Adjust bar with dots and tiles with icons
 
-              <div className="h-[165vh] mt-24 rounded-full w-4 bg-black overflow-visible relative">
+              <div className="h-[151vh] mt-24 rounded-full w-4 bg-black overflow-visible relative">
                 <div className="w-6 h-6 rounded-full absolute top-0 bg-black -translate-x-[50%] ml-[.2rem]" />
                 <div className="w-6 h-6 rounded-full absolute top-[49%] bg-black -translate-x-[50%] ml-[.2rem]" />
                 <div className="w-6 h-6 rounded-full absolute bottom-0 bg-black -translate-x-[50%] ml-[.2rem]" />
@@ -93,7 +94,7 @@ const SolutionPage = () => {
                       1.Upload your data
                     </SectionSubtitle>
                   </div>
-                  <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
+                  <p className="lg:text-[1.5vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
                     builders, and fantastic teachers. Check out YouTube
                     tutorials for great tutorials from folks in the comunity,
@@ -113,7 +114,7 @@ const SolutionPage = () => {
                       1.Upload your data
                     </SectionSubtitle>
                   </div>
-                  <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
+                  <p className="lg:text-[1.5vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
                     builders, and fantastic teachers. Check out YouTube
                     tutorials for great tutorials from folks in the comunity,
@@ -133,7 +134,7 @@ const SolutionPage = () => {
                       1.Upload your data
                     </SectionSubtitle>
                   </div>
-                  <p className="lg:text-[2vw] md:text-2xl text-xl py-8">
+                  <p className="lg:text-[1.5vw] md:text-2xl text-xl py-8">
                     Our comunity is full of proliftic developers, creative
                     builders, and fantastic teachers. Check out YouTube
                     tutorials for great tutorials from folks in the comunity,
@@ -154,9 +155,9 @@ const SolutionPage = () => {
               Use cases
             </SectionTitle>
           </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 ">
+          <div className="grid gap-16 md:grid-cols-2 grid-cols-1 ">
             {/* Adjust titles and icons */}
-            <div className="flex flex-col gap-8 pb-[8vw]">
+            <div px-12v className="flex flex-col gap-8 pb-[5vw] px-16">
               <AiOutlineCloudUpload className="h-8 w-8" />
               <SectionSubtitle className="lg:text-[3vw]  text-3xl">
                 Customer service
@@ -168,7 +169,7 @@ const SolutionPage = () => {
                 awesome LangChain projects, compiled by the folks
               </p>
             </div>
-            <div className="flex flex-col gap-8 pb-[8vw]">
+            <div className="flex flex-col gap-8 pb-[5vw] px-16">
               <AiOutlineCloudUpload className="h-8 w-8" />
               <SectionSubtitle className="lg:text-[3vw]  text-3xl">
                 Customer service
@@ -180,7 +181,7 @@ const SolutionPage = () => {
                 awesome LangChain projects, compiled by the folks
               </p>
             </div>
-            <div className="flex flex-col gap-8 pb-[8vw]">
+            <div className="flex flex-col gap-8 pb-[5vw] px-16">
               <AiOutlineCloudUpload className="h-8 w-8" />
               <SectionSubtitle className="lg:text-[3vw]  text-3xl">
                 Customer service
@@ -194,7 +195,7 @@ const SolutionPage = () => {
             </div>
           </div>
         </section>
-        <section className="mt-24">
+        <section className="mt-24 mb-60">
           {/* Adjust titles and icons */}
 
           <div className="flex w-full pb-8 border-b-2 mb-24">
@@ -293,28 +294,7 @@ const SolutionPage = () => {
             </div>
           </div>
         </section>
-        <section className="mt-60 mb-60">
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="flex flex-col gap-10">
-              <div className="w-full h-16 flex items-center justify-between bg-slate-400 rounded-2xl py-2 px-8">
-                <p>Is uploaded content safe?</p>
-                <div>+</div>
-              </div>
-              <div className="w-full h-16 flex items-center justify-between bg-slate-400 rounded-2xl py-2 px-8">
-                <p>Is uploaded content safe?</p>
-                <div>+</div>
-              </div>
-              <div className="w-full h-16 flex items-center justify-between bg-slate-400 rounded-2xl py-2 px-8">
-                <p>Is uploaded content safe?</p>
-                <div>+</div>
-              </div>
-              <div className="w-full h-16 flex items-center justify-between bg-slate-400 rounded-2xl py-2 px-8">
-                <p>Is uploaded content safe?</p>
-                <div>+</div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <LearnMoreSection />
       </PageContent>
 
       <Footer isLanding />
