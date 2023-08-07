@@ -5,8 +5,59 @@ import logo from "../../public/images/logo.png";
 import { BsFillGiftFill } from "react-icons/bs";
 import { useEffect, useInsertionEffect, useState } from "react";
 import Link from "next/link";
+import { Popover, Transition } from "@headlessui/react";
+import {
+  ChevronDownIcon,
+  CalendarDaysIcon,
+  GiftIcon,
+} from "@heroicons/react/20/solid";
+import {
+  FolderArrowDownIcon,
+  ClipboardDocumentListIcon,
+  DocumentTextIcon,
+  ChatBubbleBottomCenterTextIcon,
+  MegaphoneIcon,
+} from "@heroicons/react/24/outline";
 
-const Navbar = () => {
+const solutions = [
+  {
+    name: "Marketing Templates",
+    description: "Get a better understanding of your traffic",
+    href: "#",
+    icon: ClipboardDocumentListIcon,
+  },
+  {
+    name: "Copywriting",
+    description: "Speak directly to your customers",
+    href: "#",
+    icon: DocumentTextIcon,
+  },
+  {
+    name: "Chat with data",
+    description: "Your customers' data will be safe and secure",
+    href: "#",
+    icon: ChatBubbleBottomCenterTextIcon,
+  },
+  {
+    name: "Marketing Campaigns",
+    description: "Effortlessly genrate content for the entire campaign",
+    href: "#",
+    icon: MegaphoneIcon,
+  },
+  {
+    name: "Uploading content",
+    description: "Teach AI about your client or any niche topic",
+    href: "#",
+    icon: FolderArrowDownIcon,
+  },
+];
+
+const callsToAction = [
+  { name: "Start free trial", href: "#", icon: GiftIcon },
+  { name: "Schedule free demo", href: "#", icon: CalendarDaysIcon },
+];
+
+const Navbar = (props: { onNewsletterClick: any }) => {
   const [mobile, setMobile] = useState(true);
   const [isFixed, setIsFixed] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -111,14 +162,14 @@ interface NavContainerProps {
 }
 
 const NavContainer = styled.div<NavContainerProps>`
-  width: 100%;
+  width: 100vw;
   display: flex;
   align-items: center;
   position: ${({ isFixed }) => (isFixed ? "fixed" : "absolute")};
   top: 0rem;
   height: 6rem;
-  /* margin-left: ${({ isFixed }) => (isFixed ? "0" : "-8vw")}; */
-  padding-top: ${({ isFixed }) => (isFixed ? "0" : "1.5rem")};
+  margin-left: ${({ isFixed }) => (isFixed ? "0" : "-8vw")};
+  margin-top: ${({ isFixed }) => (isFixed ? "0" : "1.5rem")};
   z-index: 100;
   backdrop-filter: blur(5px);
   background-color: rgba(255, 255, 255, 0.95);

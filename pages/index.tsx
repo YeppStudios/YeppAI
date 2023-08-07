@@ -20,6 +20,13 @@ import webBackground from "../public/images/webBackground.png";
 import { TypewriterSection } from "@/components/Landing/TypewriterSection";
 import Plans from "@/components/Landing/Plans";
 import Space from "@/components/Docs/common/Space";
+import { TypewriterSection } from "@/components/Landing/TypewriterSection";
+import Plans from "@/components/Landing/Plans";
+import Space from "@/components/Docs/common/Space";
+import Stats from "@/components/Landing/Stats";
+import reviewsImage from "../public/images/reviews_image.png";
+import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
+import questionmarkIcon from "../public/images/questionmark_icon.png";
 
 interface Background {
   image: any;
@@ -64,7 +71,7 @@ const Homepage = () => {
       </Head>
       <PageContent>
         <Loading />
-        <Navbar />
+        <Navbar onNewsletterClick={() => handleNewsletterScroll()} />
         <Background>
           <Image
             style={{ width: "100%", height: "100%", opacity: 0.4 }}
@@ -256,8 +263,8 @@ const Homepage = () => {
           <div id="newsletter"></div>
           <LearnMoreSection />
         </Section>
+        <Footer />
       </PageContent>
-      <Footer />
     </div>
   );
 };
@@ -288,10 +295,12 @@ const HeroSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 9rem;
+  margin-top: 14rem;
+  margin-bottom: 4rem;
   @media (max-width: 1023px) {
     display: flex;
     margin-top: 8rem;
+    margin-bottom: 0rem;
   }
 `;
 

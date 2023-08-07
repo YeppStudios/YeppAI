@@ -6,12 +6,12 @@ import tickIcon from "../../public/images/tickGreen.png";
 import plusIcon from "../../public/images/plus.png";
 import Centered from "../Centered";
 import { useRouter } from "next/router";
-import { FiPhoneCall, FiShoppingBag } from "react-icons/fi";
+import { FiPhoneCall } from "react-icons/fi";
+import { BiGift } from "react-icons/bi";
 import api from "@/pages/api";
 import LoginModal from "../Modals/OnboardingModals/LoginModal";
 import { Loader } from "../Common/Loaders";
 import PhoneNumberPopup from "../Modals/InformationalModals/PhoneNumberPopup";
-import { BsPhone, BsPhoneFill } from "react-icons/bs";
 
 const tabs = [
     { name: 'monthly', period: 1, discount: 0},
@@ -26,24 +26,24 @@ const plans = [
         planId: "64ad0d740e40385f299bcef9", 
         description: "Basic version of Assistant, enhanced skills.", 
         features: ["200 000 elixir/mo (~100 A4 pages)", "1 AI profile", "10 assets to upload (max 15MB total)", "Single web pages scanning", "Uploading PDF, PPTX, TXT and DOCX", "Chat with your AI", "Marketer AI", "Copywriter AI"],
-        price: 59, 
+        price: 79,
         polishPrice: 299, 
-        monthlyPriceId: {default: "price_1NSZjsFe80Kn2YGGYa3pzseT", polish: "price_1NUPqFFe80Kn2YGG0FZyaRXH"}, 
-        threeMonthPriceId: {default: "price_1NSafTFe80Kn2YGG5LVrITu1", polish: "price_1NUPqQFe80Kn2YGGAjjfYZXQ"}, 
-        sixMonthPriceId: {default: "price_1NSagKFe80Kn2YGGFhOuum7Z", polish: "price_1NUPqcFe80Kn2YGG5zUJqhKq"}, 
-        yearlyPriceId: {default: "price_1NSaglFe80Kn2YGGZZ8msY1r", polish: "price_1NUPr0Fe80Kn2YGGd6BuzOAs"}
-    }, 
+        monthlyPriceId: {default: "price_1NaF8EFe80Kn2YGGAuVBGHjh", polish: "price_1NUPqFFe80Kn2YGG0FZyaRXH"}, 
+        threeMonthPriceId: {default: "price_1NaFKUFe80Kn2YGGN8gOfDnT", polish: "price_1NUPqQFe80Kn2YGGAjjfYZXQ"}, 
+        sixMonthPriceId: {default: "price_1NaFLfFe80Kn2YGGFtgjV1CI", polish: "price_1NUPqcFe80Kn2YGG5zUJqhKq"}, 
+        yearlyPriceId: {default: "price_1NaFMhFe80Kn2YGGsXAeqFPF", polish: "price_1NUPr0Fe80Kn2YGGd6BuzOAs"}
+    },
     {
         title: "Agency",
-        planId: "64ad0d250e40385f299bceea", 
-        description: "Basic version of Assistant, maximum content.", 
+        planId: "64ad0d250e40385f299bceea",
+        description: "Basic version of Assistant, maximum content.",
         features: ["1M elixir/mo (~520 A4 pages)", "Unlimited client AI profiles", "Unlimited number of assets", "Unlimited storage space", "Unlimited number of teammates", "Access to the latest features", "Dedicated customer support"], 
         price: 249, 
         polishPrice: 799, 
         monthlyPriceId: {default: "price_1NSZghFe80Kn2YGGOiClJUPM", polish: "price_1NUPofFe80Kn2YGG6dYxHNk9"}, 
         threeMonthPriceId: {default: "price_1NSai5Fe80Kn2YGGHrwmUEqe", polish: "price_1NUPozFe80Kn2YGGComghBF5"}, 
         sixMonthPriceId: {default: "price_1NSaiNFe80Kn2YGGG88egvhI", polish: "price_1NUPpBFe80Kn2YGGW0muvINv"}, 
-        yearlyPriceId: {default: "price_1NSaieFe80Kn2YGGilwS3SNl", polish: "price_1NUPpNFe80Kn2YGG3PaQgZW7"}
+        yearlyPriceId: {default: "price_1NSaieFe80Kn2YGGilwS3SNl", polish: "price_1NY1QdFe80Kn2YGGaQBjxlGP"}
     },
     {
         title: "Custom", 
@@ -75,7 +75,7 @@ interface PlanContainer {
     width: string
 }
 
-const Plans = (props: {openRegistration: boolean}) => {
+const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: boolean}) => {
 
     const [mobile, setMobile] = useState(false);
     const [discount, setDiscount] = useState(0.1);
@@ -84,6 +84,7 @@ const Plans = (props: {openRegistration: boolean}) => {
     const [loadingBtn, setLoadingBtn] = useState("");
     const [openContact, setOpenContact] = useState(false);
     const [country, setCountry] = useState<string | null>("United States");
+    const [userEmail, setUserEmail] = useState<string | null>("");
 
     const router = useRouter();
 
@@ -118,19 +119,37 @@ const Plans = (props: {openRegistration: boolean}) => {
               authorization: token
             }
         });
-        let res = await api.post(`/create-checkout-session`, 
-        {
-            priceId,
-            mode: "subscription",
-            successURL: successUrl,
-            cancelURL: `${window.location.origin}${router.asPath}`,
-            planId: planId,
-            email: data.email,
-            months: billingPeriod,
-            global: true
-        });
-        const { url } = await res.data;
-        window.location.href = url;
+        console.log(priceId)
+        if (props.purchase) {
+            let res = await api.post(`/create-checkout-session`, 
+            {
+                priceId,
+                mode: "subscription",
+                successURL: successUrl,
+                cancelURL: `${window.location.origin}${router.asPath}`,
+                planId: planId,
+                email: data.email,
+                months: billingPeriod,
+                global: true,
+            });
+            const { url } = await res.data;
+            window.location.href = url;
+        } else {
+            let res = await api.post(`/create-checkout-session`, 
+            {
+                priceId,
+                mode: "subscription",
+                successURL: successUrl,
+                cancelURL: `${window.location.origin}${router.asPath}`,
+                planId: planId,
+                email: data.email,
+                months: billingPeriod,
+                global: true,
+                trial: true
+            });
+            const { url } = await res.data;
+            window.location.href = url;
+        }
     }
 
 
@@ -167,9 +186,12 @@ const Plans = (props: {openRegistration: boolean}) => {
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <>
+                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
+                                        </>
+                                        
                                         }
                                     </Centered>
                                     <FeaturesList>  
@@ -189,7 +211,7 @@ const Plans = (props: {openRegistration: boolean}) => {
                                 </PlanContainer>                   
                             }
                             {plan.title === "Agency" &&
-                                <MiddlePlanContainer backgroundColor="rgba(100, 181, 255, 0.2)" color="black" width="auto">
+                                <MiddlePlanContainer backgroundColor="black" color="white" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText><ColorfulText>{plan.title}</ColorfulText></PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a marketing agency</BriefDescription>
                                     <MainDescription>Define AI profiles for your clients and streamline the conetnt creation.</MainDescription>
@@ -206,9 +228,9 @@ const Plans = (props: {openRegistration: boolean}) => {
                                     <Centered><Note>No pressure. You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
-                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         :
-                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><FiShoppingBag style={{width: "100%", height: "auto"}} /></BtnIcon><p>Buy now</p></>}</BuyButton>
+                                        <BuyButton id="order-basic" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         }
                                     </Centered>
                                     <FeaturesList>  
@@ -414,13 +436,11 @@ const PlanContainer = styled.div<PlanContainer>`
 
 const MiddlePlanContainer = styled.div<PlanContainer>`
     width: ${props => props.width || '22vw'};
-    background-color: #0D0E16;
+    background-color: black;
     padding: 4vh 4vh 6vh 4vh;
     height: 100%;
-    border: solid 3px transparent;
     border-radius: 25px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: 3px 3px 6px rgba(22, 27, 29, 0.2);
+    box-shadow: 2px 2px 20px rgba(22, 27, 200, 0.4);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     color: ${props => props.color || 'black'};

@@ -60,14 +60,9 @@ const navigation = {
     },
   ],
 };
-const Footer = (props: { isLanding?: boolean }) => {
-  const isLanding = props.isLanding === undefined ? false : props.isLanding;
+const Footer = () => {
   return (
-    <footer
-      className={`bg-black   ${
-        !isLanding && "-ml-[5vw] lg:-ml-[8vw] w-[100vw]"
-      }  mt-36`}
-    >
+    <footer className="bg-black w-[100vw] -ml-[5vw] lg:-ml-[8vw] mt-36">
       <Centered>
         <Image src={logo} alt="logo" className="w-12 h-12 mt-20" />
       </Centered>

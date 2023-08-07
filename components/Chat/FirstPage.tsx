@@ -63,7 +63,12 @@ const FirstPage = (props: {nextPage: any}) => {
                     }
                 })
             } else if (workspaceCompany._id) {
-                assistantsResponse = await api.get(`/getUserAssistants/${workspaceCompany._id}`, {
+                const {data} = await api.get(`/workspace-company/${workspace}`, {
+                    headers: {
+                      authorization: token
+                    }
+                  });
+                assistantsResponse = await api.get(`/getUserAssistants/${data.company._id}`, {
                     headers: {
                       authorization: token
                     }
@@ -82,7 +87,7 @@ const FirstPage = (props: {nextPage: any}) => {
         }
     }
         fetchAssistants();
-    }, [workspaceCompany])
+    }, [defaultAssistant, workspaceCompany])
     
 
     const handleOpenAssistant = (assistant: Assistant) => {

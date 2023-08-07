@@ -31,7 +31,7 @@ export default function Dropdown({ values, value, onChange, error }: any) {
 
   useEffect(() => {
     setSelected(value);
-  }, []);
+  }, [value]);
 
   const filteredValues =
     selected === ""

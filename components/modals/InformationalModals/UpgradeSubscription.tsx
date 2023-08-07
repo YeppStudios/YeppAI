@@ -36,14 +36,8 @@ interface Button {
     color: string,
 }
 
-const plans = [
-    {title: "Basic", priceId: "price_1NFwcqFe80Kn2YGGi4iIulhc", planId: "647895cf404e31bfe8753398", query: "/order/basic?price=99&priceId=price_1NFwcqFe80Kn2YGGi4iIulhc&months=1", description: "Generate content such as posts, articles, and emails using AI.", isPro: false, features: ["75 000 elixir/month. (~200 posts)", "1 AI Assistant", "3 uploaded content up to 5MB", "Content Creator (emails, posts, descriptions...)"], price: "99,99zł"}, 
-    {title: "Pro", priceId: "price_1NFwxWFe80Kn2YGGvpHuUfpi", planId: "6478970a404e31bfe87533a0", query: "/order/pro?price=299&priceId=price_1NFwxWFe80Kn2YGGvpHuUfpi&months=1", description: "Upload your own content and define your AI assistants.", isPro: false, features: ["250 000 elixir/month. (~700 posts)", "3 AI Assistants", "5 uploaded files up to 15MB", "Intelligent AI Editor", "Chat with AI Assistants", "Scanning websites", "Uploading PDF, PPTX, TXT and DOCX", "Uploading YouTube videos"], price: "299,00zł", extraFunctionalities: "Basic"}, 
-    {title: "Business", priceId: "price_1NFx0EFe80Kn2YGGCWikSSti", planId: "6444d4394ab2cf9819e5b5f4", query: "/order/business?price=799&priceId=price_1NFx0EFe80Kn2YGGCWikSSti&months=1", description: "Maximum possibilities for business, no limits.", isPro: false, features: ["1M elixir/month. (~2 800 posts)", "Unlimited number of AI Assistants", "Unlimited amount of uploaded knowledge", "Unlimited number of users", "Access to the latest features", "1000+ AI command templates"], price: "799,00zł", extraFunctionalities: "Assistant + Basic"},
-]
 
-
-const UpgradeSubscription = (props: {onClose: any, closeable: boolean}) => {
+const UpgradeSubscription = (props: {onClose: any, closeable: boolean, purchase: boolean, landing: boolean}) => {
 
     const [loadingPlan, setLoadingPlan] = useState("");
     const [mobile, setMobile] = useState(false);
@@ -107,103 +101,6 @@ const UpgradeSubscription = (props: {onClose: any, closeable: boolean}) => {
     
     }
     
-    const renderPlans = () => {
-        let icon = wandIcon;
-    
-        const renderedPlans = plans.map((plan) => {
-    
-            if (plan.title === "Basic") {
-                icon= pencilIcon;
-            } else if (plan.title === "Pro") {
-                icon = diamondIcon;
-            } else if (plan.title === "Business") {
-                icon = buildingIcon;
-            }
-            if (mobile) {
-                return (
-                    <PlanSection key={plan.title}>
-                        <PlanImageSection background={planBackground}>
-                            <PlanContainer backgroundColor="black" color="white" width="100%">
-                                <PlanTitle><PlanTitleText>{plan.title}</PlanTitleText> <BtnIcon><Image style={{ width: "100%", height: "auto" }}  src={icon} alt={'preview'}></Image> </BtnIcon></PlanTitle>
-                                <BriefDescription>{plan.description}</BriefDescription>
-                                <Price>{plan.price}{plan.title === "Assistant" && <Monthly>/month</Monthly>}</Price>
-                                <Note>Subscription payable upon purchase and renewed monthly.</Note>
-                                {currentPlan._id === plan.planId ?
-                                    <OwnedButton><BsCheckLg /></OwnedButton>
-                                    :
-                                    <div style={{display: "flex", alignItems: "center"}}>
-                                    <BuyButton onClick={() => updatePlan(plan.priceId, plan.planId, plan.title, plan.query)} backgroundColor="white" color="black">
-                                        {loadingPlan === plan.title ?
-                                            <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                                <Loader color="black" />
-                                            </div>
-                                            :
-                                            <p>Purchase</p>
-                                        }
-                                    </BuyButton>
-                                    <Link href={"/pricing"}>
-                                    <LearnMore>
-                                        Check the offer
-                                    </LearnMore>
-                                    </Link>
-                                    </div>
-                                }
-                            </PlanContainer>
-                            </PlanImageSection>
-                    </PlanSection>
-                )
-            } else {
-                return (
-                    <PlanSection key={plan.title}>
-                            <PlanContainer backgroundColor="black" color="white" width="100%">
-                                <PlanTitle><PlanTitleText>{plan.title}</PlanTitleText> <BtnIcon><Image style={{ width: "100%", height: "auto" }}  src={icon} alt={'preview'}></Image> </BtnIcon></PlanTitle>
-                                <BriefDescription>{plan.description}</BriefDescription>
-                                <Price>{plan.price}{plan.title === "Assistant" && <Monthly>/month</Monthly>}</Price>
-                                <Note>Subscription payable upon purchase and renewed monthly.</Note>
-                                {currentPlan._id === plan.planId ?
-                                    <OwnedButton><BsCheckLg /></OwnedButton>
-                                    :
-                                    <div style={{display: "flex", alignItems: "center"}}>
-                                    <BuyButton onClick={() => updatePlan(plan.priceId, plan.planId, plan.title, plan.query)} backgroundColor="white" color="black">
-                                        {loadingPlan === plan.title ?
-                                            <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                                <Loader color="black" />
-                                            </div>
-                                            :
-                                            <p>Purchase</p>
-                                        }
-                                    </BuyButton>
-                                    <Link href={"/pricing"}>
-                                    <LearnMore>
-                                        Check the offer
-                                    </LearnMore>
-                                    </Link>
-                                    </div>
-                                }
-                            </PlanContainer>
-                    </PlanSection>
-                )
-            }
-        })
-        
-        return (
-            <Content style={{width: "100%", height: "100%"}}>
-            {!currentPlan &&
-                        <Centered>
-                        {!mobile &&
-                        <ElixirImage>
-                            <Image style={{ width: "auto", height: "100%" }}  src={elixirIcon} alt={'elixir_icon'}></Image> 
-                        </ElixirImage>
-                        }
-                    </Centered>
-            }
-            <Centered>
-                <Title>Choose a plan</Title>
-            </Centered>
-                <Plans openRegistration={false} />
-            </Content>
-        )
-    }
     
     
     return (
@@ -215,7 +112,7 @@ const UpgradeSubscription = (props: {onClose: any, closeable: boolean}) => {
                     <BsXLg style={{width: "100%", height: "auto"}}/>
                 </CloseIcon>
                 }
-                {renderPlans()}
+                <Plans openRegistration={false} purchase={props.purchase} landing={props.landing}/>
             </ModalContainer>
             </SlideBottom>
         </ModalBackground>
@@ -253,8 +150,9 @@ const ModalBackground = styled.div`
 `
 
 const ModalContainer = styled.div`
-    width: 95vw;
-    margin-top: 5vh;
+    width: 100vw;
+    padding: 1rem 7rem 7rem 7rem;
+    margin-top: 0vh;
     margin-bottom: 5vh;
     position: relative;
     background: white;
@@ -268,8 +166,10 @@ const ModalContainer = styled.div`
     border: 2px solid rgba(255, 255, 255, 0.15);
     overflow: hidden;
     @media (max-width: 1023px) {
-        width: 95svw;
-        height: 90svh;
+        width: 100svw;
+        height: 100svh;
+        overflow-y: scroll;
+        padding: 1rem 0.5rem 0.5rem 0.5rem;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;

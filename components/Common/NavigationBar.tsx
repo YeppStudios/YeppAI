@@ -8,18 +8,17 @@ import {
   BsFillChatTextFill,
   BsFillFileTextFill,
   BsFillArchiveFill,
-  BsLightbulbFill,
+  BsMegaphoneFill,
 } from "react-icons/bs";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import SlideBottom from "../Animated/SlideBottom";
-import lock from "../../public/images/lock.png";
 import Centered from "../Centered";
-import AddTeammate from "../Modals/AddingModals/AddTeammate";
+import AddTeammate from "../modals/AddingModals/AddTeammate";
 import { selectedUserState } from "../../store/userSlice";
 import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
-import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
+import UpgradeSubscription from "../modals/InformationalModals/UpgradeSubscription";
 import { FaSearch } from "react-icons/fa";
 import { HiMenu } from "react-icons/hi";
 import { motion, useAnimation } from "framer-motion";
@@ -51,12 +50,12 @@ const tabs = [
     path: "/prompts",
     id: "navbar-prompts",
   },
-  {
-    title: "Campaigns",
-    icon: <MdCampaign style={{ height: "100%", width: "auto" }} />,
-    path: "/campaign",
-    id: "navbar-campaign",
-  },
+  // {
+  //   title: "Campaigns",
+  //   icon: <BsMegaphoneFill style={{ height: "100%", width: "auto" }} />,
+  //   path: "/campaign",
+  //   id: "navbar-campaign",
+  // },
 
   {
     title: "Pomysły",
@@ -206,6 +205,8 @@ const NavigationBar = () => {
         <UpgradeSubscription
           onClose={() => setOpenSubscriptionModal(false)}
           closeable={true}
+          purchase={true}
+          landing={false}
         />
       )}
       {mobile && (
@@ -511,6 +512,7 @@ const SelectedNavigationText = styled.div`
   @media (max-width: 1023px) {
     font-size: 1.2rem;
     margin-left: 1rem;
+  }
 `;
 
 const SelectedNavigationTab = styled.div<{ hovered: boolean }>`
@@ -603,6 +605,7 @@ const SwitchIcon = styled.div`
 const PersonName = styled.div`
   font-weight: 600;
   color: black;
+  white-space: nowrap;
   display: flex;
   margin-left: 0.7rem;
   margin-right: 0.5rem;

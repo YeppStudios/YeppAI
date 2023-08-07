@@ -32,7 +32,7 @@ import { MdTitle } from 'react-icons/md';
 import CustomDropdown from '@/components/forms/CustomDropdown';
 
 const types = ["article", "blog", "guide", "ranking"];
-const languagesList = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Ukraiński", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski"];
+const languagesList = ["Polish", "English", "Spanish", "French", "Italian", "Ukrainian", "German", "Chinese", "Bulgarian", "Russian"];
 const tones = ["Formal", "Friendly", "Informative", "Persuasive", "Scientific", "Lifestyle"];
 
 const CopywritingModal = (props: {
@@ -71,7 +71,7 @@ const CopywritingModal = (props: {
     const [selectedLinksError, setSelectedLinksError] = useState(false);
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [searchResults, setSearchResults] = useState<any[]>([]);
-    const [length, setLength] = useState("750");
+    const [length, setLength] = useState("5000");
     const [peopleAlsoAsk, setPeopleAlsoAsk] = useState<{question: string, snippet: string, title: string}[]>([]);
     const [tabInput, setTabInput] = useState<string>("");
     const [conspectText, setConspectText] = useState<string>("");
@@ -588,6 +588,7 @@ const CopywritingModal = (props: {
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
           props.setConspect(completionJSON);
           try {
+            console.log(links);
             const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
               urls: [links[0]]
             }, {
@@ -595,6 +596,7 @@ const CopywritingModal = (props: {
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
               }
             });
+            console.log(scrapingResponse.data);
             props.setEmbeddedVectorIds(scrapingResponse.data.ids)
           } catch (e) {
             console.log(e);
@@ -620,7 +622,7 @@ const CopywritingModal = (props: {
                     <BackArrow selectedTab={step}>   
                         <BackBtn onClick={() => setStep(step - 1)}>
                             <BackBtnIcon>
-                                <BsChevronLeft style={{ width: "250%", height: "auto" }} />
+                                <BsChevronLeft style={{ width: "200%", height: "auto" }} />
                             </BackBtnIcon> 
                         </BackBtn>
                     </BackArrow>
@@ -630,12 +632,12 @@ const CopywritingModal = (props: {
             </CloseIcon>
             {step === 1 &&
                 <div>
-                    <Centered>
-                    <Icon>
-                        <Image style={{ width: "auto", height: "100%" }}  src={articleIcon} alt={'article_icon'}></Image>
-                    </Icon>
-                    </Centered>
-                    <Title>What do you want to write?</Title>
+                    <Title>
+                      <Icon>
+                          <Image style={{ width: "auto", height: "100%" }}  src={articleIcon} alt={'article_icon'}></Image>
+                      </Icon>
+                      What do you want to write?
+                    </Title>
                     <div>
                         <div style={{width: "100%"}}>
                           <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
@@ -696,10 +698,11 @@ const CopywritingModal = (props: {
                                   <LabelIcon>
                                       <BsFillMicFill style={{width: "100%", height: "auto"}}/>
                                   </LabelIcon>
-                                  <Label>
+                                  <Label className='-mt-2'>
                                       Tone of voice
                                   </Label>
                               </div>
+                              <div className='-mt-3'>
                               <CustomDropdown
                                 id="tones"
                                 type="text"
@@ -710,12 +713,13 @@ const CopywritingModal = (props: {
                                 onChange={props.setToneOfVoice}
                             />
                             </div>
+                            </div>
                             <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                               <LabelIcon>
                                   <FaRuler style={{ width: "100%", height: "auto" }} />
                               </LabelIcon>
-                              <Label>Total words</Label>
+                              <Label>Total characters</Label>
                               </div>
                                 <Input
                                     type="number"
@@ -772,12 +776,12 @@ const CopywritingModal = (props: {
             }      
             {step === 2 &&
             <div>
-                <Centered>
+                <Title>
                 <Icon>
                     <Image style={{ width: "auto", height: "100%" }}  src={linkIcon} alt={'link_icon'}></Image>
                 </Icon>
-                </Centered>
-                <Title>Choose source</Title>
+                Choose source
+                </Title>
                 <div className='mt-4'>
                 <FoldersDropdown />
                 <div style={{width: "100%", marginTop: "2rem"}}>
@@ -848,12 +852,12 @@ const CopywritingModal = (props: {
             }   
             {step === 3 &&
             <div>
-                <Centered>
+                <Title>
                 <Icon>
                     <Image style={{ width: "auto", height: "100%" }}  src={pencilIcon} alt={'link_icon'}></Image>
                 </Icon>
-                </Centered>
-                <Title>Choose header & description</Title>
+                Choose header & description
+                </Title>
                 <div>
                 <div>
                 <div className='flex' onClick={(e) => e.stopPropagation()}>
@@ -975,12 +979,12 @@ const CopywritingModal = (props: {
               </div>
             :
             <div>
-                <Centered>
+                <Title>
                 <Icon>
                     <Image style={{ width: "auto", height: "100%" }}  src={handwritingIcon} alt={'link_icon'}></Image>
                 </Icon>
-                </Centered>
-                <Title>Fine-tune the outline</Title>
+                Fine-tune the outline
+                </Title>
                 <Form autoComplete="off" onSubmit={(e) => submit()}>
                 {headersLoading ?
                 <MultiLineSkeletonLoader lines={4} justifyContent={'left'} />
@@ -1040,7 +1044,7 @@ export default CopywritingModal;
 
 const Container = styled.div<{step: number}>`
     width: ${((props: { step: number; }) => props.step === 3 || props.step === 2) ? "44rem" : "50rem"};
-    padding: 3rem 4.5rem 4rem 4.5rem;
+    padding: 1.5rem 4.5rem 3rem 4.5rem;
     background: white;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
@@ -1104,14 +1108,19 @@ const Form = styled.form`
     width: 100%;
 `
 const Title = styled.h1`
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
-    color: black;
-    font-weight: 700;
-    @media (max-width: 1023px) {
+  margin-bottom: 2.2rem;
+  font-size: 1.2rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 1rem;
+  color: black;
+  font-weight: 700;
+  @media (max-width: 1023px) {
       font-size: 1.7rem;
       line-height: 1.2;
+      width: 95vw;
       margin-top: 2vh;
   }
 `
@@ -1202,9 +1211,9 @@ const EstimatedTime = styled.p`
 `
 
 const Icon = styled.div`
-  width: 3rem;
-  height: 3rem;
-  margin-bottom: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
   @media (max-width: 1023px) {
     margin-bottom: 0rem;
   }
@@ -1341,10 +1350,10 @@ const BtnIcon = styled.div`
 
 const BackArrow = styled.button<{selectedTab: any}>`
     background: transparent;
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1rem;
+    height: 1rem;
     position: absolute;
-    top: 1rem;
+    top: 0.5rem;
     left: 1.5rem;
     z-index: 10;
     color: black;
