@@ -20,9 +20,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import DeleteDoc from '../Modals/DeletingModals/DeleteDocModal';
-const tabs = [
-  { name: 'All', href: '#', current: true },
-]
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -68,6 +65,7 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
   const [openDeleteContent, setOpenDeleteContent] = useState(false);
   const [contentToDelete, setContentToDelete] = useState("");
   const [mobile, setMobile] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("Templates")
 
   const router = useRouter();
 
@@ -223,20 +221,28 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
                     <div className="border-b border-gray-200">
                       <div className="px-6">
                         <nav className="-mb-px flex space-x-6" x-descriptions="Tab component">
-                          {tabs.map((tab) => (
-                            <a
-                              key={tab.name}
-                              href={tab.href}
+                            <div
+                              onClick={() => setSelectedTab("Templates")}
                               className={classNames(
-                                tab.current
+                                selectedTab === "Templates"
                                   ? 'border-blue-500 text-blue-600'
                                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                                'whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium'
+                                'whitespace-nowrap border-b-2 px-1 pb-4 cursor-pointer text-sm font-medium'
                               )}
                             >
-                              {tab.name}
-                            </a>
-                          ))}
+                              Templates
+                            </div>
+                            <div
+                              onClick={() => setSelectedTab("Campaigns")}
+                              className={classNames(
+                                selectedTab === "Campaigns"
+                                  ? 'border-blue-500 text-blue-600'
+                                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                                'whitespace-nowrap border-b-2 cursor-pointer px-1 pb-4 text-sm font-medium'
+                              )}
+                            >
+                              Campaigns
+                            </div>
                         </nav>
                       </div>
                     </div>

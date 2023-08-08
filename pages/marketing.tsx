@@ -50,9 +50,8 @@ import { useSelector } from "react-redux";
 import api from "./api";
 import Image from "next/image";
 import Dropdown from "@/components/forms/Dropdown";
-import Space from "@/components/Docs/common/Space";
-import { FaPlus } from "react-icons/fa";
 import { CampaignModal } from "@/components/Marketing/Campaigns/CampaignModal";
+import campaignIcon from "../public/images/campaignIcon.png";
 
 const breakpointColumnsObj = {
   default: 4,
@@ -210,7 +209,7 @@ const ContentCreator = () => {
                 </PageDescription>
               </div>
               <ActionContainer>
-                <BlueBtn onClick={() => setOpenCampaignModal(true)}><FaPlus className="mr-2"/>New Campaign</BlueBtn>
+                <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
                 <ActionBtn onClick={() => setOpenSaved(true)} square={true}>
                   <ActionBtnIcon>
                     <BsBookmarkStarFill
@@ -446,35 +445,34 @@ const BtnText = styled.p`
   font-size: 0.75rem;
 `;
 
+const BtnIcon = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-left: 1rem;
+  margin-top: 0.2rem;
+`
+
 const BlueBtn = styled.div`
-    width: 14rem;
-    height: 3.5rem;
-    margin-left: 1.4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
-    border: solid 3px transparent;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    position: relative;
-    white-space: nowrap;
-    color: white;
-    font-weight: 700;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 110%;
-    background-position-x: -0.5rem;
-    align-items: center;
-    transition: all 0.4s ease;
-    cursor: pointer;
-    &:hover {
-      box-shadow: none;
-      transform: scale(0.95);
-    }
-    @media (max-width: 1023px) {
-      margin-left: 0;
-      margin-right: 0rem;
-      margin-top: 1rem;
-    }
+  padding: 0rem 1.5rem};
+  margin-left: 1.4rem;
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  align-items: center;
+  color: black;
+  border: 2px solid #eaedf5;
+  border-radius: 15px;
+  box-shadow: 0px 2px 8px rgba(15, 27, 255, 0.3);
+  align-items: center;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  &:hover {
+    box-shadow: none;
+    transform: scale(0.95);
+  }
+  @media (max-width: 1023px) {
+    margin-left: 0;
+    margin-right: 0.75rem;
+    margin-top: 1rem;
+  }
 `

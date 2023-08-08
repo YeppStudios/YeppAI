@@ -8,27 +8,38 @@ interface categoryDropdwonProps {
   name: string;
   icon: string;
 }
+interface valueProps {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  author: string;
+  likes: any[];
+  icon: string;
+  query: string;
+  prompt: string;
+}
 
 interface DropdownProps {
   category: categoryDropdwonProps;
-  values: categoryDropdwonProps[];
+  values: valueProps[];
   openedCategory: string;
   setOpenedCategory: any;
-  setAllChosenCategories: any;
+  setChosenTemplates: any;
 }
 
-export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCategory, setOpenedCategory, setAllChosenCategories }) => {
-  const [chosenCategories, setChosenCategories] = useState<string[]>([]);
+export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCategory, setOpenedCategory, setChosenTemplates }) => {
+  const [chosenDropdownTemplates, setChosenDropdownTemplates] = useState<string[]>([]);
 
-  const toggleCategory = (value: string) => {
-    if (chosenCategories.includes(value)) {
+  const toggleTemplate = (value: valueProps) => {
+    if (chosenDropdownTemplates.includes(value.title)) {
       // If the value is already in the array, remove it
-      setChosenCategories((prev) => prev.filter((item) => item !== value));
-      setAllChosenCategories((prev: any) => prev.filter((item: any) => item !== value));
+      setChosenDropdownTemplates((prev) => prev.filter((item: any) => item !== value.title));
+      setChosenTemplates((prev: any) => prev.filter((item: any) => item !== value));
     } else {
       // If the value is not in the array, add it
-      setChosenCategories((prev) => [...prev, value]);
-      setAllChosenCategories((prev: any) => [...prev, value]);
+      setChosenDropdownTemplates((prev) => [...prev, value.title]);
+      setChosenTemplates((prev: any) => [...prev, value]);
     }
   };
 
@@ -61,7 +72,7 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCa
             <Image src={category.icon} alt="icon" width={22} height={22} />
           </div>
           {category.name}
-          {chosenCategories.length > 0 &&<div className="w-5 h-5 rounded-full bg-slate-200 flex justify-center items-center text-xs text-slate-500">{chosenCategories.length}</div>}
+          {chosenDropdownTemplates.length > 0 &&<div className="w-5 h-5 rounded-full bg-slate-200 flex justify-center items-center text-xs text-slate-500">{chosenDropdownTemplates.length}</div>}
         </div>
         {category.name === openedCategory ? <BsChevronUp /> : <BsChevronDown />}
       </div>
@@ -77,15 +88,15 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCa
             return (
               <div
                 key={id}
-                onClick={() => toggleCategory(item.name)}
+                onClick={() => toggleTemplate(item)}
                 className="flex bg-white gap-2 items-center p-2 z-100 hover:bg-slate-100 rounded-xl cursor-pointer"
               >
                 <div>
                   <Image className="rounded-md" src={item.icon} alt="icon" height={20} width={20} />
                 </div>
-                <span className="text-left">{item.name}</span>
+                <span className="text-left">{item.title}</span>
                 <div className="w-4 h-4">
-                  {chosenCategories.includes(item.name) && <TiTick />}
+                  {chosenDropdownTemplates.includes(item.title) && <TiTick />}
                 </div>
               </div>
             );

@@ -246,7 +246,7 @@ const ResultsContainer = (
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: signal,
-              body: JSON.stringify({prompt: promptToSend, temperature: 0.9, title: props.template.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
+              body: JSON.stringify({prompt: promptToSend, temperature: 1, title: props.template.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
             });
       
             if (!response.ok) {
