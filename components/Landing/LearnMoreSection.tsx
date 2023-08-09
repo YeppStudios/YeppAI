@@ -78,7 +78,7 @@ const LearnMoreSection = () => {
             </div>
             <ContactContainer>
                 <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-900">Learn more.</b></Title>
-                <Description>Stay up to date with latest AI trends and learn how to make use of most our latest features.</Description>
+                <Description>Stay up to date with latest AI trends and learn how to make use of our latest features.</Description>
                 <SignupLabel>Join our <b>AI newsletter!</b></SignupLabel>
                 <Form onSubmit={subscribe}>
                     <NewsletterInput value={email} onChange={(e) => setEmail(e.target.value)} placeholder="mail@gmail.com"/>
