@@ -158,7 +158,7 @@ const Homepage = () => {
             />
             <LeftFeature 
                 title="Generate content campaigns at once." 
-                gif="/videos/sales.gif" 
+                gif="/videos/campaigns.gif" 
                 text="Choose desired placements and let AI create the entire content campaign for you."
                 bulletpoints={[ "Social media", "Marketing emails", "Headlines & descriptions"]}
                 color="black"
@@ -238,7 +238,7 @@ const DescriptionHero = styled.p<CustomColor>`
 
 
 const LoginButton = styled.button`
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-top: 3vh;
     padding: 2vh 5vw 2vh 5vw;
     width: 70vw;
@@ -252,11 +252,12 @@ const LoginButton = styled.button`
     font-weight: 700;
     @media (min-width: 1023px) {
       display: none;
+      font-size: 1.2em;
     }
 `
 
 const TestButton = styled.button`
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 2vh 5vw 2vh 5vw;
     width: 70vw;
     border: solid 3px transparent;
@@ -283,6 +284,7 @@ const TestButton = styled.button`
     @media (min-width: 1023px) {
       width: 28rem;
       margin-top: 8vh;
+      font-size: 1.2rem;
       padding: 1.5vh 0vw 1.5vh 0vw;
     }
 `

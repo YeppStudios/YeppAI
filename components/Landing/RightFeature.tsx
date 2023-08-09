@@ -39,6 +39,7 @@ const RightFeature = (props: {
           <FeatureTitle>{props.title}</FeatureTitle>
           <FeatureDescription color={props.color}>
             {!mobile && props.text}
+            {!mobile &&
             <ul className="mt-6">
               {props.bulletpoints.map((item, index, array) => {
                 return (
@@ -49,6 +50,7 @@ const RightFeature = (props: {
                 );
               })}
             </ul>
+            }
           </FeatureDescription>
           {!mobile && (
             <Link href="/assets?registration=true&trial=true">
@@ -109,10 +111,11 @@ const FeatureTitle = styled.h2`
   font-size: 2.5rem;
   font-family: "Satoshi", sans-serif;
   font-weight: 900;
+  line-height: 1.2;
   @media (max-width: 1023px) {
     font-size: 2rem;
-    width: 100%;
-    line-height: 1.2;
+    width: 95%;
+    margin-left: 2.5%;
     text-align: center;
   }
 `;
@@ -132,6 +135,7 @@ const FeatureDescription = styled.p<{ color: string }>`
 
   @media (max-width: 1023px) {
     width: 95vw;
+    margin-left: 2.5vw;
     text-align: center;
     margin-top: 2.5vh;
     font-size: 1.2rem;

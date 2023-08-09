@@ -29,6 +29,7 @@ const LeftFeature = (props: {
           <FeatureTitle>{props.title}</FeatureTitle>
           <FeatureDescription color={props.color}>
             {!mobile && props.text}
+            {!mobile &&
             <ul className="mt-6">
               {props.bulletpoints.map((item, index, array) => {
                 return (
@@ -39,6 +40,7 @@ const LeftFeature = (props: {
                 );
               })}
             </ul>
+            }
           </FeatureDescription>
           {!mobile && (
             <Link href="/assets?registration=true&trial=true">
@@ -99,10 +101,11 @@ const FeatureTitle = styled.h2`
   font-size: 2.5rem;
   font-family: "Satoshi", sans-serif;
   font-weight: 900;
+  line-height: 1.2;
   @media (max-width: 1023px) {
     font-size: 2rem;
     width: 95%;
-    line-height: 1.2;
+    margin-left: 2.5%;
     text-align: center;
   }
 `;
@@ -118,10 +121,10 @@ const FeatureDescription = styled.p<{ color: string }>`
       padding-left: 20px;
     }
   }
-
   color: ${(props) => (props.color === "white" ? "#D1D6E2" : "black")};
   @media (max-width: 1023px) {
     width: 90vw;
+    margin-left: 5vw;
     text-align: center;
     margin-top: 2.5vh;
     font-size: 1.2rem;

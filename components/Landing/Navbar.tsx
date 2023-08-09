@@ -19,7 +19,7 @@ const solutions = [
   { name: 'Marketing Templates', description: 'Get a better understanding of your traffic', href: '#', icon: ClipboardDocumentListIcon },
   { name: 'Copywriting', description: 'Speak directly to your customers', href: '#', icon: DocumentTextIcon },
   { name: 'Chat with data', description: "Your customers' data will be safe and secure", href: '#', icon: ChatBubbleBottomCenterTextIcon },
-  { name: 'Marketing Campaigns', description: 'Effortlessly genrate content for the entire campaign', href: '#', icon: MegaphoneIcon },
+  { name: 'Marketing campaigns', description: 'Effortlessly genrate content for the entire campaign', href: '#', icon: MegaphoneIcon },
   { name: 'Uploading content', description: 'Teach AI about your client or any niche topic', href: '#', icon: FolderArrowDownIcon },
 ]
 
@@ -78,7 +78,7 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                     <Link href="/"><AppName>Yepp AI</AppName></Link>
                 </Container>
                 <Container>
-                <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                {/* <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                     <Popover className="relative">
                         <Popover.Button className="inline-flex items-center gap-x-1 text-sm leading-6 text-black outline-none">
                             <span>Solutions</span>
@@ -127,7 +127,7 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                             </Popover.Panel>
                         </Transition>
                     </Popover>
-                    </NavLink>
+                    </NavLink> */}
                     {pathname.includes("assistant") ?
                         <Link href="/pricing?type=individual"><NavLink>Pricing</NavLink></Link>
                         :
