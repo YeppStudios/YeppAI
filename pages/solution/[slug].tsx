@@ -30,8 +30,6 @@ const SolutionPage = () => {
     }
   }, []);
 
-  console.log(mobile);
-
   return (
     <>
       <Head>
