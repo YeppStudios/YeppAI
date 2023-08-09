@@ -72,7 +72,7 @@ const SolutionPage = () => {
       <PageContent className="lg:px-12 px-4">
         <section className=" h-full lg:border-t-2  lg:border-slate-300  lg:p-8 p-4 relative">
           <div className="flex mt-[10vh] h-full w-full ">
-            {!mobile && (
+            {/* {!mobile && (
               // Adjust bar with dots and tiles with icons
 
               <div className="h-[158vh] mt-36 rounded-full w-2 bg-black overflow-visible relative">
@@ -80,7 +80,7 @@ const SolutionPage = () => {
                 <div className="w-6 h-6 rounded-full absolute top-[47%] bg-black -translate-x-[50%] ml-[.1rem]" />
                 <div className="w-6 h-6 rounded-full absolute bottom-0 bg-black -translate-x-[50%] ml-[.1rem]" />
               </div>
-            )}
+            )} */}
 
             <div className="flex flex-col lg:pt-12 pt-8 lg:gap-[9vw] gap-[12vh]">
               <div className="flex lg:flex-row items-center justify-center flex-col">
