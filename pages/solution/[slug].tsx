@@ -206,9 +206,7 @@ const SolutionPage = () => {
                   <CardText>
                     Our comunity is full of proliftic developers, creative
                     builders, and fantastic teachers. Check out YouTube
-                    tutorials for great tutorials from folks in the comunity,
-                    and Gallery for a list of awesome LangChain projects,
-                    compiled by the folks
+                    tutorials for great tutorials from folks in the comunity
                   </CardText>
                 )}
               </div>
@@ -226,9 +224,7 @@ const SolutionPage = () => {
                   <CardText>
                     Our comunity is full of proliftic developers, creative
                     builders, and fantastic teachers. Check out YouTube
-                    tutorials for great tutorials from folks in the comunity,
-                    and Gallery for a list of awesome LangChain projects,
-                    compiled by the folks
+                    tutorials for great tutorials from folks in the comunity
                   </CardText>
                 )}
               </div>
@@ -246,9 +242,7 @@ const SolutionPage = () => {
                   <CardText>
                     Our comunity is full of proliftic developers, creative
                     builders, and fantastic teachers. Check out YouTube
-                    tutorials for great tutorials from folks in the comunity,
-                    and Gallery for a list of awesome LangChain projects,
-                    compiled by the folks
+                    tutorials for great tutorials from folks in the comunity
                   </CardText>
                 )}
               </div>
@@ -266,9 +260,7 @@ const SolutionPage = () => {
                   <CardText>
                     Our comunity is full of proliftic developers, creative
                     builders, and fantastic teachers. Check out YouTube
-                    tutorials for great tutorials from folks in the comunity,
-                    and Gallery for a list of awesome LangChain projects,
-                    compiled by the folks
+                    tutorials for great tutorials from folks in the comunity
                   </CardText>
                 )}
               </div>
@@ -286,9 +278,7 @@ const SolutionPage = () => {
                   <CardText>
                     Our comunity is full of proliftic developers, creative
                     builders, and fantastic teachers. Check out YouTube
-                    tutorials for great tutorials from folks in the comunity,
-                    and Gallery for a list of awesome LangChain projects,
-                    compiled by the folks
+                    tutorials for great tutorials from folks in the comunity
                   </CardText>
                 )}
               </div>
@@ -312,7 +302,7 @@ const SolutionPage = () => {
 
 const CardText = styled.p`
   padding-top: 0.3vw;
-  font-size: 0.9vw;
+  font-size: 1vw;
   font-weight: 500;
 `;
 
