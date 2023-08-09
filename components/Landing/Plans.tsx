@@ -24,8 +24,8 @@ const plans = [
     {
         title: "Standard", 
         planId: "64ad0d740e40385f299bcef9", 
-        description: "Basic version of Assistant, enhanced skills.", 
-        features: ["200 000 elixir/mo (~100 A4 pages)", "1 AI profile", "10 assets to upload (max 15MB total)", "Single web pages scanning", "Uploading PDF, PPTX, TXT and DOCX", "Chat with your AI", "Marketer AI", "Copywriter AI"],
+        description: "Basic version of Yepp AI, enhanced skills.", 
+        features: ["200 000 elixir/mo (~100 A4 pages)", "1 folder for assets", "10 assets to upload (max 15MB total)", "Single web pages scanning", "Upload PDF, PPTX, TXT, CSV and DOCX", "Chat with your AI", "Marketing templates", "Copywriting feature"],
         price: 79,
         polishPrice: 299, 
         monthlyPriceId: {default: "price_1NaF8EFe80Kn2YGGAuVBGHjh", polish: "price_1NUPqFFe80Kn2YGG0FZyaRXH"}, 
@@ -37,7 +37,7 @@ const plans = [
         title: "Agency",
         planId: "64ad0d250e40385f299bceea",
         description: "Basic version of Assistant, maximum content.",
-        features: ["1M elixir/mo (~520 A4 pages)", "Unlimited client AI profiles", "Unlimited number of assets", "Unlimited storage space", "Unlimited number of teammates", "Access to the latest features", "Dedicated customer support"], 
+        features: ["1M elixir/mo (~520 A4 pages)", "Unlimited folders for assets", "Unlimited number of assets", "Unlimited storage space", "Unlimited number of teammates", "Content Campaign feature", "Access to the latest features", "Dedicated customer support"], 
         price: 249, 
         polishPrice: 799, 
         monthlyPriceId: {default: "price_1NSZghFe80Kn2YGGOiClJUPM", polish: "price_1NUPofFe80Kn2YGG6dYxHNk9"}, 
@@ -211,10 +211,10 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                 </PlanContainer>                   
                             }
                             {plan.title === "Agency" &&
-                                <MiddlePlanContainer backgroundColor="rgba(100, 181, 255, 0.2)" color="black" width="auto">
+                                <MiddlePlanContainer backgroundColor="black" color="white" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText><ColorfulText>{plan.title}</ColorfulText></PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a marketing agency</BriefDescription>
-                                    <MainDescription>Define AI profiles for your clients and streamline the conetnt creation.</MainDescription>
+                                    <MainDescription>Unleash the full potential of the platform and maximize your performance.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
                                     <Price>
@@ -277,7 +277,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                 <PlanContainer backgroundColor="rgba(101, 120, 248, 0.2)" color="black" width="auto">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">📐</span></Emoji><PlanTitleText>{plan.title}</PlanTitleText></PlanTitle>
                                     <BriefDescription>Tailored to your needs</BriefDescription>
-                                    <MainDescription>Unleash the full potential of AI profiles prepared by experts and API access.</MainDescription>
+                                    <MainDescription>Take advantage of individually prepared folders and API access.</MainDescription>
                                     {country === "Poland" && <PriceLabel>Price:</PriceLabel>}
                                     <Price>Individual</Price>
                                     <Centered><Note>pitch us your idea and we will come up with a tailored plan</Note></Centered>
@@ -436,13 +436,11 @@ const PlanContainer = styled.div<PlanContainer>`
 
 const MiddlePlanContainer = styled.div<PlanContainer>`
     width: ${props => props.width || '22vw'};
-    background-color: #0D0E16;
+    background-color: black;
     padding: 4vh 4vh 6vh 4vh;
     height: 100%;
-    border: solid 3px transparent;
     border-radius: 25px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: 3px 3px 6px rgba(22, 27, 29, 0.2);
+    box-shadow: 2px 2px 20px rgba(22, 27, 200, 0.4);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     color: ${props => props.color || 'black'};

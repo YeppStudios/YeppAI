@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'https://asystentai.herokuapp.com/',
+    baseURL: 'http://localhost:3004/',
 })

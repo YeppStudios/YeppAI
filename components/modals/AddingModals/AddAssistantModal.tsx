@@ -485,7 +485,6 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 </CloseIcon>
                 {!loading ? 
                 <div>
-                <Centered>
                     {props.assistantToEdit ?
                         <ModalTitle>Update AI Assistant</ModalTitle>
                         :
@@ -493,8 +492,6 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                             <ModalTitle>Create Your AI</ModalTitle>
                         </>
                     }
-
-                </Centered>
                 <Tabs justifyContent="space-evenly">
                     {selectedTab === 1 ? 
                     <SelectedMainTab><TabIcon><Image style={{ width: "100%", height: "auto" }}  src={bookIcon} alt={'Icon'}></Image></TabIcon>About</SelectedMainTab> 
@@ -733,7 +730,7 @@ const Modal = styled.div`
     width: 54vw;
     border-radius: 25px;
     background: white;
-    padding: 2.4rem 6rem 3rem 6rem;
+    padding: 1.4rem 6rem 3rem 6rem;
     border: 2px solid #E5E8F0;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
     margin-top: 2rem;
@@ -773,14 +770,21 @@ const ModalBackground = styled.div`
     }
 `
 
-const ModalTitle = styled.h2`
-    font-size: 2.2rem;
+const ModalTitle = styled.h1`
+    margin-bottom: 2.2rem;
+    font-size: 1.2rem;
+    width: 53.7vw;
+    margin-left: -6rem;
+    padding-left: 3rem;
+    border-bottom: 1px solid #E5E8F0;
+    padding-bottom: 1rem;
+    color: black;
     font-weight: 700;
-    margin-bottom: 2.5rem;
-    text-align: center;
     @media (max-width: 1023px) {
         font-size: 1.7rem;
         line-height: 1.2;
+        width: 95vw;
+        margin-top: 2vh;
     }
 `
 

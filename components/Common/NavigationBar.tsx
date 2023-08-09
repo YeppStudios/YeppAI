@@ -8,6 +8,7 @@ import {
   BsFillChatTextFill,
   BsFillFileTextFill,
   BsFillArchiveFill,
+  BsMegaphoneFill,
 } from "react-icons/bs";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -22,6 +23,7 @@ import { FaSearch } from "react-icons/fa";
 import { HiMenu } from "react-icons/hi";
 import { motion, useAnimation } from "framer-motion";
 import ColorfulText from "./ColorfulText";
+import { MdCampaign } from "react-icons/md";
 
 const tabs = [
   {
@@ -50,7 +52,7 @@ const tabs = [
   },
   // {
   //   title: "Campaigns",
-  //   icon: <MdCampaign style={{ height: "100%", width: "auto" }} />,
+  //   icon: <BsMegaphoneFill style={{ height: "100%", width: "auto" }} />,
   //   path: "/campaign",
   //   id: "navbar-campaign",
   // },

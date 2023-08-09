@@ -20,6 +20,10 @@ import webBackground from "../public/images/webBackground.png";
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
+import Stats from '@/components/Landing/Stats';
+import reviewsImage from "../public/images/reviews_image.png";
+import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
+import questionmarkIcon from "../public/images/questionmark_icon.png";
 
 interface Background {
   image: any
@@ -66,13 +70,12 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><HeroText>Upload your assets,</HeroText></Centered>
-              <Centered><TypewriterSection /></Centered>
+              <Centered><h1 style={{lineHeight: "1.3"}} className='text-3xl lg:text-7xl max-w-4xl font-black text-center'> Turn your data into <ColorfulText>quality content</ColorfulText> with AI</h1></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
                 <Centered>
               <DescriptionHero color="black">
-                #1 Generative AI tool among marketing agencies.
+                #1 AI marketing platform that knows you and your clients.
               </DescriptionHero>
               </Centered>
               <Centered>
@@ -81,7 +84,6 @@ const Homepage = () => {
                   :
                   <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                 }
-                {!mobile && <FreeConsultationBtn id="demo-btn" href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn>}
               </Centered>
               <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
               <Centered>
@@ -89,7 +91,8 @@ const Homepage = () => {
               </Centered>
               </div>
           </HeroSection>
-          <SlideBottom>
+          <div id="offer"></div>
+                    <SlideBottom>
                 <Centered>
                   <LaptopContainer>
                       <Image style={{ width: "auto", height: "100%" }}  src={laptopVisualization} alt={'preview'}></Image> 
@@ -101,67 +104,81 @@ const Homepage = () => {
                   </IphoneContainerMobile>
                 </Centered>
           </SlideBottom>
-          {mobile && <Centered><FreeConsultationBtn id="demo-btn" href="https://calendly.com/yeppai/yepp-introduction-call">Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>}
+             {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
+            <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
+          <Section>
+            <Stats />
+          </Section>
+
           <Section>
             <Centered>
             <SlideBottom>
             <div id="functionalities"></div>
-            <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
-            <HeroText>
-              <ColorfulText>Reduce workload</ColorfulText> and watch your online presence grow.
-            </HeroText>
+            {!mobile &&
+              <div>
+                <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
+                <HeroText>
+                  Reduce workload and watch your online presence <ColorfulText><b className='font-black'>grow.</b></ColorfulText>
+                </HeroText>
+              </div>
+            }
             <Space margin="5vh"/>
             </SlideBottom>
             </Centered>
             </Section>
             <LeftFeature
-                title="Create Client Profiles" 
+                title="Add context about you and your clients." 
                 gif="/videos/uploading.gif" 
                 text="Upload the content and information about your clients, their industry, products etc."
-                bulletpoints={["Upload PDF, TXT, PPTX & DOCX files", "Transcribe YouTube content", "Scrape websites"]}
+                bulletpoints={["PDF, TXT, PPTX, CSV & DOCX files", "Websites and social media", "YouTube audio"]}
                 color="black"
                 marginTop='3vh'
             />
             <RightFeature 
-                title="Use ready templates" 
+                title="Effortlessly generate catchy content." 
                 gif="/videos/marketer.gif"
-                text="Based on company and industry-specific knowledge:"
-                bulletpoints={["Generate Google Ads", "Create unique posts and product descriptions", "Engineer growth hacking strategies"]}
+                text="Make use of intuitive templates and craft engaging content with ease."
+                bulletpoints={["Social media content", "Product descriptions", "Converting Ads"]}
                 color="black"
             />
             <LeftFeature
-                title="Generate SEO content" 
+                title="Create high-performing SEO content." 
                 gif="/videos/copywriter.gif" 
-                text="Based on company knowledge and current internet trends:"
-                bulletpoints={["Write SEO articles", "Generate insightful blogs", "Craft guides and rankings"]}
+                text="Watch AI write the entire piece inspired by highly ranked articles and your uploaded assets."
+                bulletpoints={["SEO articles", "Insightful blogs", "Guides and rankings"]}
                 color="black"
                 marginTop='3vh'
             />
             <RightFeature 
-                title="Chat with assets" 
+                title="Chat with your uploaded assets." 
                 gif="/videos/dataAssistant.gif"
-                text="Based on the uploaded content:"
-                bulletpoints={["Talk with your company's documents", "Search information about your clients", "Ask your documents for advice"]}
+                text="Cooperate with uploaded files and websites in order to gain ideas and advice in seconds."
+                bulletpoints={["Files", "Websites", "Reports"]}
                 color="black"
             />
-            {/* <LeftFeature 
-                title="Sales" 
-                gif="/videos/sales.gif" 
-                text="Based on knowledge about your clients and your services:"
-                bulletpoints={[ "Identify your target group", "Define your clients' needs", "Create personalized sales emails"]}
+            <LeftFeature 
+                title="Generate content campaigns at once." 
+                gif="/videos/campaigns.gif" 
+                text="Choose desired placements and let AI create the entire content campaign for you."
+                bulletpoints={[ "Social media", "Marketing emails", "Headlines & descriptions"]}
                 color="black"
                 marginTop='3vh'
-            /> */}
-             {!mobile && <Space margin='5rem'/>}
-             {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
-            <Centered>{!mobile && <div className='font-medium mt-4'>Claim ~10 000 words or 7 days for free</div>}</Centered>
-          <div id="offer"></div>
+            />
+          <Section>
+              <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
+              <Centered><Icon><Image src={questionmarkIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
+              <SlideBottom><Centered><HeroText><p className='text-white'>What do marketing agencies say about Yepp?</p></HeroText></Centered></SlideBottom>
+              {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
+              </div>
+
+          </Section>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
-          <Centered><SlideBottom><HeroText>Boost your productivity now.</HeroText></SlideBottom></Centered>
+          <SlideBottom><HeroText>Empower your team with AI.</HeroText></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
-          <Plans openRegistration={true} purchase={false} landing={true}/>
+          <div className='px-[5vw] lg:px-[8vw]'><Plans openRegistration={true} purchase={false} landing={true}/></div>
           </Section>
+          <Centered><FreeConsultationBtn href='https://calendly.com/yeppai/yepp-introduction-call'>Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>
           <Section>
             <div id="newsletter"></div>
             <LearnMoreSection />
@@ -179,10 +196,6 @@ const PageContent = styled.div`
   position: relative;
   height: 100%;
   overflow: hidden;
-  padding: 0 8vw 0 8vw;
-  @media (max-width: 1023px) {
-    padding: 0 5vw 0 5vw;
-  }
 `
 
 const Background = styled.div`
@@ -198,10 +211,12 @@ const HeroSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 9rem;
+  margin-top: 14rem;
+  margin-bottom: 4rem;
   @media (max-width: 1023px) {
     display: flex;
     margin-top: 8rem;
+    margin-bottom: 0rem;
   }
 `
 
@@ -223,7 +238,7 @@ const DescriptionHero = styled.p<CustomColor>`
 
 
 const LoginButton = styled.button`
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-top: 3vh;
     padding: 2vh 5vw 2vh 5vw;
     width: 70vw;
@@ -237,11 +252,12 @@ const LoginButton = styled.button`
     font-weight: 700;
     @media (min-width: 1023px) {
       display: none;
+      font-size: 1.2em;
     }
 `
 
 const TestButton = styled.button`
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 2vh 5vw 2vh 5vw;
     width: 70vw;
     border: solid 3px transparent;
@@ -268,6 +284,7 @@ const TestButton = styled.button`
     @media (min-width: 1023px) {
       width: 28rem;
       margin-top: 8vh;
+      font-size: 1.2rem;
       padding: 1.5vh 0vw 1.5vh 0vw;
     }
 `
@@ -326,12 +343,11 @@ const ColorfulText = styled.span`
 `
 
 const MiniTitle = styled.p`
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-bottom: 0.75rem;
     text-align: center;
     padding: 1rem 4rem 1rem 4rem;
     border-radius: 25px;
-    background: #F0F3F8;
     font-weight: 700;
     @media (max-width: 1023px) {
         font-size: 0.8rem;
@@ -372,3 +388,9 @@ const FreeConsultationBtn = styled.a`
       margin-left: 1rem;
     }
 `
+const Icon = styled.div`
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.25rem;
+`
+

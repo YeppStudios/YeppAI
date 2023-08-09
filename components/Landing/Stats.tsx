@@ -1,167 +1,74 @@
-import styled from "styled-components";
-import Centered from "../Centered";
-import Image from "next/image";
-import costImage from "../../public/images/money.png"
-import mobileComparisonImage from "../../public/images/mobileComparisonImage.png"
-import pieChart from "../../public/images/pieChart.png"
-import ColorfulText from "../Common/ColorfulText";
-import { useEffect, useState } from "react";
-import SlideBottom from "../Animated/SlideBottom";
+import styled from "styled-components"
+import SlideBottom from "../Animated/SlideBottom"
+import SlideLeft from "../Animated/SlideLeft"
 
-const ContextSection = () => {
-    const [mobile, setMobile] = useState(false);
-    
-    useEffect(() => {
-        if(window.innerWidth <= 1023){
-          setMobile(true);
-        }
-      }, []);
+const stats = [
+    { id: 1, name: 'Platform users', value: '2,650+' },
+    { id: 2, name: 'Marketing agencies', value: '40+' },
+    { id: 3, name: 'Avg. content creation', value: '10x faster' },
+    { id: 4, name: 'Drafts crafted', value: '200,000+' },
+  ]
+  
+  export default function Example() {
     return (
-        <Centered>
-            <Containers>
+      <Container>
+        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80"></div>
+        <div
+            className="absolute -bottom-8 -left-96 transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
+            aria-hidden="true"
+          >
+            <div
+              className="aspect-[1266/975] w-[79.125rem] bg-gradient-to-tr from-[#6578F8] to-[#64B5FF] opacity-40"
+              style={{
+                clipPath:
+                  'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+              }}
+            />
+          </div>
+        <img
+          src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80"
+          alt=""
+          className="absolute inset-0 -z-10 h-full w-full object-cover"
+        />
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-2xl">
+            <SlideLeft>
+            <p className="mt-2 text-[1.75rem] font-bold text-white sm:text-6xl">
+              Trusted by thousands of marketers worldwide
+            </p>
+            </SlideLeft>
+            <SlideLeft>
+            <p className="mt-6 text-lg lg:text-xl leading-8 text-gray-300">
+            At the forefront of the AI revolution, Yepp AI is transforming the game, empowering marketers to craft top-notch, deeply insightful content like never before.
+            </p>
+            </SlideLeft>
+          </div>
+          
+          <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
+            {stats.map((stat) => (
+                <div key={stat.id} className="flex flex-col gap-y-3 border-l border-white/10 lg:pl-6">
                 <SlideBottom>
-                <BottomContainer>
-                    <BottomContainerTitle>Asystent generuje treści średnio <ColorfulText>98% taniej</ColorfulText></BottomContainerTitle>
-                    <Table>
-                    {!mobile &&
-                   <ComparisonTitles>
-                        <ComparisonTitle>Copywriter</ComparisonTitle>
-                        <ColorfulText><ComparisonTitle>Asystent</ComparisonTitle></ColorfulText>
-                    </ComparisonTitles>                        
-                    }
-                    {!mobile ?
-                    <ComparisonContainer>
-                        <TableHeader>150 słów</TableHeader>
-                        <TableHeader>Artykut SEO</TableHeader>
-                        <TableHeader>Mail sprzedażowy</TableHeader>
-                        <Stat>30 zł</Stat>
-                        <Stat>60 zł</Stat>
-                        <Stat>40 zł</Stat>
-                        <Stat>40 <ColorfulText>gr</ColorfulText></Stat>
-                        <Stat>80 <ColorfulText>gr</ColorfulText></Stat>
-                        <Stat>10 <ColorfulText>gr</ColorfulText></Stat>
-                    </ComparisonContainer>              
-                    :
-                    <MobileComparisonImage>
-                        <Image style={{ width: "100%", height: "auto" }}  src={mobileComparisonImage} alt={'illustration'}></Image> 
-                    </MobileComparisonImage>   
-                    }
-   
-                    </Table>
-                </BottomContainer>
-                </ SlideBottom>
-            </Containers>
-        </Centered>
+                <dt className="text-base leading-6">{stat.name}</dt>
+                <dd className="order-first text-4xl font-semibold tracking-tight">{stat.value}</dd>
+                </SlideBottom>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </Container>
     )
+  }
+  
 
-}
-
-export default ContextSection;
-
-
-const Containers = styled.div`
-    display: flex;
-    width: 80vw;
-    flex-wrap: wrap;
-    @media (max-width: 1023px) {
-        width: 95vw;
-    }
-`
-
-const BottomContainer = styled.div`
-    width: 80vw;
-    padding: 2rem 0 3rem 2rem;
-    background-color: #F0F3F8;
-    border-radius: 25px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    @media (max-width: 1023px) {
-        padding: 2rem 2rem 3rem 2rem;
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-    }
-`
-
-const BottomContainerTitle = styled.h2`
-    font-size: 6vh;
-    font-weight: 700;
-    text-align: center;
-    width: 60%;
-    margin-bottom: 2rem;
-    @media (max-width: 1023px) {
-        width: 100%;
-        font-size: 4.5vh;
-        line-height: 1.4;
-        margin-left: 0;
-    }
-`
-
-const Table = styled.div`
-   width: 100%;
-   display: flex;
-   @media (max-width: 1023px) {
-    flex-wrap: wrap;
-    justify-content: center;
-}
-`
-const ComparisonContainer = styled.div`
-    height: 60%;
-    flex: 1;
-    display: grid; 
-    grid-template-columns: 1fr 1fr 1fr; 
-    grid-template-rows: 0.6fr 1.2fr 1.2fr; 
-    gap: 0px 0px; 
-    grid-template-areas: 
-    ". . ."
-    ". . ."
-    ". . ."; 
-    @media (max-width: 1023px) {
-        height: auto;
-        display: flex;
-        flex-wrap: wrap;
-    }
-`
-
-const ComparisonTitles = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    width: 25%;
-    @media (max-width: 1023px) {
-        width: 100%;
-        flex-wrap: nowrap;
-    }
-`
-
-const ComparisonTitle  = styled.h2`
-    font-size: 1.75vw;
-    margin-left: 2rem;
-    font-weight: 700;
-    width: 100%;
-    height: 1%;
-    @media (max-width: 1023px) {
-        width: 40%;
-        font-size: 1rem;
-        white-space: nowrap;
-        margin-left: 0rem;
-    }
-`
-
-const TableHeader = styled.p`
-    font-weight: 500;
-    margin-top: 0.7rem;
-    font-size: 1.2vw;
-`
-
-const Stat = styled.p`
-    font-weight: 700;
-    margin-top: 0.7rem;
-    font-size: 2vw;
-`
-
-const MobileComparisonImage = styled.div`
-    width: 100%;
-    height: auto;
-`
+  const Container = styled.div`
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 8em 0 10rem 0;
+    -webkit-mask: 
+    // linear-gradient(to top,    black 90%, transparent) top   /100% 51%,
+    // linear-gradient(to bottom, black 90%, transparent) bottom/100% 50%,
+    // linear-gradient(to left  , black, transparent) left  /100% 0%,
+    // linear-gradient(to right , black, transparent) right /100% 0%;
+    // -webkit-mask-repeat:no-repeat;
+  `

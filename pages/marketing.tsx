@@ -43,13 +43,15 @@ import Masonry from "react-masonry-css";
 import {
   BsBookmarkStarFill,
   BsFillArchiveFill,
+  BsPlusLg,
 } from "react-icons/bs";
 import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
 import api from "./api";
 import Image from "next/image";
 import Dropdown from "@/components/forms/Dropdown";
-import Space from "@/components/Docs/common/Space";
+import { CampaignModal } from "@/components/Marketing/Campaigns/CampaignModal";
+import campaignIcon from "../public/images/campaignIcon.png";
 
 const breakpointColumnsObj = {
   default: 4,
@@ -79,6 +81,7 @@ const ContentCreator = () => {
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const [selectedTemplate, setSelectedTemplate] = useState<any>();
   const [templateCategories, setTemplateCategories] = useState<string[]>([]);
+  const [openCampaignModal, setOpenCampaignModal] = useState(false);
 
   const { query } = router;
 
@@ -205,8 +208,10 @@ const ContentCreator = () => {
                   Unleash the potential of AI in marketing.
                 </PageDescription>
               </div>
-
               <ActionContainer>
+                {!mobile &&
+                <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
+                }
                 <ActionBtn onClick={() => setOpenSaved(true)} square={true}>
                   <ActionBtnIcon>
                     <BsBookmarkStarFill
@@ -214,18 +219,6 @@ const ContentCreator = () => {
                     />
                   </ActionBtnIcon>
                 </ActionBtn>
-                {userPlan && userPlan._id !== "647895cf404e31bfe8753398" && (
-                  <ActionBtn
-                    onClick={() => router.push("/assets")}
-                    square={true}
-                  >
-                    <ActionBtnIcon>
-                      <BsFillArchiveFill
-                        style={{ width: "auto", height: "100%" }}
-                      />
-                    </ActionBtnIcon>
-                  </ActionBtn>
-                )}
                 {mobile &&
                 <div className="mt-4 ml-2 w-full flex">
                 <Dropdown
@@ -240,6 +233,9 @@ const ContentCreator = () => {
                 </div>
                 }
               </ActionContainer>
+              {mobile &&
+                <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
+              }
             </Header>
           )}
           {(currentPage === "menu" && !mobile) && (
@@ -258,7 +254,7 @@ const ContentCreator = () => {
                       className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl m-2 px-10 py-6 flex items-center justify-center gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 ${
                         currentCategory === category.category
                           ? "border-2  border-blue-400"
-                          : "border border-gray-100 shadow-lg"
+                          : "shadow-md"
                       }`}
                       key={category._id}
                       onClick={() => HandleCategoryChange(category.category)}
@@ -274,6 +270,11 @@ const ContentCreator = () => {
                   );
                 })}
             </div>
+          )}
+          {openCampaignModal && (
+            <CampaignModal
+              setOpenCreateCampaignModal={setOpenCampaignModal}
+            />
           )}
           {currentPage === "post" && (
             <PostPage back={back} query={query} template={selectedTemplate}/>
@@ -436,3 +437,40 @@ const BtnText = styled.p`
   margin-left: 1rem;
   font-size: 0.75rem;
 `;
+
+const BtnIcon = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-left: 1rem;
+  margin-top: 0.2rem;
+`
+
+const BlueBtn = styled.div`
+  padding: 0rem 2rem;
+  margin-left: 1.4rem;
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  align-items: center;
+  color: white;
+  border: 2px solid #eaedf5;
+  border-radius: 15px;
+  border: solid 3px transparent;
+  background: linear-gradient(40deg, #6578F8, #64B5FF);
+  background-size: 110%;
+  background-position-x: -0.5rem;
+  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
+  align-items: center;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  &:hover {
+    box-shadow: none;
+    transform: scale(0.95);
+  }
+  @media (max-width: 1023px) {
+    margin-left: 0;
+    height: 3.5rem;
+    margin-right: 0.75rem;
+    margin-top: 1rem;
+  }
+`

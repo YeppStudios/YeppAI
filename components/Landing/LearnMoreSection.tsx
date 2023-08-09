@@ -6,8 +6,6 @@ import { showNotification } from '@mantine/notifications';
 import { Loader } from "../Common/Loaders";
 import { BsCheckLg } from "react-icons/bs";
 import api from "@/pages/api";
-import Image from "next/image";
-import thinArrow from "../../public/images/thinArrow.png";
 
 const LearnMoreSection = () => {
 
@@ -73,7 +71,7 @@ const LearnMoreSection = () => {
     return (
         <Section>
             <div style={{width: "100%"}}>
-                <Accordion openedAccordion={openedAccordion} index={1} onClick={() => setOpenedAccordion(1)} question="Is the uploaded conent safe?" answer={"Yes, as a SaaS platform we do not store the files you upload. We only use them to create an embedding for the AI Assistant based on a vector database, to which only you have access from your account."} backgroundColor="rgba(0, 141, 255, 0.1)"/>
+                <Accordion openedAccordion={openedAccordion} index={1} onClick={() => setOpenedAccordion(1)} question="Is the uploaded content safe?" answer={"Yes, as a SaaS platform we do not store the files you upload. We only use them to create an embedding for the AI Assistant based on a vector database, to which only you have access from your account."} backgroundColor="rgba(0, 141, 255, 0.1)"/>
                 <Accordion openedAccordion={openedAccordion} index={2} onClick={() => setOpenedAccordion(2)} question="What is elixir?" answer={"Elixir is used for generating content. It is consumed by AI to generate content and understand your questions."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
                 <Accordion openedAccordion={openedAccordion} index={3} onClick={() => setOpenedAccordion(3)} question="Can I cancel my subscription?" answer={"Subscription renews every month starting from the purchase date and can be canceled at any time so that payment will not be collected for the next month."} backgroundColor="rgba(0, 141, 255, 0.1)"/>
                 <Accordion openedAccordion={openedAccordion} index={4} onClick={() => setOpenedAccordion(4)} question="Doesn't it generate the same content for everyone?" answer={"No. Yepp is creative and generates unique and tailored content for each query."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
@@ -99,10 +97,7 @@ const LearnMoreSection = () => {
                 </Form>
                 <Description className="justify-center lg:justify-start">or</Description>
                 <a href="https://calendly.com/yeppai/yepp-introduction-call">
-                <div className="flex items-center"><b className="cursor-pointer">Schedule a 30 minute demo</b>
-                    <LearnMoreArrow>
-                    <Image style={{ width: "auto", height: "100%" }}  src={thinArrow} alt={'arrow'}></Image> 
-                </LearnMoreArrow>
+                <div className="flex items-center"><b className="cursor-pointer">Book a free demo</b>
                 </div>
                 </a>
             </ContactContainer>
@@ -118,11 +113,14 @@ const Section = styled.div`
     grid-template-columns: 1.2fr 0.8fr; 
     grid-template-rows: 1fr; 
     gap: 0px 0px; 
+    padding-left: 8vw;
     grid-template-areas:
       ". ."; 
       @media (max-width: 1023px) {
         display: flex;
+        padding-left: 0;
         flex-wrap: wrap;
+        width: 90vw;
       }
 `
 
@@ -193,7 +191,16 @@ const SignupButton = styled.button`
     height: 6.5vh;
     margin-left: 1.5vw;
     background-color: #0D0E16;
-    border-radius: 20px;
+    border: solid 3px transparent;
+    border-radius: 25px;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
+      inset -2px -2px 4px #fafbff, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    align-items: center;
+    background: linear-gradient(40deg, #6578f8, #64b5ff);
+    background-size: 120%;
+    background-position-x: -1rem;
     margin-top: 1vh;
     font-weight: 700;
     width: 9vw;
