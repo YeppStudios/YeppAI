@@ -71,7 +71,7 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><h1 style={{lineHeight: "1.3"}} className='text-3xl lg:text-7xl max-w-4xl font-black text-center'> Turn your data into <ColorfulText>quality content</ColorfulText> with AI</h1></Centered>
+              <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-3xl lg:text-7xl max-w-4xl font-black text-center'> Turn your data into <ColorfulText>quality content</ColorfulText> with AI</h1></SlideBottom></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
                 <Centered>
