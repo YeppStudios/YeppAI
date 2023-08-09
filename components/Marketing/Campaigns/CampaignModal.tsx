@@ -22,7 +22,6 @@ import {
   import BackBtn from '@/components/Common/BackBtn';
   import BackBtnIcon from '@/components/Common/BackBtnIcon';
   import { CampaignDropdown } from "./CampaignDropdown";
-  import ModalBackground from "@/components/Modals/common/ModalBackground";
   import SlideBottom from "@/components/Animated/SlideBottom";
   import { Textarea } from "@mantine/core";
   import CustomDropdown from "@/components/forms/CustomDropdown";
@@ -136,6 +135,13 @@ import {
     const [loading, setLoading] = useState<boolean>(false);
     const user = useSelector(selectedUserState);
     let selectedFolders: any[] = useSelector(selectFoldersState);
+    const [mobile, setMobile] = useState(true);
+
+    useEffect(() => {
+      if (window.innerWidth >= 1023) {
+        setMobile(false);
+      }
+    }, [])
     
     const filteredDropdownCategories = templates
       .filter((category, index, self) => {
@@ -298,7 +304,7 @@ import {
     }
   
     return (
-      <ModalBackground onClose={() => setOpenCreateCampaignModal(false)} closeable={true}>
+      <ModalBackground>
         <SlideBottom>
         <ModalContainer onClick={(e) => handleModalClick(e)} step={step} className="relative ">
           <div className="flex w-full justify-between">
@@ -309,6 +315,7 @@ import {
           <Title>
             {renderStepText()}
           </Title>
+          {!mobile &&
           <div className="flex gap-8 items-center justify-center flex-wrap mb-8">
             {sections.map((section, index) => {
               if (step === section.stepNumber) {
@@ -327,6 +334,7 @@ import {
                 );
             })}
           </div>
+          }
           {step === 1 && (
             <div className="flex justify-around flex-col">
               {loadingCategories ?
@@ -369,7 +377,7 @@ import {
           )}
           {step === 2 && (
             <div>
-              <div className="grid grid-cols-2">
+              <div className="md:grid md:grid-cols-2">
                 <div className="pb-6 pr-3 pl-3 pt-0">
                   <Label>Title</Label>
                   <Input
@@ -520,12 +528,43 @@ import {
       border-radius: 25px;
       cursor: auto;
       overflow: visible;
+      margin-top: 2.5rem;
       @media (max-width: 1023px) {
-          width: 90vw;
+          width: 95vw;
           padding: 4vh 5vw 5vh 5vw;
           box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.15);
+          margin-top: 2rem;
+          margin-bottom: 6rem;
       }
   `
+
+  const ModalBackground = styled.div`
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    flex-wrap: wrap;
+    backdrop-filter: blur(7px);
+    z-index: 100;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    overflow: scroll;
+        &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    color: black;
+    @media (max-width: 1023px) {
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        width: 100vw;
+        overflow-x: hidden;
+    }
+`
+
   const Title = styled.h1`
       margin-bottom: 2.2rem;
       font-size: 1.2rem;
@@ -537,11 +576,10 @@ import {
       color: black;
       font-weight: 500;
       @media (max-width: 1023px) {
-        font-size: 1.7rem;
+        font-size: 1rem;
         line-height: 1.2;
-        margin-top: 2vh;
         width: 90vw;
-        margin-left: -3vw;
+        margin-left: -2.5rem;
     }
   `
   

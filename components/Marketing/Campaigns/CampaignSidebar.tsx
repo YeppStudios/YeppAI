@@ -179,7 +179,7 @@ export default function CampaignSidebar(props: {
                           {/*content*/}
                           <form className="" onSubmit={(e) => updateCampaign(e)}>
                             <div className="grid grid-cols-1">
-                              <div className="grid grid-cols-2">
+                              <div className="grid lg:grid-cols-2">
                                 <div className="pb-6 pr-3 pl-3 pt-0">
                                   <Label>Campaign type</Label>
                                   <CustomDropdown
@@ -267,7 +267,7 @@ export default function CampaignSidebar(props: {
                                   />
                                 </div>
                               </div>
-                              <div className="grid grid-cols-2">
+                              <div className="grid lg:grid-cols-2">
                                 <div className="pb-6 pr-3 pl-3 pt-0">
                                   <Label className="pb-2">
                                     Use relevant emojis

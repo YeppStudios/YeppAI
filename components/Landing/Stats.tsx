@@ -3,10 +3,10 @@ import SlideBottom from "../Animated/SlideBottom"
 import SlideLeft from "../Animated/SlideLeft"
 
 const stats = [
-    { id: 1, name: 'Platform users', value: '2,500+' },
-    { id: 2, name: 'Marketing agencies', value: '30+' },
-    { id: 3, name: 'Uptime guarantee', value: '99.9%' },
-    { id: 4, name: 'Words generated', value: '20,000,000+' },
+    { id: 1, name: 'Platform users', value: '2,650+' },
+    { id: 2, name: 'Marketing agencies', value: '40+' },
+    { id: 3, name: 'Avg. content creation', value: '10x faster' },
+    { id: 4, name: 'Drafts created', value: '200,000+' },
   ]
   
   export default function Example() {
@@ -34,13 +34,12 @@ const stats = [
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-2xl">
             <SlideLeft>
             <p className="mt-2 text-3xl font-bold text-white sm:text-6xl">
-              Trusted by thousands of creators&nbsp;worldwide
+              Trusted by thousands of marketers&nbsp;worldwide
             </p>
             </SlideLeft>
             <SlideLeft>
             <p className="mt-6 text-xl leading-8 text-gray-300">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste
-              dolor cupiditate blanditiis ratione.
+            At the forefront of the AI revolution, Yepp AI is transforming the game, empowering marketers to craft top-notch, deeply insightful content like never before.
             </p>
             </SlideLeft>
           </div>

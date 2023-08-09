@@ -101,7 +101,7 @@ const FeatureTitle = styled.h2`
   font-weight: 900;
   @media (max-width: 1023px) {
     font-size: 2rem;
-    width: 100%;
+    width: 95%;
     line-height: 1.2;
     text-align: center;
   }

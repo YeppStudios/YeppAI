@@ -209,7 +209,9 @@ const ContentCreator = () => {
                 </PageDescription>
               </div>
               <ActionContainer>
+                {!mobile &&
                 <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
+                }
                 <ActionBtn onClick={() => setOpenSaved(true)} square={true}>
                   <ActionBtnIcon>
                     <BsBookmarkStarFill
@@ -217,18 +219,6 @@ const ContentCreator = () => {
                     />
                   </ActionBtnIcon>
                 </ActionBtn>
-                {userPlan && userPlan._id !== "647895cf404e31bfe8753398" && (
-                  <ActionBtn
-                    onClick={() => router.push("/assets")}
-                    square={true}
-                  >
-                    <ActionBtnIcon>
-                      <BsFillArchiveFill
-                        style={{ width: "auto", height: "100%" }}
-                      />
-                    </ActionBtnIcon>
-                  </ActionBtn>
-                )}
                 {mobile &&
                 <div className="mt-4 ml-2 w-full flex">
                 <Dropdown
@@ -243,6 +233,9 @@ const ContentCreator = () => {
                 </div>
                 }
               </ActionContainer>
+              {mobile &&
+                <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
+              }
             </Header>
           )}
           {(currentPage === "menu" && !mobile) && (
@@ -453,16 +446,20 @@ const BtnIcon = styled.div`
 `
 
 const BlueBtn = styled.div`
-  padding: 0rem 1.5rem};
+  padding: 0rem 2rem;
   margin-left: 1.4rem;
   display: flex;
   justify-content: center;
   font-weight: 700;
   align-items: center;
-  color: black;
+  color: white;
   border: 2px solid #eaedf5;
   border-radius: 15px;
-  box-shadow: 0px 2px 8px rgba(15, 27, 255, 0.3);
+  border: solid 3px transparent;
+  background: linear-gradient(40deg, #6578F8, #64B5FF);
+  background-size: 110%;
+  background-position-x: -0.5rem;
+  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
   align-items: center;
   transition: all 0.4s ease;
   cursor: pointer;
@@ -472,6 +469,7 @@ const BlueBtn = styled.div`
   }
   @media (max-width: 1023px) {
     margin-left: 0;
+    height: 3.5rem;
     margin-right: 0.75rem;
     margin-top: 1rem;
   }

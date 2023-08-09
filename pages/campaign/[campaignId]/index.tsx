@@ -22,6 +22,7 @@ import NoElixirModal from "@/components/Modals/LimitModals/NoElixir";
 import axios from "axios";
 import { selectedMarketingAssistantState } from "@/store/marketingAssistantSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { showNotification } from "@mantine/notifications";
 
 const breakpointColumnsObj = {
     default: 4,
@@ -459,6 +460,47 @@ const Campaign = () => {
       }
       
     }
+
+
+    const handleCopy = (textToCopy: string) => {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          showNotification({
+            id: 'subscribed',
+            disallowClose: true,
+            autoClose: 5000,
+            title: "Text copied!",
+            message: 'You can now paste it wherever you want.',
+            color: 'black',
+      
+            styles: (theme: any) => ({
+              root: {
+                border: "none",
+      
+              },
+            })
+          })
+        })
+        .catch(err => {
+          showNotification({
+            id: 'error',
+            disallowClose: true,
+            autoClose: 5000,
+            title: "Something went wrong...",
+            message: 'Contact us: hello@asystent.ai',
+            color: 'red',
+      
+            styles: (theme: any) => ({
+              root: {
+                border: "none",
+      
+              },
+            })
+          })
+          console.error(err);
+        });
+    };
+
     
 
     return (
@@ -468,7 +510,7 @@ const Campaign = () => {
             <PageContainer>
                 <CampaignSidebar open={openSidebar} setOpen={setOpenSidebar} campaign={campaign}/>
                 <Header>
-                    <div className="w-full flex items-center justify-between">
+                    <div className="w-full flex items-center justify-between relative">
                     <BackBtn onClick={() => router.push("/marketing")}>
                         <BackBtnIcon>
                             <Image
@@ -482,13 +524,13 @@ const Campaign = () => {
                     <div></div>
                     <div className="text-black flex lg:flex-row flex-col">
                         <button
-                        className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl ml-2 mt-2 sm:px-8 px-4 py-5 flex items-center justify-between  lg:gap-6 gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 shadow-lg`}
+                        className={`h-4 text-black font-bold border-2 border-[#eaedf5] rounded-xl ml-2 mt-1 md:mt-2 sm:px-8 px-4 py-5 flex items-center justify-between  lg:gap-6 gap-2 hover:cursor-pointer hover:scale-95 hover:shadow-none duration-300 shadow-lg`}
                         onClick={() => setOpenSidebar(true)}
                         >
                         <div>
                             <TbAdjustmentsHorizontal className="h-6 w-6" />
                         </div>
-                        <span>Capmaign settings</span>
+                        <span>Campaign settings</span>
                         </button>
                     </div>
                     </div>
@@ -513,7 +555,7 @@ const Campaign = () => {
                         return (
                             <div
                             style={{boxShadow: "0px 4px 10px rgba(15, 27, 40, 0.15)"}}
-                            className={classNames((expandedCategories.includes(template.data.title) || loadingTemplates.includes(template.data._id)) ? "" : "hover:scale-95 hover:shadow-none duration-300", `h-auto text-black font-bold border-2 border-[#eaedf5] rounded-2xl mt-[1rem] mx-[0.5rem] px-8 py-4 flex flex-col items-center justify-between gap-2 hover:cursor-pointer`)}
+                            className={classNames((expandedCategories.includes(template.data.title) || loadingTemplates.includes(template.data._id)) ? "" : "hover:scale-95 hover:shadow-none duration-300", `h-auto text-black font-bold border-2 border-[#eaedf5] rounded-2xl mt-[1rem] mx-[0.5rem] px-8 py-4 flex flex-col items-center bg-white justify-between gap-2 hover:cursor-pointer`)}
                             key={template.data._id}
                             onClick={() => toggleTemplateExpansion(template.data.title, template.data._id)}
                             >
@@ -565,7 +607,7 @@ const Campaign = () => {
                                           :
                                           <div></div>
                                         }
-                                        <button className="flex gap-4 items-center text-gray-500 hover:text-gray-900 hover:scale-95 transition ease-in">
+                                        <button onClick={() => handleCopy(text)} className="flex gap-4 items-center text-gray-500 hover:text-gray-900 hover:scale-95 transition ease-in">
                                         <MdContentCopy className="h-6 w-6" />
                                         </button>
                                     </div>
@@ -592,7 +634,7 @@ const Campaign = () => {
                                           :
                                           <div></div>
                                         }
-                                      <button className="flex gap-4 items-center text-gray-500 hover:text-gray-900 hover:scale-95 transition ease-in">
+                                      <button  onClick={() => handleCopy(template.text)} className="flex gap-4 items-center text-gray-500 hover:text-gray-900 hover:scale-95 transition ease-in">
                                       <MdContentCopy className="h-6 w-6" />
                                       </button>
                                   </div>
@@ -626,7 +668,7 @@ const Header = styled.div`
   padding-bottom: 2rem;
   @media (max-width: 1023px) {
     display: flex;
-    padding: 1.5rem 1rem;
+    padding: 1rem 1rem 1.5rem 1rem;
     border-radius: 25px;
     box-shadow: 0px 4px 10px rgba(15, 27, 40, 0.15);
     flex-wrap: wrap;
@@ -663,6 +705,9 @@ const SectionsContainer = styled(Masonry)`
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 1rem;
+  @media (max-width: 1023px) {
+    padding: 1rem 0 1rem 0;
+  }
 `;
 
 const PostContentForm = styled.textarea`
