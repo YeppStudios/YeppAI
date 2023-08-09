@@ -14,23 +14,23 @@ const SolutionPage = () => {
   const [mobile, setMobile] = useState(true);
 
   useEffect(() => {
-    if (window.innerWidth >= 1023) {
-      setMobile(false);
-      if (typeof window !== undefined) {
-        const handleResize = () => {
-          if (window.innerWidth >= 1023) {
-            setMobile(false);
-          } else setMobile(true);
-        };
-        // Add event listener to listen for window resize
-        window.addEventListener("resize", handleResize);
-        // Cleanup the event listener when the component is unmounted
-        return () => {
-          window.removeEventListener("resize", handleResize);
-        };
-      }
+    if (typeof window !== undefined) {
+      const handleResize = () => {
+        if (window.innerWidth >= 1023) {
+          setMobile(false);
+        } else setMobile(true);
+      };
+      // Add event listener to listen for window resize
+      window.addEventListener("resize", handleResize);
+      // Cleanup the event listener when the component is unmounted
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
     }
   }, []);
+
+  console.log(mobile);
 
   return (
     <>
@@ -63,8 +63,8 @@ const SolutionPage = () => {
               </TestButton>
               <PricingButton>Request the pricing</PricingButton>
             </div>
-            <div className="flex items-center lg:justify-start justify-center  mb-6 text-center">
-              <p className="text-xl mt-4 pl-2 text-center lg:text-start  ">
+            <div className="flex items-center lg:justify-start  justify-center  mb-6 text-center">
+              <p className="text-xl mt-4 lg:pl-2 text-center lg:text-start  ">
                 Unleash the full potential of AI and chat with your data.
               </p>
             </div>
@@ -307,6 +307,7 @@ const CardText = styled.p`
 `;
 
 const CardTitle = styled.h4`
+  padding-top: 12px;
   font-size: 1.8vw;
   font-weight: 500;
   @media (max-width: 1023px) {
