@@ -220,7 +220,7 @@ const Campaign = () => {
             }
   
             try {
-              const response = await fetch('http://localhost:3004/askAI', {
+              const response = await fetch('https://asystentai.herokuapp.com/askAI', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
                 signal: signal,
@@ -387,7 +387,7 @@ const Campaign = () => {
             }
 
             try {
-              const response = await fetch('http://localhost:3004/askAI', {
+              const response = await fetch('https://asystentai.herokuapp.com/askAI', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
                 signal: signal,
