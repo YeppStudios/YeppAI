@@ -28,17 +28,13 @@ const LearnMoreSection = () => {
             autoClose: 5000,
             title: "Welcome on board!",
             message: 'Time to learn more about AI!',
-            color: 'white',
+            color: 'black',
       
             styles: (theme: any) => ({
               root: {
-                backgroundColor: "#04040A",
                 border: "none",
       
               },
-      
-              title: { color: "white" },
-              description: { color: "white" },
             })
           })
           setEmail('');
