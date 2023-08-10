@@ -129,9 +129,9 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                     </Popover>
                     </NavLink> */}
                     {pathname.includes("assistant") ?
-                        <Link href="/pricing?type=individual"><NavLink>Pricing</NavLink></Link>
+                        <Link href="/pricing?type=individual"><NavLink id="pricing-btn">Pricing</NavLink></Link>
                         :
-                        <Link href="/pricing?type=business"><NavLink>Pricing</NavLink></Link>
+                        <Link href="/pricing?type=business"><NavLink id="pricing-btn">Pricing</NavLink></Link>
                     }
                     {/* <Link href="/docs/getting-started"><NavLink>Dokumentacja</NavLink></Link> */}
                     <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Log in</LoginButton>

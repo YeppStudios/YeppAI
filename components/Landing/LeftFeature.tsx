@@ -44,7 +44,7 @@ const LeftFeature = (props: {
           </FeatureDescription>
           {!mobile && (
             <Link href="/assets?registration=true&trial=true">
-              <Button color={props.color} className="">
+              <Button color={props.color} className='trial-btn-feature'>
                 <BtnText>Try now</BtnText>
               </Button>
             </Link>
