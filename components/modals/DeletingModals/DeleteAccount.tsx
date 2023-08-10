@@ -30,7 +30,7 @@ const DeleteAccount = (props: {
             try {
                 setLoading(true);
                 try {
-                    if (plan.priceId && user.plan !== "647c3294ff40f15b5f6796bf") {
+                    if (plan) {
                         await api.post('/cancel-subscription', {priceId: plan.priceId, planId: user.plan}, {
                             headers: {
                             authorization: localStorage.getItem("token")

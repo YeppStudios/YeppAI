@@ -405,9 +405,9 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             </div>
                             <DisclaimersContainer>
                                 {mobile ?
-                                 <RegisterText><RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
+                                 <RegisterText><RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
                                  :
-                                 <RegisterText>No account?<RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
+                                 <RegisterText>No account?<RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
                                 }
                                 <ResetPassword onClick={() => setResetPassword(true)}>Reset password</ResetPassword>
                             </DisclaimersContainer>
@@ -448,9 +448,9 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                         </div>
                         <DisclaimersContainer>
                                 {mobile ?
-                                 <RegisterText><RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
+                                 <RegisterText><RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
                                  :
-                                 <RegisterText>No account?<RegisterLink onClick={() => setRegistration(true)}>Register</RegisterLink></RegisterText>
+                                 <RegisterText>No account?<RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
                                 }
                             <ResetPassword onClick={() => setResetPassword(false)}>Log in</ResetPassword>
                         </DisclaimersContainer>
