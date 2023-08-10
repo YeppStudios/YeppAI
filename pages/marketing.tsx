@@ -46,6 +46,7 @@ import {
   BsPlusLg,
 } from "react-icons/bs";
 import { selectedPlanState } from "@/store/planSlice";
+import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import { useSelector } from "react-redux";
 import api from "./api";
 import Image from "next/image";
@@ -82,7 +83,8 @@ const ContentCreator = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<any>();
   const [templateCategories, setTemplateCategories] = useState<string[]>([]);
   const [openCampaignModal, setOpenCampaignModal] = useState(false);
-
+  const [company, setCompany] = useState<any>();
+  const selectedWorkspaceCompany = useSelector(selectedWorkspaceCompanyState);
   const { query } = router;
 
   useEffect(() => {
@@ -93,7 +95,7 @@ const ContentCreator = () => {
       } else {
         console.log("wrong fetch");
       }
-      if(query.contentId) {
+      if (query.contentId) {
         try {
           const token = localStorage.getItem("token");
           const { data } =await api.get(`/getContentPiece/${query.contentId}`, {
@@ -116,6 +118,10 @@ const ContentCreator = () => {
     };
     fetchTemplates();
   }, []);
+
+  useEffect(() => {
+    setCompany(selectedWorkspaceCompany)
+  }, [selectedWorkspaceCompany])
 
   useEffect(() => {
     if (window.innerWidth <= 1023) {
@@ -209,7 +215,7 @@ const ContentCreator = () => {
                 </PageDescription>
               </div>
               <ActionContainer>
-                {!mobile &&
+              {(!mobile && selectedWorkspaceCompany && (selectedWorkspaceCompany.plan._id === "647c3294ff40f15b5f6796bf" || selectedWorkspaceCompany.plan._id === "64ad0d250e40385f299bceea" || selectedWorkspaceCompany.plan._id === "6444d4394ab2cf9819e5b5f4")) &&
                 <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
                 }
                 <ActionBtn onClick={() => setOpenSaved(true)} square={true}>
@@ -234,7 +240,7 @@ const ContentCreator = () => {
                 </div>
                 }
               </ActionContainer>
-              {mobile &&
+              {(mobile && selectedWorkspaceCompany && (selectedWorkspaceCompany.plan._id === "647c3294ff40f15b5f6796bf" || selectedWorkspaceCompany.plan._id === "64ad0d250e40385f299bceea" || selectedWorkspaceCompany.plan._id === "6444d4394ab2cf9819e5b5f4")) &&
                 <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
               }
             </Header>
