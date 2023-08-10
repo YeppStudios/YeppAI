@@ -214,8 +214,9 @@ const ContentCreator = () => {
                   Unleash the potential of AI in marketing.
                 </PageDescription>
               </div>
+              {company &&
               <ActionContainer>
-              {(!mobile && selectedWorkspaceCompany && (selectedWorkspaceCompany.plan._id === "647c3294ff40f15b5f6796bf" || selectedWorkspaceCompany.plan._id === "64ad0d250e40385f299bceea" || selectedWorkspaceCompany.plan._id === "6444d4394ab2cf9819e5b5f4")) &&
+              {(!mobile && (company.plan._id === "647c3294ff40f15b5f6796bf" || company.plan._id === "64ad0d250e40385f299bceea" || company.plan._id === "6444d4394ab2cf9819e5b5f4")) &&
                 <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
                 }
                 <ActionBtn onClick={() => setOpenSaved(true)} square={true}>
@@ -240,7 +241,8 @@ const ContentCreator = () => {
                 </div>
                 }
               </ActionContainer>
-              {(mobile && selectedWorkspaceCompany && (selectedWorkspaceCompany.plan._id === "647c3294ff40f15b5f6796bf" || selectedWorkspaceCompany.plan._id === "64ad0d250e40385f299bceea" || selectedWorkspaceCompany.plan._id === "6444d4394ab2cf9819e5b5f4")) &&
+              }
+              {(mobile && selectedWorkspaceCompany && selectedWorkspaceCompany.plan && (selectedWorkspaceCompany.plan._id === "647c3294ff40f15b5f6796bf" || selectedWorkspaceCompany.plan._id === "64ad0d250e40385f299bceea" || selectedWorkspaceCompany.plan._id === "6444d4394ab2cf9819e5b5f4")) &&
                 <BlueBtn onClick={() => setOpenCampaignModal(true)}>+ New Campaign<BtnIcon><Image src={campaignIcon} style={{width: "100%", height: "auto"}} alt="any"/></BtnIcon></BlueBtn>
               }
             </Header>

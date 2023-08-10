@@ -576,17 +576,17 @@ const Campaign = () => {
                     </div>
                     </div>
                 </Header>
-                    <SectionsContainer
-                    className="my-masonry-grid w-full"
-                    breakpointCols={breakpointColumnsObj}
-                    >
+                    <SectionsContainer>
                     {pageLoading ?
                     <div className="w-[100vw] lg:w-[80vw] mt-14 flex justify-center">
                         <BlueLoader />
                     </div>
                     :
-                    <TemplatesContainer>
-                      { templates.map((template) => {
+                    <TemplatesContainer
+                    className="my-masonry-grid w-full"
+                    breakpointCols={breakpointColumnsObj}
+                    >
+                      {templates.map((template) => {
                         const isCategoryExpanded = expandedCategories.includes(
                             template.data.title
                         );
@@ -661,7 +661,6 @@ const Campaign = () => {
                         })}
                         </TemplatesContainer>
                         }
-                        <div id="templates-section-bottom"></div>
                     </SectionsContainer>
                 </PageContainer>
             </PageTemplate>
@@ -715,7 +714,7 @@ const PageContainer = styled.div`
 `;
 
 
-const SectionsContainer = styled(Masonry)`
+const SectionsContainer = styled.div`
   width: 100%;
   display: flex;
   height: 100%;
@@ -771,6 +770,9 @@ const PostContentForm = styled.textarea`
     }
 `
 
-const TemplatesContainer = styled.div`
+const TemplatesContainer = styled(Masonry)`
     height: 500rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 `
