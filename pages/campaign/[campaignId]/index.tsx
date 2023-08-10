@@ -52,6 +52,7 @@ const classNames = (...classes: any) => {
     return classes.filter(Boolean).join(" ");
 }
 
+
 const Campaign = () => {
     const [openSidebar, setOpenSidebar] = useState(false);
     const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
@@ -67,6 +68,9 @@ const Campaign = () => {
     const { campaignId } = router.query;
     const textAreaRefs = useRef<any>({});
     const [rendering,  setRendering] = useState(false);
+    const [templateTexts, setTemplateTexts] = useState<Record<string, string>>({});
+
+    const saveTimeouts: Record<string, NodeJS.Timeout> = {};
     
     const adjustTextareaHeight = (element: any) => {
       element.style.height = 'auto';
@@ -80,12 +84,39 @@ const Campaign = () => {
       }
   };
 
-  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = event.target.value;
-    setText(newValue);
-    adjustTextareaHeight(event.target);
-  };
+  const saveTemplateTextToDB = async (id: string, text: string) => {
+    const token = localStorage.getItem("token");
+    try {
+        await api.patch(`/campaign/${campaignId}/template/${id}`, {text}, {
+            headers: {
+                authorization: token
+            }
+        });
+        // You can set some success state or log the success if needed
+    } catch (error) {
+        console.log(error);
+    }
+};
 
+
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>, id: string) => {
+      const newValue = event.target.value;
+      setTemplateTexts(prev => ({
+          ...prev,
+          [id]: newValue
+      }));
+      
+      adjustTextareaHeight(event.target);
+      // Clear the existing timeout if there is one
+      if (saveTimeouts[id]) {
+          clearTimeout(saveTimeouts[id]);
+      }
+      // Set up a new timeout for the save action
+      saveTimeouts[id] = setTimeout(() => {
+          saveTemplateTextToDB(id, newValue);
+      }, 2000);
+  };
+  
     const toggleTemplateExpansion = (title: string, _id: string) => {
         setExpandedCategories((prevExpanded) =>
           prevExpanded.includes(title)
@@ -182,6 +213,7 @@ const Campaign = () => {
           ` + template.data.prompt;
   
           let allDocuments = template.data.documents;
+          console.log(template.data.documents)
           if (allDocuments) {
               try {
                 const vectorIdsResponse = await api.post("/getPineconeIds", {documents: allDocuments}, {
@@ -218,7 +250,8 @@ const Campaign = () => {
               } catch (e) {
               }
             }
-  
+
+            console.log(promptToSend)
             try {
               const response = await fetch('https://asystentai.herokuapp.com/askAI', {
                 method: 'POST',
@@ -253,6 +286,7 @@ const Campaign = () => {
                     }})
                     break;
                   }
+
                   const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
                   setLoadingTemplates(prevTemplates => 
                     prevTemplates.filter(id => id !== template.data._id)
@@ -265,7 +299,10 @@ const Campaign = () => {
                       const data = JSON.parse(jsonString);
                       if (data.content) {
                         const contentWithoutQuotes = data.content.replace(/"/g, '');
-                        setText((prevMessage) => prevMessage + contentWithoutQuotes);
+                        setTemplateTexts(prevTexts => ({
+                            ...prevTexts,
+                            [template.data._id]: prevTexts[template.data._id] ? prevTexts[template.data._id] + contentWithoutQuotes : contentWithoutQuotes
+                        }));
                         reply += contentWithoutQuotes;
                       }                      
                     } catch (error) {
@@ -332,6 +369,12 @@ const Campaign = () => {
             useEmojis = "Use emojis appropriately, but not too many."
           }
   
+          //delete previous text
+          setTemplateTexts(prevTexts => ({
+            ...prevTexts,
+            [template.data._id]: ''
+          }));
+
           const abortController = new AbortController();
           const signal = abortController.signal;
           let promptToSend = '';
@@ -406,6 +449,10 @@ const Campaign = () => {
                   if (done) {
                     setRendering(false);
                     setText("");
+                    await api.patch(`/campaign/${campaignId}/template/${template.data._id}`, {text: reply}, {
+                      headers: {
+                        authorization: token
+                    }})
                     setRenderQueue(prevQueue =>
                       prevQueue.filter(t => t.data._id !== template.data._id)
                     );
@@ -416,11 +463,7 @@ const Campaign = () => {
                     );
                     setExpandedCategories(prevCategories => 
                       [...prevCategories, template.data.title]
-                  );
-                    await api.patch(`/campaign/${campaignId}/template/${template.data._id}`, {text: reply}, {
-                      headers: {
-                        authorization: token
-                    }})
+                    );
                     break;
                   }
                   const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
@@ -435,10 +478,12 @@ const Campaign = () => {
                       const data = JSON.parse(jsonString);
                       if (data.content) {
                         const contentWithoutQuotes = data.content.replace(/"/g, '');
-                        setText((prevMessage) => prevMessage + contentWithoutQuotes);
+                        setTemplateTexts(prevTexts => ({
+                            ...prevTexts,
+                            [template.data._id]: prevTexts[template.data._id] ? prevTexts[template.data._id] + contentWithoutQuotes : contentWithoutQuotes
+                        }));
                         reply += contentWithoutQuotes;
-                      }
-                      
+                      }   
                     } catch (error) {
                       console.error('Error parsing JSON:', jsonString, error);
                     }
@@ -458,7 +503,6 @@ const Campaign = () => {
             }
         }
       }
-      
     }
 
 
@@ -585,44 +629,17 @@ const Campaign = () => {
                                 }
                                 {(isCategoryExpanded && !isTemplateLoading) &&
                                 <>
-                                {(renderQueue[0] && template.data.title === renderQueue[0].data.title) ?
-                                <div>
-                                    <div className="pb-4 -mt-4">
-                                    <PostContentForm className="font-medium" 
-                                        value={text}
-                                        onChange={handleTextareaChange}
-                                        ref={(el) => {
-                                          textAreaRefs.current[template.data._id] = el;
-                                          handleTextareaLoad(template.data._id);
-                                      }}
-                                    />
-                                    </div>
-                                    <div className="border w-full border-[#eaedf5]" />
-                                    <div onClick={(e) => e.stopPropagation()} className="flex w-full justify-between items-center pt-4">
-                                        {renderQueue.length === 0 ?
-                                          <button onClick={() => rewrite(template)} className="flex gap-2 items-center text-gray-500 hover:text-gray-900 hover:scale-95 transition ease-in">
-                                          <TbReload className="w-6 h-6" />
-                                          <span>Rewrite</span>
-                                          </button>
-                                          :
-                                          <div></div>
-                                        }
-                                        <button onClick={() => handleCopy(text)} className="flex gap-4 items-center text-gray-500 hover:text-gray-900 hover:scale-95 transition ease-in">
-                                        <MdContentCopy className="h-6 w-6" />
-                                        </button>
-                                    </div>
-                                </div>
-                                :
                                 <div>
                                   <div className="pb-4 -mt-4">
-                                      <PostContentForm className="font-medium" 
-                                        value={template.text}
-                                        onChange={handleTextareaChange}
+                                    <PostContentForm
+                                        className="font-medium"
+                                        value={templateTexts[template.data._id] || template.text}
+                                        onChange={(e) => handleTextareaChange(e, template.data._id)}
                                         ref={(el) => {
-                                          textAreaRefs.current[template.data._id] = el;
-                                          handleTextareaLoad(template.data._id);
-                                      }}
-                                      />
+                                            textAreaRefs.current[template.data._id] = el;
+                                            handleTextareaLoad(template.data._id);
+                                        }}
+                                    />
                                   </div>
                                   <div className="border w-full border-[#eaedf5]" />
                                   <div onClick={(e) => e.stopPropagation()} className="flex w-full justify-between items-center pt-4">
@@ -638,8 +655,7 @@ const Campaign = () => {
                                       <MdContentCopy className="h-6 w-6" />
                                       </button>
                                   </div>
-                              </div>
-                                } 
+                                  </div>
                                 </>
                                 }
                                 </div>
