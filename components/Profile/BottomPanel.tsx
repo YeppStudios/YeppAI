@@ -122,17 +122,22 @@ const BottomPanel = () => {
                 Authorization: `${localStorage.getItem("token")}`
             }
         });
-          if(user.name && user.plan){
-            const planResponse = await api.get(`/${userId}/planInfo`);
+          if(workspaceCompany._id) {
+            const planResponse = await api.get(`/${workspaceCompany._id}/planInfo`);
             setElixirWidth((planResponse.data.percentage*100).toString());
             setPlan(planResponse.data.plan);
             if (user.plan === "647c3294ff40f15b5f6796bf") {
-                let percentage = (userResponse.data.tokenBalance/250);
+                let percentage = (workspaceCompany.tokenBalance/250);
                 let elixir = Number(percentage) > 100 ? 100 : Number(percentage) < 0 ? 0 : percentage;
                 setElixirWidth((elixir).toString());
             }
+            setBalance(workspaceCompany.tokenBalance.toString());
+          } else if (user._id) {
+            const planResponse = await api.get(`/${user._id}/planInfo`);
+            setElixirWidth((userResponse.data.percentage*100).toString());
+            setPlan(planResponse.data.plan);
+            setBalance(userResponse.data.tokenBalance.toString());
           }
-          setBalance(userResponse.data.tokenBalance.toString());
         } 
 
         const getTransactions = async () => {
@@ -543,6 +548,7 @@ const BottomPanel = () => {
                     </ShareContainer>
                 </SlideBottom>  
                 <SlideBottom>
+                {workspaceCompany._id === user._id ?
                 <BalanceContainer>
                     <Title>Elixir balance</Title>
                     <div style={{width: "100%", textAlign: "right"}}>
@@ -566,6 +572,31 @@ const BottomPanel = () => {
                         }
                     </div>
                 </BalanceContainer>
+                :
+                <BalanceContainer>
+                    <Title>Workspace total balance</Title>
+                    <div style={{width: "100%", textAlign: "right"}}>
+                        {(plan && balance) ?
+                        <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 25,500</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
+                        :
+                        Number(balance) !== 0 ?
+                        <Balance>{Number(balance).toLocaleString()}ml</Balance>
+                        :
+                        <Balance>0 / 0ml</Balance>
+                        }
+                    </div>
+                    <FuelBar>
+                        <Fuel width={elixirWidth}></Fuel>
+                    </FuelBar>
+                    <div style={{width: "100%", display: "flex", justifyContent: "flex-end"}}>
+                        {plan && plan._id !== "647c3294ff40f15b5f6796bf" ?
+                            <Button onClick={() => setOpenElixirModal(true)}>+<ButtonText>Add Elixir</ButtonText></Button>
+                            :
+                            <Button onClick={() => setOpenUpgradeModal(true)}>+<ButtonText>Add Elixir</ButtonText></Button>
+                        }
+                    </div>
+                </BalanceContainer>
+                }
                 </SlideBottom>
                 {(plan) ?
                 <SlideBottom>
