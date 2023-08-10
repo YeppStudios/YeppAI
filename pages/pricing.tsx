@@ -50,9 +50,9 @@ const Pricing = () => {
         </HeroSection>
         <Plans openRegistration={true} purchase={false} landing={true}/>
         <TrialBanner />
-        {!mobile &&
+        {/* {!mobile &&
         <PlanComparison />
-        }
+        } */}
         <Section>
         <div id="newsletter"><LearnMoreSection /></div>
         </Section>
