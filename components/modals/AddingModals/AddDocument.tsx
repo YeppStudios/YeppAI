@@ -436,7 +436,7 @@ const AddDocument = (props: {
                           <div>
                             <div style={{width: "100%"}}>
                                     <Label>
-                                        Link podstrony {linkError && <span style={{color: "red", marginLeft: "0.5rem"}}>please enter a valid website url</span>}
+                                      Link {linkError && <span style={{color: "red", marginLeft: "0.5rem"}}>please enter a valid website url</span>}
                                     </Label>
                                     <Input
                                         id="website"

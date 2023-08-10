@@ -25,23 +25,33 @@ interface DropdownProps {
   values: valueProps[];
   openedCategory: string;
   setOpenedCategory: any;
+  chosenTemplates: valueProps[];
   setChosenTemplates: any;
 }
 
-export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCategory, setOpenedCategory, setChosenTemplates }) => {
-  const [chosenDropdownTemplates, setChosenDropdownTemplates] = useState<string[]>([]);
+export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCategory, setOpenedCategory, setChosenTemplates, chosenTemplates }) => {
+
+  const [chosenDropdownTemplates, setChosenDropdownTemplates] = useState<valueProps[]>([]);
+
 
   const toggleTemplate = (value: valueProps) => {
-    if (chosenDropdownTemplates.includes(value.title)) {
-      // If the value is already in the array, remove it
-      setChosenDropdownTemplates((prev) => prev.filter((item: any) => item !== value.title));
-      setChosenTemplates((prev: any) => prev.filter((item: any) => item !== value));
+    if (chosenDropdownTemplates.some(template => template.title === value.title)) {
+      setChosenTemplates((prev: valueProps[]) => prev.filter((item: valueProps) => item._id !== value._id));
+      setChosenDropdownTemplates((prev: valueProps[]) => prev.filter((item: valueProps) => item._id !== value._id));
     } else {
-      // If the value is not in the array, add it
-      setChosenDropdownTemplates((prev) => [...prev, value.title]);
-      setChosenTemplates((prev: any) => [...prev, value]);
+      setChosenTemplates((prev: valueProps[]) => [...prev, value]);
+      setChosenDropdownTemplates((prev: valueProps[]) => [...prev, value]);
     }
-  };
+  };  
+
+  useEffect(() => {
+    const filteredTemplates = chosenTemplates.filter((template: valueProps) => 
+      values.some(value => value.title === template.title)
+    );
+    setChosenDropdownTemplates(filteredTemplates);
+  }, [chosenTemplates, values]);
+
+  
 
   const dropdownClick = () => {
     if (openedCategory === category.name) {
@@ -72,7 +82,11 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCa
             <Image src={category.icon} alt="icon" width={22} height={22} />
           </div>
           {category.name}
-          {chosenDropdownTemplates.length > 0 &&<div className="w-5 h-5 rounded-full bg-slate-200 flex justify-center items-center text-xs text-slate-500">{chosenDropdownTemplates.length}</div>}
+          {chosenDropdownTemplates.length > 0 && (
+            <div className="w-5 h-5 rounded-full bg-slate-200 flex justify-center items-center text-xs text-slate-500">
+              {chosenDropdownTemplates.length}
+            </div>
+          )}
         </div>
         {category.name === openedCategory ? <BsChevronUp /> : <BsChevronDown />}
       </div>
@@ -96,7 +110,7 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCa
                 </div>
                 <span className="text-left">{item.title}</span>
                 <div className="w-4 h-4">
-                  {chosenDropdownTemplates.includes(item.title) && <TiTick />}
+                  {chosenDropdownTemplates.some(template => template.title === item.title) && <TiTick />}
                 </div>
               </div>
             );

@@ -362,6 +362,7 @@ import {
                       openedCategory={openedCategory}
                       setOpenedCategory={setOpenedCategory}
                       setChosenTemplates={setChosenTemplates}
+                      chosenTemplates={chosenTemplates}
                     />
                   </div>
                 );

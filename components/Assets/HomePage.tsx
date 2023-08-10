@@ -296,7 +296,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             <Option id="upload-audio" onClick={() => setAddAudio(true)}>
                 <OptionIcon><BsYoutube style={{width: "100%", height: "auto"}} /></OptionIcon>
                 <OptionTitle>Upload YouTube video</OptionTitle>
-                <OptionDescription>Upload a YouTube video for AI to learn</OptionDescription>
+                <OptionDescription>Upload a YouTube video for AI to learn from</OptionDescription>
             </Option>
             </UploadOptionsContainer>
             </ContentContainer>
