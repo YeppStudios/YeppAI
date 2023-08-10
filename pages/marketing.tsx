@@ -218,6 +218,7 @@ const ContentCreator = () => {
                       style={{ width: "auto", height: "100%" }}
                     />
                   </ActionBtnIcon>
+                  Saved
                 </ActionBtn>
                 {mobile &&
                 <div className="mt-4 ml-2 w-full flex">
@@ -405,7 +406,7 @@ const ActionContainer = styled.div`
 `;
 
 const ActionBtn = styled.div<{ square: boolean }>`
-  padding: ${(props) => (props.square ? "1rem 1.2rem" : "1rem 1.2rem")};
+  padding: ${(props) => (props.square ? "1rem 2rem" : "1rem 2rem")};
   margin-left: 1.4rem;
   display: flex;
   justify-content: center;
@@ -416,6 +417,7 @@ const ActionBtn = styled.div<{ square: boolean }>`
   box-shadow: 0px 2px 5px rgba(15, 27, 40, 0.1);
   align-items: center;
   transition: all 0.4s ease;
+  font-weight: 700;
   cursor: pointer;
   &:hover {
     box-shadow: none;
@@ -424,13 +426,17 @@ const ActionBtn = styled.div<{ square: boolean }>`
   @media (max-width: 1023px) {
     margin-left: 0;
     margin-right: 0.75rem;
+    padding: ${(props) => (props.square ? "0.55rem 2rem" : "0.55rem 2rem")};
+    box-shadow: 2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF;
     margin-top: 1rem;
+    font-weight: 500;
   }
 `;
 
 const ActionBtnIcon = styled.div`
   width: 1.2rem;
   height: 1.2rem;
+  margin-right: 0.75rem;
 `;
 const BtnText = styled.p`
   font-weight: 700;
