@@ -25,7 +25,7 @@ const navigation = {
       },
       {
         name: 'Instagram',
-        href: 'https://www.instagram.com/sayyepp.ai/',
+        href: 'https://www.instagram.com/yepp_ai/',
         icon: (props: any) => (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
             <path
