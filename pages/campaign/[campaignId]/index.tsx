@@ -212,8 +212,7 @@ const Campaign = () => {
           use of emojis: ${useEmojis}
           ` + template.data.prompt;
   
-          let allDocuments = template.data.documents;
-          console.log(template.data.documents)
+          let allDocuments = campaign.documents;
           if (allDocuments) {
               try {
                 const vectorIdsResponse = await api.post("/getPineconeIds", {documents: allDocuments}, {
@@ -227,11 +226,11 @@ const Campaign = () => {
                   {
                     "queries": [
                       {
-                        "query": template.data.about,
+                        "query": campaign.about,
                         "filter": {
                           "document_id": vectorIdsResponse.data
                         },
-                        "top_k": 2
+                        "top_k": 1
                       }
                     ]
                   },
@@ -251,7 +250,6 @@ const Campaign = () => {
               }
             }
 
-            console.log(promptToSend)
             try {
               const response = await fetch('https://asystentai.herokuapp.com/askAI', {
                 method: 'POST',
@@ -391,7 +389,7 @@ const Campaign = () => {
           type: ${campaign.type}
           ` + template.data.prompt;
   
-          let allDocuments = template.data.documents;
+          let allDocuments = campaign.documents;
           if (allDocuments) {
               try {
                 const vectorIdsResponse = await api.post("/getPineconeIds", {documents: allDocuments}, {
@@ -405,7 +403,7 @@ const Campaign = () => {
                   {
                     "queries": [
                       {
-                        "query": template.data.about,
+                        "query": campaign.about,
                         "filter": {
                           "document_id": vectorIdsResponse.data
                         },
@@ -428,7 +426,7 @@ const Campaign = () => {
               } catch (e) {
               }
             }
-
+            console.log(promptToSend)
             try {
               const response = await fetch('https://asystentai.herokuapp.com/askAI', {
                 method: 'POST',
