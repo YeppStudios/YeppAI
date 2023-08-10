@@ -84,13 +84,13 @@ const HeroSection = styled.div`
   flex-wrap: wrap;
   align-items: center;
   text-align: center;
-  margin-top: 18vh; 
+  margin-top: 20vh; 
   @media (max-width: 1023px) {
     margin-top: 20vh; 
 }
 `
 const HeroText = styled.h1`
-    font-size: 6vw;
+    font-size: 5vw;
     font-weight: 700;
     line-height: 1.2;
     margin-top: -0.5rem;
