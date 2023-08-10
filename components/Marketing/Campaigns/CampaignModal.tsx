@@ -22,13 +22,16 @@ import {
   import BackBtn from '@/components/Common/BackBtn';
   import BackBtnIcon from '@/components/Common/BackBtnIcon';
   import { CampaignDropdown } from "./CampaignDropdown";
-  import ModalBackground from "@/components/Modals/common/ModalBackground";
   import SlideBottom from "@/components/Animated/SlideBottom";
   import { Textarea } from "@mantine/core";
   import CustomDropdown from "@/components/forms/CustomDropdown";
   import { set } from "lodash";
-  import { BlueLoader } from "@/components/Common/Loaders";
-  
+  import { BlueLoader, Loader } from "@/components/Common/Loaders";
+  import { selectedUserState } from "@/store/userSlice";
+  import { useSelector } from "react-redux";
+  import { selectFoldersState } from '@/store/selectedFoldersSlice'
+  import FoldersDropdown from "@/components/forms/FolderDropdown";
+
   interface CampaginModalProps {
     setOpenCreateCampaignModal: Dispatch<SetStateAction<boolean>>;
   }
@@ -36,6 +39,16 @@ import {
     stepName: string;
     icon: JSX.Element;
     stepNumber: number;
+  }
+
+  interface Folder {
+    owner: string,
+    title: string,
+    category: string,
+    documents: Document[] | [],
+    updatedAt: string,
+    _id:  string,
+    workspace: string,
   }
   
   interface TemplateProps {
@@ -47,6 +60,7 @@ import {
     likes: any[];
     icon: string;
     query: string;
+    prompt: string;
   }
 
   const sections: SectionsProps[] = [
@@ -61,7 +75,7 @@ import {
       stepNumber: 2,
     },
     {
-      stepName: "Knowledge",
+      stepName: "About",
       icon: <GiOpenBook />,
       stepNumber: 3,
     },
@@ -116,9 +130,19 @@ import {
     const [productType, setProductType] = useState<string>("");
     const [campaginTitle, setCampaignTitle] = useState<string>("");
     const [useEmojis, setUseEmojis] = useState<boolean>(true);
-    const [allChosenCategories, setAllChosenCategories] = useState<string[]>([]);
+    const [chosenTemplates, setChosenTemplates] = useState<any[]>([]);
     const [loadingCategories, setLoadingCategories] = useState<boolean>(true);
-  
+    const [loading, setLoading] = useState<boolean>(false);
+    const user = useSelector(selectedUserState);
+    let selectedFolders: any[] = useSelector(selectFoldersState);
+    const [mobile, setMobile] = useState(true);
+
+    useEffect(() => {
+      if (window.innerWidth >= 1023) {
+        setMobile(false);
+      }
+    }, [])
+    
     const filteredDropdownCategories = templates
       .filter((category, index, self) => {
         return (
@@ -138,8 +162,15 @@ import {
         (template) => template.category === category
       );
       const dropdownValues = templatesInCategory.map((template) => ({
-        name: template.title,
+        title: template.title,
         icon: template.icon,
+        _id: template._id,
+        description: template.description,
+        category: template.category,
+        query: template.query,
+        prompt: template.prompt,
+        author: template.author,
+        likes: template.likes
       }));
   
       return dropdownValues;
@@ -191,7 +222,57 @@ import {
   
     const createCampaign = async (e: any) => {
       e.preventDefault();
-      router.push("/campaign/1");
+      if (loading) {
+        return;
+      }
+      setLoading(true);
+      const workspace = localStorage.getItem("workspace");
+      let fetchedUser = user;
+      if (workspace && workspace !== "null" && workspace !== "undefined") {
+        const {data} = await api.get(`/workspace-company/${workspace}`, {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          }
+        });
+        fetchedUser = data.company;
+      }
+      try {
+        const documentsResponse = await api.post('/folders/documents', {folderIds: selectedFolders}, {
+          headers: {
+              Authorization: localStorage.getItem("token")
+        }});
+
+        const mappedTemplates = chosenTemplates.map(template => ({
+          data: template,
+          text: ""
+      }));
+
+        const { data } = await api.post("/addCampaign", 
+        {
+          title: campaginTitle,
+          templates: mappedTemplates,
+          type: campaignType,
+          language: language,
+          toneOfVoice: tone,
+          about: productType,
+          useEmojis: useEmojis,
+          keywords: keywords,
+          objective: objectives,
+          targetAudience: targetAudience,
+          owner: fetchedUser._id,
+          workspace: workspace,
+          documents: documentsResponse.data,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
+        });
+        router.push(`/campaign/${data._id}`);
+      } catch (e) {
+        console.log(e);
+        setLoading(false);
+      }
     }
   
     const renderStepText = () => {
@@ -223,7 +304,7 @@ import {
     }
   
     return (
-      <ModalBackground onClose={() => setOpenCreateCampaignModal(false)} closeable={true}>
+      <ModalBackground>
         <SlideBottom>
         <ModalContainer onClick={(e) => handleModalClick(e)} step={step} className="relative ">
           <div className="flex w-full justify-between">
@@ -234,6 +315,7 @@ import {
           <Title>
             {renderStepText()}
           </Title>
+          {!mobile &&
           <div className="flex gap-8 items-center justify-center flex-wrap mb-8">
             {sections.map((section, index) => {
               if (step === section.stepNumber) {
@@ -252,22 +334,34 @@ import {
                 );
             })}
           </div>
+          }
           {step === 1 && (
             <div className="flex justify-around flex-col">
               {loadingCategories ?
               <div className="w-full py-8 flex justify-center"><BlueLoader /></div>
               :
               <div className="grid sm:grid-cols-2 grid-cols-1 relative">
-              {filteredDropdownCategories.map((template, index) => {
-                const dropdownValues = filterDropdownValues(template.name);
+              {filteredDropdownCategories.map((category, index) => {
+                let dropdownValues = filterDropdownValues(category.name);
+
+                if (category.name === "Other") {
+                  dropdownValues = dropdownValues.filter(value => 
+                    value.title === "Press Release" || value.title === "Product Description"
+                  );
+                }
+
+                if (category.name === "Email") {
+                  dropdownValues = dropdownValues.filter(value => value.title !== "Email Reply");
+                }
+
                 return (
                   <div key={index} onClick={(e) => e.stopPropagation()}>
                     <CampaignDropdown
-                      category={template}
+                      category={category}
                       values={dropdownValues}
                       openedCategory={openedCategory}
                       setOpenedCategory={setOpenedCategory}
-                      setAllChosenCategories={setAllChosenCategories}
+                      setChosenTemplates={setChosenTemplates}
                     />
                   </div>
                 );
@@ -282,8 +376,8 @@ import {
             </div>
           )}
           {step === 2 && (
-            <form>
-              <div className="grid grid-cols-2">
+            <div>
+              <div className="md:grid md:grid-cols-2">
                 <div className="pb-6 pr-3 pl-3 pt-0">
                   <Label>Title</Label>
                   <Input
@@ -326,49 +420,53 @@ import {
                     placeholder="Friendly"
                   />
                 </div>
-                <div className="pb-6 pr-3 pl-3 pt-0">
-                  <Label>What is it promoting?</Label>
+              </div>
+
+                <div className="w-full pb-6 pr-3 pl-3 pt-0">
+                  <Label>What is the campaign promoting?</Label>
                   <Input
                     name="productType"
                     height="2.75rem"
                     padding="1rem"
-                    placeholder="Product"
+                    placeholder="Yepp AI- generative ai platform for marketing"
                     type="text"
                     value={productType}
                     onChange={(e) => setProductType(e.target.value)}
                   />
                 </div>
-                <div className="pb-6 pr-3 pl-3 pt-0">
-                  <Label className="pb-2">Use relevant emojis</Label>
-                  <Switch
-                    name="useEmojis"
-                    checked={useEmojis}
-                    onChange={handleToggleEmojis}
-                    style={{
-                      boxShadow: "inset 4px 4px 20px rgba(255, 255, 255, 0.35)",
-                    }}
-                    className={`${
-                      useEmojis ? "bg-green-400" : "border-2 border-gray-200"
-                    } relative inline-flex items-center h-7 rounded-full w-16 transition-colors focus:outline-none`}
-                  >
-                    <span className="sr-only">Toggle Tone</span>
-                    <span
+                  <div className="pr-3 pl-3 pt-0">
+                    <Label className="pb-2">Use relevant emojis</Label>
+                    <Switch
+                      name="useEmojis"
+                      checked={useEmojis}
+                      onChange={handleToggleEmojis}
+                      style={{
+                        boxShadow: "inset 4px 4px 20px rgba(255, 255, 255, 0.35)",
+                      }}
                       className={`${
-                        useEmojis
-                          ? "translate-x-10"
-                          : "-translate-x-1 border-2 border-gray-200"
-                      } inline-block w-7 h-7 transform bg-white border rounded-full transition-transform`}
-                    />
-                  </Switch>
-                </div>
-              </div>
+                        useEmojis ? "bg-green-400" : "border-2 border-gray-200"
+                      } relative inline-flex items-center h-7 rounded-full w-16 transition-colors focus:outline-none`}
+                      >
+                      <span className="sr-only">Toggle Tone</span>
+                      <span
+                        className={`${
+                          useEmojis
+                            ? "translate-x-10"
+                            : "-translate-x-1 border-2 border-gray-200"
+                        } inline-block w-7 h-7 transform bg-white border rounded-full transition-transform`}
+                      />
+                    </Switch>
+                  </div>
               <ButtonContainer>
-                <ContinueBtn type="submit">Continue</ContinueBtn>
+                <ContinueBtn type="submit" onClick={() => setStep(3)}>Continue</ContinueBtn>
               </ButtonContainer>
-            </form>
+            </div>
           )}
           {step === 3 && (
             <form onSubmit={(e) => createCampaign(e)}>
+              <div className="pb-6 pt-0">
+              <FoldersDropdown />
+              </div>
               <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>Target autdience</Label>
                 <Input
@@ -382,16 +480,16 @@ import {
                 />
               </div>
               <div className="pb-6 pr-3 pl-3 pt-0">
-                <Label>Campaign&apos;s objective</Label>
-                <TextArea
-                  height="5.8rem"
-                  padding="0.75rem"
+                <Label>Campaign&apos;s main objective</Label>
+                <Input
+                  height="2.8rem"
+                  padding="1rem"
                   placeholder="Set campaign's objectives"
                   value={objectives}
                   onChange={(e) => setObjectives(e.target.value)}
                 />
               </div>
-              <div className="pb-6 pr-3 pl-3 pt-0">
+              <div className="pr-3 pl-3 pt-0">
                 <Label>Keywords</Label>
                 <TextArea
                   height="4rem"
@@ -403,7 +501,15 @@ import {
                 />
               </div>
               <ButtonContainer>
-                <ContinueBtn type="submit">Submit</ContinueBtn>
+                <ContinueBtn type="submit">
+                        {loading ?
+                        <Loader color="white" />
+                        :
+                        <>
+                        <p>Create Campaign</p>
+                        </>
+                        }
+                </ContinueBtn> 
               </ButtonContainer>
             </form>
           )}
@@ -422,16 +528,47 @@ import {
       border-radius: 25px;
       cursor: auto;
       overflow: visible;
+      margin-top: 2.5rem;
       @media (max-width: 1023px) {
-          width: 90vw;
+          width: 95vw;
           padding: 4vh 5vw 5vh 5vw;
           box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.15);
+          margin-top: 2rem;
+          margin-bottom: 6rem;
       }
   `
+
+  const ModalBackground = styled.div`
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    flex-wrap: wrap;
+    backdrop-filter: blur(7px);
+    z-index: 100;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    overflow: scroll;
+        &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    color: black;
+    @media (max-width: 1023px) {
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
+        width: 100vw;
+        overflow-x: hidden;
+    }
+`
+
   const Title = styled.h1`
       margin-bottom: 2.2rem;
       font-size: 1.2rem;
-      width: 41.75rem;
+      width: 43.75rem;
       margin-left: -4rem;
       padding-left: 3rem;
       border-bottom: 1px solid #eaedf5;
@@ -439,11 +576,10 @@ import {
       color: black;
       font-weight: 500;
       @media (max-width: 1023px) {
-        font-size: 1.7rem;
+        font-size: 1rem;
         line-height: 1.2;
-        margin-top: 2vh;
         width: 90vw;
-        margin-left: -3vw;
+        margin-left: -2.5rem;
     }
   `
   

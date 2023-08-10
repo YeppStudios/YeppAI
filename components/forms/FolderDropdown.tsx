@@ -74,16 +74,16 @@ export default function FoldersDropdown() {
           backgroundImage: "linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF)", backgroundOrigin: "border-box",
           backgroundClip: "padding-box, border-box", overflow: "hiddens", display: "flex", alignItems: "center"}}
         >
-        <div className="h-10 w-10 ml-4 flex items-center flex-shrink-0 text-black">
+        <div className="w-8 h-8 lg:h-10 lg:w-10 ml-4 flex items-center flex-shrink-0 text-black">
             <BsFolder style={{width: "60%", height: "auto"}} />
         </div>
-        <span style={{maxWidth: "75%"}} className="block truncate text-left text-black font-medium text-lg flex items-center">
-          {selectedFolders.length > 0 ? selectedFolders[0].title : <div className='text-black font-medium text-lg'>Choose uploaded assets...</div>} 
+        <span style={{maxWidth: "75%"}} className="block truncate text-left text-black font-medium text-base md:text-lg flex items-center">
+          {selectedFolders.length > 0 ? selectedFolders[0].title : <div className='text-black font-medium text-base md:text-lg'>Choose uploaded assets...</div>} 
           {selectedFolders.length > 1 && <div className='ml-4 bg-slate-100 rounded-full py-1 px-2 text-sm'>+{selectedFolders.length -1}</div>}
         </span>
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-6 2xl:pr-8">
               <BsChevronDown
-                className={"h-6 w-6 2xl:h-6 2xl:w-6 text-black arrowicon"}
+                className={"h-4 w-4 lg:h-6 lg:w-6 2xl:h-6 2xl:w-6 text-black arrowicon"}
                 aria-hidden="true"
               />
             </span>

@@ -1,23 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import api from "@/pages/api";
-import facebookIcon from "../../public/images/facebook-color.png";
-import instagramIcon from "../../public/images/instagram-color.png";
-import linkedinIcon from "../../public/images/linkedin-color.png";
-import twitterIcon from "../../public/images/twitter-color.png";
-import konspektIcon from "../../public/images/konspekt-icon.png";
-import articleIcon from "../../public/images/article-icon.png";
-import newsletterIcon from "../../public/images/newsletter-icon.png";
-import documentIcon from "../../public/images/document-icon.png";
-import emailIcon from "../../public/images/email-icon.png";
-import amazonLogo from "../../public/images/amazon-logo.png";
-import allegroLogo from "../../public/images/allegro-logo.png";
-import googleLogo from "../../public/images/google-logo.png";
-import { BlueLoader } from "@/components/Common/Loaders";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import DeleteDoc from "@/components/Modals/DeletingModals/DeleteDocModal";
 import styled from "styled-components";
@@ -26,6 +9,8 @@ import Input from "../../forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
 import { Switch } from "@headlessui/react";
 import TextArea from "@/components/forms/TextArea";
+import api from "@/pages/api";
+import { Loader } from "@/components/Common/Loaders";
 
 const tones = [
   "Formal ",
@@ -59,6 +44,7 @@ const campaignTypes = [
 export default function CampaignSidebar(props: {
   setOpen: any;
   open: boolean;
+  campaign: any;
 }) {
   const [openDeleteContent, setOpenDeleteContent] = useState(false);
   const [contentToDelete, setContentToDelete] = useState("");
@@ -69,7 +55,7 @@ export default function CampaignSidebar(props: {
   const [campaignType, setCampaignType] = useState<string>("Advertisement");
   const [productType, setProductType] = useState<string>("");
   const [useEmojis, setUseEmojis] = useState<boolean>(true);
-
+  const [loading, setLoading] = useState(false);
   const [targetAudience, setTargetAudience] = useState<string>("");
   const [objectives, setObjectives] = useState<string>("");
   const [keywords, setKeywords] = useState<string>("");
@@ -84,7 +70,56 @@ export default function CampaignSidebar(props: {
     if (window.innerWidth < 1023) {
       setMobile(true);
     }
-  }, []);
+    if (props.campaign.type) {
+      setCampaignType(props.campaign.type);
+    }
+    if (props.campaign.language) {
+      setLanguage(props.campaign.language);
+    }
+    if (props.campaign.toneOfVoice) {
+      setTone(props.campaign.toneOfVoice);
+    }
+    if (props.campaign.targetAudience) {
+      setTargetAudience(props.campaign.targetAudience);
+    }
+    if (props.campaign.objective) {
+      setObjectives(props.campaign.objective);
+    }
+    if (props.campaign.keywords) {
+      setKeywords(props.campaign.keywords)
+    }
+    if (props.campaign.about) {
+      setProductType(props.campaign.about)
+    }
+  }, [props.campaign]);
+
+  const updateCampaign = async (e: any) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const response = await api.patch(`/updateCampaign/${props.campaign._id}`, {
+        type: campaignType,
+        language,
+        toneOfVoice: tone,
+        targetAudience,
+        objective: objectives,
+        keywords,
+        about: productType
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("token")
+        }
+      }
+      )
+      setLoading(false);
+      router.reload();
+    } catch (e) {
+      setLoading(false);
+      console.log(e)
+    }
+
+  }
 
   return (
     <>
@@ -142,9 +177,9 @@ export default function CampaignSidebar(props: {
                       <div className="border-b border border-[#e5e5e5]">
                         <div className="px-6 mt-6">
                           {/*content*/}
-                          <form className="">
+                          <form className="" onSubmit={(e) => updateCampaign(e)}>
                             <div className="grid grid-cols-1">
-                              <div className="grid grid-cols-2">
+                              <div className="grid lg:grid-cols-2">
                                 <div className="pb-6 pr-3 pl-3 pt-0">
                                   <Label>Campaign type</Label>
                                   <CustomDropdown
@@ -232,7 +267,7 @@ export default function CampaignSidebar(props: {
                                   />
                                 </div>
                               </div>
-                              <div className="grid grid-cols-2">
+                              <div className="grid lg:grid-cols-2">
                                 <div className="pb-6 pr-3 pl-3 pt-0">
                                   <Label className="pb-2">
                                     Use relevant emojis
@@ -264,7 +299,11 @@ export default function CampaignSidebar(props: {
                                 <div className="pb-6 pr-3 pl-3 pt-0">
                                   <ButtonContainer>
                                     <ContinueBtn type="submit">
-                                      Save
+                                      {loading ?
+                                      <Loader color="white" />
+                                      :
+                                      <p>Save</p>
+                                      }
                                     </ContinueBtn>
                                   </ButtonContainer>
                                 </div>

@@ -48,7 +48,6 @@ const RegularTextContainer = (props: {template: any, text: string, prompt: strin
         if(!liked && !disableLike && props.isSSEComplete && props.prompt && props.template){
             setShowSavedIcon(true);
             const token = localStorage.getItem("token");
-            console.log(props.template.icon)
             try {
                 await api.post("/addContent", {
                     text,

@@ -20,9 +20,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import DeleteDoc from '../Modals/DeletingModals/DeleteDocModal';
-const tabs = [
-  { name: 'All', href: '#', current: true },
-]
+import { useSelector } from "react-redux";
+import { selectedUserState } from "@/store/userSlice";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -68,6 +67,9 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
   const [openDeleteContent, setOpenDeleteContent] = useState(false);
   const [contentToDelete, setContentToDelete] = useState("");
   const [mobile, setMobile] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("Templates")
+  const [campaigns, setCampaigns] = useState<any[]>([]);
+  const user = useSelector(selectedUserState);
 
   const router = useRouter();
 
@@ -79,15 +81,31 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const workspace = localStorage.getItem("workspace");
     const fetchSavedContent = async () => {
       setLoading(true);
       try {
+        let fetchedUser = user;
+        if (workspace && workspace !== "null" && workspace !== "undefined") {
+          const {data} = await api.get(`/workspace-company/${workspace}`, {
+            headers: {
+              authorization: localStorage.getItem("token"),
+            }
+          });
+          fetchedUser = data.company;
+        }
+        const fetchedCampaigns = await api.get("campaignsByOwner", {
+          headers: {
+            authorization: token
+          }
+        })
         const fetchedContent = await api.get(`/getUserSavedContent`, {
           headers: {
             authorization: token,
           },
         });
         setSavedContent(fetchedContent.data);
+        setCampaigns(fetchedCampaigns.data);
         setLoading(false);
       } catch (e) {
         console.log(e)
@@ -114,7 +132,7 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
     const renderedContent = savedContent.map((content) => {
       if (content.category !== "document") { // Only process items that are not documents
         return (
-          <div key={content.text.slice(0, 20)}>
+          <div key={"content-" + content.text.slice(0, 20)}>
           <div onClick={() => handleOpenContent(content)}>
           <div className="group cursor-pointer relative flex items-center px-5 py-6">
             <div className="-m-1 block flex-1 p-1">
@@ -183,6 +201,76 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
     )
 }
 
+
+const renderCampaigns = () => {
+  const renderedCampaigns = campaigns.map((campaign) => {
+      return (
+        <div key={"campaign-" + campaign.title.slice(0, 20)}>
+        <div onClick={() => router.push(`/campaign/${campaign._id}`)}>
+        <div className="group cursor-pointer relative flex items-center px-5 py-6">
+          <div className="-m-1 block flex-1 p-1">
+            <div className="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true" />
+            <div className="relative flex min-w-0 flex-1 items-center">
+              <Image src={getContentTypeIcon("document")} className="flex-none w-10 h-10" alt={"icon"} />
+              <div className="ml-4 truncate">
+                <p className="truncate text-md font-medium text-gray-900">{mobile ? campaign.title.slice(0, 20) : campaign.title.slice(0, 40)}</p>
+              </div>
+            </div>
+          </div>
+          <Menu onClick={(e) => e.stopPropagation()} as="div" className="relative ml-2 inline-block flex-shrink-0 text-left">
+            <Menu.Button  onClick={(e) => e.stopPropagation()} className="group relative inline-flex h-8 w-8 items-center justify-center rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              <span className="sr-only">Open options menu</span>
+              <span className="flex h-full w-full items-center justify-center rounded-full">
+                <EllipsisVerticalIcon
+                  className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                  aria-hidden="true"
+                />
+              </span>
+            </Menu.Button>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-9 top-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <div
+                        onClick={() => openDeleteContentModal(campaign)}
+                        className={classNames(
+                          active ? 'bg-red-50 text-red-700' : 'text-red-500',
+                          'block px-4 py-2 text-sm'
+                        )}
+                      >
+                        Delete
+                      </div>
+                    )}
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
+        </div>
+        </div>
+      )
+  })
+
+  return (
+    <div>
+      {renderedCampaigns}
+    </div>
+  )
+}
+
+
+
+
   
   return (
     <>
@@ -223,20 +311,28 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
                     <div className="border-b border-gray-200">
                       <div className="px-6">
                         <nav className="-mb-px flex space-x-6" x-descriptions="Tab component">
-                          {tabs.map((tab) => (
-                            <a
-                              key={tab.name}
-                              href={tab.href}
+                            <div
+                              onClick={() => setSelectedTab("Templates")}
                               className={classNames(
-                                tab.current
+                                selectedTab === "Templates"
                                   ? 'border-blue-500 text-blue-600'
                                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                                'whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium'
+                                'whitespace-nowrap border-b-2 px-1 pb-4 cursor-pointer text-sm font-medium'
                               )}
                             >
-                              {tab.name}
-                            </a>
-                          ))}
+                              Templates
+                            </div>
+                            <div
+                              onClick={() => setSelectedTab("Campaigns")}
+                              className={classNames(
+                                selectedTab === "Campaigns"
+                                  ? 'border-blue-500 text-blue-600'
+                                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                                'whitespace-nowrap border-b-2 cursor-pointer px-1 pb-4 text-sm font-medium'
+                              )}
+                            >
+                              Campaigns
+                            </div>
                         </nav>
                       </div>
                     </div>
@@ -244,7 +340,13 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
                       {loading ?
                       <div className='mt-16 w-full flex justify-center'><BlueLoader /></div>
                       :
-                      renderContent()
+                      <>
+                        {selectedTab === "Campaigns" ?
+                        renderCampaigns()
+                        :
+                        renderContent()
+                        }
+                      </>
                       }
                     </ul>
                   </div>

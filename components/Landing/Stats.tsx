@@ -3,10 +3,10 @@ import SlideBottom from "../Animated/SlideBottom"
 import SlideLeft from "../Animated/SlideLeft"
 
 const stats = [
-    { id: 1, name: 'Platform users', value: '2,500+' },
-    { id: 2, name: 'Marketing agencies', value: '30+' },
-    { id: 3, name: 'Uptime guarantee', value: '99.9%' },
-    { id: 4, name: 'Words generated', value: '20,000,000+' },
+    { id: 1, name: 'Platform users', value: '2,650+' },
+    { id: 2, name: 'Marketing agencies', value: '40+' },
+    { id: 3, name: 'Avg. content creation', value: '10x faster' },
+    { id: 4, name: 'Drafts crafted', value: '200,000+' },
   ]
   
   export default function Example() {
@@ -33,21 +33,20 @@ const stats = [
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-2xl">
             <SlideLeft>
-            <p className="mt-2 text-3xl font-bold text-white sm:text-6xl">
-              Trusted by thousands of creators&nbsp;worldwide
+            <p className="mt-2 text-[1.75rem] font-bold text-white sm:text-6xl">
+              Trusted by thousands of marketers worldwide
             </p>
             </SlideLeft>
             <SlideLeft>
-            <p className="mt-6 text-xl leading-8 text-gray-300">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste
-              dolor cupiditate blanditiis ratione.
+            <p className="mt-6 text-lg lg:text-xl leading-8 text-gray-300">
+            At the forefront of the AI revolution, Yepp AI is transforming the game, empowering marketers to craft top-notch, deeply insightful content like never before.
             </p>
             </SlideLeft>
           </div>
           
           <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
             {stats.map((stat) => (
-                <div key={stat.id} className="flex flex-col gap-y-3 border-l border-white/10 pl-6">
+                <div key={stat.id} className="flex flex-col gap-y-3 border-l border-white/10 lg:pl-6">
                 <SlideBottom>
                 <dt className="text-base leading-6">{stat.name}</dt>
                 <dd className="order-first text-4xl font-semibold tracking-tight">{stat.value}</dd>
