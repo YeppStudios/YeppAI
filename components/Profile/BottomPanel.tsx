@@ -159,8 +159,27 @@ const BottomPanel = () => {
       const addTeammate = async (e: any) => {
         e.preventDefault();
         setLoading(true);
-
         try {
+            if (plan.name === "Standard" || plan.name === "Freemium") {
+                if (employees.length > 2) {
+                    showNotification({
+                        id: 'max-employees',
+                        disallowClose: true,
+                        autoClose: 5000,
+                        title: `Invitation limit for ${plan.name} plan`,
+                        message: 'Upgrade your plan to invite more teammates.',
+                        color: 'black',
+                  
+                        styles: (theme: any) => ({
+                          root: {
+                            border: "none",
+                  
+                          },
+                        })
+                      })
+                      return;
+                }
+            }
             const { data } = await api.post("/send-invitation", {email, role: "employee"}, {
                 headers: {
                     Authorization: `${token}`
