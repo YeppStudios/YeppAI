@@ -469,7 +469,7 @@ import {
               <FoldersDropdown />
               </div>
               <div className="pb-6 pr-3 pl-3 pt-0">
-                <Label>Target autdience</Label>
+                <Label>Target audience</Label>
                 <Input
                   height="2.8rem"
                   padding="1rem"
