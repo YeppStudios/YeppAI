@@ -73,8 +73,8 @@ const Campaign = () => {
     const saveTimeouts: Record<string, NodeJS.Timeout> = {};
     
     const adjustTextareaHeight = (element: any) => {
-      element.style.height = 'auto';
-      element.style.height = `${element.scrollHeight}px`;
+        element.style.height = 'auto';
+        element.style.height = `${element.scrollHeight}px`;
   };
   
   const handleTextareaLoad = (id: string) => {
@@ -426,7 +426,6 @@ const Campaign = () => {
               } catch (e) {
               }
             }
-            console.log(promptToSend)
             try {
               const response = await fetch('https://asystentai.herokuapp.com/askAI', {
                 method: 'POST',
@@ -546,7 +545,7 @@ const Campaign = () => {
     
 
     return (
-        <div>
+        <div id="main-container">
             {openNoElixirModal && <NoElixirModal onClose={() => setOpenNoElixirModal(false)} />}
             <PageTemplate>
             <PageContainer>
@@ -577,7 +576,6 @@ const Campaign = () => {
                     </div>
                     </div>
                 </Header>
-                <Centered>
                     <SectionsContainer
                     className="my-masonry-grid w-full"
                     breakpointCols={breakpointColumnsObj}
@@ -587,7 +585,8 @@ const Campaign = () => {
                         <BlueLoader />
                     </div>
                     :
-                    templates.map((template) => {
+                    <TemplatesContainer>
+                      { templates.map((template) => {
                         const isCategoryExpanded = expandedCategories.includes(
                             template.data.title
                         );
@@ -660,8 +659,10 @@ const Campaign = () => {
                             </div>
                         );
                         })}
+                        </TemplatesContainer>
+                        }
+                        <div id="templates-section-bottom"></div>
                     </SectionsContainer>
-                </Centered>
                 </PageContainer>
             </PageTemplate>
         </div>
@@ -679,7 +680,7 @@ const Header = styled.div`
   width: 100%;
   color: black;
   border-bottom: 2px solid #eaedf5;
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
   @media (max-width: 1023px) {
     display: flex;
     padding: 1rem 1rem 1.5rem 1rem;
@@ -692,9 +693,10 @@ const Header = styled.div`
 `;
 
 const PageContainer = styled.div`
-  min-height: calc(100vh - 1.5rem);
+  height: calc(100vh - 1.5rem);
   align-items: center;
   width: 100%;
+  overflow: hidden;
   border-radius: 25px;
   padding: 0.5rem 2rem 1.5rem 2rem;
   @media (max-width: 1023px) {
@@ -716,9 +718,25 @@ const PageContainer = styled.div`
 const SectionsContainer = styled(Masonry)`
   width: 100%;
   display: flex;
+  height: 100%;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  -webkit-scrollbar-width: none;
+  align-items: center;
+  -webkit-mask: 
+  linear-gradient(to top,    black 90%, transparent) top   /100% 51%,
+  linear-gradient(to bottom, black 90%, transparent) bottom/100% 50%,
+  linear-gradient(to left  , black, transparent) left  /100% 0%,
+  linear-gradient(to right , black, transparent) right /100% 0%;
+  -webkit-mask-repeat:no-repeat;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+      display: none;
+  }
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 1rem;
+  padding-bottom: 8rem;
   @media (max-width: 1023px) {
     padding: 1rem 0 1rem 0;
   }
@@ -737,6 +755,7 @@ const PostContentForm = styled.textarea`
     outline: none;
     resize: none;
     z-index: 1;
+    will-change: transform;
     @media (max-width: 1023px) {
         margin-top: 4vh;
     }
@@ -750,4 +769,8 @@ const PostContentForm = styled.textarea`
     &::-webkit-scrollbar {
         display: none;
     }
+`
+
+const TemplatesContainer = styled.div`
+    height: 500rem;
 `
