@@ -78,13 +78,13 @@ const SolutionPage = () => {
         </Head>
         <Navbar />
         <div className="lg:mt-[6rem] mt-[7rem]" />
-        <section className="relative lg:mb-6 lg:mb-6">
+        <section className="relative">
           <div className="lg:h-[80vh] h-[90vh] relative w-full">
-            <Image src={solutionData.image} alt="chat with your data image" style={{height: "100%"}} />
+            <Image src={solutionData.image} alt="chat with your data image" style={{width: "100%"}} width={1000} height={300} />
           </div>
           <div className="absolute inset-x-0 bottom-0 bg-white z-20 flex flex-col gap-12 px-12 lg:px-16 shadow-[0px_-20px_20px_40px_#fff] shadow-white ">
           <SlideBottom>
-            <div className="lg:grid lg:grid-cols-2 flex flex-col w-full">
+            <div className="lg:grid lg:grid-cols-2 flex flex-col w-full border-b border-[#e5e5e5] pb-6">
               <SectionTitle className="lg:text-3xl text-[8vw] lg:pb-0 lg:text-start text-center pb-[15vh]">
                 {solutionData.title}
               </SectionTitle>
@@ -107,8 +107,8 @@ const SolutionPage = () => {
           </div>
         </section>
         <PageContent>
-          <section className=" h-full lg:border-t-2  lg:border-[#e5e5e5] p-4 relative lg:px-24 px-4">
-            <div className="flex mt-[10vh] h-full w-full">
+          <section className=" h-full lg:border-t-2 bg-white lg:border-[#e5e5e5] p-4 relative lg:px-24 px-4">
+            <div className="flex mt-[5vh] h-full w-full">
   
               {/* {!mobile && (
                 // Adjust bar with dots and tiles with icons
@@ -119,7 +119,7 @@ const SolutionPage = () => {
                 </div>
               )} */}
   
-              <div className="flex flex-col lg:pt-12 pt-8 lg:gap-[15vh] gap-[12vh]">
+              <div className="flex flex-col lg:pt-12 pt-8 lg:gap-[20vh] gap-[12vh]">
               {solutionData.tutorial.map((tutorial, index) => (
               <div className="grid lg:grid-cols-2 items-center justify-center flex-col" key={index}>
                 <SlideBottom>
@@ -159,7 +159,7 @@ const SolutionPage = () => {
                 ))}
               </div>
             </section>
-            <section className="mt-24 lg:mb-60 mb-28 lg:px-24 px-6">
+            <section className="mt-28 lg:mb-36 mb-28 lg:px-24 px-6">
               <div className="flex w-full pb-8 border-b-2 lg:mb-16 mb-12">
                 <SectionTitle>Other solutions</SectionTitle>
               </div>
@@ -173,7 +173,7 @@ const SolutionPage = () => {
                           {solution.description}
                         </CardText>
                       </div>
-                      <Image src={solution.image || placeholderImg} layout="fill" alt={solution.title} />
+                      <Image src={solution.image || placeholderImg} fill alt={solution.title} />
                     </div>
                   </SlideBottom>
                 ))}
@@ -181,7 +181,7 @@ const SolutionPage = () => {
             </section>
   
           <div className="px-5"><LearnMoreSection /></div>
-          <div className="pb-28" />
+          <div className="pb-0" />
           <Footer />
         </PageContent>
   
@@ -230,6 +230,7 @@ const SectionSubtitle = styled.h3`
 const PageContent = styled.div`
   position: relative;
   height: 100%;
+  background: white;
   width: 100%;
 `;
 
