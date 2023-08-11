@@ -48,8 +48,10 @@ const Pricing = () => {
             <StartBtnContainer>
             </StartBtnContainer>
         </HeroSection>
-        <Plans openRegistration={true} purchase={false} landing={true}/>
-        <TrialBanner />
+        <div className='px-[5vw] lg:px-[8vw]'>
+            <Plans openRegistration={true} purchase={false} landing={true}/>
+            <TrialBanner />
+        </div>
         {/* {!mobile &&
         <PlanComparison />
         } */}
@@ -72,7 +74,6 @@ const Layout = styled.div`
     height: 100%;
     overflow: hidden;
     background-color: white;
-    padding: 0 8vw 0 8vw;
     @media (max-width: 1023px) {
     padding: 0 5vw 0 5vw;
     }
@@ -90,7 +91,7 @@ const HeroSection = styled.div`
 }
 `
 const HeroText = styled.h1`
-    font-size: 6vw;
+    font-size: 4.5rem;
     font-weight: 700;
     line-height: 1.2;
     margin-top: -0.5rem;
