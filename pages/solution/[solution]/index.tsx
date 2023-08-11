@@ -280,7 +280,7 @@ const SolutionPage = () => {
             </div>
           </div>
         </section>
-        <LearnMoreSection />
+        <div className="px-5"><LearnMoreSection /></div>
         <div className="pb-28" />
         <Footer />
       </PageContent>
@@ -301,7 +301,7 @@ const CardText = styled.p`
 const CardTitle = styled.h4`
   padding-top: 12px;
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 500;
   @media (max-width: 1023px) {
     font-size: 1.5rem;
     margin-top: 0.45rem;
