@@ -16,17 +16,13 @@ import {
 } from '@heroicons/react/24/outline'
 
 const solutions = [
-  { name: 'Marketing Templates', description: 'Get a better understanding of your traffic', href: '#', icon: ClipboardDocumentListIcon },
+  { name: 'Marketing Templates', description: 'Get a better understanding of your traffic', href: '/solution/marketing-templates', icon: ClipboardDocumentListIcon },
   { name: 'Copywriting', description: 'Speak directly to your customers', href: '#', icon: DocumentTextIcon },
   { name: 'Chat with data', description: "Your customers' data will be safe and secure", href: '#', icon: ChatBubbleBottomCenterTextIcon },
   { name: 'Marketing campaigns', description: 'Effortlessly genrate content for the entire campaign', href: '#', icon: MegaphoneIcon },
   { name: 'Uploading content', description: 'Teach AI about your client or any niche topic', href: '#', icon: FolderArrowDownIcon },
 ]
 
-const callsToAction = [
-  { name: 'Start free trial', href: '#', icon: GiftIcon },
-  { name: 'Schedule free demo', href: '#', icon: CalendarDaysIcon },
-]
 
 const Navbar = () =>{
 
@@ -52,7 +48,7 @@ const Navbar = () =>{
                     setIsFixed(false);
                 }
             } else {
-                if (window.scrollY < 24) {
+                if (window.scrollY < 1) {
                     setIsFixed(false);
                 } else {
                     setIsFixed(true);
@@ -78,7 +74,7 @@ const Navbar = () =>{
                     <Link href="/"><AppName>Yepp AI</AppName></Link>
                 </Container>
                 <Container>
-                {/* <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                     <Popover className="relative">
                         <Popover.Button className="inline-flex items-center gap-x-1 text-sm leading-6 text-black outline-none">
                             <span>Solutions</span>
@@ -112,22 +108,26 @@ const Navbar = () =>{
                                 ))}
                                 </div>
                                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                                {callsToAction.map((item) => (
-                                    <a
-                                    key={item.name}
-                                    href={item.href}
+                                <button
+                                    onClick={() => router.push("/register?registration=true&company=true&trial=true")}
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
                                     >
-                                    <item.icon className="h-5 w-5 flex-none" aria-hidden="true" />
-                                    {item.name}
+                                    <GiftIcon className="h-5 w-5 flex-none" aria-hidden="true" />
+                                        Start free trial
+                                    </button>
+                                    <a
+                                    href="https://calendly.com/yeppai/yepp-introduction-call"
+                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
+                                    >
+                                    <CalendarDaysIcon className="h-5 w-5 flex-none" aria-hidden="true" />
+                                        Book a free demo
                                     </a>
-                                ))}
                                 </div>
                             </div>
                             </Popover.Panel>
                         </Transition>
                     </Popover>
-                    </NavLink> */}
+                    </NavLink>
                     {pathname.includes("assistant") ?
                         <Link href="/pricing?type=individual"><NavLink id="pricing-btn">Pricing</NavLink></Link>
                         :
@@ -161,7 +161,7 @@ const NavContainer = styled.div<NavContainerProps>`
     position: ${({ isFixed }) => isFixed ? "fixed" : "absolute"};
     top: 0rem;
     height: 6rem;
-    margin-top: ${({ isFixed }) => isFixed ? "0" : "1.5rem"};
+    margin-top: 0rem;
     z-index: 100;
     backdrop-filter: blur(5px);
     background-color: rgba(255, 255, 255, 0.95);
