@@ -25,27 +25,27 @@ const LeftFeature = (props: {
   return (
     <FeatureContainer marginTop={props.marginTop} color={props.color}>
       <SlideBottom>
-        <div>
+        <div className="flex items-center justify-center flex-col lg:justify-start lg:items-start">
           <FeatureTitle>{props.title}</FeatureTitle>
           <FeatureDescription color={props.color}>
             {!mobile && props.text}
-            {!mobile &&
-            <ul className="mt-6">
-              {props.bulletpoints.map((item, index, array) => {
-                return (
-                  <li key={item}>
-                    {item}
-                    {index !== array.length - 1 && mobile ? "," : ""}
-                  </li>
-                );
-              })}
-            </ul>
-            }
+            {!mobile && (
+              <ul className="mt-6">
+                {props.bulletpoints.map((item, index, array) => {
+                  return (
+                    <li key={item}>
+                      {item}
+                      {index !== array.length - 1 && mobile ? "," : ""}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </FeatureDescription>
           {!mobile && (
             <Link href="/assets?registration=true&trial=true">
-              <Button color={props.color} className='trial-btn-feature'>
-                <BtnText>Try now</BtnText>
+              <Button color={props.color} className="trial-btn-feature">
+                <BtnText>Try now </BtnText>
               </Button>
             </Link>
           )}
@@ -65,7 +65,7 @@ const LeftFeature = (props: {
       {mobile && (
         <Link href="/assets?registration=true&trial=true">
           <Button color={props.color} className="">
-            <BtnText>Try now</BtnText>
+            <BtnText>Try now </BtnText>
           </Button>
         </Link>
       )}
@@ -87,6 +87,7 @@ const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
   gap: 0px 0px;
   grid-template-areas: ". .";
   align-items: center;
+  grid-column-gap: 2rem;
   @media (max-width: 1023px) {
     display: flex;
     flex-wrap: wrap;
@@ -142,7 +143,7 @@ const GifLayout = styled.div`
 
 const GifContainer = styled.div`
   overflow: visible;
-  margin-right: 8vw;
+  margin-right: 5vw;
   max-height: 90vh;
   width: 40rem;
   border-radius: 25px;
