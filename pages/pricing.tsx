@@ -39,7 +39,7 @@ const Pricing = () => {
     </Head>
 
     <Layout>
-      <Navbar onNewsletterClick={() => handleNewsletterScroll()} />
+      <Navbar />
         <HeroSection>
             <MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle>
             <SlideBottom>

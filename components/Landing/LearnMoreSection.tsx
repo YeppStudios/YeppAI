@@ -112,13 +112,13 @@ const Section = styled.div`
     display: grid; 
     grid-template-columns: 1.2fr 0.8fr; 
     grid-template-rows: 1fr; 
+    padding: 6rem;
     gap: 0px 0px; 
-    padding-left: 8vw;
     grid-template-areas:
       ". ."; 
       @media (max-width: 1023px) {
         display: flex;
-        padding-left: 0;
+        padding: 0;
         flex-wrap: wrap;
         width: 90vw;
       }
@@ -141,9 +141,6 @@ const Description = styled.p`
 `
 
 
-const FaqContainer = styled.div`
-
-`
 
 const ContactContainer = styled.div`
 @media (max-width: 1023px) {

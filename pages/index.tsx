@@ -1,41 +1,40 @@
-import SlideBottom from "@/components/Animated/SlideBottom";
-import Centered from "@/components/Centered";
-import HeroText from "@/components/Landing/HeroText";
-import Navbar from "@/components/Landing/Navbar";
-import Head from "next/head";
-import styled from "styled-components";
-import Image from "next/image";
+import SlideBottom from '@/components/Animated/SlideBottom';
+import Centered from '@/components/Centered';
+import HeroText from '@/components/Landing/HeroText';
+import Navbar from '@/components/Landing/Navbar';
+import Head from 'next/head'
+import styled from 'styled-components';
+import Image from 'next/image';
 import laptopVisualization from "../public/images/laptopVisualization.png";
-import Section from "@/components/Landing/Section";
-import LeftFeature from "@/components/Landing/LeftFeature";
-import RightFeature from "@/components/Landing/RightFeature";
-import LearnMoreSection from "@/components/Landing/LearnMoreSection";
-import Footer from "@/components/Landing/Footer";
-import Loading from "@/components/Common/Loading";
-import { useRouter } from "next/router";
-import { BsFillGiftFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
-import Title from "@/components/Common/Title";
+import Section from '@/components/Landing/Section';
+import LeftFeature from '@/components/Landing/LeftFeature';
+import RightFeature from '@/components/Landing/RightFeature';
+import LearnMoreSection from '@/components/Landing/LearnMoreSection';
+import Footer from '@/components/Landing/Footer';
+import Loading from '@/components/Common/Loading';
+import { useRouter } from 'next/router';
+import { BsFillGiftFill } from 'react-icons/bs';
+import { useEffect, useState } from 'react';
+import Title from '@/components/Common/Title';
 import webBackground from "../public/images/webBackground.png";
-import { TypewriterSection } from "@/components/Landing/TypewriterSection";
-import Plans from "@/components/Landing/Plans";
-import Space from "@/components/Docs/common/Space";
-
-import Stats from "@/components/Landing/Stats";
+import { TypewriterSection } from '@/components/Landing/TypewriterSection';
+import Plans from '@/components/Landing/Plans';
+import Space from '@/components/Docs/common/Space';
+import Stats from '@/components/Landing/Stats';
 import reviewsImage from "../public/images/reviews_image.png";
 import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
 import questionmarkIcon from "../public/images/questionmark_icon.png";
 
 interface Background {
-  image: any;
+  image: any
 }
 interface SectionWithBackground {
-  image: any;
-  mobileBackground: any;
+  image: any,
+  mobileBackground: any
 }
 
 interface CustomColor {
-  color: string;
+  color: string
 }
 
 const Homepage = () => {
@@ -45,15 +44,15 @@ const Homepage = () => {
 
   const handleNewsletterScroll = () => {
     const contactSection = document.getElementById("newsletter")!;
-    contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    contactSection.scrollIntoView({behavior: 'smooth', block: 'start'});
   };
 
   useEffect(() => {
-    if (window.innerWidth >= 1023) {
+    if(window.innerWidth >= 1023){
       setMobile(false);
     }
-    document.body.style.overflow = "auto";
-    document.body.style.position = "static";
+    document.body.style.overflow = 'auto';
+    document.body.style.position = 'static';
   }, []);
 
     return (
@@ -66,7 +65,7 @@ const Homepage = () => {
         </Head>
         <PageContent>
           <Loading />
-          <Navbar onNewsletterClick={() => handleNewsletterScroll()} />
+          <Navbar />
           <Background>
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
@@ -78,80 +77,52 @@ const Homepage = () => {
               <DescriptionHero color="black">
                 #1 AI marketing platform that knows you and your clients.
               </DescriptionHero>
-            </Centered>
-            <Centered>
-              {mobile ? (
-                <TestButton
-                  id="landing-big-test-btn"
-                  onClick={() =>
-                    router.push(
-                      "/register?registration=true&company=true&trial=true"
-                    )
-                  }
-                >
-                  <BsFillGiftFill />
-                  <TestText>Start free trial</TestText>
-                </TestButton>
-              ) : (
-                <TestButton
-                  id="landing-big-test-btn"
-                  onClick={() =>
-                    router.push(
-                      "/register?registration=true&company=true&trial=true"
-                    )
-                  }
-                >
-                  <BsFillGiftFill />
-                  <TestText>Start free trial</TestText>
-                </TestButton>
-              )}
-            </Centered>
-            <Centered>
-              {!mobile && (
-                <div className="font-medium mt-4">
-                  Claim ~10 000 words or 5 days for free
-                </div>
-              )}
-            </Centered>
-            <Centered>
-              <LoginButton onClick={() => router.push("/chat")}>
-                Log in
-              </LoginButton>
-            </Centered>
-          </div>
-        </HeroSection>
-        <SlideBottom>
-          <Centered>
-            <LaptopContainer>
-              <Image
-                style={{ width: "auto", height: "100%" }}
-                src={laptopVisualization}
-                alt={"preview"}
-              ></Image>
-            </LaptopContainer>
-          </Centered>
-          <Centered>
-            <IphoneContainerMobile>
-              <Image
-                style={{ width: "100%", height: "auto" }}
-                src={laptopVisualization}
-                alt={"preview"}
-              ></Image>
-            </IphoneContainerMobile>
-          </Centered>
-        </SlideBottom>
-        <Section>
-          <Centered>
-            <SlideBottom>
-              <div id="functionalities"></div>
-              <Centered>
-                <MiniTitle>YEPP AI WILL HELP YOU</MiniTitle>
               </Centered>
-              <HeroText>
-                <ColorfulText>Reduce workload</ColorfulText> and watch your
-                online presence grow.
-              </HeroText>
-              <Space margin="5vh" />
+              <Centered>
+                {mobile ?
+                  <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
+                  :
+                  <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
+                }
+              </Centered>
+              <Centered>{!mobile && <div className='text-lg mt-4 text-center font-medium'>7 days for free <br /><p className='text-sm font-normal'>*up to 10 000 words</p></div>}</Centered>
+              <Centered>
+              <LoginButton className="login-btn-landing" onClick={() => router.push("/chat")}>Log in</LoginButton>
+              </Centered>
+              </div>
+          </HeroSection>
+          <div id="offer"></div>
+                    <SlideBottom>
+                <Centered>
+                  <LaptopContainer>
+                      <Image style={{ width: "auto", height: "100%" }}  src={laptopVisualization} alt={'preview'}></Image> 
+                  </LaptopContainer>
+                  </Centered>
+                  <Centered>
+                  <IphoneContainerMobile>
+                      <Image style={{ width: "100%", height: "auto" }}  src={laptopVisualization} alt={'preview'}></Image> 
+                  </IphoneContainerMobile>
+                </Centered>
+          </SlideBottom>
+             {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
+             <Centered>{!mobile && <div className='text-lg mt-4 text-center font-medium'>7 days for free <br /><p className='text-sm font-normal'>*up to 10 000 words</p></div>}</Centered>
+          <Section>
+            <Stats />
+          </Section>
+
+          <Section>
+            <Centered>
+            <SlideBottom>
+            <div id="functionalities"></div>
+            {!mobile &&
+              <div>
+                <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
+                <HeroText>
+                  Reduce workload and watch your online presence <ColorfulText><b className='font-black'>grow.</b></ColorfulText>
+                </HeroText>
+              </div>
+            }
+            <Space margin="5vh"/>
             </SlideBottom>
             </Centered>
             </Section>
@@ -199,7 +170,6 @@ const Homepage = () => {
               <SlideBottom><Centered><HeroText><p className='text-white'>What do marketing agencies say about Yepp?</p></HeroText></Centered></SlideBottom>
               {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
               </div>
-
           </Section>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
@@ -225,20 +195,16 @@ const PageContent = styled.div`
   position: relative;
   height: 100%;
   overflow: hidden;
-  padding: 0 8vw 0 8vw;
-  @media (max-width: 1023px) {
-    padding: 0 5vw 0 5vw;
-  }
-`;
+`
 
 const Background = styled.div`
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  top: -6rem;
-  left: 0;
-`;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    top: -6rem;
+    left: 0;
+  `
 
 const HeroSection = styled.div`
   display: flex;
@@ -251,23 +217,24 @@ const HeroSection = styled.div`
     margin-top: 8rem;
     margin-bottom: 0rem;
   }
-`;
+`
 
 const DescriptionHero = styled.p<CustomColor>`
-  color: ${(props) => props.color || "#000000"};
-  font-size: 1.5rem;
-  width: 100%;
-  text-align: center;
-  font-weight: 500;
-  margin-top: 8vh;
-  @media (max-width: 1023px) {
-    margin-top: 1.5rem;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    width: 95%;
-    padding: 0 0.7rem 0 0.7rem;
-  }
-`;
+    color: ${props => props.color || '#000000'};
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 8vh;
+    @media (max-width: 1023px) {
+        margin-top: 1.5rem;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        width: 95%;
+        padding: 0 0.7rem 0 0.7rem;
+    }
+`
+
 
 const LoginButton = styled.button`
     font-size: 1rem;
@@ -330,7 +297,7 @@ const LaptopContainer = styled.div`
   @media (max-width: 1023px) {
     display: none;
   }
-`;
+`
 
 const IphoneContainerMobile = styled.div`
   width: 100%;
@@ -341,10 +308,10 @@ const IphoneContainerMobile = styled.div`
   @media (min-width: 1023px) {
     display: none;
   }
-`;
+`
 
 const SectionWithBackground = styled.div<SectionWithBackground>`
-  background-image: url(${(props) => props.image.src});
+  background-image: url(${props => props.image.src});
   width: 100vw;
   margin-left: -8vw;
   padding: 20vh 8vw 20vh 8vw;
@@ -356,22 +323,23 @@ const SectionWithBackground = styled.div<SectionWithBackground>`
     padding: 10vh 5vw 10vh 5vw;
     margin-left: -5vw;
     background-size: 120%;
-    background-image: url(${(props) => props.mobileBackground.src});
+    background-image: url(${props => props.mobileBackground.src});
   }
-`;
+`
 
 const TestText = styled.p`
-  margin-left: 1.5vw;
-  @media (max-width: 1023px) {
-    margin-left: 3vw;
-  }
-`;
+    margin-left: 1.5vw;
+    @media (max-width: 1023px) {
+        margin-left: 3vw;
+    }
+`
+
 
 const ColorfulText = styled.span`
-  background: -webkit-linear-gradient(-70deg, #6578f8, #64b5ff);
+  background: -webkit-linear-gradient(-70deg, #6578F8, #64B5FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-`;
+`
 
 const MiniTitle = styled.p`
     font-size: 1.2rem;
@@ -424,4 +392,3 @@ const Icon = styled.div`
   height: 4rem;
   margin-bottom: 1.25rem;
 `
-
