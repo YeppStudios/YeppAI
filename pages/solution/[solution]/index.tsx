@@ -22,6 +22,7 @@ interface TutorialOrUseCase {
 }
 
 interface Solution {
+  query: string;
   title: string;
   description: string;
   image: string;
@@ -58,11 +59,19 @@ const SolutionPage = () => {
         setMobile(false);
       } else setMobile(true);
     }
-    console.log(solution);
-    if (solution === "marketing-templates") {
-      setSolutionData(solutions[0]);
+
+    if (solution) {
+      solutions.forEach((currentSolution) => {
+        console.log(currentSolution.query, solution)
+        if (currentSolution.query === solution) { 
+          setSolutionData(currentSolution);
+          return;
+        }
+      });
     }
+
   }, [solution]);
+
 
   if (solutionData) {
     return (
@@ -85,7 +94,7 @@ const SolutionPage = () => {
           <div className="absolute inset-x-0 bottom-0 bg-white z-20 flex flex-col gap-12 px-12 lg:px-16 shadow-[0px_-20px_20px_40px_#fff] shadow-white ">
           <SlideBottom>
             <div className="lg:grid lg:grid-cols-2 flex flex-col w-full border-b border-[#e5e5e5] pb-6">
-              <SectionTitle className="lg:text-3xl text-[8vw] lg:pb-0 lg:text-start text-center pb-[15vh]">
+              <SectionTitle className="lg:text-3xl text-[8vw] lg:pb-0  pb-[15vh]">
                 {solutionData.title}
               </SectionTitle>
               <div className="lg:gap-8 gap-4 h-12 flex flex-col lg:flex-row py-8 lg:p-0 justify-end mt-6 lg:mt-0">
@@ -97,7 +106,7 @@ const SolutionPage = () => {
               </div>
               {!mobile &&
               <div className="flex items-center lg:justify-start  justify-center  mb-6 text-center">
-                <p className="text-xl mt-4 lg:pl-2 text-center lg:text-start  ">
+                <p className="text-xl mt-4 lg:pl-1 text-center lg:text-start  ">
                 {solutionData.description}
                 </p>
               </div>
@@ -124,7 +133,7 @@ const SolutionPage = () => {
               <div className="grid lg:grid-cols-2 items-center justify-center flex-col" key={index}>
                 <SlideBottom>
                   <div className="flex flex-col gap-[6vw] lg:gap-6 lg:w-[80%] w-full lg:p-0">
-                    <div className="flex flex-col lg:gap-3 lg:items-start items-center gap-4 justify-center ">
+                    <div className="flex flex-col lg:gap-3 lg:items-start items-center gap-4 text-center lg:text-left justify-center lg:justify-start ">
                       <tutorial.icon className="w-10 h-10"/>
                       <SectionSubtitle>{index +1}. {tutorial.title}</SectionSubtitle>
                     </div>
@@ -134,8 +143,8 @@ const SolutionPage = () => {
                   </div>
                 </SlideBottom>
                 <SlideBottom>
-                  <div className="relative lg:w-full w-full aspect-video flex items-center justify-center  rounded-2xl  overflow-x-hidden ">
-                    <Image src={tutorial.image} alt={tutorial.title} layout="fill" />
+                  <div className="relative lg:w-full border-4 border-black w-full aspect-video flex items-center justify-center  rounded-2xl  overflow-x-hidden ">
+                    <Image src={tutorial.image} alt={tutorial.title} fill />
                   </div>
                 </SlideBottom>
               </div>
@@ -153,7 +162,7 @@ const SolutionPage = () => {
                     <div className="flex flex-col gap-2 pb-2 lg:w-10/12 w-full">
                       <useCase.icon className="w-10 h-10"/>
                       <SectionSubtitle className="lg:text-[3vw] text-[5vw]">{useCase.title}</SectionSubtitle>
-                      <p className="pr-8 lg:text-lg text-[4vw]">{useCase.description}</p>
+                      <p className="pr-6 lg:text-lg text-[4vw]">{useCase.description}</p>
                     </div>
                   </SlideBottom>
                 ))}
@@ -163,19 +172,23 @@ const SolutionPage = () => {
               <div className="flex w-full pb-8 border-b-2 lg:mb-16 mb-12">
                 <SectionTitle>Other solutions</SectionTitle>
               </div>
-              <div className="grid lg:grid-cols-3 gap-8 grid-cols-1">
+              <div className="grid lg:grid-cols-3 gap-10 grid-cols-1">
                 {solutions.map((solution, index) => (
-                  <SlideBottom key={index}>
-                    <div className="relative w-full lg:h-64 h-72 rounded-2xl overflow-hidden shadow-xl border border-[#e5e5e5]">
-                      <div className="absolute bottom-0 left-0 w-full h-[55%] bg-white z-20 flex flex-col lg:justify-start lg:px-[1.2vw] lg:py-2 px-4 ">
+                  <div key={index} onClick={() => router.push(`/solution/${solution.query}`)}>
+                    <SlideBottom>
+                      <SolutionTemplate className="aspect-video scale-105 border-4 border-[#e5e5e5] hover:border-black hover:scale-110 transition-all ease-in-out">
+                      <Image src={solution.image || placeholderImg} fill alt={solution.title} className="rounded-2xl"/>
+                      </SolutionTemplate>
+                    </SlideBottom>
+                    <SlideBottom>           
+                    <div className="relative w-full py-3 rounded-2xl overflow-hidden  ">
                         <CardTitle>{solution.title}</CardTitle>
                         <CardText>
                           {solution.description}
                         </CardText>
-                      </div>
-                      <Image src={solution.image || placeholderImg} fill alt={solution.title} />
                     </div>
-                  </SlideBottom>
+                    </SlideBottom>   
+                  </div>
                 ))}
               </div>
             </section>
@@ -192,17 +205,18 @@ const SolutionPage = () => {
 }
 
 const CardText = styled.p`
-  padding-top: 0.3vw;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.5;
   margin-top: 0.25rem;
+  cursor: pointer;
 `;
 
 const CardTitle = styled.h4`
   padding-top: 12px;
   font-size: 1.5rem;
   font-weight: 500;
+  cursor: pointer;
   @media (max-width: 1023px) {
     font-size: 1.5rem;
     margin-top: 0.45rem;
@@ -212,7 +226,9 @@ const CardTitle = styled.h4`
 const SectionTitle = styled.h2`
   font-size: 3rem;
   font-weight: 700;
+  text-align: left;
   @media (max-width: 1023px) {
+    text-align: center;
     font-size: 2.25rem /* 36px */;
     line-height: 2.5rem /* 40px */;
   }
@@ -295,4 +311,15 @@ const TestButton = styled.button`
       font-size: 0.9rem;
   }
 `;
+
+
+const SolutionTemplate = styled.div`
+  width: 100%;
+  overflow: hidden;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow(0 6px 32px 0 rgba(31, 38, 135, 0.3);
+  transition: all 0.3s ease;
+`
+
 export default SolutionPage;
