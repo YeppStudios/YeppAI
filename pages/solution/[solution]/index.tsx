@@ -11,7 +11,7 @@ import LearnMoreSection from "@/components/Landing/LearnMoreSection";
 import NavigationBar from "@/components/Common/NavigationBar";
 import { useRouter } from "next/router";
 import SlideBottom from "@/components/Animated/SlideBottom";
-import { solutions } from '../solutions';
+import { solutions } from '../../../solutions';
 import ErrorPage from "@/pages/404";
 import { IconType } from 'react-icons';
 interface TutorialOrUseCase {
