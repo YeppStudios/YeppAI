@@ -241,12 +241,18 @@ const LoginButton = styled.button`
     margin-top: 3vh;
     padding: 2vh 5vw 2vh 5vw;
     width: 70vw;
-    background: #EDEEF3;
-    transition: all 0.3s ease;
+    border: solid 3px transparent;
     border-radius: 25px;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background: #F0F3F8;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.13), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    align-items: center;
+    background-size: 120%;
+    background-position-x: -0.5rem;
+    transition: all 0.3s ease;
     font-weight: 600;
     font-family: 'Lato', sans-serif;
-    border: none;
     color: black;
     font-weight: 700;
     @media (min-width: 1023px) {
