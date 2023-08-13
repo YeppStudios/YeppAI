@@ -197,9 +197,6 @@ const NavigationBar = () => {
 
   return (
     <>
-      {openAddTeammateModal && (
-        <AddTeammate onClose={() => setOpenAddTeammateModal(false)} />
-      )}
       {openSubscriptionModal && (
         <UpgradeSubscription
           onClose={() => setOpenSubscriptionModal(false)}
