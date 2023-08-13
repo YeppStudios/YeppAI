@@ -62,7 +62,6 @@ const SolutionPage = () => {
 
     if (solution) {
       solutions.forEach((currentSolution) => {
-        console.log(currentSolution.query, solution)
         if (currentSolution.query === solution) { 
           setSolutionData(currentSolution);
           return;
@@ -206,7 +205,6 @@ const SolutionPage = () => {
 
 const CardText = styled.p`
   font-size: 1rem;
-  font-weight: 500;
   line-height: 1.5;
   margin-top: 0.25rem;
   cursor: pointer;

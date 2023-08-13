@@ -10,7 +10,7 @@ export const solutions = [
         query: "marketing-templates",
         title: "Marketing Templates",
         description: "Watch AI write insightful content on niche topics.",
-        image: "https://ipfs.io/ipfs/QmWc35PvypbtJEAmgiwEJ345hKN1HUF1Nn4zWnwNpzDUcc?filename=Screenshot%202023-08-12%20at%202.54.46%20PM.png",
+        image: "https://ipfs.io/ipfs/QmP6yVNc3M5MkUmaGf8jNTMF4XozZT4oQ2xbmuUQ7Wtkf1?filename=Screenshot%202023-08-13%20at%202.07.13%20PM.png",
         tutorial: [
             {
                 icon: AiOutlineCloudUpload,
@@ -28,7 +28,7 @@ export const solutions = [
                 icon: FiEdit3,
                 title: "Edit and rewrite the content.",
                 description: "After submitting the form AI will write an insightful draft for you. Generated draft you can easily edit, copy, save, rewrite or prompt for further improvements.",
-                image: "https://ipfs.io/ipfs/QmWc35PvypbtJEAmgiwEJ345hKN1HUF1Nn4zWnwNpzDUcc?filename=Screenshot%202023-08-12%20at%202.54.46%20PM.png"
+                image: "https://ipfs.io/ipfs/QmP6yVNc3M5MkUmaGf8jNTMF4XozZT4oQ2xbmuUQ7Wtkf1?filename=Screenshot%202023-08-13%20at%202.07.13%20PM.png"
             },
         ],
         useCases: [
@@ -62,7 +62,7 @@ export const solutions = [
     {
         query: "assets-upload",
         title: "Assets Upload",
-        description: "Let AI understand you by upload the content about you & your clients.",
+        description: "Upload to make AI understand you & your clients.",
         image: "https://ipfs.io/ipfs/QmPeeFNt3yFySQ47VsGkTMTvuUd95Bvf8TWXC7nrXZnpJc?filename=Screenshot%202023-08-12%20at%203.19.31%20PM.png",
         tutorial: [
             {
@@ -75,13 +75,13 @@ export const solutions = [
                 icon: RxInput,
                 title: "Assign data to folders.",
                 description: "When you upload a file, you'll need to decide where to store it. You can make a new folder specifically for this file, or you can select a folder that you've already created.",
-                image: "https://ipfs.io/ipfs/QmbZYHodom6rbQ2xeQJ7rDFn7aYuQ2vGGD4325KKsBZQWa?filename=marketing-templates-2.png"
+                image: "https://ipfs.io/ipfs/QmVMQ2hz8y3p48gSrmvmEBSBiSnu7bnZ4KkbFiMu8BGu3v?filename=Screenshot%202023-08-13%20at%202.09.23%20PM.png"
             },
             {
                 icon: FiEdit3,
                 title: "Edit existing folders.",
                 description: "You have the ability to delete and preview each file that you've uploaded to the designated folder. However, opening these files is not possible as they are stored in a vector base.",
-                image: "https://ipfs.io/ipfs/QmWKd7XyRZTYVuPSG8MzSNhX6ovPJg3wq9CxZZinD4ghqB?filename=marketing-templates3.png"
+                image: "https://ipfs.io/ipfs/QmNiuT3ecwVQ9xBvX9Um1ZPxHyjaedSbyaLK6P4VfTEnaz?filename=Screenshot%202023-08-13%20at%202.12.37%20PM.png"
             },
         ],
         useCases: [
@@ -107,8 +107,8 @@ export const solutions = [
             },
             {
                 icon: GoMail,
-                title: "Marketing emails",
-                description: "Our comunity is full of proliftic developers, creative builders, and fantastic teachers. Check out YouTube tutorials for great tutorials from folks in the comunity, and Gallery for a list of awesome LangChain projects.",
+                title: "Written Content",
+                description: "This can be any content that the company wants the AI to know. It can be about the company's history, mission, vision, values, strategies, plans, etc. This information can help the AI understand the company's identity and its approach to business.",
             },
         ]
     },
@@ -158,6 +158,138 @@ export const solutions = [
                 icon: BsBook,
                 title: "Customer Engagement",
                 description: `Launching a new loyalty program or customer feedback drive? Promote these initiatives with campaign feature. Yepp will automatically generate content and ideas for social media, ads, email marketing and even video scripts. All of that with just a few clicks using similar tone of voice. `
+            },
+        ]
+    },
+    {
+        query: "chat",
+        title: "Chat with your data",
+        description: "Create AI assistant that knows you & your clients.",
+        image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png",
+        tutorial: [
+            {
+                icon: AiOutlineCloudUpload,
+                title: "Give your assistant an identity.",
+                description: `Click the „Marketing Tab” and select „+ New Camapign”. Once the form appears, choose all the placements that you want to create your camapaign for. `,
+                image: "https://ipfs.io/ipfs/QmQApzadxjZoaWF95Zy18LqZyZC1hiuZ97aq4usLBJ84gP?filename=Screenshot%202023-08-13%20at%202.17.27%20PM.png"
+            },
+            {
+                icon: RxInput,
+                title: "Provide learning resources.",
+                description: `Now it is time to provide some details about the campaign. Select language, tone of voice and enter campaign’s type, title and what would you like to promote.`,
+                image: "https://ipfs.io/ipfs/QmZcJZtx4jVwwAXhmeJCSsLM1vQwskzKMa2L59pvHYLU4X?filename=Screenshot%202023-08-13%20at%202.18.18%20PM.png"
+            },
+            {
+                icon: FiEdit3,
+                title: "Define the desired behavior.",
+                description: "Would you like your assistant to help with creative tasks? Or should it be the company's encyclopedia? Remember that for each assistant you can define how should it behave.",
+                image: "https://ipfs.io/ipfs/QmSAzHUySygnAbziDWax6rxAc5fWcnpj8mzj9YZZqEyfVu?filename=Screenshot%202023-08-13%20at%202.18.49%20PM.png"
+            },
+            {
+                icon: FiEdit3,
+                title: "Start the conversation.",
+                description: "Type in your question or task you need to complete. Assistant according to defined behavior will recognize when to reply based on assets you selected in the previous step.",
+                image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png"
+            },
+        ],
+        useCases: [
+            {
+                icon: BsCreditCard2Front,
+                title: "Creative Work",
+                description: `Give context to Assistant by uploading briefs, project requirements or any possesed information and ask an assistant to create campaign ideas, strategies, offers, content and many more.`,
+            },
+            {
+                icon: IoPhonePortraitOutline,
+                title: "Event Promotion",
+                description: "Want to enhance customer service on your website? Create a dedicated chat assistant on the Yepp platform. Base it on relevant resources and then ust API key to place it as needed. You can review all customer interactions with the assistant on the platform, just like internal usage.",
+            },
+            {
+                icon: BsBook,
+                title: "Customer Engagement",
+                description: `Launching a new loyalty program or customer feedback drive? Promote these initiatives with campaign feature. Yepp will automatically generate content and ideas for social media, ads, email marketing and even video scripts. All of that with just a few clicks using similar tone of voice. `
+            },
+        ]
+    },
+    {
+        query: "copywriter",
+        title: "Copywriter",
+        description: "Craft highly personalized written pieces.",
+        image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png",
+        tutorial: [
+            {
+                icon: AiOutlineCloudUpload,
+                title: "Fill out general settings.",
+                description: `Start by identifying your content's topic. Pinpoint key words to include. Choose a language, set its tone, and determine the character count. Decide the content type you want AI to generate.`,
+                image: "https://ipfs.io/ipfs/Qmdosipbj6Ei65BpUpJpF8FMfSJrpshqi5a4GSbQkNsiMc?filename=Screenshot%202023-08-13%20at%202.46.37%20PM.png"
+            },
+            {
+                icon: RxInput,
+                title: "Select knowledge resources.",
+                description: `Create a high-performing article by selecting top-ranked Google search links related to your topic. Support your entire article with your folders filled with invaluable insightful data.`,
+                image: "https://ipfs.io/ipfs/QmYL17HyXqDViakJ4xhURyp9yhJ2tVdPYZxasmDigyynuS?filename=Screenshot%202023-08-13%20at%202.48.22%20PM.png"
+            },
+            {
+                icon: FiEdit3,
+                title: "Preview header & description.",
+                description: "AI will present a proposed header and description. You can edit it, generate new suggestions with AI, or use one of the most frequently asked Google search questions.",
+                image: "https://ipfs.io/ipfs/QmeaUAngU9ZE5Ztz1NcoBkBD4Vq1oQEiWspPVGBcayZSxq?filename=Screenshot%202023-08-13%20at%202.49.03%20PM.png"
+            },
+            {
+                icon: FiEdit3,
+                title: "Watch AI generate outline.",
+                description: "You'll be provided with an automatic outline of the article, complete with headers, instructions, and keywords for each section. You can manually edit the outline, paste a new one, or generate a new one with AI.",
+                image: "https://ipfs.io/ipfs/QmYhDMqLtSKynaB87JTRo6tpi2rVq3Rar3RKKNCqAai4jo?filename=Screenshot%202023-08-13%20at%202.51.31%20PM.png"
+            },
+            {
+                icon: FiEdit3,
+                title: "Almost there",
+                description: "Give AI a moment to compile everything. This brief pause is necessary for the creation of your high-quality content.",
+                image: "https://ipfs.io/ipfs/QmQMbYyJBYYJEgEeg3d7AejQvYYBRRgWAufy24q69pdDxF?filename=Screenshot%202023-08-13%20at%202.52.02%20PM.png"
+            },
+            {
+                icon: FiEdit3,
+                title: "Piece by piece",
+                description: "The article will be generated automatically, section by section. This step-by-step process ensures a comprehensive and well-structured piece.",
+                image: "https://ipfs.io/ipfs/QmUY7ekkyJEv3DR8my5u7jTQcdHYbU8mRaRMYhnsw9aYBu?filename=Screenshot%202023-08-13%20at%202.53.26%20PM.png"
+            },
+            {
+                icon: FiEdit3,
+                title: "Customized perfection",
+                description: "You can easily edit the entire article yourself. Highlight the text you want to change, and you'll see a toolbar with options to modify the font, etc.",
+                image: "https://ipfs.io/ipfs/QmbmMzAzj19MjHSdhHNQMcMtg1oy916yeCXiwXmv8SfQjq?filename=Screenshot%202023-08-13%20at%202.54.36%20PM.png"
+            },
+            {
+                icon: FiEdit3,
+                title: "Edit anytime",
+                description: "Article is being saved automatically, so you can always revisit your generated work and instruct AI via the panel on your right to make additions. This feature allows for continuous improvement and updates.",
+                image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png"
+            },
+        ],
+        useCases: [
+            {
+                icon: BsCreditCard2Front,
+                title: "Article Generation",
+                description: `By using the Copywriter feature, companies can generate high-quality articles that position them as industry leaders. This not only attracts potential clients but also builds credibility in the market. The AI can create articles based on the company's brief, saving time and resources while ensuring the content is relevant and engaging.`,
+            },
+            {
+                icon: IoPhonePortraitOutline,
+                title: "Blog Post Creation",
+                description: "Marketing agencies can leverage this feature to create personalized blog posts for their clients. The AI can generate content that resonates with the target audience, increasing engagement and brand visibility. This can lead to higher conversion rates and improved client satisfaction.",
+            },
+            {
+                icon: BsBook,
+                title: "SEO Content",
+                description: `With the Copywriter feature, companies can improve their website's search engine ranking. The AI can create SEO-optimized content based on selected keywords and high-ranking Google search links. This can lead to increased website traffic, higher lead generation, and improved sales.`
+            },
+            {
+                icon: BsBook,
+                title: "Ranking Lists",
+                description: `This feature can be used by companies and marketing agencies to create ranking lists that highlight their products or services' unique selling points. The AI can generate a comprehensive list based on the defined criteria, which can be used in marketing campaigns to attract more customers and increase sales.`
+            },
+            {
+                icon: BsBook,
+                title: "Tutorials",
+                description: `Companies can use the Copywriter feature to create step-by-step tutorials for their products or services. This can help customers understand the product better, leading to increased usage and customer satisfaction. The AI can generate easy-to-follow tutorials based on the learning objectives defined by the company, making it a valuable tool for customer education and support.`
             },
         ]
     },
