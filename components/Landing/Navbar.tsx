@@ -16,19 +16,15 @@ import {
 } from '@heroicons/react/24/outline'
 
 const solutions = [
-  { name: 'Marketing Templates', description: 'Get a better understanding of your traffic', href: '#', icon: ClipboardDocumentListIcon },
-  { name: 'Copywriting', description: 'Speak directly to your customers', href: '#', icon: DocumentTextIcon },
-  { name: 'Chat with data', description: "Your customers' data will be safe and secure", href: '#', icon: ChatBubbleBottomCenterTextIcon },
-  { name: 'Marketing campaigns', description: 'Effortlessly genrate content for the entire campaign', href: '#', icon: MegaphoneIcon },
-  { name: 'Uploading content', description: 'Teach AI about your client or any niche topic', href: '#', icon: FolderArrowDownIcon },
+  { name: 'Marketing Templates', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: ClipboardDocumentListIcon },
+  { name: 'Copywriting', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: DocumentTextIcon },
+  { name: 'Chat With Your Data', description: "AI assistant that knows you & your clients", href: '/solution/chat', icon: ChatBubbleBottomCenterTextIcon },
+  { name: 'Content Campaigns', description: 'Content campaigns for all placements at once', href: '/solution/campaigns', icon: MegaphoneIcon },
+  { name: 'Assets Upload', description: 'Teach AI about your client or any niche topic', href: '/solution/assets-upload', icon: FolderArrowDownIcon },
 ]
 
-const callsToAction = [
-  { name: 'Start free trial', href: '#', icon: GiftIcon },
-  { name: 'Schedule free demo', href: '#', icon: CalendarDaysIcon },
-]
 
-const Navbar = (props: {onNewsletterClick: any}) =>{
+const Navbar = () =>{
 
     const [mobile, setMobile] = useState(true);
     const [isFixed, setIsFixed] = useState(false);
@@ -52,7 +48,7 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                     setIsFixed(false);
                 }
             } else {
-                if (window.scrollY < 24) {
+                if (window.scrollY < 1) {
                     setIsFixed(false);
                 } else {
                     setIsFixed(true);
@@ -78,7 +74,7 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                     <Link href="/"><AppName>Yepp AI</AppName></Link>
                 </Container>
                 <Container>
-                {/* <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                     <Popover className="relative">
                         <Popover.Button className="inline-flex items-center gap-x-1 text-sm leading-6 text-black outline-none">
                             <span>Solutions</span>
@@ -98,36 +94,40 @@ const Navbar = (props: {onNewsletterClick: any}) =>{
                                 <div className="p-4">
                                 {solutions.map((item) => (
                                     <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
-                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 hover:text-black group-hover:bg-white">
                                         <item.icon className="h-6 w-6 text-gray-500 group-hover:text-black group-hover:scale-105" aria-hidden="true" />
                                     </div>
                                     <div>
-                                        <a href={item.href} className="font-semibold text-gray-900">
+                                        <a href={item.href} className="font-semibold">
                                         {item.name}
                                         <span className="absolute inset-0" />
                                         </a>
-                                        <p className="mt-1 text-left text-gray-600">{item.description}</p>
+                                        <p className="mt-1 text-left font-normal">{item.description}</p>
                                     </div>
                                     </div>
                                 ))}
                                 </div>
                                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                                {callsToAction.map((item) => (
-                                    <a
-                                    key={item.name}
-                                    href={item.href}
+                                <button
+                                    onClick={() => router.push("/register?registration=true&company=true&trial=true")}
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
                                     >
-                                    <item.icon className="h-5 w-5 flex-none" aria-hidden="true" />
-                                    {item.name}
+                                    <GiftIcon className="h-5 w-5 flex-none" aria-hidden="true" />
+                                        Start free trial
+                                    </button>
+                                    <a
+                                    href="https://calendly.com/yeppai/yepp-introduction-call"
+                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
+                                    >
+                                    <CalendarDaysIcon className="h-5 w-5 flex-none" aria-hidden="true" />
+                                        Book a free demo
                                     </a>
-                                ))}
                                 </div>
                             </div>
                             </Popover.Panel>
                         </Transition>
                     </Popover>
-                    </NavLink> */}
+                    </NavLink>
                     {pathname.includes("assistant") ?
                         <Link href="/pricing?type=individual"><NavLink id="pricing-btn">Pricing</NavLink></Link>
                         :
@@ -161,7 +161,7 @@ const NavContainer = styled.div<NavContainerProps>`
     position: ${({ isFixed }) => isFixed ? "fixed" : "absolute"};
     top: 0rem;
     height: 6rem;
-    margin-top: ${({ isFixed }) => isFixed ? "0" : "1.5rem"};
+    margin-top: 0rem;
     z-index: 100;
     backdrop-filter: blur(5px);
     background-color: rgba(255, 255, 255, 0.95);

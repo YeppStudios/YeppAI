@@ -1,15 +1,15 @@
 import styled, { keyframes } from 'styled-components';
 import { use, useEffect, useRef, useState } from "react";
-import SlideBottom from "../../Animated/SlideBottom";
-import articleIcon from "../../../public/images/article-icon.png";
-import linkIcon from "../../../public/images/link-icon.png";
-import Centered from "../../Centered";
-import { Loader } from '../../Common/Loaders';
+import SlideBottom from "../Animated/SlideBottom";
+import articleIcon from "@/public/images/article-icon.png";
+import linkIcon from "@/public/images/link-icon.png";
+import Centered from "../Centered";
+import { Loader } from '../Common/Loaders';
 import { BsArrowRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsFillLightbulbFill, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsXLg } from 'react-icons/bs';
 import Image from 'next/image';
-import webIcon from "../../../public/images/web-icon.png";
-import pencilIcon from "../../../public/images/pencil-icon.png";
-import handwritingIcon from "../../../public/images/handwriting-icon.png";
+import webIcon from "@/public/images/web-icon.png";
+import pencilIcon from "@/public/images/pencil-icon.png";
+import handwritingIcon from "@/public/images/handwriting-icon.png";
 import FoldersDropdown from '@/components/forms/FolderDropdown';
 import { SlOptionsVertical } from 'react-icons/sl';
 import TextArea from '@/components/forms/TextArea';
@@ -22,9 +22,9 @@ import MultiLineSkeletonLoader from '@/components/Common/MultilineSkeletonLoader
 import { TbWorld } from "react-icons/tb";
 import moment from 'moment';
 import Dropdown from '@/components/forms/Dropdown';
-import NoElixir from '../LimitModals/NoElixir';
-import ModalTitle from '../common/ModalTitle';
-import TypingAnimation from '../common/TypingAnimation';
+import NoElixir from '../Modals/LimitModals/NoElixir';
+import ModalTitle from '../Modals/common/ModalTitle';
+import TypingAnimation from '../Modals/common/TypingAnimation';
 import { FaRuler } from 'react-icons/fa';
 import { IoLanguage } from 'react-icons/io5';
 import { RiKey2Fill } from 'react-icons/ri';
@@ -1084,6 +1084,7 @@ const ModalBackground = styled.div`
         border-top-left-radius: 20px;
     }
 `
+
 const LabelIcon = styled.div`
 width: 1rem;
 height: 1rem;

@@ -65,7 +65,7 @@ const Homepage = () => {
         </Head>
         <PageContent>
           <Loading />
-          <Navbar onNewsletterClick={() => handleNewsletterScroll()} />
+          <Navbar />
           <Background>
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
@@ -170,7 +170,6 @@ const Homepage = () => {
               <SlideBottom><Centered><HeroText><p className='text-white'>What do marketing agencies say about Yepp?</p></HeroText></Centered></SlideBottom>
               {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
               </div>
-
           </Section>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
@@ -393,4 +392,3 @@ const Icon = styled.div`
   height: 4rem;
   margin-bottom: 1.25rem;
 `
-

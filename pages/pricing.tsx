@@ -39,7 +39,7 @@ const Pricing = () => {
     </Head>
 
     <Layout>
-      <Navbar onNewsletterClick={() => handleNewsletterScroll()} />
+      <Navbar />
         <HeroSection>
             <MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle>
             <SlideBottom>
@@ -85,7 +85,7 @@ const HeroSection = styled.div`
   flex-wrap: wrap;
   align-items: center;
   text-align: center;
-  margin-top: 18vh; 
+  margin-top: 20vh; 
   @media (max-width: 1023px) {
     margin-top: 20vh; 
 }
