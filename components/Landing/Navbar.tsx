@@ -16,11 +16,11 @@ import {
 } from '@heroicons/react/24/outline'
 
 const solutions = [
-  { name: 'Marketing Templates', description: 'Get a better understanding of your traffic', href: '/solution/marketing-templates', icon: ClipboardDocumentListIcon },
-  { name: 'Copywriting', description: 'Speak directly to your customers', href: '#', icon: DocumentTextIcon },
-  { name: 'Chat with data', description: "Your customers' data will be safe and secure", href: '#', icon: ChatBubbleBottomCenterTextIcon },
-  { name: 'Marketing campaigns', description: 'Effortlessly genrate content for the entire campaign', href: '#', icon: MegaphoneIcon },
-  { name: 'Uploading content', description: 'Teach AI about your client or any niche topic', href: '#', icon: FolderArrowDownIcon },
+  { name: 'Marketing Templates', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: ClipboardDocumentListIcon },
+  { name: 'Copywriting', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: DocumentTextIcon },
+  { name: 'Chat With Your Data', description: "AI assistant that knows you & your clients", href: '/solution/chat', icon: ChatBubbleBottomCenterTextIcon },
+  { name: 'Content Campaigns', description: 'Content campaigns for all placements at once', href: '/solution/campaigns', icon: MegaphoneIcon },
+  { name: 'Assets Upload', description: 'Teach AI about your client or any niche topic', href: '/solution/assets-upload', icon: FolderArrowDownIcon },
 ]
 
 
@@ -94,15 +94,15 @@ const Navbar = () =>{
                                 <div className="p-4">
                                 {solutions.map((item) => (
                                     <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
-                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 hover:text-black group-hover:bg-white">
                                         <item.icon className="h-6 w-6 text-gray-500 group-hover:text-black group-hover:scale-105" aria-hidden="true" />
                                     </div>
                                     <div>
-                                        <a href={item.href} className="font-semibold text-gray-900">
+                                        <a href={item.href} className="font-semibold">
                                         {item.name}
                                         <span className="absolute inset-0" />
                                         </a>
-                                        <p className="mt-1 text-left text-gray-600">{item.description}</p>
+                                        <p className="mt-1 text-left font-normal">{item.description}</p>
                                     </div>
                                     </div>
                                 ))}

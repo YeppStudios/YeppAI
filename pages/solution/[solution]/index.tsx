@@ -101,7 +101,7 @@ const SolutionPage = () => {
                   <BsFillGiftFill />
                   <TestText>Start free trial</TestText>
                 </TestButton>
-                <PricingButton>Request the pricing</PricingButton>
+                <DemoBtn href="https://calendly.com/yeppai/yepp-introduction-call">Book free demo</DemoBtn>
               </div>
               {!mobile &&
               <div className="flex items-center lg:justify-start  justify-center  mb-6 text-center">
@@ -142,7 +142,7 @@ const SolutionPage = () => {
                   </div>
                 </SlideBottom>
                 <SlideBottom>
-                  <div className="relative lg:w-full border-4 border-black w-full aspect-video flex items-center justify-center  rounded-2xl  overflow-x-hidden ">
+                  <div className="relative lg:w-full border-4 border-black w-full aspect-video flex items-center justify-center  rounded-3xl  overflow-x-hidden ">
                     <Image src={tutorial.image} alt={tutorial.title} fill />
                   </div>
                 </SlideBottom>
@@ -255,8 +255,7 @@ const TestText = styled.p`
   }
 `;
 
-const PricingButton = styled.div`
-  font-family: "Satoshi", sans-serif;
+const DemoBtn = styled.a`
   font-weight: 700;
   padding: 0.75rem 2.7rem 0.75rem 2.7rem;
   text-align: center;

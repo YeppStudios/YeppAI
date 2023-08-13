@@ -1,9 +1,10 @@
 import { AiOutlineCloudUpload, AiOutlineUserAdd } from "react-icons/ai";
 import { FiEdit3 } from "react-icons/fi";
 import { RxInput } from "react-icons/rx";
-import { BsCreditCard2Front, BsBook, BsFileText } from "react-icons/bs";
-import { IoBookOutline, IoPhonePortraitOutline } from "react-icons/io5"
+import { BsCreditCard2Front, BsBook, BsFileText, BsHandIndexThumb, BsMenuApp, BsFileEarmark, BsCollectionPlay, BsLaptop, BsKey, BsMagic, BsMegaphone, BsHandThumbsUp, BsPersonVcard, BsFolder, BsLightbulb, BsChatSquareText, BsPalette, BsPersonVideo3 } from "react-icons/bs";
+import { IoBookOutline, IoPhonePortraitOutline, IoRocketOutline } from "react-icons/io5"
 import { GoMail, GoChecklist } from "react-icons/go";
+import { BiRocket, BiSupport } from "react-icons/bi";
 
 export const solutions = [
     {
@@ -66,13 +67,13 @@ export const solutions = [
         image: "https://ipfs.io/ipfs/QmPeeFNt3yFySQ47VsGkTMTvuUd95Bvf8TWXC7nrXZnpJc?filename=Screenshot%202023-08-12%20at%203.19.31%20PM.png",
         tutorial: [
             {
-                icon: AiOutlineCloudUpload,
+                icon: BsHandIndexThumb,
                 title: "Choose upload method.",
                 description: "Upload information in various formats: PDF, TXT, PPTX, CSV & DOCX files, Websites and social media, YouTube audio, or just write content that your AI should know.",
                 image: "https://ipfs.io/ipfs/QmPeeFNt3yFySQ47VsGkTMTvuUd95Bvf8TWXC7nrXZnpJc?filename=Screenshot%202023-08-12%20at%203.19.31%20PM.png"
             },
             {
-                icon: RxInput,
+                icon: BsMenuApp,
                 title: "Assign data to folders.",
                 description: "When you upload a file, you'll need to decide where to store it. You can make a new folder specifically for this file, or you can select a folder that you've already created.",
                 image: "https://ipfs.io/ipfs/QmVMQ2hz8y3p48gSrmvmEBSBiSnu7bnZ4KkbFiMu8BGu3v?filename=Screenshot%202023-08-13%20at%202.09.23%20PM.png"
@@ -86,28 +87,28 @@ export const solutions = [
         ],
         useCases: [
             {
-                icon: BsCreditCard2Front,
-                title: "Files & Presentations",
+                icon: BsFileEarmark,
+                title: "Files & presentations",
                 description: "These can be in the form of PDF, TXT, DOCX, PPTX, or CSV files. These documents can contain important information about the company, its products or services, and its clients.",
             },
             {
-                icon: IoPhonePortraitOutline,
-                title: "Web Content",
+                icon: BsLaptop,
+                title: "Web content",
                 description: "This can include the company's website, blog posts, articles, and other web-based content. This information can help the AI understand the company's online presence and its interactions with customers.",
             },
             {
-                icon: BsBook,
-                title: "Social Media Content",
+                icon: IoPhonePortraitOutline,
+                title: "Social media content",
                 description: "This includes posts, comments, likes, shares, and other interactions on social media platforms like Facebook, Twitter, Instagram, LinkedIn, etc. This data can provide insights into the company's social media strategy and customer engagement.",
             },
             {
-                icon: BsFileText,
-                title: "Audio Content",
+                icon: BsCollectionPlay,
+                title: "Audio content",
                 description: "Yepp supports uploading YouTube video audio. Upload podcasts, interviews, tutorials and much more. AI will transcribe and remember the content, so later on you will be able to chat with it  and generate  insightful content across the entire platform.",
             },
             {
-                icon: GoMail,
-                title: "Written Content",
+                icon: BsFileText,
+                title: "Written content",
                 description: "This can be any content that the company wants the AI to know. It can be about the company's history, mission, vision, values, strategies, plans, etc. This information can help the AI understand the company's identity and its approach to business.",
             },
         ]
@@ -119,7 +120,7 @@ export const solutions = [
         image: "https://ipfs.io/ipfs/QmdVLFSFZM7LnSXXVUojh1tpcsuPUTmmay85SSZHVvs7y1?filename=Screenshot%202023-08-12%20at%202.31.42%20PM.png",
         tutorial: [
             {
-                icon: AiOutlineCloudUpload,
+                icon: BsHandIndexThumb,
                 title: "Choose desired placements.",
                 description: `Click the „Marketing Tab” and select „+ New Camapign”. Once the form appears, choose all the placements that you want to create your camapaign for. `,
                 image: "https://ipfs.io/ipfs/QmeGcNuA7HND3XkmSehA2UsTAFSE28VJmMSTwbeqvQG8v5?filename=Screenshot%202023-08-12%20at%202.28.21%20PM.png"
@@ -131,13 +132,13 @@ export const solutions = [
                 image: "https://ipfs.io/ipfs/QmWaStFTjmuYgktP1E8MV61XDYTdDYtcjM1nMJQC1BZHTE?filename=Screenshot%202023-08-12%20at%202.30.22%20PM.png"
             },
             {
-                icon: FiEdit3,
+                icon: BsKey,
                 title: "Enter key information.",
                 description: "Select uploaded asstets to make sure your campaign will include quality content. Then set the campaign’s objetive, target audience and add keywords for a better chance to reach you goal.",
                 image: "https://ipfs.io/ipfs/QmehV4YBGBAjuEwMipea1pyFJ6BssmVkD9ghyMbd9hPVp8?filename=Screenshot%202023-08-12%20at%202.29.24%20PM.png"
             },
             {
-                icon: FiEdit3,
+                icon: BsMagic,
                 title: "Watch AI create.",
                 description: "Creation time! Check the fruit of your and Yepp's labor. You can change campaign’s settings and give AI the command to rewrite it anytime.",
                 image: "https://ipfs.io/ipfs/QmdVLFSFZM7LnSXXVUojh1tpcsuPUTmmay85SSZHVvs7y1?filename=Screenshot%202023-08-12%20at%202.31.42%20PM.png"
@@ -145,17 +146,17 @@ export const solutions = [
         ],
         useCases: [
             {
-                icon: BsCreditCard2Front,
+                icon: IoRocketOutline,
                 title: "Product Launch",
                 description: `Planning to introduce a new product to the market? Use the "Content Campaigns" feature to streamline your promotional efforts across multiple platforms. Describe the product details, set your target audience, and let the AI craft tailored content for all chosen placements.`,
             },
             {
-                icon: IoPhonePortraitOutline,
+                icon: BsMegaphone,
                 title: "Event Promotion",
                 description: "Promote your upcoming events like webinars or conferences by setting up a campaign across various channels, with AI generating engaging content. For seasonal sales or special deals, launch a content campaign across all desired platforms and increase traffic and sales.",
             },
             {
-                icon: BsBook,
+                icon: BsHandThumbsUp,
                 title: "Customer Engagement",
                 description: `Launching a new loyalty program or customer feedback drive? Promote these initiatives with campaign feature. Yepp will automatically generate content and ideas for social media, ads, email marketing and even video scripts. All of that with just a few clicks using similar tone of voice. `
             },
@@ -168,25 +169,25 @@ export const solutions = [
         image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png",
         tutorial: [
             {
-                icon: AiOutlineCloudUpload,
+                icon: BsPersonVcard,
                 title: "Give your assistant an identity.",
                 description: `Click the „Marketing Tab” and select „+ New Camapign”. Once the form appears, choose all the placements that you want to create your camapaign for. `,
                 image: "https://ipfs.io/ipfs/QmQApzadxjZoaWF95Zy18LqZyZC1hiuZ97aq4usLBJ84gP?filename=Screenshot%202023-08-13%20at%202.17.27%20PM.png"
             },
             {
-                icon: RxInput,
+                icon: BsFolder,
                 title: "Provide learning resources.",
                 description: `Now it is time to provide some details about the campaign. Select language, tone of voice and enter campaign’s type, title and what would you like to promote.`,
                 image: "https://ipfs.io/ipfs/QmZcJZtx4jVwwAXhmeJCSsLM1vQwskzKMa2L59pvHYLU4X?filename=Screenshot%202023-08-13%20at%202.18.18%20PM.png"
             },
             {
-                icon: FiEdit3,
+                icon: BsLightbulb,
                 title: "Define the desired behavior.",
                 description: "Would you like your assistant to help with creative tasks? Or should it be the company's encyclopedia? Remember that for each assistant you can define how should it behave.",
                 image: "https://ipfs.io/ipfs/QmSAzHUySygnAbziDWax6rxAc5fWcnpj8mzj9YZZqEyfVu?filename=Screenshot%202023-08-13%20at%202.18.49%20PM.png"
             },
             {
-                icon: FiEdit3,
+                icon: BsChatSquareText,
                 title: "Start the conversation.",
                 description: "Type in your question or task you need to complete. Assistant according to defined behavior will recognize when to reply based on assets you selected in the previous step.",
                 image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png"
@@ -194,27 +195,32 @@ export const solutions = [
         ],
         useCases: [
             {
-                icon: BsCreditCard2Front,
+                icon: BsPalette,
                 title: "Creative Work",
                 description: `Give context to Assistant by uploading briefs, project requirements or any possesed information and ask an assistant to create campaign ideas, strategies, offers, content and many more.`,
             },
             {
-                icon: IoPhonePortraitOutline,
-                title: "Event Promotion",
+                icon: BiSupport,
+                title: "Customer service",
                 description: "Want to enhance customer service on your website? Create a dedicated chat assistant on the Yepp platform. Base it on relevant resources and then ust API key to place it as needed. You can review all customer interactions with the assistant on the platform, just like internal usage.",
             },
             {
                 icon: BsBook,
-                title: "Customer Engagement",
-                description: `Launching a new loyalty program or customer feedback drive? Promote these initiatives with campaign feature. Yepp will automatically generate content and ideas for social media, ads, email marketing and even video scripts. All of that with just a few clicks using similar tone of voice. `
+                title: "Company’s Encyclopedia",
+                description: `Speed up your team's work by uploading assets to the platform and create an assistant based on them. The assistant will find any information contained in the uploaded resources within a second, so you don't have to waste time searching for it.`
+            },
+            {
+                icon: BsPersonVideo3,
+                title: "Employee Onboarding",
+                description: `A new employee at the company? Onboard him with an assistant based on the most important resources about the company. If he has a question about processes or customers he will get an instant answer, making him a valuable member of the team faster.`
             },
         ]
     },
     {
-        query: "copywriter",
-        title: "Copywriter",
+        query: "copywriting",
+        title: "Copywriting",
         description: "Craft highly personalized written pieces.",
-        image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png",
+        image: "https://ipfs.io/ipfs/QmUY7ekkyJEv3DR8my5u7jTQcdHYbU8mRaRMYhnsw9aYBu?filename=Screenshot%202023-08-13%20at%202.53.26%20PM.png",
         tutorial: [
             {
                 icon: AiOutlineCloudUpload,
@@ -256,13 +262,13 @@ export const solutions = [
                 icon: FiEdit3,
                 title: "Customized perfection",
                 description: "You can easily edit the entire article yourself. Highlight the text you want to change, and you'll see a toolbar with options to modify the font, etc.",
-                image: "https://ipfs.io/ipfs/QmbmMzAzj19MjHSdhHNQMcMtg1oy916yeCXiwXmv8SfQjq?filename=Screenshot%202023-08-13%20at%202.54.36%20PM.png"
+                image: "https://ipfs.io/ipfs/QmVrxzmJuih1KFtLxZfsHsabrcPwM1BF4PwjegDzj1cypM?filename=Screenshot%202023-08-13%20at%203.02.23%20PM.png"
             },
             {
                 icon: FiEdit3,
                 title: "Edit anytime",
                 description: "Article is being saved automatically, so you can always revisit your generated work and instruct AI via the panel on your right to make additions. This feature allows for continuous improvement and updates.",
-                image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png"
+                image: "https://ipfs.io/ipfs/QmWBeX3edutTwi6FA4ZwFFGYMjPMBsV2LWWJX5FTiDfSKo?filename=Screenshot%202023-08-13%20at%202.58.56%20PM.png"
             },
         ],
         useCases: [
