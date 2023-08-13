@@ -21,8 +21,19 @@ import { selectFoldersState } from '@/store/selectedFoldersSlice'
 import { useSelector } from 'react-redux'
 import { TbPlayerStopFilled } from "react-icons/tb";
 
-const lengths = ["Krótki", "Średni", "Długi", "Bardzo długi"];
-const languages = ["Polski", "Angielski", "Hiszpański", "Francuski", "Włoski", "Niemiecki", "Chiński", "Bułgarski", "Rosyjski", "Ukraiński", "Hebrajski"];
+const lengths = ["Short", "Medium", "Long", "Very Long"];
+const languages = [
+  "English",
+  "Spanish",
+  "French",
+  "Italian",
+  "German",
+  "Ukrainian",
+  "Polish",
+  "Chinese",
+  "Bulgarian",
+  "Russian",
+];
 
 interface Document {
     owner: string,
@@ -62,8 +73,8 @@ const EditorSidebar = (props: {
     const [showEditDescription, setShowEditDescription] = useState(false);
     const [loading, setLoading] = useState(false);
     const [topic, setTopic] = useState("");
-    const [length, setLength] = useState("Długi");
-    const [language, setLanguage] = useState("Polski");
+    const [length, setLength] = useState("Long");
+    const [language, setLanguage] = useState("English");
     const [toneToggle, setToneToggle] = useState(true);
     const [keywordsToggle, setKeywordsToggle] = useState(true);
     const [keywords, setKeywords] = useState("");
