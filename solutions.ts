@@ -82,7 +82,7 @@ export const solutions = [
                 icon: FiEdit3,
                 title: "Edit existing folders.",
                 description: "You have the ability to delete and preview each file that you've uploaded to the designated folder. However, opening these files is not possible as they are stored in a vector base.",
-                image: "https://ipfs.io/ipfs/QmNiuT3ecwVQ9xBvX9Um1ZPxHyjaedSbyaLK6P4VfTEnaz?filename=Screenshot%202023-08-13%20at%202.12.37%20PM.png"
+                image: "http://drive.google.com/uc?export=view&id=1vsY3c7shJi2cPyiN4r5Hd4HbYJrOgc1A"
             },
         ],
         useCases: [
