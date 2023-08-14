@@ -30,10 +30,13 @@ interface Solution {
   useCases: Omit<TutorialOrUseCase, 'image'>[]; 
 }
 
+
 const SolutionPage = () => {
 
   const router = useRouter();
   const { solution } = router.query;
+  const [solutionData, setSolutionData] = useState<Solution>();
+  const [mobile, setMobile] = useState(true);
 
   interface TutorialOrUseCase {
     icon: IconType;
@@ -41,7 +44,7 @@ const SolutionPage = () => {
     description: string;
     image?: any;
   }
-
+  
   interface Solution {
     title: string;
     description: string;
@@ -49,17 +52,15 @@ const SolutionPage = () => {
     tutorial: TutorialOrUseCase[];
     useCases: Omit<TutorialOrUseCase, 'image'>[];
   }
-
-  const [solutionData, setSolutionData] = useState<Solution>();
-  const [mobile, setMobile] = useState(true);
-
+  
   useEffect(() => {
     if (typeof window !== undefined) {
       if (window.innerWidth >= 1023) {
         setMobile(false);
       } else setMobile(true);
     }
-
+    document.body.style.overflow = 'auto';
+    document.body.style.position = 'static';
     if (solution) {
       solutions.forEach((currentSolution) => {
         if (currentSolution.query === solution) { 

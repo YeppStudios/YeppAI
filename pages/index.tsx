@@ -251,7 +251,7 @@ const LoginButton = styled.button`
     border-radius: 25px;
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    background: #F0F3F8;
+    background: white;
     box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.13), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
     align-items: center;
     background-size: 120%;

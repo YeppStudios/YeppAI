@@ -33,7 +33,7 @@ const stats = [
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-2xl">
             <SlideLeft>
-            <p className="mt-2 text-[1.75rem] font-bold text-white sm:text-6xl">
+            <p className="mt-2 text-[1.8rem] font-bold text-white sm:text-6xl">
               Trusted by thousands of marketers worldwide
             </p>
             </SlideLeft>
