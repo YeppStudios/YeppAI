@@ -3,8 +3,7 @@ import Image from "next/image";
 import SlideBottom from "../Animated/SlideBottom";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import thinArrow from "../../public/images/thinArrow.png";
-import { HiOutlineArrowNarrowRight } from "react-icons/hi";
+import { useRouter } from "next/router";
 
 const LeftFeature = (props: {
   text: string;
@@ -13,8 +12,11 @@ const LeftFeature = (props: {
   bulletpoints: any[];
   marginTop: string;
   color: string;
+  link: string;
 }) => {
   const [mobile, setMobile] = useState(true);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (window.innerWidth >= 1023) {
@@ -43,11 +45,9 @@ const LeftFeature = (props: {
             }
           </FeatureDescription>
           {!mobile && (
-            <Link href="/assets?registration=true&trial=true">
-              <Button color={props.color} className='trial-btn-feature'>
+              <Button onClick={() => router.push("/register?registration=true&company=true&trial=true")} color={props.color} className='trial-btn-feature'>
                 <BtnText>Try now</BtnText>
               </Button>
-            </Link>
           )}
         </div>
       </SlideBottom>
@@ -63,12 +63,11 @@ const LeftFeature = (props: {
         </GifContainer>
       </GifLayout>
       {mobile && (
-        <Link href="/assets?registration=true&trial=true">
-          <Button color={props.color} className="">
+          <Button onClick={() => router.push("/register?registration=true&company=true&trial=true")} color={props.color} className="">
             <BtnText>Try now</BtnText>
           </Button>
-        </Link>
       )}
+      <LearnMoreLink onClick={() => router.push(`${props.link}`)}>Learn more <span aria-hidden="true">&rarr;</span></LearnMoreLink>
     </FeatureContainer>
   );
 };
@@ -197,11 +196,12 @@ const BtnText = styled.div`
     font-size: 1rem;
   }
 `;
-const LearnMoreArrow = styled.div`
-  margin-left: 1.5vw;
-  height: 0.65rem;
-  @media (max-width: 1023px) {
-    margin-left: 0.75rem;
-    height: 1.5rem;
+const LearnMoreLink = styled.div`
+  align-text: center;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 2.5vh;
+  @media (min-width: 1023px) {
+    display: none;
   }
 `;

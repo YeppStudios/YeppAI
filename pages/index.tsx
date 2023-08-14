@@ -133,6 +133,7 @@ const Homepage = () => {
                 bulletpoints={["PDF, TXT, PPTX, CSV & DOCX files", "Websites and social media", "YouTube audio"]}
                 color="black"
                 marginTop='3vh'
+                link="/solution/assets-upload"
             />
             <RightFeature 
                 title="Effortlessly generate catchy content." 
@@ -140,6 +141,7 @@ const Homepage = () => {
                 text="Make use of intuitive templates and craft engaging content with ease."
                 bulletpoints={["Social media content", "Product descriptions", "Converting Ads"]}
                 color="black"
+                link="/solution/marketing-templates"
             />
             <LeftFeature
                 title="Create high-performing SEO content." 
@@ -148,6 +150,8 @@ const Homepage = () => {
                 bulletpoints={["SEO articles", "Insightful blogs", "Guides and rankings"]}
                 color="black"
                 marginTop='3vh'
+                link="/solution/copywriting"
+
             />
             <RightFeature 
                 title="Chat with your uploaded assets." 
@@ -155,6 +159,7 @@ const Homepage = () => {
                 text="Cooperate with uploaded files and websites in order to gain ideas and advice in seconds."
                 bulletpoints={["Files", "Websites", "Reports"]}
                 color="black"
+                link="/solution/chat"
             />
             <LeftFeature 
                 title="Generate content campaigns at once." 
@@ -163,6 +168,7 @@ const Homepage = () => {
                 bulletpoints={[ "Social media", "Marketing emails", "Headlines & descriptions"]}
                 color="black"
                 marginTop='3vh'
+                link="/solution/campaigns"
             />
           <Section>
               <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
