@@ -116,7 +116,7 @@ const FeatureTitle = styled.h2`
   @media (max-width: 1023px) {
     font-size: 2rem;
     width: 95%;
-    margin-left: 2.5%;
+    margin-top: 2.5%;
     text-align: center;
   }
 `;
@@ -136,7 +136,6 @@ const FeatureDescription = styled.p<{ color: string }>`
 
   @media (max-width: 1023px) {
     width: 95vw;
-    margin-left: 2.5vw;
     text-align: center;
     margin-top: 2.5vh;
     font-size: 1.2rem;
@@ -147,15 +146,16 @@ const GifContainer = styled.div`
   overflow: visible;
   margin-left: 5vw;
   max-height: 90vh;
-  aspect-ratio: 16/9;
+  width: 40rem;
   border-radius: 25px;
   border: 7px solid black;
   box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.3);
   @media (max-width: 1023px) {
     margin-top: 2rem;
     margin-left: 0;
-    width: 95vw;
     border: 4px solid black;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 `;
 
