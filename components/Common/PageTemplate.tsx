@@ -62,6 +62,7 @@ const PageTemplate = ({children}: any) => {
             setShowPlans(true);
           }
           if (data.workspace) {
+              localStorage.setItem("workspace", data.workspace);
               const workspaceCompany = await api.get(`/workspace-company/${data.workspace}`, {
                 headers: {
                   authorization: token

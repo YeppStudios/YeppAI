@@ -56,13 +56,7 @@ const FirstPage = (props: {nextPage: any}) => {
         let assistantsResponse;
         setLoading(true);
         try {
-            if (workspace === "undefined" || !workspace || workspace === "null") {
-                assistantsResponse = await api.get(`/getUserAssistants/${userId}`, {
-                    headers: {
-                      authorization: token
-                    }
-                })
-            } else {
+            if (workspaceCompany._id) {
                 const {data} = await api.get(`/workspace-company/${workspace}`, {
                     headers: {
                       authorization: token
@@ -73,13 +67,19 @@ const FirstPage = (props: {nextPage: any}) => {
                       authorization: token
                     }
                 })
+            } else {
+                assistantsResponse = await api.get(`/getUserAssistants/${userId}`, {
+                    headers: {
+                      authorization: token
+                    }
+                })
             }
             setLoading(false);
             
             // Filter the assistants before setting state.
-            const chatAssistants = assistantsResponse?.data.assistants.filter((assistant: { category: string; }) => assistant.category === "chat");
+            const chatAssistants = assistantsResponse?.data.assistants;
             chatAssistants.unshift(defaultAssistant);
-            setAssistants(chatAssistants);
+            setAssistants(assistantsResponse?.data.assistants);
             
         } catch (e) {
             console.log(e)
