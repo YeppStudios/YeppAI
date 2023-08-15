@@ -52,7 +52,7 @@ const SolutionPage = () => {
     tutorial: TutorialOrUseCase[];
     useCases: Omit<TutorialOrUseCase, 'image'>[];
   }
-  
+
   useEffect(() => {
     if (typeof window !== undefined) {
       if (window.innerWidth >= 1023) {
@@ -89,7 +89,7 @@ const SolutionPage = () => {
         <div className="lg:mt-[6rem] mt-[7rem]" />
         <section className="relative">
           <div className="lg:h-[80vh] h-[75vh] relative w-full">
-            <Image src={solutionData.image} alt="chat with your data image" style={{width: "100%"}} width={1000} height={300} />
+            <Image src={solutionData.image} alt="chat with your data image" style={{width: "100%"}} width={3000} height={900} />
           </div>
           <div className="absolute inset-x-0 bottom-0 bg-white z-20 flex flex-col gap-12 px-12 lg:px-16 shadow-[0px_-20px_20px_40px_#fff] shadow-white ">
           <SlideBottom>

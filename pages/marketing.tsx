@@ -47,6 +47,7 @@ import {
 } from "react-icons/bs";
 import { selectedPlanState } from "@/store/planSlice";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
+import { selectedUserState } from "@/store/userSlice";
 import { useSelector } from "react-redux";
 import api from "./api";
 import Image from "next/image";
@@ -85,6 +86,7 @@ const ContentCreator = () => {
   const [openCampaignModal, setOpenCampaignModal] = useState(false);
   const [company, setCompany] = useState<any>();
   const selectedWorkspaceCompany = useSelector(selectedWorkspaceCompanyState);
+  const user = useSelector(selectedUserState);
   const { query } = router;
 
   useEffect(() => {

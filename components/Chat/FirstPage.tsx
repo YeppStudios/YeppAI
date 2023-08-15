@@ -62,7 +62,7 @@ const FirstPage = (props: {nextPage: any}) => {
                       authorization: token
                     }
                 })
-            } else if (workspaceCompany._id) {
+            } else {
                 const {data} = await api.get(`/workspace-company/${workspace}`, {
                     headers: {
                       authorization: token

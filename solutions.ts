@@ -5,7 +5,6 @@ import { BsCreditCard2Front, BsBook, BsFileText, BsHandIndexThumb, BsMenuApp, Bs
 import { IoBookOutline, IoPhonePortraitOutline, IoRocketOutline } from "react-icons/io5"
 import { GoMail, GoChecklist } from "react-icons/go";
 import { BiRocket, BiSupport } from "react-icons/bi";
-import assetupload3 from "./public/images/assetupload3.png";
 
 export const solutions = [
     {
@@ -83,7 +82,7 @@ export const solutions = [
                 icon: FiEdit3,
                 title: "Edit existing folders.",
                 description: "You have the ability to delete and preview each file that you've uploaded to the designated folder. However, opening these files is not possible as they are stored in a vector base.",
-                image: assetupload3
+                image: "http://drive.google.com/uc?export=view&id=1vsY3c7shJi2cPyiN4r5Hd4HbYJrOgc1A"
             },
         ],
         useCases: [
