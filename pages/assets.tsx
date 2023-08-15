@@ -88,7 +88,7 @@ const Assets = () => {
       }
     };
     fetchFolders();
-  }, [dispatch, workspaceCompany]);
+  }, [workspaceCompany]);
 
   useEffect(() => {
     setOpenedFolder(selectedFolder);

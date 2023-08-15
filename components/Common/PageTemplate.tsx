@@ -50,7 +50,6 @@ const PageTemplate = ({children}: any) => {
       }
     }
 
-    if (!user.name && userId) {
       const fetchUserInfo = async () => {
         try { 
           const {data} = await api.get(`/users/${userId}`, {
@@ -86,9 +85,8 @@ const PageTemplate = ({children}: any) => {
         }
       }
       fetchUserInfo();
-    }
-    validateJWT();
-  }, [dispatch, user]);
+      validateJWT();
+  }, []);
 
   const login = () => {
     setLoggedIn(true);
