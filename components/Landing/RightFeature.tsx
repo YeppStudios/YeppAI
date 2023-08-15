@@ -109,7 +109,7 @@ const FeatureContainer = styled.div<{ color: string }>`
 `;
 
 const FeatureTitle = styled.h2`
-  font-size: 2.5rem;
+  font-size: 2vw;
   font-family: "Satoshi", sans-serif;
   font-weight: 900;
   line-height: 1.2;
@@ -147,7 +147,7 @@ const GifContainer = styled.div`
   overflow: visible;
   margin-left: 5vw;
   max-height: 90vh;
-  width: 40rem;
+  aspect-ratio: 16/9;
   border-radius: 25px;
   border: 7px solid black;
   box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.3);
