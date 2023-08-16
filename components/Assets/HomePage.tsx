@@ -73,6 +73,8 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
     const [folderToDelete, setFolderToDelete] = useState<Folder | undefined>(undefined);
     const [uploadedBytes, setUploadedBytes] = useState(0);
     const [mobile, setMobile] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredFolders, setFilteredFolders] = useState(props.folders);
     
     const dispatch = useDispatch();
 
@@ -108,6 +110,18 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
         setAssistantsCount(assistants.length);
     }, [assistants])
 
+    useEffect(() => {
+        if (!searchTerm.trim()) {
+            setFilteredFolders(props.folders);
+            return;
+        }
+
+        const result = props.folders.filter((folder: any) =>
+            folder.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        setFilteredFolders(result);
+    }, [searchTerm, props.folders]);
 
     const handleDocumentsLimit = () => {
         setAddDocument("");
@@ -144,7 +158,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
     };
 
   const renderFolders = () => {
-    const renderedContent = props.folders.map((folder: any, idx: Key | null | undefined) => {
+    const renderedContent = filteredFolders.map((folder: any, idx: Key | null | undefined) => {
             let dateObject = new Date(folder.updatedAt);
             var options: Intl.DateTimeFormatOptions = { 
                 weekday: "long", 
@@ -313,24 +327,31 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             <div className="pb-20 lg:pb-8 w-full">
             <div className="mt-6 flow-root">
                 <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                    <div className="shadow ring-1 ring-black ring-opacity-5 sm:rounded-2xl">
-                    <table className="min-w-full divide-y divide-gray-300">
+                <div className="inline-block w-full py-2 align-middle sm:px-6 lg:px-8">
+                    <div className="shadow ring-1 ring-black ring-opacity-5 rounded-2xl">
+                    <table className="w-full divide-y divide-gray-300">
                     <thead className="bg-slate-50">
                         <tr>
                             <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                             </th>
-                            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                            <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                             Title
                             </th>
                             <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
                             Created
                             </th>
-                            <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                            <th scope="col" className="hidden lg:flex relative w-full py-3.5 lg:pl-3 lg:pr-4 justify-start lg:justify-end">
+                                <input 
+                                    value={searchTerm} 
+                                    onChange={(e) => setSearchTerm(e.target.value)} 
+                                    style={{boxShadow: "inset -1px -1px 12px rgba(15, 27, 40, 0.1), inset 1px 1px 5px rgba(15, 27, 40, 0.1)"}} 
+                                    placeholder="search..." 
+                                    className="rounded-2xl border-2 border-[#e5e5e5] text-black pl-3 font-normal outline-none py-1"
+                                />
                             </th>
                         </tr>
                         </thead>
-                        {props.folders.length > 0 &&
+                        {filteredFolders.length > 0 &&
                         renderFolders()
                         }
                     </table>
@@ -346,6 +367,11 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                             </div>
                         }
                         </>
+                    }
+                    {(props.folders.length > 0 && filteredFolders.length === 0) &&
+                     <div className="flex justify-center items-center w-full h-36 text-slate-700 text-xl">
+                        No folder matches your criteria
+                    </div>
                     }
                     </div>
                 </div>
