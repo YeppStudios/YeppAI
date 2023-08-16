@@ -117,8 +117,10 @@ const FeatureDescription = styled.p<{ color: string }>`
   margin-top: 1.5vh;
   font-size: 1.25rem;
   font-weight: 500;
+  display: none;
 
   @media (min-width: 1023px) {
+    display: block;
     ul {
       list-style-type: disc;
       padding-left: 20px;

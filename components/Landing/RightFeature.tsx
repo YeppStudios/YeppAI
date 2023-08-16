@@ -35,7 +35,7 @@ const RightFeature = (props: {
         </GifContainer>
       )}
       <SlideBottom>
-        <div className="flex items-center justify-center flex-col lg:justify-start lg:items-start">
+        <div className="flex w-full items-center justify-center flex-col lg:items-start lg:justify-start ">
           <FeatureTitle>{props.title}</FeatureTitle>
           <FeatureDescription color={props.color}>
             {!mobile && props.text}
@@ -86,9 +86,10 @@ const RightFeature = (props: {
 export default RightFeature;
 
 const FeatureContainer = styled.div<{ color: string }>`
+  padding-right: 5vw;
+
   width: 100vw;
   height: auto;
-  padding: 0vh 8vw 0vh 0vw;
   margin-top: 14rem;
   color: ${(props) => props.color};
   display: grid;
@@ -106,6 +107,9 @@ const FeatureContainer = styled.div<{ color: string }>`
     padding: 5vh 0 10vh 0;
     margin-top: 0;
   }
+  @media (max-width: 1165px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 const FeatureTitle = styled.h2`
@@ -113,6 +117,7 @@ const FeatureTitle = styled.h2`
   font-family: "Satoshi", sans-serif;
   font-weight: 900;
   line-height: 1.2;
+  text-align: start;
   @media (max-width: 1023px) {
     font-size: 2rem;
     width: 95%;
@@ -122,12 +127,14 @@ const FeatureTitle = styled.h2`
 `;
 
 const FeatureDescription = styled.p<{ color: string }>`
+  display: none;
   margin-top: 1.5vh;
   font-size: 1.25rem;
   font-weight: 500;
   color: ${(props) => (props.color === "white" ? "#D1D6E2" : "black")};
 
   @media (min-width: 1023px) {
+    display: block;
     ul {
       list-style-type: disc;
       padding-left: 20px;
