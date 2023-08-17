@@ -138,7 +138,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     setLoading(false);
                     props.onClose();
                 } else {
-                    response = await api.post('/register-free-trial', { email, password, name, isCompany, referrerId, blockAccess: true }); //set to true to require credit card
+                    response = await api.post('/register-free-trial', { email, password, name, referrerId, blockAccess: true }); //set to true to require credit card
                     if (priceId && billingPeriod && planId) {
                         let res = await api.post(`/create-checkout-session`, 
                         {
