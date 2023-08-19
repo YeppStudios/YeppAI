@@ -244,7 +244,7 @@ const Campaign = () => {
               chunks.data.results[0].results.forEach((item: { text: string; }) => {
                 context += item.text + " ";
               });
-              promptToSend = `${promptToSend} Extra context that might help you: "${context}"`;
+              promptToSend = `Extra context that might be helpful but not necessarily: "${context}". Now after understanding the context, without using too many facts, please: ${promptToSend}. Answer: `;
               // setEmbeddedDocuments(chunks.data.results[0].results);
               } catch (e) {
               }
@@ -255,7 +255,7 @@ const Campaign = () => {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
                 signal: signal,
-                body: JSON.stringify({prompt: promptToSend, temperature: 1, title: template.data.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
+                body: JSON.stringify({prompt: promptToSend, temperature: 0.95, title: template.data.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
               });
         
               if (!response.ok) {

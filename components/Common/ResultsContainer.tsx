@@ -235,7 +235,7 @@ const ResultsContainer = (
           chunks.data.results[0].results.forEach((item: { text: string; }) => {
             context += item.text + " ";
           });
-          promptToSend = "Task from user: " + promptToSend + " Additional context that might help you better complete the task: " + context + " Make sure to respond in language user asked for.";
+          promptToSend = "Extra context that might(but also might not) help you better complete the task I will give you: " + context + ". Now, making sure you understand the context, without using too many facts from it, your task is to: " + promptToSend + " Answer: ";
           // setEmbeddedDocuments(chunks.data.results[0].results);
           } catch (e) {
           }
@@ -246,7 +246,7 @@ const ResultsContainer = (
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: signal,
-              body: JSON.stringify({prompt: promptToSend, temperature: 1, title: props.template.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
+              body: JSON.stringify({prompt: promptToSend, temperature: 0.9, title: props.template.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
             });
       
             if (!response.ok) {

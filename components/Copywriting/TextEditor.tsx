@@ -236,8 +236,9 @@ useEffect(() => {
     And this is how I want you to write the introduction:
     ${conspect[0].instruciton}
     End this intro so that it will be easy to continue writing the next section: ${conspect[1].header}
-    Additional context that might be relevant:
+    Additional context that you might find relevant, but not necessary to include in the introduction:
     ${context}
+    Introduction: 
     `;
     let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with introduction without header.`;
     let model = "gpt-4";
@@ -247,7 +248,7 @@ useEffect(() => {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
           signal: newAbortController.signal,
-          body: JSON.stringify({prompt, title: "Generated intro of SEO content", model, systemPrompt}),
+          body: JSON.stringify({prompt, title: "Generated intro of SEO content", model, systemPrompt, temperature: 0.75}),
         });
 
       if (!response.ok) {
@@ -432,8 +433,9 @@ useEffect(() => {
     This is a brief instruction on what I want you to write about in this section:
     ${conspect[sectionIndex].instruciton}
     ${endStyle}
-    Additional context that might be relevant for this section:
+    Additional context that you might find relevant, but not necessary to include in the section:
     ${context}
+    Now understanding the context here is the section:
     `;
     let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} sections. ${language} is your native language. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with ${contentType} section without header.`;
     let model = "gpt-4";
@@ -443,7 +445,7 @@ useEffect(() => {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
           signal: newAbortController.signal,
-          body: JSON.stringify({prompt, title: "Generated intro of SEO content", model, systemPrompt}),
+          body: JSON.stringify({prompt, title: "Generated intro of SEO content", model, systemPrompt, temperature: 0.75}),
         });
 
       if (!response.ok) {
