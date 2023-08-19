@@ -67,6 +67,7 @@ const Assets = () => {
           setOpenOnboarding(true);
         }
         if (workspaceCompany._id) {
+          console.log(workspaceCompany);
           const { data } = await api.get(`/folders/${workspaceCompany.workspace}`, {
             headers: {
               Authorization: `${token}`,
@@ -75,6 +76,7 @@ const Assets = () => {
           setFolders(data);
           setFoldersLoading(false);
         } else {
+          console.log("no workspace");
           const { data } = await api.get(`/folders/owner/${userId}`, {
             headers: {
               Authorization: `${token}`,
@@ -88,7 +90,7 @@ const Assets = () => {
       }
     };
     fetchFolders();
-  }, [workspaceCompany]);
+  }, [dispatch, workspaceCompany]);
 
   useEffect(() => {
     setOpenedFolder(selectedFolder);

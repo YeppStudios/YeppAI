@@ -91,6 +91,7 @@ const PageTemplate = ({children}: any) => {
   const login = () => {
     setLoggedIn(true);
     router.push("/assets");
+    router.reload();
   }
 
   return (
