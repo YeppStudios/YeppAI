@@ -1,3 +1,4 @@
+import SlideBottom from "@/components/Animated/SlideBottom";
 import Centered from "@/components/Centered";
 import ModalBackground from "@/components/Modals/common/ModalBackground";
 import { useState } from "react";
@@ -13,6 +14,7 @@ const ChoiceModal = (props: {onClose: any, setNextModal: any}) => {
 
     return (
         <ModalBackground onClose={props.onClose} closeable={true}>
+            <SlideBottom>
             <Container onClick={(e) => e.stopPropagation()}>
             <CloseIcon onClick={props.onClose}>
                 <MdOutlineClose style={{width: "100%", height: "auto"}}/>
@@ -58,6 +60,7 @@ const ChoiceModal = (props: {onClose: any, setNextModal: any}) => {
                 </div>
             }
             </Container>
+            </SlideBottom>
         </ModalBackground>
     )
 }
