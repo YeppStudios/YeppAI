@@ -69,6 +69,8 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
   const [mobile, setMobile] = useState(false);
   const [selectedTab, setSelectedTab] = useState("Templates")
   const [campaigns, setCampaigns] = useState<any[]>([]);
+  const [campaignToDelete, setCampaignToDelete] = useState<any>("");
+  const [openDeleteCampaign, setOpenDeleteCampaign] = useState(false);
   const user = useSelector(selectedUserState);
 
   const router = useRouter();
@@ -128,6 +130,12 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
     setContentToDelete(content);
     setOpenDeleteContent(true);
   }
+
+  const openDeleteCampaignModal = (campaign: any) => {
+    setCampaignToDelete(campaign);
+    setOpenDeleteCampaign(true);
+  }
+
   const renderContent = () => {
     const renderedContent = savedContent.map((content) => {
       if (content.category !== "document") { // Only process items that are not documents
@@ -241,7 +249,7 @@ const renderCampaigns = () => {
                   <Menu.Item>
                     {({ active }) => (
                       <div
-                        onClick={() => openDeleteContentModal(campaign)}
+                        onClick={() => openDeleteCampaignModal(campaign)}
                         className={classNames(
                           active ? 'bg-red-50 text-red-700' : 'text-red-500',
                           'block px-4 py-2 text-sm'
@@ -275,6 +283,7 @@ const renderCampaigns = () => {
   return (
     <>
     {openDeleteContent && <DeleteDoc onClose={() => setOpenDeleteContent(false)} assetType="saved" document={contentToDelete} deleteDocumentState={() => props.setOpen} />}
+    {openDeleteCampaign && <DeleteDoc onClose={() => setOpenDeleteCampaign(false)} assetType="campaign" document={campaignToDelete} deleteDocumentState={() => props.setOpen} />}
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog as="div" className="z-20" onClose={props.setOpen}>
         <div className="fixed inset-0" />

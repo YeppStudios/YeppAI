@@ -36,8 +36,13 @@ const DeleteDoc = (props: {
                             Authorization: localStorage.getItem("token")
                         }
                     })
+                } else if (props.assetType === "campaign") {
+                    await api.delete(`/deleteCampaign/${props.document._id}`, {
+                        headers: {
+                            Authorization: localStorage.getItem("token")
+                        }
+                    })
                 } else {
-                    
                     await api.delete(`/user/${user._id}/delete-document/${props.document.vectorId}`, {
                         headers: {
                             Authorization: localStorage.getItem("token")
@@ -80,7 +85,7 @@ const DeleteDoc = (props: {
             </CloseIcon>
                 <div>
                     <Centered><Icon className='text-gray-800'><BsFileEarmarkExcelFill style={{width: "100%", height: "100%"}} /></Icon></Centered>
-                    <Title>Delete asset?</Title>
+                    {props.assetType === "campaign" ? <Title>Delete campaign?</Title> : <Title>Delete document?</Title>}
                     <Centered><Description>Asset will be permanently deleted and you will not be able to restore it.</Description></Centered>
                 </div>   
                 <Centered>
