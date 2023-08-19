@@ -9,6 +9,7 @@ import SlideBottom from "../../Animated/SlideBottom";
 import Image from "next/image";
 import api from "@/pages/api";
 import { Loader } from "@/components/Common/Loaders";
+import { IoClose } from "react-icons/io5";
 
 const steps = [
     { number: 1},
@@ -59,7 +60,16 @@ const OnboardingModal = (props: {onClose: any}) => {
     const [usedAI, setUsedAI] = useState(false);
     const [mobile, setMobile] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [isModalOpen, setModalOpen] = useState(false);
 
+    const handleOpenModal = () => {
+      setModalOpen(true);
+    };
+  
+    const handleCloseModal = () => {
+      setModalOpen(false);
+    };
+  
 
     useEffect(() => {
         let username = Cookies.get("username");
@@ -133,6 +143,16 @@ const OnboardingModal = (props: {onClose: any}) => {
 
     return (
         <ModalBackground selectedTab={selectedTab} mobile={mobile}>
+            {isModalOpen && 
+                        <VideoBg onClick={handleCloseModal}>
+                        <VideoModal onClick={(e) => e.stopPropagation()}>
+                            <video controls className="w-full">
+                                <source src="/videos/Sequence.mp4" type="video/mp4" />
+                            </video>
+                            <CloseButton onClick={handleCloseModal}><IoClose className="w-1/2 h-1/2"/></CloseButton>
+                        </VideoModal>
+                        </VideoBg>
+            }
             <SlideBottom>
             <Modal selectedTab={selectedTab}>
                 {selectedTab > 0 &&
@@ -239,7 +259,7 @@ const OnboardingModal = (props: {onClose: any}) => {
                     />
                     :
                     <Image 
-                        src="/videos/mobile_uploading.gif"
+                        src="/videos/uploading.gif"
                         width={175}
                         height={300}
                         style={{borderRadius: "20px", border: "8px solid black", boxShadow: "0 2px 25px 1px rgba(0,0,0,0.15)"}}
@@ -476,3 +496,43 @@ const GifContainer = styled.div`
         margin-top: 2rem;
     }
 `
+
+const VideoBg = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 200;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  `
+  
+  const VideoModal = styled.div`
+  width: 70%;
+  cursor: auto;
+  position: relative;
+`;
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px; 
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  ${VideoModal}:hover & {
+    display: flex;
+  }
+`;

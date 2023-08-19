@@ -4,7 +4,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import placeholderImg from "@/public/images/blueAbstractBg.png";
 import Image, { StaticImageData } from "next/image";
-import { BsFillGiftFill, BsStars } from "react-icons/bs";
+import { BsFillGiftFill, BsPlay, BsPlayFill, BsStars } from "react-icons/bs";
 import { AiOutlineCloudUpload, AiOutlineUserAdd } from "react-icons/ai";
 import Footer from "@/components/Landing/Footer";
 import LearnMoreSection from "@/components/Landing/LearnMoreSection";
@@ -14,6 +14,7 @@ import SlideBottom from "@/components/Animated/SlideBottom";
 import { solutions } from '../../../solutions';
 import ErrorPage from "@/pages/404";
 import { IconType } from 'react-icons';
+import { IoClose } from "react-icons/io5";
 interface TutorialOrUseCase {
   icon: IconType;
   title: string;
@@ -37,6 +38,15 @@ const SolutionPage = () => {
   const { solution } = router.query;
   const [solutionData, setSolutionData] = useState<Solution>();
   const [mobile, setMobile] = useState(true);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   interface TutorialOrUseCase {
     icon: IconType;
@@ -86,9 +96,24 @@ const SolutionPage = () => {
          <title>Yepp AI | {solutionData.title}</title>
         </Head>
         <Navbar />
+        {isModalOpen && 
+            <VideoBg onClick={handleCloseModal}>
+              <VideoModal onClick={(e) => e.stopPropagation()}>
+                  <video controls className="w-full">
+                    <source src="/videos/Sequence.mp4" type="video/mp4" />
+                  </video>
+                <CloseButton onClick={handleCloseModal}><IoClose className="w-1/2 h-1/2"/></CloseButton>
+              </VideoModal>
+            </VideoBg>
+        }
         <div className="lg:mt-[6rem] mt-[7rem]" />
         <section className="relative">
-          <div className="lg:h-[80vh] h-[75vh] relative w-full">
+          <div className="lg:h-[85vh] h-[75vh] relative w-full">
+          {/* <div className="z-10 w-full h-full bg-black bg-opacity-20 absolute flex lg:pb-20 justify-center items-center">
+              <button onClick={() => setModalOpen(true)} className="text-white bg-black bg-opacity-30 p-4 rounded-full cursor-pointer hover:scale-105 transition ease-in-out">
+                <BsPlayFill className="h-12 w-12 opacity-1" />
+              </button>
+            </div> */}
             <Image src={solutionData.image} alt="chat with your data image" style={{width: "100%"}} width={3000} height={900} />
           </div>
           <div className="absolute inset-x-0 bottom-0 bg-white z-20 flex flex-col gap-12 px-12 lg:px-16 shadow-[0px_-20px_20px_40px_#fff] shadow-white ">
@@ -197,12 +222,12 @@ const SolutionPage = () => {
           <div className="pb-0" />
           <Footer />
         </PageContent>
-  
-        {/* <Footer /> */}
       </>
     );
   }
 }
+
+export default SolutionPage;
 
 const CardText = styled.p`
   font-size: 1rem;
@@ -320,4 +345,45 @@ const SolutionTemplate = styled.div`
   transition: all 0.3s ease;
 `
 
-export default SolutionPage;
+const VideoModal = styled.div`
+width: 70%;
+cursor: auto;
+position: relative;
+`;
+
+const CloseButton = styled.button`
+position: absolute;
+top: 10px; 
+right: 10px;
+background-color: rgba(0, 0, 0, 0.6);
+color: #fff;
+border: none;
+border-radius: 50%;
+cursor: pointer;
+width: 30px;
+height: 30px;
+display: none;
+justify-content: center;
+align-items: center;
+
+${VideoModal}:hover & {
+  display: flex;
+}
+`;
+
+const VideoBg = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 200;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  `
+
+
