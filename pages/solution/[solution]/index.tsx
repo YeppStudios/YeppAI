@@ -107,7 +107,7 @@ const SolutionPage = () => {
         <Navbar />
         <div className="lg:mt-[6rem] mt-[7rem] z-20" />
         <section className="relative">
-          <div className="lg:h-[85vh] h-[70vh] relative w-full">
+          <div className="lg:h-[85vh] h-[50vh] relative w-full">
           <div className="z-10 w-full h-full bg-black bg-opacity-20 absolute flex pb-[20rem] lg:pb-28 justify-center items-center">
               <button onClick={() => setModalOpen(true)} className="text-white backdrop-blur-sm bg-blue-900 shadow-lg bg-opacity-30 p-2 lg:p-4 rounded-full cursor-pointer hover:scale-105 transition ease-in-out">
                 <BsPlayFill className="h-8 w-8 lg:h-12 lg:w-12 opacity-1" />
