@@ -5,7 +5,6 @@ import styled from "styled-components";
 import placeholderImg from "@/public/images/blueAbstractBg.png";
 import Image, { StaticImageData } from "next/image";
 import { BsFillGiftFill, BsPlay, BsPlayFill, BsStars } from "react-icons/bs";
-import { AiOutlineCloudUpload, AiOutlineUserAdd } from "react-icons/ai";
 import Footer from "@/components/Landing/Footer";
 import LearnMoreSection from "@/components/Landing/LearnMoreSection";
 import NavigationBar from "@/components/Common/NavigationBar";
@@ -95,25 +94,27 @@ const SolutionPage = () => {
           />
          <title>Yepp AI | {solutionData.title}</title>
         </Head>
-        <Navbar />
         {isModalOpen && 
-            <VideoBg onClick={handleCloseModal}>
-              <VideoModal onClick={(e) => e.stopPropagation()}>
+            <div className="top-0 fixed w-full z-50 h-full bg-black bg-opacity-60 flex justify-center items-center cursor-pointer" onClick={handleCloseModal}>
+              <SlideBottom>
+              <VideoModal className="w-[95vw] lg:w-[80vw] group relative cursor-auto" onClick={(e) => e.stopPropagation()}>
                   <video controls className="w-full">
-                    <source src="/videos/Sequence.mp4" type="video/mp4" />
+                    <source src="/videos/Tutorial_Marketing_4k.mp4" type="video/mp4" />
                   </video>
-                <CloseButton onClick={handleCloseModal}><IoClose className="w-1/2 h-1/2"/></CloseButton>
+                <button className="absolute hidden group-hover:flex top-2 right-2 bg-black bg-opacity-60 text-white rounded-full cursor-pointer w-10 h-10 justify-center items-center" onClick={handleCloseModal}><IoClose className="w-1/2 h-1/2"/></button>
               </VideoModal>
-            </VideoBg>
+              </SlideBottom>
+            </div>
         }
-        <div className="lg:mt-[6rem] mt-[7rem]" />
+        <Navbar />
+        <div className="lg:mt-[6rem] mt-[7rem] z-20" />
         <section className="relative">
-          <div className="lg:h-[85vh] h-[75vh] relative w-full">
-          {/* <div className="z-10 w-full h-full bg-black bg-opacity-20 absolute flex lg:pb-20 justify-center items-center">
-              <button onClick={() => setModalOpen(true)} className="text-white bg-black bg-opacity-30 p-4 rounded-full cursor-pointer hover:scale-105 transition ease-in-out">
-                <BsPlayFill className="h-12 w-12 opacity-1" />
+          <div className="lg:h-[85vh] h-[85vh] relative w-full">
+          <div className="z-10 w-full h-full bg-black bg-opacity-20 absolute flex pb-[20rem] lg:pb-28 justify-center items-center">
+              <button onClick={() => setModalOpen(true)} className="text-white backdrop-blur-sm bg-blue-900 shadow-lg bg-opacity-30 p-2 lg:p-4 rounded-full cursor-pointer hover:scale-105 transition ease-in-out">
+                <BsPlayFill className="h-8 w-8 lg:h-12 lg:w-12 opacity-1" />
               </button>
-            </div> */}
+            </div>
             <Image src={solutionData.image} alt="chat with your data image" style={{width: "100%"}} width={3000} height={900} />
           </div>
           <div className="absolute inset-x-0 bottom-0 bg-white z-20 flex flex-col gap-12 px-12 lg:px-16 shadow-[0px_-20px_20px_40px_#fff] shadow-white ">
@@ -351,39 +352,5 @@ cursor: auto;
 position: relative;
 `;
 
-const CloseButton = styled.button`
-position: absolute;
-top: 10px; 
-right: 10px;
-background-color: rgba(0, 0, 0, 0.6);
-color: #fff;
-border: none;
-border-radius: 50%;
-cursor: pointer;
-width: 30px;
-height: 30px;
-display: none;
-justify-content: center;
-align-items: center;
-
-${VideoModal}:hover & {
-  display: flex;
-}
-`;
-
-const VideoBg = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 200;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-  `
 
 
