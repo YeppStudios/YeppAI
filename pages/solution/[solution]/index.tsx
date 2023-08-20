@@ -45,7 +45,7 @@ const SolutionPage = () => {
   }
   
   interface Solution {
-    title: string;
+    title: any;
     description: string;
     video: string;
     image: any;
@@ -345,7 +345,6 @@ const SolutionTemplate = styled.div`
 `
 
 const VideoModal = styled.div`
-width: 70%;
 cursor: auto;
 position: relative;
 `;

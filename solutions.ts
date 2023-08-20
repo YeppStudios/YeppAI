@@ -5,6 +5,11 @@ import { BsCreditCard2Front, BsBook, BsFileText, BsHandIndexThumb, BsMenuApp, Bs
 import { IoBookOutline, IoPhonePortraitOutline, IoRocketOutline } from "react-icons/io5"
 import { GoMail, GoChecklist } from "react-icons/go";
 import { BiRocket, BiSupport } from "react-icons/bi";
+import assetsThumbnail from "./public/images/Thumbnail_Assets.png"
+import campaignsThumbnail from "./public/images/Thumbnail_Campaigns.png"
+import chatThumbnail from "./public/images/Thumbnail_Chat.png"
+import copywritingThumbnail from "./public/images/Thumbnail_Copywriting.png"
+import marketingTemplatesThumbnail from "./public/images/Thumbnail_Templates.png"
 
 export const solutions = [
     {
@@ -18,7 +23,7 @@ export const solutions = [
                 icon: AiOutlineCloudUpload,
                 title: "Choose a desired placement.",
                 description: `Once you click on the "Marketing" tab in the sidebar, all placements will appear. You can filter them by category and search for the perfect one suited to your use case.`,
-                image: "https://ipfs.io/ipfs/QmXnqJm7mPKe49FcgYnr2DQMnJWXNQHdFTwYqZEGJBG5Qu?filename=Screenshot%202023-08-12%20at%202.39.53%20PM.png"
+                image: marketingTemplatesThumbnail
             },
             {
                 icon: RxInput,
@@ -66,7 +71,7 @@ export const solutions = [
         title: "Assets Upload",
         description: "Upload to make AI understand you & your clients.",
         video: "https://www.youtube.com/embed/qql3wigE7JM?autoplay=1",
-        image: "https://ipfs.io/ipfs/QmPeeFNt3yFySQ47VsGkTMTvuUd95Bvf8TWXC7nrXZnpJc?filename=Screenshot%202023-08-12%20at%203.19.31%20PM.png",
+        image: assetsThumbnail,
         tutorial: [
             {
                 icon: BsHandIndexThumb,
@@ -120,7 +125,7 @@ export const solutions = [
         title: "Content Campaigns",
         description: "Create content campaigns for all placements at once.",
         video: "https://www.youtube.com/embed/aS4fLFrjNXc?autoplay=1",
-        image: "https://ipfs.io/ipfs/QmdVLFSFZM7LnSXXVUojh1tpcsuPUTmmay85SSZHVvs7y1?filename=Screenshot%202023-08-12%20at%202.31.42%20PM.png",
+        image: campaignsThumbnail,
         tutorial: [
             {
                 icon: BsHandIndexThumb,
@@ -170,7 +175,7 @@ export const solutions = [
         title: "Chat with your data",
         description: "Create AI assistant that knows you & your clients.",
         video: "https://www.youtube.com/embed/tyWfMGJBO5c?autoplay=1",
-        image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png",
+        image: chatThumbnail,
         tutorial: [
             {
                 icon: BsPersonVcard,
@@ -225,7 +230,7 @@ export const solutions = [
         title: "Copywriting",
         description: "Craft highly personalized written pieces.",
         video: "https://www.youtube.com/embed/0wvlz7IHsrQ?autoplay=1",
-        image: "https://ipfs.io/ipfs/QmUY7ekkyJEv3DR8my5u7jTQcdHYbU8mRaRMYhnsw9aYBu?filename=Screenshot%202023-08-13%20at%202.53.26%20PM.png",
+        image: copywritingThumbnail,
         tutorial: [
             {
                 icon: AiOutlineCloudUpload,
