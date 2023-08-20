@@ -17,13 +17,13 @@ export const solutions = [
         title: "Marketing Templates",
         description: "Watch AI write insightful content on niche topics.",
         video: "https://www.youtube.com/embed/KQPYySWUmz4?autoplay=1",
-        image: "https://ipfs.io/ipfs/QmP6yVNc3M5MkUmaGf8jNTMF4XozZT4oQ2xbmuUQ7Wtkf1?filename=Screenshot%202023-08-13%20at%202.07.13%20PM.png",
+        image: marketingTemplatesThumbnail,
         tutorial: [
             {
                 icon: AiOutlineCloudUpload,
                 title: "Choose a desired placement.",
                 description: `Once you click on the "Marketing" tab in the sidebar, all placements will appear. You can filter them by category and search for the perfect one suited to your use case.`,
-                image: marketingTemplatesThumbnail
+                image: "https://ipfs.io/ipfs/QmXnqJm7mPKe49FcgYnr2DQMnJWXNQHdFTwYqZEGJBG5Qu?filename=Screenshot%202023-08-12%20at%202.39.53%20PM.png"
             },
             {
                 icon: RxInput,
