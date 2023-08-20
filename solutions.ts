@@ -11,6 +11,7 @@ export const solutions = [
         query: "marketing-templates",
         title: "Marketing Templates",
         description: "Watch AI write insightful content on niche topics.",
+        video: "https://www.youtube.com/embed/KQPYySWUmz4?autoplay=1",
         image: "https://ipfs.io/ipfs/QmP6yVNc3M5MkUmaGf8jNTMF4XozZT4oQ2xbmuUQ7Wtkf1?filename=Screenshot%202023-08-13%20at%202.07.13%20PM.png",
         tutorial: [
             {
@@ -64,6 +65,7 @@ export const solutions = [
         query: "assets-upload",
         title: "Assets Upload",
         description: "Upload to make AI understand you & your clients.",
+        video: "https://www.youtube.com/embed/qql3wigE7JM?autoplay=1",
         image: "https://ipfs.io/ipfs/QmPeeFNt3yFySQ47VsGkTMTvuUd95Bvf8TWXC7nrXZnpJc?filename=Screenshot%202023-08-12%20at%203.19.31%20PM.png",
         tutorial: [
             {
@@ -117,6 +119,7 @@ export const solutions = [
         query: "campaigns",
         title: "Content Campaigns",
         description: "Create content campaigns for all placements at once.",
+        video: "https://www.youtube.com/embed/aS4fLFrjNXc?autoplay=1",
         image: "https://ipfs.io/ipfs/QmdVLFSFZM7LnSXXVUojh1tpcsuPUTmmay85SSZHVvs7y1?filename=Screenshot%202023-08-12%20at%202.31.42%20PM.png",
         tutorial: [
             {
@@ -166,6 +169,7 @@ export const solutions = [
         query: "chat",
         title: "Chat with your data",
         description: "Create AI assistant that knows you & your clients.",
+        video: "https://www.youtube.com/embed/tyWfMGJBO5c?autoplay=1",
         image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png",
         tutorial: [
             {
@@ -220,6 +224,7 @@ export const solutions = [
         query: "copywriting",
         title: "Copywriting",
         description: "Craft highly personalized written pieces.",
+        video: "https://www.youtube.com/embed/0wvlz7IHsrQ?autoplay=1",
         image: "https://ipfs.io/ipfs/QmUY7ekkyJEv3DR8my5u7jTQcdHYbU8mRaRMYhnsw9aYBu?filename=Screenshot%202023-08-13%20at%202.53.26%20PM.png",
         tutorial: [
             {
