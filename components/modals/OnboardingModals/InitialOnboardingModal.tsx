@@ -9,7 +9,6 @@ import SlideBottom from "../../Animated/SlideBottom";
 import Image from "next/image";
 import api from "@/pages/api";
 import { Loader } from "@/components/Common/Loaders";
-import { IoClose } from "react-icons/io5";
 
 const steps = [
     { number: 1},
@@ -60,15 +59,6 @@ const OnboardingModal = (props: {onClose: any}) => {
     const [usedAI, setUsedAI] = useState(false);
     const [mobile, setMobile] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [isModalOpen, setModalOpen] = useState(false);
-
-    const handleOpenModal = () => {
-      setModalOpen(true);
-    };
-  
-    const handleCloseModal = () => {
-      setModalOpen(false);
-    };
   
 
     useEffect(() => {
@@ -143,16 +133,6 @@ const OnboardingModal = (props: {onClose: any}) => {
 
     return (
         <ModalBackground selectedTab={selectedTab} mobile={mobile}>
-            {isModalOpen && 
-                        <VideoBg onClick={handleCloseModal}>
-                        <VideoModal onClick={(e) => e.stopPropagation()}>
-                            <video controls className="w-full">
-                                <source src="/videos/Sequence.mp4" type="video/mp4" />
-                            </video>
-                            <CloseButton onClick={handleCloseModal}><IoClose className="w-1/2 h-1/2"/></CloseButton>
-                        </VideoModal>
-                        </VideoBg>
-            }
             <SlideBottom>
             <Modal selectedTab={selectedTab}>
                 {selectedTab > 0 &&
@@ -173,16 +153,21 @@ const OnboardingModal = (props: {onClose: any}) => {
                 <Centered>
                         <ModalTitle><p style={{fontSize: "3rem", marginBottom: "0.5rem"}}>👋</p>Hello {username}!</ModalTitle>
                 </Centered>
+
                 <Centered>
-                <ModalDescription>We&apos;ve prepared for you a short onboarding that will help you get started and us provide a service tailored to your needs. </ModalDescription>
-                </Centered>
-                <Centered>
-                    <EstimatedTime>Est. onboarding time: ~ 4 min</EstimatedTime>
+                    <div className="w-10/12 aspect-video relative mt-4">
+                <iframe className="w-full h-full rounded-xl" allowFullScreen
+                    src={`https://youtube.com/embed/Ib1tx2HYYoM`}>
+                </iframe>
+                </div>
                 </Centered>
                     <Centered>
                         <ContinueBtn onClick={() => setSelectedTab(1)}>
                             Let&apos;s get started!
                         </ContinueBtn>
+                    </Centered>
+                    <Centered>
+                        <TutorialsLink href="https://www.youtube.com/@Yepp-AI">Check out tutorials</TutorialsLink>
                     </Centered>
                 </div>
                 }
@@ -320,7 +305,7 @@ const Modal = styled.div<{selectedTab: number}>`
     width: 60vw;
     border-radius: 25px;
     background: white;
-    padding: ${props => props.selectedTab === 0 ? "4rem 3rem 5em 3rem;" : "4rem 3rem 5rem 3rem;"};
+    padding: ${props => props.selectedTab === 0 ? "1.5rem 3rem 4rem 3rem;" : "4rem 3rem 5rem 3rem;"};
     border: 2px solid #E5E8F0;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
     cursor: auto;
@@ -414,11 +399,11 @@ const Tab = styled.div`
     }
 `
 
-const EstimatedTime = styled.p`
-    margin-top: 1vh;
+const TutorialsLink = styled.a`
+    margin-top: 1rem;
     font-size: 1rem;
     color: #798094;
-    font-weight: 700;
+    cursor: pointer;
     @media (max-width: 1023px) {
         margin-top: 5vh;
     }
@@ -462,7 +447,7 @@ const ContinueBtn = styled.button`
         position: relative;
         color: white;
         font-weight: 500;
-        margin-top: 3rem;
+        margin-top: 2rem;
         padding: 0rem 5rem 0rem 5rem;
         height: 3rem;
         background: linear-gradient(40deg, #6578F8, #64B5FF);
@@ -496,21 +481,6 @@ const GifContainer = styled.div`
         margin-top: 2rem;
     }
 `
-
-const VideoBg = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 200;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-  `
   
   const VideoModal = styled.div`
   width: 70%;

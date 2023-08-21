@@ -97,7 +97,7 @@ const SolutionPage = () => {
         {isModalOpen && 
             <div className="top-0 fixed w-full z-50 h-full bg-black bg-opacity-60 flex justify-center items-center cursor-pointer" onClick={handleCloseModal}>
               <VideoModal className="w-[95svw] lg:w-[80svw] aspect-video group relative cursor-auto" onClick={(e) => e.stopPropagation()}>
-              <iframe width="900" height="1600" className="w-full h-full" allowFullScreen
+              <iframe width="1600" height="900" className="w-full h-full rounded-xl" allowFullScreen
                 src={`${solutionData.video}`}>
               </iframe>
                 <button className="absolute hidden group-hover:flex top-2 right-2 bg-black bg-opacity-60 text-white rounded-full cursor-pointer w-10 h-10 justify-center items-center" onClick={handleCloseModal}><IoClose className="w-1/2 h-1/2"/></button>
