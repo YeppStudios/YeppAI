@@ -37,7 +37,7 @@ const roles = [
     "Sales / Business Development",
     "Human Resources",
     "Student / Professor",
-    "Inna..."
+    "Other..."
 ]
 
 const companySize = [
