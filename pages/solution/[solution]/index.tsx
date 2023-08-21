@@ -200,8 +200,8 @@ const SolutionPage = () => {
                 {solutions.map((solution, index) => (
                   <div key={index} onClick={() => router.push(`/solution/${solution.query}`)}>
                     <SlideBottom>
-                      <SolutionTemplate className="aspect-video scale-105 border-4 border-[#e5e5e5] hover:border-black hover:scale-110 transition-all ease-in-out">
-                      <Image src={solution.image || placeholderImg} fill alt={solution.title} className="rounded-2xl"/>
+                      <SolutionTemplate className="aspect-video scale-105 border-[#e5e5e5] hover:scale-110 transition-all ease-in-out">
+                      <Image src={solution.miniThumbnail || placeholderImg} fill alt={solution.title} className="rounded-2xl"/>
                       </SolutionTemplate>
                     </SlideBottom>
                     <SlideBottom>           

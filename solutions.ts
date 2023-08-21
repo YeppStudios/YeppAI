@@ -10,6 +10,11 @@ import campaignsThumbnail from "./public/images/Thumbnail_Campaigns.png"
 import chatThumbnail from "./public/images/Thumbnail_Chat.png"
 import copywritingThumbnail from "./public/images/Thumbnail_Copywriting.png"
 import marketingTemplatesThumbnail from "./public/images/Thumbnail_Templates.png"
+import miniAssets from "./public/images/Mini_Thumbnail_Assets.png"
+import miniTemplates from "./public/images/Mini_Thumbnail_Templates.png"
+import miniCampaigns from "./public/images/Mini_Thumbnail_Campaigns.png"
+import miniChat from "./public/images/Mini_Thumbnail_Chat.png"
+import miniCopywriting from "./public/images/Mini_Thumbnail_Copywriting.png"
 
 export const solutions = [
     {
@@ -18,6 +23,7 @@ export const solutions = [
         description: "Watch AI write insightful content on niche topics.",
         video: "https://www.youtube.com/embed/KQPYySWUmz4?autoplay=1",
         image: marketingTemplatesThumbnail,
+        miniThumbnail: miniTemplates,
         tutorial: [
             {
                 icon: AiOutlineCloudUpload,
@@ -72,6 +78,7 @@ export const solutions = [
         description: "Upload to make AI understand you & your clients.",
         video: "https://www.youtube.com/embed/qql3wigE7JM?autoplay=1",
         image: assetsThumbnail,
+        miniThumbnail: miniAssets,
         tutorial: [
             {
                 icon: BsHandIndexThumb,
@@ -126,6 +133,7 @@ export const solutions = [
         description: "Create content campaigns for all placements at once.",
         video: "https://www.youtube.com/embed/aS4fLFrjNXc?autoplay=1",
         image: campaignsThumbnail,
+        miniThumbnail: miniCampaigns,
         tutorial: [
             {
                 icon: BsHandIndexThumb,
@@ -176,6 +184,7 @@ export const solutions = [
         description: "Create AI assistant that knows you & your clients.",
         video: "https://www.youtube.com/embed/tyWfMGJBO5c?autoplay=1",
         image: chatThumbnail,
+        miniThumbnail: miniChat,
         tutorial: [
             {
                 icon: BsPersonVcard,
@@ -231,6 +240,7 @@ export const solutions = [
         description: "Craft highly personalized written pieces.",
         video: "https://www.youtube.com/embed/0wvlz7IHsrQ?autoplay=1",
         image: copywritingThumbnail,
+        miniThumbnail: miniCopywriting,
         tutorial: [
             {
                 icon: AiOutlineCloudUpload,
