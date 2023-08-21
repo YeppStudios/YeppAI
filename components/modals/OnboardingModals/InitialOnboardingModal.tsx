@@ -151,11 +151,11 @@ const OnboardingModal = (props: {onClose: any}) => {
                 {selectedTab === 0 &&
                 <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", marginTop: "1rem"}}>
                 <Centered>
-                        <ModalTitle><p style={{fontSize: "3rem", marginBottom: "0.5rem"}}>👋</p>Hello {username}!</ModalTitle>
+                        <ModalTitle><p style={{fontSize: "2.5rem", marginBottom: "0.5rem"}}>👋</p>Hello {username}!</ModalTitle>
                 </Centered>
 
                 <Centered>
-                    <div className="w-10/12 aspect-video relative mt-4">
+                    <div className="w-full lg:w-10/12 aspect-video relative mt-4">
                 <iframe className="w-full h-full rounded-xl" allowFullScreen
                     src={`https://youtube.com/embed/Ib1tx2HYYoM`}>
                 </iframe>
@@ -234,7 +234,6 @@ const OnboardingModal = (props: {onClose: any}) => {
                     <Centered><ModalDescription><b>Assets</b> which you upload are the cornerstone of our platform. Uploaded assets are stored in folders, which AI can easily access later on.</ModalDescription></Centered>
                     <Centered>
                     <GifContainer>
-                    {!mobile ?
                     <Image 
                         src="/videos/uploading.gif"
                         width={500}
@@ -242,15 +241,6 @@ const OnboardingModal = (props: {onClose: any}) => {
                         style={{borderRadius: "20px", boxShadow: "0 2px 25px 1px rgba(0,0,0,0.15)"}}
                         alt={"gif of uploading the file"}
                     />
-                    :
-                    <Image 
-                        src="/videos/uploading.gif"
-                        width={175}
-                        height={300}
-                        style={{borderRadius: "20px", border: "8px solid black", boxShadow: "0 2px 25px 1px rgba(0,0,0,0.15)"}}
-                        alt={"gif of uploading the file"}
-                    />
-                    }
                     </GifContainer>
                     </Centered>
                     <Centered>
