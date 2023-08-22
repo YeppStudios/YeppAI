@@ -13,10 +13,7 @@ import { selectedUserState } from '@/store/userSlice';
 import { selectedPlanState } from '@/store/planSlice';
 import { useSelector, useDispatch } from "react-redux";
 
-const AddFolder = (props: {
-    onClose: any, setFolders: any, folders: any[], folderLimit: any
-}) => {
-
+const AddFolder = (props: { onClose: any, setFolders: any, folders: any[], folderLimit: any}) => {
 
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);

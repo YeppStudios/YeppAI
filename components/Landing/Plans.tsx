@@ -169,7 +169,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
             return (
                         <MainPlanContainer key={plan.title}>
                             {plan.title === "Standard" &&
-                                <PlanContainer backgroundColor="white" color="black" width="auto">
+                                <PlanContainer backgroundColor="white" color="black" width="28vw">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">✏️</span> </Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a freelancer</BriefDescription>
                                     <MainDescription>Your personal AI content creator with knowledge from uploaded assets.</MainDescription>
@@ -211,7 +211,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                 </PlanContainer>                   
                             }
                             {plan.title === "Agency" &&
-                                <MiddlePlanContainer backgroundColor="black" color="white" width="auto">
+                                <MiddlePlanContainer backgroundColor="black" color="white" width="28vw">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText><ColorfulText>{plan.title}</ColorfulText></PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a marketing agency</BriefDescription>
                                     <MainDescription>Unleash the full potential of the platform and maximize your performance.</MainDescription>
@@ -274,7 +274,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                 </MiddlePlanContainer>            
                             }
                             {plan.title === "Custom" &&
-                                <PlanContainer backgroundColor="rgba(101, 120, 248, 0.2)" color="black" width="auto">
+                                <PlanContainer backgroundColor="rgba(101, 120, 248, 0.2)" color="black" width="28vw">
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">📐</span></Emoji><PlanTitleText>{plan.title}</PlanTitleText></PlanTitle>
                                     <BriefDescription>Tailored to your needs</BriefDescription>
                                     <MainDescription>Take advantage of individually prepared folders and API access.</MainDescription>

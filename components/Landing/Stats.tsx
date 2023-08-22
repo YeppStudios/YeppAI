@@ -12,9 +12,9 @@ const stats = [
   export default function Example() {
     return (
       <Container>
-        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80"></div>
+        <div className="absolute top-0 left-0 w-[100vw] h-full bg-black opacity-80"></div>
         <div
-            className="absolute -bottom-8 -left-96 transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
+            className="absolute -bottom-8  transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
             aria-hidden="true"
           >
             <div

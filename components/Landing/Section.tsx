@@ -14,6 +14,7 @@ const SectionContainer = styled.div`
     margin-top: 20vh;
     @media (max-width: 1023px) {
         margin-top: 10vh;
+        width: 100%:
         display: flex;
         justify-content: center;
         flex-wrap: wrap;

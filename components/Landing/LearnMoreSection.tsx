@@ -114,9 +114,9 @@ const Section = styled.div`
       ". ."; 
       @media (max-width: 1023px) {
         display: flex;
-        padding: 0;
+        padding: 0 5vw 0 5vw;
         flex-wrap: wrap;
-        width: 90vw;
+        width: 100vw;
       }
 `
 

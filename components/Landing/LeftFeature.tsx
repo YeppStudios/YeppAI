@@ -4,6 +4,7 @@ import SlideBottom from "../Animated/SlideBottom";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Centered from "../Centered";
 
 const LeftFeature = (props: {
   text: string;
@@ -16,38 +17,40 @@ const LeftFeature = (props: {
 }) => {
   const [mobile, setMobile] = useState(true);
 
-  const router = useRouter();
-
   useEffect(() => {
     if (window.innerWidth >= 1023) {
       setMobile(false);
     }
   }, []);
 
+  const router = useRouter();
+
   return (
     <FeatureContainer marginTop={props.marginTop} color={props.color}>
       <SlideBottom>
-        <div>
+        <div className="flex items-center justify-center flex-col lg:justify-start lg:items-start">
           <FeatureTitle>{props.title}</FeatureTitle>
           <FeatureDescription color={props.color}>
             {!mobile && props.text}
-            {!mobile &&
-            <ul className="mt-6">
-              {props.bulletpoints.map((item, index, array) => {
-                return (
-                  <li key={item}>
-                    {item}
-                    {index !== array.length - 1 && mobile ? "," : ""}
-                  </li>
-                );
-              })}
-            </ul>
-            }
+            {!mobile && (
+              <ul className="mt-6">
+                {props.bulletpoints.map((item, index, array) => {
+                  return (
+                    <li key={item}>
+                      {item}
+                      {index !== array.length - 1 && mobile ? "," : ""}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </FeatureDescription>
           {!mobile && (
-              <Button onClick={() => router.push("/register?registration=true&company=true&trial=true")} color={props.color} className='trial-btn-feature'>
-                <BtnText>Try now</BtnText>
+            <Link href="/register?registration=true&company=true&trial=true">
+              <Button color={props.color} className="trial-btn-feature">
+                <BtnText>Try now </BtnText>
               </Button>
+            </Link>
           )}
         </div>
       </SlideBottom>
@@ -63,11 +66,13 @@ const LeftFeature = (props: {
         </GifContainer>
       </GifLayout>
       {mobile && (
-          <Button onClick={() => router.push("/register?registration=true&company=true&trial=true")} color={props.color} className="">
-            <BtnText>Try now</BtnText>
+        <Link href="/register?registration=true&company=true&trial=true">
+          <Button color={props.color} className="">
+            <BtnText>Try now </BtnText>
           </Button>
+        </Link>
       )}
-      <LearnMoreLink onClick={() => router.push(`${props.link}`)}>Learn more <span aria-hidden="true">&rarr;</span></LearnMoreLink>
+      <Centered><LearnMoreLink onClick={() => router.push(`${props.link}`)}>Learn more <span aria-hidden="true">&rarr;</span></LearnMoreLink></Centered>
     </FeatureContainer>
   );
 };
@@ -77,7 +82,7 @@ export default LeftFeature;
 const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
   width: 100vw;
   height: auto;
-  padding: 0vh 0vw 0vh 8vw;
+  padding: 0vh 0vw 0vh 7vw;
   margin-top: 14rem;
   color: ${(props) => props.color};
   display: grid;
@@ -86,10 +91,12 @@ const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
   gap: 0px 0px;
   grid-template-areas: ". .";
   align-items: center;
+  grid-column-gap: 2rem;
   @media (max-width: 1023px) {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
     width: 100vw;
     padding: 5vh 0 10vh 0;
     margin-top: 0;
@@ -97,14 +104,14 @@ const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
 `;
 
 const FeatureTitle = styled.h2`
-  font-size: 2.5rem;
+  font-size: 2.5vw;
   font-family: "Satoshi", sans-serif;
   font-weight: 900;
   line-height: 1.2;
   @media (max-width: 1023px) {
     font-size: 2rem;
     width: 95%;
-    margin-left: 2.5%;
+    margin-top: 2.5%;
     text-align: center;
   }
 `;
@@ -113,8 +120,10 @@ const FeatureDescription = styled.p<{ color: string }>`
   margin-top: 1.5vh;
   font-size: 1.25rem;
   font-weight: 500;
+  display: none;
 
   @media (min-width: 1023px) {
+    display: block;
     ul {
       list-style-type: disc;
       padding-left: 20px;
@@ -123,7 +132,6 @@ const FeatureDescription = styled.p<{ color: string }>`
   color: ${(props) => (props.color === "white" ? "#D1D6E2" : "black")};
   @media (max-width: 1023px) {
     width: 90vw;
-    margin-left: 5vw;
     text-align: center;
     margin-top: 2.5vh;
     font-size: 1.2rem;
@@ -141,7 +149,7 @@ const GifLayout = styled.div`
 
 const GifContainer = styled.div`
   overflow: visible;
-  margin-right: 8vw;
+  margin-right: 5vw;
   max-height: 90vh;
   width: 40rem;
   border-radius: 25px;
@@ -150,8 +158,9 @@ const GifContainer = styled.div`
   @media (max-width: 1023px) {
     margin-top: 2rem;
     margin-right: 0;
-    width: 95%;
     border: 4px solid black;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 `;
 
@@ -196,6 +205,7 @@ const BtnText = styled.div`
     font-size: 1rem;
   }
 `;
+
 const LearnMoreLink = styled.div`
   align-text: center;
   font-size: 1rem;
