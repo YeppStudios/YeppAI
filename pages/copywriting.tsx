@@ -1,8 +1,9 @@
 import PageTemplate from "@/components/Common/PageTemplate";
 import Head from "next/head";
 import NoElixir from "@/components/Modals/LimitModals/NoElixir";
-import CopywritingModal from "@/components/Copywriting/CopywritingModal";
-import TextEditor from "@/components/Copywriting/TextEditor";
+import dynamic from "next/dynamic";
+const CopywritingModal = dynamic(() => import("@/components/Copywriting/CopywritingModal"));
+const TextEditor = dynamic(() => import("@/components/Copywriting/TextEditor"));
 import styled from "styled-components";
 import { useEffect, useState, Fragment } from "react";
 import { BsTrash, BsPencilFill, BsFillArchiveFill } from "react-icons/bs";

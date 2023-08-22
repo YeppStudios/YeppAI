@@ -20,6 +20,7 @@ import FilesNumberLimit from "../Modals/LimitModals/FilesNumberLimit";
 import FilesSpaceLimit from "../Modals/LimitModals/FilesSpaceLimit";
 import { useRouter } from "next/router";
 import SecondOnboardingStep from "../Modals/OnboardingModals/SecondOnboardingStep";
+import DeleteFolderModal from "../Modals/DeletingModals/DeleteFolderModal";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -54,7 +55,10 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
     const [openSpaceLimit, setOpenSpaceLimit] = useState(false);
     const [addAudio, setAddAudio] = useState(false);
     const [openOnboarding, setOpenOnboarding] = useState(false);
+    const [openDeleteFolder, setOpenDeleteFolder] = useState(false);
     const plan = useSelector(selectedPlanState);
+
+    const router = useRouter();
 
     const fetchDocuments = async () => {
         try {
@@ -108,6 +112,12 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
         setOpenSpaceLimit(true);
     };
 
+    const handleDeleteFolder = () => {
+        if (selectedFolder) {
+            router.reload();
+        }
+    };
+
       
     const renderDocuments = () => {
         let renderedDocuments;
@@ -154,6 +164,7 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
             {openDocumentLimit && <FilesNumberLimit onClose={() => setOpenDocumentLimit(false)}/>}
             {openSpaceLimit && <FilesSpaceLimit onClose={() => setOpenSpaceLimit(false)}/>}
             {openOnboarding && <SecondOnboardingStep onClose={() => setOpenOnboarding(false)}/>}
+            {openDeleteFolder && <DeleteFolderModal onClose={() => setOpenDeleteFolder(false)} folder={selectedFolder} deleteFolderState={handleDeleteFolder} />}
                 <Header>   
                 <BackBtn onClick={props.back}>
                     <BackBtnIcon>
@@ -203,8 +214,8 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                         </Menu.Item> */}
                         <Menu.Item>
                             {({ active }) => (
-                            <a
-                                href="#"
+                            <button
+                                onClick={() => setOpenDeleteFolder(true)}
                                 className={classNames(
                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                 'group flex items-center px-4 py-2 text-sm'
@@ -212,7 +223,7 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                             >
                                 <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
                                 Delete
-                            </a>
+                            </button>
                             )}
                         </Menu.Item>
                     </Menu.Items>

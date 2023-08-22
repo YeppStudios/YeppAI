@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import SlideBottom from "../Animated/SlideBottom";
 import Link from "next/link";
-import thinArrow from "../../public/images/thinArrow.png";
-import { HiOutlineArrowNarrowRight } from "react-icons/hi";
+import { useRouter } from "next/router";
+import Centered from "../Centered";
 
 const RightFeature = (props: {
   text: string;
@@ -12,6 +12,7 @@ const RightFeature = (props: {
   title: string;
   bulletpoints: any[];
   color: string;
+  link: string;
 }) => {
   const [mobile, setMobile] = useState(true);
 
@@ -20,6 +21,8 @@ const RightFeature = (props: {
       setMobile(false);
     }
   }, []);
+
+  const router = useRouter();
 
   return (
     <FeatureContainer color={props.color}>
@@ -35,26 +38,26 @@ const RightFeature = (props: {
         </GifContainer>
       )}
       <SlideBottom>
-        <div>
+        <div className="flex w-full items-center justify-center flex-col lg:items-start lg:justify-start ">
           <FeatureTitle>{props.title}</FeatureTitle>
           <FeatureDescription color={props.color}>
             {!mobile && props.text}
-            {!mobile &&
-            <ul className="mt-6">
-              {props.bulletpoints.map((item, index, array) => {
-                return (
-                  <li key={item}>
-                    {item}
-                    {index !== array.length - 1 && mobile ? "," : ""}
-                  </li>
-                );
-              })}
-            </ul>
-            }
+            {!mobile && (
+              <ul className="mt-6">
+                {props.bulletpoints.map((item, index, array) => {
+                  return (
+                    <li key={item}>
+                      {item}
+                      {index !== array.length - 1 && mobile ? "," : ""}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </FeatureDescription>
           {!mobile && (
-            <Link href="/assets?registration=true&trial=true">
-              <Button color={props.color} className='trial-btn-feature'>
+            <Link href="/register?registration=true&company=true&trial=true">
+              <Button color={props.color} className="trial-btn-feature">
                 <BtnText>Try now</BtnText>
               </Button>
             </Link>
@@ -68,17 +71,18 @@ const RightFeature = (props: {
               src={props.gif}
               width={400}
               height={200}
-              style={{ borderRadius: "20px" }}
+              style={{ borderRadius: "20px", width: "100%" }}
               alt={"gif"}
             />
           </GifContainer>
-          <Link href="/assets?registration=true&trial=true">
+          <Link href="/register?registration=true&company=true&trial=true">
             <Button color={props.color} className="">
               <BtnText>Try now</BtnText>
             </Button>
           </Link>
         </>
       )}
+        <Centered><LearnMoreLink onClick={() => router.push(`${props.link}`)}>Learn more <span aria-hidden="true">&rarr;</span></LearnMoreLink></Centered>
     </FeatureContainer>
   );
 };
@@ -86,9 +90,9 @@ const RightFeature = (props: {
 export default RightFeature;
 
 const FeatureContainer = styled.div<{ color: string }>`
+  padding-right: 5vw;
   width: 100vw;
   height: auto;
-  padding: 0vh 8vw 0vh 0vw;
   margin-top: 14rem;
   color: ${(props) => props.color};
   display: grid;
@@ -97,6 +101,7 @@ const FeatureContainer = styled.div<{ color: string }>`
   gap: 0px 0px;
   grid-template-areas: ". .";
   align-items: center;
+  grid-column-gap: 2rem;
   @media (max-width: 1023px) {
     display: flex;
     flex-wrap: wrap;
@@ -105,28 +110,34 @@ const FeatureContainer = styled.div<{ color: string }>`
     padding: 5vh 0 10vh 0;
     margin-top: 0;
   }
+  @media (max-width: 1165px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 const FeatureTitle = styled.h2`
-  font-size: 2.5rem;
+  font-size: 2.5vw;
   font-family: "Satoshi", sans-serif;
   font-weight: 900;
   line-height: 1.2;
+  text-align: start;
   @media (max-width: 1023px) {
     font-size: 2rem;
     width: 95%;
-    margin-left: 2.5%;
+    margin-top: 2.5%;
     text-align: center;
   }
 `;
 
 const FeatureDescription = styled.p<{ color: string }>`
+  display: none;
   margin-top: 1.5vh;
   font-size: 1.25rem;
   font-weight: 500;
   color: ${(props) => (props.color === "white" ? "#D1D6E2" : "black")};
 
   @media (min-width: 1023px) {
+    display: block;
     ul {
       list-style-type: disc;
       padding-left: 20px;
@@ -135,7 +146,6 @@ const FeatureDescription = styled.p<{ color: string }>`
 
   @media (max-width: 1023px) {
     width: 95vw;
-    margin-left: 2.5vw;
     text-align: center;
     margin-top: 2.5vh;
     font-size: 1.2rem;
@@ -144,7 +154,7 @@ const FeatureDescription = styled.p<{ color: string }>`
 
 const GifContainer = styled.div`
   overflow: visible;
-  margin-left: 8vw;
+  margin-left: 5vw;
   max-height: 90vh;
   width: 40rem;
   border-radius: 25px;
@@ -153,8 +163,9 @@ const GifContainer = styled.div`
   @media (max-width: 1023px) {
     margin-top: 2rem;
     margin-left: 0;
-    width: 95vw;
     border: 4px solid black;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 `;
 
@@ -200,11 +211,12 @@ const BtnText = styled.div`
   }
 `;
 
-const LearnMoreArrow = styled.div`
-  margin-left: 1.5vw;
-  height: 0.65rem;
-  @media (max-width: 1023px) {
-    margin-left: 0.75rem;
-    height: 1.5rem;
+const LearnMoreLink = styled.div`
+  align-text: center;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 2.5vh;
+  @media (min-width: 1023px) {
+    display: none;
   }
 `;

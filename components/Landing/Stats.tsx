@@ -12,9 +12,9 @@ const stats = [
   export default function Example() {
     return (
       <Container>
-        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80"></div>
+        <div className="absolute top-0 left-0 w-[100vw] h-full bg-black opacity-80"></div>
         <div
-            className="absolute -bottom-8 -left-96 transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
+            className="absolute -bottom-8  transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
             aria-hidden="true"
           >
             <div
@@ -33,7 +33,7 @@ const stats = [
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-2xl">
             <SlideLeft>
-            <p className="mt-2 text-[1.75rem] font-bold text-white sm:text-6xl">
+            <p className="mt-2 text-[1.8rem] font-bold text-white sm:text-6xl">
               Trusted by thousands of marketers worldwide
             </p>
             </SlideLeft>

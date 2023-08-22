@@ -37,7 +37,7 @@ const roles = [
     "Sales / Business Development",
     "Human Resources",
     "Student / Professor",
-    "Inna..."
+    "Other..."
 ]
 
 const companySize = [
@@ -59,7 +59,7 @@ const OnboardingModal = (props: {onClose: any}) => {
     const [usedAI, setUsedAI] = useState(false);
     const [mobile, setMobile] = useState(false);
     const [loading, setLoading] = useState(false);
-
+  
 
     useEffect(() => {
         let username = Cookies.get("username");
@@ -151,18 +151,23 @@ const OnboardingModal = (props: {onClose: any}) => {
                 {selectedTab === 0 &&
                 <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-between", marginTop: "1rem"}}>
                 <Centered>
-                        <ModalTitle><p style={{fontSize: "3rem", marginBottom: "0.5rem"}}>👋</p>Hello {username}!</ModalTitle>
+                        <ModalTitle><p style={{fontSize: "2.5rem", marginBottom: "0.5rem"}}>👋</p>Hello {username}!</ModalTitle>
                 </Centered>
+
                 <Centered>
-                <ModalDescription>We&apos;ve prepared for you a short onboarding that will help you get started and us provide a service tailored to your needs. </ModalDescription>
-                </Centered>
-                <Centered>
-                    <EstimatedTime>Est. onboarding time: ~ 4 min</EstimatedTime>
+                    <div className="w-full lg:w-10/12 aspect-video relative mt-4">
+                <iframe className="w-full h-full rounded-xl" allowFullScreen
+                    src={`https://youtube.com/embed/Ib1tx2HYYoM`}>
+                </iframe>
+                </div>
                 </Centered>
                     <Centered>
                         <ContinueBtn onClick={() => setSelectedTab(1)}>
                             Let&apos;s get started!
                         </ContinueBtn>
+                    </Centered>
+                    <Centered>
+                        <TutorialsLink href="https://www.youtube.com/@Yepp-AI">Check out tutorials</TutorialsLink>
                     </Centered>
                 </div>
                 }
@@ -229,7 +234,6 @@ const OnboardingModal = (props: {onClose: any}) => {
                     <Centered><ModalDescription><b>Assets</b> which you upload are the cornerstone of our platform. Uploaded assets are stored in folders, which AI can easily access later on.</ModalDescription></Centered>
                     <Centered>
                     <GifContainer>
-                    {!mobile ?
                     <Image 
                         src="/videos/uploading.gif"
                         width={500}
@@ -237,15 +241,6 @@ const OnboardingModal = (props: {onClose: any}) => {
                         style={{borderRadius: "20px", boxShadow: "0 2px 25px 1px rgba(0,0,0,0.15)"}}
                         alt={"gif of uploading the file"}
                     />
-                    :
-                    <Image 
-                        src="/videos/mobile_uploading.gif"
-                        width={175}
-                        height={300}
-                        style={{borderRadius: "20px", border: "8px solid black", boxShadow: "0 2px 25px 1px rgba(0,0,0,0.15)"}}
-                        alt={"gif of uploading the file"}
-                    />
-                    }
                     </GifContainer>
                     </Centered>
                     <Centered>
@@ -300,7 +295,7 @@ const Modal = styled.div<{selectedTab: number}>`
     width: 60vw;
     border-radius: 25px;
     background: white;
-    padding: ${props => props.selectedTab === 0 ? "4rem 3rem 5em 3rem;" : "4rem 3rem 5rem 3rem;"};
+    padding: ${props => props.selectedTab === 0 ? "1.5rem 3rem 4rem 3rem;" : "4rem 3rem 5rem 3rem;"};
     border: 2px solid #E5E8F0;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
     cursor: auto;
@@ -394,11 +389,11 @@ const Tab = styled.div`
     }
 `
 
-const EstimatedTime = styled.p`
-    margin-top: 1vh;
+const TutorialsLink = styled.a`
+    margin-top: 1rem;
     font-size: 1rem;
     color: #798094;
-    font-weight: 700;
+    cursor: pointer;
     @media (max-width: 1023px) {
         margin-top: 5vh;
     }
@@ -442,7 +437,7 @@ const ContinueBtn = styled.button`
         position: relative;
         color: white;
         font-weight: 500;
-        margin-top: 3rem;
+        margin-top: 2rem;
         padding: 0rem 5rem 0rem 5rem;
         height: 3rem;
         background: linear-gradient(40deg, #6578F8, #64B5FF);
@@ -476,3 +471,28 @@ const GifContainer = styled.div`
         margin-top: 2rem;
     }
 `
+  
+  const VideoModal = styled.div`
+  width: 70%;
+  cursor: auto;
+  position: relative;
+`;
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px; 
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  ${VideoModal}:hover & {
+    display: flex;
+  }
+`;

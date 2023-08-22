@@ -11,6 +11,7 @@ import api from "./api";
 import OnboardingModal from "@/components/Modals/OnboardingModals/InitialOnboardingModal";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 
 interface Document {
   owner: string,
@@ -40,6 +41,7 @@ const Assets = () => {
   const [folders, setFolders] = useState<Array<Folder>>([]);
   const [foldersLoading, setFoldersLoading] = useState(true);
   const [openOnboarding, setOpenOnboarding] = useState(false);
+  const workspaceCompany = useSelector(selectedWorkspaceCompanyState);
 
   const router = useRouter();
 
@@ -64,8 +66,8 @@ const Assets = () => {
         if (onboarding === "1") {
           setOpenOnboarding(true);
         }
-        if (workspace && workspace !== "undefined" && workspace !== "null") {
-          const { data } = await api.get(`/folders/${workspace}`, {
+        if (workspaceCompany._id) {
+          const { data } = await api.get(`/folders/${workspaceCompany.workspace}`, {
             headers: {
               Authorization: `${token}`,
             },
@@ -83,11 +85,10 @@ const Assets = () => {
         }
       } catch (error) {
         console.error(error);
-        setFoldersLoading(false);
       }
     };
     fetchFolders();
-  }, []);
+  }, [dispatch, workspaceCompany]);
 
   useEffect(() => {
     setOpenedFolder(selectedFolder);

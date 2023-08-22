@@ -14,11 +14,10 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import SlideBottom from "../Animated/SlideBottom";
 import Centered from "../Centered";
-import AddTeammate from "../modals/AddingModals/AddTeammate";
 import { selectedUserState } from "../../store/userSlice";
 import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
-import UpgradeSubscription from "../modals/InformationalModals/UpgradeSubscription";
+import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
 import { FaSearch } from "react-icons/fa";
 import { HiMenu } from "react-icons/hi";
 import { motion, useAnimation } from "framer-motion";
@@ -198,9 +197,6 @@ const NavigationBar = () => {
 
   return (
     <>
-      {openAddTeammateModal && (
-        <AddTeammate onClose={() => setOpenAddTeammateModal(false)} />
-      )}
       {openSubscriptionModal && (
         <UpgradeSubscription
           onClose={() => setOpenSubscriptionModal(false)}

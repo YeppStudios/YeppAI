@@ -162,7 +162,7 @@ const NavContainer = styled.div<NavContainerProps>`
     top: 0rem;
     height: 6rem;
     margin-top: 0rem;
-    z-index: 100;
+    z-index: 40;
     backdrop-filter: blur(5px);
     background-color: rgba(255, 255, 255, 0.95);
     box-shadow: ${({ isFixed }) => isFixed ? "0 6px 32px 0 rgba(31, 38, 135, 0.3);" : "none"};

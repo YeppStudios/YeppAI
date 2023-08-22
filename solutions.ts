@@ -5,13 +5,25 @@ import { BsCreditCard2Front, BsBook, BsFileText, BsHandIndexThumb, BsMenuApp, Bs
 import { IoBookOutline, IoPhonePortraitOutline, IoRocketOutline } from "react-icons/io5"
 import { GoMail, GoChecklist } from "react-icons/go";
 import { BiRocket, BiSupport } from "react-icons/bi";
+import assetsThumbnail from "./public/images/Thumbnail_Assets.png"
+import campaignsThumbnail from "./public/images/Thumbnail_Campaigns.png"
+import chatThumbnail from "./public/images/Thumbnail_Chat.png"
+import copywritingThumbnail from "./public/images/Thumbnail_Copywriting.png"
+import marketingTemplatesThumbnail from "./public/images/Thumbnail_Templates.png"
+import miniAssets from "./public/images/Mini_Thumbnail_Assets.png"
+import miniTemplates from "./public/images/Mini_Thumbnail_Templates.png"
+import miniCampaigns from "./public/images/Mini_Thumbnail_Campaigns.png"
+import miniChat from "./public/images/Mini_Thumbnail_Chat.png"
+import miniCopywriting from "./public/images/Mini_Thumbnail_Copywriting.png"
 
 export const solutions = [
     {
         query: "marketing-templates",
         title: "Marketing Templates",
         description: "Watch AI write insightful content on niche topics.",
-        image: "https://ipfs.io/ipfs/QmP6yVNc3M5MkUmaGf8jNTMF4XozZT4oQ2xbmuUQ7Wtkf1?filename=Screenshot%202023-08-13%20at%202.07.13%20PM.png",
+        video: "https://www.youtube.com/embed/KQPYySWUmz4?autoplay=1",
+        image: marketingTemplatesThumbnail,
+        miniThumbnail: miniTemplates,
         tutorial: [
             {
                 icon: AiOutlineCloudUpload,
@@ -64,7 +76,9 @@ export const solutions = [
         query: "assets-upload",
         title: "Assets Upload",
         description: "Upload to make AI understand you & your clients.",
-        image: "https://ipfs.io/ipfs/QmPeeFNt3yFySQ47VsGkTMTvuUd95Bvf8TWXC7nrXZnpJc?filename=Screenshot%202023-08-12%20at%203.19.31%20PM.png",
+        video: "https://www.youtube.com/embed/qql3wigE7JM?autoplay=1",
+        image: assetsThumbnail,
+        miniThumbnail: miniAssets,
         tutorial: [
             {
                 icon: BsHandIndexThumb,
@@ -82,7 +96,7 @@ export const solutions = [
                 icon: FiEdit3,
                 title: "Edit existing folders.",
                 description: "You have the ability to delete and preview each file that you've uploaded to the designated folder. However, opening these files is not possible as they are stored in a vector base.",
-                image: "https://ipfs.io/ipfs/QmNiuT3ecwVQ9xBvX9Um1ZPxHyjaedSbyaLK6P4VfTEnaz?filename=Screenshot%202023-08-13%20at%202.12.37%20PM.png"
+                image: "http://drive.google.com/uc?export=view&id=1vsY3c7shJi2cPyiN4r5Hd4HbYJrOgc1A"
             },
         ],
         useCases: [
@@ -117,7 +131,9 @@ export const solutions = [
         query: "campaigns",
         title: "Content Campaigns",
         description: "Create content campaigns for all placements at once.",
-        image: "https://ipfs.io/ipfs/QmdVLFSFZM7LnSXXVUojh1tpcsuPUTmmay85SSZHVvs7y1?filename=Screenshot%202023-08-12%20at%202.31.42%20PM.png",
+        video: "https://www.youtube.com/embed/aS4fLFrjNXc?autoplay=1",
+        image: campaignsThumbnail,
+        miniThumbnail: miniCampaigns,
         tutorial: [
             {
                 icon: BsHandIndexThumb,
@@ -166,7 +182,9 @@ export const solutions = [
         query: "chat",
         title: "Chat with your data",
         description: "Create AI assistant that knows you & your clients.",
-        image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png",
+        video: "https://www.youtube.com/embed/tyWfMGJBO5c?autoplay=1",
+        image: chatThumbnail,
+        miniThumbnail: miniChat,
         tutorial: [
             {
                 icon: BsPersonVcard,
@@ -220,7 +238,9 @@ export const solutions = [
         query: "copywriting",
         title: "Copywriting",
         description: "Craft highly personalized written pieces.",
-        image: "https://ipfs.io/ipfs/QmUY7ekkyJEv3DR8my5u7jTQcdHYbU8mRaRMYhnsw9aYBu?filename=Screenshot%202023-08-13%20at%202.53.26%20PM.png",
+        video: "https://www.youtube.com/embed/0wvlz7IHsrQ?autoplay=1",
+        image: copywritingThumbnail,
+        miniThumbnail: miniCopywriting,
         tutorial: [
             {
                 icon: AiOutlineCloudUpload,

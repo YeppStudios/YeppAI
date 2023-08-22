@@ -13,8 +13,6 @@ const ModalBackground = ({onClose, children, closeable}: any) => {
     useEffect(() => {
         // disable scrolling on body
         document.body.style.overflow = 'hidden';
-        // enable scrolling when component is unmounted
-        console.log(path);
         return () => {
             document.body.style.overflow = 'auto';
         };

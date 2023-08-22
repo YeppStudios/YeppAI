@@ -11,7 +11,6 @@ import { send } from "@emailjs/browser";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setSelectedUser } from "../../../store/userSlice";
-import ColorfulText from "@/components/Common/ColorfulText";
 import { AxiosResponse } from "axios";
 import Plans from "@/components/Landing/Plans";
 import UpgradeSubscription from "../InformationalModals/UpgradeSubscription";
@@ -324,9 +323,8 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             }
                             </div>
                             }
-
                         </div>
-                    </Form>  
+                    </Form>
                 </div>     
                 :
                 // <SlideBottom>

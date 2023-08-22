@@ -70,7 +70,7 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-3xl lg:text-7xl max-w-4xl font-black text-center'> Turn your data into <ColorfulText>quality content</ColorfulText> with AI</h1></SlideBottom></Centered>
+              <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 lg:text-7xl max-w-4xl font-black text-center'> Turn your data into <ColorfulText>quality content</ColorfulText> with AI</h1></SlideBottom></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
                 <Centered>
@@ -133,6 +133,7 @@ const Homepage = () => {
                 bulletpoints={["PDF, TXT, PPTX, CSV & DOCX files", "Websites and social media", "YouTube audio"]}
                 color="black"
                 marginTop='3vh'
+                link="/solution/assets-upload"
             />
             <RightFeature 
                 title="Effortlessly generate catchy content." 
@@ -140,6 +141,7 @@ const Homepage = () => {
                 text="Make use of intuitive templates and craft engaging content with ease."
                 bulletpoints={["Social media content", "Product descriptions", "Converting Ads"]}
                 color="black"
+                link="/solution/marketing-templates"
             />
             <LeftFeature
                 title="Create high-performing SEO content." 
@@ -148,6 +150,8 @@ const Homepage = () => {
                 bulletpoints={["SEO articles", "Insightful blogs", "Guides and rankings"]}
                 color="black"
                 marginTop='3vh'
+                link="/solution/copywriting"
+
             />
             <RightFeature 
                 title="Chat with your uploaded assets." 
@@ -155,6 +159,7 @@ const Homepage = () => {
                 text="Cooperate with uploaded files and websites in order to gain ideas and advice in seconds."
                 bulletpoints={["Files", "Websites", "Reports"]}
                 color="black"
+                link="/solution/chat"
             />
             <LeftFeature 
                 title="Generate content campaigns at once." 
@@ -163,6 +168,7 @@ const Homepage = () => {
                 bulletpoints={[ "Social media", "Marketing emails", "Headlines & descriptions"]}
                 color="black"
                 marginTop='3vh'
+                link="/solution/campaigns"
             />
           <Section>
               <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
@@ -241,12 +247,18 @@ const LoginButton = styled.button`
     margin-top: 3vh;
     padding: 2vh 5vw 2vh 5vw;
     width: 70vw;
-    background: #EDEEF3;
-    transition: all 0.3s ease;
+    border: solid 3px transparent;
     border-radius: 25px;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background: white;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.13), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    align-items: center;
+    background-size: 120%;
+    background-position-x: -0.5rem;
+    transition: all 0.3s ease;
     font-weight: 600;
     font-family: 'Lato', sans-serif;
-    border: none;
     color: black;
     font-weight: 700;
     @media (min-width: 1023px) {

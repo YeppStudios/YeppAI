@@ -50,7 +50,6 @@ const PageTemplate = ({children}: any) => {
       }
     }
 
-    if (!user.name && userId) {
       const fetchUserInfo = async () => {
         try { 
           const {data} = await api.get(`/users/${userId}`, {
@@ -62,6 +61,7 @@ const PageTemplate = ({children}: any) => {
             setShowPlans(true);
           }
           if (data.workspace) {
+              localStorage.setItem("workspace", data.workspace);
               const workspaceCompany = await api.get(`/workspace-company/${data.workspace}`, {
                 headers: {
                   authorization: token
@@ -85,13 +85,13 @@ const PageTemplate = ({children}: any) => {
         }
       }
       fetchUserInfo();
-    }
-    validateJWT();
-  }, [dispatch, user]);
+      validateJWT();
+  }, []);
 
   const login = () => {
     setLoggedIn(true);
     router.push("/assets");
+    router.reload();
   }
 
   return (

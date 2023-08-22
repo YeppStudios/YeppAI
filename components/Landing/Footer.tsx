@@ -94,6 +94,11 @@ const Footer = () => {
             </a>
           ))}
         </div>
+        <Centered>
+        <a href={"/Yepp_AI_Terms.pdf"} download className="mt-10 text-center text-xs leading-5 text-gray-500">
+              Terms of Use & Privacy Policy
+        </a>
+        </Centered>
         <p className="mt-10 text-center text-xs leading-5 text-gray-600">
           &copy; 2023 Yepp, Inc. All rights reserved.
         </p>

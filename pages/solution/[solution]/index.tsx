@@ -4,16 +4,16 @@ import Head from "next/head";
 import styled from "styled-components";
 import placeholderImg from "@/public/images/blueAbstractBg.png";
 import Image, { StaticImageData } from "next/image";
-import { BsFillGiftFill, BsStars } from "react-icons/bs";
-import { AiOutlineCloudUpload, AiOutlineUserAdd } from "react-icons/ai";
+import { BsFillGiftFill, BsPlay, BsPlayFill, BsStars } from "react-icons/bs";
 import Footer from "@/components/Landing/Footer";
 import LearnMoreSection from "@/components/Landing/LearnMoreSection";
 import NavigationBar from "@/components/Common/NavigationBar";
 import { useRouter } from "next/router";
 import SlideBottom from "@/components/Animated/SlideBottom";
-import { solutions } from '../solutions';
+import { solutions } from '../../../solutions';
 import ErrorPage from "@/pages/404";
 import { IconType } from 'react-icons';
+import { IoClose } from "react-icons/io5";
 interface TutorialOrUseCase {
   icon: IconType;
   title: string;
@@ -21,19 +21,21 @@ interface TutorialOrUseCase {
   image?: string; // Optional because it's not present in the "useCases" items
 }
 
-interface Solution {
-  query: string;
-  title: string;
-  description: string;
-  image: string;
-  tutorial: TutorialOrUseCase[];
-  useCases: Omit<TutorialOrUseCase, 'image'>[]; 
-}
-
 const SolutionPage = () => {
 
   const router = useRouter();
   const { solution } = router.query;
+  const [solutionData, setSolutionData] = useState<Solution>();
+  const [mobile, setMobile] = useState(true);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   interface TutorialOrUseCase {
     icon: IconType;
@@ -41,17 +43,15 @@ const SolutionPage = () => {
     description: string;
     image?: any;
   }
-
+  
   interface Solution {
-    title: string;
+    title: any;
     description: string;
+    video: string;
     image: any;
     tutorial: TutorialOrUseCase[];
     useCases: Omit<TutorialOrUseCase, 'image'>[];
   }
-
-  const [solutionData, setSolutionData] = useState<Solution>();
-  const [mobile, setMobile] = useState(true);
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -59,7 +59,8 @@ const SolutionPage = () => {
         setMobile(false);
       } else setMobile(true);
     }
-
+    document.body.style.overflow = 'auto';
+    document.body.style.position = 'static';
     if (solution) {
       solutions.forEach((currentSolution) => {
         if (currentSolution.query === solution) { 
@@ -70,6 +71,15 @@ const SolutionPage = () => {
     }
 
   }, [solution]);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+        document.body.style.overflow = 'auto';
+    };
+}, [isModalOpen]);
 
 
   if (solutionData) {
@@ -84,11 +94,26 @@ const SolutionPage = () => {
           />
          <title>Yepp AI | {solutionData.title}</title>
         </Head>
+        {isModalOpen && 
+            <div className="top-0 fixed w-full z-50 h-full bg-black bg-opacity-60 flex justify-center items-center cursor-pointer" onClick={handleCloseModal}>
+              <VideoModal className="w-[95svw] lg:w-[80svw] aspect-video group relative cursor-auto" onClick={(e) => e.stopPropagation()}>
+              <iframe width="1600" height="900" className="w-full h-full rounded-xl" allowFullScreen
+                src={`${solutionData.video}`}>
+              </iframe>
+                <button className="absolute hidden group-hover:flex top-2 right-2 bg-black bg-opacity-60 text-white rounded-full cursor-pointer w-10 h-10 justify-center items-center" onClick={handleCloseModal}><IoClose className="w-1/2 h-1/2"/></button>
+              </VideoModal>
+            </div>
+        }
         <Navbar />
-        <div className="lg:mt-[6rem] mt-[7rem]" />
-        <section className="relative">
-          <div className="lg:h-[80vh] h-[90vh] relative w-full">
-            <Image src={solutionData.image} alt="chat with your data image" style={{width: "100%"}} width={1000} height={300} />
+        <div className="lg:mt-[6rem] mt-[7rem] z-20" />
+        <section className="relative w-full">
+          <div className="lg:h-[80vh] h-[60vh] relative w-full">
+          <div className="z-10 w-full h-full bg-black bg-opacity-20 absolute flex pb-[20rem] lg:pb-28 justify-center items-center">
+              <button onClick={() => setModalOpen(true)} className="text-white backdrop-blur-sm bg-blue-900 shadow-lg bg-opacity-30 p-2 lg:p-4 rounded-full cursor-pointer hover:scale-105 transition ease-in-out">
+                <BsPlayFill className="h-8 w-8 lg:h-12 lg:w-12 opacity-1" />
+              </button>
+            </div>
+            <Image src={solutionData.image} alt="chat with your data image" style={{width: "100%"}} width={3000} height={900} />
           </div>
           <div className="absolute inset-x-0 bottom-0 bg-white z-20 flex flex-col gap-12 px-12 lg:px-16 shadow-[0px_-20px_20px_40px_#fff] shadow-white ">
           <SlideBottom>
@@ -175,8 +200,8 @@ const SolutionPage = () => {
                 {solutions.map((solution, index) => (
                   <div key={index} onClick={() => router.push(`/solution/${solution.query}`)}>
                     <SlideBottom>
-                      <SolutionTemplate className="aspect-video scale-105 border-4 border-[#e5e5e5] hover:border-black hover:scale-110 transition-all ease-in-out">
-                      <Image src={solution.image || placeholderImg} fill alt={solution.title} className="rounded-2xl"/>
+                      <SolutionTemplate className="aspect-video scale-105 border-[#e5e5e5] hover:scale-110 transition-all ease-in-out">
+                      <Image src={solution.miniThumbnail || placeholderImg} fill alt={solution.title} className="rounded-2xl"/>
                       </SolutionTemplate>
                     </SlideBottom>
                     <SlideBottom>           
@@ -196,12 +221,12 @@ const SolutionPage = () => {
           <div className="pb-0" />
           <Footer />
         </PageContent>
-  
-        {/* <Footer /> */}
       </>
     );
   }
 }
+
+export default SolutionPage;
 
 const CardText = styled.p`
   font-size: 1rem;
@@ -319,4 +344,10 @@ const SolutionTemplate = styled.div`
   transition: all 0.3s ease;
 `
 
-export default SolutionPage;
+const VideoModal = styled.div`
+cursor: auto;
+position: relative;
+`;
+
+
+
