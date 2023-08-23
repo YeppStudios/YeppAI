@@ -307,7 +307,7 @@ const Modal = styled.div<{selectedTab: number}>`
 
 const ModalBackground = styled.div<{selectedTab: number, mobile: boolean}>`
     width: 100%;
-    height: 100vh;
+    height: 100svh;
     position: fixed;
     flex-wrap: wrap;
     backdrop-filter: blur(7px);
@@ -316,7 +316,9 @@ const ModalBackground = styled.div<{selectedTab: number, mobile: boolean}>`
     left: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: ${props => (props.selectedTab === 0) ? "center" : props.mobile ? "flex-start" : "center"};
+    padding-top: ${props => (props.selectedTab === 0) ? "0" : props.mobile ? "1rem" : "0"};
+    padding-bottom: ${props => (props.selectedTab === 0) ? "0" : props.mobile ? "8rem" : "0"};
     cursor: pointer;
     overflow: scroll;
         &::-webkit-scrollbar {

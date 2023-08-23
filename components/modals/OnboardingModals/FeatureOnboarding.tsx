@@ -72,7 +72,7 @@ const Modal = styled.div`
 
 const ModalBackground = styled.div<{mobile: boolean}>`
     width: 100%;
-    height: 100vh;
+    height: 100svh;
     position: fixed;
     flex-wrap: wrap;
     backdrop-filter: blur(7px);
