@@ -119,7 +119,6 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
               authorization: token
             }
         });
-        console.log(priceId)
         if (props.purchase) {
             let res = await api.post(`/create-checkout-session`, 
             {
@@ -191,7 +190,6 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                         <>
                                         <BuyButton id="standard-buy-now-btn" onClick={() => openCheckout(priceId, plan.title, plan.planId)} backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.purchase ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
                                         </>
-                                        
                                         }
                                     </Centered>
                                     <FeaturesList>  

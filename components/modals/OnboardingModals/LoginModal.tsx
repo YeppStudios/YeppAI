@@ -587,6 +587,8 @@ const RegisterText = styled.div`
   display: flex;
   cursor: pointer;
   color: black;
+  display: flex;
+  align-items: center;
   font-weight: 500;
   @media (max-width: 1023px) {
     font-size: 0.7rem;

@@ -87,7 +87,7 @@ const Homepage = () => {
               </Centered>
               <Centered>{!mobile && <div className='text-lg mt-4 text-center font-medium'>7 days for free <br /><p className='text-sm font-normal'>*up to 10 000 words</p></div>}</Centered>
               <Centered>
-              <LoginButton className="login-btn-landing" onClick={() => router.push("/chat")}>Log in</LoginButton>
+              <LoginButton className="login-btn-landing" onClick={() => router.push("/marketing")}>Log in</LoginButton>
               </Centered>
               </div>
           </HeroSection>
