@@ -29,6 +29,7 @@ import { selectedUserState } from "@/store/userSlice";
 import SlideBottom from "@/components/Animated/SlideBottom";
 import dynamic from "next/dynamic";
 import ThinkingMessage from "@/components/Animated/ThinkingMessage";
+import OnboardingModal from "@/components/Modals/OnboardingModals/FeatureOnboarding";
 const FirstPage = dynamic(() => import("@/components/Chat/FirstPage"));
 
 interface Message {
@@ -59,6 +60,7 @@ const Chat = () => {
   const [page, setPage] = useState(1);
   const router = useRouter();
   const [abortController, setAbortController] = useState(new AbortController());
+  const [openOnboarding, setOpenOnboarding] = useState(false);
 
   const dispatch = useDispatch();
   useAutosizeTextArea(textAreaRef.current, userInput);
@@ -95,6 +97,21 @@ const Chat = () => {
     fetchUserElixir();
   }, [replying]);
 
+  useEffect(() => {
+    const onboarding = localStorage.getItem("onboarding");
+    if (onboarding) {
+      if (!onboarding.includes("chat") && onboarding.length > 0) {
+        setOpenOnboarding(true);
+      }
+    }
+  }, [])
+
+  const closeOnboarding = () => {
+    setOpenOnboarding(false);
+    const prevOnboardingState = localStorage.getItem("onboarding");
+    const updatedOnboardingState = prevOnboardingState + " chat";
+    localStorage.setItem("onboarding", updatedOnboardingState);
+  }
 
   const stopReplying = () => {
     abortController.abort();
@@ -745,6 +762,7 @@ const Chat = () => {
       </Head>
       {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
       <PageTemplate userProfiles={[]}>
+      {openOnboarding && <OnboardingModal onClose={closeOnboarding} title="Chat with your data" description="Once you have uploaded your assets you can chat with them by defining your AI. See how:" videoUrl="https://www.youtube.com/embed/tyWfMGJBO5c"/>}
       {(mobile && page === 2) &&
         <div style={{width: "100%", paddingTop: "1rem", position: "absolute"}}>   
             <BackBtn onClick={() => setPage(1)}>

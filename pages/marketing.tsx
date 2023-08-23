@@ -54,6 +54,7 @@ import Image from "next/image";
 import Dropdown from "@/components/forms/Dropdown";
 import { CampaignModal } from "@/components/Marketing/Campaigns/CampaignModal";
 import campaignIcon from "../public/images/campaignIcon.png";
+import OnboardingModal from "@/components/Modals/OnboardingModals/FeatureOnboarding";
 
 const breakpointColumnsObj = {
   default: 4,
@@ -87,9 +88,16 @@ const ContentCreator = () => {
   const [company, setCompany] = useState<any>();
   const selectedWorkspaceCompany = useSelector(selectedWorkspaceCompanyState);
   const user = useSelector(selectedUserState);
+  const [openOnboarding, setOpenOnboarding] = useState(false);
   const { query } = router;
 
   useEffect(() => {
+    const onboarding = localStorage.getItem("onboarding");
+    if (onboarding) {
+      if (!onboarding.includes("marketing") && onboarding.length > 0) {
+        setOpenOnboarding(true);
+      }
+    }
     const fetchTemplates = async () => {
       const { data } = await api.get("/templates");
       if (data) {
@@ -120,6 +128,13 @@ const ContentCreator = () => {
     };
     fetchTemplates();
   }, []);
+
+  const closeOnboarding = () => {
+    setOpenOnboarding(false);
+    const prevOnboardingState = localStorage.getItem("onboarding");
+    const updatedOnboardingState = prevOnboardingState + " marketing";
+    localStorage.setItem("onboarding", updatedOnboardingState);
+  }
 
   useEffect(() => {
     setCompany(selectedWorkspaceCompany)
@@ -208,6 +223,7 @@ const ContentCreator = () => {
           />
         </Head>
         <PageContainer>
+          {openOnboarding && <OnboardingModal onClose={closeOnboarding} title="What are marketing templates?" description="Marketing templates are a set of simple forms that will help you generate tailored content with AI." videoUrl="https://www.youtube.com/embed/KQPYySWUmz4"/>}
           {currentPage == "menu" && (
             <Header>
               <div>

@@ -15,6 +15,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
 import classNames from "classnames";
 import FirstPageTemplate from "@/components/Common/FirstPageTemplate";
+import OnboardingModal from "@/components/Modals/OnboardingModals/FeatureOnboarding";
 
 const DocumentCreator = () => {
   const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
@@ -32,6 +33,7 @@ const DocumentCreator = () => {
   const [mobile, setMobile] = useState(false);
   const [loading, setLoading] = useState(true);
   const [savedContent, setSavedContent] = useState<any[]>([]);
+  const [openOnboarding, setOpenOnboarding] = useState(false);
 
   const finishCopywritingIntro = async () => {
     setPage(2);
@@ -44,6 +46,12 @@ const DocumentCreator = () => {
   useEffect(() => {
     if (window.innerWidth <= 1023) {
       setMobile(true);
+    }
+    const onboarding = localStorage.getItem("onboarding");
+    if (onboarding) {
+      if (!onboarding.includes("copywriting") && onboarding.length > 0) {
+        setOpenOnboarding(true);
+      }
     }
     const token = localStorage.getItem("token");
     const fetchSavedContent = async () => {
@@ -86,6 +94,13 @@ const DocumentCreator = () => {
       console.log(e);
     }
   };
+
+  const closeOnboarding = () => {
+    setOpenOnboarding(false);
+    const prevOnboardingState = localStorage.getItem("onboarding");
+    const updatedOnboardingState = prevOnboardingState + " copywriting";
+    localStorage.setItem("onboarding", updatedOnboardingState);
+  }
 
   const renderContent = () => {
     const renderedContent = savedContent.map((content, index) => {
@@ -200,6 +215,7 @@ const DocumentCreator = () => {
       {openNoElixirModal && (
         <NoElixir onClose={() => setOpenNoElixirModal(false)} />
       )}
+      {openOnboarding && <OnboardingModal onClose={closeOnboarding} title="Experience AI copywriting" description="We've prepared for you a comprehensive flow that will help you write the best long-form content possible." videoUrl="https://www.youtube.com/embed/0wvlz7IHsrQ"/>}
       {copywritingModal && (
         <CopywritingModal
           onClose={() => setCopywritingModal(false)}

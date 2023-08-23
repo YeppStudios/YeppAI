@@ -127,7 +127,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     Cookies.set("user_id", response.data.newUser._id, { expires: 7 });
                     Cookies.set("username", response.data.newUser.name, { expires: 7 });
                     Cookies.set("workspace", response.data.newUser.workspace, { expires: 7 });
-                    localStorage.setItem('onboarding_step', "1");
+                    localStorage.setItem('onboarding', "initial");
                     dispatch(setSelectedUser(response.data.newUser));
                     localStorage.setItem('token', "Bearer " + response.data.token);
                     localStorage.setItem('user_id', response.data.newUser._id);
@@ -166,7 +166,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     localStorage.setItem('plan', response.data.newUser.plan);
                     localStorage.setItem('workspace', response.data.newUser.workspace);
                     localStorage.setItem('account_type', response.data.newUser.accountType);
-                    localStorage.setItem('onboarding_step', "1");
+                    localStorage.setItem('onboarding', "initial");
                 }
             } else {
                 response = await api.post('/login', { email, password });
