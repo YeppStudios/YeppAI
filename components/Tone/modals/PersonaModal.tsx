@@ -1,8 +1,8 @@
 import SlideBottom from "@/components/Animated/SlideBottom";
 import TextArea from "@/components/forms/TextArea";
 import { useEditor } from "@tiptap/react";
-import { useEffect, useState } from "react";
-import { BsArrowRepeat, BsBriefcase, BsCash, BsDashLg, BsGenderAmbiguous, BsGeo, BsHeart, BsHourglass, BsImage, BsPlusLg, BsTextParagraph, BsXLg } from "react-icons/bs";
+import { useEffect, useRef, useState } from "react";
+import { BsArrowRepeat, BsBriefcase, BsCash, BsDashLg, BsGenderAmbiguous, BsGeo, BsHeart, BsHourglass, BsImage, BsPause, BsPauseBtn, BsPlusLg, BsTextParagraph, BsXLg } from "react-icons/bs";
 import { MdOutlineClose } from "react-icons/md";
 import styled from "styled-components";
 import { FileUploader } from 'react-drag-drop-files';
@@ -14,6 +14,12 @@ import Label from "@/components/Common/Label";
 import persona from "@/public/images/persona.png";
 import Image from "next/image";
 import CustomDropdown from "@/components/forms/CustomDropdown";
+import api from "@/pages/api";
+import Dropdown from "@/components/forms/Dropdown";
+import TypingAnimation from "@/components/Modals/common/TypingAnimation";
+import NoElixir from "@/components/Modals/LimitModals/NoElixir";
+import MultiLineSkeletonLoader from "@/components/Common/MultilineSkeletonLoader";
+import InvisibleInput from "@/components/forms/InvisibleInput";
 
 const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
@@ -34,7 +40,6 @@ interface Background {
 
 const traits = [
         {title: "age", icon: BsHourglass, value: "50"},
-        {title: "occupation", icon: BsBriefcase, value: ""},
         {title: "status", icon: BsHeart, value: ""},
         {title: "income", icon: BsCash, value: ""},
         {title: "location", icon: BsGeo, value: ""},
@@ -67,6 +72,12 @@ const markets = [
     "Singapore"
 ]
 
+const businessModels = ["B2B", "B2C", "B2B2C", "B2G", "P2P", "C2B"];
+
+function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+}
+
 const PersonaModal = (props: {onClose: any, currentModal: any}) => {
     const [personaDescription, setPersonaDescription] = useState("");
     const [step, setStep] = useState("");
@@ -78,7 +89,28 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
     const [userLink, setUserLink] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [market, setMarket] = useState("United States");
-    const [personaTraits, setPersonaTraits] = useState<any[]>([{age: "", occupation: "", status: "", income: "", location: "", gender: "", description: ""}]);
+    const [businessModel, setBusinessModel] = useState("B2B");
+    const [personaLoading, setPersonaLoading] = useState(false);
+    const [currentText, setCurrentText] = useState(0);
+    const [editableDescription, setEditableDescription] = useState(false);
+    const [personaGeneralInfo, setPersonaGeneralInfo] = useState<any>();
+    const [abortController, setAbortController] = useState<any>();
+    const [descriptionLoading, setDescriptionLoading] = useState(false);
+    const [competitionLoading, setCompetitionLoading] = useState(true);
+    const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
+    const [randomPic, setRandomPic] = useState("https://www.google.com/url?sa=i&url=https%3A%2F%2Fabcnews.go.com%2FBusiness%2Ftimeline-elon-musks-tumultuous-twitter-acquisition-attempt%2Fstory%3Fid%3D86611191&psig=AOvVaw38VCedHi5o43d-x31RR5k_&ust=1692966121454000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCJCu5bSk9YADFQAAAAAdAAAAABAH");
+
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    
+    useEffect(() => {
+        if (textAreaRef) {
+            if(textAreaRef.current){
+                textAreaRef.current.style.height = "0px";
+                const scrollHeight = textAreaRef.current.scrollHeight;
+                textAreaRef.current.style.height = scrollHeight + "px";
+            }
+        }
+    }, [personaDescription, editableDescription]);
 
     useEffect(() => {
         if (props.currentModal === "persona-description") {
@@ -86,7 +118,34 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
         } else if (props.currentModal === "persona-form") {
             setStep("form");
         }
-    }, [props.currentModal])
+    }, [props.currentModal]);
+
+    const texts = [
+        "Analyzing the value proposition...",
+        "Learning more about the market...",
+        "Saving persona in correct format...",
+        "Analysing provided information...",
+        "Reading...",
+        "Thinking...",
+        "Categorizing info...",
+        "Memorizing the results...",
+        "Give me a sec...",
+        "Give me some more time to learn...",
+        "It's taking me a while to read it, please wait...",
+        "Trust me it's worth the wait...",
+      ];  
+  
+      useEffect(() => {
+        if (personaLoading) {
+          const intervalId = setInterval(() => {
+            setCurrentText((prevIndex) =>
+              prevIndex === texts.length - 1 ? 0 : prevIndex + 1
+            );
+          }, 5000);
+          return () => clearInterval(intervalId);
+        }
+  
+      }, [personaLoading, texts.length]);
 
     const isValidURL = (string: string) => {
         const res = string.match(
@@ -111,15 +170,196 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
           setLinks(links.filter((_, index) => index !== indexToRemove));
         }
       };
+
+      const stopReplying = () => {
+        abortController.abort();
+    }
+
+      const generatePersonaDescription = async (personaJSON: any) => {
+        const token = localStorage.getItem("token");
+        const userId = localStorage.getItem("user_id");
+        const workspace = localStorage.getItem("workspace");
+        const newAbortController = new AbortController();
+        setAbortController(newAbortController);
+        if (descriptionLoading) {
+          stopReplying();
+          return;
+        }
+        setEditableDescription(false);
+        setDescriptionLoading(true);
+        let fetchedUser = null;
+        if (workspace && workspace !== "null" && workspace !== "undefined") {
+          const {data} = await api.get(`/workspace-company/${workspace}`, {
+            headers: {
+              authorization: token
+            }
+          });
+          fetchedUser = data.company;
+        } else {
+          const {data} = await api.get(`/users/${userId}`, {
+            headers: {
+              authorization: token
+            }
+          });
+          fetchedUser = data;
+        }
+        //make sure user has elixir
+        if(fetchedUser.tokenBalance <= 0) {
+          setOpenNoElixirModal(true);
+          return;
+        }
+
+        let reply = "";
+        let model = "gpt-3.5-turbo";
+        let systemPrompt = `You are a marketer with years of experience. You specialize in coming up with detailed marketing persona descriptions. You carefuly analyze the context given by the user and try to understand the target audience as well as product. 
+        Every time you generate a unique description. Your descriptions are no more than 1000 characters long. You always reply only with persona description.`;
+        let prompt = `Come up with detailed persona description for my persona object: ${personaJSON.fullName}- ${personaJSON.age} year old, ${personaJSON.status} ${personaJSON.occupation} who lives in ${personaJSON.location} and earns ${personaJSON.income}. 
+        But first closely analyze my business offer and product to generate a realistic ${personaJSON.fullName} description that would be a perfect fit for us. 
+        About our product/service: ${about}. We are targetting the ${market} market and our target audience are ${targetAudience}. Our business model is ${businessModel}.
+        Follow this process when crafting description: Once you understand the context, come up with bio describing persona's role in the company, his/her life purpose, interests and hobbies that best match the perfect persona for us. Make sure that these are well aligned with typical ${personaJSON.ocupation} day-to-day desires and struggles.
+        Then come up with persona needs and painpoints that ${personaJSON.fullName} has along with desires and goals related to our product/service. At the end describe why ${personaJSON.fullName} is motivated to buy our product/service. Make it sound objective and realistic.
+        Objective persona description in under 1000 characters: 
+        `
+
+        try {
+            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+              signal: newAbortController.signal,
+              body: JSON.stringify({prompt, title: `Generated persona`, model, systemPrompt, temperature: 0.95}),
+            });
+    
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+    
+          if(response.body){
+            const reader = response.body.getReader();
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) {
+                setEditableDescription(true);
+                setDescriptionLoading(false);
+                setPersonaDescription(reply)
+                break;
+              }
       
+              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+              for (const jsonString of jsonStrings) {
+                try {
+                  const data = JSON.parse(jsonString);
+                  if (data.content) {
+                    reply += data.content;
+                    setPersonaDescription(reply);
+                  }
+                } catch (error) {
+                  console.error('Error parsing JSON:', jsonString, error);
+                }
+              }
+            }
+          }
+    
+        } catch (e: any) {
+          if (e.message === "Fetch is aborted") {
+            setDescriptionLoading(false);
+          } else {
+            console.log(e);
+            setDescriptionLoading(false);
+          }
+        } finally {
+            stopReplying();
+        }
+      }
+      
+    const generatePersona = async () => {
+        setPersonaLoading(true);
+        try {
+            const generalJSONCompletion = await api.post("/completion", {
+                prompt: `Please closely analyze my business offer and product to generate a realistic persona that would be a perfect fit for it. 
+                About product/service: ${about}. We are targetting the ${market} market and our target audience are ${targetAudience}. Our business model is ${businessModel}.
+                While generating persona focus on the occupation part by asking yourself who would most likely buy it and who should be the end user. Always consider that we are ${businessModel}.
+                The persona should be a valid JSON object that represents it. The JSON object should be formatted as follows:
+                {
+                    "fullName": "Example Name",
+                    "age": 50,
+                    "occupation": "Global Accounting SaaS CEO",
+                    "status": "married",
+                    "income": "$10,000,000/year",
+                    "location": "San Francisco, CA",
+                    "gender": "man"
+                }
+                Valid JSON object with perfect persona for my product/service: 
+                `,
+                model: "gpt-3.5-turbo",
+                temperature: 0.5,
+                systemPrompt: `You are a valid JSON generator. You specialize in analyzing text the user has written in order to come up with marketing persona. 
+                Once you have a specific persona that will best match the user product/service description you return only a valid JSON object that represents it. The JSON object should be formatted as follows:
+                  {
+                    "fullName": "Example Name",
+                    "age": 50,
+                    "occupation": "Global Accounting SaaS CEO",
+                    "status": "married",
+                    "income": "$10,000,000/year",
+                    "location": "San Francisco, CA",
+                    "gender": "man"
+                  }
+                `
+            },
+            {
+                headers: {
+                    Authorization: `${localStorage.getItem("token")}`,
+                },
+            });
+            const personaJSON = JSON.parse(generalJSONCompletion.data.completion);
+            setPersonaGeneralInfo(personaJSON);
+            generatePersonaDescription(personaJSON);
+            setPreviewUrl(`https://ui-avatars.com/api/?background=random&name=${personaJSON.fullName.split(' ').join('+')}&size=128&background=E6EAF2&color=ffffff`)
+            setPersonaLoading(false);
+            setStep("persona");
+            // if (links.length > 0) {
+            // const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+            //     urls: [links[0]]
+            //   }, {
+            //     headers: {
+            //       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
+            //     }
+            //   });
+            // }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+
+    const handleTraitInputChange = (e: any, traitTitle: string) => {
+        const updatedValue = e.target.value;
+        setPersonaGeneralInfo((prevState: any) => ({
+            ...prevState,
+            [traitTitle]: updatedValue
+        }));
+    };
 
     return (
         <ModalBackground>
+            {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
             <SlideBottom>
             <Container onClick={(e) => e.stopPropagation()}>
                 <CloseIcon onClick={props.onClose}>
                     <MdOutlineClose style={{width: "100%", height: "auto"}}/>
                 </CloseIcon>
+                {personaLoading ?
+                    <div>
+                        <ModalTitle>Give me a sec...</ModalTitle>
+                        <Centered>
+                            <ModalDescription>AI is analyzing the content to come up with an ideal persona. <br />It&apos;s worth the wait!</ModalDescription>
+                        </Centered>
+                        <ThinkingContainer>
+                            <Centered><TypingAnimation colorful={true} /></Centered>
+                            <Centered><Texts>{texts[currentText]}</Texts></Centered>
+                        </ThinkingContainer>
+                </div>
+                :
+                <div>
                 {step === "form" &&
                 <div>
                     <ModalTitle>
@@ -128,16 +368,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     <Centered>
                     <div className="flex flex-wrap">
                     <div className="flex flex-wrap w-full px-6">
-                    <div className="flex items-center justify-between w-full"><Label>What is your product/service about?</Label><WordCounter>{about.length} / 400</WordCounter></div>
-                    <TextArea 
-                        placeholder="Briefly describe your product/service."
-                        padding="1rem"
-                        height="5.2rem"
-                        value={about}
-                        onChange={(e) => setAbout(e.target.value)}
-                    />
-                    </div>
-                    <div className="flex flex-wrap w-full px-6 mt-6 justify-between">
+                    <div className="flex items-between justify-between w-full">
                     <div className="flex w-[48%] items-center mb-2 flex-wrap">
                     <div className="flex items-between justify-between w-full">
                         <Label>Market</Label>
@@ -151,10 +382,32 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     </div>
                     <div className="flex w-[48%] items-center mb-2 flex-wrap">
                     <div className="flex items-between justify-between w-full">
+                        <Label>Business model</Label>
+                    </div>
+                        <CustomDropdown 
+                        placeholder="B2B"
+                        value={businessModel}
+                        values={businessModels}
+                        onChange={setBusinessModel}
+                        />
+                    </div>
+                    </div>
+                    <div className="flex items-center justify-between w-full mt-4"><Label>What is your product/service about?</Label><div><WordCounter>{about.length} / 350</WordCounter></div></div>
+                    <TextArea 
+                        placeholder="Generative AI platform where you can upload your data and effortlessly generate factual marketing content"
+                        padding="1rem"
+                        height="5.2rem"
+                        value={about}
+                        onChange={(e) => setAbout(e.target.value)}
+                    />
+                    </div>
+                    <div className="flex flex-wrap w-full px-6 mt-4 justify-between">
+                    <div className="flex w-[100%] items-center mb-2 flex-wrap">
+                    <div className="flex items-between justify-between w-full">
                         <Label>Target audience</Label>
                     </div>
                         <Input 
-                        placeholder="Marketing agencies"
+                        placeholder="marketing agencies looking for AI tools"
                         value={targetAudience}
                         onChange={(e) => setTargetAudience(e.target.value)}
                         />
@@ -172,7 +425,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                         />
                     </div>
                     </div>
-                    <div className="flex flex-wrap w-full px-6 mt-6">
+                    {/* <div className="flex flex-wrap w-full px-6 mt-6">
                     <div className="flex items-between justify-between w-full">
                     <Label>Who is your competition? (optional)</Label>
                     </div>
@@ -202,19 +455,20 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                         )}
                     </div>
                     ))}
-                    </div>
+                    </div> */}
                     </div>
                     </Centered>
                     <Space margin="2rem"/>
                     <ButtonContainer>
-                    <ContinueBtn onClick={() => setStep("persona")}>
+                    <ContinueBtn onClick={() => generatePersona()}>
                         <p>Continue</p>
                     </ContinueBtn>  
                     </ButtonContainer>
                 </div>
                 }
-                {step === "persona" &&
-                <div className="pb-12">
+                {(step === "persona" && personaGeneralInfo) &&
+                <SlideBottom>
+                <div className="pb-8">
                     <ModalTitle>
                         Persona outline
                     </ModalTitle>
@@ -222,50 +476,82 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                         <div className="px-6 w-full">
                         <PersonaContainer>
                             <div className="flex items-center">
-                                <PersonaProfile background={persona}/>
+                            <FileUploader hoverTitle="Drop here" handleChange={handleFile} name="file" types={fileTypes} multiple={false} label="Drop an image" >
+                                <ProfileContainer>
+                                    {previewUrl &&
+                                            <PersonaProfile background={previewUrl}/>
+                                    }
+                                    <HoverIcon />
+                                </ProfileContainer>
+                            </FileUploader>
                                 <div className="ml-4">
-                                    <p className="font-bold text-2xl">Elon Musk</p>
-                                    <p className="text-sm font-medium">CEO of biggest tech companies</p>
+                                    <p className="font-bold text-2xl">{personaGeneralInfo.fullName}</p>
+                                    <InvisibleInput value={personaGeneralInfo.occupation} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTraitInputChange(e, "occupation")}/>
                                 </div>
                             </div>
                             <div className="mt-6 flex flex-wrap">
-                                {traits.map((trait, index) => (
-                                    <>
-                                        {trait.title === "description" ?
-                                            <div className="mr-4 mb-4 w-full mt-4">
-                                                <div className="w-full flex items-center justify-between">
+                            {traits.map((trait, index) => (
+                                <>
+                                    {trait.title === "description" ?
+                                        <div className="mb-4 w-full mt-4">
+                                            <div className="w-full flex items-end justify-between">
                                                 <div className="flex items-center">
-                                                    <trait.icon style={{marginRight: '10px'}} />
+                                                    <trait.icon style={{ marginRight: '10px' }} />
                                                     <span className="font-medium">{trait.title}: </span>
                                                 </div>
                                                 <div>
-                                                <RetryButton>
-                                                    <BtnIcon>
-                                                        <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
-                                                    </BtnIcon>
-                                                    Rewrite
-                                                </RetryButton>
+                                                    {descriptionLoading ?
+                                                    <RetryButton onClick={() => generatePersonaDescription(personaGeneralInfo)}>
+                                                        <BtnIcon>
+                                                            <BsPause style={{ width: "100%", height: "auto" }} />
+                                                        </BtnIcon>
+                                                        Pause
+                                                    </RetryButton>
+                                                    :
+                                                    <RetryButton onClick={() => generatePersonaDescription(personaGeneralInfo)}>
+                                                        <BtnIcon>
+                                                            <BsArrowRepeat style={{ width: "100%", height: "auto" }} />
+                                                        </BtnIcon>
+                                                        Rewrite
+                                                    </RetryButton>
+                                                    }
                                                 </div>
-                                                </div>
-                                                <span className="ml-1 mt-4 font-medium">{trait.value}</span>
                                             </div>
+                                            {/* Render value from personaGeneralInfo for the "description" trait */}
+                                            {editableDescription ?
+                                            <div className="ml-1 mt-4 font-medium px-2"><TextArea ref={textAreaRef} value={personaDescription} height="auto" padding="0.75rem" onChange={(e) => setPersonaDescription(e.target.value)}/></div>
+                                            :
+                                            <p className="ml-1 mt-4 font-medium px-2">{personaDescription}</p>
+                                            }
+
+                                        </div>
                                         :
-                                            <div className="flex items-center mr-4 mb-4">
-                                                <trait.icon style={{marginRight: '10px'}} />
-                                                <span className="font-medium">{trait.title}: </span>
-                                                <span className="ml-1 font-medium">{trait.value}</span>
-                                            </div>
-                                        }
-                                    </>
-                                ))}
+                                        <div className="flex items-center mr-4 mb-4">
+                                            <trait.icon style={{ marginRight: '10px' }} />
+                                            <span className="font-medium mr-2">{trait.title}: </span>
+                                            {/* Render value from personaGeneralInfo for the respective trait */}
+                                            <InvisibleInput value={personaGeneralInfo[trait.title] || ''} onChange={(e: any) => handleTraitInputChange(e, trait.title)}></InvisibleInput>
+                                        </div>
+                                    }
+                                </>
+                            ))}
                             </div>
+                        {/* {personaGeneralInfo &&
+                        <div className="mt-6">
+                            <div>Why {personaGeneralInfo.occupation}?</div>
+                        </div>
+                        } */}
+                        <div className="mt-4 px-2">
                         <ContinueBtn onClick={() => setStep("save")}>
                             <p>Save</p>
                         </ContinueBtn>  
+                        </div>
                         </PersonaContainer>
-                        <div className="mt-10">
+                        {/* {(personaGeneralInfo && links.length > 0) &&
+                        <div className="mt-10 mx-2">
                         <h2 className="text-lg font-medium">How does it compare to your competition?</h2>
-                        {competition.map((competitor, index) => (
+                        {!competitionLoading ?
+                        competition.map((competitor, index) => (
                             <div key={index} className="mt-6">
                                 <div className="flex items-center">
                                     <div className="rounded-full">
@@ -279,11 +565,18 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                                     {competitor.description}
                                 </div>
                             </div>
-                        ))}
+                        ))
+                        :
+                        <div className="mt-4 w-full">
+                            <MultiLineSkeletonLoader lines={5} justifyContent={"left"} />
                         </div>
+                        }
+                        </div>
+                        } */}
                         </div>
                     </Centered>
                 </div>
+                </SlideBottom>
                 }
                 {step === "description" &&
                 <div>
@@ -337,6 +630,8 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     </ButtonContainer>
                 </div>
                 }
+                </div>
+                }
             </Container>
             </SlideBottom>
         </ModalBackground>
@@ -353,7 +648,9 @@ const ModalBackground = styled.div`
     backdrop-filter: blur(7px);
     z-index: 100;
     padding-top: 3rem;
+    padding-bottom: 5rem;
     left: 0;
+    top: 0;
     display: flex;
     justify-content: center;
     cursor: pointer;
@@ -377,7 +674,7 @@ const Container = styled.div`
     padding: 1rem 0rem 0rem 0rem;
     background: white;
     position: relative;
-    box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 3px 3px 25px 3px rgba(0, 0, 150, 0.1);
     border-radius: 25px;
     cursor: auto;
     z-index: 100;
@@ -547,8 +844,7 @@ const PersonaContainer = styled.div`
     width: 100%;
     padding: 1rem 1.2rem 1.5rem 1.2rem;
     border-radius: 25px;
-    border: 2px solid #E5E8F0;
-    box-shadow: 2px 2px 10px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 10px 2px rgba(0, 0, 150, 0.1);
 `
 
 const LinkBtn = styled.div`
@@ -577,14 +873,42 @@ const LinkBtn = styled.div`
 `
 
 const PersonaProfile = styled.div<{background: any}>`
-    width: 4rem;
-    height: 4rem;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    background-image: url(${props => props.background.src});
+    background-image: url(${props => props.background});
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-`
+`;
+
+const HoverIcon = styled(BsImage)`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    width: 1.2rem;
+    height: 1.2rem;
+    color: #000;  // Color of the icon. Adjust as needed.
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.3s ease; 
+`;
+const ProfileContainer = styled.div`
+    position: relative;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    cursor: pointer;
+    
+    &:hover ${PersonaProfile} {
+        opacity: 0.7;
+    }
+
+    &:hover ${HoverIcon} {
+        opacity: 1;
+    }
+`;
 
 const RetryButton = styled.button`
     padding: 0rem 1.75rem 0rem 1.75rem;
@@ -609,3 +933,38 @@ const BtnIcon = styled.div`
     height: 1.25rem;
     margin-right: 0.5rem;
 `
+
+const ModalDescription = styled.p`
+    width: 80%;
+    text-align: center;
+    margin-top: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+`
+const EstimatedTime = styled.p`
+    margin-top: 1vh;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #798094;
+    font-weight: 700;
+    @media (max-width: 1023px) {
+        margin-top: 5vh;
+    }
+`
+
+const ThinkingContainer = styled.div`
+    margin-top: 1rem;
+    padding-bottom: 3.5rem;
+`;
+
+const Texts = styled.div`
+  color: black; 
+  width: 75%;
+  margin-top: 1.2rem; 
+  font-weight: 500;
+  text-align: center;
+  @media (max-width: 1023px) {
+    width: 55vw; 
+    margin-top: 1rem;
+  }
+`;

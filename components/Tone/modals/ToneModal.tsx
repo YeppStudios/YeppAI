@@ -1,12 +1,130 @@
+import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import ModalBackground from "@/components/Modals/common/ModalBackground";
 import TextArea from "@/components/forms/TextArea";
+import api from "@/pages/api";
+import { useEffect, useRef, useState } from "react";
 import { BsXLg } from "react-icons/bs";
 import { MdOutlineClose } from "react-icons/md";
 import styled from "styled-components";
+import Label from "@/components/Common/Label";
 
 const ToneModal = (props: {onClose: any}) => {
+
+    const [toneDescription, setToneDescription] = useState("");
+    const [exampleText, setExampleText] = useState("");
+    const [abortController, setAbortController] = useState(new AbortController());
+    const [descriptionLoading, setDescriptionLoading] = useState(false);
+    const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
+    const [step, setStep] = useState(1);
+
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    useEffect(() => {
+        if (textAreaRef) {
+            if(textAreaRef.current){
+                textAreaRef.current.style.height = "0px";
+                const scrollHeight = textAreaRef.current.scrollHeight;
+                textAreaRef.current.style.height = scrollHeight + "px";
+            }
+        }
+    }, [toneDescription, descriptionLoading]);
+
+    const stopReplying = () => {
+        abortController.abort();
+    }
+    
+    const analyzeTone = async (title: string) => {
+        const token = localStorage.getItem("token");
+        const userId = localStorage.getItem("user_id");
+        const workspace = localStorage.getItem("workspace");
+        const newAbortController = new AbortController();
+        setAbortController(newAbortController);
+        if (descriptionLoading) {
+          stopReplying();
+          return;
+        }
+        setDescriptionLoading(true);
+        let fetchedUser = null;
+        if (workspace && workspace !== "null" && workspace !== "undefined") {
+          const {data} = await api.get(`/workspace-company/${workspace}`, {
+            headers: {
+              authorization: token
+            }
+          });
+          fetchedUser = data.company;
+        } else {
+          const {data} = await api.get(`/users/${userId}`, {
+            headers: {
+              authorization: token
+            }
+          });
+          fetchedUser = data;
+        }
+        //make sure user has elixir
+        if(fetchedUser.tokenBalance <= 0) {
+          setOpenNoElixirModal(true);
+          return;
+        }
+
+        let reply = "";
+        let model = "gpt-4";
+        let systemPrompt = `You are professionally analysing tone of voice of the given text by completing last sentence imperatively in second-person narrative. You are very specific in expressing what the tone of voice used in text is and you carefully analyze it. You NEVER describe what the text is about, its content or anything else about its content. You recognise ONLY the tone, style and target audience.`;
+        let prompt = `Text to analyze and deduct the style and tone of voice: "${exampleText}". 
+        The tone of voice used in this text is 
+        `
+
+        try {
+            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+              signal: newAbortController.signal,
+              body: JSON.stringify({prompt, title: `Tone of voice analysis`, model, systemPrompt, temperature: 0.4}),
+            });
+    
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+    
+          if (response.body){
+            const reader = response.body.getReader();
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) {
+                setDescriptionLoading(false);
+                setToneDescription(reply)
+                break;
+              }
+      
+              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+              for (const jsonString of jsonStrings) {
+                try {
+                  const data = JSON.parse(jsonString);
+                  if (data.content) {
+                    reply += data.content;
+                    setToneDescription(reply);
+                  }
+                } catch (error) {
+                  console.error('Error parsing JSON:', jsonString, error);
+                }
+              }
+            }
+          }
+    
+        } catch (e: any) {
+          if (e.message === "Fetch is aborted") {
+            setDescriptionLoading(false);
+          } else {
+            console.log(e);
+            setDescriptionLoading(false);
+          }
+        } finally {
+          abortController.abort();
+        }
+      }
+
     return (
         <ModalBackground onClose={props.onClose} closeable={true}>
+            {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
+            {step === 0 &&
             <Container onClick={(e) => e.stopPropagation()}>
                 <CloseIcon onClick={props.onClose}>
                     <MdOutlineClose style={{width: "100%", height: "auto"}}/>
@@ -19,6 +137,8 @@ const ToneModal = (props: {onClose: any}) => {
                     placeholder="Paste text you want AI to extract the tone from..."
                     padding="1rem"
                     height="30rem"
+                    value={exampleText}
+                    onChange={(e: any) => setExampleText(e.target.value)}
                 />
                 </div>
                 <ButtonContainer>
@@ -27,6 +147,26 @@ const ToneModal = (props: {onClose: any}) => {
                 </ContinueBtn>  
                 </ButtonContainer>
             </Container>
+            }
+            {step === 1 &&
+            <Container onClick={(e) => e.stopPropagation()}>
+                <CloseIcon onClick={props.onClose}>
+                    <MdOutlineClose style={{width: "100%", height: "auto"}}/>
+                </CloseIcon>
+                <ModalTitle>
+                    Teach AI your tone of voice
+                </ModalTitle>
+                <div className="px-4">
+                <div className="flex items-center justify-between w-full mt-0"><Label>AI tone of voice description</Label></div>
+                    {descriptionLoading ?
+                    <p>{toneDescription}</p>
+                    :
+                    <TextArea ref={textAreaRef} placeholder="AI description of your tone of voice" value={toneDescription} height="auto" padding="0.75rem" onChange={(e) => setToneDescription(e.target.value)}/>
+                    }
+                    
+                </div>
+            </Container>
+            }
         </ModalBackground>
     )
 }

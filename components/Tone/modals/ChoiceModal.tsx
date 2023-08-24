@@ -69,7 +69,7 @@ export default ChoiceModal;
 
 const Container = styled.div`
     width: 37rem;
-    padding: 3rem 0rem 0rem 0rem;
+    padding: 2.5rem 0rem 0rem 0rem;
     background: white;
     position: relative;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.15);
@@ -112,7 +112,7 @@ const ChoiceContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
-    margin-top: 1rem;
+    margin-top: 2rem;
 
 `
 
@@ -128,7 +128,6 @@ const Choice = styled.div`
     
     &:hover {
         background: #EFF1F5;
-        box-shadow: -1px -1px 10px rgba(0, 0, 0, 0.1);
     }
     &:nth-child(1) {
         &:hover {
