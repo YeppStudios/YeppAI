@@ -9,6 +9,8 @@ import styled from "styled-components";
 import Label from "@/components/Common/Label";
 import { CampaignDropdown } from "@/components/Camapigns/Modal/CampaignDropdwon";
 import Input from "@/components/forms/Input";
+import Image from "next/image";
+import { IoRefreshOutline } from "react-icons/io5";
 
 interface TemplateProps {
     _id: string;
@@ -30,7 +32,7 @@ const ToneModal = (props: {onClose: any}) => {
     const [descriptionLoading, setDescriptionLoading] = useState(false);
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [templates, setTemplates] = useState<TemplateProps[]>([]);
-    const [selectedTemplate, setSelectedTemplate] = useState(null);
+    const [selectedTemplates, setSelectedTemplates] = useState([]);
     const [openedCategory, setOpenedCategory] = useState("");
     const [templateCategories, setTemplateCategories] = useState([]);
     const [step, setStep] = useState(1);
@@ -220,7 +222,7 @@ const ToneModal = (props: {onClose: any}) => {
                     values={templates}
                     openedCategory={openedCategory}
                     setOpenedCategory={setOpenedCategory}
-                    setAllChosenCategories={setAllChosenCategories}
+                    setAllChosenCategories={setSelectedTemplates}
                   />
                   </div>
                   <div className="flex flex-col gap-2 w-[18vw]">
@@ -234,14 +236,12 @@ const ToneModal = (props: {onClose: any}) => {
               <div className="h-full flex items-center justify-center">
                 <div className="flex gap-4 h-56 flex-col p-6 shadow-2xl mt-[2vw] rounded-2xl border-2  border-[#ECEEF2]">
                   <div
-                    className={`flex items-center w-full ${
-                      !isSmallDevice && "justify-between"
-                    }`}
+                    className={`flex items-center w-full`}
                   >
                     <div className="flex gap-4  items-center w-full">
                       <div className="relative w-8 h-8 rounded-xl overflow-hidden">
                         <Image
-                          src={socialMediaArray[0].icon}
+                          src={selectedTemplates[0].icon}
                           fill
                           alt="social media icon"
                         />
