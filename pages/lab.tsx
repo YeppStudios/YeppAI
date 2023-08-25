@@ -9,12 +9,11 @@ import { StaticImageData } from "next/image";
 import Image from "next/image";
 import TextArea from "@/components/forms/TextArea";
 import { ProfileCard } from "@/components/Lab/ProfileCard";
-import { CampaignDropdown } from "@/components/Camapigns/Modal/CampaignDropdwon";
 import LinkedInIcon from "@/public/images/linkedin-color.png";
 import FacebookIcon from "@/public/images/facebook-color.png";
 import { IoRefreshOutline } from "react-icons/io5";
 import { FaGraduationCap } from "react-icons/fa";
-import { PlacementDropdown } from "@/components/Lab/PlacementDropdown";
+import { CampaignDropdown } from "@/components/Camapigns/Modal/CampaignDropdwon";
 
 interface ProfileProps {
   id: number;
@@ -80,9 +79,9 @@ const LabPage = () => {
   const [searchPhrase, setSearchPhrase] = useState<string>("");
   const [filteredProfiles, setFilteredProfiles] =
     useState<ProfileProps[]>(profileData);
+  const [isSmallDevice, setIsSmallDevice] = useState<boolean>(false);
   const [openedCategory, setOpenedCategory] = useState<string>("");
   const [allChosenCategories, setAllChosenCategories] = useState<string[]>([]);
-  const [isSmallDevice, setIsSmallDevice] = useState<boolean>(false);
 
   useEffect(() => {
     const updateWindowSize = () => {
@@ -121,16 +120,16 @@ const LabPage = () => {
         className=" items-center h-full flex w-full text-black "
         style={{ height: "100%" }}
       >
-        <div className="flex justify-between  w-full items-center">
-          <div className="flex gap-4 items-center">
+        <div className="flex justify-between gap-4  w-full items-center">
+          <div className="flex lg:gap-4 gap-1 items-center">
             <LabTitle className="text-2xl">Tone of voice Lab</LabTitle>
-            <div className="flex items-center justify-center py-2 px-6 rounded-2xl bg-slate-100">
-              <GradientText className="text-center text-md uppercase">
+            <div className="flex items-center justify-center py-2 lg:px-6 rounded-2xl lg:bg-slate-100">
+              <GradientText className="text-center lg:text-md text-xs uppercase">
                 Beta
               </GradientText>
             </div>
           </div>
-          <BlueButton>
+          <BlueButton style={{ padding: "0.5rem 3.5vw 0.5rem 3.5vw" }}>
             <span className="flex items-center gap-[1vw]">
               + <span> Create new </span>
             </span>
@@ -138,9 +137,9 @@ const LabPage = () => {
         </div>
         <div></div>
       </PageContainer>
-      <div className="flex gap-4">
+      <div className="flex lg:flex-row flex-col gap-4">
         <PageContainer
-          className="w-[20%]  gap-8 flex flex-col justify-between text-black "
+          className="lg:w-[20%] w-full gap-8 flex flex-col justify-between text-black lg:h-auto h-[100vh]"
           style={{ padding: "1.5rem" }}
         >
           <div className="flex flex-col gap-8 w-full">
@@ -177,7 +176,7 @@ const LabPage = () => {
                     />
                     {isProfileActicve && (
                       <div className="flex items-center">
-                        <BsChevronRight className="h-[1.5vw] w-[1.5vw]" />
+                        <BsChevronRight className="lg:h-[1.5vw] lg:w-[1.5vw] h-[4vw] w-[4vw]" />
                       </div>
                     )}
                   </div>
@@ -186,7 +185,7 @@ const LabPage = () => {
             </div>
           </div>
           <div>
-            <BlueButton style={{ padding: "0.5rem 3vw 0.5rem 3vw" }}>
+            <BlueButton>
               <span className="text-center items-center flex gap-2">
                 + {!isSmallDevice && <Text>Create New</Text>}
               </span>
@@ -195,7 +194,7 @@ const LabPage = () => {
         </PageContainer>
         <PageContainer
           style={{ padding: "1.5rem 2vw 1.5rem 2vw" }}
-          className="w-[40%] flex flex-col gap-8 justify-between  text-black "
+          className="lg:w-[40%] w-full flex flex-col gap-8 justify-between lg:h-auto h-[100vh]  text-black "
         >
           <div className="flex w-full flex-col gap-8 h-full">
             <div className="flex gap-4 items-center w-full">
@@ -220,22 +219,24 @@ const LabPage = () => {
         </PageContainer>
         <PageContainer
           style={{ padding: "1.5rem 2vw 1.5rem 2vw" }}
-          className="w-[40%] text-black overflow-hidden"
+          className="lg:w-[40%] w-full text-black lg:h-auto h-full overflow-scroll"
         >
           {currentProfile && (
             <div className="flex flex-col ">
-              <div className="flex justify-between items-center pb-[1vw]">
+              <div className="flex justify-between items-center lg:pb-[1vw] pb-4">
                 <ProfileCard
                   type={currentProfile.type}
                   icon={currentProfile.icon}
                   name={currentProfile.name}
                 />
                 <div className="flex gap-4 h-full ">
-                  <button className="flex items-center  justify-center py-2 px-[1.5vw] rounded-2xl bg-slate-100">
-                    <GradientText>Try now</GradientText>
+                  <button className="flex items-center  justify-center py-2 px-[2.5vw]  rounded-2xl bg-slate-100">
+                    <GradientText style={{ fontSize: "1rem" }}>
+                      Try now
+                    </GradientText>
                   </button>
                   <button
-                    className="flex items-center  justify-center py-2 px-6 rounded-2xl bg-slate-100"
+                    className="flex items-center  justify-center py-2 px-[2vw] lg:px-6 rounded-2xl bg-slate-100"
                     style={{ fontWeight: 600 }}
                   >
                     ? About
@@ -254,7 +255,7 @@ const LabPage = () => {
                 />
                 <BlueButton
                   className="self-end"
-                  style={{ paddingLeft: "3vw", paddingRight: "3vw" }}
+                  style={{ paddingLeft: "3rem", paddingRight: "3rem" }}
                 >
                   Save
                 </BlueButton>
@@ -266,12 +267,30 @@ const LabPage = () => {
                 >
                   Example output
                 </h4>
-                <div className={`flex  justify-between items-center `}>
-                  <div className="flex flex-col gap-2 w-full max-w-[15rem]">
+                <div
+                  className={`flex ${
+                    isSmallDevice && "  flex-col"
+                  } flex-row justify-between items-center `}
+                >
+                  <div
+                    className={` ${
+                      isSmallDevice && "w-[80%]"
+                    } flex flex-col gap-2 w-[47%]`}
+                  >
                     <span style={{ fontWeight: 500 }}>Placement</span>
-                    <PlacementDropdown placements={socialMediaArray} />
+                    <CampaignDropdown
+                      values={socialMediaArray}
+                      category={socialMediaArray[0]}
+                      openedCategory={openedCategory}
+                      setOpenedCategory={setOpenedCategory}
+                      setAllChosenCategories={setAllChosenCategories}
+                    />
                   </div>
-                  <div className="flex flex-col gap-2 w-[18vw]">
+                  <div
+                    className={` ${
+                      isSmallDevice && "w-[80%]"
+                    } flex flex-col gap-2 w-[47%]`}
+                  >
                     <span style={{ fontWeight: 500 }}>About</span>
                     <div className="pl-2">
                       <InputContainer>
@@ -282,7 +301,7 @@ const LabPage = () => {
                 </div>
               </div>
               <div className="h-full flex items-center justify-center">
-                <div className="flex gap-4 h-56 flex-col p-6 shadow-2xl mt-[2vw] rounded-2xl border-2  border-[#ECEEF2]">
+                <div className="flex gap-4 h-full flex-col p-6 shadow-2xl mt-[4rem] rounded-2xl border-2  border-[#ECEEF2]">
                   <div
                     className={`flex items-center w-full ${
                       !isSmallDevice && "justify-between"
@@ -329,6 +348,9 @@ const LabPage = () => {
 
 const LabTitle = styled.h2`
   font-weight: 700;
+  @media (max-width: 1023px) {
+    font-size: large;
+  }
 `;
 
 const Text = styled.p`
@@ -347,6 +369,9 @@ const GradientText = styled.span`
   -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
+  @media (max-width: 1023px) {
+    font-size: 0.5rem;
+  }
 `;
 
 const GeneratedTextTitle = styled.span`
@@ -373,6 +398,11 @@ const BlueButton = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
+  @media (max-width: 1023px) {
+    flex: 1;
+    max-width: 16rem;
+    padding: 0.5rem 4rem 0.5rem 4rem;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -418,8 +448,8 @@ const Page = styled.div`
   color: white;
   position: absolute;
   @media (max-width: 1023px) {
-    padding: 4.5rem 0rem 0rem 0rem;
-    min-height: 100svh;
+    padding: 4.5rem 0.5rem 0.5rem 0.5rem;
+    min-height: 100vh;
   }
 `;
 
@@ -431,6 +461,8 @@ const PageContainer = styled.div`
   height: calc(100vh - 9rem);
 
   @media (max-width: 1023px) {
+    height: 100vh;
+    padding: 1rem;
   }
   border-radius: 20px;
   background-color: white;

@@ -6,7 +6,7 @@ import SlideBottom from "@/components/Animated/SlideBottom";
 
 interface categoryDropdwonProps {
   name: string;
-  icon: string | StaticImageData;
+  icon: StaticImageData | string;
 }
 
 interface DropdownProps {
