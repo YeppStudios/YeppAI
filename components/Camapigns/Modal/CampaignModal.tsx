@@ -466,7 +466,7 @@ const ModalContainer = styled.div<{step: number}>`
     width: 42rem;
     padding: 3rem 4rem 3.5rem 4rem;
     background: white;
-    box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 25px 3px rgba(0, 0, 150, 0.1);
     border-radius: 25px;
     cursor: auto;
     z-index: 100;
@@ -474,7 +474,7 @@ const ModalContainer = styled.div<{step: number}>`
     @media (max-width: 1023px) {
         width: 90vw;
         padding: 4vh 5vw 5vh 5vw;
-        box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.15);
+        box-shadow: 3px 3px 25px 3px rgba(0, 0, 150, 0.1);
     }
 `
 const Title = styled.h1`

@@ -7,7 +7,21 @@ import { BsXLg } from "react-icons/bs";
 import { MdOutlineClose } from "react-icons/md";
 import styled from "styled-components";
 import Label from "@/components/Common/Label";
+import { CampaignDropdown } from "@/components/Camapigns/Modal/CampaignDropdwon";
+import Input from "@/components/forms/Input";
 
+interface TemplateProps {
+    _id: string;
+    title: string;
+    description: string;
+    category: string;
+    author: string;
+    likes: any[];
+    icon: string;
+    query: string;
+  }
+
+  
 const ToneModal = (props: {onClose: any}) => {
 
     const [toneDescription, setToneDescription] = useState("");
@@ -15,6 +29,10 @@ const ToneModal = (props: {onClose: any}) => {
     const [abortController, setAbortController] = useState(new AbortController());
     const [descriptionLoading, setDescriptionLoading] = useState(false);
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
+    const [templates, setTemplates] = useState<TemplateProps[]>([]);
+    const [selectedTemplate, setSelectedTemplate] = useState(null);
+    const [openedCategory, setOpenedCategory] = useState("");
+    const [templateCategories, setTemplateCategories] = useState([]);
     const [step, setStep] = useState(1);
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -27,6 +45,30 @@ const ToneModal = (props: {onClose: any}) => {
             }
         }
     }, [toneDescription, descriptionLoading]);
+
+    useEffect(() => {
+        const fetchTemplates = async () => {
+          const { data } = await api.get("/templates");
+          if (data) {
+            setTemplates(data);
+          } else {
+            console.log("wrong fetch");
+          }
+        };
+        fetchTemplates();
+      }, []);
+
+      const filterDropdownValues = (category: string) => {
+        const templatesInCategory = templates.filter(
+          (template) => template.category === category
+        );
+        const dropdownValues = templatesInCategory.map((template) => ({
+          name: template.title,
+          icon: template.icon,
+        }));
+    
+        return dropdownValues;
+      };
 
     const stopReplying = () => {
         abortController.abort();
@@ -163,7 +205,70 @@ const ToneModal = (props: {onClose: any}) => {
                     :
                     <TextArea ref={textAreaRef} placeholder="AI description of your tone of voice" value={toneDescription} height="auto" padding="0.75rem" onChange={(e) => setToneDescription(e.target.value)}/>
                     }
-                    
+                                  <div className="flex flex-col gap-[0.8vw]">
+                <h4
+                  className="w-full border-b border-slate-200 pb-2"
+                  style={{ fontWeight: 600 }}
+                >
+                  Example output
+                </h4>
+                <div className={`flex  justify-between items-center `}>
+                  <div className="flex flex-col gap-2 w-full max-w-[15rem]">
+                    <span style={{ fontWeight: 500 }}>Placement</span>
+                    <CampaignDropdown
+                    category={openedCategory}
+                    values={templates}
+                    openedCategory={openedCategory}
+                    setOpenedCategory={setOpenedCategory}
+                    setAllChosenCategories={setAllChosenCategories}
+                  />
+                  </div>
+                  <div className="flex flex-col gap-2 w-[18vw]">
+                    <Input type="text" className="w-full" height="2.7rem" padding="0.5rem" />
+                    <div className="pl-2">
+                        <Input type="text" className="w-full" height="2rem" padding="0.5rem" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="h-full flex items-center justify-center">
+                <div className="flex gap-4 h-56 flex-col p-6 shadow-2xl mt-[2vw] rounded-2xl border-2  border-[#ECEEF2]">
+                  <div
+                    className={`flex items-center w-full ${
+                      !isSmallDevice && "justify-between"
+                    }`}
+                  >
+                    <div className="flex gap-4  items-center w-full">
+                      <div className="relative w-8 h-8 rounded-xl overflow-hidden">
+                        <Image
+                          src={socialMediaArray[0].icon}
+                          fill
+                          alt="social media icon"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <GeneratedTextTitle>
+                          {socialMediaArray[0].name}
+                        </GeneratedTextTitle>
+                        <GeneratedTextDate>07.07.2023</GeneratedTextDate>
+                      </div>
+                    </div>
+                    <button className="flex px-[1.5vw] gap-4 items-center  py-1 bg-slate-200 rounded-2xl">
+                      <IoRefreshOutline className="w-4 h-4" />
+                      <Text style={{ fontWeight: 500 }}>Rewrite</Text>
+                    </button>
+                  </div>
+                  <GeneratedTextContainer>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Eum sequi animi ex exercitationem est deleniti quasi nemo
+                      accusantium natus doloremque consectetur, omnis excepturi
+                      harum nesciunt iusto laboriosam rerum esse nobis sint ea
+                      provident? Rem nobis ullam officia neque eius! Officia?
+                    </p>
+                  </GeneratedTextContainer>
+                </div>
+              </div>
                 </div>
             </Container>
             }
