@@ -275,7 +275,7 @@ const LabPage = () => {
                   <div
                     className={` ${
                       isSmallDevice && "w-[80%]"
-                    } flex flex-col gap-2 w-[47%]`}
+                    } flex flex-col gap-2 w-[80%]`}
                   >
                     <span style={{ fontWeight: 500 }}>Placement</span>
                     <CampaignDropdown
@@ -289,7 +289,7 @@ const LabPage = () => {
                   <div
                     className={` ${
                       isSmallDevice && "w-[80%]"
-                    } flex flex-col gap-2 w-[47%]`}
+                    } flex flex-col gap-2 w-[80%]`}
                   >
                     <span style={{ fontWeight: 500 }}>About</span>
                     <div className="pl-2">
