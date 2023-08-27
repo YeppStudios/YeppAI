@@ -85,7 +85,7 @@ const LabPage = () => {
 
   useEffect(() => {
     const updateWindowSize = () => {
-      setIsSmallDevice(window.innerWidth < 1305);
+      setIsSmallDevice(window.innerWidth < 1325);
     };
 
     window.addEventListener("resize", updateWindowSize);
@@ -226,7 +226,7 @@ const LabPage = () => {
                   name={currentProfile.name}
                 />
                 <div className="flex gap-4 h-full ">
-                  <button className="flex items-center  justify-center py-2 px-[2.5vw]  rounded-2xl bg-slate-100">
+                  <button className="flex items-center  justify-center py-2 px-[1.5vw]  rounded-2xl bg-slate-100">
                     <GradientText style={{ fontSize: "1rem" }}>
                       Try now
                     </GradientText>
