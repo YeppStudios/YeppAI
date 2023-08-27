@@ -309,7 +309,7 @@ export const CampaignModal: FC<CampaginModalProps> = ({
             {filteredDropdownCategories.map((template, index) => {
               const dropdownValues = filterDropdownValues(template.name);
               return (
-                <div key={index} onClick={(e) => e.stopPropagation()}>
+                <div key={index} onClick={(e) => e.stopPropagation()} className="m-2">
                   <CampaignDropdown
                     category={template}
                     values={dropdownValues}

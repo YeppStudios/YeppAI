@@ -20,6 +20,9 @@ import TypingAnimation from "@/components/Modals/common/TypingAnimation";
 import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import MultiLineSkeletonLoader from "@/components/Common/MultilineSkeletonLoader";
 import InvisibleInput from "@/components/forms/InvisibleInput";
+import { useRouter } from "next/router";
+import { Loader } from "@/components/Common/Loaders";
+import ReactMarkdown from 'react-markdown';
 
 const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
@@ -96,12 +99,15 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
     const [personaGeneralInfo, setPersonaGeneralInfo] = useState<any>();
     const [abortController, setAbortController] = useState<any>();
     const [descriptionLoading, setDescriptionLoading] = useState(false);
+    const [processingPrompt, setProcessingPrompt] = useState(false);
     const [competitionLoading, setCompetitionLoading] = useState(true);
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
-    const [randomPic, setRandomPic] = useState("https://www.google.com/url?sa=i&url=https%3A%2F%2Fabcnews.go.com%2FBusiness%2Ftimeline-elon-musks-tumultuous-twitter-acquisition-attempt%2Fstory%3Fid%3D86611191&psig=AOvVaw38VCedHi5o43d-x31RR5k_&ust=1692966121454000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCJCu5bSk9YADFQAAAAAdAAAAABAH");
+    const [saving, setSaving] = useState(false);
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     
+    const router = useRouter();
+
     useEffect(() => {
         if (textAreaRef) {
             if(textAreaRef.current){
@@ -185,6 +191,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
           stopReplying();
           return;
         }
+        setProcessingPrompt(true);
         setEditableDescription(false);
         setDescriptionLoading(true);
         let fetchedUser = null;
@@ -212,13 +219,13 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
         let reply = "";
         let model = "gpt-3.5-turbo";
         let systemPrompt = `You are a marketer with years of experience. You specialize in coming up with detailed marketing persona descriptions. You carefuly analyze the context given by the user and try to understand the target audience as well as product. 
-        Every time you generate a unique description. Your descriptions are no more than 1000 characters long. You always reply only with persona description.`;
+        Every time you generate a unique description. Your descriptions are no more than 150 words long. You always reply only with persona description.`;
         let prompt = `Come up with detailed persona description for my persona object: ${personaJSON.fullName}- ${personaJSON.age} year old, ${personaJSON.status} ${personaJSON.occupation} who lives in ${personaJSON.location} and earns ${personaJSON.income}. 
         But first closely analyze my business offer and product to generate a realistic ${personaJSON.fullName} description that would be a perfect fit for us. 
         About our product/service: ${about}. We are targetting the ${market} market and our target audience are ${targetAudience}. Our business model is ${businessModel}.
         Follow this process when crafting description: Once you understand the context, come up with bio describing persona's role in the company, his/her life purpose, interests and hobbies that best match the perfect persona for us. Make sure that these are well aligned with typical ${personaJSON.ocupation} day-to-day desires and struggles.
         Then come up with persona needs and painpoints that ${personaJSON.fullName} has along with desires and goals related to our product/service. At the end describe why ${personaJSON.fullName} is motivated to buy our product/service. Make it sound objective and realistic.
-        Objective persona description in under 1000 characters: 
+        Objective persona description that is in under 150 words long: 
         `
 
         try {
@@ -245,6 +252,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
               }
       
               const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+              setProcessingPrompt(false);
               for (const jsonString of jsonStrings) {
                 try {
                   const data = JSON.parse(jsonString);
@@ -338,6 +346,30 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
             [traitTitle]: updatedValue
         }));
     };
+
+    const savePersona = async () => {
+        setSaving(true);
+        try {
+            await api.post("/save-persona", {
+                title: name || personaGeneralInfo.fullName,
+                icon: previewUrl || `https://ui-avatars.com/api/?background=random&name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=E6EAF2&color=ffffff`,
+                prompt: `The content should be interesing for our persona: ${personaDescription}. 
+                Do not address this persona directly as it is our imagined persona that will help you better understand the needs and painpoints of our target audience.`,
+                workspace: localStorage.getItem("workspace"),
+            },
+            {
+                headers: {
+                    Authorization: `${localStorage.getItem("token")}`,
+                },
+            }
+            )
+            setSaving(false);
+            router.reload();
+        } catch (e) {
+            console.log(e);
+            setSaving(false);
+        }
+    }
 
     return (
         <ModalBackground>
@@ -517,11 +549,18 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                                                     }
                                                 </div>
                                             </div>
-                                            {/* Render value from personaGeneralInfo for the "description" trait */}
-                                            {editableDescription ?
-                                            <div className="ml-1 mt-4 font-medium px-2"><TextArea ref={textAreaRef} value={personaDescription} height="auto" padding="0.75rem" onChange={(e) => setPersonaDescription(e.target.value)}/></div>
+                                            {processingPrompt ?
+                                            <div className="ml-1 mt-4 font-medium px-2">
+                                                <MultiLineSkeletonLoader lines={3} justifyContent={"left"} />
+                                            </div>
                                             :
-                                            <p className="ml-1 mt-4 font-medium px-2">{personaDescription}</p>
+                                            <>
+                                            {editableDescription ?
+                                                <div className="ml-1 mt-4 font-medium px-2"><TextArea ref={textAreaRef} value={personaDescription} height="auto" padding="0.75rem" onChange={(e) => setPersonaDescription(e.target.value)}/></div>
+                                                :
+                                                <p className="ml-1 mt-4 font-medium px-4 whitespace-pre-wrap will-change-transform"><ReactMarkdown>{personaDescription}</ReactMarkdown></p>
+                                            }
+                                            </>
                                             }
 
                                         </div>
@@ -541,9 +580,14 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                             <div>Why {personaGeneralInfo.occupation}?</div>
                         </div>
                         } */}
+                        <WordCounter>{personaDescription.length} / 1500</WordCounter>
                         <div className="mt-4 px-2">
-                        <ContinueBtn onClick={() => setStep("save")}>
+                        <ContinueBtn onClick={() => savePersona()}>
+                            {saving ?
+                            <Loader color="white" />
+                            :
                             <p>Save</p>
+                            }
                         </ContinueBtn>  
                         </div>
                         </PersonaContainer>
@@ -625,7 +669,11 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     <Space margin="2rem"/>
                     <ButtonContainer>
                     <ContinueBtn>
+                        {saving ?
+                        <Loader color="white" />
+                        :
                         <p>Save</p>
+                        }
                     </ContinueBtn>  
                     </ButtonContainer>
                 </div>

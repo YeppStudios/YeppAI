@@ -27,7 +27,7 @@ const initialState: AssistantState = {
   assistant: {
     _id: "644d511929430f833c5ea281",
     name: "Marketer AI",
-    description: "Systemowy Marketer AI.",
+    description: "System AI Marketer.",
     category: "marketing",
     prompt: "You are a professional marketer with many years of experience. You write professional marketing content for the user based on best practices, marketing principles and information user gives you. You do not overuse emojis in the text and adjust the tone and context to perfectly match the keywords and target audience.",
     noEmbedPrompt: "You are a professional marketer with many years of experience. You write professional marketing content for the user based on best practices, marketing principles and information user gives you. You do not overuse emojis in the text and adjust the tone and context to perfectly match the keywords and target audience.",

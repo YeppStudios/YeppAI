@@ -20,9 +20,10 @@ import { BlueLoader } from "@/components/Common/Loaders";
 import MultiLineSkeletonLoader from "@/components/Common/MultilineSkeletonLoader";
 import NoElixirModal from "@/components/Modals/LimitModals/NoElixir";
 import axios from "axios";
-import { selectedMarketingAssistantState } from "@/store/marketingAssistantSlice";
+import { defaultMarketingAssistantState } from "@/store/marketingAssistantSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { showNotification } from "@mantine/notifications";
+import Head from "next/head";
 
 const breakpointColumnsObj = {
     default: 4,
@@ -64,7 +65,7 @@ const Campaign = () => {
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const router = useRouter();
     const [text, setText] = useState("");
-    const selectedMarketingAssistant = useSelector(selectedMarketingAssistantState);
+    const selectedMarketingAssistant = useSelector(defaultMarketingAssistantState);
     const { campaignId } = router.query;
     const textAreaRefs = useRef<any>({});
     const [rendering,  setRendering] = useState(false);
@@ -546,6 +547,11 @@ const Campaign = () => {
 
     return (
         <div id="main-container">
+            <Head>
+                  <title>Campaigns | Yepp AI</title>
+                  <meta name = "theme-color" content = "#FFFFFF" />
+                  <meta name="description" content="Effortlessly generate entire content campaigns with AI." />
+            </Head>
             {openNoElixirModal && <NoElixirModal onClose={() => setOpenNoElixirModal(false)} />}
             <PageTemplate>
             <PageContainer>
