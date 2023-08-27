@@ -85,7 +85,7 @@ const LabPage = () => {
 
   useEffect(() => {
     const updateWindowSize = () => {
-      setIsSmallDevice(window.innerWidth < 1230);
+      setIsSmallDevice(window.innerWidth < 1305);
     };
 
     window.addEventListener("resize", updateWindowSize);
@@ -150,13 +150,8 @@ const LabPage = () => {
                 placeholder="Search..."
                 className="bg-transparent w-full"
                 onChange={(e) => setSearchPhrase(e.target.value)}
+                style={{ outline: "none" }}
               />
-              {!isSmallDevice && (
-                <div className="flex items-center gap-[1vw]">
-                  <BsCommand className="w-4 h-4 fill-black" />
-                  <span>F</span>
-                </div>
-              )}
             </InputContainer>
             <div className="w-full flex flex-col gap-4">
               {filteredProfiles.map((profile) => {
@@ -164,7 +159,7 @@ const LabPage = () => {
                 return (
                   <div
                     className={`flex border  w-full justify-between rounded-2xl p-2 ${
-                      isProfileActicve ? "bg-slate-300" : ""
+                      isProfileActicve ? "bg-slate-100" : ""
                     }`}
                     onClick={() => setCurrentProfile(profile)}
                     key={profile.id}
@@ -208,6 +203,7 @@ const LabPage = () => {
               disabled={!currentProfile}
               onChange={handleTextAreaChange}
               className="overflow-scroll"
+              style={{ fontWeight: 500 }}
             />
           </div>
           <div>
@@ -252,6 +248,7 @@ const LabPage = () => {
                   height="10rem"
                   value={currentProfile.description}
                   className="overflow-scroll"
+                  style={{ fontWeight: 500 }}
                 />
                 <BlueButton
                   className="self-end"
@@ -269,12 +266,12 @@ const LabPage = () => {
                 </h4>
                 <div
                   className={`flex ${
-                    isSmallDevice && "  flex-col"
+                    isSmallDevice && "flex-col"
                   } flex-row justify-between items-center `}
                 >
                   <div
                     className={` ${
-                      isSmallDevice && "w-[80%]"
+                      isSmallDevice && "w-[80%] self-start"
                     } flex flex-col gap-2 w-[80%]`}
                   >
                     <span style={{ fontWeight: 500 }}>Placement</span>
@@ -288,13 +285,17 @@ const LabPage = () => {
                   </div>
                   <div
                     className={` ${
-                      isSmallDevice && "w-[80%]"
+                      isSmallDevice && "w-[80%] self-start"
                     } flex flex-col gap-2 w-[80%]`}
                   >
                     <span style={{ fontWeight: 500 }}>About</span>
                     <div className="pl-2">
                       <InputContainer>
-                        <input type="text" className="w-full" />
+                        <input
+                          type="text"
+                          className="w-full"
+                          style={{ outline: "none" }}
+                        />
                       </InputContainer>
                     </div>
                   </div>
@@ -328,7 +329,7 @@ const LabPage = () => {
                     </button>
                   </div>
                   <GeneratedTextContainer>
-                    <p>
+                    <p style={{ fontWeight: 500 }}>
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Eum sequi animi ex exercitationem est deleniti quasi nemo
                       accusantium natus doloremque consectetur, omnis excepturi
@@ -443,6 +444,7 @@ const Page = styled.div`
   width: 100vw;
   min-height: 100vh;
   padding: 0.75rem 1rem 0.75rem 5rem;
+  font-weight: 500;
   height: auto;
   background-color: #eef1fa;
   color: white;
@@ -459,6 +461,7 @@ const PageContainer = styled.div`
   border-radius: 25px;
   padding: 1.5rem 3rem 1.5rem 3rem;
   height: calc(100vh - 9rem);
+  font-weight: 500;
 
   @media (max-width: 1023px) {
     height: 100vh;
