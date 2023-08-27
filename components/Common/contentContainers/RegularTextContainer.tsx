@@ -6,7 +6,7 @@ import { AiOutlineLike, AiOutlineCopy, AiFillLike } from "react-icons/ai";
 import Image from "next/image";
 import moment from 'moment';
 import api from "@/pages/api";
-import { selectedMarketingAssistantState } from "@/store/marketingAssistantSlice";
+import { defaultMarketingAssistantState } from "@/store/marketingAssistantSlice";
 import { useSelector, useDispatch } from "react-redux";
 import articleIcon from "../../../public/images/article-icon.png";
 
@@ -19,7 +19,7 @@ const RegularTextContainer = (props: {template: any, text: string, prompt: strin
     const [liked, setLiked] = useState(false);
     const [showSavedIcon, setShowSavedIcon] = useState(false);
     const [disableLike, setDisableLike] = useState(false);
-    const selectedAssistant = useSelector(selectedMarketingAssistantState);
+    const selectedAssistant = useSelector(defaultMarketingAssistantState);
 
 
     useEffect(() => {

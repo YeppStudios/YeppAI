@@ -17,7 +17,7 @@ import sendIcon from "../../public/images/send.png";
 import { useRouter } from "next/router";
 import { BsBodyText, BsTextCenter } from "react-icons/bs";
 import axios from "axios";
-import { selectedMarketingAssistantState } from "@/store/marketingAssistantSlice";
+import { defaultMarketingAssistantState } from "@/store/marketingAssistantSlice";
 import { selectedUserState } from "@/store/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import SlideBottom from "../Animated/SlideBottom";
@@ -75,7 +75,7 @@ const ResultsContainer = (
     const [messages, setMessages] = useState<Array<Message>>([]);
     let selectedFolders: Folder[] = useSelector(selectFoldersState);
     const [replying, setReplying] = useState(false);
-    const selectedMarketingAssistant = useSelector(selectedMarketingAssistantState);
+    const selectedMarketingAssistant = useSelector(defaultMarketingAssistantState);
 
     const router = useRouter();
 
