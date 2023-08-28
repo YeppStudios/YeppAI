@@ -218,10 +218,10 @@ const ToneModal = (props: {onClose: any}) => {
 
         let reply = "";
         let model = "gpt-4";
-        let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation and how the text addresses the target audience:
+        let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation and exactly how the text addresses the target audience:
         "${exampleText}"
         The content of quoted text doesn't matter, your only job is to remember the writing style of the author to use it for writing ${selectedTemplate?.title}.
-        Now that you are inspired by the tone of voice please write ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language. Don't try to exactly copy the structure, but just mimic the tone. Follow the extracted tone of voice and style of an example text. Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters:`;
+        Now that you are capable of writing in above text tone of voice please write ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language. Just mimic the tone to sound just like the writer of quoted text. Follow the extracted tone of voice and style of an example text. Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters:`;
         let systemPrompt = `You are a ${exampleLanguage} native marketer. ${selectedMarketingAssistant.noEmbedPrompt}`;
         try {
             const response = await fetch('https://asystentai.herokuapp.com/askAI', {
