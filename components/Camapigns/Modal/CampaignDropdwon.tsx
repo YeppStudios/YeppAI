@@ -10,8 +10,8 @@ interface categoryDropdwonProps {
 }
 
 interface DropdownProps {
-  category: categoryDropdwonProps;
-  values: categoryDropdwonProps[];
+  category: any;
+  values: any[];
   openedCategory: string;
   setOpenedCategory: any;
   setAllChosenCategories: any;

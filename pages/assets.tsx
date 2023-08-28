@@ -49,7 +49,9 @@ const Assets = () => {
     dispatch(setSelectedFolder({documents: []}))
     setOpenOnboarding(false);
     router.reload();
-    localStorage.setItem("onboarding_step", "2");
+    const prevOnboardingState = localStorage.getItem("onboarding");
+    const updatedOnboardingState = prevOnboardingState + " assets";
+    localStorage.setItem("onboarding", updatedOnboardingState);
   }
 
   useEffect(() => {
@@ -60,11 +62,13 @@ const Assets = () => {
     const token = localStorage.getItem("token");
     const workspace = localStorage.getItem("workspace");
     const userId = localStorage.getItem("user_id");
-    const onboarding = localStorage.getItem("onboarding_step");
+    const onboarding = localStorage.getItem("onboarding");
     const fetchFolders = async () => {
       try {
-        if (onboarding === "1") {
-          setOpenOnboarding(true);
+        if (onboarding) {
+          if (onboarding.length > 0 && !onboarding?.includes("assets")) {
+            setOpenOnboarding(true);
+          }
         }
         if (workspaceCompany._id) {
           const { data } = await api.get(`/folders/${workspaceCompany.workspace}`, {

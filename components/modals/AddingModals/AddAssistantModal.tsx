@@ -323,10 +323,10 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
         if (exampleText.length > 100 && exampleText.length < 2000) {
             try {
                 const toneCompletion = await api.post("/completion", {
-                    prompt: `Text to analyze: "${exampleText}". This tone is`,
+                    prompt: `Text to analyze: "${exampleText}". Return a detailed description of tone of voice in under 100 words and style used in analyzed text: `,
                     model: "gpt-4",
                     temperature: 0,
-                    systemPrompt: "You are professionally analysing tone of voice of the given text by completing last sentence imperatively in second-person narrative. You are very specific in expressing what the tone of voice used in text is and you carefully analyze it. You NEVER describe what the text is about, its content or anything else about its content. You recognise ONLY the tone, style and target audience. Make this description of tone and style up to 50 words long."
+                    systemPrompt: "You are professionally analyzing tone of voice of the quoted text by completing last sentence imperatively in second-person narrative. You are very specific in expressing what tone of voice is used in text and you carefully analyze it. You NEVER describe what the text is about and don't refer to anything else about its content. You recognise ONLY the tone, style and target audience to write in similar tone in the future."
                 },
                 {
                     headers: {
