@@ -422,7 +422,7 @@ const PromptsBrowser = ({ user }: InferGetServerSidePropsType<typeof getServerSi
           <title>Prompt Browser | Yepp AI</title>
           <meta name = "theme-color" content = "#ffffff" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="description" content="Odkryj największą listę przygotowanych promptów do sztucznej inteligencji w formie wyszukiwarki." />
+          <meta name="description" content="Discover 1000+ best performing prompts for sales and marketing." />
         </Head>
           <Page onClick={() => setOpenSidebar(false)}>
           <Centered>
@@ -433,7 +433,7 @@ const PromptsBrowser = ({ user }: InferGetServerSidePropsType<typeof getServerSi
                 </LogoContainer>
                 <AppName>Prompt Browser</AppName>
                 </div>
-                <Slogan>Collection of 1000+ most effective prompts for marekting & sales</Slogan>
+                <Slogan>Collection of 1000+ most effective prompts for marketing & sales</Slogan>
                 <InputContainer>
                     <Input value={searchTerm} onChange={(e) => delayedSearch(e.target.value)} type="text" placeholder="Prompt..."/>
                     <SubmitBtn>
