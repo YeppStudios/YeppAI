@@ -131,28 +131,43 @@ const ToneModal = (props: {onClose: any}) => {
         return;
       }
 
-      const exampleResponse = await api.post("/completion", {
-        prompt: `Please analyze this text to figure out its main objective, target audience, tone of voice, content type and the use of emojis and punctuation: "${exampleText}". Also extract specifically what is it about: some product, event or just a trip? Name it in "about" field. Now, return a valid JSON object in the given JSON format:
-        {
-          "about": "new iPhone 15",
-          "language": "English",
-          "mainObjective": "make old iPhone users buy new one",
-          "targetAudience": "old iPhone users",
-          "useEmojis": "yes"
-        }
-        Return JSON object with observations from the analyzed text:
+      const exampleResponse = await api.post("/completion-function", {
+        prompt: `Please analyze this text to figure out its main objective, target audience, tone of voice, content type and the use of emojis and punctuation: "${exampleText}". Also extract specifically what is it about: some product, event or just a trip? Name it in "about" field.
         `,
-        systemPrompt: `Act as a JSON converter. After analyzing the text user quotes you return a formatted JSON output that describes it in the given JSON object: 
-        {
-          "about": "new iPhone",
-          "language": "Polish",
-          "mainObjective": "make old iPhone users buy new one",
-          "targetAudience": "old iPhone users",
-          "useEmojis": "yes"
-        }
+        systemPrompt: `Act as a JSON converter. After analyzing the text user quotes you return a formatted JSON output that describes it in the given JSON object. Only use the functions you have been provided with.
           `,
-        model: "gpt-3.5-turbo",
-        temperature: 0
+        model: "gpt-4-0613",
+        temperature: 0,
+        function_definition: {
+          "name": "extract_tone",
+          "description": "Extract the tone of voice characteristics from the given text",
+          "parameters": {
+              "type": "object",
+              "properties": {
+                  "about": {
+                      "type": "string",
+                      "description": "the product/service, eg. new iPhone 15",
+                  },
+                  "language": {
+                    "type": "string", 
+                    "description": "the language of the text, eg. English",
+                  },
+                  "mainObjective": {
+                      "type": "string",
+                      "description": "the main objective of the text, eg. make old iPhone users buy new one",
+                  },
+                  "targetAudience": {
+                      "type": "string",
+                      "description": "the target audience of the text, eg. old iPhone users",
+                  },
+                  "useEmojis": {
+                      "type": "string",
+                      "description": "the use of emojis in the text, eg. yes",
+                  }
+              },
+              "required": ["about", "language", "mainObjective", "targetAudience", "useEmojis"],
+          },
+      }
     },
     {
         headers: {
@@ -160,7 +175,7 @@ const ToneModal = (props: {onClose: any}) => {
         },
     });
 
-    const exampleJSON = JSON.parse(exampleResponse.data.completion);
+    const exampleJSON = JSON.parse(exampleResponse.data.function.arguments);
     setExampleOutputJSON(exampleJSON);
     setLanguage(exampleJSON.language);
     setAbout(exampleJSON.about);
@@ -206,22 +221,20 @@ const ToneModal = (props: {onClose: any}) => {
         let exampleLanguage = exampleOutputOutlines.language;
         let exampleAbout = exampleOutputOutlines.about;
 
-        if (exampleOutputJSON) {
-          exampleOutputOutlines = exampleOutputJSON;
-        }
-        if (language != exampleLanguage) {
+
+        if (!exampleLanguage) {
           exampleLanguage = language;
         }
-        if (about != exampleAbout) {
+        if (!exampleAbout) {
           exampleAbout = about;
         }
 
         let reply = "";
         let model = "gpt-4";
-        let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation and exactly how the text addresses the target audience:
+        let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
         "${exampleText}"
-        The content of quoted text doesn't matter, your only job is to remember the writing style of the author to use it for writing ${selectedTemplate?.title}.
-        Now that you are capable of writing in above text tone of voice please write ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language. Just mimic the tone to sound just like the writer of quoted text. Follow the extracted tone of voice and style of an example text. Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters:`;
+        Your only job is to closely examine and learn the writing style and vibe of the author to use it for writing ${selectedTemplate?.title}.
+        Now that you are capable of writing exactly in the above text style, please write unique ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language in this exact style. Mimic the tone to look 1:1 as if it was written by the author of the quoted text. Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters and uses learned tone of voice:`;
         let systemPrompt = `You are a ${exampleLanguage} native marketer. ${selectedMarketingAssistant.noEmbedPrompt}`;
         try {
             const response = await fetch('https://asystentai.herokuapp.com/askAI', {
@@ -240,6 +253,7 @@ const ToneModal = (props: {onClose: any}) => {
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
+                setExampleOutputJSON({})
                 setTestText(reply)
                 break;
               }
@@ -285,8 +299,8 @@ const ToneModal = (props: {onClose: any}) => {
             icon: previewUrl,
             prompt: `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation and how the text addresses the target audience:
             "${exampleText}"
-            The content of quoted text doesn't matter, your only job is to remember the writing style of the author to use it for writing it.
-            Now that you are inspired by the tone of voice`,
+            The content of quoted text doesn't matter, your only job is to closely examine and learn the writing style and vibe of the author to use it for your writing.
+            Now that you are capable of writing exactly in the above text style, please `,
             workspace: localStorage.getItem("workspace"),
           }, 
           {
