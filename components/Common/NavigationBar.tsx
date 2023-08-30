@@ -9,6 +9,7 @@ import {
   BsFillFileTextFill,
   BsFillArchiveFill,
   BsMegaphoneFill,
+  BsFillMortarboardFill,
 } from "react-icons/bs";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -49,25 +50,28 @@ const tabs = [
     path: "/prompts",
     id: "navbar-prompts",
   },
-  // {
-  //   title: "Campaigns",
-  //   icon: <BsMegaphoneFill style={{ height: "100%", width: "auto" }} />,
-  //   path: "/campaign",
-  //   id: "navbar-campaign",
-  // },
 
-  // {
-  //   title: "Pomysły",
-  //   icon: <BsLightbulbFill style={{ height: "100%", width: "auto" }} />,
-  //   path: "/ideacreator",
-  //   id: "navbar-idea-creator",
-  // },
 ];
+
+const bottomTabs = [
+  {
+    title: "Lab",
+    icon: <BsFillMortarboardFill style={{ height: "100%", width: "auto" }} />,
+    path: "/lab",
+    id: "navbar-lab",
+  },
+  {
+    title: "Assets",
+    icon: <BsFillArchiveFill style={{ height: "100%", width: "auto" }} />,
+    path: "/assets",
+    id: "navbar-assets",
+  },
+]
 
 const animationVariants = {
   visible: {
     transition: { duration: 0.35, type: "spring" },
-    height: "85vh",
+    height: "100svh",
   },
   hidden: { height: "3.75rem" },
 };
@@ -266,34 +270,51 @@ const NavigationBar = () => {
         >
           {memoizedNavigationTabs}
           <ProfileContainer id="profile-tab">
-            {!pathname.includes("assets") && pathname !== "/" ? (
-              <CustomAIContainer>
-                <NavigationTab
-                  country={country}
-                  hover={isHovered}
-                  title="Assets"
-                  onClick={() => router.push(`/assets`)}
-                >
-                  <NavigationIcon>
-                    <BsFillArchiveFill
-                      style={{ height: "100%", width: "auto" }}
-                    />
-                  </NavigationIcon>
-                  {isHovered && <NavigationText>Assets</NavigationText>}
-                </NavigationTab>
-              </CustomAIContainer>
-            ) : (
-              <CustomAIContainer>
+          {bottomTabs.map((tab) => (
+          <div id={tab.id} key={tab.id}>
+            {!(tab.path.includes(pathname) && pathname !== "/") ? (
+              mobile ? (
+                <>
+                  <SlideBottom>
+                    <NavigationTab
+                      country={country}
+                      hover={isHovered}
+                      title={tab.title}
+                      onClick={() => handleTabClick(tab.path)}
+                    >
+                      <NavigationIcon>{tab.icon}</NavigationIcon>
+                      <NavigationText>{tab.title}</NavigationText>
+                    </NavigationTab>
+                  </SlideBottom>
+                </>
+              ) : (
+                <>
+                  <NavigationTab
+                    country={country}
+                    hover={isHovered}
+                    title={tab.title}
+                    onClick={() => handleTabClick(tab.path)}
+                  >
+                    <NavigationIcon>{tab.icon}</NavigationIcon>
+                    {isHovered && <NavigationText>{tab.title}</NavigationText>}
+                  </NavigationTab>
+                </>
+              )
+            ) : mobile ? (
+              <SlideBottom>
                 <SelectedNavigationTab hovered={isHovered}>
-                  <SelectedNavigationIcon>
-                    <BsFillArchiveFill
-                      style={{ height: "100%", width: "auto" }}
-                    />
-                  </SelectedNavigationIcon>
-                  {isHovered && <NavigationText>Assets</NavigationText>}
+                  <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
+                  <SelectedNavigationText>{tab.title}</SelectedNavigationText>
                 </SelectedNavigationTab>
-              </CustomAIContainer>
+              </SlideBottom>
+            ) : (
+              <SelectedNavigationTab hovered={isHovered}>
+                <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
+                {isHovered && <NavigationText>{tab.title}</NavigationText>}
+              </SelectedNavigationTab>
             )}
+          </div>
+          ))}
             <NameContainer
               hover={isHovered}
               onClick={(e) => router.push("/profile")}

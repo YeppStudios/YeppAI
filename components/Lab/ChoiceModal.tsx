@@ -150,12 +150,14 @@ const ChoiceTitle = styled.h3`
     width: 100%;
     font-weight: 500;
     text-align: center;
+    color: black;
     margin-top: 1rem;
 `
 
 const ChoiceIcon = styled.div`
     width: 100%;
     height: 3rem;
+    color: black;
 `
 
 const ChoiceDescription = styled.p`

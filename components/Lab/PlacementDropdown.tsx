@@ -53,7 +53,7 @@ export const PlacementDropdown: FC<PlacementDropdownProps> = ({
 
   return (
     <div
-      className="flex justify-between items-center border border-slate-300 shadow-xl py-2 px-[1.5vw] rounded-2xl w-full  h-full relative"
+      className="flex justify-between items-center border border-slate-200 shadow-xl py-2 px-[1.5vw] rounded-2xl w-full  h-full relative"
       onClick={() => setIsDropdownOpen((prev) => !prev)}
       ref={dropdownRef}
     >

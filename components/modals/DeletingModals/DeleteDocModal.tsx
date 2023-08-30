@@ -42,6 +42,18 @@ const DeleteDoc = (props: {
                             Authorization: localStorage.getItem("token")
                         }
                     })
+                } else if (props.assetType === "persona") {
+                    await api.delete(`/persona/${props.document._id}`, {
+                        headers: {
+                            Authorization: localStorage.getItem("token")
+                        }
+                    })
+                } else if (props.assetType === "tone of voice") {
+                    await api.delete(`/tone/${props.document._id}`, {
+                        headers: {
+                            Authorization: localStorage.getItem("token")
+                        }
+                    })
                 } else {
                     await api.delete(`/user/${user._id}/delete-document/${props.document.vectorId}`, {
                         headers: {

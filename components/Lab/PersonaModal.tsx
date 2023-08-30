@@ -321,7 +321,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
             const personaJSON = JSON.parse(generalJSONCompletion.data.completion);
             setPersonaGeneralInfo(personaJSON);
             generatePersonaDescription(personaJSON);
-            setPreviewUrl(`https://ui-avatars.com/api/?background=random&name=${personaJSON.fullName.split(' ').join('+')}&size=128&background=E6EAF2&color=ffffff`)
+            setPreviewUrl(`https://ui-avatars.com/api/?background=random&name=${personaJSON.fullName.split(' ').join('+')}&size=128&background=CBD3DF&color=ffffff`)
             setPersonaLoading(false);
             setStep("persona");
             // if (links.length > 0) {
@@ -349,13 +349,20 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
 
     const savePersona = async () => {
         setSaving(true);
+        let imageURL = `https://ui-avatars.com/api/?background=random&name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=DCDCDC&color=ffffff`;
+        if(image) {
+            const subdomain = 'https://asystentai.infura-ipfs.io';
+            const ipfsImage = await client.add({ content: image });
+            imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
+        }
         try {
             await api.post("/save-persona", {
                 title: name || personaGeneralInfo.fullName,
-                icon: previewUrl || `https://ui-avatars.com/api/?background=random&name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=E6EAF2&color=ffffff`,
+                icon: imageURL,
                 prompt: `The content should be interesing for our persona: ${personaDescription}. 
-                Do not address this persona directly as it is our imagined persona that will help you better understand the needs and painpoints of our target audience.`,
+                Do not address this persona directly as it is our imagined persona that will help you better understand the needs and painpoints of our target audience. Now that you understand the persona, please`,
                 workspace: localStorage.getItem("workspace"),
+                base_text: personaDescription
             },
             {
                 headers: {
@@ -374,7 +381,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
     return (
         <ModalBackground>
             {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
-            <SlideBottom>
+            <div>
             <Container onClick={(e) => e.stopPropagation()}>
                 <CloseIcon onClick={props.onClose}>
                     <MdOutlineClose style={{width: "100%", height: "auto"}}/>
@@ -681,7 +688,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                 </div>
                 }
             </Container>
-            </SlideBottom>
+            </div>
         </ModalBackground>
     )
 }
@@ -689,40 +696,42 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
 export default PersonaModal;
 
 const ModalBackground = styled.div`
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    flex-wrap: wrap;
-    backdrop-filter: blur(7px);
-    z-index: 100;
-    padding-top: 3rem;
-    padding-bottom: 5rem;
-    left: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    overflow: scroll;
-        &::-webkit-scrollbar {
-        display: none;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    color: black;
-    @media (max-width: 1023px) {
-        border-top-right-radius: 20px;
-        border-top-left-radius: 20px;
-        width: 100vw;
-        overflow-x: hidden;
-    }
+width: 100%;
+overflow-y: auto;
+min-height: 100vh;
+max-height: 100vh;
+position: fixed;
+padding: 3rem 0rem 8rem 0rem;
+flex-wrap: wrap;
+backdrop-filter: blur(10px);
+z-index: 100;
+top: 0;
+transform: will-change;
+left: 0;
+display: flex;
+justify-content: center;
+cursor: pointer;
+    &::-webkit-scrollbar {
+    display: none;
+}
+-ms-overflow-style: none;
+scrollbar-width: none;
+color: black;
+@media (max-width: 1023px) {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    width: 100vw;
+    overflow-x: hidden;
+}
 `
 
 const Container = styled.div`
     width: 37rem;
     padding: 1rem 0rem 0rem 0rem;
     background: white;
+    will-change: transform;
     position: relative;
-    box-shadow: 3px 3px 25px 3px rgba(0, 0, 150, 0.1);
+    box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.15);
     border-radius: 25px;
     cursor: auto;
     z-index: 100;
@@ -730,7 +739,7 @@ const Container = styled.div`
     @media (max-width: 1023px) {
         width: 90vw;
         padding: 4vh 5vw 5vh 5vw;
-        box-shadow: 3px 3px 25px 3px rgba(0, 0, 150, 0.1);
+        box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.15);
     }
 `
 
@@ -805,7 +814,6 @@ const ButtonContainer = styled.div`
 const WordCounter = styled.p`
     text-align: right;
     margin-right: 0.5rem;
-    margin-top: 0.5rem;
     color: #A0AEC0;
 `
 

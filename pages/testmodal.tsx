@@ -1,4 +1,4 @@
-import ChoiceModal from "@/components/Tone/modals/ChoiceModal";
+import ChoiceModal from "@/components/Lab/ChoiceModal";
 import PersonaModal from "@/components/Tone/modals/PersonaModal";
 import ToneModal from "@/components/Tone/modals/ToneModal";
 import { useState } from "react";

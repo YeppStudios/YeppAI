@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import Input from "@/components/forms/Input";
 import Image from "next/image";
 import { IoChevronBack, IoRefreshOutline } from "react-icons/io5";
-import ToneDropdown from "@/components/Tone/modals/ToneDropdown";
+import ToneDropdown from "@/components/Lab/ToneDropdown";
 import { BlueLoader, Loader } from "@/components/Common/Loaders";
 import Centered from "@/components/Centered";
 import moment from 'moment';
@@ -292,16 +292,23 @@ const ToneModal = (props: {onClose: any}) => {
         if (!exampleText) {
           return
         }
+        let imageURL = "";
+        if(image) {
+          const subdomain = 'https://asystentai.infura-ipfs.io';
+          const ipfsImage = await client.add({ content: image });
+          imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
+        }
         setSaving(true);
         try {
           await api.post("/save-tone", {
             title,
-            icon: previewUrl,
+            icon: imageURL,
             prompt: `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation and how the text addresses the target audience:
             "${exampleText}"
             The content of quoted text doesn't matter, your only job is to closely examine and learn the writing style and vibe of the author to use it for your writing.
             Now that you are capable of writing exactly in the above text style, please `,
             workspace: localStorage.getItem("workspace"),
+            base_text: exampleText,
           }, 
           {
             headers: {
@@ -445,7 +452,10 @@ const ToneModal = (props: {onClose: any}) => {
             {step === 2  &&
               <Container>
                     <ModalTitle>
-                        Save your persona
+                    <div className="flex items-center">
+                    <IoChevronBack className="mr-4" onClick={() =>  setStep(1)}/>
+                     Save it for later
+                    </div>
                     </ModalTitle>
                     <Centered>
                     <div className="flex flex-wrap justify-center w-8/12">
@@ -485,33 +495,35 @@ export default ToneModal;
 
 
 const ModalBackground = styled.div`
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    flex-wrap: wrap;
-    backdrop-filter: blur(7px);
-    z-index: 100;
-    padding-top: 3rem;
-    padding-bottom: 5rem;
-    left: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    overflow: scroll;
-        &::-webkit-scrollbar {
-        display: none;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    color: black;
-    @media (max-width: 1023px) {
-        border-top-right-radius: 20px;
-        border-top-left-radius: 20px;
-        width: 100vw;
-        overflow-x: hidden;
-    }
+width: 100%;
+overflow-y: auto;
+min-height: 100vh;
+max-height: 100vh;
+position: fixed;
+padding: 3rem 0rem 8rem 0rem;
+flex-wrap: wrap;
+backdrop-filter: blur(10px);
+z-index: 100;
+top: 0;
+transform: will-change;
+left: 0;
+display: flex;
+justify-content: center;
+cursor: pointer;
+    &::-webkit-scrollbar {
+    display: none;
+}
+-ms-overflow-style: none;
+scrollbar-width: none;
+color: black;
+@media (max-width: 1023px) {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    width: 100vw;
+    overflow-x: hidden;
+}
 `
+
 const Container = styled.div`
     width: 37rem;
     padding: 1rem 0rem 2.5rem 0rem;
