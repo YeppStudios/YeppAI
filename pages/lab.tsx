@@ -541,7 +541,7 @@ const LabPage = () => {
                   name={currentSample.title}
                 />
                 <div className="flex h-full items-center">
-                  <button className="flex items-center  justify-center py-2 px-[2vw]  rounded-2xl bg-[#EFF1F5]">
+                  <button onClick={() => router.push("/marketing")} className="flex items-center  justify-center py-2 px-[2vw]  rounded-2xl bg-[#EFF1F5]">
                     <GradientText style={{ fontSize: "1rem" }}>
                       Try now
                     </GradientText>

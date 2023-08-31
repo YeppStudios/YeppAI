@@ -293,7 +293,7 @@ const ToneModal = (props: {onClose: any}) => {
           return
         }
         let imageURL = "";
-        if(image) {
+        if (image) {
           const subdomain = 'https://asystentai.infura-ipfs.io';
           const ipfsImage = await client.add({ content: image });
           imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
