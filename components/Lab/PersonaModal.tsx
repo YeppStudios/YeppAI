@@ -317,7 +317,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
             const personaJSON = JSON.parse(generalJSONCompletion.data.completion);
             setPersonaGeneralInfo(personaJSON);
             generatePersonaDescription(personaJSON);
-            setPreviewUrl(`https://ui-avatars.com/api/?background=random&name=${personaJSON.fullName.split(' ').join('+')}&size=128&background=CBD3DF&color=ffffff`)
+            setPreviewUrl(`https://ui-avatars.com/api/?background=random&name=${personaJSON.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`)
             setPersonaLoading(false);
             setStep("persona");
             // if (links.length > 0) {
@@ -345,7 +345,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
 
     const savePersona = async () => {
         setSaving(true);
-        let imageURL = `https://ui-avatars.com/api/?background=random&name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=DCDCDC&color=ffffff`;
+        let imageURL = `https://ui-avatars.com/api/?background=random&name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
         if(image) {
             const subdomain = 'https://asystentai.infura-ipfs.io';
             const ipfsImage = await client.add({ content: image });
