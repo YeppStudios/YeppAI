@@ -95,6 +95,7 @@ import {
     "Spanish",
     "French",
     "Italian",
+    "Portuguese",
     "German",
     "Ukrainian",
     "Polish",

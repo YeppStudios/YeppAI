@@ -35,7 +35,7 @@ const client = create({
   },
 });
 const fileTypes = ["JPG", "PNG", "HEIC", "JPEG"];
-const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
+const languages = [ "English", "Spanish", "French", "Italian", "German", "Portuguese", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')

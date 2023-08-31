@@ -33,7 +33,7 @@ interface TextArea {
     height: string;
 }
 
-const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
+const languages = [ "English", "Spanish", "French", "Portuguese", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 const count = [1, 3, 5]
 const types = ["Product", "Service", "Event", "Feature"]
 const googleTypes = ["Blog", "Landing page", "Product", "Article", "Ranking"]

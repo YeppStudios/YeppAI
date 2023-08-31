@@ -26,6 +26,7 @@ const languages = [
   "Spanish",
   "French",
   "Italian",
+  "Portuguese",
   "German",
   "Ukrainian",
   "Polish",

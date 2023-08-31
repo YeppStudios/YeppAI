@@ -35,7 +35,7 @@ interface TextArea {
     height: string;
 }
 
-const languages = [ "English", "Spanish", "French", "Italian", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
+const languages = [ "English", "Spanish", "French", "Italian", "Portuguese", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 
 const FrameworkCreationPage = ({back, query, template}: any) => {
 
