@@ -30,6 +30,7 @@ import { BsTrash } from "react-icons/bs";
 import DeleteDoc from "@/components/Modals/DeletingModals/DeleteDocModal";
 import { useRouter } from "next/router";
 import { set } from "lodash";
+import Head from "next/head";
 
 interface ProfileProps {
   _id: string;
@@ -387,6 +388,13 @@ const LabPage = () => {
 
   return (
     <PageTemplate>
+      <Head>
+        <title>Lab | Yepp AI</title>
+        <meta
+          name="description"
+          content="Teach AI your tone of voice and define your ideal persona."
+        />
+      </Head>
       {(currentModal === "choice" && openModal) &&
           <ChoiceModal onClose={() => setOpenModal(false)} setNextModal={setCurrentModal}/>
       }
