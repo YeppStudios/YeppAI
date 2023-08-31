@@ -26,6 +26,8 @@ import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
 import { Switch } from "@headlessui/react";
+import ToneDropdown from "@/components/forms/ToneDropdown";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
 
 interface InputContainer {
   width: string;
@@ -35,13 +37,14 @@ interface TextArea {
   height: string;
 }
 
-const tones = [
-  "Formal 💼",
-  "Friendly 😊",
-  "Informative 📃",
-  "Persuasive 🫵🏼",
-  "Motivational 📈",
+const toneList = [
+  {title: "Formal", icon: "💼"},
+  {title: "Friendly", icon: "😊"},
+  {title: "Informative", icon: "📚"},
+  {title: "Persuasive", icon: "🫵🏼"},
+  {title: "Motivational", icon: "📈"},
 ];
+
 const languages = [
   "English",
   "Spanish",
@@ -54,13 +57,12 @@ const languages = [
   "Bulgarian",
   "Russian",
 ];
-const emojiRegex =
-  /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E6}-\u{1F1FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{1F600}-\u{1F64F}\u{1F900}-\u{1F9FF}\u{1F300}-\u{1F5FF}]/gu;
 
 const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [completionLength, setCompletionLength] = useState(150);
-  const [postType, setPostType] = useState("Advertisement");
-  const [tone, setTone] = useState("Friendly 😊");
+  const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
+  const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
+  const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
   const [about, setAbout] = useState("");
   const [language, setLanguage] = useState("English");
   const [targetAudience, setTargetAudience] = useState("");
@@ -71,32 +73,88 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [mobile, setMobile] = useState(false);
   const [inputError, setInputError] = useState(false);
   const [enableEmojis, setEnableEmojis] = useState(true);
+  const [tones, setTones] = useState<any[]>([]);
+  const [personas, setPersonas] = useState<any[]>([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     if (window.innerWidth < 1023) {
       setMobile(true);
     }
     if (localStorage.getItem("country") === "Poland") {
       setLanguage("Polish");
     }
+
+    const fetchTonesAndPersonas = async () => {
+      try {
+        const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setTones([...toneResponse.data, ...toneList]);
+        const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setPersonas(personaResponse.data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    fetchTonesAndPersonas();
   }, []);
+
+  const handlePersonaChange = (title: string) => {
+    setTargetAudience(title);
+    try {
+      const persona = personas.find((p: any) => p.title === title);
+      if (persona.prompt) {
+        setSelectedPersonaPrompt(persona.prompt);
+      } else {
+        setSelectedPersonaPrompt("");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleToneChange = (title: string) => {
+    setSelectedToneTitle(title);
+    const tone = tones.find((t: any) => t.title === title);
+    if (tone.base_text) {
+      setSelectedToneBaseText(tone.base_text);
+    } else {
+      setSelectedToneBaseText("");
+    }
+  };
 
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setKey((prevKey) => prevKey + 1);
     setPrompt("");
     setLoading(true);
-    let replyLength = `Write it in less than ${completionLength} characters not a single more.`;
-
-    setPrompt(
-      `You are an experienced ${language} social media content creator that specializes in writing best performing ${query.type} bio. Write exactly 1 unique ${postType} bio for ${about} ${replyLength}
-      Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. Do not use hashtags.
-      The bio should draw attention of ${targetAudience}. Don't address the target audience directly, but rather speak within their interests and clearly describe the value we provide, so it sounds totally natural and makes people want to follow our profile. Make sure everything you write is correctly written in ${language} language.
-      ${enableEmojis
-          ? "Please use relevant emojis."
-          : "Do not use emojis."
-      }`
-    );
+    const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
+    if (selectedToneBaseText) {
+      setPrompt(`${personaText} Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
+      "${selectedToneBaseText}"
+      Now that you are capable of writing exactly in the above text style, please write unique ${query.type} bio for ${about} without using hashtags in ${language} language in this exact style. Mimic the tone to look 1:1 as if it was written by the author of the quoted text, but make sure it's unique. 
+      Return the ${query.type} bio content in ${language} that is no longer than ${completionLength} characters and uses learned tone of voice:
+      `)
+    } else {
+      setPrompt(`${personaText} Write exactly 1 unique ${query.type} bio for ${about}
+        Make sure to write it in ${selectedToneTitle} tone of voice. Do not use hashtags.
+        The bio should draw attention of ${targetAudience}. Don't address the target audience directly, but rather speak within their interests and clearly describe the value we provide, so it sounds totally natural and makes people want to follow our profile.
+        ${enableEmojis
+            ? "Please use relevant emojis."
+            : "Do not use emojis."
+        }
+        Return ${query.type} in ${language} language that follows the described guidelines in less than ${completionLength} characters long:
+        `
+      );
+    }
   };
 
   const handleToggleEmojis = () => {
@@ -164,27 +222,19 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
               </InputContainer>
               <InputContainer width="50%">
                 <Label>Tone of voice</Label>
-                <CustomDropdown
-                  id="tones"
-                  type="text"
-                  placeholder="Friendly 😊"
-                  required
-                  value={tone}
-                  values={tones}
-                  onChange={setTone}
-                />
+                <ToneDropdown
+                    values={tones}
+                    value={selectedToneTitle}
+                    onChange={handleToneChange}
+                  />
               </InputContainer>
               <InputContainer width="50%">
-                <Label>Target audience</Label>
-                <Input
-                  id="target-adience-field"
-                  height="2.7rem"
-                  padding="0.7rem"
-                  placeholder="marketing experts"
-                  value={targetAudience}
-                  onChange={(e) => setTargetAudience(e.target.value)}
-                  required
-                />
+                <Label>Target audience / persona</Label>
+                <PersonaDropdown
+                    values={personas}
+                    value={targetAudience}
+                    onChange={handlePersonaChange}
+                  />
               </InputContainer>
               <InputContainer width="50%">
                 <Label>Language</Label>
@@ -210,6 +260,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
                   required
                 />
               </InputContainer>
+              {!selectedToneBaseText &&
               <InputContainer width="42%">
               <div className="flex flex-wrap gap-1 ml-2 ">
                 <div className="w-full"><Label>Use relevant emojis</Label></div>
@@ -234,6 +285,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
                 </Switch>
               </div>
               </InputContainer>
+              }
               <div
                 style={{
                   width: "100%",

@@ -77,10 +77,6 @@ const markets = [
 
 const businessModels = ["B2B", "B2C", "B2B2C", "B2G", "P2P", "C2B"];
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
-
 const PersonaModal = (props: {onClose: any, currentModal: any}) => {
     const [personaDescription, setPersonaDescription] = useState("");
     const [step, setStep] = useState("");

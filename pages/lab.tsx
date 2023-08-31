@@ -304,7 +304,18 @@ const LabPage = () => {
 
     let reply = "";
     let model = "gpt-4";
-    let prompt = `${currentSample?.prompt} write unique ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language in this exact style. Mimic the tone to look 1:1 as if it was written by the author of the quoted text. Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters and uses learned tone of voice:`;
+    let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience: ${baseText} 
+    You never write about tanything the author mentioned in the example, your only job is to extract the tone of voice used by the author.
+    Now that you are capable of writing exactly in the above text style, please think of unique ${selectedTemplate?.title} explicitly about ${exampleAbout} in ${exampleLanguage} language. 
+    Mimic the tone to look 1:1 as if it was written by the author of the quoted text. Make sure you don't translate the example and always come up with something unique that is on point.
+    Return the unique ${selectedTemplate?.title} content that is no longer than ${length} characters total and uses learned tone of voice:`
+
+    if (currentSample?.type === "persona") {
+      prompt = `Please at the beginning closely analyze our persona: ${baseText}.
+      Do not address this persona directly as it is our imagined persona that will help you better understand the needs and painpoints of our target audience. Now that you understand the persona, please  write unique ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language that our persona would find interesting. 
+      Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters 
+      `
+    }
     let systemPrompt = `You are a ${exampleLanguage} native marketer. ${selectedMarketingAssistant.noEmbedPrompt}`;
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
@@ -766,12 +777,6 @@ const PageContainer = styled.div`
   &::-webkit-scrollbar {
       display: none;
   }
-  -webkit-mask: 
-  linear-gradient(to top,    black 97%, transparent) top   /100% 51%,
-  linear-gradient(to bottom, black 97%, transparent) bottom/100% 50%,
-  linear-gradient(to left  , black, transparent) left  /100% 0%,
-  linear-gradient(to right , black, transparent) right /100% 0%;
-  -webkit-mask-repeat:no-repeat;
   @media (max-width: 1023px) {
     height: 100vh;
     padding: 1rem;

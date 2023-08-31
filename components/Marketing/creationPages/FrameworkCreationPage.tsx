@@ -25,6 +25,7 @@ import api from "@/pages/api";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
 
 interface InputContainer {
     width: string;
@@ -41,6 +42,7 @@ const FrameworkCreationPage = ({back, query, template}: any) => {
     const [about, setAbout] = useState("");
     const [language, setLanguage] = useState("English");
     const [targetAudience, setTargetAudience] = useState("");
+    const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [formLoading, setFormLoading] = useState(true);
     const [name, setName] = useState("");
@@ -51,6 +53,7 @@ const FrameworkCreationPage = ({back, query, template}: any) => {
     const [title, setTitle] = useState('');
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [mobile, setMobile] = useState(false);
+    const [personas, setPersonas] = useState<any[]>([]);
 
     useEffect(() => {
         if (window.innerWidth < 1023) {
@@ -59,6 +62,22 @@ const FrameworkCreationPage = ({back, query, template}: any) => {
         if (localStorage.getItem("country") === "Poland") {
             setLanguage("Polish");
         }
+
+        let token = localStorage.getItem("token");
+        const fetchPersona = async () => {
+            try {
+              const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+                headers: {
+                  Authorization: token,
+                }
+              });
+              setPersonas(personaResponse.data);
+            } catch (e) {
+              console.log(e);
+            }
+          }
+      
+          fetchPersona();
     }, [])
     
     const generateContent = async (e: FormEvent<HTMLFormElement>) => {
@@ -66,22 +85,36 @@ const FrameworkCreationPage = ({back, query, template}: any) => {
         setKey((prevKey) => prevKey + 1);
         setPrompt("");
         setLoading(true);
+        const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
         if (template.title === "BAB Framework") {
-            setPrompt(`Act as a professional marketing consultant. Develop a Before-After bridge framework analysis that showcases how your ${name}- ${about} can benefit its customers. Start by identifying and describing the "before" state or situation - what are the current problems, challenges, and limitations that ${targetAudience} face in their day to day operations? Then, paint a clear picture of the "after" state, highlighting the benefits, capabilities, and improvements that ${name} brings to the table. Be detailed, precise, and articulate in your descriptions, explaining how specific features and functionalities of the platform alleviate pain points and enhance marketing performance. Lastly, provide comprehensive conclusion on how ${name} can have real impact on everyday life of ${targetAudience} and solve their problems. Make sure to write it in ${language} language.`)
+            setPrompt(`${personaText} Develop a Before-After bridge framework analysis that showcases how your ${name}- ${about} can benefit its customers. Start by identifying and describing the "before" state or situation - what are the current problems, challenges, and limitations that ${targetAudience} face in their day to day operations? Then, paint a clear picture of the "after" state, highlighting the benefits, capabilities, and improvements that ${name} brings to the table. Be detailed, precise, and articulate in your descriptions, explaining how specific features and functionalities of the platform alleviate pain points and enhance marketing performance. Lastly, provide comprehensive conclusion on how ${name} can have real impact on everyday life of ${targetAudience} and solve their problems. Make sure to write it in ${language} language.`)
         }
         if (template.title === "PAS Framework") {
-            setPrompt(`Act as a professional copywriter. Utilize the PAS (Problem-Agitate-Solve) formula to develop a comprehensive analysis of your ${name} product - ${about}. Begin by identifying the problem your product solves and address the pain points that customers may have before using it. 
+            setPrompt(`${personaText} Act as a professional copywriter. Utilize the PAS (Problem-Agitate-Solve) formula to develop a comprehensive analysis of your ${name} product - ${about}. Begin by identifying the problem your product solves and address the pain points that customers may have before using it. 
 
             Next, dig deep into the problems that ${targetAudience} faces and highlight the anxiety that can arise as a result of their lack of success. Use this opportunity to demonstrate how ${name} can help alleviate these problems by showing how it addresses those pain points. 
             
             Finally, present solutions by showing how ${name} is the answer to those problems. Highlight its superior features, reliability, ease of use, and other core benefits that set it apart from other similar products on the market. Through your PAS analysis, seek to position ${name} as a must-have product for any ${targetAudience}. Make sure to write it in ${language} language.`)
         }
         if (template.title === "AIDA Framework") {
-            setPrompt(`Act as a professional marketer. Conduct an AIDA (Attention, Interest, Desire, Action) analysis for ${name}, your ${about}, which target audience are ${targetAudience}. To start, analyze each stage of the AIDA model, beginning with Attention. Come up with creative ideas on how to grab your target customers' attention. Once the customer is hooked, focus on creating interest by highlighting the benefits and features of the ${name}, emphasizing how it solves the ${targetAudience} pain points and problems. Next, create a desire by using persuasive language and promoting how ${name} can make a notable difference for ${targetAudience}. And lastly, devise a strategy that encourages the customer to take the necessary action(s). This includes providing clear calls to action, demonstrating the product's or company's usability and results, and building trust with potential customers. Make sure to write it in ${language} language.`)
+            setPrompt(`${personaText} Act as a professional marketer. Conduct an AIDA (Attention, Interest, Desire, Action) analysis for ${name}, your ${about}, which target audience are ${targetAudience}. To start, analyze each stage of the AIDA model, beginning with Attention. Come up with creative ideas on how to grab your target customers' attention. Once the customer is hooked, focus on creating interest by highlighting the benefits and features of the ${name}, emphasizing how it solves the ${targetAudience} pain points and problems. Next, create a desire by using persuasive language and promoting how ${name} can make a notable difference for ${targetAudience}. And lastly, devise a strategy that encourages the customer to take the necessary action(s). This includes providing clear calls to action, demonstrating the product's or company's usability and results, and building trust with potential customers. Make sure to write it in ${language} language.`)
         }
         setTitle(template.title)
     }
 
+    const handlePersonaChange = (title: string) => {
+        setTargetAudience(title);
+        try {
+            const persona = personas.find((p: any) => p.title === title);
+            if (persona.prompt) {
+              setSelectedPersonaPrompt(persona.prompt);
+            } else {
+              setSelectedPersonaPrompt("");
+            }
+          } catch (e) {
+            console.log(e);
+          }
+    };
     return (
         <PageContent>
             {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
@@ -155,16 +188,12 @@ const FrameworkCreationPage = ({back, query, template}: any) => {
                         </InputContainer>
                         <InputContainer width="100%">
                             <Label>
-                                Target audience
+                                Target audience / persona
                             </Label>
-                            <Input
-                                id="target-adience-field"
-                                height= "2.6rem"
-                                padding="0.5rem"
-                                placeholder="marketing experts"
+                            <PersonaDropdown
+                                values={personas}
                                 value={targetAudience}
-                                onChange={(e) => setTargetAudience(e.target.value)}
-                                required
+                                onChange={handlePersonaChange}
                             />
                         </InputContainer>
                         <div style={{width: "100%", display: "flex", justifyContent: "center"}}>

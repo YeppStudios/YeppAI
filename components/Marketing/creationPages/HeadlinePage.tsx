@@ -23,6 +23,8 @@ import FoldersDropdown from "@/components/forms/FolderDropdown";
 import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
 import Input from "@/components/forms/Input";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
+import api from "@/pages/api";
 interface InputContainer {
     width: string;
 }
@@ -52,6 +54,8 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
     const [key, setKey] = useState(0);
     const [title, setTitle] = useState('');
     const [mobile, setMobile] = useState(false);
+    const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
+    const [personas, setPersonas] = useState<any[]>([]);
 
     useEffect(() => {
         if (window.innerWidth < 1023) {
@@ -60,13 +64,28 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
         if (localStorage.getItem("country") === "Poland") {
             setLanguage("Polish");
         }
+        let token = localStorage.getItem("token");
+        const fetchPersona = async () => {
+            try {
+              const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+                headers: {
+                  Authorization: token,
+                }
+              });
+              setPersonas(personaResponse.data);
+            } catch (e) {
+              console.log(e);
+            }
+          }
+      
+          fetchPersona();
     }, [])
 
     const generateContent = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setKey((prevKey) => prevKey + 1);
         setLoading(true);
-
+        const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
         let length = "28"
         if (template.title === "Facebook Ad Headline") {
             length = "38";
@@ -83,7 +102,7 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
             keywordsPrompt = `Firstly please closely analyze these keywords and include some only if they really fit in: ${keywords}.`
         }
 
-        setPrompt(`You are a professional ${language} ${template.title} copywriter. 
+        setPrompt(`${personaText} Act as a professional ${language} ${template.title} copywriter. 
         Your end goal is to create exactly ${examplesNumber} unique ${template.title} for "${about}". ${keywordsPrompt}
         Next ensure that each header is less than exactly ${length} characters long- not even a single character more and and is written in ${language} language. 
         Next off make sure it is strictly compliant with ${template.title} guidelines and encourages users to engage with the ${type.toLowerCase()}. 
@@ -91,10 +110,23 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
         Once you have a deep understanding of the audience, come up with ${examplesNumber} compelling and catchy headlines that will grab their attention and entice them to click. 
         Avoid making false promises and ensure that the header accurately reflect what ${type.toLowerCase()} has to offer. 
         You NEVER use emojis as you think there is no place for them in ${template.title}.`)
-        console.log(prompt)
-
     }
     
+    const handlePersonaChange = (title: string) => {
+        setTargetAudience(title);
+        try {
+            const persona = personas.find((p: any) => p.title === title);
+            if (persona.prompt) {
+              setSelectedPersonaPrompt(persona.prompt);
+            } else {
+              setSelectedPersonaPrompt("");
+            }
+          } catch (e) {
+            console.log(e);
+          }
+      };
+
+
     return (
         <PageContent>
             {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
@@ -170,7 +202,7 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
                             />
                         </InputContainer>
                         :
-                        <InputContainer width="100%">
+                        <InputContainer width="50%">
                             <Label>
                                 What is it about?
                             </Label>
@@ -188,16 +220,12 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
                         }
                         <InputContainer width="50%">
                             <Label>
-                                Target audience
+                                Target audience / persona
                             </Label>
-                            <Input
-                                id="target-adience-field"
-                                height= "2.6rem"
-                                padding="0.5rem"
-                                placeholder="marketing experts"
+                            <PersonaDropdown
+                                values={personas}
                                 value={targetAudience}
-                                onChange={(e) => setTargetAudience(e.target.value)}
-                                required
+                                onChange={handlePersonaChange}
                             />
                         </InputContainer>
                         <InputContainer width="100%">
@@ -225,7 +253,6 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
                                 placeholder="marketing, ai, generative ai"
                                 value={keywords}
                                 onChange={(e) => setKeywords(e.target.value)}
-                                required
                             />
                         </InputContainer>
                         <div style={{width: "100%", display: "flex", justifyContent: "center"}}>

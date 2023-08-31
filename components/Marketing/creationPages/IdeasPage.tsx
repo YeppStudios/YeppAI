@@ -23,6 +23,7 @@ import { selectedPlanState } from "@/store/planSlice";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
 
 const languages = [
   "English",
@@ -51,6 +52,9 @@ const IdeaCreator = ({back, query, template}: any) => {
   const [key, setKey] = useState(0);
   const [targetAudience, setTargetAudience] = useState("");
   const [language, setLanguage] = useState("English");
+  const [tones, setTones] = useState<any[]>([]);
+  const [personas, setPersonas] = useState<any[]>([]);
+  const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
 
   useEffect(() => {
     if(window.innerWidth <= 1023){
@@ -70,33 +74,62 @@ const IdeaCreator = ({back, query, template}: any) => {
             setUserElixir(elixirResponse.data.balance)
         }
         fetchUserElixir();
+
+        const fetchPersona = async () => {
+          try {
+            const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+              headers: {
+                Authorization: token,
+              }
+            });
+            setPersonas(personaResponse.data);
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        fetchPersona();
   }, []);
 
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setKey((prevKey) => prevKey + 1);
     setLoading(true);
+    const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
     if (query.page === "hashtags") {
-      setPrompt(`Act as a hashtag generator. Come up with ${numberOfIdeas} excellent hashtags for ${idea}. Ensure each hashtag is specific, well-considered, feasible but generic enough for people to casually search it. Try to think outside the box, and craft on the best performing ${template.title}. Finally, provide only a comprehensive list of just ${numberOfIdeas} simple hashtags perfectly suited for the niche and ${targetAudience} target audience. Make sure the ideas are written correctly in ${language} language.`);
+      setPrompt(`${personaText} Act as a hashtag generator. Come up with ${numberOfIdeas} excellent hashtags for ${idea}. Ensure each hashtag is specific, well-considered, feasible but generic enough for people to casually search it. Try to think outside the box, and craft on the best performing ${template.title}. Finally, provide only a comprehensive list of just ${numberOfIdeas} simple hashtags perfectly suited for the niche and ${targetAudience} target audience. Make sure the ideas are written correctly in ${language} language.`);
     } else if (template.title === "Video Ideas") {
-      setPrompt(`Please as an experienced, creative YouTuber come up with ${numberOfIdeas} excellent YouTube video ideas for ${idea}. Ensure each suggestion is specific, well-considered, and feasible. Try to think outside the box, and build on the original concept of ${idea}. Consider various angles, scenarios, and applications that could be utilized in different contexts. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries to capture the attention of ${targetAudience}. Finally, provide a comprehensive summary of each YouTube video idea as a numbered list, highlighting the title, key scenes, outline, and potential impact. Make sure the ideas are written correctly in ${language} language.`)
+      setPrompt(`${personaText} Act as an experienced, creative YouTuber come up with ${numberOfIdeas} excellent YouTube video ideas for ${idea}. Ensure each suggestion is specific, well-considered, and feasible. Try to think outside the box, and build on the original concept of ${idea}. Consider various angles, scenarios, and applications that could be utilized in different contexts. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries to capture the attention of ${targetAudience}. Finally, provide a comprehensive summary of each YouTube video idea as a numbered list, highlighting the title, key scenes, outline, and potential impact. Make sure the ideas are written correctly in ${language} language.`)
     } else if (template.title === "TikTok hooks") {
-      setPrompt(`Please as an experienced, viral and creative TikToker come up with ${numberOfIdeas} excellent TikTok hook ideas for ${idea}. Ensure each suggestion is specific, well-considered, and feasible. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries to get the precious attention of ${targetAudience} immediately. Finally, provide a comprehensive numbered list of each viral TikTok hooks with potential TikTok content description. Make sure the ideas are written correctly in ${language} language.`)
+      setPrompt(`${personaText} Act as an experienced, viral and creative TikToker come up with ${numberOfIdeas} excellent TikTok hook ideas for ${idea}. Ensure each suggestion is specific, well-considered, and feasible. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries to get the precious attention of ${targetAudience} immediately. Finally, provide a comprehensive numbered list of each viral TikTok hooks with potential TikTok content description. Make sure the ideas are written correctly in ${language} language.`)
     } else if (template.title === "Subject Lines") {
-      setPrompt(`Please as an experienced and creative email marketer come up with ${numberOfIdeas} excellent email title ideas for ${idea}. Ensure each title is specific, well-considered, feasible and worth the ${targetAudience} attention. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries to get the precious attention of the audience immediately. Finally, provide a comprehensive numbered list of each viral TikTok hooks with potential TikTok content description. Make sure the ideas are written correctly in ${language} language.`)
+      setPrompt(`${personaText} Act as an experienced and creative email marketer come up with ${numberOfIdeas} excellent email title ideas for ${idea}. Ensure each title is specific, well-considered, feasible and worth the ${targetAudience} attention. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries to get the precious attention of the audience immediately. Finally, provide a comprehensive numbered list of each viral TikTok hooks with potential TikTok content description. Make sure the ideas are written correctly in ${language} language.`)
     } else if (template.title === "Google Ads Keywords") {
-      setPrompt(`Please as Google Keywords Planner come up with ${numberOfIdeas} excellent keyword ideas for ${idea}. Ensure each keyword matches the topic, has high chance of good conversion, has a good search/competition ratio and will rank well on Google. Make sure it is worth the ${targetAudience} attention. Make sure the keywords are written correctly in ${language} language. Respond with numbered list of keywords. Make sure they are no longer than 30 characters and strictly follow Google Ads guidelines. Make sure these are keywords, not the entire headlines. Do not quote them.`)
+      setPrompt(`${personaText} Act as Google Keywords Planner come up with ${numberOfIdeas} excellent keyword ideas for ${idea}. Ensure each keyword matches the topic, has high chance of good conversion, has a good search/competition ratio and will rank well on Google. Make sure it is worth the ${targetAudience} attention. Make sure the keywords are written correctly in ${language} language. Respond with numbered list of keywords. Make sure they are no longer than 30 characters and strictly follow Google Ads guidelines. Make sure these are keywords, not the entire headlines. Do not quote them.`)
     } else {
-      setPrompt(`Act as a ${language} idea generator. Come up with ${numberOfIdeas} excellent ideas for ${idea}. Ensure each suggestion is specific, well-considered, and feasible. Try to think outside the box, and build on the original concept of ${idea}. Consider various angles, scenarios, and applications that could be utilized in different contexts. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries. Finally, provide a comprehensive summary of each idea, highlighting the key features, benefits, and potential impact. Make sure that all ideas are written correctly in ${language} language.`);
+      setPrompt(`${personaText} Act as a ${language} idea generator. Come up with ${numberOfIdeas} excellent ideas for ${idea}. Ensure each suggestion is specific, well-considered, and feasible. Try to think outside the box, and build on the original concept of ${idea}. Consider various angles, scenarios, and applications that could be utilized in different contexts. Use your creativity and problem-solving skills to identify areas where ${idea} can be improved, modified, or taken beyond the existing conceptual boundaries. Finally, provide a comprehensive summary of each idea, highlighting the key features, benefits, and potential impact. Make sure that all ideas are written correctly in ${language} language.`);
     }
     
     setTitle(numberOfIdeas + " " + template.title)
 
-}
+  }
+
+  const handlePersonaChange = (title: string) => {
+    setTargetAudience(title);
+    try {
+      const persona = personas.find((p: any) => p.title === title);
+      if (persona.prompt) {
+        setSelectedPersonaPrompt(persona.prompt);
+      } else {
+        setSelectedPersonaPrompt("");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
         <PageContent>
-            {!mobile &&  
+            {!mobile &&
                 <BackBtn onClick={back}>
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
@@ -154,18 +187,14 @@ const IdeaCreator = ({back, query, template}: any) => {
                         </InputContainer>
                         {template.title !== "Creative Ideas" &&
                         <InputContainer width="50%">
-                        <Label>Target audience</Label>
-                            <Input
-                                id="idea-field"
-                                height= "2.8rem"
-                                padding="0.6rem"
-                                placeholder="marketing agencies..."
-                                value={targetAudience}
-                                onChange={(e) => setTargetAudience(e.target.value)}
-                                required
+                          <Label>Target audience / persona</Label>
+                          <PersonaDropdown
+                              values={personas}
+                              value={targetAudience}
+                              onChange={handlePersonaChange}
                             />
                         </InputContainer>
-                      }
+                        }
                         <InputContainer width="50%">
                           <Label>Language</Label>
                           <CustomDropdown

@@ -235,7 +235,7 @@ const ResultsContainer = (
           chunks.data.results[0].results.forEach((item: { text: string; }) => {
             context += item.text + " ";
           });
-          promptToSend = "Extra context that might(but also might not) help you better complete the task I will give you: " + context + ". Now, making sure you understand the context, without using too many facts from it, your task is to: " + promptToSend + " Answer: ";
+          promptToSend = "Analyze additional context: " + context + ". Now, understanding the context, but without relying too much on it, please " + promptToSend;
           // setEmbeddedDocuments(chunks.data.results[0].results);
           } catch (e) {
           }
@@ -295,8 +295,9 @@ const ResultsContainer = (
                   try {
                     const data = JSON.parse(jsonString);
                     if (data.content) {
-                      setContent((prevMessage) => prevMessage + data.content);
-                      reply += data.content;
+                      const contentWithoutQuotes = data.content.replace(/"/g, '');
+                      setContent((prevMessage) => prevMessage + contentWithoutQuotes);
+                      reply += contentWithoutQuotes;
                     }
                   } catch (error) {
                     console.error('Error parsing JSON:', jsonString, error);
@@ -441,8 +442,9 @@ const ResultsContainer = (
                 const data = JSON.parse(jsonString);
     
                 if (data.content) {
-                  setContent((prevMessage) => prevMessage + data.content);
-                  text += data.content;
+                  const contentWithoutQuotes = data.content.replace(/"/g, '');
+                  setContent((prevMessage) => prevMessage + contentWithoutQuotes);
+                  text += contentWithoutQuotes;
                 }
               } catch (error) {
                 console.error('Error parsing JSON:', jsonString, error);
