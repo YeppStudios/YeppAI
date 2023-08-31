@@ -19,7 +19,8 @@ const nextConfig = {
         "ipfs.io",
         'images.unsplash.com',
         'http://drive.google.com/uc',
-        "https://asystentai.infura-ipfs.io"
+        "https://asystentai.infura-ipfs.io",
+        "https://storage.googleapis.com"
       ],
       remotePatterns: [
         {
