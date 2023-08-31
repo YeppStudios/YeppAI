@@ -24,6 +24,8 @@ import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
 import { Switch } from "@headlessui/react";
+import ToneDropdown from "@/components/forms/ToneDropdown";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
 
 interface InputContainer {
   width: string;
@@ -34,12 +36,12 @@ interface TextArea {
 }
 
 const postTypes = ["Educational", "Informative", "Advertisement", "Lifestyle"];
-const tones = [
-  "Formal 💼",
-  "Friendly 😊",
-  "Informative 📃",
-  "Persuasive 🫵🏼",
-  "Motivational 📈",
+const toneList = [
+  {title: "Formal", icon: "💼"},
+  {title: "Friendly", icon: "😊"},
+  {title: "Informative", icon: "📚"},
+  {title: "Persuasive", icon: "🫵🏼"},
+  {title: "Motivational", icon: "📈"},
 ];
 const languages = [
   "English",
@@ -59,7 +61,10 @@ const emojiRegex =
 const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [completionLength, setCompletionLength] = useState(100);
   const [postType, setPostType] = useState("Advertisement");
-  const [tone, setTone] = useState("Friendly 😊");
+  const [tones, setTones] = useState<any[]>([]);
+  const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
+  const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
+  const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
   const [about, setAbout] = useState("");
   const [language, setLanguage] = useState("English");
   const [targetAudience, setTargetAudience] = useState("");
@@ -70,6 +75,8 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [mobile, setMobile] = useState(false);
   const [inputError, setInputError] = useState(false);
   const [enableEmojis, setEnableEmojis] = useState(true);
+  const [personas, setPersonas] = useState<any[]>([]);
+
 
   useEffect(() => {
     if (localStorage.getItem("country") === "Poland") {
@@ -84,7 +91,53 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
         setCompletionLength(20);
       }
     }
+
+    let token = localStorage.getItem("token");
+    const fetchTonesAndPersonas = async () => {
+      try {
+        const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setTones([...toneResponse.data, ...toneList]);
+        const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setPersonas(personaResponse.data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    fetchTonesAndPersonas();
   }, []);
+
+  const handleToneChange = (title: string) => {
+    setSelectedToneTitle(title);
+    const tone = tones.find((t: any) => t.title === title);
+    if (tone.base_text) {
+      setSelectedToneBaseText(tone.base_text);
+    } else {
+      setSelectedToneBaseText("");
+    }
+  };
+
+  const handlePersonaChange = (title: string) => {
+    setTargetAudience(title);
+    try {
+      const persona = personas.find((p: any) => p.title === title);
+      if (persona.prompt) {
+        setSelectedPersonaPrompt(persona.prompt);
+      } else {
+        setSelectedPersonaPrompt("");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,38 +145,49 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     setPrompt("");
     setLoading(true);
     let replyLength = `Write it in just ${completionLength} words.`;
-
-    if (template.title === "LinkedIn-About Company") {
-      setPrompt(
-        `As an experienced LinkedIn specialist for you always write unique and novel company descriptions. 
-        Write exactly 1 unique about company section for ${about} ${replyLength} Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. 
-        The description should draw the attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and given type. Do not use hashtags. ${
-          enableEmojis
-            ? "Please use relevant emojis related to the topic."
-            : "Do not use emojis"
-        }`
-      );
-    } else if (template.title === "LinkedIn Ad Description") {
-      setPrompt(
-        `As an experienced LinkedIn specialist for you always write unique and novel ad descriptions. 
-        Write exactly 1 unique ad description- ${about}. Write it in up to 140 characters. Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. 
-        The description should draw the attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and given type. Do not use hashtags. ${
-          enableEmojis
-            ? "Please use relevant emojis related to the topic."
-            : "Do not use emojis"
-        }`
-      );
+    const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
+    if (selectedToneBaseText) {
+      setPrompt(`${personaText} Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
+      "${selectedToneBaseText}".
+      Now that you've learned to write exactly in the above style, please come up with unique ${template.title} specifically about "${about}". 
+      You are never influenced by the tasks, stats and informations given in the example text, you come up with your own, unique content for ${about} and mimic exactly the trained style.
+      It should resonate with ${targetAudience}, but do not adress them directly.
+      Return ready ${template.title} in ${language} that is no longer than ${completionLength} words in the exact style you learned:
+      `)
     } else {
-      setPrompt(
-        `As an experienced social media content creator for ${query.type} you always write unique and novel content. 
-        Write exactly 1 unique ${template.title} about ${about} ${replyLength} Make sure to write it in ${tone.replace(emojiRegex,"")} tone of voice. 
-        The post should draw the attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and post type. ${
-          enableEmojis
-            ? "Please use relevant emojis related to the topic."
-            : "Do not use emojis"
-        }`
-      );
+      if (template.title === "LinkedIn-About Company") {
+        setPrompt(
+          ` ${personaText} Act as an experienced LinkedIn specialist for you always write unique and novel company descriptions. 
+          Write exactly 1 unique about company section for ${about} ${replyLength} Make sure to write it in ${selectedToneTitle} tone of voice. 
+          The description should draw the attention of ${targetAudience} and sound totally natural and casual as if it was written by human. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and given type. Do not use hashtags. ${
+            enableEmojis
+              ? "Please use relevant emojis related to the topic."
+              : "Do not use emojis"
+          }`
+        );
+      } else if (template.title === "LinkedIn Ad Description") {
+        setPrompt(
+          `${personaText} act as an experienced LinkedIn specialist for you always write unique and novel ad descriptions. 
+          Write exactly 1 unique ad description- ${about}. Write it in up to 140 characters. Make sure to write it in ${selectedToneTitle} tone of voice. 
+          The description should draw the attention of ${targetAudience} and sound totally natural and casual as if it was written by human. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and given type. Do not use hashtags. ${
+            enableEmojis
+              ? "Please use relevant emojis related to the topic."
+              : "Do not use emojis"
+          }`
+        );
+      } else {
+        setPrompt(
+          `${personaText} Act as an experienced social media content creator for ${query.type} you always write unique and novel content. 
+          Write exactly 1 unique ${template.title} about ${about} ${replyLength} Make sure to write it in ${selectedToneTitle} tone of voice. 
+          The post should draw the attention of ${targetAudience} and should sound totally natural and casual as if it was written by human. Don't address the target audience directly, but rather speak within their interests. Make sure everything you write is in ${language} language. Appropriately adjust content to the audience group and post type. ${
+            enableEmojis
+              ? "Please use relevant emojis related to the topic."
+              : "Do not use emojis"
+          }`
+        );
+      }
     }
+
   };
 
   const handleToggleEmojis = () => {
@@ -211,14 +275,10 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
               }
               <InputContainer width="50%">
                 <Label>Tone of voice</Label>
-                <CustomDropdown
-                  id="tones"
-                  type="text"
-                  placeholder="Friendly 😊"
-                  required
-                  value={tone}
-                  values={tones}
-                  onChange={setTone}
+                <ToneDropdown
+                    values={tones}
+                    value={selectedToneTitle}
+                    onChange={handleToneChange}
                 />
               </InputContainer>
               <InputContainer width="50%">
@@ -235,16 +295,12 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
               </InputContainer>
               {template.title === "LinkedIn-About Company" &&
               <InputContainer width="50%">
-                <Label>Target audience</Label>
-                <Input
-                  id="target-adience-field"
-                  height="2.8rem"
-                  padding="0.7rem"
-                  placeholder="marketing experts"
-                  value={targetAudience}
-                  onChange={(e) => setTargetAudience(e.target.value)}
-                  required
-                />
+                <Label>Target audience / persona</Label>
+                <PersonaDropdown
+                    values={personas}
+                    value={targetAudience}
+                    onChange={handlePersonaChange}
+                  />
               </InputContainer>
               }
               <InputContainer width="100%">
@@ -271,18 +327,15 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
               </InputContainer>
               {template.title !== "LinkedIn-About Company" &&
               <InputContainer width="58%">
-                <Label>Target audience</Label>
-                <Input
-                  id="target-adience-field"
-                  height="2.8rem"
-                  padding="0.7rem"
-                  placeholder="marketing experts"
+              <Label>Target audience / persona</Label>
+              <PersonaDropdown
+                  values={personas}
                   value={targetAudience}
-                  onChange={(e) => setTargetAudience(e.target.value)}
-                  required
+                  onChange={handlePersonaChange}
                 />
-              </InputContainer>
+            </InputContainer>
               }
+              {!selectedToneBaseText &&
               <InputContainer width="42%">
               <div className="flex flex-wrap gap-1 ml-2 ">
                 <div className="w-full"><Label>Use relevant emojis</Label></div>
@@ -307,6 +360,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
                 </Switch>
               </div>
               </InputContainer>
+              }
               <div
                 style={{
                   width: "100%",

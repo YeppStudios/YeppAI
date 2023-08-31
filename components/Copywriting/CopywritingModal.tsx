@@ -588,7 +588,6 @@ const CopywritingModal = (props: {
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
           props.setConspect(completionJSON);
           try {
-            console.log(links);
             const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
               urls: [links[0]]
             }, {
@@ -596,7 +595,6 @@ const CopywritingModal = (props: {
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
               }
             });
-            console.log(scrapingResponse.data);
             props.setEmbeddedVectorIds(scrapingResponse.data.ids)
           } catch (e) {
             console.log(e);

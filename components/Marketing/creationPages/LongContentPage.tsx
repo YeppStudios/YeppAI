@@ -23,6 +23,9 @@ import { useSelector, useDispatch } from "react-redux";
 import FolderDropdown from "@/components/forms/FolderDropdown";
 import CustomDropdown from "@/components/forms/CustomDropdown";
 import Input from "@/components/forms/Input";
+import api from "@/pages/api";
+import ToneDropdown from "@/components/forms/ToneDropdown";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
 
 interface InputContainer {
   width: string;
@@ -33,13 +36,12 @@ interface TextArea {
 }
 
 const paragraphsCount = [1, 2, 3, 4, 5];
-const styles = [
-  "Formal 💼",
-  "Informal 😎",
-  "Friendly 😊",
-  "Informative 📃",
-  "Persuasive 🫵🏼",
-  "Motivational 📈",
+const toneList = [
+  {title: "Formal", icon: "💼"},
+  {title: "Friendly", icon: "😊"},
+  {title: "Informative", icon: "📚"},
+  {title: "Persuasive", icon: "🫵🏼"},
+  {title: "Motivational", icon: "📈"},
 ];
 const languages = [
   "English",
@@ -58,7 +60,9 @@ const LongFormPage = ({ back, query, template }: any) => {
   const [completionLength, setCompletionLength] = useState(700);
   const [paragraphCount, setParagraphCount] = useState(3);
   const [targetAudience, setTargetAudience] = useState("");
-  const [style, setStyle] = useState("Informal 😎");
+  const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
+  const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
+  const [tones, setTones] = useState<any[]>([]);
   const [topic, setTopic] = useState("");
   const [keywords, setKeywords] = useState("");
   const [prompt, setPrompt] = useState<string>();
@@ -72,6 +76,8 @@ const LongFormPage = ({ back, query, template }: any) => {
   const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [inputError, setInputError] = useState(false);
+  const [personas, setPersonas] = useState<any[]>([]);
+  const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
 
   useEffect(() => {
     if (window.innerWidth < 1023) {
@@ -84,20 +90,77 @@ const LongFormPage = ({ back, query, template }: any) => {
       if (template.title === "Newsletter") {
         setCompletionLength(200)
       } else if (template.title === "Marketing Email") {
-        setCompletionLength(150)
+        setCompletionLength(100)
       } else if (template.title === "Welcome Email") {
         setCompletionLength(50)
       }
     }
+
+    let token = localStorage.getItem("token");
+    const fetchTonesAndPersonas = async () => {
+      try {
+        const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setTones([...toneResponse.data, ...toneList]);
+        const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setPersonas(personaResponse.data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    fetchTonesAndPersonas();
   }, []);
+
+  const handleToneChange = (title: string) => {
+    setSelectedToneTitle(title);
+    const tone = tones.find((t: any) => t.title === title);
+    if (tone.base_text) {
+      setSelectedToneBaseText(tone.base_text);
+    } else {
+      setSelectedToneBaseText("");
+    }
+  };
+
+  const handlePersonaChange = (title: string) => {
+    setTargetAudience(title);
+    try {
+      const persona = personas.find((p: any) => p.title === title);
+      if (persona.prompt) {
+        setSelectedPersonaPrompt(persona.prompt);
+      } else {
+        setSelectedPersonaPrompt("");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+  };
 
   const generateContent = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setKey((prevKey) => prevKey + 1);
     setLoading(true);
     let replyLength = `Write it in just ${completionLength} words.`;
+    const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
+    if (selectedToneBaseText) {
+      setPrompt(`${personaText} Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
+      "${selectedToneBaseText}".
+      You only mimic the tone of voice to make the text look 1:1 as if it was written by the example author. You don't get influenced by the tasks, events, stats or anything mentioned in the example you use it only to remember tone.
+      Now that have learned the tone of voice, you can start writing your own ${template.title} only about "${topic}" nothing else.
+      It should resonate with ${targetAudience} and encorporate these keywords: ${keywords}.
+      Return unique, ready ${template.title} in ${language} that is no longer than ${completionLength} words in tone of voice you've learned.:
+      `)
+    } else {
       if (template.title === "Newsletter") {
-        setPrompt(`Act as a ${language.toLowerCase()} professional newsletter writer. Craft a creative and informative newsletter draft in ${style} tone of voice that captures the essence of ${topic}. 
+        setPrompt(`${personaText} Act as a ${language.toLowerCase()} professional newsletter writer. Craft a creative and informative newsletter draft in ${selectedToneTitle} tone of voice that captures the essence of ${topic}. 
         Begin by greeting ${targetAudience} and open the newsletter with a bold statement that will get their attention.
         Then analyze it and consider using these keywords: ${keywords}. The newsletter should be written in ${language} language that is accessible to the target audience, which is comprised of ${targetAudience}. 
         Don't address them directly, but rather write within their interest. Your content should be engaging, informative, and provide value to the reader. 
@@ -107,39 +170,27 @@ const LongFormPage = ({ back, query, template }: any) => {
         ${replyLength}
         Once you have the first draft of the newsletter, read through it and ensure that everything is written in the language ${language}. Lastly, run a grammar and spell check to make sure that the final newsletter version is correct. Respond only with complete newsletter.`);
       } else if (template.title === "Marketing Email") {
-        setPrompt(`You are a professional ${language} email marketer. Write an enticing and effective email campaign draft to increase engagement and drive sales writing about ${topic}. 
+        setPrompt(`${personaText} Act as a professional ${language} email marketer. Write an enticing and effective email campaign draft to increase engagement and drive sales writing about ${topic}. 
         Next analyze it and consider using these keywords: ${keywords}. Do not begin by greeting ${targetAudience}, rather open the email with a bold statement that will get their attention.
         Don't address ${targetAudience} directly, but rather write within their interest. ${replyLength}
-        Craft an opening that speaks directly to the reader's needs and emotions. Ensure that your tone of voice is ${style}. Use easy-to-understand language to explain why your product/service/brand is the best option available on the market and how it can help address the challenges and concerns of the reader. 
+        Craft an opening that speaks directly to the reader's needs and emotions. Ensure that your tone of voice is ${selectedToneTitle}. Use easy-to-understand language to explain why your product/service/brand is the best option available on the market and how it can help address the challenges and concerns of the reader. 
         Let the email flow with a narrative structure and avoid making it sound too pushy or aggressive. 
         Finally, seamlessly add a call-to-action (CTA) at the end of the email directing the reader to take the desired action. Ensure that the body of final email version is written in ${language} language and is grammarly correct with no typos. Respond only with email content.`);
       } else if (template.title === "Press Release") {
-        setPrompt(`You are a professional ${language} journalist and PR specialist. Write an enticing and effective press release draft about ${topic}. 
+        setPrompt(`${personaText} act as a professional ${language} journalist and PR specialist. Write an enticing and effective press release draft about ${topic}. 
         Next analyze it and consider using these keywords: ${keywords}. Open up the press release with a bold statement or rethorical question that will get the ${targetAudience} attention.
         Don't address ${targetAudience} directly, but rather write within their interest. ${replyLength}
-        Ensure that your tone of voice is ${style}. Use easy-to-understand language. 
+        Ensure that your tone of voice is ${selectedToneTitle}. Use easy-to-understand language. 
         Let the press release flow with a narrative structure and avoid making it sound too pushy, aggressive or generic. 
         Finally, leave the readers with some rethorical question for contemplation. Ensure that the body of final press release is written in ${language} language and is grammarly correct with no typos. Make sure to respond only with press release content. Do not mention: "FOR IMMEDIATE RELEASE".`);
       } else if (template.title === "Welcome Email") {
-        setPrompt(`You are a professional ${language} email marketer. Write an enticing and effective welcoming email draft to make the users feel special. 
+        setPrompt(`${personaText} act as a professional ${language} email marketer. Write an enticing and effective welcoming email draft to make the users feel special. 
         Next analyze it and consider using these keywords: ${keywords}. Our target audience is ${targetAudience}, so make sure your email resonates with them.
         Don't address ${targetAudience} directly, but rather write within their interest. ${replyLength}
-        Ensure that your tone of voice is ${style}. Use easy-to-understand language. 
+        Ensure that your tone of voice is ${selectedToneTitle}. Use easy-to-understand language. 
         Let this welcoming email email flow with a narrative structure and avoid making it sound too pushy or aggressive. 
         Finally, seamlessly add a call-to-action (CTA) at the end of the email directing the reader to take the desired action. Ensure that the body of final email version is written in ${language} language and is grammarly correct with no typos. Respond just with email content nothing else.`);
       }
-      if (query.type.includes("blog")) {
-        setPrompt(
-          `Write a unique and fascinating blog section ${topic} in ${language} language ${replyLength} in ${style} tone of voice. Make it sound natural and human, and optimize it for best SEO performance according to best practices.`
-        );
-      } else if (query.type.includes("article")) {
-        setPrompt(
-          `Act as an SEO Content Writer. Compose a unique and engaging article about "${topic}" in ${language} language ${replyLength}  in ${style} tone of voice. Your target audience is ${targetAudience}, so make sure your article is clear and concise and answers the reader's questions. Be sure to use best SEO practices and frequently use the following keywords ${keywords}. Try to incorporate these keywords naturally into your article and avoid stuffing them to satisfy search engines. Research the topic thoroughly and provide unique insights and perspectives on the topic to craft a piece that is informative and engaging to the reader.  Ensure writing style and tone matches the intended audience. Remember to focus on value and quality, not just keywords, to provide an excellent user experience. And lastly, ensure that it is plagiarism-free.`
-        );
-      }
-      if (query.type.includes("press-release")) {
-        setPrompt(`
-          Act as a PR specialist. Develop a winning press release ${replyLength} with a strong headline (ideally containing some eye catching number) for ${topic}. Begin by highlighting the key aspects of your press release such as describing the event or announcement, highlighting new features or products, or discussing a particular topic depending on the topic. Make sure to, provide context on why this is important or noteworthy, and relevant statistics or data to back up your claims. Furthermore, make sure your press release follow the standard format, including an attention-grabbing first paragraph, follow up paragraphs that elaborate and give necessary detail, and a conclusion that summarises everything. Finally, choose an engaging and effective headline that encapsulates the most important aspects of the story and provides an enticing reason for media outlets to pick it up. Make sure to write it in ${language} language.`);
       }
     setTitle(template.title)
   };
@@ -226,32 +277,21 @@ const LongFormPage = ({ back, query, template }: any) => {
                 </InputContainer>
                 <InputContainer width="50%">
                     <Label>Tone of voice</Label>
-                    <CustomDropdown
-                      id="name"
-                      type="text"
-                      placeholder="Friendly 😊"
-                      required
-                      value={style}
-                      values={styles}
-                      onChange={setStyle}
-                      error={undefined}
+                    <ToneDropdown
+                      values={tones}
+                      value={selectedToneTitle}
+                      onChange={handleToneChange}
                     />
                 </InputContainer>
 
                 <InputContainer width="50%">
-                  <Label>Target audience</Label>
-                  <TextArea
-                    height="2.8rem"
-                    placeholder="Marketing experts"
-                    padding="0.5rem"
-                    required
-                    rows={1}
-                    wrap="off"
-                    value={targetAudience}
-                    onChange={(e) => setTargetAudience(e.target.value)}
-                  />
+                <Label>Target audience / persona</Label>
+                  <PersonaDropdown
+                      values={personas}
+                      value={targetAudience}
+                      onChange={handlePersonaChange}
+                    />
                 </InputContainer>
-
               <InputContainer width="50%">
                 <Label>Language</Label>
                 <CustomDropdown

@@ -25,6 +25,7 @@ import api from "@/pages/api";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import Input from "@/components/forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
+import ToneDropdown from "@/components/forms/ToneDropdown";
 
 interface InputContainer {
     width: string;
@@ -34,13 +35,13 @@ interface TextArea {
     height: string;
 }
 
-const tones = [
-    "Formal 💼",
-    "Friendly 😊",
-    "Informative 📃",
-    "Persuasive 🫵🏼",
-    "Motivational 📈",
- ];
+const toneList = [
+    {title: "Formal", icon: "💼"},
+    {title: "Friendly", icon: "😊"},
+    {title: "Informative", icon: "📚"},
+    {title: "Persuasive", icon: "🫵🏼"},
+    {title: "Motivational", icon: "📈"},
+  ];
 
 const EnhanceTextCreationPage = ({back, query, template}: any) => {
 
@@ -48,7 +49,9 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
     const [loading, setLoading] = useState(false);
     const [instruction, setInstruction] = useState("");
     const [prompt, setPrompt] = useState<string>();
-    const [tone, setTone] = useState<string>("Friendly 😊");
+    const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
+    const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
+    const [tones, setTones] = useState<any[]>([]);
     const [preprompt, setPrePrompt] = useState<string>();
     const userPlan = useSelector(selectedPlanState);
     const [key, setKey] = useState(0);
@@ -62,18 +65,56 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
         if (window.innerWidth < 1023) {
             setMobile(true);
         }
+
+        let token = localStorage.getItem("token");
+        const fetchTone = async () => {
+          try {
+            const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+              headers: {
+                Authorization: token,
+              }
+            });
+            setTones([...toneResponse.data, ...toneList]);
+          } catch (e) {
+            console.log(e);
+          }
+        }
+    
+        fetchTone();
     }, [])
+
+    const handleToneChange = (title: string) => {
+        setSelectedToneTitle(title);
+        const tone = tones.find((t: any) => t.title === title);
+        if (tone.base_text) {
+          setSelectedToneBaseText(tone.base_text);
+        } else {
+          setSelectedToneBaseText("");
+        }
+      };
     
     const generateContent = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setKey((prevKey) => prevKey + 1);
         setPrompt("");
         setLoading(true);
-        setPrompt(`Act as a friendly social media manager and professional customer support with years of experience. Here is the message client sent us: "${content}". 
-        Start with a thorough analysis of the client's message in quotes and considering factors like readability, structure, grammar, style, and coherence please politely write an ${template.title.toLowerCase()} and ${instruction} in ${tone} tone of voice within no more than ${completionLength} words. 
-        Make sure it gives the desired feeling for the reader.
-        While editing, ensure the desired tone of voice is consistent across the content to maintain the desired feeling, which should resonate throughout. 
-        Finally, review the revised content and ensure it is in the client's language and that it aligns with the the quoted message. Reply only with the response to the client's message that was quoted and do not use emojis. `);
+        if (selectedToneBaseText) {
+            setPrompt(`Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
+            "${selectedToneBaseText}".
+            Now that you've learned to write exactly in the above style, please write unique ${template.title.toLowerCase()} to message client sent us: "${content}" in learned tone. 
+            Your goal is to ${instruction}.
+            You never reuse nor translate the example text, but rather you come up with other unique one in trained style that responds to the message of our client.
+            Make sure it gives the desired feeling for the reader.
+            Return ready response in our client's language that is no longer than ${completionLength} words:
+            `)
+        } else {
+            setPrompt(`Act as a friendly social media manager and professional customer support with years of experience. Here is the message client sent us: "${content}". 
+            Start with a thorough analysis of the client's message in quotes and considering factors like readability, structure, grammar, style, and coherence please politely write an ${template.title.toLowerCase()} and ${instruction} in ${selectedToneTitle} tone of voice within no more than ${completionLength} words. 
+            Make sure it gives the desired feeling for the reader.
+            While editing, ensure the desired tone of voice is consistent across the content to maintain the desired feeling, which should resonate throughout. 
+            Finally, review the revised content and ensure it is in the client's language and that it aligns with the the quoted message. Reply only with the response to the client's message that was quoted and do not use emojis. `);
+        }
+
         setTitle(template.title)
     }
 
@@ -116,14 +157,10 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
                         </InputContainer>
                         <InputContainer width="50%">
                             <Label>Tone of voice</Label>
-                            <CustomDropdown
-                            id="tones"
-                            type="text"
-                            placeholder="Friendly 😊"
-                            required
-                            value={tone}
-                            values={tones}
-                            onChange={setTone}
+                            <ToneDropdown
+                                values={tones}
+                                value={selectedToneTitle}
+                                onChange={handleToneChange}
                             />
                         </InputContainer>
                         <InputContainer width="50%">

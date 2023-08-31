@@ -23,6 +23,8 @@ import FoldersDropdown from "@/components/forms/FolderDropdown";
 import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
 import Input from "@/components/forms/Input";
+import api from "@/pages/api";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
 interface InputContainer {
     width: string;
 }
@@ -56,6 +58,8 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
     const [key, setKey] = useState(0);
     const [title, setTitle] = useState('');
     const [mobile, setMobile] = useState(false);
+    const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
+    const [personas, setPersonas] = useState<any[]>([]);
 
     useEffect(() => {
         if (window.innerWidth < 1023) {
@@ -64,15 +68,31 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
         if (localStorage.getItem("country") === "Poland") {
             setLanguage("Polish");
         }
+
+        let token = localStorage.getItem("token");
+        const fetchPersona = async () => {
+            try {
+              const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+                headers: {
+                  Authorization: token,
+                }
+              });
+              setPersonas(personaResponse.data);
+            } catch (e) {
+              console.log(e);
+            }
+          }
+      
+          fetchPersona();
     }, [])
 
     const generateContent = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setKey((prevKey) => prevKey + 1);
         setLoading(true);
+        const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
         if (template.title === "Meta Description" || template.title === "Google Ads Description") {
-            setPrompt(`You are ${language} Google Ads professional copywriter. 
-            Your end goal is to create ${examplesNumber} unique ${template.title}s for ${type.toLowerCase()} called ${product}- ${productDescription}.
+            setPrompt(`${personaText} Craft ${examplesNumber} unique ${template.title}s for ${type.toLowerCase()} called ${product}- ${productDescription}.
             Once you have a draft make sure that it is strictly compliant with Google guidelines and encourages users to engage with the ${type.toLowerCase()}. 
             Next conduct proper market research, and start by understanding your target audience of ${targetAudience}, their demographics, and interests. 
             Once you have a deep understanding of the audience, come up with compelling and catchy ${template.title.toLowerCase()} that will grab their attention and entice them to click. 
@@ -81,7 +101,7 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
             Based on previous steps come up with description that is no more than 150 characters long. Write it correctly in ${language} language.
             PS. You NEVER use emojis as you think there is no place for them in ${type.toLowerCase()}.`)
         } else {
-            setPrompt(`Act as an experienced ${language} copywriter. Craft a compelling ${style} tone of voice product description in ${language} language that will entice users to purchase a ${product}. 
+            setPrompt(`${personaText} Craft a compelling ${style} tone of voice product description in ${language} language that will entice users to purchase a ${product}. 
             Begin by getting a thorough understanding of ${product} product considering ${productDescription}. Think of what separates it from other similar products on the market. 
             After that, focus on the unique selling points for the ${targetAudience} and get started on creating a persuasive copy that caters to their interests and needs. 
             Remember to keep the content informative, engaging and exciting without the use of any emojis. Your description should be long enough to educate users about the product and build excitement, 
@@ -91,6 +111,20 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
         setTitle(template.title)
     }
     
+    const handlePersonaChange = (title: string) => {
+        setTargetAudience(title);
+        try {
+            const persona = personas.find((p: any) => p.title === title);
+            if (persona.prompt) {
+              setSelectedPersonaPrompt(persona.prompt);
+            } else {
+              setSelectedPersonaPrompt("");
+            }
+          } catch (e) {
+            console.log(e);
+          }
+      };
+
     return (
         <PageContent>
             {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
@@ -181,16 +215,12 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
                         </InputContainer>
                         <InputContainer width={template.title === "Product Description" ? "50%" : "100%"}>
                             <Label>
-                                Target audience
+                                Target audience / persona
                             </Label>
-                            <Input
-                                id="target-adience-field"
-                                height= "2.8rem"
-                                padding="0.5rem"
-                                placeholder="Marketing experts"
+                            <PersonaDropdown
+                                values={personas}
                                 value={targetAudience}
-                                onChange={(e) => setTargetAudience(e.target.value)}
-                                required
+                                onChange={handlePersonaChange}
                             />
                         </InputContainer>
                         <InputContainer width="100%">
@@ -218,7 +248,6 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
                                 placeholder="marketing, ai, generative ai, revolution..."
                                 value={pros}
                                 onChange={(e) => setPros(e.target.value)}
-                                required
                             />
                         </InputContainer>
                         <div style={{width: "100%", display: "flex", justifyContent: "center"}}>

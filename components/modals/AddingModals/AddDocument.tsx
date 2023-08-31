@@ -164,7 +164,6 @@ const AddDocument = (props: {
                         }
                       }
                   );
-                  console.log(upsertResponse.data.text);
                   } else {
                     upsertResponse = await axios.post(
                       'https://whale-app-p64f5.ondigitalocean.app/upsert-file', {file},

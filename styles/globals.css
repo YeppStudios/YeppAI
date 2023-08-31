@@ -77,6 +77,7 @@
 html,
 body {
   background-color: white;
+  overscroll-behavior-y: none;
 }
 
 a {
