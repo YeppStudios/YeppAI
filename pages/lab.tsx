@@ -616,9 +616,7 @@ const LabPage = () => {
                   Example output
                 </h4>
                 <div
-                  className={`flex ${
-                    isSmallDevice && "flex-col"
-                  } flex-row justify-between items-center `}
+                  className={`flex flex-row justify-between items-center `}
                 >
                   <div
                     className={` ${
@@ -643,9 +641,7 @@ const LabPage = () => {
                   </div>
                 </div>
                 <div
-                  className={`flex ${
-                    isSmallDevice && "flex-col"
-                  } flex-row justify-between items-center `}
+                  className={`flex flex-row justify-between items-center `}
                 >
                   <div
                     className={` ${
