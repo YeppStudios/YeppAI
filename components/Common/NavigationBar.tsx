@@ -88,6 +88,7 @@ const NavigationBar = () => {
   const plan = useSelector(selectedPlanState);
   const [isHovered, setIsHovered] = useState(false);
   const [country, setCountry] = useState("");
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 1023) { 
@@ -97,6 +98,7 @@ const NavigationBar = () => {
       setMobile(window.innerWidth < 1023);
     };
     window.addEventListener("resize", updateWindowSize);
+    setLoaded(true);
     setCountry(localStorage.getItem("country") || "");
   }, []);
 
@@ -203,32 +205,46 @@ const NavigationBar = () => {
     );
   }, [user, mobile, pathname, router, isHovered]);
 
-  return (
-    <>
-      {openSubscriptionModal && (
-        <UpgradeSubscription
-          onClose={() => setOpenSubscriptionModal(false)}
-          closeable={true}
-          purchase={true}
-          landing={false}
-        />
-      )}
-      {mobile && (
-        <Navbar
-          variants={animationVariants}
-          animate={openMobile ? "visible" : "hidden"}
-          initial="hidden"
-          layout="position"
-          style={{ willChange: "transform" }}
-        >
-          {memoizedNavigationTabs}
-          <ProfileContainer id="profile-tab">
-          {bottomTabs.map((tab) => (
-          <div id={tab.id} key={tab.id} className="w-full">
-            {!(tab.path.includes(pathname) && pathname !== "/") ? (
-              mobile ? (
-                <>
-                  <SlideBottom>
+  if (loaded) {
+    return (
+      <>
+        {openSubscriptionModal && (
+          <UpgradeSubscription
+            onClose={() => setOpenSubscriptionModal(false)}
+            closeable={true}
+            purchase={true}
+            landing={false}
+          />
+        )}
+        {mobile && (
+          <Navbar
+            variants={animationVariants}
+            animate={openMobile ? "visible" : "hidden"}
+            initial="hidden"
+            layout="position"
+            style={{ willChange: "transform" }}
+          >
+            {memoizedNavigationTabs}
+            <ProfileContainer id="profile-tab">
+            {bottomTabs.map((tab) => (
+            <div id={tab.id} key={tab.id} className="w-full">
+              {!(tab.path.includes(pathname) && pathname !== "/") ? (
+                mobile ? (
+                  <>
+                    <SlideBottom>
+                      <NavigationTab
+                        country={country}
+                        hover={isHovered}
+                        title={tab.title}
+                        onClick={() => handleTabClick(tab.path)}
+                      >
+                        <NavigationIcon>{tab.icon}</NavigationIcon>
+                        <NavigationText>{tab.title}</NavigationText>
+                      </NavigationTab>
+                    </SlideBottom>
+                  </>
+                ) : (
+                  <>
                     <NavigationTab
                       country={country}
                       hover={isHovered}
@@ -236,125 +252,114 @@ const NavigationBar = () => {
                       onClick={() => handleTabClick(tab.path)}
                     >
                       <NavigationIcon>{tab.icon}</NavigationIcon>
-                      <NavigationText>{tab.title}</NavigationText>
+                      {isHovered && <NavigationText>{tab.title}</NavigationText>}
                     </NavigationTab>
-                  </SlideBottom>
-                </>
+                  </>
+                )
+              ) : mobile ? (
+                <SlideBottom>
+                  <SelectedNavigationTab hovered={isHovered}>
+                    <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
+                    <SelectedNavigationText>{tab.title}</SelectedNavigationText>
+                  </SelectedNavigationTab>
+                </SlideBottom>
               ) : (
-                <>
-                  <NavigationTab
-                    country={country}
-                    hover={isHovered}
-                    title={tab.title}
-                    onClick={() => handleTabClick(tab.path)}
-                  >
-                    <NavigationIcon>{tab.icon}</NavigationIcon>
-                    {isHovered && <NavigationText>{tab.title}</NavigationText>}
-                  </NavigationTab>
-                </>
-              )
-            ) : mobile ? (
-              <SlideBottom>
                 <SelectedNavigationTab hovered={isHovered}>
                   <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
-                  <SelectedNavigationText>{tab.title}</SelectedNavigationText>
+                  {isHovered && <NavigationText>{tab.title}</NavigationText>}
                 </SelectedNavigationTab>
-              </SlideBottom>
-            ) : (
-              <SelectedNavigationTab hovered={isHovered}>
-                <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
-                {isHovered && <NavigationText>{tab.title}</NavigationText>}
-              </SelectedNavigationTab>
-            )}
-          </div>
-          ))}
-            <NameContainer
-              hover={isHovered}
-              onClick={(e) => router.push("/profile")}
-            >
-              <FakeProfile>
-                <BsFillFilePersonFill
-                  style={{ height: "100%", width: "auto" }}
-                />
-              </FakeProfile>
-              <PersonName>{user.name}</PersonName>
-            </NameContainer>
-          </ProfileContainer>
-        </Navbar>
-      )}
-      {!mobile && (
-        <Navbar
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          {memoizedNavigationTabs}
-          <ProfileContainer id="profile-tab">
-          {bottomTabs.map((tab) => (
-          <div id={tab.id} key={tab.id}>
-            {!(tab.path.includes(pathname) && pathname !== "/") ? (
-              mobile ? (
-                <>
-                  <SlideBottom>
-                    <NavigationTab
-                      country={country}
-                      hover={isHovered}
-                      title={tab.title}
-                      onClick={() => handleTabClick(tab.path)}
-                    >
-                      <NavigationIcon>{tab.icon}</NavigationIcon>
-                      <NavigationText>{tab.title}</NavigationText>
-                    </NavigationTab>
-                  </SlideBottom>
-                </>
-              ) : (
-                <>
-                  <NavigationTab
-                    country={country}
-                    hover={isHovered}
-                    title={tab.title}
-                    onClick={() => handleTabClick(tab.path)}
-                  >
-                    <NavigationIcon>{tab.icon}</NavigationIcon>
-                    {isHovered && <NavigationText>{tab.title}</NavigationText>}
-                  </NavigationTab>
-                </>
-              )
-            ) : mobile ? (
-              <SlideBottom>
-                <SelectedNavigationTab hovered={isHovered}>
-                  <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
-                  <SelectedNavigationText>{tab.title}</SelectedNavigationText>
-                </SelectedNavigationTab>
-              </SlideBottom>
-            ) : (
-              <SelectedNavigationTab hovered={isHovered}>
-                <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
-                {isHovered && <NavigationText>{tab.title}</NavigationText>}
-              </SelectedNavigationTab>
-            )}
-          </div>
-          ))}
-            <NameContainer
-              hover={isHovered}
-              onClick={(e) => router.push("/profile")}
-            >
-              <FakeProfile>
-                <BsFillFilePersonFill
-                  style={{ height: "100%", width: "auto" }}
-                />
-              </FakeProfile>
-              {mobile ? (
-                <PersonName>{user.name}</PersonName>
-              ) : (
-                <>{isHovered && <PersonName>{user.name}</PersonName>}</>
               )}
-            </NameContainer>
-          </ProfileContainer>
-        </Navbar>
-      )}
-    </>
-  );
-};
+            </div>
+            ))}
+              <NameContainer
+                hover={isHovered}
+                onClick={(e) => router.push("/profile")}
+              >
+                <FakeProfile>
+                  <BsFillFilePersonFill
+                    style={{ height: "100%", width: "auto" }}
+                  />
+                </FakeProfile>
+                <PersonName>{user.name}</PersonName>
+              </NameContainer>
+            </ProfileContainer>
+          </Navbar>
+        )}
+        {!mobile && (
+          <Navbar
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {memoizedNavigationTabs}
+            <ProfileContainer id="profile-tab">
+            {bottomTabs.map((tab) => (
+            <div id={tab.id} key={tab.id}>
+              {!(tab.path.includes(pathname) && pathname !== "/") ? (
+                mobile ? (
+                  <>
+                    <SlideBottom>
+                      <NavigationTab
+                        country={country}
+                        hover={isHovered}
+                        title={tab.title}
+                        onClick={() => handleTabClick(tab.path)}
+                      >
+                        <NavigationIcon>{tab.icon}</NavigationIcon>
+                        <NavigationText>{tab.title}</NavigationText>
+                      </NavigationTab>
+                    </SlideBottom>
+                  </>
+                ) : (
+                  <>
+                    <NavigationTab
+                      country={country}
+                      hover={isHovered}
+                      title={tab.title}
+                      onClick={() => handleTabClick(tab.path)}
+                    >
+                      <NavigationIcon>{tab.icon}</NavigationIcon>
+                      {isHovered && <NavigationText>{tab.title}</NavigationText>}
+                    </NavigationTab>
+                  </>
+                )
+              ) : mobile ? (
+                <SlideBottom>
+                  <SelectedNavigationTab hovered={isHovered}>
+                    <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
+                    <SelectedNavigationText>{tab.title}</SelectedNavigationText>
+                  </SelectedNavigationTab>
+                </SlideBottom>
+              ) : (
+                <SelectedNavigationTab hovered={isHovered}>
+                  <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
+                  {isHovered && <NavigationText>{tab.title}</NavigationText>}
+                </SelectedNavigationTab>
+              )}
+            </div>
+            ))}
+              <NameContainer
+                hover={isHovered}
+                onClick={(e) => router.push("/profile")}
+              >
+                <FakeProfile>
+                  <BsFillFilePersonFill
+                    style={{ height: "100%", width: "auto" }}
+                  />
+                </FakeProfile>
+                {mobile ? (
+                  <PersonName>{user.name}</PersonName>
+                ) : (
+                  <>{isHovered && <PersonName>{user.name}</PersonName>}</>
+                )}
+              </NameContainer>
+            </ProfileContainer>
+          </Navbar>
+        )}
+      </>
+    );
+  };
+  }
+
 
 export default NavigationBar;
 
