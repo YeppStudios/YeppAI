@@ -225,7 +225,7 @@ export const CampaignModal: FC<CampaginModalProps> = ({
     "English",
     "Spanish",
     "French",
-    "Portuguese",
+    "Portugese",
     "Italian",
     "German",
     "Ukrainian",

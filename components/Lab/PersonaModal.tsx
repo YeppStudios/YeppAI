@@ -402,7 +402,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     </ModalTitle>
                     <Centered>
                     <div className="flex flex-wrap">
-                    <div className="flex flex-wrap w-full px-6">
+                    <div className="flex flex-wrap w-full lg:px-6 px-2">
                     <div className="flex items-between justify-between w-full">
                     <div className="flex w-[48%] items-center mb-2 flex-wrap">
                     <div className="flex items-between justify-between w-full">
@@ -436,7 +436,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                         onChange={(e) => setAbout(e.target.value)}
                     />
                     </div>
-                    <div className="flex flex-wrap w-full px-6 mt-4 justify-between">
+                    <div className="flex flex-wrap w-full lg:px-6 px-2 mt-4 justify-between">
                     <div className="flex w-[100%] items-center mb-2 flex-wrap">
                     <div className="flex items-between justify-between w-full">
                         <Label>Target audience</Label>
@@ -448,7 +448,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                         />
                     </div>
                     </div>
-                    <div className="flex flex-wrap w-full px-6 mt-6">
+                    <div className="flex flex-wrap w-full lg:px-6 px-2 mt-6">
                     <div className="flex items-between justify-between w-full">
                     <Label>Your landing page (optional)</Label>
                     </div>
@@ -508,7 +508,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                         Persona outline
                     </ModalTitle>
                     <Centered>
-                        <div className="px-6 w-full">
+                        <div className="lg:px-6 w-full">
                         <PersonaContainer>
                             <div className="flex items-center">
                             <FileUploader hoverTitle="Drop here" handleChange={handleFile} name="file" types={fileTypes} multiple={false} label="Drop an image" >
@@ -630,7 +630,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     <ModalTitle>
                         Describe your persona
                     </ModalTitle>
-                    <div className="px-6">
+                    <div className="lg:px-6">
                     <TextArea 
                         placeholder="Describe your ideal persona..."
                         padding="1rem"
@@ -717,6 +717,7 @@ color: black;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     width: 100vw;
+    padding: 1.5rem 0rem 6rem 0rem;
     overflow-x: hidden;
 }
 `
@@ -733,8 +734,8 @@ const Container = styled.div`
     z-index: 100;
     overflow: visible;
     @media (max-width: 1023px) {
-        width: 90vw;
-        padding: 4vh 5vw 5vh 5vw;
+        width: 95vw;
+        padding: 4vh 2vw 4vh 2vw;
         box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.15);
     }
 `
@@ -751,8 +752,6 @@ const CloseIcon = styled.button`
     @media (max-width: 1023px) {
         top: 1rem;
         right: 1.2rem;
-        width: 1rem;
-        height: 1rem;
     }
 `
 
@@ -767,10 +766,11 @@ const ModalTitle = styled.h1`
     color: black;
     font-weight: 700;
     @media (max-width: 1023px) {
-        font-size: 1.7rem;
+        font-size: 1.2rem;
         line-height: 1.2;
         width: 95vw;
-        margin-top: 2vh;
+        margin-top: 0;
+        padding-left: 1rem;
     }
 `
 
@@ -811,6 +811,9 @@ const WordCounter = styled.p`
     text-align: right;
     margin-right: 0.5rem;
     color: #A0AEC0;
+    @media (max-width: 1023px) {
+        font-size: 0.9rem;
+    }
 `
 
 const SelectedAddPfp = styled.div<Background>`
@@ -987,7 +990,7 @@ const BtnIcon = styled.div`
 `
 
 const ModalDescription = styled.p`
-    width: 80%;
+    width: 85%;
     text-align: center;
     margin-top: 0.75rem;
     font-weight: 500;

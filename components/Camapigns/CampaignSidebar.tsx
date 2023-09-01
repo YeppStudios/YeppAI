@@ -40,7 +40,7 @@ const languages = [
   "English",
   "Spanish",
   "French",
-  "Portuguese",
+  "Portugese",
   "Italian",
   "German",
   "Ukrainian",

@@ -32,7 +32,7 @@ const ChoiceModal = (props: {onClose: any, setNextModal: any}) => {
                         <Choice onClick={() => props.setNextModal("tone")}>
                             <div>
                                 <ChoiceIcon><BsMic style={{width: "100%", height: "100%"}} /></ChoiceIcon>
-                                <ChoiceTitle>Tone of voice</ChoiceTitle>
+                                <ChoiceTitle>Tone</ChoiceTitle>
                             </div>
                         </Choice>
                     </ChoiceContainer>
@@ -78,8 +78,8 @@ const Container = styled.div`
     z-index: 100;
     overflow: visible;
     @media (max-width: 1023px) {
-        width: 90vw;
-        padding: 4vh 5vw 5vh 5vw;
+        width: 95vw;
+        padding: 4vh 3vw 2vh 3vw;
         box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.15);
     }
 `
@@ -96,8 +96,6 @@ const CloseIcon = styled.button`
     @media (max-width: 1023px) {
         top: 1rem;
         right: 1.2rem;
-        width: 1rem;
-        height: 1rem;
     }
 `
 
@@ -106,6 +104,9 @@ const Title = styled.h2`
     font-size: 2rem;
     font-weight: 700;
     color: black;
+    @media (max-width: 1023px) {
+        font-size: 1.75rem;
+    }
 `
 const ChoiceContainer = styled.div`
     width: 100%;
@@ -113,7 +114,9 @@ const ChoiceContainer = styled.div`
     grid-template-columns: 1fr 1fr;
     gap: 0;
     margin-top: 2rem;
-
+    @media (max-width: 1023px) {
+        margin-top: 1.25rem;
+    }
 `
 
 const Choice = styled.div`
@@ -162,7 +165,10 @@ const ChoiceIcon = styled.div`
 
 const ChoiceDescription = styled.p`
     font-size: 1rem;
-    color: #ABABAB;
+    color: #cbd5e1;
     text-align: center;
     margin-top: 0.5rem;
+    @media (max-width: 1023px) {
+        font-size: 0.9rem;
+    }
 `

@@ -31,6 +31,7 @@ import DeleteDoc from "@/components/Modals/DeletingModals/DeleteDocModal";
 import { useRouter } from "next/router";
 import { set } from "lodash";
 import Head from "next/head";
+import Centered from "@/components/Centered";
 
 interface ProfileProps {
   _id: string;
@@ -86,7 +87,7 @@ const LabPage = () => {
   useEffect(() => {
     let token = localStorage.getItem("token");
     const updateWindowSize = () => {
-      setIsSmallDevice(window.innerWidth < 1325);
+      setIsSmallDevice(window.innerWidth < 1023);
     };
     window.addEventListener("resize", updateWindowSize);
     
@@ -407,33 +408,38 @@ const LabPage = () => {
       {openNoElixirModal && <NoElixir onClose={() => setOpenNoElixirModal(false)} />}
       {(openDeleteModal && currentSample) && <DeleteDoc onClose={() => setOpenDeleteModal(false)} assetType={currentSample?.type} document={currentSample} deleteDocumentState={deleteSample} />}
       <PageContainer
-        className=" items-center h-full flex w-full text-black "
+        className=" items-center h-full hidden lg:flex w-full text-black flex-wrap lg:flex-nowrap "
         style={{ height: "100%" }}
       >
         <div className="flex justify-between w-full items-center">
           <div className="flex lg:gap-2 gap-1 items-center">
             <PageTitle>AI Behavior Lab</PageTitle>
-            <div className="flex items-center justify-center py-2 lg:px-5 rounded-2xl lg:bg-slate-100">
-              <GradientText className="text-center lg:text-md text-xs uppercase">
+            <div className="flex items-center justify-center py-2 px-5 ml-2 rounded-2xl bg-slate-100">
+              <GradientText className="text-center text-md uppercase">
                 Beta
               </GradientText>
             </div>
           </div>
+          <div className="w-full lg:w-auto justify-end flex">
           <BlueBtn onClick={openChoiceModal} style={{ padding: "0.5rem 3.5vw 0.5rem 3.5vw" }}>
             <span className="flex items-center gap-[1vw]">
               + <span> Create new </span>
             </span>
           </BlueBtn>
+          </div>
         </div>
         <div></div>
       </PageContainer>
       <div className="flex lg:flex-row flex-col gap-4">
         <PageContainer
-          className="lg:w-[20%] w-full gap-4 mt-3 flex flex-col justify-between text-black lg:h-auto h-[100vh]"
+          className="lg:w-[20%] w-full gap-4 mt-3 flex flex-col justify-between text-black max-h-[100vh]"
           style={{ padding: "1.5rem" }}
         >
           <div className="flex flex-col w-full">
-            <Input height="2.8rem" value={searchPhrase} onChange={(e) => setSearchPhrase(e.target.value)} padding="0.65rem" placeholder="Search..."/>
+            <div className="w-full flex justify-between">
+              <Input height="2.8rem" value={searchPhrase} onChange={(e) => setSearchPhrase(e.target.value)} padding="0.65rem" placeholder="Search..."/>
+              <MobileAddBtn onClick={openChoiceModal}>+</MobileAddBtn>
+            </div>
             {loadingList ?
             <div className="mt-12 flex justify-center">
               <BlueLoader />
@@ -441,8 +447,17 @@ const LabPage = () => {
             :
             <>
             {list.length === 0 ?
-            <div className="mt-10 w-full justify-center flex text-slate-300">
+            <div className="mt-10 w-full justify-center flex flex-wrap text-slate-300">
               <p>You have no samples...</p>
+              <div className="lg:hidden w-full">
+                <Centered>
+                <BlueBtn height="3rem" onClick={openChoiceModal} >
+                  <span className="text-center items-center flex">
+                    + <p className="ml-2">Create New</p>
+                  </span>
+                </BlueBtn>
+              </Centered>
+              </div>
             </div>
             :
             <List>
@@ -463,7 +478,7 @@ const LabPage = () => {
                     />
                     {isProfileActicve && (
                       <div className="flex items-center">
-                        <RiArrowRightSLine className="lg:h-[1.5vw] lg:w-[1.5vw] h-[3vw] w-[3vw] mr-2 text-slate-300" />
+                        <RiArrowRightSLine className="lg:h-[1.5vw] lg:w-[1.5vw] hidden lg:block mr-2 text-slate-300" />
                       </div>
                     )}
                   </div>
@@ -474,7 +489,7 @@ const LabPage = () => {
             </>
             }
           </div>
-          <div>
+          <div className="hidden lg:block">
             <BlueBtn height="3rem" onClick={openChoiceModal} >
               <span className="text-center items-center flex">
                 + {!isSmallDevice && <p className="ml-2">Create New</p>}
@@ -482,8 +497,8 @@ const LabPage = () => {
             </BlueBtn>
           </div>
         </PageContainer>
+        {((isSmallDevice && currentSample) || !isSmallDevice) &&
         <PageContainer
-          style={{ padding: "1.5rem 2vw 1.5rem 2vw" }}
           className="lg:w-[40%] w-full flex flex-col gap-8 mt-3 justify-between lg:h-auto h-[100vh]  text-black "
         >
           {currentSample ?
@@ -492,7 +507,7 @@ const LabPage = () => {
             <div className="flex items-center w-full">
               <BiBookAlt className="w-6 h-6 mr-2" />
               <h3 className="font-bold text-xl mr-2">Base</h3>
-              <p className="text-sm text-slate-300">- Edit it to update how the AI will respond</p>
+              <p className="hidden lg:block lg:text-sm text-slate-300">- Edit it to update how the AI will respond</p>
             </div>
             <TextArea
               padding="1rem"
@@ -504,7 +519,7 @@ const LabPage = () => {
             
             />
           </div>
-          <div>
+          <div className="mb-8 lg:mb-0">
             <BlueBtn onClick={() => analyzeTone()} height="3rem">
               {testTextLoading ?
               <Loader color="white" />
@@ -536,20 +551,21 @@ const LabPage = () => {
           </>
         }
         </PageContainer>
+        }
+        {((isSmallDevice && currentSample) || !isSmallDevice) &&
         <PageContainer
-          style={{ padding: "1.5rem 2vw 1.5rem 2vw" }}
-          className="lg:w-[40%] w-full text-black mt-3 lg:h-auto h-full overflow-scroll"
+          className="lg:w-[40%] w-full text-black mt-3 lg:h-auto h-full lg:overflow-scroll"
         >
           {currentSample ? (
             <div className="flex flex-col ">
-              <div className="flex justify-between items-center lg:pb-[1vw] pb-4">
+              <div className="flex justify-between items-center lg:pb-[1vw]">
                 <ProfileCard
                   type={currentSample.type}
                   icon={currentSample.icon}
                   name={currentSample.title}
                 />
                 <div className="flex h-full items-center">
-                  <button onClick={() => router.push("/marketing")} className="flex items-center  justify-center py-2 px-[2vw]  rounded-2xl bg-[#EFF1F5]">
+                  <button onClick={() => router.push("/marketing")} className="flex items-center  justify-center py-2 px-4 lg:px-[2vw]  rounded-2xl bg-[#EFF1F5]">
                     <GradientText style={{ fontSize: "1rem" }}>
                       Try now
                     </GradientText>
@@ -592,7 +608,7 @@ const LabPage = () => {
                   </Menu>
                 </div>
               </div>
-              <div className="flex flex-col gap-[1vw] mt-4">
+              <div className="flex flex-col gap-4 lg:gap-[1vw] mt-4">
                 <h4
                   className="w-full border-b-2 border-slate-100 pb-2"
                   style={{ fontWeight: 600 }}
@@ -651,7 +667,7 @@ const LabPage = () => {
               </div>
               {selectedTemplate &&
               <div className="h-full flex items-center justify-center mb-8 w-full">
-                <div className="flex gap-4 w-full flex-col p-6 shadow-md mt-[2vw] rounded-2xl border-2  border-[#ECEEF2]">
+                <div className="flex gap-4 w-full flex-col p-4 lg:p-6 shadow-md mt-8 lg:mt-[2vw] rounded-2xl border-2  border-[#ECEEF2]">
                   <div
                     className={`flex w-full`}
                   >
@@ -661,7 +677,7 @@ const LabPage = () => {
                           src={selectedTemplate.icon}
                           height={40} width={40}
                           alt="social media icon"
-                          className="rounded-lg"
+                          className="rounded-xl lg:rounded-lg"
                         />
                       </div>
                       <div className="flex flex-col">
@@ -671,7 +687,7 @@ const LabPage = () => {
                         <GeneratedTextDate>{moment().format('DD MMMM YYYY')}</GeneratedTextDate>
                       </div>
                     </div>
-                    <button onClick={() => generateExampleOutput({})} className="flex px-[2vw] gap-4 items-center h-10 bg-[#EFF1F5] rounded-2xl hover:scale-95">
+                    <button onClick={() => generateExampleOutput({})} className="flex px-2 lg:px-[2vw] gap-2 lg:gap-4 items-center h-10 bg-[#EFF1F5] rounded-2xl hover:scale-95">
                       <IoRefreshOutline className="w-4 h-4" />
                       <Text>Rewrite</Text>
                     </button>
@@ -697,6 +713,7 @@ const LabPage = () => {
           </div>
           }
         </PageContainer>
+}
       </div>
     </PageTemplate>
   );
@@ -711,6 +728,7 @@ const PageTitle = styled.h1`
   width: 100%;
   @media (max-width: 1023px) {
     font-size: 2rem;
+    width: 100%;
   }
 `;
 const Text = styled.p`
@@ -737,12 +755,15 @@ const GeneratedTextTitle = styled.span`
 
 const GeneratedTextDate = styled.span`
   font-size: 0.8rem;
-  color: rgb(210 210 210);
+  color: #cbd5e1;
+  @media (max-width: 1023px) {
+    font-size: 0.7rem;
+  }
 `;
 
 
 const BlueBtn = styled.div<{ height?: string }>`
-    width: 14rem;
+    width: 15vw;
     height: ${props => props.height ? props.height : "3rem"}};
     display: flex;
     justify-content: center;
@@ -769,7 +790,8 @@ const BlueBtn = styled.div<{ height?: string }>`
     @media (max-width: 1023px) {
       margin-left: 0;
       margin-right: 0rem;
-      margin-top: 1rem;
+      margin-top: 0rem;
+      width: 14rem;
     }
 `
 
@@ -786,8 +808,8 @@ const PageContainer = styled.div`
       display: none;
   }
   @media (max-width: 1023px) {
-    height: 100vh;
-    padding: 1rem;
+    height: auto;
+    padding: 1.2rem 1.1rem 1.2rem 1.1rem;
   }
   border-radius: 20px;
   background-color: white;
@@ -843,6 +865,7 @@ const GeneratedExample = styled.p`
   white-space: pre-wrap;
   will-change: transform;
 `
+
 const MoreIcon = styled.div`
     height: 2rem;
     display: flex;
@@ -852,5 +875,36 @@ const MoreIcon = styled.div`
     cursor: pointer;
     @media (max-width: 1023px) {
         margin-left: 1rem;
-      }
+    }
+`
+const MobileAddBtn = styled.div<{ height?: string }>`
+    width: 4rem;
+    height: 3rem;
+    display: flex;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
+    border: solid 3px transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    position: relative;
+    white-space: nowrap;
+    color: white;
+    font-weight: 500;
+    background: linear-gradient(40deg, #6578F8, #64B5FF);
+    background-size: 110%;
+    background-position-x: -0.2rem;
+    align-items: center;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    &:hover {
+      box-shadow: none;
+      transform: scale(0.95);
+    }
+    @media (min-width: 1023px) {
+      display: none;
+    }
 `

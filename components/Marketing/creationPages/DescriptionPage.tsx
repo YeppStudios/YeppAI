@@ -34,7 +34,7 @@ interface TextArea {
 }
 
 const styles = ["Professional 💼", "Friendly 😊", "Concise 📃", "Persuasive 🫵🏼", "Motivational 📈"];
-const languages = [ "English", "Spanish", "French", "Italian",   "Portuguese", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
+const languages = [ "English", "Spanish", "French", "Italian",   "Portugese", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
 const count = [1, 3, 5]
 const googleTypes = ["Blog", "Landing page", "Product", "Article", "Ranking"]
 

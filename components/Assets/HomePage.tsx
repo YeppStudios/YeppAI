@@ -362,7 +362,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                                 <BlueLoader />
                             </div>
                             :
-                            <div className="flex justify-center items-center w-full h-36 text-slate-700 text-xl">
+                            <div className="flex justify-center items-center w-full h-36 text-slate-700 text-center lg:text-xl">
                                 You don&apos;t have any folders yet. Upload some resources to create one!
                             </div>
                         }

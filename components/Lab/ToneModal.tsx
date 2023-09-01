@@ -401,8 +401,8 @@ const ToneModal = (props: {onClose: any}) => {
                 </div>
               </div>
               {selectedTemplate ?
-              <div className="h-full flex items-center justify-center mb-8 w-full">
-                <div className="flex gap-4 w-full flex-col p-6 shadow-md mt-[2vw] rounded-2xl border-2  border-[#ECEEF2]">
+              <div className="h-full flex items-center justify-center mb-8 w-full mt-4 lg:mt-0">
+                <div className="flex gap-4 w-full flex-col p-4 lg:p-6 shadow-md mt-[2vw] rounded-2xl border-2  border-[#ECEEF2]">
                   <div
                     className={`flex w-full`}
                   >
@@ -415,14 +415,14 @@ const ToneModal = (props: {onClose: any}) => {
                           className="rounded-lg"
                         />
                       </div>
-                      <div className="flex flex-col">
+                      <div className="lg:flex flex-col hidden">
                         <GeneratedTextTitle>
                           {selectedTemplate.title}
                         </GeneratedTextTitle>
                         <GeneratedTextDate>{moment().format('DD MMMM YYYY')}</GeneratedTextDate>
                       </div>
                     </div>
-                    <button onClick={() => generateExampleOutput(exampleOutputJSON)} className="flex px-[2vw] gap-4 items-center h-10 bg-[#EFF1F5] rounded-2xl hover:scale-95">
+                    <button onClick={() => generateExampleOutput(exampleOutputJSON)} className="flex px-6 lg:px-[2vw] gap-4 items-center h-10 bg-[#EFF1F5] rounded-2xl hover:scale-95">
                       <IoRefreshOutline className="w-4 h-4" />
                       <Text style={{ fontWeight: 500 }}>Rewrite</Text>
                     </button>
@@ -500,7 +500,7 @@ overflow-y: auto;
 min-height: 100vh;
 max-height: 100vh;
 position: fixed;
-padding: 3rem 0rem 8rem 0rem;
+padding: 1.5rem 0rem 8rem 0rem;
 flex-wrap: wrap;
 backdrop-filter: blur(10px);
 z-index: 100;
@@ -535,8 +535,8 @@ const Container = styled.div`
     z-index: 100;
     overflow: visible;
     @media (max-width: 1023px) {
-        width: 90vw;
-        padding: 4vh 5vw 5vh 5vw;
+        width: 95vw;
+        padding: 4vh 2vw 4vh 2vw;
         box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.15);
     }
 `
@@ -553,8 +553,6 @@ const CloseIcon = styled.button`
     @media (max-width: 1023px) {
         top: 1rem;
         right: 1.2rem;
-        width: 1rem;
-        height: 1rem;
     }
 `
 
@@ -569,11 +567,12 @@ const ModalTitle = styled.h1`
     color: black;
     font-weight: 700;
     @media (max-width: 1023px) {
-        font-size: 1.7rem;
-        line-height: 1.2;
-        width: 95vw;
-        margin-top: 2vh;
-    }
+      font-size: 1.2rem;
+      line-height: 1.2;
+      width: 95vw;
+      margin-top: 0;
+      padding-left: 1rem;
+  }
 `
 
 const ContinueBtn = styled.button`
@@ -618,11 +617,17 @@ const Text = styled.p`
 const GeneratedTextTitle = styled.span`
   font-size: 1rem;
   font-weight: 600;
+  @media (max-width: 1023px) {
+    display: nonw;
+  }
 `;
 
 const GeneratedTextDate = styled.span`
   font-size: 0.8rem;
   color: rgb(148 163 184);
+  @media (max-width: 1023px) {
+    display: nonw;
+  }
 `;
 
 const GeneratedExample = styled.p`
@@ -638,7 +643,8 @@ const GeneratedExample = styled.p`
   font-weight: 500;
   z-index: 1;
   @media (max-width: 1023px) {
-      margin-top: 4vh;
+    margin-top: 0rem;
+    font-size: 0.9rem;
   }
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -658,6 +664,9 @@ const WordCounter = styled.p`
     text-align: right;
     margin-right: 0.5rem;
     margin-top: 0.5rem;
+    @media (max-width: 1023px) {
+      font-size: 0.9rem;
+    }
 `
 
 const SelectedAddPfp = styled.div<Background>`

@@ -90,11 +90,15 @@ const NavigationBar = () => {
   const [country, setCountry] = useState("");
 
   useEffect(() => {
-    if (window.innerWidth <= 1023) {
+    if (window.innerWidth < 1023) { 
       setMobile(true);
     }
+    const updateWindowSize = () => {
+      setMobile(window.innerWidth < 1023);
+    };
+    window.addEventListener("resize", updateWindowSize);
     setCountry(localStorage.getItem("country") || "");
-  }, [user]);
+  }, []);
 
   const handleTabClick = (path: string) => {
     if (path === "/copywriting" && mobile) {
@@ -219,36 +223,51 @@ const NavigationBar = () => {
         >
           {memoizedNavigationTabs}
           <ProfileContainer id="profile-tab">
-            {!pathname.includes("assets") ? (
-              <CustomAIContainer>
-                <NavigationTab
-                  country={country}
-                  hover={isHovered}
-                  title="Assets"
-                  onClick={() => router.push(`/assets`)}
-                >
-                  <NavigationIcon>
-                    <BsFillArchiveFill
-                      style={{ height: "100%", width: "auto" }}
-                    />
-                  </NavigationIcon>
-                  <NavigationText>Assets</NavigationText>
-                </NavigationTab>
-              </CustomAIContainer>
-            ) : (
-              <CustomAIContainer>
+          {bottomTabs.map((tab) => (
+          <div id={tab.id} key={tab.id} className="w-full">
+            {!(tab.path.includes(pathname) && pathname !== "/") ? (
+              mobile ? (
+                <>
+                  <SlideBottom>
+                    <NavigationTab
+                      country={country}
+                      hover={isHovered}
+                      title={tab.title}
+                      onClick={() => handleTabClick(tab.path)}
+                    >
+                      <NavigationIcon>{tab.icon}</NavigationIcon>
+                      <NavigationText>{tab.title}</NavigationText>
+                    </NavigationTab>
+                  </SlideBottom>
+                </>
+              ) : (
+                <>
+                  <NavigationTab
+                    country={country}
+                    hover={isHovered}
+                    title={tab.title}
+                    onClick={() => handleTabClick(tab.path)}
+                  >
+                    <NavigationIcon>{tab.icon}</NavigationIcon>
+                    {isHovered && <NavigationText>{tab.title}</NavigationText>}
+                  </NavigationTab>
+                </>
+              )
+            ) : mobile ? (
+              <SlideBottom>
                 <SelectedNavigationTab hovered={isHovered}>
-                  <SelectedNavigationIcon>
-                    <BsFillArchiveFill
-                      style={{ height: "100%", width: "auto" }}
-                    />
-                  </SelectedNavigationIcon>
-                  {plan._id !== "647895cf404e31bfe8753398" && (
-                    <NavigationText>Assets</NavigationText>
-                  )}
+                  <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
+                  <SelectedNavigationText>{tab.title}</SelectedNavigationText>
                 </SelectedNavigationTab>
-              </CustomAIContainer>
+              </SlideBottom>
+            ) : (
+              <SelectedNavigationTab hovered={isHovered}>
+                <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
+                {isHovered && <NavigationText>{tab.title}</NavigationText>}
+              </SelectedNavigationTab>
             )}
+          </div>
+          ))}
             <NameContainer
               hover={isHovered}
               onClick={(e) => router.push("/profile")}
@@ -470,6 +489,7 @@ const NavigationTab = styled.div<{
       (props.title === "Prompts" && props.country !== "Poland")
         ? "none"
         : "3px 3px 5px rgba(22, 27, 29, 0.23), -3px -3px 5px #FAFBFF"};
+    display: ${(props) => (props.title === "Copywriting" ? "none" : "flex")};
     justify-content: flex-start;
     transition: all 0.4s ease;
     &:hover {
