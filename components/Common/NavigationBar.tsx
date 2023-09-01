@@ -357,7 +357,9 @@ const NavigationBar = () => {
         )}
       </>
     );
-  };
+  } else {
+    return <></>;
+  }
   }
 
 
