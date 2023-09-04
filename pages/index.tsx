@@ -17,7 +17,6 @@ import { BsFillGiftFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import Title from '@/components/Common/Title';
 import webBackground from "../public/images/webBackground.png";
-import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
 import Stats from '@/components/Landing/Stats';
@@ -91,8 +90,7 @@ const Homepage = () => {
               </Centered>
               </div>
           </HeroSection>
-          <div id="offer"></div>
-                    <SlideBottom>
+          <SlideBottom>
                 <Centered>
                   <LaptopContainer>
                       <Image style={{ width: "auto", height: "100%" }}  src={laptopVisualization} alt={'preview'}></Image> 
@@ -117,9 +115,11 @@ const Homepage = () => {
             {!mobile &&
               <div>
                 <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
-                <HeroText>
+                <Centered>
+                <Subtitle>
                   Reduce workload and watch your online presence <ColorfulText><b className='font-black'>grow.</b></ColorfulText>
-                </HeroText>
+                </Subtitle>
+                </Centered>
               </div>
             }
             <Space margin="5vh"/>
@@ -173,13 +173,13 @@ const Homepage = () => {
           <Section>
               <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
               <Centered><Icon><Image src={questionmarkIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
-              <SlideBottom><Centered><HeroText><p className='text-white'>What do marketing agencies say about Yepp?</p></HeroText></Centered></SlideBottom>
+              <SlideBottom><Centered><Subtitle><p className='text-white'>What do marketing agencies say about Yepp?</p></Subtitle></Centered></SlideBottom>
               {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
               </div>
           </Section>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
-          <SlideBottom><HeroText>Empower your team with AI.</HeroText></SlideBottom>
+          <SlideBottom><Centered><Subtitle>Empower your team with AI.</Subtitle></Centered></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
           <div className='px-[5vw] lg:px-[8vw]'><Plans openRegistration={true} purchase={false} landing={true}/></div>
           </Section>
@@ -403,4 +403,22 @@ const Icon = styled.div`
   width: 4rem;
   height: 4rem;
   margin-bottom: 1.25rem;
+`
+const Subtitle = styled.h1`
+    color: black;
+    font-size: 4vw;
+    line-height: 1.25;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 900;
+    text-align: center;
+    margin-top: 2vh;
+    width: 65%;
+    @media (max-width: 1023px) {
+        margin-top: 0;
+        line-height: auto;
+        font-size: 2rem;
+        line-height: 1.3;
+        width: 90vw;
+        text-align: center;
+    }
 `

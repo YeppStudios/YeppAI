@@ -103,10 +103,10 @@ export const CampaignDropdown: FC<DropdownProps> = ({ category, values, openedCa
               <div
                 key={id}
                 onClick={() => toggleTemplate(item)}
-                className="flex bg-white gap-2 items-center p-2 z-100 hover:bg-slate-100 rounded-xl cursor-pointer"
+                className="flex bg-white gap-2 items-center whitespace-nowrap p-2 z-100 hover:bg-slate-100 rounded-xl cursor-pointer"
               >
                 <div>
-                  <Image className="rounded-md" src={item.icon} alt="icon" height={20} width={20} />
+                  <Image className="rounded-md min-w-[20px]" src={item.icon} alt="icon" height={20} width={20} />
                 </div>
                 <span className="text-left">{item.title}</span>
                 <div className="w-4 h-4">

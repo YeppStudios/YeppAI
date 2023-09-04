@@ -229,7 +229,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `Generated persona`, model, systemPrompt, temperature: 0.95}),
+              body: JSON.stringify({prompt, title: `Generated persona`, model, systemPrompt, temperature: 1}),
             });
     
           if (!response.ok) {
@@ -282,7 +282,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                 prompt: `Please closely analyze my business offer and product to generate a realistic persona that would be a perfect fit for it. 
                 About product/service: ${about}. We are targetting the ${market} market and our target audience are ${targetAudience}. Our business model is ${businessModel}.
                 While generating persona focus on the occupation part by asking yourself who would most likely buy it and who should be the end user. Always consider that we are ${businessModel}.
-                The persona should be a valid JSON object that represents it. The JSON object should be formatted as follows:
+                The persona should be a valid JSON object that represents it. Always come up with the unique name for the persona and do not call it John Smith. The JSON object should be formatted as follows:
                 {
                     "fullName": "Example Name",
                     "age": 50,
@@ -290,12 +290,12 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     "status": "married",
                     "income": "$10,000,000/year",
                     "location": "San Francisco, CA",
-                    "gender": "man"
+                    "gender": "male"
                 }
-                Valid JSON object with perfect persona for my product/service: 
+                Valid JSON object with perfect, unique and original persona for my product/service: 
                 `,
                 model: "gpt-3.5-turbo",
-                temperature: 0.5,
+                temperature: 0.95,
                 systemPrompt: `You are a valid JSON generator. You specialize in analyzing text the user has written in order to come up with marketing persona. 
                 Once you have a specific persona that will best match the user product/service description you return only a valid JSON object that represents it. The JSON object should be formatted as follows:
                   {
@@ -305,7 +305,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     "status": "married",
                     "income": "$10,000,000/year",
                     "location": "San Francisco, CA",
-                    "gender": "man"
+                    "gender": "male"
                   }
                 `
             },
@@ -345,7 +345,10 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
 
     const savePersona = async () => {
         setSaving(true);
-        let imageURL = `https://ui-avatars.com/api/?background=random&name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
+        let imageURL = `https://ui-avatars.com/api/?background=random&name=${name.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
+        if (personaGeneralInfo) {
+           imageURL = `https://ui-avatars.com/api/?background=random&name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
+        }
         if(image) {
             const subdomain = 'https://asystentai.infura-ipfs.io';
             const ipfsImage = await client.add({ content: image });
@@ -671,7 +674,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     </Centered>
                     <Space margin="2rem"/>
                     <ButtonContainer>
-                    <ContinueBtn>
+                    <ContinueBtn onClick={() => savePersona()}>
                         {saving ?
                         <Loader color="white" />
                         :

@@ -300,8 +300,8 @@ const ContentCreator = () => {
           )}
           {openCampaignModal && (
             <CampaignModal
-              setOpenCreateCampaignModal={setOpenCampaignModal}
-            />
+              setOpenCreateCampaignModal={setOpenCampaignModal} 
+             />
           )}
           {currentPage === "post" && (
             <PostPage back={back} query={query} template={selectedTemplate}/>

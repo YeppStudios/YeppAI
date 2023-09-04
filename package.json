@@ -61,6 +61,7 @@
     "framer-motion": "^8.5.4",
     "ipfs-http-client": "^60.0.0",
     "js-cookie": "^3.0.1",
+    "langchain": "^0.0.140",
     "lucide-react": "^0.252.0",
     "marked": "^5.1.1",
     "moment": "^2.29.4",

@@ -111,6 +111,10 @@ import {
     "Lifestyle",
   ];
   
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+}
+
   export const CampaignModal: FC<CampaginModalProps> = ({
     setOpenCreateCampaignModal,
   }) => {
@@ -317,7 +321,7 @@ import {
             {renderStepText()}
           </Title>
           {!mobile &&
-          <div className="flex gap-8 items-center justify-center flex-wrap mb-8">
+          <div className="flex gap-8 items-center flex-wrap mb-8 justify-center">
             {sections.map((section, index) => {
               if (step === section.stepNumber) {
                 return (
@@ -466,9 +470,9 @@ import {
           )}
           {step === 3 && (
             <form onSubmit={(e) => createCampaign(e)}>
-              <div className="pb-6 pt-0">
-              <FoldersDropdown />
-              </div>
+                <div className="pb-6 pt-0">
+                <FoldersDropdown />
+                </div>
               <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>Target audience</Label>
                 <Input
@@ -517,20 +521,19 @@ import {
           )}
         </ModalContainer>
         </SlideBottom>
-      </ModalBackground>
+        </ModalBackground>
     );
   };
   
   const ModalContainer = styled.div<{step: number}>`
-      width: 44rem;
-      padding: 1.4rem 4rem 3rem 4rem;
+      width: 38rem;
+      padding: 1.4rem 2rem 3rem 2rem;
       background: white;
       border: 2px solid #eaedf5;
       box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
       border-radius: 25px;
       cursor: auto;
       overflow: visible;
-      margin-top: 2.5rem;
       @media (max-width: 1023px) {
           width: 95vw;
           padding: 4vh 5vw 5vh 5vw;
@@ -541,37 +544,37 @@ import {
   `
 
   const ModalBackground = styled.div`
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    flex-wrap: wrap;
-    backdrop-filter: blur(7px);
-    z-index: 100;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    overflow: scroll;
-        &::-webkit-scrollbar {
-        display: none;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    color: black;
-    @media (max-width: 1023px) {
-        border-top-right-radius: 20px;
-        border-top-left-radius: 20px;
-        width: 100vw;
-        overflow-x: hidden;
-    }
-`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  flex-wrap: wrap;
+  backdrop-filter: blur(7px);
+  z-index: 100;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  overflow: scroll;
+      &::-webkit-scrollbar {
+      display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  color: black;
+  @media (max-width: 1023px) {
+      border-top-right-radius: 20px;
+      border-top-left-radius: 20px;
+      width: 100vw;
+      overflow-x: hidden;
+  }
+  `
 
   const Title = styled.h1`
       margin-bottom: 2.2rem;
       font-size: 1.2rem;
-      width: 43.75rem;
-      margin-left: -4rem;
+      width: 37.75rem;
+      margin-left: -2rem;
       padding-left: 3rem;
       border-bottom: 1px solid #eaedf5;
       padding-bottom: 1rem;
