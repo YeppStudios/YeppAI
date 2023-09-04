@@ -550,6 +550,7 @@ import {
   flex-wrap: wrap;
   backdrop-filter: blur(7px);
   z-index: 100;
+  padding-top: 4rem;
   top: 0;
   left: 0;
   display: flex;
