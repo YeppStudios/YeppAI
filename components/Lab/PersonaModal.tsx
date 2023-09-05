@@ -345,9 +345,9 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
 
     const savePersona = async () => {
         setSaving(true);
-        let imageURL = `https://ui-avatars.com/api/?background=random&name=${name.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
+        let imageURL = `https://ui-avatars.com/api/?name=${name.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
         if (personaGeneralInfo) {
-           imageURL = `https://ui-avatars.com/api/?background=random&name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
+           imageURL = `https://ui-avatars.com/api/?name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
         }
         if(image) {
             const subdomain = 'https://asystentai.infura-ipfs.io';
