@@ -413,7 +413,7 @@ const LabPage = () => {
       >
         <div className="flex justify-between w-full items-center">
           <div className="flex lg:gap-2 gap-1 items-center">
-            <PageTitle>AI Behavior Lab</PageTitle>
+            <PageTitle>Tone Of Voice Lab</PageTitle>
             <div className="flex items-center justify-center py-2 px-5 ml-2 rounded-2xl bg-slate-100">
               <GradientText className="text-center text-md uppercase">
                 Beta
@@ -719,7 +719,7 @@ export default LabPage;
 
 const PageTitle = styled.h1`
   color: black;
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
   width: 100%;
   @media (max-width: 1023px) {

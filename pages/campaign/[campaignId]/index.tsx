@@ -202,16 +202,32 @@ const Campaign = () => {
           let context = "";
           let reply = '';
           let model ="gpt-4"
-          promptToSend = `Objectives for the ${template.data.title}:
-          ${template.data.title} needs to be about ${campaign.about},
-          keywords: ${campaign.keywords},
-          language: ${campaign.language},
-          main objective: ${campaign.objective},
-          target audience: ${campaign.targetAudience},
-          tone of voice: ${campaign.toneOfVoice},
-          type: ${campaign.type}
-          use of emojis: ${useEmojis}
-          ` + template.data.prompt;
+          if (campaign.toneOfVoice.length > 30) {
+            promptToSend = `Objectives for the ${template.data.title}:
+            ${template.data.title} needs to be about ${campaign.about},
+            keywords: ${campaign.keywords},
+            language: ${campaign.language},
+            main objective: ${campaign.objective},
+            target audience: ${campaign.targetAudience},
+            tone of voice: ${campaign.toneOfVoice},
+            type: ${campaign.type}
+            use of emojis: ${useEmojis}
+            Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
+            "${campaign.toneOfVoice}".
+            Now that you've learned to write exactly in the above style, please
+            ` + template.data.prompt;
+          } else {
+            promptToSend = `Objectives for the ${template.data.title}:
+            ${template.data.title} needs to be about ${campaign.about},
+            keywords: ${campaign.keywords},
+            language: ${campaign.language},
+            main objective: ${campaign.objective},
+            target audience: ${campaign.targetAudience},
+            tone of voice: ${campaign.toneOfVoice},
+            type: ${campaign.type}
+            use of emojis: ${useEmojis}
+            ` + template.data.prompt;
+          }
   
           let allDocuments = campaign.documents;
           if (allDocuments) {

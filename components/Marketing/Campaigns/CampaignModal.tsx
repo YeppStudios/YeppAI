@@ -31,6 +31,7 @@ import {
   import { useSelector } from "react-redux";
   import { selectFoldersState } from '@/store/selectedFoldersSlice'
   import FoldersDropdown from "@/components/forms/FolderDropdown";
+import ToneDropdown from "@/components/forms/ToneDropdown";
 
   interface CampaginModalProps {
     setOpenCreateCampaignModal: Dispatch<SetStateAction<boolean>>;
@@ -81,13 +82,13 @@ import {
     },
   ];
 
-  const tones = [
-    "Formal ",
-    "Formal 💼",
-    "Friendly 😊",
-    "Informative 📃",
-    "Persuasive 🫵🏼",
-    "Informal 😎",
+  const toneList = [
+    {title: "Formal", icon: "💼"},
+    {title: "Friendly", icon: "😊"},
+    {title: "Informative", icon: "📚"},
+    {title: "Persuasive", icon: "🫵🏼"},
+    {title: "Motivational", icon: "📈"},
+    {title: "Informal", icon: "😎"},
   ];
 
   const languages = [
@@ -131,6 +132,8 @@ import {
     const [tone, setTone] = useState<string>("Informal 😎");
     const [language, setLanguage] = useState<string>("English");
     const [campaignType, setCampaignType] = useState<string>("Advertisement");
+    const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
+    const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
     const [openedCategory, setOpenedCategory] = useState<string>("");
     const [productType, setProductType] = useState<string>("");
     const [campaginTitle, setCampaignTitle] = useState<string>("");
@@ -141,12 +144,39 @@ import {
     const user = useSelector(selectedUserState);
     let selectedFolders: any[] = useSelector(selectFoldersState);
     const [mobile, setMobile] = useState(true);
+    const [tones, setTones] = useState<any[]>([]);
 
     useEffect(() => {
       if (window.innerWidth >= 1023) {
         setMobile(false);
       }
-    }, [])
+
+      let token = localStorage.getItem("token");
+
+      const fetchTones = async () => {
+        try {
+          const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+            headers: {
+              Authorization: token,
+            }
+          });
+          setTones([...toneResponse.data, ...toneList]);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      fetchTones();
+    }, []);
+
+    const handleToneChange = (title: string) => {
+      setSelectedToneTitle(title);
+      const tone = tones.find((t: any) => t.title === title);
+      if (tone.base_text) {
+        setSelectedToneBaseText(tone.base_text);
+      } else {
+        setSelectedToneBaseText("");
+      }
+    };
     
     const filteredDropdownCategories = templates
       .filter((category, index, self) => {
@@ -258,7 +288,7 @@ import {
           templates: mappedTemplates,
           type: campaignType,
           language: language,
-          toneOfVoice: tone,
+          toneOfVoice: selectedToneBaseText || tone,
           about: productType,
           useEmojis: useEmojis,
           keywords: keywords,
@@ -418,13 +448,11 @@ import {
                 </div>
                 <div className="pb-6 pr-3 pl-3 pt-0">
                   <Label>Tone of voice</Label>
-                  <CustomDropdown
-                    name="tone"
-                    value={tone}
-                    values={tones}
-                    onChange={setTone}
-                    placeholder="Friendly"
-                  />
+                  <ToneDropdown
+                      values={tones}
+                      value={selectedToneTitle}
+                      onChange={handleToneChange}
+                    />
                 </div>
               </div>
 
