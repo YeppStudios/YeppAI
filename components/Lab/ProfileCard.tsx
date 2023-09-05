@@ -36,6 +36,7 @@ const TypeText = styled.span`
   font-size: min(0.9vw, 0.8rem);
 `;
 const NameText = styled.h4`
+  white-space: nowrap;
   @media (max-width: 1023px) {
     font-size: large;
   }

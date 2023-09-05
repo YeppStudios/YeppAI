@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BiBookAlt } from "react-icons/bi";
-import placeholderIcon from "@/public/images/actIcon.png";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
 import TextArea from "@/components/forms/TextArea";
 import { ProfileCard } from "@/components/Lab/ProfileCard";
 import { IoRefreshOutline } from "react-icons/io5";
-import { FaGraduationCap } from "react-icons/fa";
 import ChoiceModal from "@/components/Lab/ChoiceModal";
 import ToneModal from "@/components/Lab/ToneModal";
 import PersonaModal from "@/components/Lab/PersonaModal";
@@ -25,11 +23,10 @@ import { useSelector } from "react-redux";
 import { Menu, Transition } from '@headlessui/react'
 import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import { SlOptionsVertical } from "react-icons/sl";
-import { Fragment } from 'react'
+import { Fragment } from 'react';
 import { BsTrash } from "react-icons/bs";
 import DeleteDoc from "@/components/Modals/DeletingModals/DeleteDocModal";
 import { useRouter } from "next/router";
-import { set } from "lodash";
 import Head from "next/head";
 import Centered from "@/components/Centered";
 
