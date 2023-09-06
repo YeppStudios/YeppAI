@@ -230,7 +230,7 @@ const ToneModal = (props: {onClose: any}) => {
         }
 
         let reply = "";
-        let model = "gpt-4";
+        let model = "gpt-4-32k";
         let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
         "${exampleText}"
         Your only job is to closely examine and learn the writing style and vibe of the author to use it for writing ${selectedTemplate?.title}.

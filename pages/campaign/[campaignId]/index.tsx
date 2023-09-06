@@ -201,7 +201,7 @@ const Campaign = () => {
           let promptToSend = '';
           let context = "";
           let reply = '';
-          let model ="gpt-4"
+          let model ="gpt-4-32k"
           if (campaign.toneOfVoice.length > 30) {
             promptToSend = `Objectives for the ${template.data.title}:
             ${template.data.title} needs to be about ${campaign.about},
@@ -395,7 +395,7 @@ const Campaign = () => {
           let promptToSend = '';
           let context = "";
           let reply = '';
-          let model ="gpt-4"
+          let model ="gpt-4-32k"
           promptToSend = `Objectives for the ${template.data.title}:
           ${template.data.title} needs to be about ${campaign.about},
           keywords: ${campaign.keywords},

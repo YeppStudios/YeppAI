@@ -222,7 +222,7 @@ const CopywritingModal = (props: {
           `
         }
 
-        let model = "gpt-4";
+        let model = "gpt-4-32k";
         let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content in ${props.toneOfVoice} tone. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
         let prompt = `${props.contentType} keyword: ${phrase}. 
         Top ${props.contentType}s on Google:
@@ -319,7 +319,7 @@ const CopywritingModal = (props: {
         }
 
         let reply = "";
-        let model = "gpt-4";
+        let model = "gpt-4-32k";
         let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing Google descriptions for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique description for ${props.contentType}. Every time you generate a unique description. Description needs to be no more than 155 characters long. You are proficient in ${props.language} language. You never put descrption in quotes and write it in ${props.toneOfVoice} tone of voice.`;
         let prompt = `For ${props.contentType} titled: ${title}. 
         Come up with the best performing description for ${props.contentType} about ${phrase} in ${props.toneOfVoice} tone of voice. My keywords: ${keywords}. Choose only ones that fit best for description. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
@@ -422,7 +422,7 @@ const CopywritingModal = (props: {
         if (props.contentType === "ranking") {
           form = "Make it in a form of a ranking list with introduction and summary.";
         }
-        let model = "gpt-4";
+        let model = "gpt-4-32k";
         let systemPrompt = `You are a professional copywriter. You professionally craft unique outlines of articles that are insightful, informative, and easy to read from the information user provides. You always start with introduction section and end with summary/conclusion one, but naming them more creatively then just "Introduction" and "Conclusion". You are proficient in ${props.language} language and you always make sure that everything you write has correct ${props.language} syntax and grammar. You always come up with intriguing and attention grabbing header titles that encourage reader to read the section.`;
         let prompt = `Craft an outline for ${props.contentType} titled "${props.title}"- ${props.description}. Write it in ${props.toneOfVoice} style.
         Also you can get some inspiration from:
@@ -559,32 +559,55 @@ const CopywritingModal = (props: {
         setLoading(true);
         try {
           let token = localStorage.getItem("token");
-          const conspectCompletion = await api.post("/completion", {
-              prompt: `${conspectText}`,
-              model: "gpt-3.5-turbo",
-              temperature: 0,
-              systemPrompt: `Act as a JSON converter. From list of titles, instructions and keywords of paragraphs return a formatted JSON output that incorporates a list of article section headers, instructions, and keywords as per the given format. You just copy paste the headers, instructions and keywords without changing the content into the JSON format that is exactly like one below. You always respond only with the correct JSON format trying to understand what user wanted to be a header, what a description and what keywords. If there seem to be only headers respond leave description field empty and vice versa. Make sure that the formatting of the final JSON output is correct and adheres exactly to the same format as the one mentioned below:
-              [
-                {
-                  "header": "header",
-                  "instruction": "instruction for writing this section.",
-                  "keywords": ["keyword1", "keyword2", "keyword3"]
-                },
-                {
-                  "header": "header",
-                  "instruction": "instruction for writing this section.",
-                  "keywords": ["keyword1", "keyword2", "keyword3"]
-                },
-                ...
-              ]
-              `
-          },
-          {
-              headers: {
-                  Authorization: `${token}`,
+          const conspectCompletion = await api.post("/completion-function", {
+            prompt: `${conspectText} JSON array:`,
+            model: "gpt-3.5-turbo-0613",
+            temperature: 0,
+            systemPrompt: `Act as a JSON converter. From list of titles, instructions and keywords of paragraphs return a formatted JSON output that incorporates a list of article section headers, instructions, and keywords as per the given format. You just copy paste the headers, instructions and keywords without changing the content into the JSON format that is exactly like one below. You always respond only with the correct JSON format trying to understand what user wanted to be a header, what a description and what keywords. If there seem to be only headers respond leave description field empty and vice versa. Make sure that the formatting of the final JSON output is correct and adheres exactly to the same format as the one mentioned below:
+            [
+              {
+                "header": "header",
+                "instruction": "instruction for writing this section.",
+                "keywords": ["keyword1", "keyword2", "keyword3"]
               },
-          });
-          const completionJSON = JSON.parse(conspectCompletion.data.completion);
+              {
+                "header": "header",
+                "instruction": "instruction for writing this section.",
+                "keywords": ["keyword1", "keyword2", "keyword3"]
+              },
+              ...
+            ]
+            `,
+            function_definition: {
+              "name": "extract_outline_paragraphs",
+              "description": "group the outline into an array of objects with header, instruction and keywords.",
+              "parameters": {
+                  "type": "object",
+                  "properties": {
+                      "header": {
+                          "type": "string",
+                          "description": "the paragraph header",
+                      },
+                      "instruction": {
+                        "type": "string", 
+                        "description": "instruction on how to write the paragraph",
+                      },
+                      "keywords": {
+                          "type": "string",
+                          "description": "keywords to use when writing the paragraph",
+                      },
+                  },
+                  "required": ["header", "instruction", "keywords"],
+              },
+          }
+        },
+        {
+            headers: {
+                Authorization: `${token}`,
+            },
+        });
+          const completionJSON = JSON.parse(conspectCompletion.data.function.arguments);
+          console.log(completionJSON);
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
           props.setConspect(completionJSON);
           try {
@@ -999,7 +1022,7 @@ const CopywritingModal = (props: {
                 <TextArea
                     ref={conspectTextAreaRef}
                     id="headers-input"
-                    height= "24rem"
+                    height= "26rem"
                     padding="1.25rem"
                     placeholder="Write down headers for each section with instructions on how to write them."
                     value={conspectText}
@@ -1042,7 +1065,7 @@ export default CopywritingModal;
 
 const Container = styled.div<{step: number}>`
     width: ${((props: { step: number; }) => props.step === 3 || props.step === 2) ? "44rem" : "50rem"};
-    padding: 1.5rem 4.5rem 3rem 4.5rem;
+    padding: 1rem 4.5rem 3rem 4.5rem;
     background: white;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;

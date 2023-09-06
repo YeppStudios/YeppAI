@@ -477,7 +477,7 @@ const NavigationTab = styled.div<{
   transition: all 0.15s ease;
   @media (min-width: 1023px) {
     &:hover {
-      background-color: #f3f7fa;
+      background-color: #F4F7FB;
     }
   }
   @media (max-width: 1023px) {

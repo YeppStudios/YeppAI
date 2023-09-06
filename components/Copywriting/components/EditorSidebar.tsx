@@ -249,7 +249,7 @@ const EditorSidebar = (props: {
             prompt = "Please write a greeting and ask what you can do for me."
         }
         let systemPrompt = `You are a professional copywriter with years of experience and you specialize in writing easily to understand best performing SEO conetnt. You write like a professional human copywriter and you make the content sound natural and emphatic. You always respond in ${language} language. You fluently write content in ${language} language and before writing anything you always make sure its syntax sound human-like and grammar is correct. You are always factual and you write engaging and valuable content. If user asks you anything else you respond that you only can write best performing SEO content.`;
-        let model = "gpt-4";
+        let model = "gpt-4-32k";
         try {
             const response = await fetch('https://asystentai.herokuapp.com/askAI', {
               method: 'POST',

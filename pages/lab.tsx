@@ -302,7 +302,7 @@ const LabPage = () => {
     }
 
     let reply = "";
-    let model = "gpt-4";
+    let model = "gpt-4-32k";
     let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience: ${baseText} 
     You never write about tanything the author mentioned in the example, your only job is to extract the tone of voice used by the author.
     Now that you are capable of writing exactly in the above text style, please think of unique ${selectedTemplate?.title} explicitly about ${exampleAbout} in ${exampleLanguage} language. 
@@ -411,7 +411,7 @@ const LabPage = () => {
         <div className="flex justify-between w-full items-center">
           <div className="flex lg:gap-2 gap-1 items-center">
             <PageTitle>Tone Of Voice Lab</PageTitle>
-            <div className="flex items-center justify-center py-2 px-5 ml-2 rounded-2xl bg-slate-100">
+            <div className="flex items-center justify-center py-2 px-5 ml-2 rounded-2xl bg-[#F8F9FE]">
               <GradientText className="text-center text-md uppercase">
                 Beta
               </GradientText>
@@ -562,7 +562,7 @@ const LabPage = () => {
                   name={currentSample.title}
                 />
                 <div className="flex h-full items-center">
-                  <button onClick={() => router.push("/marketing")} className="flex items-center  justify-center py-2 px-4 lg:px-[2vw]  rounded-2xl bg-[#EFF1F5]">
+                  <button onClick={() => router.push("/marketing")} className="flex items-center  justify-center py-2 px-4 lg:px-[2vw]  rounded-2xl bg-[#F8F9FE]">
                     <GradientText style={{ fontSize: "1rem" }}>
                       Try now
                     </GradientText>
@@ -680,7 +680,7 @@ const LabPage = () => {
                         <GeneratedTextDate>{moment().format('DD MMMM YYYY')}</GeneratedTextDate>
                       </div>
                     </div>
-                    <button onClick={() => generateExampleOutput({})} className="flex px-2 lg:px-[2vw] gap-2 lg:gap-4 items-center h-10 bg-[#EFF1F5] rounded-2xl hover:scale-95">
+                    <button onClick={() => generateExampleOutput({})} className="flex px-2 lg:px-[2vw] gap-2 lg:gap-4 items-center h-10 bg-[#F8F9FE] rounded-2xl hover:scale-95">
                       <IoRefreshOutline className="w-4 h-4" />
                       <Text>Rewrite</Text>
                     </button>

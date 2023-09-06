@@ -241,7 +241,7 @@ useEffect(() => {
     Introduction: 
     `;
     let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with introduction without header.`;
-    let model = "gpt-4";
+    let model = "gpt-4-32k";
 
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
@@ -438,7 +438,7 @@ useEffect(() => {
     Now understanding the context here is the section:
     `;
     let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} sections. ${language} is your native language. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with ${contentType} section without header.`;
-    let model = "gpt-4";
+    let model = "gpt-4-32k";
 
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {

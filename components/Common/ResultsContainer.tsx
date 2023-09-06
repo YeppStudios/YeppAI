@@ -192,7 +192,7 @@ const ResultsContainer = (
         let promptToSend = '';
         let context = "";
         let reply = '';
-        let model ="gpt-4"
+        let model ="gpt-4-32k"
         if (prompt) {
             promptToSend = prompt;
         } else {
@@ -349,7 +349,7 @@ const ResultsContainer = (
       let text = '';
       let context = "";
       let promptToSend = prompt;
-      let  model = "gpt-4"
+      let  model = "gpt-4-32k"
       setIsSSEComplete(false);
       setPrompt('');
       setContent('');
