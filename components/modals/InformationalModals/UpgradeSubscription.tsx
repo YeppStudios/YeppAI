@@ -1,24 +1,6 @@
 import SlideBottom from "../../Animated/SlideBottom";
 import styled from "styled-components";
-import ModalTitle from "../common/ModalTitle";
-import Centered from "../../Centered";
-import planBackground from "../../../public/images/planBackground.png";
-import Image from "next/image";
-import wandIcon from "../../../public/images/magicWand.png"
-import diamondIcon from "../../../public/images/diamond.png"
-import pencilIcon from "../../../public/images/pencil.png";
-import buildingIcon from "../../../public/images/buildingEmoji.png"
-import tickIcon from "../../../public/images/tickGreen.png";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
-import api from "@/pages/api";
-import { useEffect, useState } from "react";
-import { Loader } from "../../Common/Loaders";
-import { useRouter } from 'next/router';
-import Link from "next/link";
-import elixirIcon from "../../../public/images/elixir.png";
-import { useSelector } from "react-redux";
-import { selectedPlanState } from "@/store/planSlice";
-import { selectedUserState } from "@/store/userSlice";
 import Plans from "@/components/Landing/Plans";
 
 interface Background {
@@ -38,70 +20,6 @@ interface Button {
 
 
 const UpgradeSubscription = (props: {onClose: any, closeable: boolean, purchase: boolean, landing: boolean}) => {
-
-    const [loadingPlan, setLoadingPlan] = useState("");
-    const [mobile, setMobile] = useState(false);
-    const user = useSelector(selectedUserState);
-    const currentPlan = useSelector(selectedPlanState);
-    const router = useRouter();
-    
-    useEffect(() => {
-        if(window.innerWidth < 1024) {
-            setMobile(true);
-        }
-    }, [])
-    
-    const updatePlan = async (priceId: string, planId: string, planName: string, query: string) => {
-        const token = localStorage.getItem("token");
-        setLoadingPlan(planName);
-        try {
-            let referrerId = localStorage.getItem("referrer_id");
-            if(user.referredBy){
-                referrerId = user.referredBy;
-                await api.put('/clear-referred-by', {}, {
-                    headers: {
-                      authorization: token
-                    }
-                })
-            }
-            if(user.plan && user.fullName && user.accountType !== "company") {
-                await api.post('/update-subscription', {priceId, planId}, {
-                    headers: {
-                      authorization: token
-                    }
-                })
-                setLoadingPlan("");
-                props.onClose();
-                router.reload();
-            } else {
-                if (user.accountType === "company") {
-                    router.push(`${query}`);
-                    setLoadingPlan("");
-                } else {
-                    const response = await api.post(`/create-checkout-session`, 
-                    {
-                        priceId: priceId, 
-                        mode: "subscription",
-                        successURL: "https://www.assistant.ai/profile?success",
-                        cancelURL: "https://www.assistant.ai/profile",
-                        email: user.email,
-                        planId: planId,
-                        referrerId: referrerId
-                    });
-                    const { url } = await response.data;
-                    window.location.href = url;
-                    setLoadingPlan("");
-                }
-            }
-            localStorage.setItem("referrer_id", "");
-        } catch (e) {
-            setLoadingPlan("");
-            console.log(e);
-        }
-    
-    }
-    
-    
     
     return (
         <ModalBackground>

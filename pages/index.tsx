@@ -117,7 +117,7 @@ const Homepage = () => {
                 <Centered><MiniTitle>YEPP AI WILL HELP YOU</MiniTitle></Centered>
                 <Centered>
                 <Subtitle>
-                  Reduce workload and watch your online presence <ColorfulText><b className='font-black'>grow.</b></ColorfulText>
+                Effortlessly craft content and <ColorfulText><b className='font-black'>boost</b></ColorfulText> your online presence.
                 </Subtitle>
                 </Centered>
               </div>

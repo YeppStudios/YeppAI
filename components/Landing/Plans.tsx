@@ -12,6 +12,7 @@ import api from "@/pages/api";
 import LoginModal from "../Modals/OnboardingModals/LoginModal";
 import { Loader } from "../Common/Loaders";
 import PhoneNumberPopup from "../Modals/InformationalModals/PhoneNumberPopup";
+import HeroText from "./HeroText";
 
 const tabs = [
     { name: 'monthly', period: 1, discount: 0},
@@ -332,6 +333,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
         <>
         {openLoginModal && <LoginModal onClose={undefined} registration={false} />}
         {openContact && <PhoneNumberPopup onClose={() => setOpenContact(false)} />}
+        {(!props.purchase && !props.landing) && <SlideBottom><h1 className="text-6xl text-center font-bold mb-16 mt-12">Choose your <ColorfulText><b className="font-bold">free trial</b></ColorfulText> plan</h1></SlideBottom>}
         <div className="w-full flex justify-center mt-8">
         <div className="sm:hidden">
             <div className="text-center font-medium mb-4">
