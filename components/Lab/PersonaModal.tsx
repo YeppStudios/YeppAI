@@ -54,6 +54,20 @@ const competition = [
     {title: "Jasper", favicon: "https://assets-global.website-files.com/60e5f2de011b86acebc30db7/60e5f2de011b86e6acc31077_Favicon.png", description: "dsfsdga"},
 ]
 
+const languages = [
+    "English",
+    "Spanish",
+    "French",
+    "Italian",
+    "Portugese",
+    "German",
+    "Ukrainian",
+    "Polish",
+    "Chinese",
+    "Bulgarian",
+    "Russian",
+  ];
+
 const markets = [
     "Global",
     "Europe",
@@ -99,6 +113,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
     const [competitionLoading, setCompetitionLoading] = useState(true);
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [saving, setSaving] = useState(false);
+    const [language, setLanguage] = useState("English");
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     
@@ -214,14 +229,14 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
 
         let reply = "";
         let model = "gpt-3.5-turbo";
-        let systemPrompt = `You are a marketer with years of experience. You specialize in coming up with detailed marketing persona descriptions. You carefuly analyze the context given by the user and try to understand the target audience as well as product. 
+        let systemPrompt = `You are a ${language} marketer with years of experience. You specialize in coming up with detailed marketing persona descriptions. You carefuly analyze the context given by the user and try to understand the target audience as well as product. 
         Every time you generate a unique description. Your descriptions are no more than 150 words long. You always reply only with persona description.`;
         let prompt = `Come up with detailed persona description for my persona object: ${personaJSON.fullName}- ${personaJSON.age} year old, ${personaJSON.status} ${personaJSON.occupation} who lives in ${personaJSON.location} and earns ${personaJSON.income}. 
         But first closely analyze my business offer and product to generate a realistic ${personaJSON.fullName} description that would be a perfect fit for us. 
         About our product/service: ${about}. We are targetting the ${market} market and our target audience are ${targetAudience}. Our business model is ${businessModel}.
         Follow this process when crafting description: Once you understand the context, come up with bio describing persona's role in the company, his/her life purpose, interests and hobbies that best match the perfect persona for us. Make sure that these are well aligned with typical ${personaJSON.ocupation} day-to-day desires and struggles.
         Then come up with persona needs and painpoints that ${personaJSON.fullName} has along with desires and goals related to our product/service. At the end describe why ${personaJSON.fullName} is motivated to buy our product/service. Make it sound objective and realistic.
-        Objective persona description that is in under 150 words long: 
+        Objective persona description in ${language} language that is in under 150 words long: 
         `
 
         try {
@@ -282,7 +297,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                 prompt: `Please closely analyze my business offer and product to generate a realistic persona that would be a perfect fit for it. 
                 About product/service: ${about}. We are targetting the ${market} market and our target audience are ${targetAudience}. Our business model is ${businessModel}.
                 While generating persona focus on the occupation part by asking yourself who would most likely buy it and who should be the end user. Always consider that we are ${businessModel}.
-                The persona should be a valid JSON object that represents it. Always come up with the unique name for the persona and do not call it John Smith. The JSON object should be formatted as follows:
+                The persona should be a valid JSON object that represents it. Always come up with the unique name for the persona and do not call it John Smith. Fields should be in ${language} language. The JSON object should be formatted as follows:
                 {
                     "fullName": "Example Name",
                     "age": 50,
@@ -430,17 +445,19 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                         />
                     </div>
                     </div>
-                    <div className="flex items-center justify-between w-full mt-4"><Label>What is your product/service about?</Label><div><WordCounter>{about.length} / 350</WordCounter></div></div>
-                    <TextArea 
-                        placeholder="Generative AI platform where you can upload your data and effortlessly generate factual marketing content"
-                        padding="1rem"
-                        height="5.2rem"
-                        value={about}
-                        onChange={(e) => setAbout(e.target.value)}
-                    />
+                    <div className="flex flex-wrap w-full mt-4 justify-between">
+                    <div className="flex w-[48%] items-center mb-2 flex-wrap">
+                    <div className="flex items-between justify-between w-full">
+                        <Label>Description language</Label>
                     </div>
-                    <div className="flex flex-wrap w-full lg:px-6 px-2 mt-4 justify-between">
-                    <div className="flex w-[100%] items-center mb-2 flex-wrap">
+                        <Dropdown 
+                        placeholder="English"
+                        value={language}
+                        values={languages}
+                        onChange={setLanguage}
+                        />
+                    </div>
+                    <div className="flex w-[48%] items-center mb-2 flex-wrap">
                     <div className="flex items-between justify-between w-full">
                         <Label>Target audience</Label>
                     </div>
@@ -450,6 +467,15 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                         onChange={(e) => setTargetAudience(e.target.value)}
                         />
                     </div>
+                    </div>
+                    <div className="flex items-center justify-between w-full mt-4"><Label>What is your product/service about?</Label><div></div></div>
+                    <TextArea 
+                        placeholder="Generative AI platform where you can upload your data and effortlessly generate factual marketing content"
+                        padding="1rem"
+                        height="5.2rem"
+                        value={about}
+                        onChange={(e) => setAbout(e.target.value)}
+                    />
                     </div>
                     <div className="flex flex-wrap w-full lg:px-6 px-2 mt-6">
                     <div className="flex items-between justify-between w-full">
@@ -871,7 +897,7 @@ const Input = styled.input`
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: 3.2rem;
+  height: 2.8rem;
   padding: 12px;
   border: none;
   border-radius: 15px;
