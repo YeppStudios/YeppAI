@@ -84,7 +84,7 @@ const Homepage = () => {
                   <TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
                 }
               </Centered>
-              <Centered>{!mobile && <div className='text-lg mt-4 text-center font-medium'>7 days for free <br /><p className='text-sm font-normal'>*up to 10 000 words</p></div>}</Centered>
+              <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words <br /></div>}</Centered>
               <Centered>
               <LoginButton className="login-btn-landing" onClick={() => router.push("/marketing")}>Log in</LoginButton>
               </Centered>
@@ -103,7 +103,7 @@ const Homepage = () => {
                 </Centered>
           </SlideBottom>
              {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
-             <Centered>{!mobile && <div className='text-lg mt-4 text-center font-medium'>7 days for free <br /><p className='text-sm font-normal'>*up to 10 000 words</p></div>}</Centered>
+             <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered>
           <Section>
             <Stats />
           </Section>
