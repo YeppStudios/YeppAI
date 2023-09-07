@@ -354,7 +354,7 @@ const AddDocument = (props: {
 
         const createdFolder = await api.post("/add-folder", {
           title: folderName,
-          owner: fetchedUser._id,
+          owner: localStorage.getItem("user_id"),
           workspace: fetchedUser.workspace,
           documents: createdDocs
         },

@@ -205,7 +205,7 @@ const AddWrittenContent = (props: {
         } else {
           const createdFolder = await api.post("/add-folder", {
             title: folderName,
-            owner: user._id,
+            owner: localStorage.getItem("user_id"),
             workspace: user.workspace,
             documents: [createdDoc]
           },

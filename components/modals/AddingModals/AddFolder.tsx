@@ -47,7 +47,7 @@ const AddFolder = (props: { onClose: any, setFolders: any, folders: any[], folde
                 setLoading(true);
                 const createdFolder = await api.post("/add-folder", {
                     title: name,
-                    owner: fetchedUser._id,
+                    owner: localStorage.getItem("user_id"),
                     category: "general",
                     updatedAt: Date.now(),
                     documents: [],
