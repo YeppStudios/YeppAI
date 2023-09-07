@@ -50,7 +50,7 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
     const [instruction, setInstruction] = useState("");
     const [prompt, setPrompt] = useState<string>();
     const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
-    const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
+    const [selectedTonePrompt, setSelectedTonePrompt] = useState("");
     const [tones, setTones] = useState<any[]>([]);
     const [preprompt, setPrePrompt] = useState<string>();
     const userPlan = useSelector(selectedPlanState);
@@ -87,9 +87,9 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
         setSelectedToneTitle(title);
         const tone = tones.find((t: any) => t.title === title);
         if (tone.base_text) {
-          setSelectedToneBaseText(tone.base_text);
+          setSelectedTonePrompt(tone.base_text);
         } else {
-          setSelectedToneBaseText("");
+          setSelectedTonePrompt("");
         }
       };
     
@@ -98,13 +98,11 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
         setKey((prevKey) => prevKey + 1);
         setPrompt("");
         setLoading(true);
-        if (selectedToneBaseText) {
-            setPrompt(`Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
-            "${selectedToneBaseText}".
-            Now that you've learned to write exactly in the above style, please write unique ${template.title.toLowerCase()} to message client sent us: "${content}" in learned tone. 
+        if (selectedTonePrompt) {
+            setPrompt(`Please come up with unique ${template.title.toLowerCase()} to message client sent us: "${content}". 
             Your goal is to ${instruction}.
-            You never reuse nor translate the example text, but rather you come up with other unique one in trained style that responds to the message of our client.
             Make sure it gives the desired feeling for the reader.
+            Write it in the following tone of voice: ${selectedTonePrompt} 
             Return ready response in our client's language that is no longer than ${completionLength} words:
             `)
         } else {

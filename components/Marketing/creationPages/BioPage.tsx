@@ -62,7 +62,7 @@ const languages = [
 const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [completionLength, setCompletionLength] = useState(150);
   const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
-  const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
+  const [selectedTonePrompt, setSelectedTonePrompt] = useState("");
   const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
   const [about, setAbout] = useState("");
   const [language, setLanguage] = useState("English");
@@ -125,10 +125,10 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const handleToneChange = (title: string) => {
     setSelectedToneTitle(title);
     const tone = tones.find((t: any) => t.title === title);
-    if (tone.base_text) {
-      setSelectedToneBaseText(tone.base_text);
+    if (tone.prompt) {
+      setSelectedTonePrompt(tone.prompt);
     } else {
-      setSelectedToneBaseText("");
+      setSelectedTonePrompt("");
     }
   };
 
@@ -138,10 +138,9 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     setPrompt("");
     setLoading(true);
     const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
-    if (selectedToneBaseText) {
-      setPrompt(`${personaText} Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
-      "${selectedToneBaseText}"
-      Now that you are capable of writing exactly in the above text style, please write unique ${query.type} bio for ${about} without using hashtags in ${language} language in this exact style. Mimic the tone to look 1:1 as if it was written by the author of the quoted text, but make sure it's unique. 
+    if (selectedTonePrompt) {
+      setPrompt(`${personaText} Please come up with unique ${query.type} bio for ${about} without using hashtags in ${language} language.
+      Write it in the following tone of voice: ${selectedTonePrompt} 
       Return the ${query.type} bio content in ${language} that is no longer than ${completionLength} characters and uses learned tone of voice:
       `)
     } else {
@@ -261,7 +260,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
                   required
                 />
               </InputContainer>
-              {!selectedToneBaseText &&
+              {!selectedTonePrompt &&
               <InputContainer width="42%">
               <div className="flex flex-wrap gap-1 ml-2 ">
                 <div className="w-full"><Label>Use relevant emojis</Label></div>

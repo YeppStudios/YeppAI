@@ -65,7 +65,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [tones, setTones] = useState<any[]>([]);
   const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
   const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
-  const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
+  const [selectedTonePrompt, setSelectedTonePrompt] = useState("");
   const [about, setAbout] = useState("");
   const [language, setLanguage] = useState("English");
   const [targetAudience, setTargetAudience] = useState("");
@@ -119,10 +119,10 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const handleToneChange = (title: string) => {
     setSelectedToneTitle(title);
     const tone = tones.find((t: any) => t.title === title);
-    if (tone.base_text) {
-      setSelectedToneBaseText(tone.base_text);
+    if (tone.prompt) {
+      setSelectedTonePrompt(tone.prompt);
     } else {
-      setSelectedToneBaseText("");
+      setSelectedTonePrompt("");
     }
   };
 
@@ -147,12 +147,10 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     setLoading(true);
     let replyLength = `Write it in just ${completionLength} words.`;
     const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
-    if (selectedToneBaseText) {
-      setPrompt(`${personaText} Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
-      "${selectedToneBaseText}".
-      Now that you've learned to write exactly in the above style, please come up with unique ${template.title} specifically about "${about}". 
-      You are never influenced by the tasks, stats and informations given in the example text, you come up with your own, unique content for ${about} and mimic exactly the trained style.
+    if (selectedTonePrompt) {
+      setPrompt(`${personaText} Please come up with unique ${template.title} about ${about}. 
       It should resonate with ${targetAudience}, but do not adress them directly.
+      Write it in the following tone of voice: ${selectedTonePrompt} 
       Return ready ${template.title} in ${language} that is no longer than ${completionLength} words in the exact style you learned:
       `)
     } else {
@@ -336,7 +334,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
                 />
             </InputContainer>
               }
-              {!selectedToneBaseText &&
+              {!selectedTonePrompt &&
               <InputContainer width="42%">
               <div className="flex flex-wrap gap-1 ml-2 ">
                 <div className="w-full"><Label>Use relevant emojis</Label></div>

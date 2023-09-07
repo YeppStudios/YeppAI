@@ -211,11 +211,7 @@ const Campaign = () => {
             target audience: ${campaign.targetAudience},
             tone of voice: ${campaign.toneOfVoice},
             type: ${campaign.type}
-            use of emojis: ${useEmojis}
-            Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
-            "${campaign.toneOfVoice}".
-            Now that you've learned to write exactly in the above style, please
-            ` + template.data.prompt;
+            Now, please` + template.data.prompt;
           } else {
             promptToSend = `Objectives for the ${template.data.title}:
             ${template.data.title} needs to be about ${campaign.about},

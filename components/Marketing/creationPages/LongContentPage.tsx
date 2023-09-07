@@ -62,7 +62,7 @@ const LongFormPage = ({ back, query, template }: any) => {
   const [paragraphCount, setParagraphCount] = useState(3);
   const [targetAudience, setTargetAudience] = useState("");
   const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
-  const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
+  const [selectedTonePrompt, setSelectedTonePrompt] = useState("");
   const [tones, setTones] = useState<any[]>([]);
   const [topic, setTopic] = useState("");
   const [keywords, setKeywords] = useState("");
@@ -123,10 +123,10 @@ const LongFormPage = ({ back, query, template }: any) => {
   const handleToneChange = (title: string) => {
     setSelectedToneTitle(title);
     const tone = tones.find((t: any) => t.title === title);
-    if (tone.base_text) {
-      setSelectedToneBaseText(tone.base_text);
+    if (tone.prompt) {
+      setSelectedTonePrompt(tone.prompt);
     } else {
-      setSelectedToneBaseText("");
+      setSelectedTonePrompt("");
     }
   };
 
@@ -151,13 +151,11 @@ const LongFormPage = ({ back, query, template }: any) => {
     setLoading(true);
     let replyLength = `Write it in just ${completionLength} words.`;
     const personaText = selectedPersonaPrompt ? selectedPersonaPrompt : "";
-    if (selectedToneBaseText) {
-      setPrompt(`${personaText} Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
-      "${selectedToneBaseText}".
-      You only mimic the tone of voice to make the text look 1:1 as if it was written by the example author. You don't get influenced by the tasks, events, stats or anything mentioned in the example you use it only to remember tone.
-      Now that have learned the tone of voice, you can start writing your own ${template.title} only about "${topic}" nothing else.
+    if (selectedTonePrompt) {
+      setPrompt(`${personaText} Come up with ${template.title} about "${topic}".
       It should resonate with ${targetAudience} and encorporate these keywords: ${keywords}.
-      Return unique, ready ${template.title} in ${language} that is no longer than ${completionLength} words in tone of voice you've learned.:
+      Write it in the following tone of voice: ${selectedTonePrompt} 
+      Return unique, ready ${template.title} in ${language} that is no longer than ${completionLength} words total:
       `)
     } else {
       if (template.title === "Newsletter") {

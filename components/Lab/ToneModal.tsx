@@ -75,6 +75,7 @@ const ToneModal = (props: {onClose: any}) => {
     const [title, setTitle] = useState("");
     const [saving, setSaving] = useState(false);
     const [exampleOutputJSON, setExampleOutputJSON] = useState<any>();
+    const [toneDescription, setToneDescription] = useState("");
     const selectedMarketingAssistant = useSelector(defaultMarketingAssistantState);
 
     const router = useRouter();
@@ -175,10 +176,25 @@ const ToneModal = (props: {onClose: any}) => {
         },
     });
 
+    const descriptionResponse = await api.post("/completion", {
+      prompt: `Text to analyze: "${exampleText}". Return a detailed instruction on how to mimic the used tone of voice in the future. Imperative second-person description under 150 words:
+      `,
+      systemPrompt: `You are professionally analyzing tone of voice of the quoted text. You are very specific in expressing what tone of voice used feels like in text and you carefully analyze it understanding use of emojis, punctuation, capitalization, form, syntax, level of formality, use of hashtags, how the author addresses the target audience and everything that is needed to clone the tone. You NEVER describe what the text is about and don't refer to anything else about its content. You recognise ONLY the tone, style and target audience to write in similar tone in the future. You return a detailed description that will allow you in the future mimic the extracted tone of voice.
+        `,
+      model: "gpt-4-32k",
+      temperature: 0,
+  },
+  {
+      headers: {
+          Authorization: `${token}`,
+      },
+  });
+
     const exampleJSON = JSON.parse(exampleResponse.data.function.arguments);
     setExampleOutputJSON(exampleJSON);
     setLanguage(exampleJSON.language);
     setAbout(exampleJSON.about);
+    setToneDescription(descriptionResponse.data.completion);
     generateExampleOutput(exampleJSON)
     }
 
@@ -231,10 +247,10 @@ const ToneModal = (props: {onClose: any}) => {
 
         let reply = "";
         let model = "gpt-4-32k";
-        let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience:
-        "${exampleText}"
-        Your only job is to closely examine and learn the writing style and vibe of the author to use it for writing ${selectedTemplate?.title}.
-        Now that you are capable of writing exactly in the above text style, please write unique ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language in this exact style. Mimic the tone to look 1:1 as if it was written by the author of the quoted text. Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters and uses learned tone of voice:`;
+        let prompt = `
+        Please write unique ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language in this exact style.
+        Write it in the following tone of voice: ${toneDescription}
+        Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters:`;
         let systemPrompt = `You are a ${exampleLanguage} native marketer. ${selectedMarketingAssistant.noEmbedPrompt}`;
         try {
             const response = await fetch('https://asystentai.herokuapp.com/askAI', {
@@ -292,21 +308,18 @@ const ToneModal = (props: {onClose: any}) => {
         if (!exampleText) {
           return
         }
+        setSaving(true);
         let imageURL = "";
         if (image) {
           const subdomain = 'https://asystentai.infura-ipfs.io';
           const ipfsImage = await client.add({ content: image });
           imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
         }
-        setSaving(true);
         try {
           await api.post("/save-tone", {
             title,
             icon: imageURL,
-            prompt: `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation and how the text addresses the target audience:
-            "${exampleText}"
-            The content of quoted text doesn't matter, your only job is to closely examine and learn the writing style and vibe of the author to use it for your writing.
-            Now that you are capable of writing exactly in the above text style, please `,
+            prompt: toneDescription,
             workspace: localStorage.getItem("workspace"),
             base_text: exampleText,
           }, 

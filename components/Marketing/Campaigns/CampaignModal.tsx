@@ -129,11 +129,10 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
     const [targetAudience, setTargetAudience] = useState<string>("");
     const [objectives, setObjectives] = useState<string>("");
     const [keywords, setKeywords] = useState<string>("");
-    const [tone, setTone] = useState<string>("Informal 😎");
     const [language, setLanguage] = useState<string>("English");
     const [campaignType, setCampaignType] = useState<string>("Advertisement");
     const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
-    const [selectedToneBaseText, setSelectedToneBaseText] = useState("");
+    const [selectedTonePrompt, setSelectedTonePrompt] = useState("");
     const [openedCategory, setOpenedCategory] = useState<string>("");
     const [productType, setProductType] = useState<string>("");
     const [campaginTitle, setCampaignTitle] = useState<string>("");
@@ -172,9 +171,9 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
       setSelectedToneTitle(title);
       const tone = tones.find((t: any) => t.title === title);
       if (tone.base_text) {
-        setSelectedToneBaseText(tone.base_text);
+        setSelectedTonePrompt(tone.prompt);
       } else {
-        setSelectedToneBaseText("");
+        setSelectedTonePrompt("");
       }
     };
     
@@ -288,7 +287,7 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
           templates: mappedTemplates,
           type: campaignType,
           language: language,
-          toneOfVoice: selectedToneBaseText || tone,
+          toneOfVoice: selectedTonePrompt || selectedToneTitle,
           about: productType,
           useEmojis: useEmojis,
           keywords: keywords,

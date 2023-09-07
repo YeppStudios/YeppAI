@@ -303,11 +303,10 @@ const LabPage = () => {
 
     let reply = "";
     let model = "gpt-4-32k";
-    let prompt = `Analyze this example text to understand and remember the tone of voice, use of emojis, punctuation, capitalization and exactly how the author addresses the target audience: ${baseText} 
-    You never write about tanything the author mentioned in the example, your only job is to extract the tone of voice used by the author.
-    Now that you are capable of writing exactly in the above text style, please think of unique ${selectedTemplate?.title} explicitly about ${exampleAbout} in ${exampleLanguage} language. 
-    Mimic the tone to look 1:1 as if it was written by the author of the quoted text. Make sure you don't translate the example and always come up with something unique that is on point.
-    Return the unique ${selectedTemplate?.title} content that is no longer than ${length} characters total and uses learned tone of voice:`
+    let prompt = `
+    Please as a professional marketer come up with unique ${selectedTemplate?.title} explicitly about ${exampleAbout} in ${exampleLanguage} language. 
+    Write it in the following tone of voice: ${currentSample?.prompt}
+    Return the unique ${selectedTemplate?.title} content that is no longer than ${length} characters total:`
 
     if (currentSample?.type === "persona") {
       prompt = `Please at the beginning closely analyze our persona: ${baseText}.
