@@ -151,7 +151,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
       setPrompt(`${personaText} Please come up with unique ${template.title} about ${about}. 
       It should resonate with ${targetAudience}, but do not adress them directly.
       Write it in the following tone of voice: ${selectedTonePrompt} 
-      Return ready ${template.title} in ${language} that is no longer than ${completionLength} words in the exact style you learned:
+      Return ready ${template.title} in ${language} that is around ${completionLength} words total:
       `)
     } else {
       if (template.title === "LinkedIn-About Company") {
