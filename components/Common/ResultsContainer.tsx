@@ -187,7 +187,8 @@ const ResultsContainer = (
         let model ="gpt-4-32k"
         let previousMessage = '';
       if (content) {
-        previousMessage = `Last time I wrote: "${content}". Now please generate new, unique content other than the one written previously following these guidelines: `
+        previousMessage = `Last time I wrote: "${content}". Now please generate new, unique content different than the one written previously following these guidelines: 
+        `
       }
       if (prompt) {
           promptToSend = previousMessage + prompt;
@@ -244,7 +245,7 @@ const ResultsContainer = (
           } catch (e) {
           }
         }
-
+        console.log(promptToSend);
         try {
             const response = await fetch('https://asystentai.herokuapp.com/askAI', {
               method: 'POST',
@@ -789,8 +790,7 @@ const PromptInput = styled.textarea`
     ::placeholder,
     ::-webkit-input-placeholder {
       color: #A7ACBC;
-      font-weight: 200;
-      font-style: italic;
+      font-weight: 500;
     }
     :-ms-input-placeholder {
        color: #A7ACBC;

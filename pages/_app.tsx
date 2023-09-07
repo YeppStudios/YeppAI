@@ -6,7 +6,7 @@ import { NotificationsProvider } from '@mantine/notifications'
 import Head from 'next/head';
 import Script from 'next/script';
 import { useEffect } from 'react';
-
+import { Analytics } from '@vercel/analytics/react';
 const inter = Inter({ subsets: ['latin'] })
 
 declare global {
@@ -53,6 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <meta name="twitter:image:alt" content="Yepp AI logo"></meta>
             <meta name="twitter:image" content="http://drive.google.com/uc?export=view&id=1FDGWNY8-NvmGRAApCeHz8mXV-h7uWBy6"></meta>
       </Head>
+      
       <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=G-WQM8PTR9`} />
 
       <Script id="google analytics"strategy="lazyOnload">
@@ -82,6 +83,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       />
       <NotificationsProvider zIndex={2077}>
+        <Analytics />
         <Component {...pageProps} />
       </NotificationsProvider>
     </main>

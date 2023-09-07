@@ -60,7 +60,7 @@ const Modal = styled.div`
     width: 45vw;
     border-radius: 25px;
     background: white;
-    padding: 2rem 3rem 4rem 3rem;
+    padding: 3rem 3rem 4rem 3rem;
     border: 2px solid #E5E8F0;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
     cursor: auto;
