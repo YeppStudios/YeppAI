@@ -47,7 +47,7 @@ const traits = [
         {title: "income", icon: BsCash, value: ""},
         {title: "location", icon: BsGeo, value: ""},
         {title: "gender", icon: BsGenderAmbiguous, value: ""},
-        {title: "description", icon: BsTextParagraph, value: "sdfadsf"},
+        {title: "description", icon: BsTextParagraph, value: ""},
 ]
 
 const competition = [

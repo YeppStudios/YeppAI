@@ -180,24 +180,28 @@ const ResultsContainer = (
             setLoading(false);
           return;
         }
-        
-        setReplying(true);
-        setLoading(true);
-        setMessages([]);
-        setIsSSEComplete(false);
-        setContent('');
-        const abortController = new AbortController();
-        const signal = abortController.signal;
-        setIsSSEComplete(false);
+
         let promptToSend = '';
         let context = "";
         let reply = '';
         let model ="gpt-4-32k"
-        if (prompt) {
-            promptToSend = prompt;
-        } else {
-            promptToSend = props.initialPrompt!;
-        }
+        let previousMessage = '';
+      if (content) {
+        previousMessage = `Last time I wrote: "${content}". Now please generate new, unique content other than the one written previously following these guidelines: `
+      }
+      if (prompt) {
+          promptToSend = previousMessage + prompt;
+      } else {
+          promptToSend = previousMessage + props.initialPrompt!;
+      }
+      setContent('');
+        setReplying(true);
+        setLoading(true);
+        setMessages([]);
+        setIsSSEComplete(false);
+        const abortController = new AbortController();
+        const signal = abortController.signal;
+        setIsSSEComplete(false);
 
         let allDocuments = selectedFolders.reduce((acc: Document[], folder: Folder) => {
           return acc.concat(folder.documents || []);
