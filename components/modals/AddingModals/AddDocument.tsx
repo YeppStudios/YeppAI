@@ -325,9 +325,9 @@ const AddDocument = (props: {
     const saveToFolder = async () => {
       setLoading(true);
       const token = localStorage.getItem("token");
-      console.log(createdDocs);
       if (chosenFolder._id) {
-        await api.post(`/folders/${chosenFolder._id}/add-documents`, { documents: createdDocs},
+        const documentIds = createdDocs.map(doc => doc._id);
+        await api.post(`/folders/${chosenFolder._id}/add-documents`, { documents: documentIds},
         {
           headers: {
             Authorization: token
