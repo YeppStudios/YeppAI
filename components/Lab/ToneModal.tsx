@@ -195,11 +195,11 @@ const ToneModal = (props: {onClose: any}) => {
     setLanguage(exampleJSON.language);
     setAbout(exampleJSON.about);
     setToneDescription(descriptionResponse.data.completion);
-    generateExampleOutput(exampleJSON)
+    generateExampleOutput(exampleJSON, descriptionResponse.data.completion)
     }
 
 
-    const generateExampleOutput = async (exampleJSON: any) => {
+    const generateExampleOutput = async (exampleJSON: any, exampleToneDescription: string) => {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("user_id");
         const workspace = localStorage.getItem("workspace");
@@ -236,7 +236,7 @@ const ToneModal = (props: {onClose: any}) => {
         let exampleOutputOutlines = exampleJSON;
         let exampleLanguage = exampleOutputOutlines.language;
         let exampleAbout = exampleOutputOutlines.about;
-
+        let toneDesc = toneDescription;
 
         if (!exampleLanguage) {
           exampleLanguage = language;
@@ -244,12 +244,15 @@ const ToneModal = (props: {onClose: any}) => {
         if (!exampleAbout) {
           exampleAbout = about;
         }
+        if (!toneDesc && exampleToneDescription) {
+          toneDesc = exampleToneDescription;
+        }
 
         let reply = "";
         let model = "gpt-4-32k";
         let prompt = `
         Please write unique ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language in this exact style.
-        Write it in the following tone of voice: ${toneDescription}
+        Write it in the following tone of voice: ${toneDesc}
         Return the ${selectedTemplate?.title} content in ${exampleLanguage} that is no longer than ${length} characters:`;
         let systemPrompt = `You are a ${exampleLanguage} native marketer. ${selectedMarketingAssistant.noEmbedPrompt}`;
         try {
