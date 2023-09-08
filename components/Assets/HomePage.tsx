@@ -167,7 +167,8 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 day: "numeric" 
               };
             const date = dateObject.toLocaleDateString("en-US", options);
-        
+    
+            console.log(folder)
             return (
                 <tr key={idx}>
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
@@ -175,6 +176,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-base text-black">{folder.title}</td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-base text-black lg:table-cell">{date}</td>
+                <td className="hidden whitespace-nowrap px-3 py-4 text-base text-black lg:table-cell">{folder.ownerEmail}</td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-black text-sm font-medium sm:pr-6">
                 <button onClick={() => dispatch(setSelectedFolder(folder))} className="mr-4 text-500 text-blue-500 hover:text-blue-800">Open folder</button>
                 <Menu as="div" className="relative inline-block text-left">
@@ -339,6 +341,9 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                             </th>
                             <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
                             Created
+                            </th>
+                            <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+                            Created By
                             </th>
                             <th scope="col" className="hidden lg:flex relative w-full py-3.5 lg:pl-3 lg:pr-4 justify-start lg:justify-end">
                                 <input 
