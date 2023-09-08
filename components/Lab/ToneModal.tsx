@@ -438,7 +438,7 @@ const ToneModal = (props: {onClose: any}) => {
                         <GeneratedTextDate>{moment().format('DD MMMM YYYY')}</GeneratedTextDate>
                       </div>
                     </div>
-                    <button onClick={() => generateExampleOutput(exampleOutputJSON)} className="flex px-6 lg:px-[2vw] gap-4 items-center h-10 bg-[#EFF1F5] rounded-2xl hover:scale-95">
+                    <button onClick={() => generateExampleOutput(exampleOutputJSON, "")} className="flex px-6 lg:px-[2vw] gap-4 items-center h-10 bg-[#EFF1F5] rounded-2xl hover:scale-95">
                       <IoRefreshOutline className="w-4 h-4" />
                       <Text style={{ fontWeight: 500 }}>Rewrite</Text>
                     </button>
