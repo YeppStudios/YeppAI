@@ -607,7 +607,6 @@ const CopywritingModal = (props: {
             },
         });
           const completionJSON = JSON.parse(conspectCompletion.data.function.arguments);
-          console.log(completionJSON);
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
           props.setConspect(completionJSON);
           try {
@@ -647,7 +646,7 @@ const CopywritingModal = (props: {
                             </BackBtnIcon> 
                         </BackBtn>
                     </BackArrow>
-                } 
+            } 
             <CloseIcon onClick={props.onClose}>
                     <BsXLg style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
