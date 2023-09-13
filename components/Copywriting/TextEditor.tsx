@@ -148,7 +148,7 @@ useEffect(() => {
       return;
     }
     const startPos = editor.state.selection.from;
-    editor.chain().focus().insertContent(`<h1>${conspect[0].header}</h1>`).run();
+    editor.chain().focus().insertContent(`<h1>${conspect.paragraphs[0].header}</h1>`).run();
     editor.chain().insertContent("<p id='content'></p>").run();
     editor.chain().insertContent("\n").run();
     setGenerating(true);
@@ -205,7 +205,7 @@ useEffect(() => {
           {
             "queries": [
               {
-                "query": conspect[0].header,
+                "query": conspect.paragraphs[0].header,
                 "filter": {
                   "document_id": combinedIds  // Use combined array here
                 },
@@ -232,10 +232,10 @@ useEffect(() => {
 
     let prompt = `Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     This is the introduction header:
-    ${conspect[0].header}
+    ${conspect.paragraphs[0].header}
     And this is how I want you to write the introduction:
-    ${conspect[0].instruciton}
-    End this intro so that it will be easy to continue writing the next section: ${conspect[1].header}
+    ${conspect.paragraphs[0].instruciton}
+    End this intro so that it will be easy to continue writing the next section: ${conspect.paragraphs[1].header}
     Additional context that you might find relevant, but not necessary to include in the introduction:
     ${context}
     Introduction: 
@@ -339,8 +339,8 @@ useEffect(() => {
     let startPos = editor.state.selection.from;
     let endPos = editor.state.doc.content.size;
     editor.chain().focus().setTextSelection(endPos).insertContent("\n\n").run();
-    editor.chain().focus().setTextSelection(endPos).insertContent(`<h1>${conspect[sectionIndex].header}</h1>`).run();
-    editor.chain().setTextSelection(endPos + conspect[sectionIndex].header.length + 5).insertContent("<p id='content'></p>").run();
+    editor.chain().focus().setTextSelection(endPos).insertContent(`<h1>${conspect.paragraphs[sectionIndex].header}</h1>`).run();
+    editor.chain().setTextSelection(endPos + conspect.paragraphs[sectionIndex].header.length + 5).insertContent("<p id='content'></p>").run();
     editor.chain().focus().setTextSelection(endPos).insertContent("\n\n").run();
     setGenerating(true);
     let fetchedUser = null;
@@ -396,7 +396,7 @@ useEffect(() => {
           {
             "queries": [
               {
-                "query": conspect[sectionIndex].header,
+                "query": conspect.paragraphs[sectionIndex].header,
                 "filter": {
                   "document_id": combinedIds  // Use combined array here
                 },
@@ -423,15 +423,15 @@ useEffect(() => {
 
     let endStyle = "";
     if (sectionIndex + 1 !== conspect.length ) {
-      endStyle = `End this section, so that it will be easy to fluently start writing next one titled: "${conspect[sectionIndex + 1].header}" without mentioning it.`;
+      endStyle = `End this section, so that it will be easy to fluently start writing next one titled: "${conspect.paragraphs[sectionIndex + 1].header}" without mentioning it.`;
     }
 
     const text = editor.getText();
     let prompt = `I have ended writing the last section of ${contentType} with: "...${text.slice(-250)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     Next section header:
-    ${conspect[sectionIndex].header}
+    ${conspect.paragraphs[sectionIndex].header}
     This is a brief instruction on what I want you to write about in this section:
-    ${conspect[sectionIndex].instruciton}
+    ${conspect.paragraphs[sectionIndex].instruciton}
     ${endStyle}
     Additional context that you might find relevant, but not necessary to include in the section:
     ${context}

@@ -584,20 +584,19 @@ const CopywritingModal = (props: {
               "parameters": {
                   "type": "object",
                   "properties": {
-                      "header": {
-                          "type": "string",
-                          "description": "the paragraph header",
-                      },
-                      "instruction": {
-                        "type": "string", 
-                        "description": "instruction on how to write the paragraph",
-                      },
-                      "keywords": {
-                          "type": "string",
-                          "description": "keywords to use when writing the paragraph",
-                      },
+                    "paragraphs": {
+                      type: 'array', 
+                      items: {
+                          type: "object",
+                          properties: {
+                            header: { type: "string", description: "the paragraph header" },
+                            instruction: { type: "string", description: "instruction on how to write the paragraph" },
+                            keywords: { type: "string", description: "keywords to use when writing the paragraph" },
+                          }
+                      }
+                    }
                   },
-                  "required": ["header", "instruction", "keywords"],
+                  "required": ["paragraphs"],
               },
           }
         },
@@ -607,8 +606,6 @@ const CopywritingModal = (props: {
             },
         });
           const completionJSON = JSON.parse(conspectCompletion.data.function.arguments);
-          console.log(completionJSON);
-          console.log(conspectCompletion.data.function.arguments);
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
           props.setConspect(completionJSON);
           try {
