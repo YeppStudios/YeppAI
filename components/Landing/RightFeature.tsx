@@ -110,9 +110,7 @@ const FeatureContainer = styled.div<{ color: string }>`
     padding: 5vh 0 10vh 0;
     margin-top: 0;
   }
-  @media (max-width: 1165px) {
-    grid-template-columns: 1fr 1fr;
-  }
+
 `;
 
 const FeatureTitle = styled.h2`

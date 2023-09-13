@@ -34,9 +34,13 @@ const Navbar = () =>{
     const router = useRouter();
     const { pathname } = router;
     useEffect(() => {
-        if(window.innerWidth >= 1023){
-            setMobile(false);
-        }
+        if (window.innerWidth < 1023) { 
+            setMobile(true);
+          }
+          const updateWindowSize = () => {
+            setMobile(window.innerWidth < 1023);
+          };
+          window.addEventListener("resize", updateWindowSize);
         const handleScroll = () => {
             const nav = document.getElementById('navbar');
             if(mobile){

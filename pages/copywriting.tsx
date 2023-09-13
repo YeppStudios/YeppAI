@@ -29,7 +29,6 @@ const DocumentCreator = () => {
   const [sectionLength, setSectionLength] = useState();
   const [page, setPage] = useState(1);
   const [contentType, setContentType] = useState("");
-  const [openAddAssistant, setOpenAddAssistant] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [loading, setLoading] = useState(true);
   const [savedContent, setSavedContent] = useState<any[]>([]);

@@ -40,16 +40,15 @@ const Homepage = () => {
   const [mobile, setMobile] = useState(true);
 
   const router = useRouter();
-
-  const handleNewsletterScroll = () => {
-    const contactSection = document.getElementById("newsletter")!;
-    contactSection.scrollIntoView({behavior: 'smooth', block: 'start'});
-  };
-
+ 
   useEffect(() => {
-    if(window.innerWidth >= 1023){
-      setMobile(false);
+    if (window.innerWidth < 1023) { 
+      setMobile(true);
     }
+    const updateWindowSize = () => {
+      setMobile(window.innerWidth < 1023);
+    };
+    window.addEventListener("resize", updateWindowSize);
     document.body.style.overflow = 'auto';
     document.body.style.position = 'static';
   }, []);

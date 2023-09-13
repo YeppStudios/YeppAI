@@ -607,6 +607,8 @@ const CopywritingModal = (props: {
             },
         });
           const completionJSON = JSON.parse(conspectCompletion.data.function.arguments);
+          console.log(completionJSON);
+          console.log(conspectCompletion.data.function.arguments);
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
           props.setConspect(completionJSON);
           try {
