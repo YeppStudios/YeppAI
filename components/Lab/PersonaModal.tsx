@@ -231,7 +231,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
         let model = "gpt-3.5-turbo";
         let systemPrompt = `You are a ${language} marketer with years of experience. You specialize in coming up with detailed marketing persona descriptions. You carefuly analyze the context given by the user and try to understand the target audience as well as product. 
         Every time you generate a unique description. Your descriptions are no more than 150 words long. You always reply only with persona description.`;
-        let prompt = `Come up with detailed persona description for my persona object: ${personaJSON.fullName}- ${personaJSON.age} year old, ${personaJSON.status} ${personaJSON.occupation} who lives in ${personaJSON.location} and earns ${personaJSON.income}. 
+        let prompt = `Come up with detailed persona description of my buyer persona: ${personaJSON.fullName}- ${personaJSON.age} year old, ${personaJSON.status} ${personaJSON.occupation} who lives in ${personaJSON.location} and earns ${personaJSON.income}. 
         But first closely analyze my business offer and product to generate a realistic ${personaJSON.fullName} description that would be a perfect fit for us. 
         About our product/service: ${about}. We are targetting the ${market} market and our target audience are ${targetAudience}. Our business model is ${businessModel}.
         Follow this process when crafting description: Once you understand the context, come up with bio describing persona's role in the company, his/her life purpose, interests and hobbies that best match the perfect persona for us. Make sure that these are well aligned with typical ${personaJSON.ocupation} day-to-day desires and struggles.

@@ -34,8 +34,8 @@ const Navbar = () =>{
     const router = useRouter();
     const { pathname } = router;
     useEffect(() => {
-        if (window.innerWidth < 1023) { 
-            setMobile(true);
+        if (window.innerWidth > 1023) { 
+            setMobile(false);
           }
           const updateWindowSize = () => {
             setMobile(window.innerWidth < 1023);
