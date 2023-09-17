@@ -68,7 +68,7 @@ const Homepage = () => {
             {!mobile && <Image style={{ width: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>}
           </Background>
           <HeroSection>
-              <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center'>Marketing content based {!mobile && <br />}on your {!mobile && <TypewriterSection />}</h1></SlideBottom></Centered>
+              <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[9vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center'>Marketing content based {!mobile && <br />}on your {!mobile && <TypewriterSection />}</h1></SlideBottom></Centered>
               <h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center'>{mobile && <Centered><TypewriterSection/></Centered>}</h1>
               <div>
                 <Centered>
