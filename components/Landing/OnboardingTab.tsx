@@ -53,9 +53,9 @@ const OnboardingTab = () => {
     }
     return (
         <div className="lg:px-[8rem] px-[0.5rem]">
-            <div className="w-full bg-[#F3F4FA] rounded-3xl py-12 px-5 lg:px-16 lg:py-16 lg:px-20 flex flex-wrap lg:grid lg:grid-cols-2 lg:gap-10">
+            <div className="w-full bg-[#F3F4FA] rounded-3xl py-16 px-5 lg:px-16 lg:py-16 lg:px-20 flex flex-wrap lg:grid lg:grid-cols-2 lg:gap-10">
                 <div className="flex flex-col justify-center">
-                    <h1 style={{lineHeight: "1.25"}} className="text-[1.5rem] lg:text-5xl font-bold text-center lg:text-left">Let Yepp come up with <ColorfulText>best use cases for you</ColorfulText></h1>
+                    <h1 style={{lineHeight: "1.25"}} className="text-[1.75rem] lg:text-5xl font-bold text-center lg:text-left">Explore what you can get <ColorfulText>with Yepp</ColorfulText></h1>
                     <p className="lg:mt-8 mt-4 text-base lg:text-xl font-medium w-full lg:w-5/6 text-center lg:text-left">Just paste the link and Yepp will generate fresh ideas to get you started!</p>
                 </div>
                 <SlideBottom>
