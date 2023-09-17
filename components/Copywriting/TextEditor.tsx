@@ -45,7 +45,7 @@ interface Folder {
   workspace: string,
 }
 
-export default function Editor({setPage, title, conspect, description, embeddedVectorIds, contentType, language, setDescription, setTitle, toneOfVoice, setToneOfVoice, sectionLength}: any) {
+export default function Editor({setPage, title, conspect, description, embeddedVectorIds, contentType, language, setDescription, setTitle, toneOfVoice, setToneOfVoice, sectionLength, selectedTonePrompt}: any) {
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [hydrated, setHydrated] = useState(false);
   const [content, setContent] = useState<any>(null);
@@ -229,20 +229,25 @@ useEffect(() => {
     } else {
       console.log("Combined ID array is empty. Not sending query.");
     }
+    let tonePrompt = ``;
+    if (selectedTonePrompt) {
+      tonePrompt = `Write it in the following tone of voice of ${toneOfVoice}: ${selectedTonePrompt}`;
+    }
 
-    let prompt = `Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
+    let prompt = `Additional context that you might find relevant, but not necessary to include in the introduction:
+    ${context}
+    
+    Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     This is the introduction header:
     ${conspect.paragraphs[0].header}
     And this is how I want you to write the introduction:
-    ${conspect.paragraphs[0].instruciton}
+    ${conspect.paragraphs[0].instruction}
+    ${tonePrompt}
     End this intro so that it will be easy to continue writing the next section: ${conspect.paragraphs[1].header}
-    Additional context that you might find relevant, but not necessary to include in the introduction:
-    ${context}
     Introduction: 
     `;
     let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with introduction without header.`;
     let model = "gpt-4-32k";
-
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
@@ -261,7 +266,7 @@ useEffect(() => {
           const { done, value } = await reader.read();
           if (done) {
             setGenerating(false);
-            if (conspect.length > 1) {
+            if (conspect.paragraphs.length > 1) {
               setNextSection("Write 2nd section");
             }
             if (editor) {
@@ -269,7 +274,7 @@ useEffect(() => {
               const rect = editor.view.coordsAtPos(endPos);
               setBottomMenuPosition({
                 top: rect.top + window.scrollY + 75,
-                left: rect.left -250
+                left: rect.left -180
               });
             }
             setShowBottomMenu(true);
@@ -323,14 +328,14 @@ useEffect(() => {
     }
     if (!sectionIndex) {
       setSectionIndex(1);
-    } else if (sectionIndex + 2 < conspect.length) {
+    } else if (sectionIndex + 2 < conspect.paragraphs.length) {
       if (sectionIndex + 2 === 3) {
         setNextSection("Write 3rd section");
       } else {
         setNextSection(`Write ${sectionIndex + 2}th section`);
       }
       setSectionIndex(sectionIndex + 1);
-    } else if (sectionIndex + 2 === conspect.length ) {
+    } else if (sectionIndex + 2 === conspect.paragraphs.length ) {
       setSectionIndex(sectionIndex + 1);
       setNextSection("Write a summary");
     } else {
@@ -422,24 +427,30 @@ useEffect(() => {
     }
 
     let endStyle = "";
-    if (sectionIndex + 1 !== conspect.length ) {
+    if (sectionIndex + 1 !== conspect.paragraphs.length ) {
       endStyle = `End this section, so that it will be easy to fluently start writing next one titled: "${conspect.paragraphs[sectionIndex + 1].header}" without mentioning it.`;
     }
 
+    let tonePrompt = ``;
+    if (selectedTonePrompt) {
+      tonePrompt = `Write it in the following tone of voice of ${toneOfVoice}: ${selectedTonePrompt}`;
+    }
+
     const text = editor.getText();
-    let prompt = `I have ended writing the last section of ${contentType} with: "...${text.slice(-250)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
+    let prompt = `Additional context that you might find relevant, but not necessary to include in the section:
+    ${context}
+    
+    I have ended writing the last section of ${contentType} with: "...${text.slice(-500)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     Next section header:
     ${conspect.paragraphs[sectionIndex].header}
     This is a brief instruction on what I want you to write about in this section:
-    ${conspect.paragraphs[sectionIndex].instruciton}
+    ${conspect.paragraphs[sectionIndex].instruction}
     ${endStyle}
-    Additional context that you might find relevant, but not necessary to include in the section:
-    ${context}
+    ${tonePrompt}
     Now understanding the context here is the section:
     `;
     let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} sections. ${language} is your native language. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with ${contentType} section without header.`;
-    let model = "gpt-4-32k";
-
+    let model = "gpt-4-32k";;
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
@@ -468,15 +479,15 @@ useEffect(() => {
                 const containerRect = container.getBoundingClientRect();
 
                 // Adjust the bottom menu's position
-                if (sectionIndex + 2 === conspect.length ) {
+                if (sectionIndex + 2 === conspect.paragraphs.length ) {
                   setBottomMenuPosition({
-                    top: rect.top - containerRect.top + container.scrollTop + 45,
-                    left: rect.left - containerRect.left -10
+                    top: rect.top - containerRect.top + container.scrollTop + 85,
+                    left: rect.left - containerRect.left -120
                   });
                 } else {
                   setBottomMenuPosition({
-                    top: rect.top - containerRect.top + container.scrollTop + 45,
-                    left: rect.left - containerRect.left -150
+                    top: rect.top - containerRect.top + container.scrollTop + 65,
+                    left: rect.left - containerRect.left -120
                   });
                 }
               }

@@ -1,6 +1,5 @@
 import SlideBottom from '@/components/Animated/SlideBottom';
 import Centered from '@/components/Centered';
-import HeroText from '@/components/Landing/HeroText';
 import Navbar from '@/components/Landing/Navbar';
 import Head from 'next/head'
 import styled from 'styled-components';

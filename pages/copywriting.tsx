@@ -27,6 +27,7 @@ const DocumentCreator = () => {
   const [description, setDescription] = useState("");
   const [language, setLanguage] = useState("English");
   const [sectionLength, setSectionLength] = useState();
+  const [selectedTonePrompt, setSelectedTonePrompt] = useState("");
   const [page, setPage] = useState(1);
   const [contentType, setContentType] = useState("");
   const [mobile, setMobile] = useState(false);
@@ -234,6 +235,7 @@ const DocumentCreator = () => {
           toneOfVoice={toneOfVoice}
           setToneOfVoice={setToneOfVoice}
           setSectionLength={setSectionLength}
+          setSelectedTonePrompt={setSelectedTonePrompt}
         />
       )}
       {page === 1 && (
@@ -260,6 +262,7 @@ const DocumentCreator = () => {
           toneOfVoice={toneOfVoice}
           setToneOfVoice={setToneOfVoice}
           sectionLength={sectionLength}
+          selectedTonePrompt={selectedTonePrompt}
         />
       )}
     </PageTemplate>

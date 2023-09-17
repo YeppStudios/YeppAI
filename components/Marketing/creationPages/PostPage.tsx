@@ -14,8 +14,6 @@ import TextArea from "../../forms/TextArea";
 import BackBtnText from "../../Common/BackBtnText";
 import BackBtnIcon from "../../Common/BackBtnIcon";
 import BtnIcon from "../../Common/BtnIcon";
-import { BsStars } from "react-icons/bs";
-import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import TypingAnimation from "@/components/Modals/common/TypingAnimation";
 import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
@@ -26,6 +24,7 @@ import CustomDropdown from "@/components/forms/CustomDropdown";
 import { Switch } from "@headlessui/react";
 import ToneDropdown from "@/components/forms/ToneDropdown";
 import PersonaDropdown from "@/components/forms/PersonaDropdown";
+import { BsStars } from "react-icons/bs";
 
 interface InputContainer {
   width: string;

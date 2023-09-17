@@ -30,10 +30,18 @@ import { IoLanguage } from 'react-icons/io5';
 import { RiKey2Fill } from 'react-icons/ri';
 import { MdTitle } from 'react-icons/md';
 import CustomDropdown from '@/components/forms/CustomDropdown';
+import ToneDropdown from '../forms/ToneDropdown';
 
 const types = ["article", "blog", "guide", "ranking"];
 const languagesList = ["Polish", "English", "Spanish", "French", "Italian", "Ukrainian", "German", "Chinese", "Bulgarian", "Russian"];
-const tones = ["Formal", "Friendly", "Informative", "Persuasive", "Scientific", "Lifestyle"];
+const toneList = [
+  {title: "Formal", icon: "💼"},
+  {title: "Friendly", icon: "😊"},
+  {title: "Informative", icon: "📚"},
+  {title: "Persuasive", icon: "🫵🏼"},
+  {title: "Scientific", icon: "🧪"},
+  {title: "Lifestyle", icon: "💁‍♂️"},
+];
 
 const CopywritingModal = (props: {
     onClose: any, 
@@ -52,7 +60,8 @@ const CopywritingModal = (props: {
     setLanguage: any,
     toneOfVoice: string,
     setToneOfVoice: any,
-    setSectionLength: any
+    setSectionLength: any,
+    setSelectedTonePrompt: any
 }) => {
 
     const [phrase, setPhrase] = useState('');
@@ -76,15 +85,32 @@ const CopywritingModal = (props: {
     const [tabInput, setTabInput] = useState<string>("");
     const [conspectText, setConspectText] = useState<string>("");
     const [openNewLink, setOpenNewLink] = useState(false);
+    const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
     const [abortController, setAbortController] = useState(new AbortController());
     const [currentText, setCurrentText] = useState(0);
+    const [tones, setTones] = useState<any[]>([]);
     const linkRef = useRef<HTMLInputElement>(null);
     const topRef = useRef<HTMLInputElement>(null);
     const conspectTextAreaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
+        let token = localStorage.getItem("token");
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
+        const fetchTones = async () => {
+          try {
+            const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+              headers: {
+                Authorization: token,
+              }
+            });
+            setTones([...toneResponse.data, ...toneList]);
+          } catch (e) {
+            console.log(e);
+          }
+        }
+    
+        fetchTones();
         return () => {
             document.body.style.overflow = 'auto';
             document.body.style.position = 'static';
@@ -606,7 +632,7 @@ const CopywritingModal = (props: {
             },
         });
           const completionJSON = JSON.parse(conspectCompletion.data.function.arguments);
-          props.setSectionLength((Number(length)/completionJSON.length).toFixed(0))
+          props.setSectionLength((Number(length)/completionJSON.paragraphs.length).toFixed(0));
           props.setConspect(completionJSON);
           try {
             const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
@@ -630,6 +656,15 @@ const CopywritingModal = (props: {
 
     }
 
+    const handleToneChange = (title: string) => {
+      setSelectedToneTitle(title);
+      const tone = tones.find((t: any) => t.title === title);
+      if (tone.prompt) {
+        props.setSelectedTonePrompt(tone.prompt);
+      } else {
+        props.setSelectedTonePrompt("");
+      }
+    };
 
     return (
         <ModalBackground ref={topRef}>
@@ -722,15 +757,11 @@ const CopywritingModal = (props: {
                                   </Label>
                               </div>
                               <div className='-mt-3'>
-                              <CustomDropdown
-                                id="tones"
-                                type="text"
-                                placeholder="Friendly"
-                                required
-                                value={props.toneOfVoice}
-                                values={tones}
-                                onChange={props.setToneOfVoice}
-                            />
+                              <ToneDropdown
+                                  values={tones}
+                                  value={selectedToneTitle}
+                                  onChange={handleToneChange}
+                              />
                             </div>
                             </div>
                             <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
