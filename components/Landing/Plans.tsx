@@ -333,7 +333,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
         <>
         {openLoginModal && <LoginModal onClose={undefined} registration={false} />}
         {openContact && <PhoneNumberPopup onClose={() => setOpenContact(false)} />}
-        {(!props.purchase && !props.landing) && <SlideBottom><h1 className="text-6xl text-center font-bold mb-16 mt-12">Choose your <ColorfulText><b className="font-bold">free trial</b></ColorfulText> plan</h1></SlideBottom>}
+        {(!props.purchase && !props.landing) && <SlideBottom><h1 className="text-[2.5rem] px-4 lg:px-0 lg:text-6xl text-center font-bold mb-4 lg:mb-16 mt-4 lg:mt-12">Choose your <ColorfulText><b className="font-bold">free trial</b></ColorfulText> plan</h1></SlideBottom>}
         <div className="w-full flex justify-center mt-8">
         <div className="sm:hidden">
             <div className="text-center font-medium mb-4">

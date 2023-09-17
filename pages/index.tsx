@@ -90,10 +90,10 @@ const Homepage = () => {
               </Centered>
               </div>
           </HeroSection>
-          <Section>
+          {/* <Section>
           <PersonaTab />
-          </Section>
-          {/* <SlideBottom>
+          </Section> */}
+          <SlideBottom>
                 <Centered>
                   <LaptopContainer>
                       <Image style={{ width: "auto", height: "100%" }}  src={laptopVisualization} alt={'preview'}></Image> 
@@ -104,9 +104,9 @@ const Homepage = () => {
                       <Image style={{ width: "100%", height: "auto" }}  src={laptopVisualization} alt={'preview'}></Image> 
                   </IphoneContainerMobile>
                 </Centered>
-          </SlideBottom> */}
-             {/* {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
-             <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered> */}
+          </SlideBottom>
+             {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
+             <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered>
           <Section>
             <Stats />
           </Section>

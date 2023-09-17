@@ -1,74 +1,80 @@
-import SlideBottom from "@/components/Animated/SlideBottom";
 import { IoChevronBackSharp } from "react-icons/io5";
-import Image from "next/image";
-import logo from "@/public/images/logo.png";
 import Centered from "@/components/Centered";
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import MultiLineSkeletonLoader from "@/components/Common/MultilineSkeletonLoader";
-import CircleSkeletonLoader from "@/components/Common/CircleSkeletonLoader";
-import { create } from "ipfs-http-client";
-import { BsArrowRepeat, BsCash, BsGenderAmbiguous, BsGeo, BsHeart, BsHourglass, BsImage, BsPause, BsTextParagraph } from "react-icons/bs";
+import { BsArrowRightShort, BsFillArchiveFill, BsFillChatTextFill, BsFillFileTextFill, BsFillGrid3X3GapFill, BsFillMortarboardFill, BsImage, BsPencilFill } from "react-icons/bs";
 import api from "./api";
 import TypingAnimation from "@/components/Modals/common/TypingAnimation";
 import { useRouter } from "next/router";
 import axios from "axios";
-import InvisibleInput from "@/components/forms/InvisibleInput";
-import ReactMarkdown from "react-markdown";
-import TextArea from "@/components/forms/TextArea";
-import { FileUploader } from "react-drag-drop-files";
 import NoElixir from "@/components/Modals/LimitModals/NoElixir";
-import { Loader } from "@mantine/core";
-import Space from "@/components/Docs/common/Space";
 import LoginModal from "@/components/Modals/OnboardingModals/LoginModal";
 import UpgradeSubscription from "@/components/Modals/InformationalModals/UpgradeSubscription";
+import { TypeAnimation } from "react-type-animation";
+import logo from "@/public/images/logo.png";
+import Image from "next/image";
+import SlideBottom from "@/components/Animated/SlideBottom";
+import ColorfulText from "@/components/Common/ColorfulText";
 
-const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
-const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
-const auth = `Basic ${Buffer.from(`${projectId}:${projectSecret}`).toString('base64')}`;
-const client = create({
-  host: 'ipfs.infura.io',
-  port: 5001,
-  protocol: 'https',
-  headers: {
-    authorization: auth,
-  },
-});
-const fileTypes = ["JPG", "PNG", "HEIC", "JPEG"];
-const traits = [
-  {title: "age", icon: BsHourglass, value: "50"},
-  {title: "status", icon: BsHeart, value: ""},
-  {title: "income", icon: BsCash, value: ""},
-  {title: "location", icon: BsGeo, value: ""},
-  {title: "gender", icon: BsGenderAmbiguous, value: ""},
-  {title: "description", icon: BsTextParagraph, value: ""},
+const features = [
+  {id: 0, title: "Marketing feature", description: "allows user to generate shorter content like posts, bios, ads, video scripts, emails, enhance text, marketing frameworks like PAS, AIDA etc.", icon: <BsPencilFill className="text-base mr-4" />},
+  {id: 1, title: "Campaigns feature", description: "allow user to generate entire campaigns about one topic for all different placements at once",  icon: <BsFillGrid3X3GapFill className="text-base mr-4" />},
+  {id: 2, title: "Copywriting feature", description: "based on your uploaded assets and results scraped from google you can generate longer content like articles, blogs, rankings etc.", icon: <BsFillFileTextFill className="text-base mr-4" />},
+  {id: 3, title: "Chat feature", description: "you can talk to your uploaded data and use it creatively to come up with ideas, search your files, chat with your data and many other things.", icon: <BsFillChatTextFill className="text-base mr-4" />},
+  {id: 4, title: "Tone of voice lab", description: "by uploading a sample of your writing you can train AI to write just like you and use it throughout the platform. It also allows you to generate your ideal persona based on the form that you need to fill out in order to write more targeted content throughout our platform.", icon: <BsFillMortarboardFill className="text-base mr-4" />},
+  {id: 5, title: "Assets", description: "is where companies can upload their/their client's data like websites, pdfs, pptx, docx, csv, txt and YouTube video files.", icon: <BsFillArchiveFill className="text-base mr-4" />},
 ]
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 const Onboarding = () => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [processingPrompt, setProcessingPrompt] = useState(false);
-    const [descriptionLoading, setDescriptionLoading] = useState(false);
-    const [personaDescription, setPersonaDescription] = useState("");
-    const [personaGeneralInfo, setPersonaGeneralInfo] = useState<any>();
-    const [editableDescription, setEditableDescription] = useState(false);
     const [abortController, setAbortController] = useState<any>();
-    const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
-    const [saving, setSaving] = useState(false);
-    const [previewUrl, setPreviewUrl] = useState("");
-    const [personaLoading, setPersonaLoading] = useState(false);
-    const [mobile, setMobile] = useState(false);
-    const [image, setImage] = useState<File>();
     const [websiteFavicon, setWebsiteFavicon] = useState("");
+    const [scraping, setScraping] = useState(false); //charnge to true
+    const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
+    const [mobile, setMobile] = useState(false);
+    const [loadingSection, setLoadingSection] = useState<Number>();
+    const [renderedFeatures, setRenderedFeatures] = useState<any[]>([]);
     const [websiteTitle, setWebsiteTitle] = useState("");
+    const [websiteText, setWebsiteText] = useState("");
+    const [sectionRendering, setSectionRendering] = useState(false);
     const [websiteDescription, setWebsiteDescription] = useState("");
-    const [step, setStep] = useState(0);
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [openPlans, setOpenPlans] = useState(false);
+    const [generationEnded, setGenerationEnded] = useState(false);
     const router = useRouter();
     const [openRegistration, setOpenRegistration] = useState(false);
     const { url } = router.query;
+    const [delayed, setDelayed] = useState(false);
+    const [secondDelayed, setSecondDelayed] = useState(false);
+
+    useEffect(() => {
+      if (!scraping) {
+        const timer = setTimeout(() => {
+          setDelayed(true);
+          const secondTimer = setTimeout(() => {
+            setSecondDelayed(true);
+          }, 500); // Second delay in milliseconds
     
+          const thirdTimer = setTimeout(() => {
+            generateNextSection();
+          }, 2500);
+
+          return () => {
+            clearTimeout(secondTimer);
+            clearTimeout(thirdTimer);
+          };
+        }, 1500); // First delay in milliseconds
+    
+        return () => clearTimeout(timer);
+      }
+
+    }, [scraping]);
+
     const texts = [
         "Reading website",
         "Analyzing content",
@@ -81,19 +87,8 @@ const Onboarding = () => {
         "Repeating the process",
     ];
 
-
     useEffect(() => {
-      if (textAreaRef) {
-          if(textAreaRef.current){
-              textAreaRef.current.style.height = "0px";
-              const scrollHeight = textAreaRef.current.scrollHeight;
-              textAreaRef.current.style.height = scrollHeight + "px";
-          }
-      }
-    }, [personaDescription, editableDescription]);
-
-
-    useEffect(() => {
+      setRenderedFeatures([]);
       if (window.innerWidth < 1023) { 
           setMobile(true);
         }
@@ -105,7 +100,7 @@ const Onboarding = () => {
 
     useEffect(() => {
         if (url) {
-            setStep(0);
+          setScraping(true);
             const scrapeWebsite = async () => {
             const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
                 urls: [url]
@@ -114,8 +109,8 @@ const Onboarding = () => {
                   'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
                 }
             });
-
             setWebsiteFavicon(scrapingResponse.data.favicons[0]);
+            setWebsiteText(scrapingResponse.data.text);
             setWebsiteTitle(scrapingResponse.data.titles[0]);
             try {
                 const companyNameCompletion = await api.post("/completion-function", {
@@ -124,7 +119,7 @@ const Onboarding = () => {
                     If there is no company name in website title just return the most representative part of the title.
                     
                     Website text for you to analyse and come up with brief 200 character long description:
-                    "${scrapingResponse.data.text.substring(0,400)}"
+                    "${scrapingResponse.data.text.substring(0,600)}"
                     
                     Company name/most representative part of the title and description as a JSON:`,
                     model: "gpt-4-0613",
@@ -158,10 +153,11 @@ const Onboarding = () => {
                 const completionJSON = JSON.parse(companyNameCompletion.data.function.arguments);
                 setWebsiteTitle(completionJSON.name);
                 setWebsiteDescription(completionJSON.description);
+                setScraping(false);
             } catch (e) {
                 console.log(e);
+                setScraping(false);
             }
-            setStep(1);
         }
         scrapeWebsite();
         }
@@ -172,7 +168,7 @@ const Onboarding = () => {
     }
 
       useEffect(() => {
-        if (step === 0) {
+        if (scraping) {
           const intervalId = setInterval(() => {
             setCurrentIndex((prevIndex) =>
               prevIndex === texts.length - 1 ? 0 : prevIndex + 1
@@ -180,73 +176,57 @@ const Onboarding = () => {
           }, 4100);
           return () => clearInterval(intervalId);
         }
-      }, [step, texts.length]);
-
+      }, [scraping, texts.length]);
       
-      const generatePersona = async () => {
-        setPersonaLoading(true);
-        setStep(2);
-        try {
-            const generalJSONCompletion = await api.post("/completion", {
-                prompt: `Please closely analyze my business offer and product to generate a realistic persona that would be a perfect fit for it. 
-                It is called ${websiteTitle}. About product/service: ${websiteDescription}. 
-                While generating persona focus on the occupation part by asking yourself who would most likely buy it and who should be the end user.
-                The persona should be a valid JSON object that represents it. Always come up with the unique name for the persona and do not call it John Smith. The JSON object should be formatted as follows:
-                {
-                    "fullName": "Example Name",
-                    "age": 50,
-                    "occupation": "Global Accounting SaaS CEO",
-                    "status": "married",
-                    "income": "$10,000,000/year",
-                    "location": "San Francisco, CA",
-                    "gender": "male"
-                }
-                Valid JSON object with perfect, unique and original persona for my product/service: 
-                `,
-                model: "gpt-3.5-turbo",
-                temperature: 0.95,
-                systemPrompt: `You are a valid JSON generator. You specialize in analyzing text the user has written in order to come up with marketing persona. 
-                Once you have a specific persona that will best match the user product/service description you return only a valid JSON object that represents it. The JSON object should be formatted as follows:
-                  {
-                    "fullName": "Example Name",
-                    "age": 50,
-                    "occupation": "Global Accounting SaaS CEO",
-                    "status": "married",
-                    "income": "$10,000,000/year",
-                    "location": "San Francisco, CA",
-                    "gender": "male"
-                  }
-                `
-            },
-            {
-                headers: {
-                    Authorization: `${localStorage.getItem("token")}`,
-                },
-            });
-            const personaJSON = JSON.parse(generalJSONCompletion.data.completion);
-            setPersonaGeneralInfo(personaJSON);
-            generatePersonaDescription(personaJSON);
-            setPreviewUrl(`https://ui-avatars.com/api/?background=random&name=${personaJSON.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`)
-            setPersonaLoading(false);
-            setStep(3);
-        } catch (e) {
-            console.log(e);
-        }
-    }
 
-      const generatePersonaDescription = async (personaJSON: any) => {
+      const renderFeatures = () => {
+        return Object.keys(renderedFeatures).map((key: string) => {
+          const feature = features.find(feature => feature.id === Number(key));
+          if (feature) {
+            return (
+              <div key={key} className="w-full">
+              <SlideBottom>
+                <div className="w-full pt-4 shadow-lg rounded-2xl border-gray-100 mb-6">
+                  <div className="border-b-2 border-gray-100 pb-2 pl-5 mb-4 flex items-center justify-between">
+                    <div className="flex items-center">
+                      {feature.icon}
+                      {feature.title}
+                    </div>
+                    <div className="mr-4 font-medium text-sm">
+                      <ColorfulText>Try Now</ColorfulText>
+                    </div>
+                  </div>
+                  <p className="px-5 pb-5">
+                    {renderedFeatures[feature.id]}
+                  </p>
+                </div>
+              </SlideBottom>
+              </div>
+            );
+          }
+          return null;
+        });
+      };
+      
+      const generateNextSection = async (index = 0) => {
+        if (index >= features.length) {
+          setSectionRendering(false);
+          setGenerationEnded(true);
+          return;
+        }
+        if (sectionRendering) {
+          stopReplying();
+          return;
+        }
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("user_id");
         const workspace = localStorage.getItem("workspace");
         const newAbortController = new AbortController();
         setAbortController(newAbortController);
-        if (descriptionLoading) {
-          stopReplying();
-          return;
-        }
-        setProcessingPrompt(true);
-        setEditableDescription(false);
-        setDescriptionLoading(true);
+        setSectionRendering(true);
+        setLoadingSection(renderedFeatures.length);
+        const feature = features[index];
+        let updatedFeatures = [...renderedFeatures];
         let fetchedUser = null;
         if (workspace && workspace !== "null" && workspace !== "undefined") {
           const {data} = await api.get(`/workspace-company/${workspace}`, {
@@ -270,9 +250,11 @@ const Onboarding = () => {
         }
 
         let reply = "";
-        let model = "gpt-3.5-turbo";
-        let systemPrompt = `You are a professional Yepp AI consultant and sales guy. Yepp AI is a platform that allows companies/marketing agencies to upload data about their business`;
-        let prompt = `
+        let model = "gpt-4-32k";
+        let systemPrompt = `You are a cheerful and helpful marketing platform called Yepp AI. You allow companies/marketing agencies to upload data about their business in order to generate high-converting, factual marketing content that drives trafic.`;
+        let prompt = `Your job is to find fields where you as Yepp AI could help ${websiteTitle}. ${websiteDescription} After this short intro dive deep into content of their website and analyze it thoroughly to best advise them: "${websiteText.substring(0, 1000)}"
+        Now that you understand their business please come up with an idea on how they can use your ${feature.title} to improve their business marketing and not only. ${feature.title} ${feature.description}. Based on understanding what your feature does, come up with some unique ideas tailored for ${websiteTitle} needs.
+        Present the ${websiteTitle} a first-person description of ideal use cases using ${feature.title} in just under 75 words:
         `
 
         try {
@@ -280,32 +262,35 @@ const Onboarding = () => {
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `Generated persona`, model, systemPrompt, temperature: 1}),
+              body: JSON.stringify({prompt, title: `Generated use case idea`, model, systemPrompt, temperature: 1}),
             });
     
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
     
-          if(response.body) {
+          if (response.body) {
             const reader = response.body.getReader();
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
-                setEditableDescription(true);
-                setDescriptionLoading(false);
-                setPersonaDescription(reply);
+                generateNextSection(index + 1);
+                setSectionRendering(false);
                 break;
               }
       
               const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-              setProcessingPrompt(false);
+              setLoadingSection(-1);
               for (const jsonString of jsonStrings) {
                 try {
                   const data = JSON.parse(jsonString);
                   if (data.content) {
-                    reply += data.content;
-                    setPersonaDescription(reply);
+                    const contentWithoutQuotes = data.content.replace(/"/g, '');
+                    setRenderedFeatures(prevTexts => ({
+                        ...prevTexts,
+                        [feature.id]: prevTexts[feature.id] ? prevTexts[feature.id] + contentWithoutQuotes : contentWithoutQuotes
+                    }));
+                    reply += contentWithoutQuotes;
                   }
                 } catch (error) {
                   console.error('Error parsing JSON:', jsonString, error);
@@ -313,82 +298,31 @@ const Onboarding = () => {
               }
             }
           }
-    
         } catch (e: any) {
           if (e.message === "Fetch is aborted") {
-            setDescriptionLoading(false);
+            setSectionRendering(false);
           } else {
             console.log(e);
-            setDescriptionLoading(false);
+            setSectionRendering(false);
           }
         } finally {
             stopReplying();
         }
       }
 
-      const savePersona = async () => {
-        let imageURL = `https://ui-avatars.com/api/?name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
-        if(image) {
-            const subdomain = 'https://asystentai.infura-ipfs.io';
-            const ipfsImage = await client.add({ content: image });
-            imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
-        }
-        try {
-            await api.post("/save-persona", {
-                title: personaGeneralInfo.fullName,
-                icon: imageURL,
-                prompt: `The content should be interesing for our persona: ${personaDescription}. 
-                Do not address this persona directly as it is our imagined persona that will help you better understand the needs and painpoints of our target audience. Now that you understand the persona, please`,
-                workspace: localStorage.getItem("workspace"),
-                base_text: personaDescription
-            },
-            {
-                headers: {
-                    Authorization: `${localStorage.getItem("token")}`,
-                },
-            }
-            )
-            setSaving(false);
-            setOpenPlans(true);
-        } catch (e) {
-            console.log(e);
-            setSaving(false);
-        }
-    }
-
-      const stepBack = () => {
-        if (step !== 0) {
-            setStep(step - 1);
-        }
-      }
-
-      const handleFile = (image: File) => {
-        setImage(image);
-        setPreviewUrl(URL.createObjectURL(image));
-    };
-
-    const handleTraitInputChange = (e: any, traitTitle: string) => {
-      const updatedValue = e.target.value;
-      setPersonaGeneralInfo((prevState: any) => ({
-          ...prevState,
-          [traitTitle]: updatedValue
-      }));
-    };
 
     return (
         <div className="w-full lg:h-[100vh] lg:grid lg:grid-cols-2 pb-20 lg:pb-0">
           {openNoElixirModal && <NoElixir onClose={() => setOpenNoElixirModal(false)} />}
           {openRegistration && <LoginModal onClose={() => setOpenRegistration(false)} registration={true} />}
           {openPlans && <Centered><UpgradeSubscription purchase={false} onClose={() => setOpenPlans(false)} closeable={true} landing={false} /></Centered>}
-            <div className="text-white text-2xl lg:text-3xl py-16 px-10 lg:px-0 lg:py-0 mb-12 lg:mb-0 w-full h-full bg-black bg-gradient-to-r to-[#64D0FF] from-[#6578F8] flex items-center justify-center">
-                {step !== 0 &&
+            <div className={classNames(scraping ? "py-16 h-full px-10" : "lg:py-16 py-4 lg:h-full px-4 lg:px-10", "sticky lg:relative top-0 z-40 text-white text-2xl lg:text-3xl lg:px-0 lg:py-0 mb-6 lg:mb-12 lg:mb-0 w-full bg-black bg-gradient-to-r to-[#64D0FF] from-[#6578F8] flex items-center justify-center")}>
                 <div className="absolute top-4 left-4">
-                    <IoChevronBackSharp className="text-2xl" onClick={() => stepBack()}/>
+                    <IoChevronBackSharp className="text-2xl" onClick={() => router.push("/")}/>
                 </div>
-                }
-                {step === 0 && 
                 <>
                   <div className="w-full flex flex-wrap justify-center">
+                    {scraping &&
                     <div className="w-full flex flex-wrap lg:flex-nowrap items-end text-center gap-2 justify-center">{texts[currentIndex]}
                     {mobile ?
                       <div className="w-full mt-4"><Centered><TypingAnimation colorful={false} /></Centered></div>
@@ -396,124 +330,72 @@ const Onboarding = () => {
                       <TypingAnimation colorful={false} />
                     }
                     </div>
-                    <p className="opacity-60 text-white text-lg mt-8">Est. time: 30s</p>
+                    }
+                    {scraping && <p className="opacity-60 text-white text-lg mt-8">Est. time: 30s</p>}
+                    {!scraping && <div className="w-full"><SlideBottom><ContinueBtn onClick={() => setOpenRegistration(true)} className="lg:mt-8">Get started <BsArrowRightShort className="ml-2 w-6 h-6"/></ContinueBtn></SlideBottom></div>}
                   </div>
                 </>
-                }
-                {step === 1 && <>Confirm the company name & description</>}
-                {step === 2 && <Centered>Analyzing content to generate buyer persona</Centered>}
-                {step === 3 && <Centered>Save your persona & generate content</Centered>}
             </div>
-            <ContentSide step={step}>
-                {step === 0 &&
-                <div className="w-10/12 lg:w-full border border-gray-100 px-12 py-14 shadow-xl rounded-2xl border-slate-200 flex justify-center flex-wrap">
-                    <CircleSkeletonLoader justifyContent="center" width="4rem" height="4rem" />
-                    <MultiLineSkeletonLoader lines={1} justifyContent={"center"}/>
-                    <div className="mt-4 w-full"><MultiLineSkeletonLoader lines={3} justifyContent={"center"}/></div>
-                </div>
-                }
-                {step === 1 &&
-                <SlideBottom>
-                    <div className="w-full border border-gray-100 px-12 py-20 shadow-xl rounded-2xl border-slate-200 flex justify-center flex-wrap">
-                        <Centered><Image src={websiteFavicon} width={200} height={200} className="w-12 h-12" alt="favicon" /></Centered>
-                        <div className="text-4xl font-bold mt-4 w-full text-center">{websiteTitle}</div>
-                        <div className="text-lg font-medium mt-4 w-full text-center">{websiteDescription}
-                        </div>
-                        <BlueBtn onClick={() => generatePersona()}>Generate persona</BlueBtn>
+            <ContentSide>
+              <div className="w-full flex justify-center mb-4">
+              <SlideBottom>
+              <div className="rounded-xl shadow-xl w-12 h-12 flex justify-center items-center border border-gray-100">
+                <Image src={logo} alt="yepp" width={50} height={50} className="w-6 h-6" />
+              </div>
+              </SlideBottom>
+              </div>
+              <div className="w-full">
+                <SlideBottom> 
+                <div className="lg:w-10/12 w-full lg:w-full border font-medium border-slate-100 px-4 lg:px-8 py-4 shadow-xl rounded-bl-2xl rounded-br-2xl rounded-tr-xl border-slate-100 flex justify-center flex-wrap mb-28">
+                  {scraping ?
+                  <div className="mb-2 w-full">
+                    <MultiLineSkeletonLoader lines={3} justifyContent={"left"} />
+                  </div>
+                  :
+                  <div className="w-full flex items-center flex-wrap">
+                    <div className="mr-4">
+                    <TypeAnimation
+                      sequence={[
+                        "Hey! I've just scanned your website:",
+                      ]}
+                      speed={80}
+                      cursor={false}
+                      repeat={0}
+                    />
                     </div>
-                </SlideBottom>
-                }
-                {step === 2 &&
-                <div className="w-10/12 lg:w-full border border-gray-100 px-12 py-14 shadow-xl rounded-2xl border-slate-200 flex justify-center flex-wrap">
-                    <CircleSkeletonLoader justifyContent="center" width="4rem" height="4rem" />
-                    <MultiLineSkeletonLoader lines={1} justifyContent={"center"}/>
-                    <div className="mt-4 w-full"><MultiLineSkeletonLoader lines={3} justifyContent={"center"}/></div>
-                </div>
-                }
-                {step === 3 &&
-                <SlideBottom>
-                <div className="w-11/12 lg:w-full border border-gray-100 px-8 py-10 shadow-xl rounded-2xl border-slate-200 flex flex-wrap mb-20">
-                          <div className="flex items-center">
-                            <FileUploader hoverTitle="Drop here" handleChange={handleFile} name="file" types={fileTypes} multiple={false} label="Drop an image" >
-                                <ProfileContainer>
-                                    {previewUrl &&
-                                            <PersonaProfile background={previewUrl}/>
-                                    }
-                                    <HoverIcon />
-                                </ProfileContainer>
-                            </FileUploader>
-                                <div className="ml-4">
-                                    <p className="font-bold text-2xl">{personaGeneralInfo.fullName}</p>
-                                    <InvisibleInput value={personaGeneralInfo.occupation} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTraitInputChange(e, "occupation")}/>
-                                </div>
-                            </div>
-                            <div className="mt-6 flex flex-wrap">
-                            {traits.map((trait, index) => (
-                                <>
-                                    {trait.title === "description" ?
-                                        <div className="mb-4 w-full mt-4">
-                                            <div className="w-full flex items-end justify-between">
-                                                <div className="flex items-center">
-                                                    <trait.icon style={{ marginRight: '10px' }} />
-                                                    <span className="font-medium">{trait.title}: </span>
-                                                </div>
-                                                <div>
-                                                    {descriptionLoading ?
-                                                    <RetryButton onClick={() => generatePersonaDescription(personaGeneralInfo)}>
-                                                        <BtnIcon>
-                                                            <BsPause style={{ width: "100%", height: "auto" }} />
-                                                        </BtnIcon>
-                                                        Pause
-                                                    </RetryButton>
-                                                    :
-                                                    <RetryButton onClick={() => generatePersonaDescription(personaGeneralInfo)}>
-                                                        <BtnIcon>
-                                                            <BsArrowRepeat style={{ width: "100%", height: "auto" }} />
-                                                        </BtnIcon>
-                                                        Rewrite
-                                                    </RetryButton>
-                                                    }
-                                                </div>
-                                            </div>
-                                            {processingPrompt ?
-                                            <div className="ml-1 mt-4 font-medium px-2">
-                                                <MultiLineSkeletonLoader lines={3} justifyContent={"left"} />
-                                            </div>
-                                            :
-                                            <>
-                                            {editableDescription ?
-                                                <div className="ml-1 mt-4 font-medium"><TextArea ref={textAreaRef} value={personaDescription} height="auto" padding="0.75rem" onChange={(e) => setPersonaDescription(e.target.value)}/></div>
-                                                :
-                                                <p className="ml-1 mt-4 font-medium px-2 whitespace-pre-wrap will-change-transform"><ReactMarkdown>{personaDescription}</ReactMarkdown></p>
-                                            }
-                                            </>
-                                            }
-
-                                        </div>
-                                        :
-                                        <div className="flex items-center mr-4 mb-4">
-                                            <trait.icon style={{ marginRight: '10px' }} />
-                                            <span className="font-medium mr-2">{trait.title}: </span>
-                                            {/* Render value from personaGeneralInfo for the respective trait */}
-                                            <InvisibleInput value={personaGeneralInfo[trait.title] || ''} onChange={(e: any) => handleTraitInputChange(e, trait.title)}></InvisibleInput>
-                                        </div>
-                                    }
-                                </>
-                            ))}
-                            </div>
-                        <div className="px-2"><WordCounter>{personaDescription.length} / 1500</WordCounter></div>
-                        <div className="mt-4 px-2 w-full flex justify-center">
-                        <ContinueBtn onClick={() => setOpenRegistration(true)}>
-                            {saving ?
-                            <Loader color="white" />
-                            :
-                            <p>Save & generate content</p>
-                            }
-                        </ContinueBtn>  
-                        </div>
+                    {delayed && 
+                    <SlideBottom>
+                      <div className="py-2 px-6 shadow-lg border-slate-100 lg:border-slate-200 rounded-xl text-bold text-black flex items-center">
+                      <Image src={websiteFavicon} alt="website favicon" width={20} height={20} className="w-5 h-5 mr-4" />
+                      <TypeAnimation
+                        sequence={[
+                          websiteTitle,
+                        ]}
+                        speed={80}
+                        cursor={false}
+                        repeat={0}
+                      />
+                      </div>
+                    </SlideBottom>}
+                    {secondDelayed && (
+                      <div className="w-full mt-2 mb-4">
+                      <TypeAnimation
+                        sequence={[
+                          "After analyzing its content I have a couple ideas on how I could help you:",
+                        ]}
+                        speed={80}
+                        cursor={false}
+                        repeat={0}
+                      />
+                      </div>
+                    )}
+                    {renderFeatures()}
+                    {generationEnded && <div className="w-full flex font-medium mt-8 mb-10"><SlideBottom>Got a question? <a target="_blank" rel="noreferrer" href="https://calendly.com/yeppai/yepp-introduction-call"><ColorfulText><b className="ml-2">Schedule a demo</b></ColorfulText></a></SlideBottom></div>}
+                  </div>
+                  }
                 </div>
                 </SlideBottom>
-                }
+              </div>
             </ContentSide>
         </div>
     )
@@ -521,182 +403,67 @@ const Onboarding = () => {
 
 export default Onboarding;
 
-const BlueBtn = styled.div`
-    width: 100%;
-    height: 3.2rem;
-    margin-top: 3rem;
-    font-size: 1.1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    border: solid 3px transparent;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    position: relative;
-    white-space: nowrap;
-    color: white;
-    font-weight: 500;
-    background: linear-gradient(40deg, #6578F8, #64B5FF);
-    background-size: 110%;
-    background-position-x: -0.5rem;
-    align-items: center;
-    transition: all 0.4s ease;
-    cursor: pointer;
-    &:hover {
-      box-shadow: none;
-      transform: scale(0.95);
-      box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
-    }
-    @media (max-width: 1023px) {
-      margin-left: 0;
-      margin-right: 0rem;
-      margin-top: 1rem;
-    }
-`
-
-const WordCounter = styled.p`
-    text-align: right;
-    color: #A0AEC0;
-    @media (max-width: 1023px) {
-        font-size: 0.9rem;
-    }
-`
-
-const ModalTitle = styled.h1`
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-    width: 100%;
-    margin-left: 0rem;
-    padding-left: 2rem;
-    border-bottom: 1px solid #E5E8F0;
-    padding-bottom: 1rem;
-    color: black;
-    font-weight: 700;
-    @media (max-width: 1023px) {
-        font-size: 1.2rem;
-        line-height: 1.2;
-        width: 95vw;
-        margin-top: 0;
-        padding-left: 1rem;
-    }
-`
 
 const ContinueBtn = styled.button`
         border: solid 3px transparent;
         border-radius: 15px;
         position: relative;
-        color: white;
+        color: black;
         font-weight: 500;
-        width: 100%;
+        width: 60%;
         height: 3rem;
-        background: linear-gradient(40deg, #6578F8, #64B5FF);
+        background: white;
+        margin-left: 20%;
         background-size: 110%;
+        box-shadow: 2px 2px 24px rgba(0, 0, 0, 0.2);
         background-position-x: -1rem;
-        transition: all 0.4s ease;
+        transition: all 0.4s ease-in-out;
         font-size: 1.2rem;
         display: flex;
         align-items: center;
         justify-content: center;
-    &:hover {
-    transform: scale(0.95);
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
-    }
-`
-
-
-
-const PersonaContainer = styled.div`
-    width: 100%;
-    padding: 1rem 1.2rem 1.5rem 1.2rem;
-    border-radius: 25px;
-    box-shadow: 2px 2px 10px 2px rgba(0, 0, 150, 0.1);
-`
-
-const PersonaProfile = styled.div<{background: any}>`
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-image: url(${props => props.background});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-`;
-
-const HoverIcon = styled(BsImage)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); 
-    width: 1.2rem;
-    height: 1.2rem;
-    color: #000;  // Color of the icon. Adjust as needed.
-    opacity: 0;
-    z-index: 1;
-    transition: opacity 0.3s ease; 
-`;
-
-const ProfileContainer = styled.div`
-    position: relative;
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    cursor: pointer;
-    
-    &:hover ${PersonaProfile} {
-        opacity: 0.7;
-    }
-
-    &:hover ${HoverIcon} {
-        opacity: 1;
-    }
-`;
-
-const RetryButton = styled.button`
-    padding: 0rem 1.75rem 0rem 1.75rem;
-    height: 2.5rem;
-    font-weight: 500;
-    margin: 0 0.5rem 0.5rem 0rem;
-    display: flex;
-    align-items: center;
-    color: black;
-    font-size: 0.85rem;
-    background: #EEF1F8;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    &:hover {
-        transform: scale(0.95);
-    }
-`
-
-const BtnIcon = styled.div`
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0.5rem;
+        &:hover {
+          transform: scale(0.97);
+          box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -1px -1px 4px #FAFBFF;
+        }
+        @media (max-width: 1023px) {
+          width: 55%;
+          margin-left: 45%;
+          font-size: 1rem;
+        }
 `
 
 const ContentSide = styled.div<{step?: number}>`
-width: 100%;
-height: 100vh;
-display: ${props => props.step === 3 ? "block" : "flex"};
-overflow-y: scroll;
--ms-overflow-style: none;
-scrollbar-width: none;
--webkit-mask: 
-linear-gradient(to top,    black 90%, transparent) top   /100% 51%,
-linear-gradient(to bottom, black 90%, transparent) bottom/100% 50%,
-linear-gradient(to left  , black, transparent) left  /100% 0%,
-linear-gradient(to right , black, transparent) right /100% 0%;
--webkit-mask-repeat:no-repeat;
-justify-content: center;
-align-items: center; 
-padding: ${props => props.step === 3  ? "6rem 7rem 6rem 7rem" : "0rem 7rem 0rem 7rem"};
-@media (max-width: 1023px) {
-  margin-left: 0;
-  margin-right: 0rem;
-  margin-top: 1rem;
-  height: auto; 
-  padding: ${props => props.step === 3  ? "3rem 0rem 3rem 0rem" : "0rem 0rem 0rem 0rem"};
-}
+  width: 100%;
+  height: 100vh;
+  padding: 2rem 3rem 1rem 1.5rem;
+  display: grid;
+  grid-template-columns: 0.2fr 1.8fr; 
+  grid-template-rows: 1fr; 
+  gap: 0px 10px; 
+  grid-template-areas: 
+    ". ."; 
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-mask: 
+  linear-gradient(to top,    black 90%, transparent) top   /100% 51%,
+  linear-gradient(to bottom, black 90%, transparent) bottom/100% 50%,
+  linear-gradient(to left  , black, transparent) left  /100% 0%,
+  linear-gradient(to right , black, transparent) right /100% 0%;
+  -webkit-mask-repeat:no-repeat;
+  justify-content: center;
+  @media (max-width: 1023px) {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 0;
+    margin-right: 0rem;
+    height: auto; 
+    padding: 0rem 0.7rem 1rem 0.7rem;
+    -webkit-mask: 
+    linear-gradient(to top,    black 100%, transparent) top   /100% 51%,
+    linear-gradient(to bottom, black 100%, transparent) bottom/100% 50%,
+    linear-gradient(to left  , black, transparent) left  /100% 0%,
+    linear-gradient(to right , black, transparent) right /100% 0%;
+  }
 `

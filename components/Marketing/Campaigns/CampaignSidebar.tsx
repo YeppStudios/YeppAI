@@ -13,7 +13,6 @@ import api from "@/pages/api";
 import { Loader } from "@/components/Common/Loaders";
 
 const tones = [
-  "Formal ",
   "Formal 💼",
   "Friendly 😊",
   "Informative 📃",
