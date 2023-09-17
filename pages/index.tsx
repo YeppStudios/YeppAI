@@ -229,9 +229,10 @@ const DescriptionHero = styled.p<CustomColor>`
     margin-top: 8vh;
     @media (max-width: 1023px) {
         margin-top: 1.5rem;
+        font-weight: 700;
         font-size: 1.2rem;
         margin-bottom: 1rem;
-        width: 95%;
+        width: 85%;
         padding: 0 0.7rem 0 0.7rem;
     }
 `
