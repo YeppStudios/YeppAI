@@ -176,7 +176,7 @@ const Homepage = () => {
           </Section>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
-          <SlideBottom><Centered><Subtitle>Empower your team with AI.</Subtitle></Centered></SlideBottom>
+          <SlideBottom><Centered><Subtitle>Empower your {mobile && <br />}team <ColorfulText>with AI.</ColorfulText></Subtitle></Centered></SlideBottom>
           {!mobile && <Space margin='5rem'/>}
           <div className='px-[5vw] lg:px-[8vw]'><Plans openRegistration={true} purchase={false} landing={true}/></div>
           </Section>

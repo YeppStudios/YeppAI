@@ -38,7 +38,7 @@ const stats = [
             </p>
             </SlideLeft>
             <SlideLeft>
-            <p className="mt-6 text-lg lg:text-xl leading-8 text-gray-300">
+            <p className="mt-6 text-xl font-medium lg:text-2xl leading-8 text-gray-300">
             At the forefront of the AI revolution, Yepp AI is transforming the game, empowering marketers to craft top-notch, deeply insightful content like never before.
             </p>
             </SlideLeft>
