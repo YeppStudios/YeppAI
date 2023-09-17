@@ -5,7 +5,6 @@ import Navbar from '@/components/Landing/Navbar';
 import Head from 'next/head'
 import styled from 'styled-components';
 import Image from 'next/image';
-import laptopVisualization from "../public/images/laptopVisualization.png";
 import Section from '@/components/Landing/Section';
 import LeftFeature from '@/components/Landing/LeftFeature';
 import RightFeature from '@/components/Landing/RightFeature';
@@ -15,7 +14,6 @@ import Loading from '@/components/Common/Loading';
 import { useRouter } from 'next/router';
 import { BsFillGiftFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
-import Title from '@/components/Common/Title';
 import webBackground from "../public/images/webBackground.png";
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
@@ -24,7 +22,6 @@ import reviewsImage from "../public/images/reviews_image.png";
 import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
 import questionmarkIcon from "../public/images/questionmark_icon.png";
 import OnboardingTab from '@/components/Landing/OnboardingTab';
-import Explainer from '@/components/Landing/Explainer';
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 
 interface Background {

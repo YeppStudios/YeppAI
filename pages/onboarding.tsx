@@ -110,6 +110,7 @@ const Onboarding = () => {
                   'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
                 }
             });
+            console.log("scraped", scrapingResponse.data)
             setWebsiteFavicon(scrapingResponse.data.favicons[0]);
             setWebsiteText(scrapingResponse.data.text);
             setWebsiteTitle(scrapingResponse.data.titles[0]);
