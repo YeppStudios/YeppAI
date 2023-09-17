@@ -13,7 +13,7 @@ export default Section;
 const SectionContainer = styled.div`
     margin-top: 20vh;
     @media (max-width: 1023px) {
-        margin-top: 10vh;
+        margin-top: 16vh;
         width: 100%:
         display: flex;
         justify-content: center;

@@ -23,7 +23,8 @@ import Stats from '@/components/Landing/Stats';
 import reviewsImage from "../public/images/reviews_image.png";
 import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
 import questionmarkIcon from "../public/images/questionmark_icon.png";
-import PersonaTab from '@/components/Landing/PersonaTab';
+import OnboardingTab from '@/components/Landing/OnboardingTab';
+import Explainer from '@/components/Landing/Explainer';
 
 interface Background {
   image: any
@@ -90,23 +91,16 @@ const Homepage = () => {
               </Centered>
               </div>
           </HeroSection>
-          {/* <Section>
-          <PersonaTab />
-          </Section> */}
-          <SlideBottom>
-                <Centered>
-                  <LaptopContainer>
-                      <Image style={{ width: "auto", height: "100%" }}  src={laptopVisualization} alt={'preview'}></Image> 
-                  </LaptopContainer>
-                  </Centered>
-                  <Centered>
-                  <IphoneContainerMobile>
-                      <Image style={{ width: "100%", height: "auto" }}  src={laptopVisualization} alt={'preview'}></Image> 
-                  </IphoneContainerMobile>
-                </Centered>
+          <Section>
+          <OnboardingTab />
+          </Section>
+          {/* <SlideBottom>
+          <Section>
+            <Explainer />
+          </Section>
           </SlideBottom>
              {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
-             <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered>
+             <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered> */}
           <Section>
             <Stats />
           </Section>

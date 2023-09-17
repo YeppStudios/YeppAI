@@ -156,12 +156,12 @@ const GifContainer = styled.div`
   max-height: 90vh;
   width: 40rem;
   border-radius: 25px;
-  border: 7px solid black;
+  border: 3px solid black;
   box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.3);
   @media (max-width: 1023px) {
     margin-top: 2rem;
     margin-left: 0;
-    border: 4px solid black;
+    border: 3px solid black;
     margin-left: 1rem;
     margin-right: 1rem;
   }

@@ -35,7 +35,7 @@ const Onboarding = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [abortController, setAbortController] = useState<any>();
     const [websiteFavicon, setWebsiteFavicon] = useState("");
-    const [scraping, setScraping] = useState(false); //charnge to true
+    const [scraping, setScraping] = useState(true);
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [mobile, setMobile] = useState(false);
     const [loadingSection, setLoadingSection] = useState<Number>();
@@ -218,31 +218,21 @@ const Onboarding = () => {
           stopReplying();
           return;
         }
-        const token = localStorage.getItem("token");
-        const userId = localStorage.getItem("user_id");
-        const workspace = localStorage.getItem("workspace");
+        const response = await api.post('/login', { email: process.env.NEXT_PUBLIC_ADMIN_EMAIL, password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD });
+        const token = response.data.token;
+        const userId = response.data.user._id
         const newAbortController = new AbortController();
         setAbortController(newAbortController);
         setSectionRendering(true);
         setLoadingSection(renderedFeatures.length);
         const feature = features[index];
-        let updatedFeatures = [...renderedFeatures];
         let fetchedUser = null;
-        if (workspace && workspace !== "null" && workspace !== "undefined") {
-          const {data} = await api.get(`/workspace-company/${workspace}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data.company;
-        } else {
-          const {data} = await api.get(`/users/${userId}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data;
-        }
+        const {data} = await api.get(`/users/${userId}`, {
+          headers: {
+            authorization: token
+          }
+        });
+        fetchedUser = data;
         //make sure user has elixir
         if(fetchedUser.tokenBalance <= 0) {
           setOpenNoElixirModal(true);
@@ -323,7 +313,7 @@ const Onboarding = () => {
                 <>
                   <div className="w-full flex flex-wrap justify-center">
                     {scraping &&
-                    <div className="w-full flex flex-wrap lg:flex-nowrap items-end text-center gap-2 justify-center">{texts[currentIndex]}
+                    <div className="w-full flex font-medium lg:font-normal flex-wrap lg:flex-nowrap items-end text-center gap-2 justify-center">{texts[currentIndex]}
                     {mobile ?
                       <div className="w-full mt-4"><Centered><TypingAnimation colorful={false} /></Centered></div>
                       :
@@ -332,7 +322,7 @@ const Onboarding = () => {
                     </div>
                     }
                     {scraping && <p className="opacity-60 text-white text-lg mt-8">Est. time: 30s</p>}
-                    {!scraping && <div className="w-full"><SlideBottom><ContinueBtn onClick={() => setOpenRegistration(true)} className="lg:mt-8">Get started <BsArrowRightShort className="ml-2 w-6 h-6"/></ContinueBtn></SlideBottom></div>}
+                    {!scraping && <div className="w-full"><SlideBottom><ContinueBtn onClick={() => setOpenRegistration(true)} className="lg:mt-8">Continue <BsArrowRightShort className="ml-2 w-6 h-6"/></ContinueBtn></SlideBottom></div>}
                   </div>
                 </>
             </div>
@@ -346,7 +336,7 @@ const Onboarding = () => {
               </div>
               <div className="w-full">
                 <SlideBottom> 
-                <div className="lg:w-10/12 w-full lg:w-full border font-medium border-slate-100 px-4 lg:px-8 py-4 shadow-xl rounded-bl-2xl rounded-br-2xl rounded-tr-xl border-slate-100 flex justify-center flex-wrap mb-28">
+                <div className="w-full lg:w-full border font-medium border-slate-100 px-4 lg:px-8 py-4 shadow-xl rounded-bl-2xl rounded-br-2xl rounded-tr-xl border-slate-100 flex justify-center flex-wrap mb-28">
                   {scraping ?
                   <div className="mb-2 w-full">
                     <MultiLineSkeletonLoader lines={3} justifyContent={"left"} />
@@ -367,14 +357,7 @@ const Onboarding = () => {
                     <SlideBottom>
                       <div className="py-2 px-6 shadow-lg border-slate-100 lg:border-slate-200 rounded-xl text-bold text-black flex items-center">
                       <Image src={websiteFavicon} alt="website favicon" width={20} height={20} className="w-5 h-5 mr-4" />
-                      <TypeAnimation
-                        sequence={[
-                          websiteTitle,
-                        ]}
-                        speed={80}
-                        cursor={false}
-                        repeat={0}
-                      />
+                      {websiteTitle}
                       </div>
                     </SlideBottom>}
                     {secondDelayed && (
@@ -436,7 +419,7 @@ const ContinueBtn = styled.button`
 const ContentSide = styled.div<{step?: number}>`
   width: 100%;
   height: 100vh;
-  padding: 2rem 3rem 1rem 1.5rem;
+  padding: 2rem 4rem 1rem 1.5rem;
   display: grid;
   grid-template-columns: 0.2fr 1.8fr; 
   grid-template-rows: 1fr; 
