@@ -70,7 +70,7 @@ const Homepage = () => {
             <Image style={{ width: "100%", height: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>
           </Background>
           <HeroSection>
-              <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 lg:text-7xl max-w-4xl font-black text-center'> Turn your data into <ColorfulText>quality content</ColorfulText> with AI</h1></SlideBottom></Centered>
+              <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 lg:text-7xl max-w-4xl font-bold text-center'> Turn your data into <ColorfulText>quality content</ColorfulText> with AI</h1></SlideBottom></Centered>
               {/* <Centered><TypewriterSection/></Centered> */}
               <div>
                 <Centered>
@@ -406,7 +406,7 @@ const Subtitle = styled.h1`
     font-size: 4vw;
     line-height: 1.25;
     font-family: 'Satoshi', sans-serif;
-    font-weight: 900;
+    font-weight: 700;
     text-align: center;
     margin-top: 2vh;
     width: 65%;

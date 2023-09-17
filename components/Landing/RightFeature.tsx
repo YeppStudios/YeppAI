@@ -116,7 +116,7 @@ const FeatureContainer = styled.div<{ color: string }>`
 const FeatureTitle = styled.h2`
   font-size: 2.5vw;
   font-family: "Satoshi", sans-serif;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.2;
   text-align: start;
   @media (max-width: 1023px) {

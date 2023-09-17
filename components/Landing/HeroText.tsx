@@ -14,7 +14,7 @@ const Text = styled.h1`
     font-size: 5vw;
     line-height: 1.25;
     font-family: 'Satoshi', sans-serif;
-    font-weight: 900;
+    font-weight: 700;
     text-align: center;
     margin-top: 2vh;
     width: 75%;
