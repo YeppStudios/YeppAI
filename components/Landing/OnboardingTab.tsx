@@ -121,11 +121,11 @@ const BlueBtn = styled.div`
     background-position-x: -0.5rem;
     align-items: center;
     transition: all 0.4s ease;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
     cursor: pointer;
     &:hover {
       box-shadow: none;
       transform: scale(0.95);
-      box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
     }
     @media (max-width: 1023px) {
       margin-left: 0;
