@@ -73,7 +73,7 @@ const Homepage = () => {
               <div>
                 <Centered>
               <DescriptionHero color="black">
-                #1 AI marketing platform that knows you and your clients.
+                Best AI marketing platform for quality content
               </DescriptionHero>
               </Centered>
               <Centered>
