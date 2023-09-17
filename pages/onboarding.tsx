@@ -16,6 +16,7 @@ import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import SlideBottom from "@/components/Animated/SlideBottom";
 import ColorfulText from "@/components/Common/ColorfulText";
+import Head from "next/head";
 
 const features = [
   {id: 0, title: "Marketing feature", description: "allows user to generate shorter content like posts, bios, ads, video scripts, emails, enhance text, marketing frameworks like PAS, AIDA etc.", icon: <BsPencilFill className="text-base mr-4" />},
@@ -303,6 +304,14 @@ const Onboarding = () => {
 
     return (
         <div className="w-full lg:h-[100vh] lg:grid lg:grid-cols-2 pb-20 lg:pb-0">
+        <Head>
+          <title>Onboaring | Yepp AI</title>
+          <meta name="theme-color" content="#ffffff" />
+          <meta
+            name="description"
+            content="Learn how Yepp AI can help you generate high-converting marketing content."
+          />
+        </Head>
           {openNoElixirModal && <NoElixir onClose={() => setOpenNoElixirModal(false)} />}
           {openRegistration && <LoginModal onClose={() => setOpenRegistration(false)} registration={true} />}
           {openPlans && <Centered><UpgradeSubscription purchase={false} onClose={() => setOpenPlans(false)} closeable={true} landing={false} /></Centered>}
