@@ -14,7 +14,7 @@ import Loading from '@/components/Common/Loading';
 import { useRouter } from 'next/router';
 import { BsFillGiftFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
-import webBackground from "../public/images/webBackground.png";
+import webBackground from "../public/images/newbg.png";
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
 import Stats from '@/components/Landing/Stats';
@@ -65,7 +65,7 @@ const Homepage = () => {
           <Loading />
           <Navbar />
           <Background>
-            {!mobile && <Image style={{ width: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>}
+            {!mobile && <Image style={{ width: "100%", opacity: 0.5}} src={webBackground} alt={'preview'}></Image>}
           </Background>
           <HeroSection>
               <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center'>Marketing content based {!mobile && <br />}on your {!mobile && <TypewriterSection />}</h1></SlideBottom></Centered>
@@ -203,7 +203,7 @@ const Background = styled.div`
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    top: -6rem;
+    top: 3rem;
     left: 0;
   `
 
