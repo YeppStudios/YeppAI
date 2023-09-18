@@ -17,8 +17,8 @@ import webBackground from "../public/images/webBackground.png";
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
 import Stats from '@/components/Landing/Stats';
-import reviewsImage from "../public/images/reviews_image.png";
-import reviewsImageMobile from "../public/images/reviews_image_mobile.png";
+import reviewsImage from "../public/images/testimonials.png";
+import reviewsImageMobile from "../public/images/testimonials_mobile.png";
 import questionmarkIcon from "../public/images/questionmark_icon.png";
 import OnboardingTab from '@/components/Landing/OnboardingTab';
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
@@ -165,11 +165,29 @@ const Homepage = () => {
                 link="/solution/campaigns"
             />
           <Section>
-              <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
+          <Container>
+          <div className="absolute top-0 left-0 w-[100vw] h-full bg-black opacity-80"></div>
+            <div
+                className="absolute -bottom-8 transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
+                aria-hidden="true"
+              >
+                <div
+                  className="aspect-[1266/975] w-[79.125rem] bg-gradient-to-tr from-[#6578F8] to-[#64B5FF] opacity-40"
+                  style={{
+                    clipPath:
+                      'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                  }}
+                />
+              </div>
+            <img
+              src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80"
+              alt=""
+              className="absolute inset-0 -z-10 h-full w-full object-cover"
+            />
               <Centered><Icon><Image src={questionmarkIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
               <SlideBottom><Centered><Subtitle><p className='text-white'>What do marketing agencies say about Yepp?</p></Subtitle></Centered></SlideBottom>
               {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
-              </div>
+            </Container>
           </Section>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
@@ -416,4 +434,10 @@ const Subtitle = styled.h1`
         width: 90vw;
         text-align: center;
     }
+`
+const Container = styled.div`
+position: relative;
+isolation: isolate;
+overflow: hidden;
+padding: 8em 0 0rem 0;
 `
