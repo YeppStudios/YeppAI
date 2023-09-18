@@ -23,6 +23,7 @@ import reviewsImageMobile from "../public/images/testimonials_mobile.png";
 import questionmarkIcon from "../public/images/questionmark_icon.png";
 import OnboardingTab from '@/components/Landing/OnboardingTab';
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
+import Explainer from '@/components/Landing/Explainer';
 
 interface Background {
   image: any
@@ -102,7 +103,11 @@ const Homepage = () => {
           <Section>
             <Stats />
           </Section>
-
+          <Section>
+            <Explainer />
+          </Section>
+            {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
+            <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered>
           <Section>
             <Centered>
             <SlideBottom>
@@ -211,8 +216,8 @@ const HeroSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 14rem;
-  margin-bottom: 4rem;
+  margin-top: 16rem;
+  margin-bottom: 14rem;
   @media (max-width: 1023px) {
     display: flex;
     margin-top: 8rem;

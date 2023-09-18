@@ -16,17 +16,17 @@ const Explainer = () => {
         {modalOpen && 
             <BlurBackground onClick={handleCloseModal}>
               <VideoModal className="w-[95svw] lg:w-[80svw] aspect-video group relative cursor-auto" onClick={(e) => e.stopPropagation()}>
-              <iframe width="1600" height="900" className="w-full h-full rounded-3xl" allowFullScreen
+              <iframe width="1600" height="900" className="w-full h-full rounded-2xl lg:rounded-3xl" allowFullScreen
                 src={`https://www.youtube.com/embed/GboACf5Qmpk?autoplay=1`}>
               </iframe>
                 <button className="absolute hidden group-hover:flex top-2 right-2 bg-black bg-opacity-60 text-white rounded-full cursor-pointer w-10 h-10 justify-center items-center" onClick={handleCloseModal}><IoClose className="w-1/2 h-1/2"/></button>
               </VideoModal>
             </BlurBackground>
         }
-        <div className='w-full px-[5rem] lg:px-[8rem]'>
+        <div className='w-full px-[0.5rem] lg:px-[8rem]'>
         <ExplainerThumbnail background={explainerThumbnail}>
-            <button onClick={() => setModalOpen(true)} className="text-white backdrop-blur-sm bg-blue-900 shadow-lg bg-opacity-30 p-2 lg:p-4 rounded-full cursor-pointer hover:scale-105 transition ease-in-out">
-                <BsPlayFill className="h-10 w-10 lg:h-16 lg:w-16 opacity-1" />
+            <button onClick={() => setModalOpen(true)} className="text-white backdrop-blur-sm bg-blue-900 shadow-lg bg-opacity-30 p-2 lg:p-6 rounded-full cursor-pointer hover:scale-105 transition ease-in-out">
+                <BsPlayFill className="h-12 w-12 lg:h-20 lg:w-20 opacity-1" />
             </button>
         </ExplainerThumbnail>
         </div>
