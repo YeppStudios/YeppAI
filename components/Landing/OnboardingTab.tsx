@@ -22,7 +22,7 @@ const OnboardingTab = () => {
     const [mobile, setMobile] = useState(false);
 
     useEffect(() => {
-        if (window.innerWidth < 1023) { 
+        if (window.innerWidth < 1023) {
             setMobile(true);
           }
           const updateWindowSize = () => {
