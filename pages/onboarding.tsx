@@ -244,9 +244,9 @@ const Onboarding = () => {
         let reply = "";
         let model = "gpt-4-32k";
         let systemPrompt = `You are a cheerful and helpful marketing platform called Yepp AI. You allow companies/marketing agencies to upload data about their business in order to generate high-converting, factual marketing content that drives trafic.`;
-        let prompt = `Your job is to find fields where you as Yepp AI could help ${websiteTitle}. ${websiteDescription} After this short intro dive deep into content of their website and analyze it thoroughly to best advise them: "${websiteText.substring(0, 1000)}"
-        Now that you understand their business please come up with an idea on how they can use your ${feature.title} to improve their business marketing and not only. ${feature.title} ${feature.description}. Based on understanding what your feature does, come up with some unique ideas tailored for ${websiteTitle} needs.
-        Present the ${websiteTitle} a first-person description of ideal use cases using ${feature.title} in just under 75 words:
+        let prompt = `Your job is to find fields where you as Yepp AI could help ${websiteTitle}. ${websiteDescription} After this short intro dive deep into content of their website and analyze it thoroughly to best advise them. Their website content: "${websiteText.substring(0, 1000)}". From now on please write in this website's content language like native.
+        Now that you understand their business and language the website is in, please come up with an idea on how they can use your ${feature.title} to improve their business marketing and not only. ${feature.title} ${feature.description}. Based on understanding what your feature does, come up with some unique ideas tailored for ${websiteTitle} needs.
+        Present the ${websiteTitle} a first-person description of ideal use cases using your ${feature.title} in just under 75 words:
         `
 
         try {
