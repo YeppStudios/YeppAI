@@ -15,6 +15,12 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import type { ChartData, ChartOptions } from "chart.js";
+import giftIcon from "../public/images/giftIcon.png";
+import Image from "next/image";
+import Label from "@/components/Common/Label";
+import Input from "@/components/forms/Input";
+import ColorfulText from "@/components/Common/ColorfulText";
+import { MdContentCopy } from "react-icons/md";
 
 const Refferal = () => {
   interface HeaderDataType {
@@ -123,16 +129,17 @@ const Refferal = () => {
     {
       icon: <BiCertification />,
       number: "3",
-      description: "Successful referrals",
+      description: "Referrals",
     },
     {
       icon: <FiUsers />,
       number: "45",
-      description: "Registered users",
+      description: "Total registered",
     },
   ];
 
   const [isSmallDevice, setIsSmallDevice] = useState(false);
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
     const updateWindowSize = () => {
@@ -147,26 +154,24 @@ const Refferal = () => {
 
   return (
     <Page>
-      <NavigationBar />
       <div className="flex flex-col gap-4">
         <PageContainer
           style={{
-            height: `${isSmallDevice ? "100%" : "11rem"}`,
+            height: `${isSmallDevice ? "100%" : "auto"}`,
             padding: "0.75rem 1rem 0.75rem 1rem;",
           }}
         >
           <div className="flex lg:flex-row flex-col h-full">
-            <div className="flex flex-col justify-center gap-3 w-[50%] lg:border-r border-slate-300">
+            <div className="px-4 w-[50%] lg:border-r-2 border-slate-100">
               <SectionTitle>Affillate Dashboard</SectionTitle>
-              <span className="text-2xl">Make money with Yepp</span>
+              <span className="text-xl">Make money with Yepp</span>
             </div>
             <div className="w-[50%] lg:flex grid grid-cols-2 gap-4 items-center justify-around pt-8 lg:pt-0">
               {headerObject.map(({ icon, description, number }) => {
                 return (
-                  <div className="flex flex-col text-black lg:border-r border-slate-300 last:border-none h-full justify-center w-full lg:pl-8 ">
-                    <div>{icon}</div>
-                    <span>{number}</span>
-                    <span>{description}</span>
+                  <div key={description} className="flex flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center w-full lg:pl-8 ">
+                    <span className="text-2xl font-bold">{number}</span>
+                    <div className="flex gap-2 items-center"><div>{icon}</div><span>{description}</span></div>
                   </div>
                 );
               })}
@@ -174,14 +179,28 @@ const Refferal = () => {
           </div>
         </PageContainer>
         <div className="flex gap-4 flex-row">
-          <PageContainer
-            style={{ height: "24rem", width: "30%" }}
-          ></PageContainer>
+          <PageContainer style={{ height: "24rem", width: "30%" }}>
+              <div className="w-full flex justify-between">
+                <ContainerTitle>Invite a friend</ContainerTitle>
+                <Image src={giftIcon} alt="gift icon" height={20} width={20} className="w-8 h-8" />
+                </div>
+              <p className="w-5/6 mt-2 text-sm">Gift your friend a $100 coupon code and claim $100 in cash once he/she stays.</p>
+              <div className="flex flex-wrap flex-col gap-8 h-full mt-6">
+                <div className="pb-6 border-b-2 border-slate-100">
+                <div className="mb-2"><Label>Invite via email</Label></div>
+                  <Input height="auto" padding="0.55rem" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="random@gail.com" />
+                </div>
+                <div>
+                  <div className="mb-2"><Label>Invite via link</Label></div>
+                  <div className="px-4 py-[0.55rem] bg-[#F6F7FF] rounded-xl flex justify-between items-center"><div className="w-5/6 overflow-scroll"><ColorfulText>https://www.yepp.ai/dsgfasgsderg</ColorfulText></div><MdContentCopy /></div>
+                </div>
+              </div>
+          </PageContainer>
           <PageContainer style={{ height: "24rem", width: "70%" }}>
             <div className="flex h-full flex-col">
               <div className="h-[30%] w-full  flex flex-col">
                 <div className="flex justify-between items-center">
-                  <span>Revenue History</span>
+                  <ContainerTitle>Revenue History</ContainerTitle>
                   <button className="bg-slate-200 p-2 rounded-xl">
                     withdraw now
                   </button>
@@ -211,22 +230,27 @@ const Refferal = () => {
   );
 };
 
-const SectionTitle = styled.h3`
+const SectionTitle = styled.h2`
   font-size: 2vw;
   font-weight: 800;
 `;
 
+const ContainerTitle = styled.h3`
+  font-size: 1.5vw;
+  font-weight: 800;
+`
+
 const Page = styled.div`
   width: 100%;
   min-height: 100vh;
-  padding: 0.75rem 1rem 0.75rem 5rem;
+  padding: 1rem;
   font-weight: 500;
   height: auto;
   background-color: #eef1fa;
   color: white;
   position: absolute;
   @media (max-width: 1023px) {
-    padding: 4.5rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.5rem;
     min-height: 100vh;
   }
 `;
@@ -236,7 +260,7 @@ const PageContainer = styled.div`
   align-items: center;
   border: 2px solid #eaedf5;
   border-radius: 25px;
-  padding: 1.5rem 3rem 1.5rem 3rem;
+  padding: 1.5rem;
   height: calc(100vh - 9rem);
   font-weight: 500;
 
