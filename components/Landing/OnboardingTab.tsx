@@ -53,13 +53,13 @@ const OnboardingTab = () => {
     }
     return (
         <div id="onboarding" className="lg:px-[8rem] px-[0.5rem]">
-            <div className="w-full bg-[#F6F6FB] rounded-3xl py-12 pb-16 lg:pb-16 px-5 lg:px-16 lg:py-16 lg:px-20 flex flex-wrap lg:grid lg:grid-cols-2 lg:gap-10">
+            <div className="w-full bg-[#F6F6FB] justify-center lg:justify-end rounded-3xl py-12 pb-16 lg:pb-16 px-5 lg:px-16 lg:py-16 lg:px-20 flex flex-wrap lg:grid lg:grid-cols-2 lg:gap-10">
                 <div className="flex flex-col justify-center">
                     <h1 style={{lineHeight: "1.25"}} className="text-[1.85rem] lg:text-5xl font-bold text-center lg:text-left"><ColorfulText>Check out</ColorfulText> what Yepp can do for you</h1>
                     <p className="lg:mt-8 mt-4 text-xl lg:text-2xl font-medium w-full lg:w-5/6 text-center lg:text-left">Just paste the link and Yepp will generate fresh ideas to get you started!</p>
                 </div>
                 <SlideBottom>
-                <div className="w-full flex justify-end">
+                <div className="w-full flex lg:justify-end">
                 <div className="flex w-full lg:w-5/6 h-full flex-wrap mt-8 lg:mt-0 justify-center bg-white rounded-3xl shadow-lg py-8 lg:py-12 px-5 lg:px-12">
                     <Centered><Image src="/videos/web-file.gif" width="20" height="20" className="w-10 h-10 mb-2" alt="web"/></Centered>
                     <Centered><Label>link your page</Label></Centered>
