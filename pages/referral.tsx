@@ -24,6 +24,7 @@ import { MdContentCopy } from "react-icons/md";
 import referralBg from "../public/images/referralbg.png";
 import Centered from "@/components/Centered";
 import { BlueLoader } from "@/components/Common/Loaders";
+import { BsCheckLg } from "react-icons/bs";
 
 const Refferal = () => {
   interface HeaderDataType {
@@ -126,7 +127,7 @@ const Refferal = () => {
   const headerObject: HeaderDataType[] = [
     {
       icon: <IoWalletOutline />,
-      number: `${totalSum}$`,
+      number: `$${totalSum}`,
       description: "Total revenue",
     },
     {
@@ -144,6 +145,7 @@ const Refferal = () => {
   const [isSmallDevice, setIsSmallDevice] = useState(false);
   const [email, setEmail] = useState("");
   const [transactions, setTransactions] = useState([]);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const updateWindowSize = () => {
@@ -156,9 +158,23 @@ const Refferal = () => {
     };
   }, []);
 
+
+  const handleCopy = () => {
+      navigator.clipboard.writeText("abs") //to change
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => {
+              setCopied(false);
+            }, 1500);
+        })
+        .catch(err => {
+
+        });
+    };
+
   return (
     <Page>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         <PageContainer
           style={{
             height: `${isSmallDevice ? "100%" : "auto"}`,
@@ -167,8 +183,8 @@ const Refferal = () => {
         >
           <div className="flex lg:flex-row flex-col h-full">
             <div className="px-4 w-[50%] lg:border-r-2 border-slate-100">
-              <SectionTitle>Affillate Dashboard</SectionTitle>
-              <span className="text-xl">Share & earn money with Yepp</span>
+              <SectionTitle>Hello Peter 👋</SectionTitle>
+              <span className="text-xl">Here you can earn money with Yepp</span>
             </div>
             <div className="w-[50%] lg:flex grid grid-cols-2 gap-4 items-center justify-around pt-8 lg:pt-0">
               {headerObject.map(({ icon, description, number }) => {
@@ -182,13 +198,13 @@ const Refferal = () => {
             </div>
           </div>
         </PageContainer>
-        <div className="flex gap-4 flex-row">
+        <div className="flex gap-3 flex-row">
           <PageContainer style={{ height: "24rem", width: "30%" }}>
               <div className="w-full flex justify-between">
                 <ContainerTitle>Invite a friend</ContainerTitle>
                 <Image src={giftIcon} alt="gift icon" height={20} width={20} className="w-8 h-8" />
                 </div>
-              <p className="w-5/6 mt-2">Gift your friend a $100 coupon code and claim $100 in cash once he/she stays.</p>
+              <p className="w-5/6 mt-2">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
               <div className="flex flex-wrap flex-col gap-6 h-full mt-6">
                 <div className="pb-6 border-b-2 border-slate-100">
                 <div className="mb-2"><Label>Invite via email</Label></div>
@@ -196,7 +212,13 @@ const Refferal = () => {
                 </div>
                 <div>
                   <div className="mb-2"><Label>Invite via link</Label></div>
-                  <div className="px-4 py-[0.6rem] bg-[#F6F7FF] rounded-xl flex justify-between items-center"><div className="w-5/6 overflow-scroll"><ColorfulText>https://www.yepp.ai/dsgfasgsderg</ColorfulText></div><MdContentCopy className="cursor-pointer hover:scale95 transition"/></div>
+                  <div className="px-4 py-[0.6rem] bg-[#F6F7FF] rounded-xl flex justify-between items-center"><div className="w-5/6 overflow-scroll"><ColorfulText>https://www.yepp.ai/dsgfasgsderg</ColorfulText></div>
+                  {copied ?
+                    <BsCheckLg className="text-green-400" style={{width: "auto", height: "100%"}}/>
+                    :
+                    <MdContentCopy onClick={(e) => handleCopy()} className="cursor-pointer hover:scale-95 transition"/>
+                  }
+                  </div>
                 </div>
               </div>
           </PageContainer>
@@ -223,9 +245,9 @@ const Refferal = () => {
         <div className="flex flex-row gap-4 ">
         <ReferralBackground background={referralBg}>
           <div className="w-10/12">
-            <h2 className="text-3xl font-bold w-10/12">Refer Yepp and claim up to $200 total</h2>
-            <p className="w-5/6 mt-3">Gift your friend a $100 coupon code and claim $100 in cash once he/she stays.</p>
-            <button className="bg-white rounded-xl px-8 py-2 mt-8 text-black hover:scale-95 transition">Learn more</button>
+            <h2 className="text-3xl font-bold w-10/12">Refer Yepp and claim up to <b>$200</b> total</h2>
+            <p className="w-5/6 mt-3">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
+            <button className="bg-white rounded-xl px-8 py-2 mt-8 text-black hover:scale-95 transition hover:bg-[#EDEFFB]">Learn more</button>
           </div>
 
         </ReferralBackground>
