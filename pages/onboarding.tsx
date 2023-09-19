@@ -20,10 +20,10 @@ import Head from "next/head";
 
 const features = [
   {id: 0, title: "Marketing feature", description: "allows user to generate shorter content like posts, bios, ads, video scripts, emails, enhance text, marketing frameworks like PAS, AIDA etc.", icon: <BsPencilFill className="text-base mr-4" />},
-  {id: 1, title: "Campaigns feature", description: "allow user to generate entire campaigns about one topic for all different placements at once",  icon: <BsFillGrid3X3GapFill className="text-base mr-4" />},
-  {id: 2, title: "Copywriting feature", description: "based on your uploaded assets and results scraped from google you can generate longer content like articles, blogs, rankings etc.", icon: <BsFillFileTextFill className="text-base mr-4" />},
-  {id: 3, title: "Chat feature", description: "you can talk to your uploaded data and use it creatively to come up with ideas, search your files, chat with your data and many other things.", icon: <BsFillChatTextFill className="text-base mr-4" />},
-  {id: 4, title: "Tone of voice lab", description: "by uploading a sample of your writing you can train AI to write just like you and use it throughout the platform. It also allows you to generate your ideal persona based on the form that you need to fill out in order to write more targeted content throughout our platform.", icon: <BsFillMortarboardFill className="text-base mr-4" />},
+  {id: 1, title: "Campaigns feature", description: "allows user to generate entire campaigns about the topic for different placements all at once",  icon: <BsFillGrid3X3GapFill className="text-base mr-4" />},
+  {id: 2, title: "Copywriting feature", description: "based on your uploaded assets and results scraped from google Yepp generates longer content like articles, blogs, rankings etc.", icon: <BsFillFileTextFill className="text-base mr-4" />},
+  {id: 3, title: "Chat feature", description: "you can talk to your uploaded data (from PDFs, CSV, PPTX, TXT, YouTube and even websites) and use it creatively to come up with ideas, smart search your files, chat with your data and many other things.", icon: <BsFillChatTextFill className="text-base mr-4" />},
+  {id: 4, title: "Tone of voice lab", description: "user by uploading a sample of your writing can train AI to write in given tone of voice and use it throughout the platform. It also allows you to generate your ideal buyer persona based on the form that you need to fill out in order to write more targeted content throughout our platform.", icon: <BsFillMortarboardFill className="text-base mr-4" />},
   {id: 5, title: "Assets", description: "is where companies can upload their/their client's data like websites, pdfs, pptx, docx, csv, txt and YouTube video files.", icon: <BsFillArchiveFill className="text-base mr-4" />},
 ]
 
@@ -244,9 +244,9 @@ const Onboarding = () => {
         let reply = "";
         let model = "gpt-4-32k";
         let systemPrompt = `You are a cheerful and helpful marketing platform called Yepp AI. You allow companies/marketing agencies to upload data about their business in order to generate high-converting, factual marketing content that drives trafic.`;
-        let prompt = `Your job is to find fields where you as Yepp AI could help ${websiteTitle}. ${websiteDescription} After this short intro dive deep into content of their website and analyze it thoroughly to best advise them. Their website content: "${websiteText.substring(0, 1000)}". From now on please write in this website's content language like native.
-        Now that you understand their business and language the website is in, please come up with an idea on how they can use your ${feature.title} to improve their business marketing and not only. ${feature.title} ${feature.description}. Based on understanding what your feature does, come up with some unique ideas tailored for ${websiteTitle} needs.
-        Introduct to ${websiteTitle} the ideal use cases for using your ${feature.title} in just under 75 words:
+        let prompt = `Hello, we are ${websiteTitle}-${websiteDescription}. Could you tell us how can we best use and benefit from using Yepp AI?  Analyze content of our website and understand it thoroughly to best advise us. Our website content: "${websiteText.substring(0, 1000)}". From now on please write in our website's content language like native person awould in a natural, informal way so we can understand it.
+        Now that you understand ${websiteTitle} business and language, please come up with an idea on how we can use your ${feature.title}- ${feature.description} to improve our business marketing and not only. Based on understanding what your feature does, come up with some unique ideas tailored for ${websiteTitle} needs. Jump straight into the exciting use cases and don't greet us, we want only valuable advice.
+        Introduce the ideal use cases using your ${feature.title} in just under 75 words in our website's language:
         `
 
         try {
@@ -254,7 +254,7 @@ const Onboarding = () => {
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `Generated use case idea`, model, systemPrompt, temperature: 1}),
+              body: JSON.stringify({prompt, title: `Generated use case idea`, model, systemPrompt, temperature: 0.95}),
             });
     
           if (!response.ok) {
