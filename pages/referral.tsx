@@ -176,17 +176,18 @@ const Refferal = () => {
     <Page>
       <div className="flex flex-col gap-3">
         <PageContainer
+          width="100%"
+          mobileWidth="100%"
           style={{
-            height: `${isSmallDevice ? "100%" : "auto"}`,
             padding: "1.5rem 1.5rem 1.5rem 1.5rem",
           }}
         >
-          <div className="flex lg:flex-row flex-col h-full">
-            <div className="px-4 w-[50%] lg:border-r-2 border-slate-100">
+          <div className="flex lg:flex-row flex-col flex-wrap h-full">
+            <div className="lg:px-4 w-full lg:w-[50%] lg:border-r-2 border-slate-100 w-full lg:w-auto">
               <SectionTitle>Hello Peter 👋</SectionTitle>
-              <span className="text-xl">Here you can earn money with Yepp</span>
+              <span className="text-lg lg:text-xl">Here you can earn money with Yepp</span>
             </div>
-            <div className="w-[50%] lg:flex grid grid-cols-2 gap-4 items-center justify-around pt-8 lg:pt-0">
+            <div className="lg:w-[50%] w-full flex-wrap flex lg:grid grid-cols-2 gap-4 items-center justify-around pt-8 lg:pt-0">
               {headerObject.map(({ icon, description, number }) => {
                 return (
                   <div key={description} className="flex flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center w-full lg:pl-8 ">
@@ -198,19 +199,19 @@ const Refferal = () => {
             </div>
           </div>
         </PageContainer>
-        <div className="flex gap-3 flex-row">
-          <PageContainer style={{ height: "24rem", width: "30%" }}>
+        <div className="flex gap-3 flex-row flex-wrap lg:flex-nowrap">
+          <SpecialPageContainer style={{ height: "24rem"}} width="30%" mobileWidth="100%">
               <div className="w-full flex justify-between">
                 <ContainerTitle>Invite a friend</ContainerTitle>
                 <Image src={giftIcon} alt="gift icon" height={20} width={20} className="w-8 h-8" />
                 </div>
               <p className="w-5/6 mt-2">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
-              <div className="flex flex-wrap flex-col gap-6 h-full mt-6">
-                <div className="pb-6 border-b-2 border-slate-100">
+              <div className="flex flex-wrap flex-col gap-6 h-full mt-6 w-full">
+                <div className="pb-6 border-b-2 border-slate-100 w-full">
                 <div className="mb-2"><Label>Invite via email</Label></div>
-                  <div className="flex items-center justify-between gap-2"><Input height="auto" padding="0.6rem" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="random@gail.com" /><BlueBtn>Invite</BlueBtn></div>
+                  <div className="flex items-center justify-between gap-2"><Input height="auto" padding="0.6rem" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="myfriend@gmail.com" /><BlueBtn>Invite</BlueBtn></div>
                 </div>
-                <div>
+                <div className="w-full">
                   <div className="mb-2"><Label>Invite via link</Label></div>
                   <div className="px-4 py-[0.6rem] bg-[#F6F7FF] rounded-xl flex justify-between items-center"><div className="w-5/6 overflow-scroll"><ColorfulText>https://www.yepp.ai/dsgfasgsderg</ColorfulText></div>
                   {copied ?
@@ -221,14 +222,14 @@ const Refferal = () => {
                   </div>
                 </div>
               </div>
-          </PageContainer>
-          <PageContainer style={{ height: "24rem", width: "70%" }}>
+          </SpecialPageContainer>
+          <PageContainer style={{ height: "24rem"}} width="70%" mobileWidth="100%">
             <div className="flex h-full flex-col">
               <div className="h-[30%] w-full  flex flex-col">
                 <div className="flex justify-between">
-                  <ContainerTitle>Revenue History</ContainerTitle>
+                  <ContainerTitle>Revenue</ContainerTitle>
                   <button className="bg-[#F6F7FF] py-2 px-6 rounded-xl  hover:scale-95 transition hover:bg-[#EDEFFB]">
-                    Request withdrawal
+                    withdrawal
                   </button>
                 </div>
                 <div className="flex items-end">
@@ -242,7 +243,7 @@ const Refferal = () => {
             </div>
           </PageContainer>
         </div>
-        <div className="flex flex-row gap-4 ">
+        <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4 ">
         <ReferralBackground background={referralBg}>
           <div className="w-10/12">
             <h2 className="text-3xl font-bold w-10/12">Refer Yepp and claim up to <b>$200</b> total</h2>
@@ -251,7 +252,7 @@ const Refferal = () => {
           </div>
 
         </ReferralBackground>
-          <PageContainer style={{ height: "24rem", width: "70%" }}>
+          <PageContainer style={{ height: "24rem"}}  width="70%" mobileWidth="100%">
           <ContainerTitle>Recent Activity</ContainerTitle>
                     <div className="mt-2">
                         <div className="inline-block min-w-full py-2 align-middle">
@@ -318,11 +319,17 @@ const Refferal = () => {
 const SectionTitle = styled.h2`
   font-size: 2vw;
   font-weight: 800;
+  @media (max-width: 1023px) {
+    font-size: 2rem;
+  }
 `;
 
 const ContainerTitle = styled.h3`
   font-size: 1.5vw;
   font-weight: 800;
+  @media (max-width: 1023px) {
+    font-size: 1.5rem;
+  }
 `
 
 const Page = styled.div`
@@ -340,35 +347,40 @@ const Page = styled.div`
   }
 `;
 
-const PageContainer = styled.div`
+const PageContainer = styled.div<{mobileWidth: string, width: string}>`
+  width: ${( props ) => props.width};
   color: black;
   align-items: center;
   border: 2px solid #eaedf5;
   border-radius: 25px;
   padding: 1.5rem 1.75rem 1.5rem 1.75rem;
-  height: calc(100vh - 9rem);
   font-weight: 500;
-
   @media (max-width: 1023px) {
-    height: 100vh;
-    padding: 1rem;
+    height: auto;
+    width: ${(props) => props.mobileWidth};
+    padding: 1rem 1rem 1.5rem 1rem;
   }
   border-radius: 20px;
   background-color: white;
   box-shadow: 2px 2px 10px rgba(15, 27, 40, 0.15);
 `
 
-const SpecialPageContainer = styled.div`
+const SpecialPageContainer = styled.div<{mobileWidth: string, width: string}>`
   color: black;
   align-items: center;
-  border: 2px solid #eaedf5;
-  border-radius: 25px;
   padding: 1.5rem 1.75rem 1.5rem 1.75rem;
+  width: ${( props ) => props.width};
   height: calc(100vh - 9rem);
   font-weight: 500;
-
+  border: solid 3px transparent;
+  border-radius: 25px;
+  background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
+  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
   @media (max-width: 1023px) {
     height: 100vh;
+    width: ${(props) => props.mobileWidth};
     padding: 1rem;
   }
   border-radius: 20px;
@@ -378,7 +390,7 @@ const SpecialPageContainer = styled.div`
 
 const BlueBtn = styled.div`
     height: 2.8rem;
-    padding: 0 2rem 0 2rem;
+    padding: 0 2vw 0 2vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -391,6 +403,7 @@ const BlueBtn = styled.div`
     white-space: nowrap;
     color: white;
     font-weight: 500;
+    font-size: 1.2vw;
     background: linear-gradient(40deg, #6578F8, #64B5FF);
     background-size: 110%;
     background-position-x: -0.5rem;
@@ -404,7 +417,8 @@ const BlueBtn = styled.div`
     @media (max-width: 1023px) {
       margin-left: 0;
       margin-right: 0rem;
-      margin-top: 1rem;
+      padding: 0 2rem 0 2rem;
+      font-size: 0.9rem;
     }
 `
 
@@ -419,6 +433,9 @@ const ReferralBackground = styled.div<{ background: any }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 1023px) {
+    width: 100%;
+  }
 `
 
 export default Refferal;

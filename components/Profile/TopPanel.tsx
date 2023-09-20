@@ -5,7 +5,6 @@ import api from "@/pages/api";
 import dynamic from "next/dynamic";
 const ReferralModal = dynamic(() => import("../Modals/InformationalModals/ReferralModal"));
 const UpgradeSubscription = dynamic(() => import("../Modals/InformationalModals/UpgradeSubscription"));
-const SubscriptionModal = dynamic(() => import("../Modals/InformationalModals/SubscriptionModal"));
 import { BsChevronExpand, BsTrash } from "react-icons/bs";
 import Centered from "../Centered";
 import Cookies from "js-cookie";
@@ -221,9 +220,6 @@ const Panel = styled.div`
     }
 `
 
-const Content = styled.div`
-
-`
 
 const HeaderButtons = styled.div`
     display: flex;
@@ -265,66 +261,6 @@ const WelcomeText = styled.h1`
         margin-top: 0.75rem;
         font-size: 2rem;
     }
-`
-
-const CompanyName = styled.p`
-    color: #596073;
-    font-size: 2vh;
-    margin-left: 0.2vw;
-    @media (max-width: 1023px) {
-        font-size: 2.5vh;
-        margin-top: -0.5vh;
-    }
-`
-
-const StatsContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    padding: 1.4vh 7vw 1.4vh 0vw;
-    color: black;
-    align-items: center;
-    @media (max-width: 1023px) {
-        padding: 2vh 10vw 2vh 0vw;
-    }
-`
-
-const Stat = styled.div`
-    display: flex;
-    align-items: center;
-    @media (max-width: 1023px) {
-        margin-right: 1.7rem;
-    }
-`
-
-const StatIcon = styled.div<Background>`
-    position: relative;
-    width: 5.5vh;
-    height: 5.5vh;
-    overflow: hidden;
-    margin-right: 2vw;
-    z-index: 0;
-    border-radius: 10px;
-    background-image: url(${props => props.image.src});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    @media (max-width: 1023px) {
-        margin-right: 0.7rem;
-    }
-`
-
-const GenerationNumber = styled.p`
-    font-size: 3.5vh;
-    font-weight: 600;
-    @media (max-width: 1023px) {
-        font-size: 3vh;
-    }
-`
-
-const GenerationNumberDescription = styled.p`
-    color: #596073;
-    font-size: 1.7vh;
-    margin-top: -0.5vh;
 `
 
 const SubscriptionButton = styled.button`
