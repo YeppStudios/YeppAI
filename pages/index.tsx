@@ -1,5 +1,6 @@
 import SlideBottom from '@/components/Animated/SlideBottom';
 import Centered from '@/components/Centered';
+import HeroText from '@/components/Landing/HeroText';
 import Navbar from '@/components/Landing/Navbar';
 import Head from 'next/head'
 import styled from 'styled-components';
@@ -13,7 +14,7 @@ import Loading from '@/components/Common/Loading';
 import { useRouter } from 'next/router';
 import { BsFillGiftFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
-import webBackground from "../public/images/webBackground.png";
+import webBackground from "../public/images/newbg.png";
 import Plans from '@/components/Landing/Plans';
 import Space from '@/components/Docs/common/Space';
 import Stats from '@/components/Landing/Stats';
@@ -59,21 +60,21 @@ const Homepage = () => {
           <meta name = "theme-color" content = "#ffffff" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="description" content="Platforma AI do marketingu. Wykorzystaj firmowe dane, które już posiadasz przez własne AI." />
-          <title>Yepp AI</title>
+          <title>Yepp AI | Main</title>
         </Head>
         <PageContent>
           <Loading />
           <Navbar />
           <Background>
-            {!mobile && <Image style={{ width: "100%", opacity: 0.4}} src={webBackground} alt={'preview'}></Image>}
+            {!mobile && <Image style={{ width: "100%", opacity: 0.5}} src={webBackground} alt={'preview'}></Image>}
           </Background>
           <HeroSection>
-              <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[9vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center'>Marketing content based {!mobile && <br />}on your {!mobile && <TypewriterSection />}</h1></SlideBottom></Centered>
+          <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[9vw] px-4 inline-block lg:text-6xl max-w-6xl font-black text-center'>Generate {!mobile && <>marketing</>} content {!mobile && <br />} based on your {!mobile && <TypewriterSection />}</h1></SlideBottom></Centered>
               <h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center'>{mobile && <Centered><TypewriterSection/></Centered>}</h1>
               <div>
                 <Centered>
               <DescriptionHero color="black">
-                Best AI marketing platform for quality content
+               Best AI Marketing & PR platform for quality content
               </DescriptionHero>
               </Centered>
               <Centered>
@@ -92,16 +93,21 @@ const Homepage = () => {
           <Section>
             <Explainer />
           </Section>
-          {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
-             <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered>
-          <SlideBottom>
+          {/* <SlideBottom>
+          <Section>
+            <Explainer />
+          </Section>
           </SlideBottom>
+             {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
+             <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered> */}
           <Section>
             <Stats />
           </Section>
           <Section>
           <OnboardingTab />
           </Section>
+            {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
+            <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered>
           <Section>
             <Centered>
             <SlideBottom>
@@ -165,29 +171,11 @@ const Homepage = () => {
                 link="/solution/campaigns"
             />
           <Section>
-          <Container>
-          <div className="absolute top-0 left-0 w-[100vw] h-full bg-black opacity-80"></div>
-            <div
-                className="absolute -bottom-8 transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
-                aria-hidden="true"
-              >
-                <div
-                  className="aspect-[1266/975] w-[79.125rem] bg-gradient-to-tr from-[#6578F8] to-[#64B5FF] opacity-40"
-                  style={{
-                    clipPath:
-                      'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-                  }}
-                />
-              </div>
-            <img
-              src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80"
-              alt=""
-              className="absolute inset-0 -z-10 h-full w-full object-cover"
-            />
+              <div className='w-full bg-black pt-20 lg:pt-36 overflow-hidden'>
               <Centered><Icon><Image src={questionmarkIcon} style={{width: "100%"}} alt="icon" /></Icon></Centered>
               <SlideBottom><Centered><Subtitle><p className='text-white'>What do marketing agencies say about Yepp?</p></Subtitle></Centered></SlideBottom>
               {mobile ? <Image src={reviewsImageMobile} style={{width: "100%"}} alt="reviews" /> : <Image src={reviewsImage} style={{width: "100%"}} alt="reviews" />}
-            </Container>
+              </div>
           </Section>
           <Section>
           <Centered><MiniTitle>PLANS & SUBSCRIPTIONS</MiniTitle></Centered>
@@ -220,7 +208,7 @@ const Background = styled.div`
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    top: -6rem;
+    top: 3.5rem;
     left: 0;
   `
 
@@ -229,7 +217,7 @@ const HeroSection = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 16rem;
-  margin-bottom: 14rem;
+  margin-bottom: 16rem;
   @media (max-width: 1023px) {
     display: flex;
     margin-top: 8rem;
@@ -246,10 +234,9 @@ const DescriptionHero = styled.p<CustomColor>`
     margin-top: 8vh;
     @media (max-width: 1023px) {
         margin-top: 1.5rem;
-        font-weight: 700;
         font-size: 1.2rem;
         margin-bottom: 1rem;
-        width: 85%;
+        width: 95%;
         padding: 0 0.7rem 0 0.7rem;
     }
 `
@@ -434,10 +421,4 @@ const Subtitle = styled.h1`
         width: 90vw;
         text-align: center;
     }
-`
-const Container = styled.div`
-position: relative;
-isolation: isolate;
-overflow: hidden;
-padding: 8em 0 0rem 0;
 `
