@@ -24,7 +24,7 @@ import { MdContentCopy } from "react-icons/md";
 import referralBg from "../public/images/referralbg.png";
 import Centered from "@/components/Centered";
 import { BlueLoader } from "@/components/Common/Loaders";
-import { BsCheckLg } from "react-icons/bs";
+import { BsCheckLg, BsCoin } from "react-icons/bs";
 import api from "./api";
 
 const Refferal = () => {
@@ -125,42 +125,61 @@ const Refferal = () => {
     maintainAspectRatio: false,
   };
 
-  const headerObject: HeaderDataType[] = [
-    {
-      icon: <IoWalletOutline />,
-      number: `$${totalSum}`,
-      description: "Total revenue",
-    },
-    {
-      icon: <BiCertification />,
-      number: "3",
-      description: "Referrals",
-    },
-    {
-      icon: <FiUsers />,
-      number: "45",
-      description: "Total registered",
-    },
-  ];
-
   const [isSmallDevice, setIsSmallDevice] = useState(false);
   const [email, setEmail] = useState("");
   const [transactions, setTransactions] = useState([]);
   const [copied, setCopied] = useState(false);
   const [referralLink, setReferralLink] = useState("");
+  const [successfulReferrals, setSuccessfulReferrals] = useState({standard: 0, agency: 0});
+  const [user, setUser] = useState({registeredByReferral: 0});
 
   useEffect(() => {
-
+    const userId = localStorage.getItem("user_id");
 
     const fetchLink = async () => {
-      const { data } = await api.get("/get-refferal-link", {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        }
-      });
-      setReferralLink(data.link);
+      try {
+        const { data } = await api.get("/get-refferal-link", {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          }
+        });
+        setReferralLink(data.link);
+      } catch (e) {
+        console.log(e);
+      }
     }
     fetchLink();
+
+    const fetchReferrals = async () => {
+      try {
+        const { data } = await api.get(`/referrals/${userId}`, {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          }
+        });
+        const userResult = await api.get(`/users/${userId}`, {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          }
+        });
+        setUser(userResult.data);
+        const counts = data.reduce((acc:any, referral:any) => {
+            if (referral.type === 'standard') {
+                acc.standard += 1;
+            } else if (referral.type === 'agency') {
+                acc.agency += 1;
+            }
+            return acc;
+        }, {standard: 0, agency: 0});
+        setSuccessfulReferrals(counts);
+        console.log(counts);
+        setTransactions(data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchReferrals();
+
     const updateWindowSize = () => {
       setIsSmallDevice(window.innerWidth < 1024);
     };
@@ -201,14 +220,18 @@ const Refferal = () => {
               <span className="text-lg lg:text-xl">Here you can earn money with Yepp</span>
             </div>
             <div className="lg:w-[50%] w-full flex-wrap lg:flex-nowrap flex gap-4 items-center justify-around pt-8 lg:pt-0">
-              {headerObject.map(({ icon, description, number }) => {
-                return (
-                  <div key={description} className="flex flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center w-full lg:pl-8 ">
-                    <span className="text-2xl font-bold">{number}</span>
-                    <div className="flex gap-2 items-center"><div>{icon}</div><span>{description}</span></div>
+              <div className="flex flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center w-full lg:pl-8 ">
+                    <span className="text-2xl font-bold">${(Number(successfulReferrals.agency) * 100) + (Number(successfulReferrals.standard) * 50)}</span>
+                    <div className="flex gap-2 items-center"><div><IoWalletOutline /></div><span>Total revenue</span></div>
+              </div>
+                  <div className="flex flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center w-full lg:pl-8 ">
+                    <span className="text-2xl font-bold">{Number(successfulReferrals.agency) + Number(successfulReferrals.standard)}</span>
+                    <div className="flex gap-2 items-center"><div><BsCoin /></div><span>Complete referrals</span></div>
                   </div>
-                );
-              })}
+                  <div className="flex flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center w-full lg:pl-8 ">
+                    <span className="text-2xl font-bold">{user.registeredByReferral}</span>
+                    <div className="flex gap-2 items-center"><div><FiUsers /></div><span>Total registered</span></div>
+                  </div>
             </div>
           </div>
         </PageContainer>

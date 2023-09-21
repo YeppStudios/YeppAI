@@ -572,7 +572,7 @@ const BottomPanel = () => {
                     <Title>Elixir balance</Title>
                     <div style={{width: "100%", textAlign: "right"}}>
                         {(plan && balance) ?
-                        <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 25,500</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
+                        <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 25,000</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
                         :
                         Number(balance) !== 0 ?
                         <Balance>{Number(balance).toLocaleString()}ml</Balance>
@@ -596,7 +596,7 @@ const BottomPanel = () => {
                     <Title>Workspace total balance</Title>
                     <div style={{width: "100%", textAlign: "right"}}>
                         {(plan && balance) ?
-                        <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 25,500</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
+                        <>{plan._id === "647c3294ff40f15b5f6796bf" ? <Balance>{Number(balance).toLocaleString()} / 25,000</Balance> : <Balance>{Number(balance).toLocaleString()} / {plan.monthlyTokens.toLocaleString()}</Balance>}</>
                         :
                         Number(balance) !== 0 ?
                         <Balance>{Number(balance).toLocaleString()}ml</Balance>
