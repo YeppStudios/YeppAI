@@ -173,7 +173,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">✏️</span> </Emoji><PlanTitleText>{plan.title}</PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a freelancer</BriefDescription>
                                     <MainDescription>Your personal AI content creator with knowledge from uploaded assets.</MainDescription>
-                                    {props.purchase ?
+                                    {(props.purchase || props.landing)  ?
                                     <>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
@@ -189,7 +189,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                     :
                                     <Price><ColorfulText>7 days free</ColorfulText></Price>
                                     }
-                                    <Centered><Note>{props.purchase ? <>No pressure.</> : <>After trial  {country !== "Poland" ? <b>${plan.price}/mo.</b> : <b>{plan.polishPrice}zł/mo.</b>}</>} You can change plans or cancel anytime.</Note></Centered>
+                                    <Centered><Note>{(props.purchase || props.landing) ? <>No pressure.</> : <>After trial  {country !== "Poland" ? <b>${plan.price}/mo.</b> : <b>{plan.polishPrice}zł/mo.</b>}</>} You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
                                         <BuyButton id="standard-free-trial-btn" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
@@ -220,7 +220,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                     <PlanTitle><Emoji><span role="img" aria-label="diamond">💎</span></Emoji><PlanTitleText><ColorfulText>{plan.title}</ColorfulText></PlanTitleText> </PlanTitle>
                                     <BriefDescription>Best for a marketing agency</BriefDescription>
                                     <MainDescription>Unleash the full potential of the platform and maximize your performance.</MainDescription>
-                                    {props.purchase ?
+                                    {(props.purchase || props.landing)  ?
                                     <>
                                     {country === "Poland" && <PriceLabel>Net price:</PriceLabel>}
                                     {country !== "Poland" ?
@@ -236,7 +236,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                                     :
                                     <Price><ColorfulText>7 days free</ColorfulText></Price>
                                     }
-                                    <Centered><Note>{props.purchase ? <>No pressure.</> : <>After trial  {country !== "Poland" ? <b>${plan.price}/mo.</b> : <b>{plan.polishPrice}zł/mo.</b>}</>} You can change plans or cancel anytime.</Note></Centered>
+                                    <Centered><Note>{(props.purchase || props.landing)  ? <>No pressure.</> : <>After trial  {country !== "Poland" ? <b>${plan.price}/mo.</b> : <b>{plan.polishPrice}zł/mo.</b>}</>} You can change plans or cancel anytime.</Note></Centered>
                                     <Centered>
                                         {props.openRegistration ?
                                         <BuyButton id="agency-free-trial-btn" onClick={() => router.push(`/register?registration=true&priceId=${priceId}&planName=${plan.title}&planId=${plan.planId}&billingPeriod=${billingPeriod}`)}  backgroundColor="black" color="white">{loadingBtn === plan.title ? <Loader color="white"/> : <><BtnIcon><BiGift style={{width: "100%", height: "auto"}} /></BtnIcon>{props.landing ? <p>Buy now</p> : <p>Start free trial</p>}</>}</BuyButton>
