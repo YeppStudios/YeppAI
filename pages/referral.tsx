@@ -25,6 +25,7 @@ import referralBg from "../public/images/referralbg.png";
 import Centered from "@/components/Centered";
 import { BlueLoader } from "@/components/Common/Loaders";
 import { BsCheckLg } from "react-icons/bs";
+import api from "./api";
 
 const Refferal = () => {
   interface HeaderDataType {
@@ -146,8 +147,20 @@ const Refferal = () => {
   const [email, setEmail] = useState("");
   const [transactions, setTransactions] = useState([]);
   const [copied, setCopied] = useState(false);
+  const [referralLink, setReferralLink] = useState("");
 
   useEffect(() => {
+
+
+    const fetchLink = async () => {
+      const { data } = await api.get("/get-refferal-link", {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        }
+      });
+      setReferralLink(data.link);
+    }
+    fetchLink();
     const updateWindowSize = () => {
       setIsSmallDevice(window.innerWidth < 1024);
     };
@@ -160,7 +173,7 @@ const Refferal = () => {
 
 
   const handleCopy = () => {
-      navigator.clipboard.writeText("abs") //to change
+      navigator.clipboard.writeText(referralLink)
         .then(() => {
           setCopied(true);
           setTimeout(() => {
@@ -182,12 +195,12 @@ const Refferal = () => {
             padding: "1.5rem 1.5rem 1.5rem 1.5rem",
           }}
         >
-          <div className="flex lg:flex-row flex-col flex-wrap h-full">
-            <div className="lg:px-4 w-full lg:w-[50%] lg:border-r-2 border-slate-100 w-full lg:w-auto">
+          <div className="flex lg:flex-row flex-col flex-wrap h-full lg:justify-between">
+            <div className="lg:px-4 w-full lg:w-[50%] border-slate-100 w-full lg:w-auto">
               <SectionTitle>Hello Peter 👋</SectionTitle>
               <span className="text-lg lg:text-xl">Here you can earn money with Yepp</span>
             </div>
-            <div className="lg:w-[50%] w-full flex-wrap flex lg:grid grid-cols-2 gap-4 items-center justify-around pt-8 lg:pt-0">
+            <div className="lg:w-[50%] w-full flex-wrap lg:flex-nowrap flex gap-4 items-center justify-around pt-8 lg:pt-0">
               {headerObject.map(({ icon, description, number }) => {
                 return (
                   <div key={description} className="flex flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center w-full lg:pl-8 ">
@@ -211,16 +224,19 @@ const Refferal = () => {
                 <div className="mb-2"><Label>Invite via email</Label></div>
                   <div className="flex items-center justify-between gap-2"><Input height="auto" padding="0.6rem" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="myfriend@gmail.com" /><BlueBtn>Invite</BlueBtn></div>
                 </div>
+                {referralLink && 
                 <div className="w-full">
                   <div className="mb-2"><Label>Invite via link</Label></div>
-                  <div className="px-4 py-[0.6rem] bg-[#F6F7FF] rounded-xl flex justify-between items-center"><div className="w-5/6 overflow-scroll"><ColorfulText>https://www.yepp.ai/dsgfasgsderg</ColorfulText></div>
+                  <div className="px-4 py-[0.6rem] bg-[#F6F7FF] rounded-xl flex justify-between items-center"><div className="w-5/6 overflow-scroll whitespace-nowrap"><ColorfulText>{referralLink}</ColorfulText></div>
                   {copied ?
                     <BsCheckLg className="text-green-400" style={{width: "auto", height: "100%"}}/>
                     :
                     <MdContentCopy onClick={(e) => handleCopy()} className="cursor-pointer hover:scale-95 transition"/>
                   }
                   </div>
+                  
                 </div>
+                }
               </div>
           </SpecialPageContainer>
           <PageContainer style={{ height: "24rem"}} width="70%" mobileWidth="100%">
