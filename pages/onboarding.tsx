@@ -194,7 +194,7 @@ const Onboarding = () => {
                       {feature.icon}
                       {feature.title}
                     </div>
-                    <div className="mr-4 font-medium text-sm">
+                    <div onClick={() => setOpenRegistration(true)} className="mr-4 font-medium text-sm">
                       <ColorfulText>Try Now</ColorfulText>
                     </div>
                   </div>
