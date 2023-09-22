@@ -149,7 +149,7 @@ const BottomPanel = () => {
             setTransactions(response.data);
         }
 
-        if(userId){
+        if (userId) {
             getElixirUsage();
             getTransactions();
         }
@@ -173,7 +173,6 @@ const BottomPanel = () => {
                         styles: (theme: any) => ({
                           root: {
                             border: "none",
-                  
                           },
                         })
                       })

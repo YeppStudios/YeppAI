@@ -23,7 +23,7 @@ const tabs = [
 const plans = [
     {
         title: "Standard", 
-        planId: "64ad0d740e40385f299bcef9", 
+        planId: "64ad0d740e40385f299bcef9",
         description: "Basic version of Yepp AI, enhanced skills.", 
         features: ["200 000 elixir/mo (~100 A4 pages)", "1 folder for assets", "10 assets to upload (max 15MB total)", "3 teammates", "Single web pages scanning", "Upload PDF, PPTX, TXT, CSV and DOCX", "Chat with your AI", "Marketing templates", "Copywriting feature"],
         price: 79,
@@ -321,7 +321,6 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
                         </MainPlanContainer>
             )
         })
-        
         return (
             <PlansContainer>
                 {renderedPlans}
