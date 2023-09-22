@@ -137,13 +137,6 @@ const ResultsContainer = (
               percentage = user.tokenBalance/75;
             }
             let elixir = Number(percentage) > 100 ? 100 : Number(percentage) < 0 ? 0 : percentage;
-            if(elixir < 85 && !user.elixirAware){
-                setOpenElixirReminder(true);
-                await api.put("/displayElixirInfo", {}, { 
-                    headers: {
-                        authorization: token
-                  }})
-            }
             setElixirWidth((elixir).toString());
           }
         } 

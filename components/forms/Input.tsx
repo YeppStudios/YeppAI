@@ -15,7 +15,7 @@ const Input = styled.input<InputProps>`
   resize: none;
   height: ${props => props.height};
   border: none;
-  border-radius: 10px;
+  border-radius: 15px;
   font-size: 1rem;
   background-color: white;
   box-shadow: inset 1px 1px 5px rgba(15, 27, 40, 0.2), inset -1px -1px 4px #FAFBFF;
