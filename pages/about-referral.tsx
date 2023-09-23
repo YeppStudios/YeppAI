@@ -161,7 +161,7 @@ export default function Example() {
 
   return (
     <div className="bg-white">
-        <Navbar theme='dark'/>
+        <Navbar/>
       <main className="relative isolate">
         {/* Background */}
         <div
