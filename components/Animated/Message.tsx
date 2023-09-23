@@ -75,7 +75,7 @@ const UserMessage = styled(motion.div)`
       width: auto;
       max-width: 100vw;
       padding: 2.5vw 3.5vw 2.5vw 3.5vw;
-      font-size: 3.5vw;
+      font-size: 1rem;
       margin-right: 0;
       margin-top: 0.7rem;
       box-shadow: none;
