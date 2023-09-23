@@ -28,6 +28,7 @@ import { showNotification } from "@mantine/notifications";
 import api from "./api";
 import { Loader } from "@mantine/core";
 import LoginModal from "@/components/Modals/OnboardingModals/LoginModal";
+import AddWithdrawal from "@/components/Modals/AddingModals/AddWithdrawal";
 
 const Refferal = () => {
   interface HeaderDataType {
@@ -70,9 +71,10 @@ const Refferal = () => {
   const [email, setEmail] = useState("");
   const [transactions, setTransactions] = useState<Transaction[]>();
   const [copied, setCopied] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [sending, setSending] = useState(false);
   const [referralLink, setReferralLink] = useState("");
+  const [openWithdrawalForm, setOpenWithdrawalForm] = useState(false);
   const [successfulReferrals, setSuccessfulReferrals] = useState({standard: 0, agency: 0});
   const [user, setUser] = useState({registeredByReferral: 0, name: "", email: ""});
   const [chartData, setChartData] = useState<ChartDataType[]>(months.map((month, index) => {
@@ -188,7 +190,7 @@ const Refferal = () => {
           const referralMonth = new Date(referral.timestamp).getMonth();
           newChartData.forEach((monthData) => {
             if (new Intl.DateTimeFormat('en-US', { month: 'short' }).format(new Date(1970, referralMonth)) === monthData.label) {
-              monthData.value += referral.type === 'agency' ? 100 : 50;
+              monthData.value += referral.type === 'purchased agency' ? 100 : (referral.type === "purchased standard" ? 50 : 0);
             }
           });
         });
@@ -223,10 +225,15 @@ const Refferal = () => {
         const year = date.getFullYear().toString();
         const formattedDate = `${day}.${month}.${year}`;
         let bgColor = "bg-slate-100"
+        if (transaction.type.includes("purchased")) {
+          bgColor = "bg-green-100"
+        } else if (transaction.type === "registered") {
+          bgColor = "bg-blue-100"
+        }
         return (
             <tr key={transaction.timestamp} >
-            <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">{transaction.email}</td>
-            <td className={`whitespace-nowrap px-6 pl-2 py-4 text-base text-slate-700 lg:table-cell`}><div className={`${bgColor} text-center rounded-full py-1 text-sm`}>{transaction.type}</div></td>
+            <td className="whitespace-nowrap px-3 py-4 text-xs lg:text-base text-slate-700">{transaction.email}</td>
+            <td className={`whitespace-nowrap px-6 pl-2 py-4 text-slate-700 lg:table-cell`}><div className={`${bgColor} text-center rounded-full py-1 px-2 lg:px-0 lg:w-36 text-xs lg:text-sm`}>{transaction.type}</div></td>
             <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">{formattedDate}</td>
             <td className={`whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell`}>{transaction.type === "purchased agency" ? <>$100</> : <>{transaction.type === "purchased standard" ? <>$50</> : <>-</>}</ >}</td>
             <td onClick={(e) => e.stopPropagation()} className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
@@ -331,7 +338,8 @@ const Refferal = () => {
 
   return (
     <Page>
-            {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
+      {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
+      {openWithdrawalForm && <AddWithdrawal onClose={() => setOpenWithdrawalForm(false)} />}
       <div className="flex flex-col gap-3">
         <PageContainer
           height="auto"
@@ -342,23 +350,23 @@ const Refferal = () => {
             padding: "1.5rem 1.5rem 1.5rem 1.5rem",
           }}
         >
-          <div className="flex px-4 lg:px-0 py-4 lg:py-0 lg:flex-row flex-col flex-wrap h-full lg:justify-between">
+          <div className="flex lg:flex-row flex-col flex-wrap h-full lg:justify-between">
             <div className="lg:px-4 w-full lg:w-[50%] border-slate-100 w-full lg:w-auto">
-              <SectionTitle>Hello Peter 👋</SectionTitle>
-              <span className="text-3xl lg:text-xl">Here you can earn money with Yepp</span>
+              <SectionTitle>Hello {user.name} 👋</SectionTitle>
+              <span className="text-lg lg:text-xl">Here you can earn money with Yepp</span>
             </div>
             <div className="lg:w-[50%] w-full flex-wrap lg:flex-nowrap flex gap-4 items-center lg:justify-around pt-8 lg:pt-0">
               <div className="flex py-4 lg:py-0 px-4 lg:px-0 flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center lg:w-full lg:pl-8 ">
-                    <span className="text-4xl lg:text-2xl font-bold">${(Number(successfulReferrals.agency) * 100) + (Number(successfulReferrals.standard) * 50)}</span>
-                    <div className="text-2xl mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><IoWalletOutline /></div><span>Total revenue</span></div>
+                    <span className="text-2xl font-bold">${(Number(successfulReferrals.agency) * 100) + (Number(successfulReferrals.standard) * 50)}</span>
+                    <div className="text-xs mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><IoWalletOutline /></div><span>Total revenue</span></div>
               </div>
                   <div className="flex flex-col py-4 lg:py-0 px-4 lg:px-0 text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center lg:w-full lg:pl-8 ">
-                    <span className="text-4xl lg:text-2xl font-bold">{Number(successfulReferrals.agency) + Number(successfulReferrals.standard)}</span>
-                    <div className="text-2xl mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><BsCoin /></div><span>Complete referrals</span></div>
+                    <span className="text-2xl font-bold">{Number(successfulReferrals.agency) + Number(successfulReferrals.standard)}</span>
+                    <div className="text-xs mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><BsCoin /></div><span>Complete referrals</span></div>
                   </div>
                   <div className="flex flex-col py-4 lg:py-0 px-4 lg:px-0 text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center lg:w-full lg:pl-8 ">
-                    <span className="text-4xl lg:text-2xl font-bold">{user.registeredByReferral}</span>
-                    <div className="text-2xl mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><FiUsers /></div><span>Total registered</span></div>
+                    <span className="text-2xl font-bold">{user.registeredByReferral}</span>
+                    <div className="text-xs mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><FiUsers /></div><span>Total registered</span></div>
                   </div>
             </div>
           </div>
@@ -367,9 +375,9 @@ const Refferal = () => {
           <SpecialPageContainer height="24rem" mobileHeight="auto" width="30%" mobileWidth="100%">
               <div className="w-full flex justify-between">
                 <ContainerTitle>Invite a friend</ContainerTitle>
-                <Image src={giftIcon} alt="gift icon" height={20} width={20} className="lg:w-8 lg:h-8 w-12 h-12" />
+                <Image src={giftIcon} alt="gift icon" height={20} width={20} className="w-8 h-8" />
                 </div>
-              <p className="w-5/6 mt-2 text-2xl lg:text-base">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
+              <p className="lg:w-5/6 mt-2 text-sm lg:text-bas mt-4 lg:mt-0">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
               <div className="flex flex-wrap flex-col gap-6 h-full mt-6 w-full">
                 <div className="pb-6 border-b-2 border-slate-100 w-full">
                 <div className="mb-2"><Label>Invite via email</Label></div>
@@ -386,7 +394,7 @@ const Refferal = () => {
                 {referralLink && 
                 <div className="w-full">
                   <div className="mb-2"><Label>Invite via link</Label></div>
-                  <div className="px-4 py-4 lg:py-[0.6rem] bg-[#F6F7FF] rounded-xl flex justify-between items-center text-2xl lg:text-base"><div className="w-5/6 overflow-scroll whitespace-nowrap"><ColorfulText>{referralLink}</ColorfulText></div>
+                  <div className="px-4 py-[0.6rem] bg-[#F6F7FF] rounded-xl flex justify-between items-center text-base"><div className="w-5/6 overflow-scroll whitespace-nowrap"><ColorfulText>{referralLink}</ColorfulText></div>
                   {copied ?
                     <BsCheckLg className="text-green-400" style={{width: "auto", height: "100%"}}/>
                     :
@@ -403,8 +411,8 @@ const Refferal = () => {
               <div className="h-[30%] w-full  flex flex-col">
                 <div className="flex justify-between">
                   <ContainerTitle>Revenue History</ContainerTitle>
-                  <button className="bg-[#F6F7FF] py-2 px-10 lg:px-6 rounded-xl  hover:scale-95 transition hover:bg-[#EDEFFB]">
-                    withdrawal
+                  <button onClick={() => setOpenWithdrawalForm(true)} className="bg-[#F6F7FF] py-2 px-6 rounded-xl h-12 lg:h-auto hover:scale-95 transition hover:bg-[#EDEFFB]">
+                    withdraw
                   </button>
                 </div>
               </div>
@@ -417,13 +425,13 @@ const Refferal = () => {
         <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4 ">
         <ReferralBackground background={referralBg}>
           <div className="w-10/12">
-            <h2 className="lg:text-3xl text-4xl font-bold w-10/12">Refer Yepp and claim up to <b>$200</b> total</h2>
-            <p className="w-5/6 mt-5 lg:mt-3 text-2xl lg:text-base">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
-            <button className="bg-white text-2xl lg:text-base rounded-xl px-14 py-3 lg:px-8 lg:py-2 mt-10 lg:mt-8 text-black hover:scale-95 transition hover:bg-[#EDEFFB]">Learn more</button>
+            <h2 className="text-2xl lg:text-3xl font-bold w-10/12">Share Yepp and claim up to <b>$200</b> total</h2>
+            <p className="w-5/6 mt-5 lg:mt-3 text-base">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
+            <button className="bg-white text-base rounded-xl px-14 py-2 mt-8 text-black hover:scale-95 transition hover:bg-[#EDEFFB]">Learn more</button>
           </div>
 
         </ReferralBackground>
-          <PageContainer height="24rem" mobileHeight="auto"  width="70%" mobileWidth="100%">
+          <PageContainer height="24rem" mobileHeight="100svh"  width="70%" mobileWidth="100%">
           <ContainerTitle>Recent Activity</ContainerTitle>
                     <div className="mt-2">
                         <div className="inline-block min-w-full py-2 align-middle">
@@ -433,31 +441,31 @@ const Refferal = () => {
                                 <tr>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 py-3.5 pl-2 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
+                                    className="sticky -top-6 z-10 border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 py-3.5 pl-2 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
                                 >
                                     Email
                                 </th>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 hidden border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
+                                    className="sticky -top-6 z-10 border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
                                 >
                                     Type
                                 </th>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 hidden border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
+                                    className="sticky -top-6 z-10 hidden border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
                                 >
                                     Date
                                 </th>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
+                                    className="sticky -top-6 z-10 border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
                                 >
                                     Value
                                 </th>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
+                                    className="sticky -top-6 z-10 border-b-2 border-[#F6F7FF] bg-white bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
                                 >
                                     <span className="sr-only">Delete</span>
                                 </th>
@@ -491,7 +499,7 @@ const SectionTitle = styled.h2`
   font-size: 2vw;
   font-weight: 800;
   @media (max-width: 1023px) {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 `;
 
@@ -499,7 +507,7 @@ const ContainerTitle = styled.h3`
   font-size: 1.5vw;
   font-weight: 800;
   @media (max-width: 1023px) {
-    font-size: 2.2rem;
+    font-size: 1.5rem;
   }
 `
 
@@ -522,6 +530,9 @@ const PageContainer = styled.div<{mobileWidth: string, width: string, mobileHeig
   width: ${( props ) => props.width};
   height: ${( props ) => props.height};
   color: black;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   align-items: center;
   border: 2px solid #eaedf5;
   border-radius: 25px;
@@ -530,7 +541,7 @@ const PageContainer = styled.div<{mobileWidth: string, width: string, mobileHeig
   @media (max-width: 1023px) {
     height: ${( props ) => props.mobileHeight};
     width: ${(props) => props.mobileWidth};
-    padding: 2.5rem 2.5rem 3rem 2.5rem;
+    padding: 2rem 2rem 3rem 2rem;
   }
   border-radius: 20px;
   background-color: white;
@@ -553,7 +564,7 @@ const SpecialPageContainer = styled.div<{mobileWidth: string, width: string, hei
   @media (max-width: 1023px) {
     height: ${( props ) => props.mobileHeight};
     width: ${(props) => props.mobileWidth};
-    padding: 2.5rem 2.5rem 3rem 2.5rem;
+    padding: 2.5rem 2rem 3rem 2rem;
   }
   border-radius: 20px;
   background-color: white;
@@ -589,9 +600,10 @@ const BlueBtn = styled.div`
     @media (max-width: 1023px) {
       margin-left: 0;
       margin-right: 0rem;
-      padding: 1rem 2rem 1rem 2rem;
+      background-position-x: -0.2rem;
+      padding: 0.45rem 1.2rem 0.45rem 1.2rem;
       height: 100%;
-      font-size: 1.5rem;
+      font-size: 0.8rem;
     }
 `
 
@@ -618,9 +630,6 @@ const Label = styled.label`
   font-weight: 500;
   margin-left: 0.1rem;
   font-weight: 700;  
-  @media (max-width: 1023px) {
-    font-size: 1.2rem;
-  }
 `;
 
 const Input = styled.input<{height: string, padding: string}>`
@@ -639,8 +648,8 @@ const Input = styled.input<{height: string, padding: string}>`
   color: black;
   font-weight: 500;
   @media (max-width: 1023px) {
-    padding: 1rem  1rem 1rem 1rem;
-    font-size: 1.5rem;
+    padding: 0.5rem  1rem 0.5rem 1rem;
+    font-size: 0.9rem;
   }
   outline: none;
   ::placeholder,
