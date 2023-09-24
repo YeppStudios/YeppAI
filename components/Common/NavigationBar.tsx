@@ -294,7 +294,7 @@ const NavigationBar = () => {
           >
             {memoizedNavigationTabs}
             <ProfileContainer id="profile-tab">
-            {isHovered && 
+            {/* {isHovered && 
             <SlideBottom>
               <ReferralPopup background={referralBg}>
                 <div>
@@ -304,7 +304,7 @@ const NavigationBar = () => {
                 </div>
               </ReferralPopup>
             </SlideBottom>
-            }
+            } */}
             {bottomTabs.map((tab) => (
             <div id={tab.id} key={tab.id}>
               {!(tab.path.includes(pathname) && pathname !== "/") ? (
