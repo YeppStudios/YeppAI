@@ -24,6 +24,8 @@ import { HiMenu } from "react-icons/hi";
 import { motion, useAnimation } from "framer-motion";
 import ColorfulText from "./ColorfulText";
 import { MdCampaign } from "react-icons/md";
+import referralBg from "../../public/images/referral_popup_bg.png";
+import giftIcon from "../../public/images/giftIcon.png"
 
 const tabs = [
   {
@@ -292,6 +294,17 @@ const NavigationBar = () => {
           >
             {memoizedNavigationTabs}
             <ProfileContainer id="profile-tab">
+            {isHovered && 
+            <SlideBottom>
+              <ReferralPopup background={referralBg}>
+                <div>
+                  <Centered><Image src={giftIcon} alt="gift" className="w-12 h-12" /></Centered>
+                  <p className="text-center text-black font-bold mt-4 mb-4">Bring a friend and <br /><ColorfulText>get up to $7000</ColorfulText> total</p>
+                  <BlueBtn onClick={() => router.push("/about-referral")}>Learn more</BlueBtn>
+                </div>
+              </ReferralPopup>
+            </SlideBottom>
+            }
             {bottomTabs.map((tab) => (
             <div id={tab.id} key={tab.id}>
               {!(tab.path.includes(pathname) && pathname !== "/") ? (
@@ -665,41 +678,6 @@ const PersonName = styled.div`
   }
 `;
 
-const DropdownContainer = styled.div`
-  position: absolute;
-  z-index: 100;
-  padding: 1vh 0 0 2vh;
-  bottom: 12vh;
-  left: 2rem;
-`;
-const FreeElixirBtn = styled.button`
-  border: solid 3px transparent;
-  border-radius: 15px;
-  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-    inset -2px -2px 4px #fafbff, 1px 1px 3px rgba(22, 27, 29, 0.23);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  position: relative;
-  white-space: nowrap;
-  color: white;
-  font-weight: 500;
-  width: 100%;
-  padding: 0.3rem 1.2rem 0.3rem 1.2rem;
-  background: linear-gradient(40deg, #6578f8, #64b5ff);
-  background-size: 110%;
-  background-position-x: -1rem;
-  margin-right: 1.5rem;
-  transition: all 0.4s ease;
-  &:hover {
-    transform: scale(0.95);
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-      inset -2px -2px 4px #fafbff;
-  }
-`;
-
-const CustomAIContainer = styled.div`
-  width: 100%;
-`;
 
 const NameContainer = styled.div<{ hover: boolean }>`
   display: flex;
@@ -723,3 +701,57 @@ const ComingSoon = styled.div`
   font-size: 0.8rem;
   margin-left: 1rem;
 `;
+
+const ReferralPopup = styled.div<{background: any}>`
+  width: 14.5rem;
+  padding: 2rem 1.5rem 2rem 1.5rem;
+  cursor: pointer;
+  border-radius: 20px;
+  background-image: url(${props => props.background.src});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 2px 4px rgba(0, 0, 100, 0.1);
+  border: 2px solid #EAEFF8;
+  transition: all 0.3s ease;
+  &:hover {
+    shadow: none;
+  }
+`
+
+const BlueBtn = styled.div`
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem;
+    width: 100%;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: solid 3px transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    position: relative;
+    white-space: nowrap;
+    color: white;
+    font-weight: 500;
+    background: linear-gradient(40deg, #6578F8, #64B5FF);
+    background-size: 110%;
+    background-position-x: -0.5rem;
+    align-items: center;
+    transition: all 0.4s ease;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
+    cursor: pointer;
+    &:hover {
+      box-shadow: none;
+      transform: scale(0.95);
+    }
+    @media (max-width: 1023px) {
+      margin-left: 0;
+      margin-right: 0rem;
+      padding: 0.5rem 1.25rem 0.5rem 1.25rem;
+    }
+`
