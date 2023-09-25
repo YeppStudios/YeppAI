@@ -16,6 +16,8 @@ import Footer from '@/components/Landing/Footer';
 import Partner from '@/components/Modals/AddingModals/Partner';
 import SlideBottom from '@/components/Animated/SlideBottom';
 import Head from 'next/head';
+import styled from 'styled-components';
+import Centered from '@/components/Centered';
 
 const values = [
   {
@@ -189,7 +191,7 @@ export default function Example() {
             <p className='text-gray-800 mb-4'>BECOME A PART OF YEPP &</p>
             <SlideBottom><h2 className="text-4xl font-bold tracking-tight text-black sm:text-6xl">Start earning from referrals</h2></SlideBottom>
             <p className="mt-6 text-2xl leading-8 text-gray-800">
-                Share Yepp and claim up to <b>$1700</b> for one referral
+                Share Yepp and claim up to <b>$1700</b> per referral
             </p>
           </div>
         </div>
@@ -225,7 +227,9 @@ export default function Example() {
             </div>
           </div>
         </div>
-
+        <div className='w-full mt-20'>
+        <Centered><Button onClick={() => setOpenModal(true)} width='20rem' widthMobile='80%'>Become a partner</Button></Centered>
+        </div>
         {/* Values section */}
         <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
           <div className="mx-auto max-w-2xl lg:mx-0">
@@ -273,9 +277,9 @@ export default function Example() {
                   ))}
                 </ul>
                 <div className="mt-10 flex">
-                  <button onClick={() => setOpenModal(true)} className="text-sm font-semibold leading-6 text-blue-500 hover:scale-95 transition">
-                    Become a partner <span aria-hidden="true">&rarr;</span>
-                  </button>
+                  <Button width="20rem" widthMobile='7rem' onClick={() => setOpenModal(true)}>
+                    Become a partner <span aria-hidden="true" className='ml-2'>&rarr;</span>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -384,3 +388,38 @@ export default function Example() {
     </div>
   )
 }
+
+
+const Button = styled.button<{width: string, widthMobile: string}>`
+  padding: 0.55rem 1.25rem 0.75rem 1.25rem;
+  width: ${props => props.width};
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  border: solid 3px transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  position: relative;
+  white-space: nowrap;
+  color: white;
+  font-weight: 700;
+  background: linear-gradient(40deg, #6578F8, #64B5FF);
+  background-size: 110%;
+  background-position-x: -0.5rem;
+  align-items: center;
+  transition: all 0.4s ease;
+  box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
+  cursor: pointer;
+  &:hover {
+    box-shadow: none;
+    transform: scale(0.95);
+  }
+  @media (max-width: 1023px) {
+    margin-left: 0;
+    margin-right: 0rem;
+    width: ${props => props.widthMobile}
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem;
+  }
+`;

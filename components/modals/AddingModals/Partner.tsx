@@ -7,6 +7,7 @@ import SlideBottom from "../../Animated/SlideBottom";
 import { showNotification } from "@mantine/notifications";
 import { MdOutlineClose } from "react-icons/md";
 import TextArea from "@/components/forms/TextArea";
+import ModalBackground from "../common/ModalBackground";
 
 const Partner = (props: {onClose: any}) => {
 
@@ -14,7 +15,6 @@ const Partner = (props: {onClose: any}) => {
     const [name, setName] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [sending, setSending] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [address, setAddress] = useState("");
     const [fullName, setFullName] = useState('');
     const [city, setCity] = useState("");
@@ -35,7 +35,7 @@ const Partner = (props: {onClose: any}) => {
         setSending(true);
           try {
             const msg = {
-              to: "peter@yepp.ai",
+              to: "milosz@yepp.ai",
               nickname: "Yepp AI",
               from: {
                 email: "hello@yepp.ai",
@@ -45,17 +45,11 @@ const Partner = (props: {onClose: any}) => {
               dynamicTemplateData: {
               fullName: `${fullName}`,
               email: `${email}`,
-              companyName: `${companyName}`,
-              message: `${message}`,
-              address: `${address}`,
-              city: `${city}`,
-              country: `${country}`,
               },
           };
           await api.post('/send-email', { msg });
           setCompanyName('');
           setSending(false);
-          setLoading(false);
           setAddress("");
           setFullName('');
           setCity("");
@@ -146,65 +140,6 @@ const Partner = (props: {onClose: any}) => {
                                 />
                                 </div>
                             </div>
-                            <div className="w-full flex justify-between flex-wrap lg:flex-nowrap">
-                                <div className="w-full lg:w-[48%]">
-                                <Label>
-                                    Company name
-                                </Label>
-                                <Input
-                                    id="company"
-                                    type="text"
-                                    placeholder="My Company"
-                                    value={companyName}
-                                    onChange={(e) => setCompanyName(e.target.value)}
-                                    required
-                                />
-                                </div>
-                                <div className="w-full lg:w-[48%]">
-                                    <Label>
-                                        Address
-                                    </Label>
-                                    <Input
-                                        type="address"
-                                        placeholder="1717 Mission St."
-                                        value={address}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                        required
-                                        autoComplete="off"
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full flex justify-between flex-wrap lg:flex-nowrap">
-                                <div className="w-full lg:w-[48%]">
-                                <Label>
-                                    City
-                                </Label>
-                                <Input
-                                    id="city"
-                                    type="text"
-                                    placeholder="San Francisco"
-                                    value={city}
-                                    onChange={(e) => setCity(e.target.value)}
-                                    required
-                                />
-                                </div>
-                                <div className="w-full lg:w-[48%]">
-                                    <Label>
-                                        Country
-                                    </Label>
-                                    <Input
-                                        id="country"
-                                        type="text"
-                                        placeholder="United States"
-                                        value={country}
-                                        onChange={(e) => setCountry(e.target.value)}
-                                        required
-                                        autoComplete="off"
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full"><Label>Message</Label></div>
-                            <TextArea padding="0.6rem" height="10rem" placeholder="Your message..."/>
                             <Button type="submit">
                                 {sending ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
@@ -224,28 +159,6 @@ const Partner = (props: {onClose: any}) => {
 }
 
 export default Partner;
-
-const ModalBackground = styled.div`
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    flex-wrap: wrap;
-    backdrop-filter: blur(7px);
-    z-index: 100;
-    top: 0;
-    left: 0;
-    padding: 3rem 0 10rem 0;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    overflow: scroll;
-        &::-webkit-scrollbar {
-        display: none;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    color: black;
-`
 
 const Container = styled.div`
     width: 40rem;
