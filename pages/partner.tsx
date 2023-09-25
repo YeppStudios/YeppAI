@@ -77,6 +77,9 @@ const Refferal = () => {
   const [openWithdrawalForm, setOpenWithdrawalForm] = useState(false);
   const [successfulReferrals, setSuccessfulReferrals] = useState({standard: 0, agency: 0});
   const [user, setUser] = useState({registeredByReferral: 0, name: "", email: ""});
+  const [country, setCountry] = useState("");
+  const [agencyValue, setAgencyValue] = useState(74.7);
+  const [standardValue, setStandardValue] = useState(23.7);
   const [chartData, setChartData] = useState<ChartDataType[]>(months.map((month, index) => {
     return { label: new Intl.DateTimeFormat('en-US', { month: 'short' }).format(new Date(1970, month)), value: 0 };
   }));
@@ -132,6 +135,13 @@ const Refferal = () => {
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
     const token = localStorage.getItem("token");
+    setCountry(localStorage.getItem("country") || "");
+
+    if (localStorage.getItem("country") === "Poland") {
+      setAgencyValue(294.83);
+      setStandardValue(110.33)
+  }
+
     const validateJWT = async () => {
       try {
         const { data } = await api.get('/checkJWT', {
@@ -190,7 +200,19 @@ const Refferal = () => {
           const referralMonth = new Date(referral.timestamp).getMonth();
           newChartData.forEach((monthData) => {
             if (new Intl.DateTimeFormat('en-US', { month: 'short' }).format(new Date(1970, referralMonth)) === monthData.label) {
-              monthData.value += referral.type === 'purchased agency' ? 100 : (referral.type === "purchased standard" ? 50 : 0);
+              if (referral.type === 'purchased agency') {
+                if (country === "Poland") {
+                    monthData.value += 294.83;
+                } else {
+                    monthData.value += 74.7;
+                }
+            } else if (referral.type === 'purchased standard') {
+                if (country !== "Poland") {
+                    monthData.value += 110.33;
+                } else {
+                    monthData.value += 23.7;
+                }
+            }
             }
           });
         });
@@ -235,7 +257,7 @@ const Refferal = () => {
             <td className="whitespace-nowrap px-3 py-4 text-xs lg:text-base text-slate-700">{transaction.email}</td>
             <td className={`whitespace-nowrap px-6 pl-2 py-4 text-slate-700 lg:table-cell`}><div className={`${bgColor} text-center rounded-full py-1 px-2 lg:px-0 lg:w-36 text-xs lg:text-sm`}>{transaction.type}</div></td>
             <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">{formattedDate}</td>
-            <td className={`whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell`}>{transaction.type === "purchased agency" ? <>$100</> : <>{transaction.type === "purchased standard" ? <>$50</> : <>-</>}</ >}</td>
+            <td className={`whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell`}>{transaction.type === "purchased agency" ? <>{country === "Poland" ? <>294,83zł</> : <>$74,7</>}</> : <>{transaction.type === "purchased standard" ? <>{country !== "Poland" ? <>110,33zł</> : <>$23,70</>}</> : <>-</>}</ >}</td>
             <td onClick={(e) => e.stopPropagation()} className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
             </td>
             </tr>
@@ -357,8 +379,11 @@ const Refferal = () => {
             </div>
             <div className="lg:w-[50%] w-full flex-wrap lg:flex-nowrap flex gap-4 items-center lg:justify-around pt-8 lg:pt-0">
               <div className="flex py-4 lg:py-0 px-4 lg:px-0 flex-col text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center lg:w-full lg:pl-8 ">
-                    <span className="text-2xl font-bold">${(Number(successfulReferrals.agency) * 100) + (Number(successfulReferrals.standard) * 50)}</span>
-                    <div className="text-xs mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><IoWalletOutline /></div><span>Total revenue</span></div>
+                    <span className="text-2xl font-bold">
+                      {country !== "Poland" && <>${(Number(successfulReferrals.agency) * 74.7) + (Number(successfulReferrals.standard) * 23.70)}</>}
+                      {country === "Poland" && <>{(Number(successfulReferrals.agency) * 294.83) + (Number(successfulReferrals.standard) * 110.33)}zł</>}
+                    </span>
+                    <div className="text-xs mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><IoWalletOutline /></div><span>Balance</span></div>
               </div>
                   <div className="flex flex-col py-4 lg:py-0 px-4 lg:px-0 text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center lg:w-full lg:pl-8 ">
                     <span className="text-2xl font-bold">{Number(successfulReferrals.agency) + Number(successfulReferrals.standard)}</span>
@@ -377,7 +402,7 @@ const Refferal = () => {
                 <ContainerTitle>Invite a friend</ContainerTitle>
                 <Image src={giftIcon} alt="gift icon" height={20} width={20} className="w-8 h-8" />
                 </div>
-              <p className="lg:w-5/6 mt-2 text-sm lg:text-bas mt-4 lg:mt-0">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
+              <p className="lg:w-5/6 mt-2 text-sm lg:text-bas mt-4 lg:mt-0">Start earning passive income of up to <b>30%</b> of invited user subscription.</p>
               <div className="flex flex-wrap flex-col gap-6 h-full mt-6 w-full">
                 <div className="pb-6 border-b-2 border-slate-100 w-full">
                 <div className="mb-2"><Label>Invite via email</Label></div>
@@ -425,9 +450,9 @@ const Refferal = () => {
         <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4 ">
         <ReferralBackground background={referralBg}>
           <div className="w-10/12">
-            <h2 className="text-2xl lg:text-3xl font-bold w-10/12">Share Yepp and claim up to <b>$200</b> total</h2>
-            <p className="w-5/6 mt-5 lg:mt-3 text-base">Gift your friend a <b>$100</b> coupon code and claim <b>$100</b> in cash once he/she stays.</p>
-            <button className="bg-white text-base rounded-xl px-14 py-2 mt-8 text-black hover:scale-95 transition hover:bg-[#EDEFFB]">Learn more</button>
+            <h2 className="text-2xl lg:text-3xl font-bold w-10/12">Share Yepp and claim up to <b>$1792</b> total</h2>
+            <p className="w-5/6 mt-5 lg:mt-3 text-base">Invite someone who might need this solution generate passive income of up to 30% of their subscription.</p>
+            <button onClick={() => router.push("/about-partnership")} className="bg-white text-base rounded-xl px-14 py-2 mt-8 text-black hover:scale-95 transition hover:bg-[#EDEFFB]">Learn more</button>
           </div>
 
         </ReferralBackground>

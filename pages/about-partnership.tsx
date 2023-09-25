@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from '@/components/Landing/Navbar'
 import {
   AcademicCapIcon,
@@ -9,62 +9,47 @@ import {
   SunIcon,
   UserGroupIcon,
 } from '@heroicons/react/20/solid'
+import partnershipIllustration from "../public/images/partnership_illustration.png";
+import partnershipIllustrationMobile from "../public/images/partnership_illustration_mobile.png";
+import Image from 'next/image';
+import Footer from '@/components/Landing/Footer';
+import Partner from '@/components/Modals/AddingModals/Partner';
+import SlideBottom from '@/components/Animated/SlideBottom';
 
-const stats = [
-  { label: 'Business was founded', value: '2012' },
-  { label: 'People on the team', value: '120+' },
-  { label: 'Users on the platform', value: '250k' },
-  { label: 'Paid out to creators', value: '$70M' },
-]
 const values = [
   {
     name: 'Be world-class.',
-    description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.',
+    description: 'Always ask, improve and iterate. Just be the best version of yourself and strive for greatness.',
     icon: RocketLaunchIcon,
   },
   {
     name: 'Take responsibility.',
-    description: 'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.',
+    description: 'You will usually be the primary contact for Yepp customers. Try your best serving them and forward important cases to us.',
     icon: HandRaisedIcon,
   },
   {
     name: 'Be supportive.',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus voluptas blanditiis et.',
+    description: 'Whenever asked, offer guidance to end user. Every honest advise increases the odds of gaining a loyal customer.',
     icon: UserGroupIcon,
   },
   {
     name: 'Always learning.',
-    description: 'Iure sed ab. Aperiam optio placeat dolor facere. Officiis pariatur eveniet atque et dolor.',
+    description: 'Stay up to date with our latest releases and if you have any questions do not hesitate to ask.',
     icon: AcademicCapIcon,
   },
   {
     name: 'Share everything you know.',
-    description: 'Laudantium tempora sint ut consectetur ratione. Ut illum ut rem numquam fuga delectus.',
+    description: 'Try to be as helpful for the customer as possible. Listen carefully and offer best solutions that come to your mind.',
     icon: SparklesIcon,
   },
-  {
-    name: 'Enjoy downtime.',
-    description: 'Culpa dolorem voluptatem velit autem rerum qui et corrupti. Quibusdam quo placeat.',
-    icon: SunIcon,
-  },
 ]
-const team = [
-  {
-    name: 'Leslie Alexander',
-    role: 'Co-Founder / CEO',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80',
-    location: 'Toronto, Canada',
-  },
-  // More people...
-]
+
 const benefits = [
-  'Competitive salaries',
-  'Flexible work hours',
-  '30 days of paid vacation',
-  'Annual team retreats',
-  'Benefits for you and your family',
-  'A great work environment',
+  'Up to $7000 in passive income',
+  'No commitments',
+  'Simple application',
+  'Free platform access'
+
 ]
 const footerNavigation = {
   solutions: [
@@ -157,10 +142,24 @@ const footerNavigation = {
 }
 
 export default function Example() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobile, setMobile] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+ 
+  useEffect(() => {
+    if (window.innerWidth < 1023) { 
+      setMobile(true);
+    }
+    const updateWindowSize = () => {
+      setMobile(window.innerWidth < 1023);
+    };
+    window.addEventListener("resize", updateWindowSize);
+    document.body.style.overflow = 'auto';
+    document.body.style.position = 'static';
+  }, []);
 
   return (
     <div className="bg-white">
+      {openModal && <Partner onClose={() => setOpenModal(false)}/>}
         <Navbar/>
       <main className="relative isolate">
         {/* Background */}
@@ -181,9 +180,9 @@ export default function Example() {
         <div className="px-6 pt-14 lg:px-8">
           <div className="mx-auto max-w-4xl pt-20 text-center sm:pt-36">
             <p className='text-gray-800 mb-4'>BECOME A PART OF YEPP &</p>
-            <h2 className="text-4xl font-bold tracking-tight text-black sm:text-6xl">Earn money by inviting friends</h2>
+            <SlideBottom><h2 className="text-4xl font-bold tracking-tight text-black sm:text-6xl">Start earning from referrals</h2></SlideBottom>
             <p className="mt-6 text-2xl leading-8 text-gray-800">
-                Share Yepp and claim up to <b>$200</b> for you & your friend
+                Share Yepp and claim up to <b>$7000</b> for you & your friend
             </p>
           </div>
         </div>
@@ -194,38 +193,29 @@ export default function Example() {
             <div className="grid max-w-xl grid-cols-1 gap-8 text-base leading-7 text-gray-800 lg:max-w-none lg:grid-cols-2">
               <div>
                 <p>
-                  Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet
-                  vitae sed turpis id. Id dolor praesent donec est. Odio penatibus risus viverra tellus varius sit neque
-                  erat velit. Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris
-                  semper sed amet vitae sed turpis id.
+                By becoming Yepp AI official partner you get a unique opportunity to start earning from your referrals. If you invite someone and he/she stays with us you will be getting 30% of their monthly subscription for the 1st year, 20% for 2nd year and 10% for the 3rd year of their subscription. What makes up to <b>$7000 in passive income.</b>
                 </p>
                 <p className="mt-8">
-                  Et vitae blandit facilisi magna lacus commodo. Vitae sapien duis odio id et. Id blandit molestie
-                  auctor fermentum dignissim. Lacus diam tincidunt ac cursus in vel. Mauris varius vulputate et ultrices
-                  hac adipiscing egestas.
+                It&apos;s simple. If you know anyone who might be interested in using our platform, just <b onClick={() => setOpenModal(true)} className='text-blue-500 cursor-pointer'>apply for a partnership</b>. Every partner gets the access to our special platform with income stats and unique referral link.
                 </p>
               </div>
               <div>
                 <p>
-                  Erat pellentesque dictumst ligula porttitor risus eget et eget. Ultricies tellus felis id dignissim
-                  eget. Est augue maecenas risus nulla ultrices congue nunc tortor. Enim et nesciunt doloremque nesciunt
-                  voluptate.
+                <b>What is Yepp AI?</b> It is a marketing platform where you can use any relevant data to generate content that is tailored and informative. Imagine having a marketing expert with all of your niche knowledge, writing best performing and informative content for your business.
+                
                 </p>
                 <p className="mt-8">
-                  Et vitae blandit facilisi magna lacus commodo. Vitae sapien duis odio id et. Id blandit molestie
-                  auctor fermentum dignissim. Lacus diam tincidunt ac cursus in vel. Mauris varius vulputate et ultrices
-                  hac adipiscing egestas. Iaculis convallis ac tempor et ut. Ac lorem vel integer orci.
+                At Yepp, we understand how hard it is to keep coming up with creative content and as you probably know consistency is the key to success. We are here to help you overcome your writer&apos;s block and keep achieving your marketing goals.
                 </p>
               </div>
             </div>
-            <dl className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mt-28 lg:grid-cols-4">
-              {stats.map((stat, statIdx) => (
-                <div key={statIdx} className="flex flex-col-reverse gap-y-3 border-l border-white/20 pl-6">
-                  <dt className="text-base leading-7 text-gray-800">{stat.label}</dt>
-                  <dd className="text-3xl font-semibold tracking-tight text-black">{stat.value}</dd>
-                </div>
-              ))}
-            </dl>
+            <div className='w-full mt-28'>
+              {mobile ? 
+              <Image src={partnershipIllustrationMobile} alt="illustration" className='w-full' />
+              :
+              <Image src={partnershipIllustration} alt="illustration" className='w-full' />
+              }
+            </div>
           </div>
         </div>
 
@@ -234,15 +224,14 @@ export default function Example() {
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">Our values</h2>
             <p className="mt-6 text-lg leading-8 text-gray-800">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste
-              dolor cupiditate blanditiis.
+              At Yepp we value professionalism and honesty. While being our partner we kindly ask you to always be ethical and act in the best interest of customer whenever you promote our product.
             </p>
           </div>
           <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 text-base leading-7 text-gray-800 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:gap-x-16">
             {values.map((value) => (
               <div key={value.name} className="relative pl-9">
                 <dt className="inline font-semibold text-black">
-                  <value.icon className="absolute left-1 top-1 h-5 w-5 text-indigo-500" aria-hidden="true" />
+                  <value.icon className="absolute left-1 top-1 h-5 w-5 text-blue-500" aria-hidden="true" />
                   {value.name}
                 </dt>{' '}
                 <dd className="inline">{value.description}</dd>
@@ -257,14 +246,13 @@ export default function Example() {
             <div className="mx-auto flex max-w-2xl flex-col gap-16 bg-white/5 px-6 py-16 ring-1 ring-white/10 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center lg:py-20 xl:gap-x-20 xl:px-20">
               <img
                 className="h-96 w-full flex-none rounded-2xl object-cover shadow-xl lg:aspect-square lg:h-auto lg:max-w-sm"
-                src="https://images.unsplash.com/photo-1519338381761-c7523edc1f46?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+                src="https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3270&q=80"
                 alt=""
               />
               <div className="w-full flex-auto">
-                <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">Join our team</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">Become a partner</h2>
                 <p className="mt-6 text-lg leading-8 text-gray-800">
-                  Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis
-                  in accusamus quisquam.
+                  Become a part of Yepp today and reap the rewards from being a partner of one of fastest frowing AI marketing platforms.
                 </p>
                 <ul
                   role="list"
@@ -278,9 +266,9 @@ export default function Example() {
                   ))}
                 </ul>
                 <div className="mt-10 flex">
-                  <a href="#" className="text-sm font-semibold leading-6 text-indigo-400">
-                    See our job postings <span aria-hidden="true">&rarr;</span>
-                  </a>
+                  <button onClick={() => setOpenModal(true)} className="text-sm font-semibold leading-6 text-blue-500 hover:scale-95 transition">
+                    Become a partner <span aria-hidden="true">&rarr;</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -301,7 +289,7 @@ export default function Example() {
       </main>
 
       {/* Footer */}
-      <footer className="relative mt-32 sm:mt-40" aria-labelledby="footer-heading">
+      {/* <footer className="relative mt-32 sm:mt-40" aria-labelledby="footer-heading">
         <h2 id="footer-heading" className="sr-only">
           Footer
         </h2>
@@ -384,7 +372,8 @@ export default function Example() {
             <p className="text-xs leading-5 text-gray-400">&copy; 2020 Your Company, Inc. All rights reserved.</p>
           </div>
         </div>
-      </footer>
+      </footer> */}
+      <Footer />
     </div>
   )
 }

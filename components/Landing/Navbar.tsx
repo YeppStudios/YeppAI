@@ -14,6 +14,7 @@ import {
   ChatBubbleBottomCenterTextIcon,
   MegaphoneIcon,
 } from '@heroicons/react/24/outline'
+import ColorfulText from "../Common/ColorfulText";
 
 const solutions = [
   { name: 'Marketing Templates', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: ClipboardDocumentListIcon },
@@ -78,6 +79,7 @@ const Navbar = () =>{
                     <Link href="/"><AppName>Yepp AI</AppName></Link>
                 </Container>
                 <Container>
+                <Link href="/about-partnership"><NavLink><ColorfulText>Partnership</ColorfulText></NavLink></Link>
                 <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                     <Popover className="relative">
                         <Popover.Button className="inline-flex items-center gap-x-1 text-sm leading-6 text-black outline-none">
@@ -132,12 +134,7 @@ const Navbar = () =>{
                         </Transition>
                     </Popover>
                     </NavLink>
-                    {pathname.includes("assistant") ?
-                        <Link href="/pricing?type=individual"><NavLink id="pricing-btn">Pricing</NavLink></Link>
-                        :
-                        <Link href="/pricing?type=business"><NavLink id="pricing-btn">Pricing</NavLink></Link>
-                    }
-                    {/* <Link href="/docs/getting-started"><NavLink>Dokumentacja</NavLink></Link> */}
+                    <Link href="/pricing"><NavLink id="pricing-btn">Pricing</NavLink></Link>
                     <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Log in</LoginButton>
                     {(mobile && !loading && isFixed) &&
                         <TestButton className='trial-btn' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
@@ -168,7 +165,7 @@ const NavContainer = styled.div<NavContainerProps>`
     margin-top: 0rem;
     z-index: 40;
     backdrop-filter: blur(5px);
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: ${({isFixed}) => !isFixed ? "transparent" : "rgba(255, 255, 255, 0.95)"};
     box-shadow: ${({ isFixed }) => isFixed ? "0 6px 32px 0 rgba(31, 38, 135, 0.3);" : "none"};
     left: 0;
     justify-content: center;

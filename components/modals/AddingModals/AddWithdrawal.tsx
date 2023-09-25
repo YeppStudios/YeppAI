@@ -5,19 +5,12 @@ import { Loader } from "../../Common/Loaders";
 import { useRouter } from "next/router";
 import SlideBottom from "../../Animated/SlideBottom";
 import { MdOutlineClose } from "react-icons/md";
+import ModalBackground from "../common/ModalBackground";
+import { showNotification } from "@mantine/notifications";
 
 const AddWithdrawal = (props: {onClose: any}) => {
 
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [agreement, setAgreement] = useState(false);
-    const [phone, setPhone] = useState('');
     const [loading, setLoading] = useState(false);
-    const [address, setAddress] = useState("");
-    const [fullName, setFullName] = useState('');
-    const [city, setCity] = useState("");
-    const [country, setCountry] = useState("");
     const [ibanNumber, setIbanNumber] = useState("");
     const [mobile, setMobile] = useState(false);
 
@@ -32,19 +25,56 @@ const AddWithdrawal = (props: {onClose: any}) => {
         setLoading(true);
         const userId = localStorage.getItem("user_id")
         try {
-            await api.post("/requestWithdrawal", {userId: userId, companyName: companyName, email, fullName, address, city, country, ibanNumber});
-            setLoading(false);
-            setEmail("");
-            setName("");
-            setCompanyName("");
-            setAddress("");
-            setCountry("");
-            setCity("");
-            setIbanNumber("");
-        } catch (error) {
-            console.log(error);
-            setLoading(false);
-        }
+            await api.post("/requestWithdrawal", {userId: userId, ibanNumber}, {
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                }
+            });
+            setIbanNumber('');
+            showNotification({
+                id: 'request',
+                disallowClose: true,
+                autoClose: 4000,
+                title: "Request sent",
+                message: 'We will wire the money as soon as possible.',
+                color: 'green',
+          
+                styles: (theme: any) => ({
+                  root: {
+                    backgroundColor: "white",
+                    border: "none",
+                  },
+                  title: { color: "black" },
+                  description: { color: "black" },
+                })
+              })
+              setLoading(false);
+              setTimeout(() => {
+                  props.onClose();
+              }, 5000)
+        } catch (e) {
+            showNotification({
+                id: 'invited',
+                disallowClose: true,
+                autoClose: 5000,
+                title: "Something went wrong...",
+                message: 'Unexpected error occured. Contact us hello@yepp.ai',
+                color: 'red',
+          
+                styles: (theme: any) => ({
+                  root: {
+                    backgroundColor: "#F1F1F1",
+                    border: "none",
+          
+                  },
+          
+                  title: { color: "black" },
+                  description: { color: "black" },
+                })
+              })
+              setLoading(false);
+              console.log(e);
+          }
     }
     return (
         <ModalBackground onClick={() => props.onClose()}>
@@ -57,93 +87,6 @@ const AddWithdrawal = (props: {onClose: any}) => {
                 <ModalTitle>Request withdrawal</ModalTitle>
                     <Form autoComplete="off" onSubmit={handleSubmit}>
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
-                            <div className="w-full flex justify-between flex-wrap lg:flex-nowrap">
-                                <div className="w-full lg:w-[48%]">
-                                <Label>
-                                    Company name
-                                </Label>
-                                <Input
-                                    id="name"
-                                    type="text"
-                                    placeholder="My Company"
-                                    value={companyName}
-                                    onChange={(e) => setCompanyName(e.target.value)}
-                                    required
-                                />
-                                </div>
-                                <div className="w-full lg:w-[48%]">
-                                    <Label>
-                                        Email
-                                    </Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        placeholder="company@domain.com"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        autoComplete="off"
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full flex justify-between flex-wrap lg:flex-nowrap">
-                                <div className="w-full lg:w-[48%]">
-                                <Label>
-                                    Full name
-                                </Label>
-                                <Input
-                                    id="name"
-                                    type="text"
-                                    placeholder="John Doe"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                />
-                                </div>
-                                <div className="w-full lg:w-[48%]">
-                                    <Label>
-                                        Address
-                                    </Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        placeholder="1255 Taylor"
-                                        value={address}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                        required
-                                        autoComplete="off"
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full flex justify-between flex-wrap lg:flex-nowrap">
-                                <div className="w-full lg:w-[48%]">
-                                <Label>
-                                    City
-                                </Label>
-                                <Input
-                                    id="name"
-                                    type="text"
-                                    placeholder="San Francisco"
-                                    value={city}
-                                    onChange={(e) => setCity(e.target.value)}
-                                    required
-                                />
-                                </div>
-                                <div className="w-full lg:w-[48%]">
-                                    <Label>
-                                        Country
-                                    </Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        placeholder="United States"
-                                        value={country}
-                                        onChange={(e) => setCountry(e.target.value)}
-                                        required
-                                        autoComplete="off"
-                                    />
-                                </div>
-                            </div>
                             <div className="w-full">
                                 <Label>
                                    IBAN Number
@@ -157,22 +100,10 @@ const AddWithdrawal = (props: {onClose: any}) => {
                                     required
                                 />
                             </div>
-                            <CheckboxContainer>
-                                <CheckboxInput
-                                    id="rules"
-                                    type="checkbox"
-                                    checked={agreement}
-                                    onChange={() => setAgreement(!agreement)}
-                                    required
-                                />
-                                <RegisterText>
-                                    <a href={"/Regulamin_AsystentAI.pdf"} download>I agree with <b>terms and conditions</b> and <b>privacy policy</b></a>
-                                </RegisterText>
-                            </CheckboxContainer>
                             <Button type="submit">
                                 {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                      <Loader color="white"/>
+                                      <Loader color="blue"/>
                                 </div>
                                 :
                                 <p>Request withdrawal</p>
@@ -189,27 +120,6 @@ const AddWithdrawal = (props: {onClose: any}) => {
 
 export default AddWithdrawal;
 
-const ModalBackground = styled.div`
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    flex-wrap: wrap;
-    backdrop-filter: blur(7px);
-    z-index: 100;
-    top: 0;
-    left: 0;
-    padding: 3rem 0 10rem 0;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    overflow: scroll;
-        &::-webkit-scrollbar {
-        display: none;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    color: black;
-`
 
 const Container = styled.div`
     width: 40rem;
