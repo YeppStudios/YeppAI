@@ -15,6 +15,7 @@ import Image from 'next/image';
 import Footer from '@/components/Landing/Footer';
 import Partner from '@/components/Modals/AddingModals/Partner';
 import SlideBottom from '@/components/Animated/SlideBottom';
+import Head from 'next/head';
 
 const values = [
   {
@@ -159,6 +160,12 @@ export default function Example() {
 
   return (
     <div className="bg-white">
+        <Head>
+          <meta name = "theme-color" content = "#ffffff" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="description" content="Start earning passive income by referring Yepp AI. Earn up to 30% of the referred user subscription." />
+          <title>Partnership | Yepp AI</title>
+        </Head>
       {openModal && <Partner onClose={() => setOpenModal(false)}/>}
         <Navbar/>
       <main className="relative isolate">
