@@ -189,7 +189,7 @@ export default function Example() {
             <p className='text-gray-800 mb-4'>BECOME A PART OF YEPP &</p>
             <SlideBottom><h2 className="text-4xl font-bold tracking-tight text-black sm:text-6xl">Start earning from referrals</h2></SlideBottom>
             <p className="mt-6 text-2xl leading-8 text-gray-800">
-                Share Yepp and claim up to <b>$1700</b> for you & your friend
+                Share Yepp and claim up to <b>$1700</b> for one referral
             </p>
           </div>
         </div>
