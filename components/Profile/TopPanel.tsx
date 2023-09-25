@@ -156,7 +156,7 @@ const TopPanel = (props: {stats: any}) => {
                     </DropdownContainer>}
                 </SwitchContent> */}
             </WelcomeText>
-            <TopText><ShareLink onClick={() => setOpenReferralModal(true)}><b>Share Yepp and get extra 30 000 elixir for free!</b></ShareLink></TopText>
+            <TopText><ShareLink onClick={() => router.push("/about-partnership")}><b>Share Yepp and claim up to $1700 for one referral</b></ShareLink></TopText>
             {/* <StatsContainer>
                 <Stat>
                     <StatIcon image={socialMediaIcon}>
