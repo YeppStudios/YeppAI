@@ -227,6 +227,12 @@ const NavigationBar = () => {
             style={{ willChange: "transform" }}
           >
             {memoizedNavigationTabs}
+              <ReferralPopup background={referralBg}>
+                <div>
+                  <p className="text-center text-lg text-black font-bold mt-4 mb-4">Become our partner & <br /><ColorfulText>earn up to $1700</ColorfulText></p>
+                  <BlueBtn onClick={() => router.push("/about-partnership")}>Learn more</BlueBtn>
+                </div>
+              </ReferralPopup>
             <ProfileContainer id="profile-tab">
             {bottomTabs.map((tab) => (
             <div id={tab.id} key={tab.id} className="w-full">
@@ -294,17 +300,17 @@ const NavigationBar = () => {
           >
             {memoizedNavigationTabs}
             <ProfileContainer id="profile-tab">
-            {/* {isHovered && 
+            {isHovered && 
             <SlideBottom>
               <ReferralPopup background={referralBg}>
                 <div>
                   <Centered><Image src={giftIcon} alt="gift" className="w-12 h-12" /></Centered>
-                  <p className="text-center text-black font-bold mt-4 mb-4">Bring a friend and <br /><ColorfulText>get up to $7000</ColorfulText> total</p>
-                  <BlueBtn onClick={() => router.push("/about-referral")}>Learn more</BlueBtn>
+                  <p className="text-center text-black font-bold mt-4 mb-4">Become our partner & <br /><ColorfulText>earn up to $1700</ColorfulText> total</p>
+                  <BlueBtn onClick={() => router.push("/about-partnership")}>Learn more</BlueBtn>
                 </div>
               </ReferralPopup>
             </SlideBottom>
-            } */}
+            }
             {bottomTabs.map((tab) => (
             <div id={tab.id} key={tab.id}>
               {!(tab.path.includes(pathname) && pathname !== "/") ? (
@@ -473,7 +479,7 @@ const NavigationTab = styled.div<{
   padding: 0rem 1.2rem 0rem 1.2rem;
   margin-top: 1rem;
   position: relative;
-  display: flex;
+  display: ${(props) => (props.country !== "Poland" && props.title === "Prompts") ? "none" : "flex" };
   height: 2.75rem;
   align-items: center;
   justify-content: ${(props) => (props.hover ? "flex-start" : "center")};
@@ -509,7 +515,7 @@ const NavigationTab = styled.div<{
       (props.title === "Prompts" && props.country !== "Poland")
         ? "none"
         : "3px 3px 5px rgba(22, 27, 29, 0.23), -3px -3px 5px #FAFBFF"};
-    display: ${(props) => (props.title === "Copywriting" ? "none" : "flex")};
+    display: ${(props) => ((props.title === "Copywriting" || (props.country !== "Poland" && props.title === "Prompts")) ? "none" : "flex")};
     justify-content: flex-start;
     transition: all 0.4s ease;
     &:hover {
@@ -720,6 +726,11 @@ const ReferralPopup = styled.div<{background: any}>`
   transition: all 0.3s ease;
   &:hover {
     shadow: none;
+  }
+  @media (max-width: 1023px) {
+    width: 100%;
+    padding: 0.7rem 0rem 1.5rem 0rem;
+    margin-top: 1rem;
   }
 `
 
