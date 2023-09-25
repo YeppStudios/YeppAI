@@ -305,7 +305,7 @@ const NavigationBar = () => {
               <ReferralPopup background={referralBg}>
                 <div>
                   <Centered><Image src={giftIcon} alt="gift" className="w-12 h-12" /></Centered>
-                  <p className="text-center text-black font-bold mt-4 mb-4">Become our partner & <br /><ColorfulText>earn up to $1700</ColorfulText> total</p>
+                  <p className="text-center text-black font-bold mt-4 mb-4">Become our partner & <br /><ColorfulText>earn up to $1700</ColorfulText></p>
                   <BlueBtn onClick={() => router.push("/about-partnership")}>Learn more</BlueBtn>
                 </div>
               </ReferralPopup>
