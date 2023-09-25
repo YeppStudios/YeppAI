@@ -45,7 +45,7 @@ const values = [
 ]
 
 const benefits = [
-  'Up to $7000 in passive income',
+  'Up to $1700 in passive income',
   'No commitments',
   'Simple application',
   'Free platform access'
@@ -182,7 +182,7 @@ export default function Example() {
             <p className='text-gray-800 mb-4'>BECOME A PART OF YEPP &</p>
             <SlideBottom><h2 className="text-4xl font-bold tracking-tight text-black sm:text-6xl">Start earning from referrals</h2></SlideBottom>
             <p className="mt-6 text-2xl leading-8 text-gray-800">
-                Share Yepp and claim up to <b>$7000</b> for you & your friend
+                Share Yepp and claim up to <b>$1700</b> for you & your friend
             </p>
           </div>
         </div>
@@ -193,7 +193,7 @@ export default function Example() {
             <div className="grid max-w-xl grid-cols-1 gap-8 text-base leading-7 text-gray-800 lg:max-w-none lg:grid-cols-2">
               <div>
                 <p>
-                By becoming Yepp AI official partner you get a unique opportunity to start earning from your referrals. If you invite someone and he/she stays with us you will be getting 30% of their monthly subscription for the 1st year, 20% for 2nd year and 10% for the 3rd year of their subscription. What makes up to <b>$7000 in passive income.</b>
+                By becoming Yepp AI official partner you get a unique opportunity to start earning from your referrals. If you invite someone and he/she stays with us you will be getting 30% of their monthly subscription for the 1st year, 20% for 2nd year and 10% for the 3rd year of their subscription. What makes up to <b>$1700 in passive income.</b>
                 </p>
                 <p className="mt-8">
                 It&apos;s simple. If you know anyone who might be interested in using our platform, just <b onClick={() => setOpenModal(true)} className='text-blue-500 cursor-pointer'>apply for a partnership</b>. Every partner gets the access to our special platform with income stats and unique referral link.
