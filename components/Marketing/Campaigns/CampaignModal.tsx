@@ -103,6 +103,19 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
     "Chinese",
     "Bulgarian",
     "Russian",
+    "Japanese",
+    "Turkish",
+    "Greek",
+    "Arabic",
+    "Dutch",
+    "Norwegian",
+    "Serbian",
+    "Swedish",
+    "Czech",
+    "Romanian",
+    "Finnish",
+    "Hungarian",
+    "Hindi"
   ];
 
   const campaignTypes = [
@@ -440,7 +453,7 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
                   <CustomDropdown
                     name="language"
                     value={language}
-                    values={languages}
+                    values={languages.sort()}
                     onChange={setLanguage}
                     placeholder="English"
                   />

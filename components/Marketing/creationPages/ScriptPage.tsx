@@ -35,13 +35,26 @@ const languages = [
   "Spanish",
   "French",
   "Italian",
-  "German",
   "Portugese",
+  "German",
   "Ukrainian",
   "Polish",
   "Chinese",
   "Bulgarian",
   "Russian",
+  "Japanese",
+  "Turkish",
+  "Greek",
+  "Arabic",
+  "Dutch",
+  "Norwegian",
+  "Serbian",
+  "Swedish",
+  "Czech",
+  "Romanian",
+  "Finnish",
+  "Hungarian",
+  "Hindi"
 ];
 const paragraphsCount = [1, 2, 3, 4, 5];
 
@@ -199,7 +212,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
                   placeholder="Facebook"
                   required
                   value={language}
-                  values={languages}
+                  values={languages.sort()}
                   onChange={setLanguage}
                   error={undefined}
                 />

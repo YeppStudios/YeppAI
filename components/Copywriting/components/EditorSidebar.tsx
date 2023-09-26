@@ -20,6 +20,7 @@ import axios from "axios";
 import { selectFoldersState } from '@/store/selectedFoldersSlice'
 import { useSelector } from 'react-redux'
 import { TbPlayerStopFilled } from "react-icons/tb";
+import CustomDropdown from "@/components/forms/CustomDropdown";
 
 const lengths = ["Short", "Medium", "Long", "Very Long"];
 const languages = [
@@ -34,6 +35,19 @@ const languages = [
   "Chinese",
   "Bulgarian",
   "Russian",
+  "Japanese",
+  "Turkish",
+  "Greek",
+  "Arabic",
+  "Dutch",
+  "Norwegian",
+  "Serbian",
+  "Swedish",
+  "Czech",
+  "Romanian",
+  "Finnish",
+  "Hungarian",
+  "Hindi"
 ];
 
 interface Document {
@@ -393,14 +407,14 @@ const EditorSidebar = (props: {
                                 Language
                             </Label>
                         </div>
-                        <Dropdown
+                        <CustomDropdown
                             width="100%"
                             id="name"
                             type="text"
                             placeholder="3"
                             required
                             value={language}
-                            values={languages}
+                            values={languages.sort()}
                             onChange={setLanguage}
                             error={undefined}
                         />

@@ -22,6 +22,7 @@ import { setSelectedCopywritingAssistant } from "@/store/copywritingAssistantSli
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import elixirIcon from "../../../public/images/elixir.png";
 import { selectedUserState } from "@/store/userSlice";
+import CustomDropdown from "@/components/forms/CustomDropdown";
 
 const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
@@ -35,7 +36,32 @@ const client = create({
   },
 });
 const fileTypes = ["JPG", "PNG", "HEIC", "JPEG"];
-const languages = [ "English", "Spanish", "French", "Italian", "German", "Portugese", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
+const languages = [
+    "English",
+    "Spanish",
+    "French",
+    "Italian",
+    "Portugese",
+    "German",
+    "Ukrainian",
+    "Polish",
+    "Chinese",
+    "Bulgarian",
+    "Russian",
+    "Japanese",
+    "Turkish",
+    "Greek",
+    "Arabic",
+    "Dutch",
+    "Norwegian",
+    "Serbian",
+    "Swedish",
+    "Czech",
+    "Romanian",
+    "Finnish",
+    "Hungarian",
+    "Hindi"
+  ];
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -666,12 +692,12 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 </div>
                 <div style={{width: "48%", display: "flex", flexWrap: "wrap"}}>
                     <Label>By default speak...</Label>
-                    <Dropdown
+                    <CustomDropdown
                         type="text"
                         placeholder="Polski"
                         required
                         value={language}
-                        values={languages}
+                        values={languages.sort()}
                         onChange={setLanguage}
                         error={undefined}
                     /> 

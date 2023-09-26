@@ -33,7 +33,32 @@ import CustomDropdown from '@/components/forms/CustomDropdown';
 import ToneDropdown from '../forms/ToneDropdown';
 
 const types = ["article", "blog", "guide", "ranking"];
-const languagesList = ["Polish", "English", "Spanish", "French", "Italian", "Ukrainian", "German", "Chinese", "Bulgarian", "Russian"];
+const languagesList = [
+  "English",
+  "Spanish",
+  "French",
+  "Italian",
+  "Portugese",
+  "German",
+  "Ukrainian",
+  "Polish",
+  "Chinese",
+  "Bulgarian",
+  "Russian",
+  "Japanese",
+  "Turkish",
+  "Greek",
+  "Arabic",
+  "Dutch",
+  "Norwegian",
+  "Serbian",
+  "Swedish",
+  "Czech",
+  "Romanian",
+  "Finnish",
+  "Hungarian",
+  "Hindi"
+];
 const toneList = [
   {title: "Formal", icon: "💼"},
   {title: "Friendly", icon: "😊"},
@@ -736,16 +761,18 @@ const CopywritingModal = (props: {
                                 <LabelIcon>
                                     <IoLanguage style={{ width: "100%", height: "auto" }} />
                                 </LabelIcon>
-                                <Label>Language</Label>
+                                <Label className='-mt-3'>Language</Label>
                                 </div>
-                                <Dropdown
-                                    placeholder="Polski"
+                                <div className='-mt-2'>
+                                <CustomDropdown
+                                    placeholder="Polish"
                                     required
                                     value={props.language}
-                                    values={languagesList}
+                                    values={languagesList.sort()}
                                     onChange={props.setLanguage}
                                     error={undefined}
                                 /> 
+                                </div>
                             </div>
                             <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>

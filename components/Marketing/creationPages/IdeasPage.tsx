@@ -30,13 +30,26 @@ const languages = [
   "Spanish",
   "French",
   "Italian",
-  "German",
   "Portugese",
+  "German",
   "Ukrainian",
   "Polish",
   "Chinese",
   "Bulgarian",
   "Russian",
+  "Japanese",
+  "Turkish",
+  "Greek",
+  "Arabic",
+  "Dutch",
+  "Norwegian",
+  "Serbian",
+  "Swedish",
+  "Czech",
+  "Romanian",
+  "Finnish",
+  "Hungarian",
+  "Hindi"
 ];
 
 const IdeaCreator = ({back, query, template}: any) => {
@@ -204,7 +217,7 @@ const IdeaCreator = ({back, query, template}: any) => {
                             placeholder="English"
                             required
                             value={language}
-                            values={languages}
+                            values={languages.sort()}
                             onChange={setLanguage}
                           />
                         </InputContainer>

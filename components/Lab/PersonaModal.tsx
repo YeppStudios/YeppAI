@@ -53,7 +53,6 @@ const traits = [
 const competition = [
     {title: "Jasper", favicon: "https://assets-global.website-files.com/60e5f2de011b86acebc30db7/60e5f2de011b86e6acc31077_Favicon.png", description: "dsfsdga"},
 ]
-
 const languages = [
     "English",
     "Spanish",
@@ -66,7 +65,21 @@ const languages = [
     "Chinese",
     "Bulgarian",
     "Russian",
+    "Japanese",
+    "Turkish",
+    "Greek",
+    "Arabic",
+    "Dutch",
+    "Norwegian",
+    "Serbian",
+    "Swedish",
+    "Czech",
+    "Romanian",
+    "Finnish",
+    "Hungarian",
+    "Hindi"
   ];
+  
 
 const markets = [
     "Global",
@@ -450,11 +463,11 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
                     <div className="flex items-between justify-between w-full">
                         <Label>Description language</Label>
                     </div>
-                        <Dropdown 
-                        placeholder="English"
-                        value={language}
-                        values={languages}
-                        onChange={setLanguage}
+                        <CustomDropdown 
+                            placeholder="English"
+                            value={language}
+                            values={languages.sort()}
+                            onChange={setLanguage}
                         />
                     </div>
                     <div className="flex w-[48%] items-center mb-2 flex-wrap">

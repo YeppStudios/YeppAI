@@ -25,6 +25,7 @@ import { useSelector } from "react-redux";
 import Input from "@/components/forms/Input";
 import api from "@/pages/api";
 import PersonaDropdown from "@/components/forms/PersonaDropdown";
+import CustomDropdown from "@/components/forms/CustomDropdown";
 interface InputContainer {
     width: string;
 }
@@ -34,7 +35,32 @@ interface TextArea {
 }
 
 const styles = ["Professional 💼", "Friendly 😊", "Concise 📃", "Persuasive 🫵🏼", "Motivational 📈"];
-const languages = [ "English", "Spanish", "French", "Italian",   "Portugese", "German", "Ukrainian", "Polish", "Chinese", "Bulgarian", "Russian"];
+const languages = [
+    "English",
+    "Spanish",
+    "French",
+    "Italian",
+    "Portugese",
+    "German",
+    "Ukrainian",
+    "Polish",
+    "Chinese",
+    "Bulgarian",
+    "Russian",
+    "Japanese",
+    "Turkish",
+    "Greek",
+    "Arabic",
+    "Dutch",
+    "Norwegian",
+    "Serbian",
+    "Swedish",
+    "Czech",
+    "Romanian",
+    "Finnish",
+    "Hungarian",
+    "Hindi"
+  ];
 const count = [1, 3, 5]
 const googleTypes = ["Blog", "Landing page", "Product", "Article", "Ranking"]
 
@@ -202,13 +228,13 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
                             <Label>
                                 Language
                             </Label>
-                            <Dropdown
+                            <CustomDropdown
                                 id="name"
                                 type="text"
                                 placeholder="English"
                                 required
                                 value={language}
-                                values={languages}
+                                values={languages.sort()}
                                 onChange={setLanguage}
                                 error={undefined}
                             />

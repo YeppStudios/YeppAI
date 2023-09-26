@@ -57,8 +57,20 @@ const languages = [
   "Chinese",
   "Bulgarian",
   "Russian",
+  "Japanese",
+  "Turkish",
+  "Greek",
+  "Arabic",
+  "Dutch",
+  "Norwegian",
+  "Serbian",
+  "Swedish",
+  "Czech",
+  "Romanian",
+  "Finnish",
+  "Hungarian",
+  "Hindi"
 ];
-
 const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const [completionLength, setCompletionLength] = useState(150);
   const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
@@ -244,7 +256,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
                   placeholder="English"
                   required
                   value={language}
-                  values={languages}
+                  values={languages.sort()}
                   onChange={setLanguage}
                 />
               </InputContainer>
