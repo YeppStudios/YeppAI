@@ -386,7 +386,7 @@ const Onboarding = () => {
                     {generationEnded &&
                       <div className="w-full flex flex-wrap font-medium mt-8 mb-10">
                         <SlideBottom>Got a question? <a target="_blank" rel="noreferrer" href="https://calendly.com/yeppai/yepp-introduction-call"><ColorfulText><b className="ml-2">Schedule a demo</b></ColorfulText></a></SlideBottom>
-                        <BlueBtn>Continue</BlueBtn>
+                        <BlueBtn onClick={() => setOpenRegistration(true)}>Continue</BlueBtn>
                       </div>
                     }
                   </div>

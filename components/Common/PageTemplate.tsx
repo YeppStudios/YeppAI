@@ -96,11 +96,6 @@ const PageTemplate = ({children}: any) => {
 
   return (
     <div>
-      <Helmet>
-        <meta name="theme-color" content="#ffffff" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Yepp AI</title>
-      </Helmet>
       {!mobile &&
           <DashboardLoading />
       }

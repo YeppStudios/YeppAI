@@ -11,8 +11,8 @@ import { Center } from "@mantine/core";
 import Centered from "@/components/Centered";
 import Space from "@/components/Docs/common/Space";
 import Label from "@/components/Common/Label";
-import persona from "@/public/images/persona.png";
-import Image from "next/image";
+import { selectedPlanState } from "@/store/planSlice";
+import { useSelector } from "react-redux";
 import CustomDropdown from "@/components/forms/CustomDropdown";
 import api from "@/pages/api";
 import Dropdown from "@/components/forms/Dropdown";
@@ -23,6 +23,7 @@ import InvisibleInput from "@/components/forms/InvisibleInput";
 import { useRouter } from "next/router";
 import { Loader } from "@/components/Common/Loaders";
 import ReactMarkdown from 'react-markdown';
+import PersonaLimit from "../Modals/LimitModals/PersonaLimit";
 
 const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
@@ -104,7 +105,7 @@ const markets = [
 
 const businessModels = ["B2B", "B2C", "B2B2C", "B2G", "P2P", "C2B"];
 
-const PersonaModal = (props: {onClose: any, currentModal: any}) => {
+const PersonaModal = (props: {onClose: any, currentModal: any, personas: any[]}) => {
     const [personaDescription, setPersonaDescription] = useState("");
     const [step, setStep] = useState("");
     const [image, setImage] = useState<File>();
@@ -127,6 +128,8 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
     const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
     const [saving, setSaving] = useState(false);
     const [language, setLanguage] = useState("English");
+    const [showLimit, setShowLimit] = useState(false);
+    const plan = useSelector(selectedPlanState);
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     
@@ -148,7 +151,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
         } else if (props.currentModal === "persona-form") {
             setStep("form");
         }
-    }, [props.currentModal]);
+    }, [props.currentModal, plan]);
 
     const texts = [
         "Analyzing the value proposition...",
@@ -214,6 +217,10 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
         if (descriptionLoading) {
           stopReplying();
           return;
+        }
+        if (plan._id === "64ad0d740e40385f299bcef9" && props.personas.length >= 3) {
+            setShowLimit(true);
+            return;
         }
         setProcessingPrompt(true);
         setEditableDescription(false);
@@ -408,6 +415,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any}) => {
     return (
         <ModalBackground>
             {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
+            {showLimit && <PersonaLimit onClose={() => setShowLimit(false)} />}
             <div>
             <Container onClick={(e) => e.stopPropagation()}>
                 <CloseIcon onClick={props.onClose}>

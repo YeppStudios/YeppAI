@@ -48,7 +48,7 @@ const FilesNumberLimit = (props: {onClose: any}) => {
                 <Title>Upgrade your plan</Title>
                 </Centered>
                 <Centered>
-                <Description>You&apos;ve reached the limit of folders in {plan.name} plan. <br /> Created folders: <b>{plan.maxFolders}/{plan.maxFolders}</b></Description>
+                <Description>You&apos;ve reached the limit of tones in {plan.name} plan. <br /> Created tones: <b>3/3</b></Description>
                 </Centered>
                <Centered>
                     <BtnContainer>

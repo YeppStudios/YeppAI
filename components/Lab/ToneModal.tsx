@@ -21,6 +21,8 @@ import { create } from "ipfs-http-client";
 import MultiLineSkeletonLoader from "@/components/Common/MultilineSkeletonLoader";
 import Space from "@/components/Docs/common/Space";
 import {useRouter} from "next/router";
+import { selectedPlanState } from "@/store/planSlice";
+import ToneLimit from "../Modals/LimitModals/ToneLimit";
 
 interface TemplateProps {
   _id: string;
@@ -56,7 +58,7 @@ const client = create({
 const fileTypes = ["JPG", "PNG", "JPEG"];
 
   
-const ToneModal = (props: {onClose: any}) => {
+const ToneModal = (props: {onClose: any, tones: any[]}) => {
 
 
     const [exampleText, setExampleText] = useState("");
@@ -77,6 +79,8 @@ const ToneModal = (props: {onClose: any}) => {
     const [exampleOutputJSON, setExampleOutputJSON] = useState<any>();
     const [toneDescription, setToneDescription] = useState("");
     const selectedMarketingAssistant = useSelector(defaultMarketingAssistantState);
+    const [showLimit, setShowLimit] = useState(false);
+    const plan = useSelector(selectedPlanState);
 
     const router = useRouter();
 
@@ -109,6 +113,10 @@ const ToneModal = (props: {onClose: any}) => {
       if (exampleText.length > 1000) {
         return;
       }
+      if (plan._id === "64ad0d740e40385f299bcef9" && props.tones.length >= 3) {
+        setShowLimit(true);
+        return;
+    }
       setTestTextLoading(true);
       let fetchedUser = null;
       if (workspace && workspace !== "null" && workspace !== "undefined") {
@@ -343,6 +351,7 @@ const ToneModal = (props: {onClose: any}) => {
     return (
         <ModalBackground>
             {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
+            {showLimit && <ToneLimit onClose={() => setShowLimit(true)}/>}
             <SlideBottom>
             {step === 0 &&
             <Container onClick={(e) => e.stopPropagation()}>

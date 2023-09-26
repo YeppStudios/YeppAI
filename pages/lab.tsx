@@ -77,6 +77,8 @@ const LabPage = () => {
   const [openNoElixirModal, setOpenNoElixirModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [baseText, setBaseText] = useState<string>("");
+  const [personas, setPersonas] = useState<any[]>([]);
+  const [tones, setTones] = useState<any[]>([]);
 
   const router = useRouter();
   const selectedMarketingAssistant = useSelector(defaultMarketingAssistantState);
@@ -111,6 +113,9 @@ const LabPage = () => {
             Authorization: token,
           }
         });
+
+        setPersonas(personaResponse.data)
+        setTones(toneResponse.data);
   
         // Add a 'type' field to each object in the tones and personas arrays
         const tonesWithType = toneResponse.data.map((tone: any) => ({ ...tone, type: 'tone of voice' }));
@@ -396,10 +401,10 @@ const LabPage = () => {
           <ChoiceModal onClose={() => setOpenModal(false)} setNextModal={setCurrentModal}/>
       }
       {(currentModal === "tone" && openModal) && 
-          <ToneModal onClose={() => setOpenModal(false)} />
+          <ToneModal onClose={() => setOpenModal(false)} tones={tones} />
       }
       {((currentModal === "persona-form" || currentModal === "persona-description") && openModal) && 
-          <PersonaModal onClose={() => setOpenModal(false)} currentModal={currentModal}/>
+          <PersonaModal onClose={() => setOpenModal(false)} personas={personas} currentModal={currentModal}/>
       }
       {openNoElixirModal && <NoElixir onClose={() => setOpenNoElixirModal(false)} />}
       {(openDeleteModal && currentSample) && <DeleteDoc onClose={() => setOpenDeleteModal(false)} assetType={currentSample?.type} document={currentSample} deleteDocumentState={deleteSample} />}
