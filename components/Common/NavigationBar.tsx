@@ -91,10 +91,14 @@ const NavigationBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [country, setCountry] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [hideGift, setHideGift] = useState(false)
 
   useEffect(() => {
     if (window.innerWidth < 1023) { 
       setMobile(true);
+    }
+    if (window.innerHeight < 770) { 
+      setHideGift(true);
     }
     const updateWindowSize = () => {
       setMobile(window.innerWidth < 1023);
@@ -227,7 +231,7 @@ const NavigationBar = () => {
             style={{ willChange: "transform" }}
           >
             {memoizedNavigationTabs}
-              <ReferralPopup background={referralBg}>
+              <ReferralPopup background={referralBg} hideGift={hideGift}>
                 <div>
                   <p className="text-center text-lg text-black font-bold mt-4 mb-4">Become our partner & <br /><ColorfulText>earn up to $1700</ColorfulText></p>
                   <BlueBtn onClick={() => router.push("/about-partnership")}>Learn more</BlueBtn>
@@ -302,9 +306,9 @@ const NavigationBar = () => {
             <ProfileContainer id="profile-tab">
             {isHovered && 
             <SlideBottom>
-              <ReferralPopup background={referralBg}>
+              <ReferralPopup background={referralBg} hideGift={hideGift}>
                 <div>
-                  <Centered><Image src={giftIcon} alt="gift" className="w-12 h-12" /></Centered>
+                  {!hideGift && <Centered><Image src={giftIcon} alt="gift" className="w-10 h-10"/></Centered>}
                   <p className="text-center text-black font-bold mt-4 mb-4">Become our partner & <br /><ColorfulText>earn up to $1700</ColorfulText></p>
                   <BlueBtn onClick={() => router.push("/about-partnership")}>Learn more</BlueBtn>
                 </div>
@@ -708,9 +712,9 @@ const ComingSoon = styled.div`
   margin-left: 1rem;
 `;
 
-const ReferralPopup = styled.div<{background: any}>`
+const ReferralPopup = styled.div<{background: any, hideGift: boolean}>`
   width: 14.5rem;
-  padding: 2rem 1.5rem 2rem 1.5rem;
+  padding: ${props => props.hideGift ? "0.7rem 0rem 1.5rem 0rem" : "2rem 1.5rem 2rem 1.5rem"};
   cursor: pointer;
   border-radius: 20px;
   background-image: url(${props => props.background.src});
