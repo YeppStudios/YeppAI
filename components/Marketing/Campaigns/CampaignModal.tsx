@@ -96,7 +96,7 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
     "Spanish",
     "French",
     "Italian",
-    "Portugese",
+    "Portuguese",
     "German",
     "Ukrainian",
     "Polish",

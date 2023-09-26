@@ -24,6 +24,7 @@ import questionmarkIcon from "../public/images/questionmark_icon.png";
 import OnboardingTab from '@/components/Landing/OnboardingTab';
 import { TypewriterSection } from '@/components/Landing/TypewriterSection';
 import Explainer from '@/components/Landing/Explainer';
+import LanguagePopup from '@/components/Landing/LanguagePopup';
 
 interface Background {
   image: any
@@ -69,6 +70,7 @@ const Homepage = () => {
             {!mobile && <Image style={{ width: "100%", opacity: 0.5}} src={webBackground} alt={'preview'}></Image>}
           </Background>
           <HeroSection>
+            <Centered><LanguagePopup /></Centered>
           <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[9vw] px-4 inline-block lg:text-6xl max-w-6xl font-black text-center'>Generate {!mobile && <>marketing</>} content {!mobile && <br />} based on your {!mobile && <TypewriterSection />}</h1></SlideBottom></Centered>
               <h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center'>{mobile && <Centered><TypewriterSection/></Centered>}</h1>
               <div className='w-full'>
@@ -216,7 +218,7 @@ const HeroSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 16rem;
+  margin-top: 14.5rem;
   margin-bottom: 16rem;
   @media (max-width: 1023px) {
     display: flex;
