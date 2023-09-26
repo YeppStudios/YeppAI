@@ -8,6 +8,9 @@ import { showNotification } from "@mantine/notifications";
 import { MdOutlineClose } from "react-icons/md";
 import TextArea from "@/components/forms/TextArea";
 import ModalBackground from "../common/ModalBackground";
+import tickIcon from "../../../public/images/tickGreen.png"
+import Image from "next/image";
+import Centered from "@/components/Centered";
 
 const Partner = (props: {onClose: any}) => {
 
@@ -21,6 +24,7 @@ const Partner = (props: {onClose: any}) => {
     const [message, setMessage] = useState("");
     const [country, setCountry] = useState("");
     const [mobile, setMobile] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const router = useRouter();
 
@@ -73,9 +77,7 @@ const Partner = (props: {onClose: any}) => {
               })
             })
             setSending(false);
-            setTimeout(() => {
-                router.push("/")
-            }, 5000)
+            setSuccess(true);
       } catch (e) {
           showNotification({
               id: 'invited',
@@ -108,12 +110,12 @@ const Partner = (props: {onClose: any}) => {
             <CloseIcon onClick={props.onClose}>
                 <MdOutlineClose style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
+                {!success ? 
                 <div>
                 <ModalTitle>Become a partner</ModalTitle>
                     <Form autoComplete="off" onSubmit={(e) => handleSubmit(e)}>
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
-                            <div className="w-full flex justify-between flex-wrap lg:flex-nowrap">
-                                <div className="w-full lg:w-[48%]">
+                        <div className="w-full lg:w-[100%]">
                                 <Label>
                                     Full name
                                 </Label>
@@ -126,7 +128,8 @@ const Partner = (props: {onClose: any}) => {
                                     required
                                 />
                                 </div>
-                                <div className="w-full lg:w-[48%]">
+
+                                <div className="w-full lg:w-[100%]">
                                 <Label>
                                     Email
                                 </Label>
@@ -139,7 +142,6 @@ const Partner = (props: {onClose: any}) => {
                                     required
                                 />
                                 </div>
-                            </div>
                             <Button type="submit">
                                 {sending ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
@@ -151,7 +153,13 @@ const Partner = (props: {onClose: any}) => {
                             </Button>
                         </div>
                     </Form>  
-                </div>     
+                </div> 
+                :
+                <div>
+                    <Centered><Image src={tickIcon} alt="success" className="w-auto h-6 mt-4 lg:mt-10" /></Centered>
+                    <h2 className="mt-6 text-lg font-medium text-center px-8">We recieved your request and will get back to you ASAP!</h2>
+                </div>
+                }    
                 </Container>
                 </ SlideBottom>
         </ModalBackground>
@@ -161,7 +169,7 @@ const Partner = (props: {onClose: any}) => {
 export default Partner;
 
 const Container = styled.div`
-    width: 40rem;
+    width: 30rem;
     padding: 1rem 3rem 3rem 3rem;
     background: white;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
@@ -229,10 +237,10 @@ const Button = styled.button`
   display: block;
   width: 70%;
   height: 3rem;
-  margin-top: 1.5rem;
+  margin-top: 2.5rem;
   border: none;
   color: black;
-  font-size: 2vh;
+  font-size: 1rem;
   border: solid 3px transparent;
   background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
   box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
@@ -301,8 +309,8 @@ const CloseIcon = styled.button`
 const ModalTitle = styled.h1`
     margin-bottom: 1.5rem;
     font-size: 1.2rem;
-    width: 100%;
-    margin-left: -1.5rem;
+    width: 30rem;
+    margin-left: -3rem;
     padding-left: 1.5rem;
     border-bottom: 1px solid #E5E8F0;
     padding-bottom: 1rem;
@@ -311,6 +319,7 @@ const ModalTitle = styled.h1`
     @media (max-width: 1023px) {
         font-size: 1.2rem;
         line-height: 1.2;
+        margin-left: -1.5rem;
         width: calc(100% + 3rem);
         margin-top: 0;
         padding-left: 1rem;
