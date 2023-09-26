@@ -13,7 +13,7 @@ const footerNavigation = {
   ],
   about: [
     { name: 'Pricing', href: "/pricing" },
-    { name: 'Prtnership', href: '/about-partnership' },
+    { name: 'Partnership', href: '/about-partnership' },
     { name: 'FAQ', href: '/#faq' },
   ],
   start: [
