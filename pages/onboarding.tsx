@@ -194,7 +194,7 @@ const Onboarding = () => {
                       {feature.icon}
                       {feature.title}
                     </div>
-                    <div onClick={() => setOpenRegistration(true)} className="mr-4 font-medium text-sm">
+                    <div onClick={() => setOpenRegistration(true)} className="mr-4 cursor-pointer font-medium text-sm">
                       <ColorfulText>Try Now</ColorfulText>
                     </div>
                   </div>
@@ -383,7 +383,12 @@ const Onboarding = () => {
                       </div>
                     )}
                     {renderFeatures()}
-                    {generationEnded && <div className="w-full flex font-medium mt-8 mb-10"><SlideBottom>Got a question? <a target="_blank" rel="noreferrer" href="https://calendly.com/yeppai/yepp-introduction-call"><ColorfulText><b className="ml-2">Schedule a demo</b></ColorfulText></a></SlideBottom></div>}
+                    {generationEnded &&
+                      <div className="w-full flex flex-wrap font-medium mt-8 mb-10">
+                        <SlideBottom>Got a question? <a target="_blank" rel="noreferrer" href="https://calendly.com/yeppai/yepp-introduction-call"><ColorfulText><b className="ml-2">Schedule a demo</b></ColorfulText></a></SlideBottom>
+                        <BlueBtn>Continue</BlueBtn>
+                      </div>
+                    }
                   </div>
                   }
                 </div>
@@ -459,4 +464,38 @@ const ContentSide = styled.div<{step?: number}>`
     linear-gradient(to left  , black, transparent) left  /100% 0%,
     linear-gradient(to right , black, transparent) right /100% 0%;
   }
+`
+
+const BlueBtn = styled.div`
+    padding: 0.7rem 1.25rem 0.7rem 1.25rem;
+    width: 100%;
+    font-size: 1rem;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: solid 3px transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    position: relative;
+    white-space: nowrap;
+    color: white;
+    font-weight: 500;
+    background: linear-gradient(40deg, #6578F8, #64B5FF);
+    background-size: 110%;
+    background-position-x: -0.5rem;
+    align-items: center;
+    transition: all 0.4s ease;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 1px 1px 3px rgba(22, 27, 29, 0.23);
+    cursor: pointer;
+    &:hover {
+      box-shadow: none;
+      transform: scale(0.95);
+    }
+    @media (max-width: 1023px) {
+      margin-left: 0;
+      margin-right: 0rem;
+      padding: 0.5rem 1.25rem 0.5rem 1.25rem;
+    }
 `
