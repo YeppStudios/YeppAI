@@ -102,9 +102,10 @@ const Homepage = () => {
           </SlideBottom>
              {!mobile &&<Centered><TestButton id="trial-btn" onClick={() => router.push("/register?registration=true&company=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton></Centered>}
              <Centered>{!mobile && <div className='text-base mt-4 text-center font-medium'>7 days for free with up to 10 000 words<br /></div>}</Centered> */}
-          <Section>
+          <Section >
             <Stats />
           </Section>
+          <div id="onboarding"></div>
           <Section>
           <OnboardingTab />
           </Section>
@@ -187,7 +188,7 @@ const Homepage = () => {
           </Section>
           <Centered><FreeConsultationBtn href='https://calendly.com/yeppai/yepp-introduction-call'>Book a <ColorfulText>free demo</ColorfulText></FreeConsultationBtn></Centered>
           <Section>
-            <div id="newsletter"></div>
+            <div id="faq"></div>
             <LearnMoreSection />
           </Section>
           <Footer />
