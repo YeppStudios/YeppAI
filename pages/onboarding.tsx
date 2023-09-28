@@ -103,14 +103,13 @@ const Onboarding = () => {
         if (url) {
           setScraping(true);
             const scrapeWebsite = async () => {
-            const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+            const scrapingResponse = await axios.post(`http://165.227.147.24:8000/scrape-links`, {
                 urls: [url]
               }, {
                 headers: {
                   'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
                 }
             });
-            console.log("scraped", scrapingResponse.data)
             setWebsiteFavicon(scrapingResponse.data.favicons[0]);
             setWebsiteText(scrapingResponse.data.text);
             setWebsiteTitle(scrapingResponse.data.titles[0]);
@@ -331,7 +330,7 @@ const Onboarding = () => {
                     }
                     </div>
                     }
-                    {scraping && <p className="opacity-60 text-white text-lg mt-8">Est. time: 30s</p>}
+                    {scraping && <p className="opacity-60 text-white text-lg mt-8">Est. time: 15s</p>}
                     {!scraping && <div className="w-full"><SlideBottom><ContinueBtn onClick={() => setOpenRegistration(true)} className="lg:mt-8">Continue <BsArrowRightShort className="ml-2 w-6 h-6"/></ContinueBtn></SlideBottom></div>}
                   </div>
                 </>

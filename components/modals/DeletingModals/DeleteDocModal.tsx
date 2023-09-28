@@ -62,7 +62,7 @@ const DeleteDoc = (props: {
                     })
     
                     await axios.delete(
-                        "https://whale-app-p64f5.ondigitalocean.app/delete",
+                        "http://165.227.147.24:8000/delete",
                         {
                           data: {
                             ids: [props.document.vectorId],

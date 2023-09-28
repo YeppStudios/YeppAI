@@ -393,7 +393,7 @@ const complete = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     if (companyDataIds.length > 0) {
       try {
         const chunks = await axios.post(
-          "https://whale-app-p64f5.ondigitalocean.app/query",
+          "http://165.227.147.24:8000/query",
           {
             "queries": [
               {

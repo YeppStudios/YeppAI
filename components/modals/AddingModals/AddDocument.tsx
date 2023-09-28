@@ -156,7 +156,7 @@ const AddDocument = (props: {
                   let upsertResponse = {data: {text: '', ids: ['']}};
                   if (file.name.split('.')[1] === "csv") {
                     upsertResponse = await axios.post(
-                      'https://whale-app-p64f5.ondigitalocean.app/upsert-csv', {file},
+                      'http://165.227.147.24:8000/upsert-csv', {file},
                       {
                         headers: {
                           Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
@@ -166,7 +166,7 @@ const AddDocument = (props: {
                   );
                   } else {
                     upsertResponse = await axios.post(
-                      'https://whale-app-p64f5.ondigitalocean.app/upsert-file', {file},
+                      'http://165.227.147.24:8000/upsert-file', {file},
                       {
                         headers: {
                           Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
@@ -250,7 +250,7 @@ const AddDocument = (props: {
               fetchedPlan = plan;
           }
 
-            const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+            const scrapingResponse = await axios.post(`http://165.227.147.24:8000/scrape-links`, {
               urls: [website]
             }, {
               headers: {

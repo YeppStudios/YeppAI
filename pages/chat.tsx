@@ -342,7 +342,7 @@ const Chat = () => {
               conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
           }
         }, 7000);
-        const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+        const scrapingResponse = await axios.post(`http://165.227.147.24:8000/scrape-links`, {
           urls: linksResponse.data,
         }, {
           headers: {
@@ -351,7 +351,7 @@ const Chat = () => {
         });
 
           const chunks = await axios.post(
-            "https://whale-app-p64f5.ondigitalocean.app/query",
+            "http://165.227.147.24:8000/query",
             {
               "queries": [
                 {
@@ -517,7 +517,7 @@ const Chat = () => {
 
     try {
       const chunks = await axios.post(
-        "https://whale-app-p64f5.ondigitalocean.app/query",
+        "http://165.227.147.24:8000/query",
         {
           "queries": [
             {

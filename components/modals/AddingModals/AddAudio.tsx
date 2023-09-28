@@ -99,7 +99,7 @@ const AddAudio = (props: {
               }
             })
 
-            const transcriptionResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/transcribe-yt`, {
+            const transcriptionResponse = await axios.post(`http://165.227.147.24:8000/transcribe-yt`, {
               url: url
             }, {
               headers: {
