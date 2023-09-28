@@ -191,7 +191,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
               });
           
               const chunks = await axios.post(
-                "http://165.227.147.24:8000/query",
+                "https://whale-app-p64f5.ondigitalocean.app/query",
                 {
                   "queries": [
                     {

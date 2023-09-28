@@ -129,7 +129,7 @@ const AddWrittenContent = (props: {
     
                 
                 const upsertResponse = await axios.post(
-                  'http://165.227.147.24:8000/upsert',
+                  '/upsert',
                   {
                     documents: [
                       {

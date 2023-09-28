@@ -660,7 +660,7 @@ const CopywritingModal = (props: {
           props.setSectionLength((Number(length)/completionJSON.paragraphs.length).toFixed(0));
           props.setConspect(completionJSON);
           try {
-            const scrapingResponse = await axios.post(`http://165.227.147.24:8000/scrape-links`, {
+            const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
               urls: [links[0]]
             }, {
               headers: {
@@ -1047,7 +1047,7 @@ const CopywritingModal = (props: {
                     <ModalDescription>Yepp is preparing to write the best content for you. <br />It&apos;s worth the wait!</ModalDescription>
                 </Centered>
                 <Centered>
-                    <EstimatedTime>Est. time: ~ 30s</EstimatedTime>
+                    <EstimatedTime>Est. time: ~ 1.5 mins</EstimatedTime>
                 </Centered>
                     <ThinkingContainer>
                         <Centered><TypingAnimation colorful={true} /></Centered>
