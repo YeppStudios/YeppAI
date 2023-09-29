@@ -103,7 +103,7 @@ const Onboarding = () => {
         if (url) {
           setScraping(true);
             const scrapeWebsite = async () => {
-            const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+            const scrapingResponse = await axios.post(`https://www.asistant.ai/scrape-links`, {
                 urls: [url]
               }, {
                 headers: {

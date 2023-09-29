@@ -676,7 +676,7 @@ const CopywritingModal = (props: {
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0));
           props.setConspect(completionJSON);
           try {
-            const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+            const scrapingResponse = await axios.post(`https://www.asistant.ai/scrape-links`, {
               urls: [links[0]]
             }, {
               headers: {

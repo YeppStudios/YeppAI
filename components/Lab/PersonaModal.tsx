@@ -356,7 +356,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any, personas: any[]})
             setPersonaLoading(false);
             setStep("persona");
             // if (links.length > 0) {
-            // const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {
+            // const scrapingResponse = await axios.post(`https://www.asistant.ai/scrape-links`, {
             //     urls: [links[0]]
             //   }, {
             //     headers: {

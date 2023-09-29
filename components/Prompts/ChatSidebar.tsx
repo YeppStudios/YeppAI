@@ -191,7 +191,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
               });
           
               const chunks = await axios.post(
-                "https://whale-app-p64f5.ondigitalocean.app/query",
+                "https://www.asistant.ai/query",
                 {
                   "queries": [
                     {
