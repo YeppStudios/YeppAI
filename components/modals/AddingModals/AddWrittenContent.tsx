@@ -129,7 +129,7 @@ const AddWrittenContent = (props: {
     
                 
                 const upsertResponse = await axios.post(
-                  '/upsert',
+                  'https://whale-app-p64f5.ondigitalocean.app/upsert',
                   {
                     documents: [
                       {
