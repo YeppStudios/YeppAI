@@ -610,8 +610,23 @@ const CopywritingModal = (props: {
         setLoading(true);
         try {
           let token = localStorage.getItem("token");
-          const conspectCompletion = await api.post("/completion-function", {
-            prompt: `${conspectText} JSON array:`,
+          const conspectCompletion = await api.post("/completion", {
+            prompt: `Example output:
+            [
+              {
+                "header": "header",
+                "instruction": "instruction for writing this section.",
+                "keywords": ["keyword1", "keyword2", "keyword3"]
+              },
+              {
+                "header": "header",
+                "instruction": "instruction for writing this section.",
+                "keywords": ["keyword1", "keyword2", "keyword3"]
+              },
+              ...
+            ]
+            
+            Now analyze this outline and come up with similar ${conspectText} JSON array:`,
             model: "gpt-3.5-turbo-0613",
             temperature: 0,
             systemPrompt: `Act as a JSON converter. From list of titles, instructions and keywords of paragraphs return a formatted JSON output that incorporates a list of article section headers, instructions, and keywords as per the given format. You just copy paste the headers, instructions and keywords without changing the content into the JSON format that is exactly like one below. You always respond only with the correct JSON format trying to understand what user wanted to be a header, what a description and what keywords. If there seem to be only headers respond leave description field empty and vice versa. Make sure that the formatting of the final JSON output is correct and adheres exactly to the same format as the one mentioned below:
@@ -656,8 +671,9 @@ const CopywritingModal = (props: {
                 Authorization: `${token}`,
             },
         });
-          const completionJSON = JSON.parse(conspectCompletion.data.function.arguments);
-          props.setSectionLength((Number(length)/completionJSON.paragraphs.length).toFixed(0));
+        console.log(conspectCompletion.data.completion);
+          const completionJSON = JSON.parse(conspectCompletion.data.completion);
+          props.setSectionLength((Number(length)/completionJSON.length).toFixed(0));
           props.setConspect(completionJSON);
           try {
             const scrapingResponse = await axios.post(`https://whale-app-p64f5.ondigitalocean.app/scrape-links`, {

@@ -1,13 +1,10 @@
-import Centered from "@/components/Centered";
 import PageTemplate from "@/components/Common/PageTemplate"
 import styled from "styled-components";
 import Image from "next/image";
 import CampaignSidebar from "@/components/Marketing/Campaigns/CampaignSidebar";
 import { useEffect, useRef, useState } from "react";
 import { BsChevronDown, BsChevronLeft, BsChevronUp } from "react-icons/bs";
-import { FaRegBookmark } from "react-icons/fa";
 import { TbAdjustmentsHorizontal, TbReload } from "react-icons/tb";
-import { CiRedo } from "react-icons/ci";
 import { MdContentCopy } from "react-icons/md";
 import api from "@/pages/api";
 import { useRouter } from "next/router";
@@ -21,7 +18,7 @@ import MultiLineSkeletonLoader from "@/components/Common/MultilineSkeletonLoader
 import NoElixirModal from "@/components/Modals/LimitModals/NoElixir";
 import axios from "axios";
 import { defaultMarketingAssistantState } from "@/store/marketingAssistantSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { showNotification } from "@mantine/notifications";
 import Head from "next/head";
 

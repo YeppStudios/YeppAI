@@ -148,7 +148,7 @@ useEffect(() => {
       return;
     }
     const startPos = editor.state.selection.from;
-    editor.chain().focus().insertContent(`<h1>${conspect.paragraphs[0].header}</h1>`).run();
+    editor.chain().focus().insertContent(`<h1>${conspect[0].header}</h1>`).run();
     editor.chain().insertContent("<p id='content'></p>").run();
     editor.chain().insertContent("\n").run();
     setGenerating(true);
@@ -205,7 +205,7 @@ useEffect(() => {
           {
             "queries": [
               {
-                "query": conspect.paragraphs[0].header,
+                "query": conspect[0].header,
                 "filter": {
                   "document_id": combinedIds  // Use combined array here
                 },
@@ -239,11 +239,11 @@ useEffect(() => {
     
     Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     This is the introduction header:
-    ${conspect.paragraphs[0].header}
+    ${conspect[0].header}
     And this is how I want you to write the introduction:
-    ${conspect.paragraphs[0].instruction}
+    ${conspect[0].instruction}
     ${tonePrompt}
-    End this intro so that it will be easy to continue writing the next section: ${conspect.paragraphs[1].header}
+    End this intro so that it will be easy to continue writing the next section: ${conspect[1].header}
     Introduction: 
     `;
     let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with introduction without header.`;
@@ -266,7 +266,7 @@ useEffect(() => {
           const { done, value } = await reader.read();
           if (done) {
             setGenerating(false);
-            if (conspect.paragraphs.length > 1) {
+            if (conspect.length > 1) {
               setNextSection("Write 2nd section");
             }
             if (editor) {
@@ -328,14 +328,14 @@ useEffect(() => {
     }
     if (!sectionIndex) {
       setSectionIndex(1);
-    } else if (sectionIndex + 2 < conspect.paragraphs.length) {
+    } else if (sectionIndex + 2 < conspect.length) {
       if (sectionIndex + 2 === 3) {
         setNextSection("Write 3rd section");
       } else {
         setNextSection(`Write ${sectionIndex + 2}th section`);
       }
       setSectionIndex(sectionIndex + 1);
-    } else if (sectionIndex + 2 === conspect.paragraphs.length ) {
+    } else if (sectionIndex + 2 === conspect.length ) {
       setSectionIndex(sectionIndex + 1);
       setNextSection("Write a summary");
     } else {
@@ -344,8 +344,8 @@ useEffect(() => {
     let startPos = editor.state.selection.from;
     let endPos = editor.state.doc.content.size;
     editor.chain().focus().setTextSelection(endPos).insertContent("\n\n").run();
-    editor.chain().focus().setTextSelection(endPos).insertContent(`<h1>${conspect.paragraphs[sectionIndex].header}</h1>`).run();
-    editor.chain().setTextSelection(endPos + conspect.paragraphs[sectionIndex].header.length + 5).insertContent("<p id='content'></p>").run();
+    editor.chain().focus().setTextSelection(endPos).insertContent(`<h1>${conspect[sectionIndex].header}</h1>`).run();
+    editor.chain().setTextSelection(endPos + conspect[sectionIndex].header.length + 5).insertContent("<p id='content'></p>").run();
     editor.chain().focus().setTextSelection(endPos).insertContent("\n\n").run();
     setGenerating(true);
     let fetchedUser = null;
@@ -401,7 +401,7 @@ useEffect(() => {
           {
             "queries": [
               {
-                "query": conspect.paragraphs[sectionIndex].header,
+                "query": conspect[sectionIndex].header,
                 "filter": {
                   "document_id": combinedIds  // Use combined array here
                 },
@@ -427,8 +427,8 @@ useEffect(() => {
     }
 
     let endStyle = "";
-    if (sectionIndex + 1 !== conspect.paragraphs.length ) {
-      endStyle = `End this section, so that it will be easy to fluently start writing next one titled: "${conspect.paragraphs[sectionIndex + 1].header}" without mentioning it.`;
+    if (sectionIndex + 1 !== conspect.length ) {
+      endStyle = `End this section, so that it will be easy to fluently start writing next one titled: "${conspect[sectionIndex + 1].header}" without mentioning it.`;
     }
 
     let tonePrompt = ``;
@@ -442,9 +442,9 @@ useEffect(() => {
     
     I have ended writing the last section of ${contentType} with: "...${text.slice(-500)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     Next section header:
-    ${conspect.paragraphs[sectionIndex].header}
+    ${conspect[sectionIndex].header}
     This is a brief instruction on what I want you to write about in this section:
-    ${conspect.paragraphs[sectionIndex].instruction}
+    ${conspect[sectionIndex].instruction}
     ${endStyle}
     ${tonePrompt}
     Now understanding the context here is the section:
@@ -479,7 +479,7 @@ useEffect(() => {
                 const containerRect = container.getBoundingClientRect();
 
                 // Adjust the bottom menu's position
-                if (sectionIndex + 2 === conspect.paragraphs.length ) {
+                if (sectionIndex + 2 === conspect.length ) {
                   setBottomMenuPosition({
                     top: rect.top - containerRect.top + container.scrollTop + 85,
                     left: rect.left - containerRect.left -120

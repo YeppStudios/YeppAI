@@ -115,7 +115,7 @@ const Onboarding = () => {
             setWebsiteText(scrapingResponse.data.text);
             setWebsiteTitle(scrapingResponse.data.titles[0]);
             try {
-                const companyNameCompletion = await api.post("/completion-function", {
+                const companyNameCompletion = await api.post("", {
                     prompt: `Analyse this website title and figure out the company name. 
                     website title: "${scrapingResponse.data.titles[0]}"
                     If there is no company name in website title just return the most representative part of the title.
