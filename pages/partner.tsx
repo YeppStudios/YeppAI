@@ -394,7 +394,7 @@ const Refferal = () => {
               </div>
                   <div className="flex flex-col py-4 lg:py-0 px-4 lg:px-0 text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center lg:w-full lg:pl-8 ">
                     <span className="text-2xl font-bold">{Number(successfulReferrals.agency) + Number(successfulReferrals.standard)}</span>
-                    <div className="text-xs mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><BsCoin /></div><span>Complete referrals</span></div>
+                    <div className="text-xs mt-2 lg:mt-0 lg:text-base flex gap-2 items-center"><div><BsCoin /></div><span>Complete sales</span></div>
                   </div>
                   <div className="flex flex-col py-4 lg:py-0 px-4 lg:px-0 text-black lg:border-r-2 border-slate-100 last:border-none h-full justify-center lg:w-full lg:pl-8 ">
                     <span className="text-2xl font-bold">{user.registeredByReferral}</span>
