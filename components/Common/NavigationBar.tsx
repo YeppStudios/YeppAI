@@ -91,7 +91,8 @@ const NavigationBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [country, setCountry] = useState("");
   const [loaded, setLoaded] = useState(false);
-  const [hideGift, setHideGift] = useState(false)
+  const [hideGift, setHideGift] = useState(false);
+  const [hidePopup, setHidePopup] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 1023) { 
@@ -99,6 +100,9 @@ const NavigationBar = () => {
     }
     if (window.innerHeight < 770) { 
       setHideGift(true);
+    }
+    if (window.innerHeight < 720) { 
+      setHidePopup(true);
     }
     const updateWindowSize = () => {
       setMobile(window.innerWidth < 1023);
@@ -306,6 +310,7 @@ const NavigationBar = () => {
             <ProfileContainer id="profile-tab">
             {isHovered && 
             <SlideBottom>
+            {!hidePopup &&
               <ReferralPopup background={referralBg} hideGift={hideGift}>
                 <div>
                   {!hideGift && <Centered><Image src={giftIcon} alt="gift" className="w-10 h-10"/></Centered>}
@@ -313,6 +318,7 @@ const NavigationBar = () => {
                   <BlueBtn onClick={() => router.push("/about-partnership")}>Learn more</BlueBtn>
                 </div>
               </ReferralPopup>
+            }
             </SlideBottom>
             }
             {bottomTabs.map((tab) => (
