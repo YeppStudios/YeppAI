@@ -12,6 +12,7 @@ import { selectedPlanState, setSelectedPlan } from "@/store/planSlice";
 import { selectedWorkspaceCompanyState, setSelectedWorkspaceCompany } from "@/store/workspaceCompany";
 import { useSelector, useDispatch } from "react-redux";
 import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
+import BanPopup from "../Modals/InformationalModals/Ban";
 
 interface Background {
   image: any,
@@ -24,6 +25,7 @@ const PageTemplate = ({children}: any) => {
   const user = useSelector(selectedUserState);
   const plan = useSelector(selectedPlanState);
   const [showPlans, setShowPlans] = useState(false);
+  const [isBanned, setIsBanned] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -37,6 +39,7 @@ const PageTemplate = ({children}: any) => {
     }
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
+    const ban = localStorage.getItem("ban");
     const validateJWT = async () => {
       try {
         const { data } = await api.get('/checkJWT', {
@@ -49,6 +52,7 @@ const PageTemplate = ({children}: any) => {
         setLoggedIn(false);
       }
     }
+    setIsBanned(ban === "true" ? true : false)
 
       const fetchUserInfo = async () => {
         try { 
@@ -104,6 +108,7 @@ const PageTemplate = ({children}: any) => {
       }
       {showPlans && <UpgradeSubscription purchase={false} onClose={() => setShowPlans(false)} closeable={false} landing={false}/>}
       {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
+      {isBanned && <BanPopup />}
       <Page>
           <NavigationBar />
           {children}

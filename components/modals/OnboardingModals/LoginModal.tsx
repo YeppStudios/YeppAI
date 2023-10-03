@@ -163,6 +163,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     dispatch(setSelectedUser(response.data.newUser));
                     localStorage.setItem('token', "Bearer " + response.data.token);
                     localStorage.setItem('user_id', response.data.newUser._id);
+                    localStorage.setItem('ban', response.data.ban);
                     localStorage.setItem('plan', response.data.newUser.plan);
                     localStorage.setItem('workspace', response.data.newUser.workspace);
                     localStorage.setItem('account_type', response.data.newUser.accountType);
@@ -175,6 +176,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 Cookies.set("username", response.data.user.name, { expires: 7 });
                 Cookies.set("workspace", response.data.user.workspace, { expires: 7 });
                 dispatch(setSelectedUser(response.data.user));
+                localStorage.setItem('ban', response.data.ban);
                 localStorage.setItem('token', "Bearer " + response.data.token);
                 localStorage.setItem('user_id', response.data.user._id);
                 localStorage.setItem('plan', response.data.user.plan);

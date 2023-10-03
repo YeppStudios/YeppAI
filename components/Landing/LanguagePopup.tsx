@@ -9,7 +9,6 @@ const languages = [
     {country: "France", language: "French", emoji: "🇫🇷"},
     {country: "Belgium", language: "French", emoji: "🇧🇪"},
     {country: "Italy", language: "Italian", emoji: "🇮🇹"},
-    {country: "Switzerland", language: "Italian", emoji: "🇨🇭"},
     {country: "Portugal", language: "Portuguese", emoji: "🇵🇹"},
     {country: "Brazil", language: "Portuguese", emoji: "🇧🇷"},
     {country: "Germany", language: "German", emoji: "🇩🇪"},
