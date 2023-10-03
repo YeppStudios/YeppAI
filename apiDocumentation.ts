@@ -6,7 +6,7 @@ export const documentation = [
         description: "This endpoint is used to create a new conversation.",
         url: "https://asystentai.herokuapp.com/createConversation",
         code: 'curl -X POST "https://asystentai.herokuapp.com/createConversation" \\\n' +
-        '-H "Authorization: Bearer your_token_here" \\\n' +
+        '-H "Authorization: your_token_here" \\\n' +
         '-H "Content-Type: application/json" \\\n' +
         '-d \'{' + '\n' +
         '   "assistant_id": "your_assistant_id_here",\n' +
@@ -31,7 +31,7 @@ export const documentation = [
         description: "This endpoint returns the conversation by the given ID, if it exists and belongs to the current authenticated user.",
         url: "https://asystentai.herokuapp.com/getConversation/:id",
         code: 'curl -X POST "https://asystentai.herokuapp.com/getConversation/:id" \\\n' +
-        '-H "Authorization: Bearer your_token_here"\n',
+        '-H "Authorization: your_token_here"\n',
         headers: [
             {title: "Authorization", description: "Your API key obtained within a platform after creating new Assistant"}
         ],
@@ -50,7 +50,7 @@ export const documentation = [
         description: "This endpoint is used to initiate or continue a conversation with an Assistant AI.",
         url: "https://asystentai.herokuapp.com/message",
         code: 'curl -X POST "https://asystentai.herokuapp.com/message" \\\n' +
-              '-H "Authorization: Bearer your_token_here" \\\n' +
+              '-H "Authorization: your_token_here" \\\n' +
               '-H "Content-Type: application/json" \\\n' +
               '-d \'{' + '\n' +
               '   "query": "What is the weather like today?",\n' +
@@ -84,7 +84,7 @@ export const documentation = [
         description: "This endpoint is used to initiate or continue a conversation with an Assistant AI. Resopnse is being streamed in real time.",
         url: "https://asystentai.herokuapp.com/message",
         code: 'curl -X POST "https://asystentai.herokuapp.com/message-stream" \\\n' +
-              '-H "Authorization: Bearer your_token_here" \\\n' +
+              '-H "Authorization: your_token_here" \\\n' +
               '-H "Content-Type: application/json" \\\n' +
               '-d \'{' + '\n' +
               '   "query": "What is the weather like today?",\n' +
