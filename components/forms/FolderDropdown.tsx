@@ -78,7 +78,7 @@ export default function FoldersDropdown() {
             <BsFolder style={{width: "60%", height: "auto"}} />
         </div>
         <span style={{maxWidth: "75%"}} className="block truncate text-left text-black font-medium text-base md:text-lg flex items-center">
-          {selectedFolders.length > 0 ? selectedFolders[0].title : <div className='text-black font-medium text-base md:text-lg'>Choose uploaded assets...</div>} 
+          {selectedFolders.length > 0 ? selectedFolders[0].title : <div className='text-black font-medium text-base md:text-lg'>Choose info to reference...</div>} 
           {selectedFolders.length > 1 && <div className='ml-4 bg-slate-100 rounded-full py-1 px-2 text-sm'>+{selectedFolders.length -1}</div>}
         </span>
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-6 2xl:pr-8">

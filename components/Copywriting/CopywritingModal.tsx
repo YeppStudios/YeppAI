@@ -111,6 +111,9 @@ const CopywritingModal = (props: {
     const [conspectText, setConspectText] = useState<string>("");
     const [openNewLink, setOpenNewLink] = useState(false);
     const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
+    const [loadingQueries, setLoadingQueries] = useState(false);
+    const [searchTerms, setSearchTerms] = useState<string[]>([]);
+    const [selectedQuery, setSelectedQuery] = useState<string>("");
     const [abortController, setAbortController] = useState(new AbortController());
     const [currentText, setCurrentText] = useState(0);
     const [tones, setTones] = useState<any[]>([]);
@@ -194,9 +197,6 @@ const CopywritingModal = (props: {
           axios(config)
           .then((response) => {
             setSearchResults(response.data.organic);
-            if(response.data.peopleAlsoAsk){
-                setPeopleAlsoAsk(response.data.peopleAlsoAsk)
-            }
             setSourceLoading(false);
           })
           .catch((error) => {
@@ -206,15 +206,66 @@ const CopywritingModal = (props: {
     }
 
     const changeGooglePreview = (result: any) => {
-        props.setTitle(result.question);
-        props.setDescription(result.snippet);
+        setSelectedQuery(result)
+        generateGooglePreview(result);
     }
 
     const stopReplying = () => {
         abortController.abort();
     }
 
-    const generateGooglePreview = async () => {
+    const generateSearchQueries = async () => {
+      setLoadingQueries(true);
+      let token = localStorage.getItem("token");
+      try {
+        const generatedQueries = await api.post("/completion", {
+          model: "gpt-4-32k",
+          temperature: 0.9,
+          systemPrompt: `Act as a JSON converter. You come up with high volume search terms for any given phrase and return a formatted JSON output that incorporates a list of search terms as per the given format:
+          [
+            "search term 1",
+            "search term 2",
+            "search term 3",
+            ...
+          ]
+          `,
+          prompt: `Example 12 of most popular Google search terms for phrase "generative ai":
+          [
+            "will generative ai replace humans",
+            "why generative ai is important",
+            "who invented generative ai",
+            "who invented generative ai",
+            "which generative ai is best",
+            "when to use generative ai",
+            "are generative ai systems plagiarism machines",
+            "can generative ai write code",
+            "can generative ai create videos",
+            "how generative ai works",
+            "what generative ai tools are available",
+            "where generative ai can be used"
+          ]
+          As you can see every search term must contain the given phrase somewhere in text.
+          
+          Now inspired by this example come up with set of best search terms for phrase: "${phrase}" in ${props.language} language that might as well have high search volume. 
+          Make sure they are diverse and start in different ways like: "will...", "why...", "who...", "which...", "are...", "can...", "how...", "what...", "where...." as the ones from example. 
+          Return list of 10 search terms for ${phrase} in the exact format as example:
+          `
+        }, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setSearchTerms(JSON.parse(generatedQueries.data.completion));
+        setStep(step + 1);
+        setLoadingQueries(false);
+        generateGooglePreview("");
+      } catch (e) {
+        console.log(e);
+        setLoadingQueries(false);
+      }
+    }
+
+    const generateGooglePreview = async (selectedQuery: any) => {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("user_id");
         const workspace = localStorage.getItem("workspace");
@@ -259,7 +310,6 @@ const CopywritingModal = (props: {
         function randomizeArray(arr: any[]) {
             return arr.sort(() => Math.random() - 0.5).slice(0, 2);
         }
-        let selected = randomizeArray(selectedLinks.map(item => ({title: item.title, snippet: item.snippet})));
         let questionsAndSnippets = randomizeArray(peopleAlsoAsk.map(item => ({question: item.question, snippet: item.snippet})));
         let example = ""
         if (props.contentType === "ranking") {
@@ -272,15 +322,19 @@ const CopywritingModal = (props: {
           ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
           `
         }
+        let examples = `Top search terms on Google:
+        ${relevantQuestions}`
+        if (selectedQuery) {
+          examples = `User entered a search term:
+          ${selectedQuery}
+          `
+        }
 
         let model = "gpt-4-32k";
-        let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content in ${props.toneOfVoice} tone. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
-        let prompt = `${props.contentType} keyword: ${phrase}. 
-        Top ${props.contentType}s on Google:
-        ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
-        ${relevantQuestions}
-        Choose only one keywords that fits best the Google title: ${keywords}.
-        Now based on this data, generate the best performing title for ${props.contentType} about ${phrase}. Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Make sure to come up with title that is in ${props.language} language. ${example}
+        let systemPrompt = `You are a native ${props.language} copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
+        let prompt = `${props.contentType} keyword you always need to include in title: ${phrase}. 
+        ${examples}
+        Now in response, come up with your unique best performing title for ${props.contentType} featuring ${phrase} that will be a great hook. Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Make sure to come up with title that is in ${props.language} language. ${example}
         `
     
         try {
@@ -288,7 +342,7 @@ const CopywritingModal = (props: {
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `${props.contentType} title`, model, systemPrompt}),
+              body: JSON.stringify({prompt, title: `${props.contentType} title`, model, systemPrompt, temperature: 1}),
             });
     
           if (!response.ok) {
@@ -364,6 +418,7 @@ const CopywritingModal = (props: {
           setOpenNoElixirModal(true);
           return;
         }
+        
         let exclusions = "";
         if (props.language === "Polish") {
           exclusions = `Instead of "zanurz się" use "zobacz jak", "sprawdź", "przekonaj się" or "poznaj" whatever suits best. Use human-like Polish language.`
@@ -504,7 +559,7 @@ const CopywritingModal = (props: {
             throw new Error('Network response was not ok');
           }
     
-          if(response.body){
+          if(response.body) {
             const reader = response.body.getReader();
             while (true) {
               const { done, value } = await reader.read();
@@ -549,7 +604,7 @@ const CopywritingModal = (props: {
 
     const nextStep = () => {
         if (step === 2) {
-            generateGooglePreview();
+            generateGooglePreview("");
         } else if (step === 3) {
             generateOutline();
         }
@@ -643,35 +698,13 @@ const CopywritingModal = (props: {
               },
               ...
             ]
-            `,
-            function_definition: {
-              "name": "extract_outline_paragraphs",
-              "description": "group the outline into an array of objects with header, instruction and keywords.",
-              "parameters": {
-                  "type": "object",
-                  "properties": {
-                    "paragraphs": {
-                      type: 'array', 
-                      items: {
-                          type: "object",
-                          properties: {
-                            header: { type: "string", description: "the paragraph header" },
-                            instruction: { type: "string", description: "instruction on how to write the paragraph" },
-                            keywords: { type: "string", description: "keywords to use when writing the paragraph" },
-                          }
-                      }
-                    }
-                  },
-                  "required": ["paragraphs"],
-              },
-          }
+            `
         },
         {
             headers: {
                 Authorization: `${token}`,
             },
         });
-        console.log(conspectCompletion.data.completion);
           const completionJSON = JSON.parse(conspectCompletion.data.completion);
           props.setSectionLength((Number(length)/completionJSON.length).toFixed(0));
           props.setConspect(completionJSON);
@@ -726,6 +759,302 @@ const CopywritingModal = (props: {
                     <BsXLg style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
             {step === 1 &&
+                <div>
+                    <Title>
+                      <Icon>
+                          <Image style={{ width: "auto", height: "100%" }}  src={articleIcon} alt={'article_icon'}></Image>
+                      </Icon>
+                      What do you want to write?
+                    </Title>
+                    <div>
+                        <div style={{width: "100%"}}>
+                        <div className='w-full flex justify-between'>
+                        <div style={{width: "65%", display: "flex", flexWrap: "wrap"}}>
+                        <Label>
+                            Enter main topic, phrase or keyword
+                        </Label>
+                        <Input
+                            id="copywriting-keyword"
+                            type="text"
+                            placeholder="Generative AI"
+                            value={phrase}
+                            onChange={(e) => setPhrase(e.target.value)}
+                            required
+                            autoComplete="off"
+                        />
+                        </div>
+                        <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                <LabelIcon>
+                                    <IoLanguage style={{ width: "100%", height: "auto" }} />
+                                </LabelIcon>
+                                <Label className='-mt-3'>Language</Label>
+                                </div>
+                                <div className='-mt-2'>
+                                <CustomDropdown
+                                    placeholder="Polish"
+                                    required
+                                    value={props.language}
+                                    values={languagesList.sort()}
+                                    onChange={props.setLanguage}
+                                    error={undefined}
+                                /> 
+                                </div>
+                            </div>
+                          </div>
+                          <div className='mt-4'>
+                                <Label>
+                                    Choose the content type...
+                                </Label>
+                                <Tabs justifyContent="left">
+                                {types.map((type) => {
+                                    if (props.contentType === type) {
+                                    return (
+                                        <SelectedTab onClick={() => props.setContentType(null)} key={type}>
+                                        {type}
+                                        </SelectedTab>
+                                    )
+                                    } else {
+                                    return (
+                                        <Tab onClick={() => props.setContentType(type)} key={type}>
+                                        {type}
+                                        </Tab>
+                                    );
+                                    }
+                                })}
+                            </Tabs>
+                            </div>
+                            <Centered>
+                                <Button type="submit" onClick={fetchSource}>
+                                    {loading ?
+                                    <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                        <Loader color="black"/>
+                                    </div>
+                                    :
+                                    <p>Continue</p>
+                                    }
+                                </Button>
+                            </Centered>
+                        </div>
+                    </div> 
+                    <Centered>
+                    <SkipBtn onClick={props.onSuccess}>
+                        Skip
+                    </SkipBtn>
+                    </Centered>
+                </div>   
+            }   
+            {step === 2 &&
+            <div>
+                <Title>
+                <Icon>
+                    <Image style={{ width: "auto", height: "100%" }}  src={linkIcon} alt={'link_icon'}></Image>
+                </Icon>
+                Choose source
+                </Title>
+                <div className='mt-4'>
+                <FoldersDropdown />
+                <div style={{width: "100%", marginTop: "1.2rem"}}>
+                <div className='font-medium mb-4'>
+                Choose among top 10 best performing {props.contentType}s on Google: {selectedLinksError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p>}
+                </div>
+                {sourceLoading ?
+                    <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />
+                    :
+                    searchResults.map((result, index) => {
+                        const displayedTitle = result.title.length > 62 ? `${result.title.substring(0, 62)}...` : result.title;
+                        let isSelected = selectedLinks.some(link => link.link === result.link);
+                    
+                        if (isSelected) {
+                            return (
+                                <div key={index} className='flex items-center justify-between'>
+                                <SelectedTab onClick={() => handleLinkSelect({title: displayedTitle, link: result.link, snippet: result.snippet})}>
+                                    <p>
+                                        {displayedTitle}
+                                    </p>
+                                </SelectedTab>
+                                <a className='w-6' href={result.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                    <TbWorld style={{width: "100%", height: "auto"}}/>
+                                </a>
+                                </div>
+                            )
+                        } else {
+                            return (
+                                <div key={index} className='flex items-center justify-between'>
+                                <Tab onClick={() => handleLinkSelect({title: displayedTitle, link: result.link, snippet: result.snippet})}>
+                                    <p>
+                                        {displayedTitle}
+                                    </p>
+                                </Tab>
+                                <a className='w-6' href={result.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                    <TbWorld style={{width: "100%", height: "auto"}}/>
+                                </a>
+                                </div>
+                            )
+                        }
+                    })
+                }
+                {openNewLink ? 
+                    <form onClick={(e) => e.stopPropagation()} onSubmit={handleAddLink}>
+                        <TabInput ref={linkRef} type="text" value={tabInput} onChange={(e) => setTabInput(e.target.value)} onSubmit={((e) => handleAddLink(e))}/>
+                    </form> 
+                    : 
+                    <div onClick={(e) => e.stopPropagation()} >
+                        <AddTab onClick={() => setOpenNewLink(true)}><BsPlusLg style={{width: "auto", height: "60%"}}/></AddTab>
+                    </div>
+                }       
+                  <div><div className='mt-6 font-medium text-gray-400'>💡 AI will analyze them and find a way to position your content!</div></div>   
+                    <Centered>
+                        <Button type="submit" onClick={() => generateSearchQueries()}>
+                            {loading ?
+                                <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <Loader color="black"/>
+                                </div>
+                                :
+                                <p>Continue</p>
+                            }
+                        </Button>
+                    </Centered>      
+                    </div>
+                </div> 
+                <Centered>
+                </Centered>
+            </div>   
+            }
+            {step === 3 &&
+            <div>
+                <Title>
+                <Icon>
+                    <Image style={{ width: "auto", height: "100%" }}  src={pencilIcon} alt={'link_icon'}></Image>
+                </Icon>
+                Choose header & description
+                </Title>
+                <div>
+                <div>
+                <div className='flex' onClick={(e) => e.stopPropagation()}>
+                    <RetryButton onClick={() => generateGooglePreview(selectedQuery)}>
+                        <BtnIcon>
+                            <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
+                        </BtnIcon>
+                        Generate new one
+                    </RetryButton>
+                </div>
+                <div style={{boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.25)"}} className='w-full mt-2 mb-8 px-6 pt-4 pb-6 rounded-3xl'>
+                        <div className='w-full flex text-black items-center mb-1'>
+                            <BtnIcon>
+                                <Image src={webIcon} alt='favicon' />
+                            </BtnIcon>
+                            <div className='ml-2'>
+                                <p className='text-sm font-medium'>yourwebsite.com</p>
+                                <p className='text-xs -mt-0.5 text-[#4E5156]'>yourwebsite.com &gt; article &gt; your-article-ti..</p>
+                            </div>
+                            <div className='flex '>
+                            <div className='h-4 mt-5 ml-2'>
+                                <SlOptionsVertical style={{ color: "black", height: "70%" }} />
+                            </div>
+                            </div>
+                        </div>
+                        {googlePreviewLoading ?
+                        <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />
+                        :
+                        <>
+                        <div className='text-[#180EA4] font-medium text-xl leading-snug'>
+                            {showEditTitle ?
+                            <div className="flex items-start">
+                                <Input height='2.8rem' value={props.title} onChange={(e) => props.setTitle(e.target.value)} />
+                                <SaveBtn onClick={() => setShowEditTitle(false)}><BsCheckLg style={{width: "100%"}}/></SaveBtn>  
+                            </div>
+                            :
+                            <>
+                            {(props.title || googlePreviewLoading) && props.title}
+                            {!generatingGooglePreview && <EditButton onClick={() => setShowEditTitle(true)}><BsPencilFill style={{width: "100%"}}/></EditButton> }
+                            </>
+                            }
+                        </div>
+                        {descriptionLoading ?
+                        <MultiLineSkeletonLoader lines={1} justifyContent={'left'} />
+                        :
+                        <div className='text-[#606367] font-medium mt-1'>
+                            {(props.description) && 
+                            <div>
+                                {showEditDescription ?
+                                <div className="flex items-start">
+                                    <Input height='2.8em' value={props.description} onChange={(e) => props.setDescription(e.target.value)} />
+                                    <SaveBtn onClick={() => setShowEditDescription(false)}><BsCheckLg style={{width: "100%"}}/></SaveBtn>    
+                                </div>
+                                :
+                                <>
+                                <span className='text-[#717579] font-normal'>{moment().format('DD MMMM YYYY')}</span>-  
+                                {props.description.substring(0, 155)}
+                                {!generatingGooglePreview && <EditButton onClick={() => setShowEditDescription(true)}><BsPencilFill style={{width: "100%"}}/></EditButton>   }
+                                </>
+                                }
+                            </div> 
+                            }
+                        </div>
+                        }
+                        </>
+                        }
+
+                    </div>
+                    {searchTerms.length > 0 &&
+                    <>
+                    <Label>Choose one of the popular search terms to rewrite the title:</Label>
+                    <Tabs justifyContent="left">
+                    {
+                    searchTerms.map((result, index) => {
+                        return (
+                          <>
+                          {selectedQuery === result ?
+                            <SelectedTab key={index} onClick={() => changeGooglePreview(result)}>
+                                <p>
+                                    {result}
+                                </p>
+                            </SelectedTab>
+                            :
+                            <Tab key={index} onClick={() => changeGooglePreview(result)}>
+                                <p>
+                                    {result}
+                                </p>
+                            </Tab>
+                          }
+                          </>
+                        )
+                    })
+                    }
+                    </Tabs>
+                    </>
+                    }
+                        <Centered>
+                            <Button type="submit" onClick={nextStep}>
+                                {loading ?
+                                    <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                        <Loader color="black"/>
+                                    </div>
+                                    :
+                                    <p>Continue</p>
+                                }
+                            </Button>
+                        </Centered>
+                    </div>
+                </div> 
+                <Centered>
+                </Centered>
+            </div>   
+            }
+            {step > 5 &&
+                    <BackArrow selectedTab={step}>   
+                        <BackBtn onClick={() => setStep(step - 1)}>
+                            <BackBtnIcon>
+                                <BsChevronLeft style={{ width: "200%", height: "auto" }} />
+                            </BackBtnIcon> 
+                        </BackBtn>
+                    </BackArrow>
+            } 
+            <CloseIcon onClick={props.onClose}>
+                    <BsXLg style={{width: "100%", height: "auto"}}/>
+            </CloseIcon>
+            {step === 6 &&
                 <div>
                     <Title>
                       <Icon>
@@ -866,194 +1195,7 @@ const CopywritingModal = (props: {
                     </SkipBtn>
                     </Centered>
                 </div>   
-            }      
-            {step === 2 &&
-            <div>
-                <Title>
-                <Icon>
-                    <Image style={{ width: "auto", height: "100%" }}  src={linkIcon} alt={'link_icon'}></Image>
-                </Icon>
-                Choose source
-                </Title>
-                <div className='mt-4'>
-                <FoldersDropdown />
-                <div style={{width: "100%", marginTop: "2rem"}}>
-                <Label>
-                Choose among top 10 {props.contentType}s on Google...{selectedLinksError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p>}
-                </Label>
-                {sourceLoading ?
-                    <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />
-                    :
-                    searchResults.map((result, index) => {
-                        const displayedTitle = result.title.length > 62 ? `${result.title.substring(0, 62)}...` : result.title;
-                        let isSelected = selectedLinks.some(link => link.link === result.link);
-                    
-                        if (isSelected) {
-                            return (
-                                <div key={index} className='flex items-center justify-between'>
-                                <SelectedTab onClick={() => handleLinkSelect({title: displayedTitle, link: result.link, snippet: result.snippet})}>
-                                    <p>
-                                        {displayedTitle}
-                                    </p>
-                                </SelectedTab>
-                                <a className='w-6' href={result.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
-                                    <TbWorld style={{width: "100%", height: "auto"}}/>
-                                </a>
-                                </div>
-                            )
-                        } else {
-                            return (
-                                <div key={index} className='flex items-center justify-between'>
-                                <Tab onClick={() => handleLinkSelect({title: displayedTitle, link: result.link, snippet: result.snippet})}>
-                                    <p>
-                                        {displayedTitle}
-                                    </p>
-                                </Tab>
-                                <a className='w-6' href={result.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
-                                    <TbWorld style={{width: "100%", height: "auto"}}/>
-                                </a>
-                                </div>
-                            )
-                        }
-                    })
-                }
-                {openNewLink ? 
-                    <form onClick={(e) => e.stopPropagation()} onSubmit={handleAddLink}>
-                        <TabInput ref={linkRef} type="text" value={tabInput} onChange={(e) => setTabInput(e.target.value)} onSubmit={((e) => handleAddLink(e))}/>
-                    </form> 
-                    : 
-                    <div onClick={(e) => e.stopPropagation()} >
-                        <AddTab onClick={() => setOpenNewLink(true)}><BsPlusLg style={{width: "auto", height: "60%"}}/></AddTab>
-                    </div>
-                }                
-                    <Centered>
-                        <Button type="submit" onClick={nextStep}>
-                            {loading ?
-                                <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                    <Loader color="black"/>
-                                </div>
-                                :
-                                <p>Continue</p>
-                            }
-                        </Button>
-                    </Centered>
-                    </div>
-                </div> 
-                <Centered>
-                </Centered>
-            </div>   
-            }   
-            {step === 3 &&
-            <div>
-                <Title>
-                <Icon>
-                    <Image style={{ width: "auto", height: "100%" }}  src={pencilIcon} alt={'link_icon'}></Image>
-                </Icon>
-                Choose header & description
-                </Title>
-                <div>
-                <div>
-                <div className='flex' onClick={(e) => e.stopPropagation()}>
-                    <RetryButton onClick={generateGooglePreview}>
-                        <BtnIcon>
-                            <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
-                        </BtnIcon>
-                        Generate new ones
-                    </RetryButton>
-                </div>
-                <div style={{boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.25)"}} className='w-full mt-2 mb-8 px-6 pt-4 pb-6 rounded-3xl'>
-                        <div className='w-full flex text-black items-center mb-1'>
-                            <BtnIcon>
-                                <Image src={webIcon} alt='favicon' />
-                            </BtnIcon>
-                            <div className='ml-2'>
-                                <p className='text-sm font-medium'>yourwebsite.com</p>
-                                <p className='text-xs -mt-0.5 text-[#4E5156]'>yourwebsite.com &gt; article &gt; your-article-ti..</p>
-                            </div>
-                            <div className='flex '>
-                            <div className='h-4 mt-5 ml-2'>
-                                <SlOptionsVertical style={{ color: "black", height: "70%" }} />
-                            </div>
-                            </div>
-                        </div>
-                        {googlePreviewLoading ?
-                        <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />
-                        :
-                        <>
-                        <div className='text-[#180EA4] font-medium text-xl leading-snug'>
-                            {showEditTitle ?
-                            <div className="flex items-start">
-                                <Input height='2.8rem' value={props.title} onChange={(e) => props.setTitle(e.target.value)} />
-                                <SaveBtn onClick={() => setShowEditTitle(false)}><BsCheckLg style={{width: "100%"}}/></SaveBtn>  
-                            </div>
-                            :
-                            <>
-                            {(props.title || googlePreviewLoading) && props.title}
-                            {!generatingGooglePreview && <EditButton onClick={() => setShowEditTitle(true)}><BsPencilFill style={{width: "100%"}}/></EditButton> }
-                            </>
-                            }
-                        </div>
-                        {descriptionLoading ?
-                        <MultiLineSkeletonLoader lines={1} justifyContent={'left'} />
-                        :
-                        <div className='text-[#606367] font-medium mt-1'>
-                            {(props.description) && 
-                            <div>
-                                {showEditDescription ?
-                                <div className="flex items-start">
-                                    <Input height='2.8em' value={props.description} onChange={(e) => props.setDescription(e.target.value)} />
-                                    <SaveBtn onClick={() => setShowEditDescription(false)}><BsCheckLg style={{width: "100%"}}/></SaveBtn>    
-                                </div>
-                                :
-                                <>
-                                <span className='text-[#717579] font-normal'>{moment().format('DD MMMM YYYY')}</span>-  
-                                {props.description.substring(0, 155)}
-                                {!generatingGooglePreview && <EditButton onClick={() => setShowEditDescription(true)}><BsPencilFill style={{width: "100%"}}/></EditButton>   }
-                                </>
-                                }
-                            </div> 
-                            }
-                        </div>
-                        }
-                        </>
-                        }
-
-                    </div>
-                    {peopleAlsoAsk.length > 0 &&
-                    <>
-                    <Label>People also ask:</Label>
-                    <Tabs justifyContent="left">
-                    {
-                    peopleAlsoAsk.map((result, index) => {
-                        return (
-                            <Tab key={index} onClick={() => changeGooglePreview(result)}>
-                                <p>
-                                    {result.question}
-                                </p>
-                            </Tab>
-                        )
-                    })
-                    }
-                    </Tabs>
-                    </>
-                    }
-                        <Centered>
-                            <Button type="submit" onClick={nextStep}>
-                                {loading ?
-                                    <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                        <Loader color="black"/>
-                                    </div>
-                                    :
-                                    <p>Continue</p>
-                                }
-                            </Button>
-                        </Centered>
-                    </div>
-                </div> 
-                <Centered>
-                </Centered>
-            </div>   
-            }   
+            }       
             {step === 4 &&
             <>
             {loading ?
@@ -1203,7 +1345,9 @@ const Form = styled.form`
 const Title = styled.h1`
   margin-bottom: 2.2rem;
   font-size: 1.2rem;
-  width: 100%;
+  width: calc(100% + 8.5rem);
+  margin-left: -2.5rem;
+  padding-left: 2rem;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #e5e5e5;
@@ -1211,10 +1355,11 @@ const Title = styled.h1`
   color: black;
   font-weight: 700;
   @media (max-width: 1023px) {
-      font-size: 1.7rem;
+      font-size: 1rem;
       line-height: 1.2;
       width: 95vw;
-      margin-top: 2vh;
+      margin-top: 0vh;
+      margin-left: -2rem;
   }
 `
 

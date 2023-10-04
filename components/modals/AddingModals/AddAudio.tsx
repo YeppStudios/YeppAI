@@ -99,7 +99,7 @@ const AddAudio = (props: {
               }
             })
 
-            const transcriptionResponse = await axios.post(`/transcribe-yt`, {
+            const transcriptionResponse = await axios.post(`https://www.asistant.ai/transcribe-yt`, {
               url: url
             }, {
               headers: {
