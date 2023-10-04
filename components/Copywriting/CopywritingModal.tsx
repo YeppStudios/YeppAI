@@ -5,7 +5,7 @@ import articleIcon from "@/public/images/article-icon.png";
 import linkIcon from "@/public/images/link-icon.png";
 import Centered from "../Centered";
 import { Loader } from '../Common/Loaders';
-import { BsArrowRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsFillLightbulbFill, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsXLg } from 'react-icons/bs';
+import { BsArrowRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsFillLightbulbFill, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg } from 'react-icons/bs';
 import Image from 'next/image';
 import webIcon from "@/public/images/web-icon.png";
 import pencilIcon from "@/public/images/pencil-icon.png";
@@ -28,7 +28,7 @@ import TypingAnimation from '../Modals/common/TypingAnimation';
 import { FaRuler } from 'react-icons/fa';
 import { IoLanguage } from 'react-icons/io5';
 import { RiKey2Fill } from 'react-icons/ri';
-import { MdTitle } from 'react-icons/md';
+import { MdArrowBackIosNew, MdOutlineClose, MdOutlineClear } from 'react-icons/md';
 import CustomDropdown from '@/components/forms/CustomDropdown';
 import ToneDropdown from '../forms/ToneDropdown';
 
@@ -750,13 +750,13 @@ const CopywritingModal = (props: {
                     <BackArrow selectedTab={step}>   
                         <BackBtn onClick={() => setStep(step - 1)}>
                             <BackBtnIcon>
-                                <BsChevronLeft style={{ width: "200%", height: "auto" }} />
+                                <MdArrowBackIosNew style={{ width: "100%", height: "auto" }} />
                             </BackBtnIcon> 
                         </BackBtn>
                     </BackArrow>
             } 
             <CloseIcon onClick={props.onClose}>
-                    <BsXLg style={{width: "100%", height: "auto"}}/>
+                    <MdOutlineClear style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
             {step === 1 &&
                 <div>
@@ -844,7 +844,7 @@ const CopywritingModal = (props: {
                     </Centered>
                 </div>   
             }   
-            {step === 2 &&
+            {(step === 2 && !loadingQueries) &&
             <div>
                 <Title>
                 <Icon>
@@ -1046,43 +1046,26 @@ const CopywritingModal = (props: {
                     <BackArrow selectedTab={step}>   
                         <BackBtn onClick={() => setStep(step - 1)}>
                             <BackBtnIcon>
-                                <BsChevronLeft style={{ width: "200%", height: "auto" }} />
+                                <MdArrowBackIosNew style={{ width: "200%", height: "auto" }} />
                             </BackBtnIcon> 
                         </BackBtn>
                     </BackArrow>
             } 
             <CloseIcon onClick={props.onClose}>
-                    <BsXLg style={{width: "100%", height: "auto"}}/>
+                    <MdOutlineClose style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
-            {step === 6 &&
+            {step === 4 &&
                 <div>
                     <Title>
                       <Icon>
                           <Image style={{ width: "auto", height: "100%" }}  src={articleIcon} alt={'article_icon'}></Image>
                       </Icon>
-                      What do you want to write?
+                      Provide more details
                     </Title>
                     <div>
                         <div style={{width: "100%"}}>
                           <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
-                          <div style={{width: "49%", display: "flex", flexWrap: "wrap"}}>
-                            <div style={{ display: "flex" }}>
-                                <LabelIcon>
-                                    <MdTitle style={{ width: "100%", height: "auto" }} />
-                                </LabelIcon>
-                                <Label>Topic</Label>
-                              </div>
-                              <Input
-                                  id="copywriting-keyword"
-                                  type="text"
-                                  placeholder="Generative AI"
-                                  value={phrase}
-                                  onChange={(e) => setPhrase(e.target.value)}
-                                  required
-                                  autoComplete="off"
-                              />
-                            </div>
-                            <div style={{width: "49%", display: "flex", flexWrap: "wrap"}}>
+                            <div style={{width: "100%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                                 <LabelIcon>
                                     <RiKey2Fill style={{ width: "100%", height: "auto" }} />
@@ -1101,25 +1084,7 @@ const CopywritingModal = (props: {
                             </div>
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", marginTop: "1.5rem"}}>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
-                              <div style={{ display: "flex" }}>
-                                <LabelIcon>
-                                    <IoLanguage style={{ width: "100%", height: "auto" }} />
-                                </LabelIcon>
-                                <Label className='-mt-3'>Language</Label>
-                                </div>
-                                <div className='-mt-2'>
-                                <CustomDropdown
-                                    placeholder="Polish"
-                                    required
-                                    value={props.language}
-                                    values={languagesList.sort()}
-                                    onChange={props.setLanguage}
-                                    error={undefined}
-                                /> 
-                                </div>
-                            </div>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                            <div style={{width: "47%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                                   <LabelIcon>
                                       <BsFillMicFill style={{width: "100%", height: "auto"}}/>
@@ -1136,7 +1101,7 @@ const CopywritingModal = (props: {
                               />
                             </div>
                             </div>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                            <div style={{width: "47%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                               <LabelIcon>
                                   <FaRuler style={{ width: "100%", height: "auto" }} />
@@ -1153,28 +1118,6 @@ const CopywritingModal = (props: {
                                     max={2000}
                                 /> 
                             </div>
-                            </div>
-                            <div className='mt-4'>
-                                <Label>
-                                    Choose the content type...
-                                </Label>
-                                <Tabs justifyContent="left">
-                                {types.map((type) => {
-                                    if (props.contentType === type) {
-                                    return (
-                                        <SelectedTab onClick={() => props.setContentType(null)} key={type}>
-                                        {type}
-                                        </SelectedTab>
-                                    )
-                                    } else {
-                                    return (
-                                        <Tab onClick={() => props.setContentType(type)} key={type}>
-                                        {type}
-                                        </Tab>
-                                    );
-                                    }
-                                })}
-                            </Tabs>
                             </div>
                             <Centered>
                                 <Button type="submit" onClick={fetchSource}>
@@ -1196,23 +1139,7 @@ const CopywritingModal = (props: {
                     </Centered>
                 </div>   
             }       
-            {step === 4 &&
-            <>
-            {loading ?
-              <div>
-                <ModalTitle>Give me a sec...</ModalTitle>
-                <Centered>
-                    <ModalDescription>Yepp is preparing to write the best content for you. <br />It&apos;s worth the wait!</ModalDescription>
-                </Centered>
-                <Centered>
-                    <EstimatedTime>Est. time: ~ 1.5 mins</EstimatedTime>
-                </Centered>
-                    <ThinkingContainer>
-                        <Centered><TypingAnimation colorful={true} /></Centered>
-                        <Centered><Texts>{texts[currentText]}</Texts></Centered>
-                    </ThinkingContainer>
-              </div>
-            :
+            {(step === 5 && !loading) &&
             <div>
                 <Title>
                 <Icon>
@@ -1266,9 +1193,30 @@ const CopywritingModal = (props: {
 
                 </Form> 
             </div>  
-            }
-            </> 
             } 
+            {(loading || loadingQueries) &&
+              <div>
+                {loadingQueries ? <ModalTitle>Looking for search terms...</ModalTitle> : <ModalTitle>Give me a sec...</ModalTitle>}
+                <Centered>
+                  {loadingQueries ?
+                    <ModalDescription>Yepp is preparing to write the best content for you. <br />It&apos;s worth the wait!</ModalDescription>
+                    :
+                    <ModalDescription>Yepp is searching for high volume search terms to adress them in your ${props.contentType} title.</ModalDescription>
+                  }
+                </Centered>
+                <Centered>
+                  {loadingQueries ?
+                    <EstimatedTime>Est. time: ~ 15s</EstimatedTime>
+                    :
+                    <EstimatedTime>Est. time: ~ 40s</EstimatedTime>
+                  }
+                </Centered>
+                    <ThinkingContainer>
+                        <Centered><TypingAnimation colorful={true} /></Centered>
+                        <Centered><Texts>{texts[currentText]}</Texts></Centered>
+                    </ThinkingContainer>
+              </div>
+            }
             </Container>
            </ SlideBottom>
         </ModalBackground>
@@ -1345,7 +1293,7 @@ const Form = styled.form`
 const Title = styled.h1`
   margin-bottom: 2.2rem;
   font-size: 1.2rem;
-  width: calc(100% + 8.5rem);
+  width: calc(100% + 5.5rem);
   margin-left: -2.5rem;
   padding-left: 2rem;
   display: flex;

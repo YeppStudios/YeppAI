@@ -13,7 +13,6 @@ import Image from 'next/image';
 import tickIcon from '../../../public/images/tickGreen.png';
 import axios, { AxiosResponse } from 'axios';
 import { Loader } from '../../Common/Loaders';
-import Dropdown from '../../forms/Dropdown';
 import { selectedUserState } from '@/store/userSlice';
 import { selectedPlanState } from '@/store/planSlice';
 import InputContainer from '../../Common/InputContainer';
