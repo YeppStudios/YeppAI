@@ -313,7 +313,7 @@ const NavigationBar = () => {
             {!hidePopup &&
               <ReferralPopup background={referralBg} hideGift={hideGift}>
                 <div>
-                  {!hideGift && <Centered><Image src={giftIcon} alt="gift" className="w-10 h-10"/></Centered>}
+                  {!hideGift && <Centered><p className="text-4xl">💭</p></Centered>}
                   <p className="text-center text-lg text-black font-bold mt-4 mb-4">Request AI Assistant <br />for <ColorfulText>your website</ColorfulText></p>
                   <BlueBtn onClick={() => setOpenChatbotPopup(true)}>Request</BlueBtn>
                 </div>
