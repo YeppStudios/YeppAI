@@ -25,7 +25,6 @@ import { motion, useAnimation } from "framer-motion";
 import ColorfulText from "./ColorfulText";
 import ChatbotPopup from "../Modals/InformationalModals/ChatbotPopup";
 import referralBg from "../../public/images/referral_popup_bg.png";
-import giftIcon from "../../public/images/giftIcon.png"
 
 const tabs = [
   {
