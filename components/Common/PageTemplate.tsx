@@ -14,11 +14,6 @@ import { useSelector, useDispatch } from "react-redux";
 import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
 import BanPopup from "../Modals/InformationalModals/Ban";
 
-interface Background {
-  image: any,
-  mobileImage: any
-}
-
 const PageTemplate = ({children}: any) => {
   const [mobile, setMobile] = useState(false);
   const [loggedIn, setLoggedIn] = useState(true);
