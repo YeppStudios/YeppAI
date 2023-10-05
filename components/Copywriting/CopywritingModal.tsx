@@ -5,7 +5,7 @@ import articleIcon from "@/public/images/article-icon.png";
 import linkIcon from "@/public/images/link-icon.png";
 import Centered from "../Centered";
 import { Loader } from '../Common/Loaders';
-import { BsArrowRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsFillLightbulbFill, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg } from 'react-icons/bs';
+import { BsRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsFillLightbulbFill, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsTextLeft, BsFillKeyFill } from 'react-icons/bs';
 import Image from 'next/image';
 import webIcon from "@/public/images/web-icon.png";
 import pencilIcon from "@/public/images/pencil-icon.png";
@@ -27,10 +27,12 @@ import ModalTitle from '../Modals/common/ModalTitle';
 import TypingAnimation from '../Modals/common/TypingAnimation';
 import { FaRuler } from 'react-icons/fa';
 import { IoLanguage } from 'react-icons/io5';
-import { RiKey2Fill } from 'react-icons/ri';
-import { MdArrowBackIosNew, MdOutlineClose, MdOutlineClear } from 'react-icons/md';
+import { RiKey2Fill, RiKey2Line } from 'react-icons/ri';
+import { MdArrowBackIos, MdOutlineClose, MdOutlineClear } from 'react-icons/md';
 import CustomDropdown from '@/components/forms/CustomDropdown';
 import ToneDropdown from '../forms/ToneDropdown';
+import { streamCompletion } from '../functions/greetUser';
+import { FiEdit2 } from 'react-icons/fi';
 
 const types = ["article", "blog", "guide", "ranking"];
 const languagesList = [
@@ -91,7 +93,7 @@ const CopywritingModal = (props: {
 
     const [phrase, setPhrase] = useState('');
     const [loading, setLoading] = useState(false);
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(5);
     const [keywords, setKeywords] = useState<string>("");
     const [selectedLinks, setSelectedLinks] = useState<{title: string, link: string, snippet: string}[]>([]);
     const [sourceLoading, setSourceLoading] = useState(false);
@@ -113,6 +115,7 @@ const CopywritingModal = (props: {
     const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
     const [loadingQueries, setLoadingQueries] = useState(false);
     const [searchTerms, setSearchTerms] = useState<string[]>([]);
+    const [paragraphsNumber, setParagraphsNumber] = useState("5");
     const [selectedQuery, setSelectedQuery] = useState<string>("");
     const [abortController, setAbortController] = useState(new AbortController());
     const [currentText, setCurrentText] = useState(0);
@@ -536,7 +539,7 @@ const CopywritingModal = (props: {
         ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
         People also ask:
         ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
-        Based on title of my ${props.contentType} and description, craft 4/6 unique outline of parahraph headers, brief instructions to write them and keywords. Make sure to use my keywords: ${keywords} and come up with other relevant ones. Remember to check whether the outline is grammarly correct and in ${props.language} language. ${form} Make it in format of:
+        Based on title of my ${props.contentType} and description, craft ${paragraphsNumber} unique parahraph headers, brief instructions to write them and keywords. Make sure to use my keywords: ${keywords} and come up with other relevant ones. Remember to check whether the outline is grammarly correct and in ${props.language} language. ${form} Make it in format of:
         Header: Header title
         Instruction: Instruction on how to write this paragraph
         Keywords: Keyword1, Keyword2, Keyword3
@@ -750,7 +753,7 @@ const CopywritingModal = (props: {
                     <BackArrow selectedTab={step}>   
                         <BackBtn onClick={() => setStep(step - 1)}>
                             <BackBtnIcon>
-                                <MdArrowBackIosNew style={{ width: "100%", height: "auto" }} />
+                                <MdArrowBackIos className='mt-1' style={{ width: "140%", height: "auto" }} />
                             </BackBtnIcon> 
                         </BackBtn>
                     </BackArrow>
@@ -934,7 +937,7 @@ const CopywritingModal = (props: {
                 <div className='flex' onClick={(e) => e.stopPropagation()}>
                     <RetryButton onClick={() => generateGooglePreview(selectedQuery)}>
                         <BtnIcon>
-                            <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
+                            <BsRepeat style={{width: "100%", height: "auto"}}/>
                         </BtnIcon>
                         Generate new one
                     </RetryButton>
@@ -1046,7 +1049,7 @@ const CopywritingModal = (props: {
                     <BackArrow selectedTab={step}>   
                         <BackBtn onClick={() => setStep(step - 1)}>
                             <BackBtnIcon>
-                                <MdArrowBackIosNew style={{ width: "200%", height: "auto" }} />
+                                <MdArrowBackIos style={{ width: "200%", height: "auto" }} />
                             </BackBtnIcon> 
                         </BackBtn>
                     </BackArrow>
@@ -1084,7 +1087,7 @@ const CopywritingModal = (props: {
                             </div>
                             </div>
                             <div style={{display: "flex", justifyContent: "space-between", marginTop: "1.5rem"}}>
-                            <div style={{width: "47%", display: "flex", flexWrap: "wrap"}}>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                                   <LabelIcon>
                                       <BsFillMicFill style={{width: "100%", height: "auto"}}/>
@@ -1101,7 +1104,24 @@ const CopywritingModal = (props: {
                               />
                             </div>
                             </div>
-                            <div style={{width: "47%", display: "flex", flexWrap: "wrap"}}>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                  <LabelIcon>
+                                      <BsTextLeft style={{width: "100%", height: "auto"}}/>
+                                  </LabelIcon>
+                                  <Label className='-mt-2'>
+                                      Total paragraphs
+                                  </Label>
+                              </div>
+                              <div className='-mt-3'>
+                              <CustomDropdown
+                                  values={["3", "4", "5", "6", "7"]}
+                                  value={paragraphsNumber}
+                                  onChange={(e: any) => setParagraphsNumber(e.target.value)}
+                              />
+                            </div>
+                            </div>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                               <LabelIcon>
                                   <FaRuler style={{ width: "100%", height: "auto" }} />
@@ -1153,23 +1173,48 @@ const CopywritingModal = (props: {
                 :
                 <div style={{width: "100%"}}>
                 <div className='flex'>
-                <RetryButton onClick={generateOutline}>
-                    <BtnIcon>
-                        <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
-                    </BtnIcon>
-                    Propose a new one
-                </RetryButton>
                 </div>
-                <TextArea
-                    ref={conspectTextAreaRef}
-                    id="headers-input"
-                    height= "26rem"
-                    padding="1.25rem"
-                    placeholder="Write down headers for each section with instructions on how to write them."
-                    value={conspectText}
-                    onChange={(e) => setConspectText(e.target.value)}
-                    required
-                />
+                <div className='w-full rounded-xl shadow-lg border-2 border-gray-100'>
+                  {loading ?
+                  <div className='w-full'>
+                  <div className='px-6 py-2 w-full flex justify-between items-center border-b-2 border-gray-100'>
+                    <p className='font-semibold'>Paragraph 1</p>
+                    <div>
+                      <div className='flex items-center'>
+                        <div className='mr-6 flex text-sm font-medium items-center cursor-pointer hover:text-blue-500'>
+                          <BsRepeat className='w-6'/>
+                          <p className='ml-1'>Rewrite</p>
+                        </div>
+                        <div className='flex text-sm font-medium items-center cursor-pointer hover:text-blue-500'>
+                          <FiEdit2 className='w-6'/>
+                          <p className='ml-1'>Edit</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='px-6 pt-4 pb-6 font-medium'>
+                    Description of the paragraph
+                  </div>
+                  <div className='px-6 py-2 pb-4 w-full border-t-2 border-gray-100'>
+                    <p className='font-medium flex items-center'><RiKey2Line className='mr-2' /> marketing, generative ai, ai, tool</p>
+                  </div>
+                  </div>
+                  :
+                  <div className='w-full'>
+                  <div className='px-6 py-2 w-full flex justify-between items-center border-b-2 border-gray-100'>
+                    <MultiLineSkeletonLoader lines={1} justifyContent={'left'} />
+                    <div>
+                    </div>
+                  </div>
+                  <div className='px-6 pt-4 pb-6 font-medium'>
+                   <MultiLineSkeletonLoader lines={2} justifyContent={'left'} />
+                  </div>
+                  <div className='px-6 py-2 pb-4 w-full border-t-2 border-gray-100'>
+                    <p className='font-medium flex items-center'><MultiLineSkeletonLoader lines={1} justifyContent='left' /></p>
+                  </div>
+                  </div>
+                  }
+                </div>
                     <Centered>
                       {!generatingOutline &&
                         <Button type="submit" onClick={() => submit()}>
@@ -1206,7 +1251,7 @@ const CopywritingModal = (props: {
                 </Centered>
                 <Centered>
                   {loadingQueries ?
-                    <EstimatedTime>Est. time: ~ 15s</EstimatedTime>
+                    <EstimatedTime>Est. time: ~ 10s</EstimatedTime>
                     :
                     <EstimatedTime>Est. time: ~ 40s</EstimatedTime>
                   }
