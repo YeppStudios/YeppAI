@@ -8,7 +8,7 @@ import Input from "@/components/forms/Input";
 import Label from "@/components/Common/Label";
 import { useState } from "react";
 import api from "@/pages/api";
-import { Loader } from "lucide-react";
+import { Loader } from "@/components/Common/Loaders";
 import tickIcon from "@/public/images/tickGreen.png";
 import SlideBottom from "@/components/Animated/SlideBottom";
 
@@ -61,7 +61,7 @@ const ChatbotPopup = (props: {onClose: any}) => {
                     <Centered>
                         <div className="mt-6 w-11/12 lg:w-3/4">
                             <Label>Your email</Label>
-                            <div className="w-full"><Input onChange={(e) => setEmail(e.target.value)} value={email} height="2.8rem" padding="0.65rem" placeholder="your@mail.com" /></div>
+                            <div className="w-full"><Input type="email" onChange={(e) => setEmail(e.target.value)} value={email} height="2.8rem" padding="0.65rem" placeholder="your@mail.com" /></div>
                         </div>
                     </Centered>
                     <Centered>
@@ -77,7 +77,7 @@ const ChatbotPopup = (props: {onClose: any}) => {
                 :
                 <>
                 <Centered><SlideBottom><div className="w-8 lg:h-10 h-8 lg:w-10"><Image src={tickIcon} alt="tick" className="w-full h-auto"/></div></SlideBottom></Centered>
-                <SlideBottom><Centered><div className="font-medium w-10/12 lg:w-10/12 text-center mt-4 lg:mt-8">Thank you for interest, we will get back to you with details ASAP!</div></Centered></SlideBottom>
+                <SlideBottom><Centered><div className="font-medium w-10/12 lg:w-10/12 text-center lg:text-xl mt-4 lg:mt-8">Thank you for interest, we will get back to you with details ASAP!</div></Centered></SlideBottom>
                 </>
                 }
                 <div className="w-full lg:mt-2"><Centered><Image src={chatbotIcon} alt="chatbot" width={400} height={400} className="mt-6 lg:mt-8" /></Centered></div>
