@@ -61,13 +61,13 @@ const ChatbotPopup = (props: {onClose: any}) => {
                     <Centered>
                         <div className="mt-6 w-11/12 lg:w-3/4">
                             <Label>Your email</Label>
-                            <div className="w-full"><Input type="email" onChange={(e) => setEmail(e.target.value)} value={email} height="2.8rem" padding="0.65rem" placeholder="your@mail.com" /></div>
+                            <div className="w-full"><Input type="email" required={true} onChange={(e) => setEmail(e.target.value)} value={email} height="2.8rem" padding="0.65rem" placeholder="your@mail.com" /></div>
                         </div>
                     </Centered>
                     <Centered>
                         <div className="mt-4 w-11/12 lg:w-3/4">
                             <Label>Website link</Label>
-                            <div className="w-full"><Input onChange={(e) => setWebsite(e.target.value)} height="2.8rem" padding="0.65rem" placeholder="https://www.yourwebsite.com" /></div>
+                            <div className="w-full"><Input onChange={(e) => setWebsite(e.target.value)} required={true} height="2.8rem" padding="0.65rem" placeholder="https://www.yourwebsite.com" /></div>
                         </div>
                     </Centered>
                     <Centered><BlueBtn type="submit" className="mt-6 lg:mt-8">{!loading ? <>Request more details</> : <Loader color="white"></Loader>}</BlueBtn></Centered>
