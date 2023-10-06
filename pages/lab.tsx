@@ -307,7 +307,7 @@ const LabPage = () => {
     }
 
     let reply = "";
-    let model = "gpt-4-32k";
+    let model = "gpt-4";
     let prompt = `
     Please as a professional marketer come up with unique ${selectedTemplate?.title} explicitly about ${exampleAbout} in ${exampleLanguage} language. 
     Write it in the following tone of voice: ${currentSample?.prompt}

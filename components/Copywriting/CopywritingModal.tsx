@@ -273,7 +273,7 @@ const CopywritingModal = (props: {
           `
         }
 
-        let model = "gpt-4-32k";
+        let model = "gpt-4";
         let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content in ${props.toneOfVoice} tone. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
         let prompt = `${props.contentType} keyword: ${phrase}. 
         Top ${props.contentType}s on Google:
@@ -370,7 +370,7 @@ const CopywritingModal = (props: {
         }
 
         let reply = "";
-        let model = "gpt-4-32k";
+        let model = "gpt-4";
         let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing Google descriptions for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique description for ${props.contentType}. Every time you generate a unique description. Description needs to be no more than 155 characters long. You are proficient in ${props.language} language. You never put descrption in quotes and write it in ${props.toneOfVoice} tone of voice.`;
         let prompt = `For ${props.contentType} titled: ${title}. 
         Come up with the best performing description for ${props.contentType} about ${phrase} in ${props.toneOfVoice} tone of voice. My keywords: ${keywords}. Choose only ones that fit best for description. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
@@ -473,7 +473,7 @@ const CopywritingModal = (props: {
         if (props.contentType === "ranking") {
           form = "Make it in a form of a ranking list with introduction and summary.";
         }
-        let model = "gpt-4-32k";
+        let model = "gpt-4";
         let systemPrompt = `You are a professional copywriter. You professionally craft unique outlines of articles that are insightful, informative, and easy to read from the information user provides. You always start with introduction section and end with summary/conclusion one, but naming them more creatively then just "Introduction" and "Conclusion". You are proficient in ${props.language} language and you always make sure that everything you write has correct ${props.language} syntax and grammar. You always come up with intriguing and attention grabbing header titles that encourage reader to read the section.`;
         let prompt = `Craft an outline for ${props.contentType} titled "${props.title}"- ${props.description}. Write it in ${props.toneOfVoice} style.
         Also you can get some inspiration from:

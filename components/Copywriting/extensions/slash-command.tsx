@@ -427,7 +427,7 @@ const complete = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     Extra context you might find useful: ${context}
     `;
     let systemPrompt = "You are a creative copywriter with years of experience. You write best performing SEO content without overcomplicating it for readers and making it easy to read. You are great at understanding the context, intents of the writer and adjusting your tone of voice. You always find some interesting and relevant facts to include in your writing. You never write anything offensive or controversial. You always write fluently in whatever languaguage the user content is.";
-    let model = "gpt-4-32k";
+    let model = "gpt-4";
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',

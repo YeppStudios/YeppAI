@@ -350,7 +350,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
             try {
                 const toneCompletion = await api.post("/completion", {
                     prompt: `Text to analyze: "${exampleText}". Return a detailed description of tone of voice in under 100 words and style used in analyzed text: `,
-                    model: "gpt-4-32k",
+                    model: "gpt-4",
                     temperature: 0,
                     systemPrompt: "You are professionally analyzing tone of voice of the quoted text by completing last sentence imperatively in second-person narrative. You are very specific in expressing what tone of voice is used in text and you carefully analyze it. You NEVER describe what the text is about and don't refer to anything else about its content. You recognise ONLY the tone, style and target audience to write in similar tone in the future."
                 },
@@ -374,7 +374,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
             const translationResponse = await api.post("/completion", {
                 prompt: `Translate these bullet points to English as accurately as possible: "${triggersMessage}". Translation:`,
                 systemPrompt: "You are a professional translator from any language and a mix of languages to English. You always respond only with exact translation and nothing else.",
-                model: "gpt-4-32k",
+                model: "gpt-4",
                 temperature: 0
             },
             {
@@ -399,7 +399,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
             const translationResponse = await api.post("/completion", {
                 prompt: `Translate the quoted text to English as accurately as possible: "${customPrompt}". Translation: `,
                 systemPrompt: "You are a professional translator from any language and a mix of languages to English. You always respond only with exact translation nothing else.",
-                model: "gpt-4-32k",
+                model: "gpt-4",
                 temperature: 0
             },
             {
