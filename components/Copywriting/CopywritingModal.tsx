@@ -5,14 +5,13 @@ import articleIcon from "@/public/images/article-icon.png";
 import linkIcon from "@/public/images/link-icon.png";
 import Centered from "../Centered";
 import { Loader } from '../Common/Loaders';
-import { BsRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsFillLightbulbFill, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsTextLeft, BsFillKeyFill } from 'react-icons/bs';
+import { BsRepeat, BsCheck, BsCheckLg, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsTextLeft, BsFillKeyFill } from 'react-icons/bs';
 import Image from 'next/image';
 import webIcon from "@/public/images/web-icon.png";
 import pencilIcon from "@/public/images/pencil-icon.png";
 import handwritingIcon from "@/public/images/handwriting-icon.png";
 import FoldersDropdown from '@/components/forms/FolderDropdown';
 import { SlOptionsVertical } from 'react-icons/sl';
-import TextArea from '@/components/forms/TextArea';
 import { SparklesIcon } from '@heroicons/react/20/solid';
 import BackBtn from '@/components/Common/BackBtn';
 import BackBtnIcon from '@/components/Common/BackBtnIcon';
@@ -31,8 +30,7 @@ import { RiKey2Fill, RiKey2Line } from 'react-icons/ri';
 import { MdArrowBackIos, MdOutlineClose, MdOutlineClear } from 'react-icons/md';
 import CustomDropdown from '@/components/forms/CustomDropdown';
 import ToneDropdown from '../forms/ToneDropdown';
-import { streamCompletion } from '../functions/greetUser';
-import { FiEdit2 } from 'react-icons/fi';
+import { HiPencil } from 'react-icons/hi';
 
 const types = ["article", "blog", "guide", "ranking"];
 const languagesList = [
@@ -93,7 +91,7 @@ const CopywritingModal = (props: {
 
     const [phrase, setPhrase] = useState('');
     const [loading, setLoading] = useState(false);
-    const [step, setStep] = useState(5);
+    const [step, setStep] = useState(1);
     const [keywords, setKeywords] = useState<string>("");
     const [selectedLinks, setSelectedLinks] = useState<{title: string, link: string, snippet: string}[]>([]);
     const [sourceLoading, setSourceLoading] = useState(false);
@@ -116,6 +114,8 @@ const CopywritingModal = (props: {
     const [loadingQueries, setLoadingQueries] = useState(false);
     const [searchTerms, setSearchTerms] = useState<string[]>([]);
     const [paragraphsNumber, setParagraphsNumber] = useState("5");
+    const [currentParagraphIndex, setCurrentParagraphIndex] = useState(0);
+    const [paragraphs, setParagraphs] = useState<{header: string, instruction: string, keywords: string}[]>([]);
     const [selectedQuery, setSelectedQuery] = useState<string>("");
     const [abortController, setAbortController] = useState(new AbortController());
     const [currentText, setCurrentText] = useState(0);
@@ -177,6 +177,19 @@ const CopywritingModal = (props: {
       }
 
     }, [loading, texts.length]);
+
+    useEffect(() => {
+      const newParagraphs = [];
+      for (let i = 0; i < parseInt(paragraphsNumber); i++) {
+        newParagraphs.push({
+          header: "",
+          instruction: "",
+          keywords: ""
+        });
+      }
+  
+      setParagraphs(newParagraphs);
+    }, [paragraphsNumber]);
 
     const fetchSource = async () => {
         setStep(2);
@@ -484,132 +497,113 @@ const CopywritingModal = (props: {
         }
       }
 
-      const generateOutline = async () => {
-        const token = localStorage.getItem("token");
-        const userId = localStorage.getItem("user_id");
-        const workspace = localStorage.getItem("workspace");
-        if (generatingOutline) {
-          return;
-        }
-        const newAbortController = new AbortController();
-        setAbortController(newAbortController);
-        setHeadersLoading(true);
-        setGeneratingOutline(true);
-        props.setConspect('');
-    
-        let fetchedUser = null;
-        if (workspace && workspace !== "null" && workspace !== "undefined") {
-          const {data} = await api.get(`/workspace-company/${workspace}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data.company;
-        } else {
-          const {data} = await api.get(`/users/${userId}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data;
-        }
-        //make sure user has elixir
-        if(fetchedUser.tokenBalance <= 0) {
-          setOpenNoElixirModal(true);
-          return;
-        }
-
-        let reply = "";
-
-        //get random headers and snippets from selected links
-        function randomizeArray(arr: any[]) {
-            return arr.sort(() => Math.random() - 0.5).slice(0, 2);
-        }
-        let selected = randomizeArray(selectedLinks.map(item => ({title: item.title, snippet: item.snippet})));
-        let questionsAndSnippets = randomizeArray(peopleAlsoAsk.map(item => ({question: item.question, snippet: item.snippet})));
-        let form = ""
-        if (props.contentType === "ranking") {
-          form = "Make it in a form of a ranking list with introduction and summary.";
-        }
-        let model = "gpt-4-32k";
-        let systemPrompt = `You are a professional copywriter. You professionally craft unique outlines of articles that are insightful, informative, and easy to read from the information user provides. You always start with introduction section and end with summary/conclusion one, but naming them more creatively then just "Introduction" and "Conclusion". You are proficient in ${props.language} language and you always make sure that everything you write has correct ${props.language} syntax and grammar. You always come up with intriguing and attention grabbing header titles that encourage reader to read the section.`;
-        let prompt = `Craft an outline for ${props.contentType} titled "${props.title}"- ${props.description}. Write it in ${props.toneOfVoice} style.
-        Also you can get some inspiration from:
-        Top ${props.contentType}s on Google:
-        ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
-        People also ask:
-        ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
-        Based on title of my ${props.contentType} and description, craft ${paragraphsNumber} unique parahraph headers, brief instructions to write them and keywords. Make sure to use my keywords: ${keywords} and come up with other relevant ones. Remember to check whether the outline is grammarly correct and in ${props.language} language. ${form} Make it in format of:
-        Header: Header title
-        Instruction: Instruction on how to write this paragraph
-        Keywords: Keyword1, Keyword2, Keyword3
-
-        Header: Header title
-        Instruction: Instruction on how to write this paragraph
-        Keywords: Keyword1, Keyword2, Keyword3
-        ...
-        `
-    
-        try {
-            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-              signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `Outline generated- ${props.contentType} `, model, systemPrompt, temperature: 0.9}),
-            });
-    
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-    
-          if(response.body) {
-            const reader = response.body.getReader();
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) {
-                setGeneratingOutline(false);
-                setConspectText(reply)
-                break;
-              }
+      const generateField = async (field: any, paragraphIndex: any) => {
+        let token = localStorage.getItem("token");
       
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-              setHeadersLoading(false);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    reply += data.content;
-                    setConspectText(reply);
-                    if (conspectTextAreaRef.current) {
-                      conspectTextAreaRef.current.scrollTop = conspectTextAreaRef.current.scrollHeight;
-                    }
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
-                }
+        let reply = "";
+        let prompt = ``;
+        let systemPrompt = `You are a ${props.language} copywriting expert specializing in writing the best ${props.contentType} ${field}s. You always make sure to propose content that is engaging and natural. Do not make it sound too official rather try to explore the topic alongside the reader looking from the different angles.`;
+        const headers = paragraphs
+        .map((item:any) => item.header) 
+        .filter((header: any) => header.trim() !== "")
+        .join(', ');
+
+        const renderedKeywords = paragraphs
+        .map(item => item.keywords)
+        .filter(keywordString => keywordString.trim() !== "")
+        .join(', ');
+
+        if (field === "header") {
+          if (paragraphIndex > 0) {
+            prompt = `I've already covered these headers in an outline: ${headers}. New subtitle's goal should be to bring some new aspect, point of view or underlying category to further explore and discuss in paragraph. Come up with next one that will introduce other, new aspect of the ${props.contentType} about ${props.title}.`;
+          } else {
+            prompt = `Come up with one, simple, engaging subtitle for ${props.contentType} paragraph in ${props.toneOfVoice} tone. Make use of some of the listed keywords: ${renderedKeywords} and write it in ${props.language} language. It is an introductory paragraph. It has to be one simple sentence/question like: "What is generative AI?".  Unique ${props.contentType} paragraph subtitle in under 40 characters. When writing an introductory paragraph for the article titled ${props.title}:`
+          }
+          systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best ${props.contentType} subtitle. You always respond only with one well defined subtitle that is up to 35 characters long. You never include semicolons in your subtitles because you think it is not professional.`;
+        } else if (field === "instruction") {
+          if (paragraphIndex > 0) {
+            prompt = `Last time I wrote a paragraph with the following instruction:
+            "${paragraphs[paragraphIndex-1].instruction}"
+            Now come up with one for the next ${props.contentType} paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone, incorporating some of the given keywords: ${renderedKeywords}. It has to match the overall ${props.contentType} topic: "${props.title}". Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph for the article titled ${paragraphs[paragraphIndex].header}:`
+          } else {
+            prompt = `Come up with instruction on how to write ${props.contentType} paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone, incorporating some of the given keywords: ${renderedKeywords}. It is the introductory paragraph for the entire ${props.contentType} It has to match the overall ${props.contentType} topic: "${props.title}". Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph for the article titled ${paragraphs[paragraphIndex].header}:`
+          }
+          systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best ${props.contentType} ${field}s. You always make sure to propose content that is engaging and natural. Do not make it sound too official rather try to explore the topic alongside the reader looking from the different angles.`;
+        } else if (field === "keywords") {
+          if (paragraphIndex === 0) {
+            systemPrompt= `you repeat 3 keywords in ${props.language}.`
+            prompt = `Repeat these 3 keywords in ${props.language}: ${keywords}. Keywords:`
+          } else {
+            systemPrompt = `You are native ${props.language} expert at replacing one keyword to another that relates to paragraph topic. You return only 3 one word keywords separated by comma.`
+            prompt = `I've already used these keywords: ${renderedKeywords}. Repeat two of them and third one exchange to other relevant one for paragraph titled ${paragraphs[paragraphIndex].header}. Keywords:`;
+          }
+        }
+      
+        const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+          signal: abortController.signal,
+          body: JSON.stringify({ prompt, systemPrompt, temperature: 1, title: `generated copywriting ${field}`, model: "gpt-4-32k" }),  // Modify restOfYourPayload as needed
+        });
+      
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        if(response.body){
+          const reader = response.body.getReader();
+          while (true) {
+            const { done, value } = await reader.read();
+  
+            if (done) {
+              setParagraphs((prev: any) => {
+                const updatedParagraphs = [...prev];
+                updatedParagraphs[paragraphIndex][field] = reply
+                return updatedParagraphs;
+            });
+            break;
+            }
+
+            const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+            for (const jsonString of jsonStrings) {
+              try {
+                const data = JSON.parse(jsonString);
+                if (data.content) {
+                  const contentWithoutQuotes = data.content.replace(/"/g, '');
+                  reply += contentWithoutQuotes;
+                  setParagraphs((prev: any) => {
+                    const updatedParagraphs = [...prev];
+                    updatedParagraphs[paragraphIndex][field] = reply;
+                    return updatedParagraphs;
+                });
+                
+                }                      
+              } catch (error) {
+                console.error('Error parsing JSON:', jsonString, error);
               }
             }
           }
-    
-        } catch (e: any) {
-          if (e.message === "Fetch is aborted") {
-            setGeneratingOutline(false);
-            setHeadersLoading(false);
-          } else {
-            console.log(e);
-            setHeadersLoading(false);
-            setGeneratingGooglePreview(false);
-          }
-        } finally {
-          abortController.abort();
         }
-      }
+      };
+      
+      const generateCurrentParagraph = async () => {
+        for (let i = 0; i < parseInt(paragraphsNumber); i++) {
+          await generateField("header", i);
+          await generateField("instruction", i);
+          await generateField("keywords", i);
+        }
+      };
+
+      const startGeneratingParagraphs = () => {
+        generateCurrentParagraph();
+      };
+      
 
     const nextStep = () => {
         if (step === 2) {
             generateGooglePreview("");
-        } else if (step === 3) {
-            generateOutline();
+        } else if (step === 4) {
+          startGeneratingParagraphs();
         }
         setStep(step + 1);
         if (topRef.current){
@@ -666,51 +660,8 @@ const CopywritingModal = (props: {
 
         let links = selectedLinks.map(item => (item.link));
         setLoading(true);
-        try {
-          let token = localStorage.getItem("token");
-          const conspectCompletion = await api.post("/completion", {
-            prompt: `Example output:
-            [
-              {
-                "header": "header",
-                "instruction": "instruction for writing this section.",
-                "keywords": ["keyword1", "keyword2", "keyword3"]
-              },
-              {
-                "header": "header",
-                "instruction": "instruction for writing this section.",
-                "keywords": ["keyword1", "keyword2", "keyword3"]
-              },
-              ...
-            ]
-            
-            Now analyze this outline and come up with similar ${conspectText} JSON array:`,
-            model: "gpt-3.5-turbo-0613",
-            temperature: 0,
-            systemPrompt: `Act as a JSON converter. From list of titles, instructions and keywords of paragraphs return a formatted JSON output that incorporates a list of article section headers, instructions, and keywords as per the given format. You just copy paste the headers, instructions and keywords without changing the content into the JSON format that is exactly like one below. You always respond only with the correct JSON format trying to understand what user wanted to be a header, what a description and what keywords. If there seem to be only headers respond leave description field empty and vice versa. Make sure that the formatting of the final JSON output is correct and adheres exactly to the same format as the one mentioned below:
-            [
-              {
-                "header": "header",
-                "instruction": "instruction for writing this section.",
-                "keywords": ["keyword1", "keyword2", "keyword3"]
-              },
-              {
-                "header": "header",
-                "instruction": "instruction for writing this section.",
-                "keywords": ["keyword1", "keyword2", "keyword3"]
-              },
-              ...
-            ]
-            `
-        },
-        {
-            headers: {
-                Authorization: `${token}`,
-            },
-        });
-          const completionJSON = JSON.parse(conspectCompletion.data.completion);
-          props.setSectionLength((Number(length)/completionJSON.length).toFixed(0));
-          props.setConspect(completionJSON);
+     
+          props.setConspect(paragraphs);
           try {
             const scrapingResponse = await axios.post(`https://www.asistant.ai/scrape-links`, {
               urls: [links[0]]
@@ -726,11 +677,6 @@ const CopywritingModal = (props: {
           setLoading(false);
           localStorage.setItem("generateIntro", "true");
           props.onSuccess();
-        } catch (e) {
-            setLoading(false);
-            console.log(e);
-        }
-
     }
 
     const handleToneChange = (title: string) => {
@@ -753,7 +699,7 @@ const CopywritingModal = (props: {
                     <BackArrow selectedTab={step}>   
                         <BackBtn onClick={() => setStep(step - 1)}>
                             <BackBtnIcon>
-                                <MdArrowBackIos className='mt-1' style={{ width: "140%", height: "auto" }} />
+                                <MdArrowBackIos className='mt-2' style={{ width: "140%", height: "auto" }} />
                             </BackBtnIcon> 
                         </BackBtn>
                     </BackArrow>
@@ -1117,7 +1063,7 @@ const CopywritingModal = (props: {
                               <CustomDropdown
                                   values={["3", "4", "5", "6", "7"]}
                                   value={paragraphsNumber}
-                                  onChange={(e: any) => setParagraphsNumber(e.target.value)}
+                                  onChange={setParagraphsNumber}
                               />
                             </div>
                             </div>
@@ -1140,7 +1086,7 @@ const CopywritingModal = (props: {
                             </div>
                             </div>
                             <Centered>
-                                <Button type="submit" onClick={fetchSource}>
+                                <Button type="submit" onClick={() => nextStep()}>
                                     {loading ?
                                     <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                         <Loader color="black"/>
@@ -1167,76 +1113,84 @@ const CopywritingModal = (props: {
                 </Icon>
                 Fine-tune the outline
                 </Title>
-                <Form autoComplete="off" onSubmit={(e) => submit()}>
-                {headersLoading ?
-                <MultiLineSkeletonLoader lines={4} justifyContent={'left'} />
-                :
-                <div style={{width: "100%"}}>
-                <div className='flex'>
-                </div>
-                <div className='w-full rounded-xl shadow-lg border-2 border-gray-100'>
-                  {loading ?
-                  <div className='w-full'>
-                  <div className='px-6 py-2 w-full flex justify-between items-center border-b-2 border-gray-100'>
-                    <p className='font-semibold'>Paragraph 1</p>
-                    <div>
-                      <div className='flex items-center'>
-                        <div className='mr-6 flex text-sm font-medium items-center cursor-pointer hover:text-blue-500'>
-                          <BsRepeat className='w-6'/>
-                          <p className='ml-1'>Rewrite</p>
+                {
+                  paragraphs.map((paragraph, index) => (
+                    <div key={index} style={{ width: "100%" }}>
+                      <div className="w-full rounded-xl shadow-lg border-2 border-gray-100 mb-10">
+                        <div className="px-6 py-2 w-full flex justify-between items-center border-b-2 border-gray-100">
+                          {paragraph.header === "" ? (
+                            <MultiLineSkeletonLoader lines={1} justifyContent={"left"} />
+                          ) : (
+                            <>
+                              <p className="font-semibold mr-4">{paragraph.header}</p>
+                              <div className='flex items-center gap-4 font-medium text-gray-300'>
+                                <div className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                  <HiPencil className='w-4 h-4'/>
+                                  Edit
+                                </div>
+                                <div className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                  <SparklesIcon className='w-4 h-4'/>
+                                  Rewrite
+                                </div>
+                              </div>
+                            </>
+                          )}
                         </div>
-                        <div className='flex text-sm font-medium items-center cursor-pointer hover:text-blue-500'>
-                          <FiEdit2 className='w-6'/>
-                          <p className='ml-1'>Edit</p>
+                        
+                        <div className="px-6 pt-4 pb-6 font-medium">
+                          {paragraph.instruction === "" ? (
+                            <MultiLineSkeletonLoader lines={2} justifyContent={"left"} />
+                          ) : (
+                            <div className='flex flex-wrap text-gray-300'>
+                            <p className='w-full text-gray-800'>{paragraph.instruction}</p>
+                            <div className='w-full flex justify-end mt-4'>
+                            <>
+                            <div className='flex items-center gap-4'>
+                              <div className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                <HiPencil className='w-4 h-4'/>
+                                Edit
+                              </div>
+                              <div className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                <SparklesIcon className='w-4 h-4'/>
+                                Rewrite
+                              </div>
+                            </div>
+                            </>
+                          </div>
+                          </div>
+                          )}
+                        </div>
+                        <div className="px-6 py-2 pb-4 w-full border-t-2 border-gray-100">
+                          <p className="font-medium flex items-center">
+                            {paragraph.keywords === "" ? (
+                              <MultiLineSkeletonLoader lines={1} justifyContent="left" />
+                            ) : (
+                              <div className='flex justify-between w-full'>
+                              <>
+                              <p className="mr-2 text-gray-800">
+                                    {paragraph.keywords.toLowerCase()}
+                              </p>
+                             </>
+                              <div className='flex justify-end text-gray-300'>
+                              <div className='flex items-center gap-4'>
+                                <div className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                  <HiPencil className='w-4 h-4'/>
+                                  Edit
+                                </div>
+                                <div className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                  <SparklesIcon className='w-4 h-4'/>
+                                  Rewrite
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            )}
+                          </p>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className='px-6 pt-4 pb-6 font-medium'>
-                    Description of the paragraph
-                  </div>
-                  <div className='px-6 py-2 pb-4 w-full border-t-2 border-gray-100'>
-                    <p className='font-medium flex items-center'><RiKey2Line className='mr-2' /> marketing, generative ai, ai, tool</p>
-                  </div>
-                  </div>
-                  :
-                  <div className='w-full'>
-                  <div className='px-6 py-2 w-full flex justify-between items-center border-b-2 border-gray-100'>
-                    <MultiLineSkeletonLoader lines={1} justifyContent={'left'} />
-                    <div>
-                    </div>
-                  </div>
-                  <div className='px-6 pt-4 pb-6 font-medium'>
-                   <MultiLineSkeletonLoader lines={2} justifyContent={'left'} />
-                  </div>
-                  <div className='px-6 py-2 pb-4 w-full border-t-2 border-gray-100'>
-                    <p className='font-medium flex items-center'><MultiLineSkeletonLoader lines={1} justifyContent='left' /></p>
-                  </div>
-                  </div>
-                  }
-                </div>
-                    <Centered>
-                      {!generatingOutline &&
-                        <Button type="submit" onClick={() => submit()}>
-                            {loading ?
-                                <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                    <Loader color="black"/>
-                                </div>
-                                :
-                                <div className='flex items-center justify-center'>
-                                    <BtnIcon>
-                                        <SparklesIcon />
-                                    </BtnIcon>
-                                    <p>Generate the {props.contentType}</p>
-                                </div>
-                            }
-                        </Button>
-                        }
-                    </Centered>
-                </div>
+                  ))
                 }
-
-                </Form> 
             </div>  
             } 
             {(loading || loadingQueries) &&
@@ -1272,7 +1226,7 @@ export default CopywritingModal;
 
 const Container = styled.div<{step: number}>`
     width: ${((props: { step: number; }) => props.step === 3 || props.step === 2) ? "44rem" : "50rem"};
-    padding: 1rem 4.5rem 3rem 4.5rem;
+    padding: 1rem 3rem 3rem 3rem;
     background: white;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
@@ -1338,8 +1292,8 @@ const Form = styled.form`
 const Title = styled.h1`
   margin-bottom: 2.2rem;
   font-size: 1.2rem;
-  width: calc(100% + 5.5rem);
-  margin-left: -2.5rem;
+  width: calc(100% + 5rem);
+  margin-left: -2rem;
   padding-left: 2rem;
   display: flex;
   align-items: center;

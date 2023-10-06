@@ -2,7 +2,7 @@ import api from "@/pages/api";
 
 export const streamCompletion = async (
     model: string, 
-    temperature: string, 
+    temperature: any, 
     systemPrompt: string, 
     prompt: string,
     onFinish: any,
@@ -65,6 +65,7 @@ export const streamCompletion = async (
           if (done) {
             setLoading(false);
             setText(reply)
+            onFinish();
             break;
           }
   
