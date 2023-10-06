@@ -531,8 +531,8 @@ const CopywritingModal = (props: {
           systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best ${props.contentType} ${field}s. You always make sure to propose content that is engaging and natural. Do not make it sound too official rather try to explore the topic alongside the reader looking from the different angles.`;
         } else if (field === "keywords") {
           if (paragraphIndex === 0) {
-            systemPrompt= `you repeat 3 keywords in ${props.language}.`
-            prompt = `Repeat these 3 keywords in ${props.language}: ${keywords}. Keywords:`
+            systemPrompt= `You repeat chosen 3 keywords.`
+            prompt = `Repeat only 3 keywords in ${props.language} from: ${keywords}. Keywords:`
           } else {
             systemPrompt = `You are native ${props.language} expert at replacing one keyword to another that relates to paragraph topic. You return only 3 one word keywords separated by comma.`
             prompt = `I've already used these keywords: ${renderedKeywords}. Repeat two of them and third one exchange to other relevant one for paragraph titled ${paragraphs[paragraphIndex].header}. Keywords:`;
@@ -543,7 +543,7 @@ const CopywritingModal = (props: {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
           signal: abortController.signal,
-          body: JSON.stringify({ prompt, systemPrompt, temperature: 1, title: `generated copywriting ${field}`, model: "gpt-4-32k" }),  // Modify restOfYourPayload as needed
+          body: JSON.stringify({ prompt, systemPrompt, temperature: 1, title: `generated copywriting ${field}`, model: "gpt-4" }),  // Modify restOfYourPayload as needed
         });
       
         if (!response.ok) {
