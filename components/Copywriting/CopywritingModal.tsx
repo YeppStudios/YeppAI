@@ -5,14 +5,13 @@ import articleIcon from "@/public/images/article-icon.png";
 import linkIcon from "@/public/images/link-icon.png";
 import Centered from "../Centered";
 import { Loader } from '../Common/Loaders';
-import { BsArrowRepeat, BsCheck, BsCheckLg, BsChevronLeft, BsEye, BsFillLightbulbFill, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsXLg } from 'react-icons/bs';
+import { BsRepeat, BsCheck, BsCheckLg, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsTextLeft, BsFillKeyFill } from 'react-icons/bs';
 import Image from 'next/image';
 import webIcon from "@/public/images/web-icon.png";
 import pencilIcon from "@/public/images/pencil-icon.png";
 import handwritingIcon from "@/public/images/handwriting-icon.png";
 import FoldersDropdown from '@/components/forms/FolderDropdown';
 import { SlOptionsVertical } from 'react-icons/sl';
-import TextArea from '@/components/forms/TextArea';
 import { SparklesIcon } from '@heroicons/react/20/solid';
 import BackBtn from '@/components/Common/BackBtn';
 import BackBtnIcon from '@/components/Common/BackBtnIcon';
@@ -27,12 +26,13 @@ import ModalTitle from '../Modals/common/ModalTitle';
 import TypingAnimation from '../Modals/common/TypingAnimation';
 import { FaRuler } from 'react-icons/fa';
 import { IoLanguage } from 'react-icons/io5';
-import { RiKey2Fill } from 'react-icons/ri';
-import { MdTitle } from 'react-icons/md';
+import { RiKey2Fill, RiKey2Line } from 'react-icons/ri';
+import { MdArrowBackIos, MdOutlineClose, MdOutlineClear } from 'react-icons/md';
 import CustomDropdown from '@/components/forms/CustomDropdown';
 import ToneDropdown from '../forms/ToneDropdown';
+import { HiPencil } from 'react-icons/hi';
 
-const types = ["article", "blog", "guide", "ranking"];
+const types = ["article", "blog", "guide"];
 const languagesList = [
   "English",
   "Spanish",
@@ -59,6 +59,34 @@ const languagesList = [
   "Hungarian",
   "Hindi"
 ];
+
+const languagesAbbreviations = [
+  { name: "English", abbreviation: "en" },
+  { name: "Spanish", abbreviation: "es" },
+  { name: "French", abbreviation: "fr" },
+  { name: "Italian", abbreviation: "it" },
+  { name: "Portuguese", abbreviation: "pt" },
+  { name: "German", abbreviation: "de" },
+  { name: "Ukrainian", abbreviation: "uk" },
+  { name: "Polish", abbreviation: "pl" },
+  { name: "Chinese", abbreviation: "zh" },
+  { name: "Bulgarian", abbreviation: "bg" },
+  { name: "Russian", abbreviation: "ru" },
+  { name: "Japanese", abbreviation: "ja" },
+  { name: "Turkish", abbreviation: "tr" },
+  { name: "Greek", abbreviation: "el" },
+  { name: "Arabic", abbreviation: "ar" },
+  { name: "Dutch", abbreviation: "nl" },
+  { name: "Norwegian", abbreviation: "no" },
+  { name: "Serbian", abbreviation: "sr" },
+  { name: "Swedish", abbreviation: "sv" },
+  { name: "Czech", abbreviation: "cs" },
+  { name: "Romanian", abbreviation: "ro" },
+  { name: "Finnish", abbreviation: "fi" },
+  { name: "Hungarian", abbreviation: "hu" },
+  { name: "Hindi", abbreviation: "hi" }
+];
+
 const toneList = [
   {title: "Formal", icon: "💼"},
   {title: "Friendly", icon: "😊"},
@@ -95,10 +123,8 @@ const CopywritingModal = (props: {
     const [keywords, setKeywords] = useState<string>("");
     const [selectedLinks, setSelectedLinks] = useState<{title: string, link: string, snippet: string}[]>([]);
     const [sourceLoading, setSourceLoading] = useState(false);
-    const [headersLoading, setHeadersLoading] = useState(false);
     const [googlePreviewLoading, setGooglePreviewLoading] = useState(false);
     const [generatingGooglePreview, setGeneratingGooglePreview] = useState(false);
-    const [generatingOutline, setGeneratingOutline] = useState(false);
     const [showEditTitle, setShowEditTitle] = useState(false);
     const [showEditDescription, setShowEditDescription] = useState(false);
     const [descriptionLoading, setDescriptionLoading] = useState(false);
@@ -111,12 +137,63 @@ const CopywritingModal = (props: {
     const [conspectText, setConspectText] = useState<string>("");
     const [openNewLink, setOpenNewLink] = useState(false);
     const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
+    const [loadingQueries, setLoadingQueries] = useState(false);
+    const [searchTerms, setSearchTerms] = useState<string[]>([]);
+    const [paragraphsNumber, setParagraphsNumber] = useState("5");
+    const [paragraphs, setParagraphs] = useState<{header: string, instruction: string, keywords: string}[]>([]);
+    const [selectedQuery, setSelectedQuery] = useState<string>("");
     const [abortController, setAbortController] = useState(new AbortController());
     const [currentText, setCurrentText] = useState(0);
     const [tones, setTones] = useState<any[]>([]);
     const linkRef = useRef<HTMLInputElement>(null);
     const topRef = useRef<HTMLInputElement>(null);
-    const conspectTextAreaRef = useRef<HTMLTextAreaElement>(null);
+    const textAreaRefs = useRef<{
+      header: (HTMLTextAreaElement | null)[];
+      instruction: (HTMLTextAreaElement | null)[];
+      keywords: (HTMLTextAreaElement | null)[];
+    }>({
+      header: [],
+      instruction: [],
+      keywords: []
+    });
+    
+
+   
+    const adjustTextareaHeight = (element: any) => {
+      element.style.height = 'auto';
+      element.style.height = `${element.scrollHeight}px`;
+    };
+
+    const handleTextareaLoad = (id: number, field: string) => {
+      let textareaElement = null;
+      if (field === "header") {
+        textareaElement = textAreaRefs.current.header[id];
+      } else if (field === "instruction") {
+        textareaElement = textAreaRefs.current.instruction[id];
+      } else if (field === "keywords") {
+        textareaElement = textAreaRefs.current.keywords[id];
+      }
+
+      if (textareaElement) {
+          adjustTextareaHeight(textareaElement);
+      }
+    };
+
+    const handleTextareaChange = (field: string, event: any, index: any) => {
+      const newValue = event.target.value;
+      const updatedParagraphs = [...paragraphs];
+
+      if (field === "instruction") {
+        updatedParagraphs[index].instruction = newValue;
+      } else if (field === "keywords") {
+        updatedParagraphs[index].keywords = newValue;
+      } else if (field === "header") {
+        updatedParagraphs[index].header = newValue;
+      }
+    
+      setParagraphs(updatedParagraphs);
+      adjustTextareaHeight(event.target);
+  };
 
     useEffect(() => {
         let token = localStorage.getItem("token");
@@ -172,15 +249,32 @@ const CopywritingModal = (props: {
 
     }, [loading, texts.length]);
 
+    useEffect(() => {
+      const newParagraphs = [];
+      for (let i = 0; i < parseInt(paragraphsNumber); i++) {
+        newParagraphs.push({
+          header: "",
+          instruction: "",
+          keywords: ""
+        });
+      }
+  
+      setParagraphs(newParagraphs);
+    }, [paragraphsNumber]);
+
     const fetchSource = async () => {
         setStep(2);
         setSelectedLinks([]);
         setSourceLoading(true);
+
+        let languageObj = languagesAbbreviations.find(lang => lang.name === props.language);
+        let languageAbbreviation = languageObj ? languageObj.abbreviation : "us";
+        
         let data = JSON.stringify({
             "q": phrase + " " + props.contentType,
-            "gl": "us",
-            "hl": "us"
-          });
+            "gl": languageAbbreviation,
+            "hl": languageAbbreviation
+        });
       
           let config = {
             method: 'post',
@@ -194,9 +288,6 @@ const CopywritingModal = (props: {
           axios(config)
           .then((response) => {
             setSearchResults(response.data.organic);
-            if(response.data.peopleAlsoAsk){
-                setPeopleAlsoAsk(response.data.peopleAlsoAsk)
-            }
             setSourceLoading(false);
           })
           .catch((error) => {
@@ -206,15 +297,72 @@ const CopywritingModal = (props: {
     }
 
     const changeGooglePreview = (result: any) => {
-        props.setTitle(result.question);
-        props.setDescription(result.snippet);
+        setSelectedQuery(result)
+        generateGooglePreview(result);
     }
 
     const stopReplying = () => {
         abortController.abort();
     }
 
-    const generateGooglePreview = async () => {
+    const stepBack = () => {
+      setStep(step - 1);
+      setLoading(false);
+      setLoadingQueries(false);
+    }
+
+    const generateSearchQueries = async () => {
+      setLoadingQueries(true);
+      let token = localStorage.getItem("token");
+      try {
+        const generatedQueries = await api.post("/completion", {
+          model: "gpt-3.5-turbo",
+          temperature: 0.9,
+          systemPrompt: `Act as a ${props.language} JSON converter. You come up with high volume search terms for any given phrase and return a formatted JSON output that incorporates a list of search terms as per the given format:
+          [
+            "search term 1",
+            "search term 2",
+            "search term 3",
+            ...
+          ]
+          `,
+          prompt: `Example 12 of most popular Google search terms for phrase "generative ai":
+          [
+            "will generative ai replace humans",
+            "why generative ai is important",
+            "who invented generative ai",
+            "who invented generative ai",
+            "which generative ai is best",
+            "when to use generative ai",
+            "are generative ai systems plagiarism machines",
+            "can generative ai write code",
+            "can generative ai create videos",
+            "how generative ai works",
+            "what generative ai tools are available",
+            "where generative ai can be used"
+          ]
+          As you can see every search term must contain the given phrase somewhere in text.
+          
+          Now inspired by this example come up with set of best search terms for phrase: "${phrase}" in ${props.language} language that might as well have high search volume. 
+          Make sure they are diverse and start in different ways like: "will...", "why...", "who...", "which...", "are...", "can...", "how...", "what...", "where...." as the ones from example. 
+          Return list of 10 search terms for ${phrase} in the exact format as example:
+          `
+        }, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setSearchTerms(JSON.parse(generatedQueries.data.completion));
+        setStep(step + 1);
+        setLoadingQueries(false);
+        generateGooglePreview("");
+      } catch (e) {
+        console.log(e);
+        setLoadingQueries(false);
+      }
+    }
+
+    const generateGooglePreview = async (selectedQuery: any) => {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("user_id");
         const workspace = localStorage.getItem("workspace");
@@ -259,7 +407,6 @@ const CopywritingModal = (props: {
         function randomizeArray(arr: any[]) {
             return arr.sort(() => Math.random() - 0.5).slice(0, 2);
         }
-        let selected = randomizeArray(selectedLinks.map(item => ({title: item.title, snippet: item.snippet})));
         let questionsAndSnippets = randomizeArray(peopleAlsoAsk.map(item => ({question: item.question, snippet: item.snippet})));
         let example = ""
         if (props.contentType === "ranking") {
@@ -272,15 +419,19 @@ const CopywritingModal = (props: {
           ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
           `
         }
+        let examples = `Top search terms on Google:
+        ${relevantQuestions}`
+        if (selectedQuery) {
+          examples = `User entered a search term:
+          ${selectedQuery}
+          `
+        }
 
         let model = "gpt-4";
-        let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content in ${props.toneOfVoice} tone. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
-        let prompt = `${props.contentType} keyword: ${phrase}. 
-        Top ${props.contentType}s on Google:
-        ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
-        ${relevantQuestions}
-        Choose only one keywords that fits best the Google title: ${keywords}.
-        Now based on this data, generate the best performing title for ${props.contentType} about ${phrase}. Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Make sure to come up with title that is in ${props.language} language. ${example}
+        let systemPrompt = `You are a native ${props.language} copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
+        let prompt = `${props.contentType} keyword you always need to include in title: ${phrase}. 
+        ${examples}
+        Now in response, come up with your unique best performing title for ${props.contentType} featuring ${phrase} that will be a great hook. Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Make sure to come up with title that is in ${props.language} language. ${example}
         `
     
         try {
@@ -288,7 +439,7 @@ const CopywritingModal = (props: {
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `${props.contentType} title`, model, systemPrompt}),
+              body: JSON.stringify({prompt, title: `${props.contentType} title`, model, systemPrompt, temperature: 1}),
             });
     
           if (!response.ok) {
@@ -311,7 +462,7 @@ const CopywritingModal = (props: {
                 try {
                   const data = JSON.parse(jsonString);
                   if (data.content) {
-                    reply += data.content;
+                    reply += data.content.replace(/"/g, '');
                     props.setTitle(reply);
                   }
                 } catch (error) {
@@ -364,6 +515,7 @@ const CopywritingModal = (props: {
           setOpenNoElixirModal(true);
           return;
         }
+        
         let exclusions = "";
         if (props.language === "Polish") {
           exclusions = `Instead of "zanurz się" use "zobacz jak", "sprawdź", "przekonaj się" or "poznaj" whatever suits best. Use human-like Polish language.`
@@ -404,7 +556,7 @@ const CopywritingModal = (props: {
                 try {
                   const data = JSON.parse(jsonString);
                   if (data.content) {
-                    reply += data.content;
+                    reply += data.content.replace(/"/g, '');
                     props.setDescription(reply);
                   }
                 } catch (error) {
@@ -426,132 +578,125 @@ const CopywritingModal = (props: {
         }
       }
 
-      const generateOutline = async () => {
-        const token = localStorage.getItem("token");
-        const userId = localStorage.getItem("user_id");
-        const workspace = localStorage.getItem("workspace");
-        if (generatingOutline) {
-          return;
-        }
-        const newAbortController = new AbortController();
-        setAbortController(newAbortController);
-        setHeadersLoading(true);
-        setGeneratingOutline(true);
-        props.setConspect('');
-    
-        let fetchedUser = null;
-        if (workspace && workspace !== "null" && workspace !== "undefined") {
-          const {data} = await api.get(`/workspace-company/${workspace}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data.company;
-        } else {
-          const {data} = await api.get(`/users/${userId}`, {
-            headers: {
-              authorization: token
-            }
-          });
-          fetchedUser = data;
-        }
-        //make sure user has elixir
-        if(fetchedUser.tokenBalance <= 0) {
-          setOpenNoElixirModal(true);
-          return;
-        }
-
-        let reply = "";
-
-        //get random headers and snippets from selected links
-        function randomizeArray(arr: any[]) {
-            return arr.sort(() => Math.random() - 0.5).slice(0, 2);
-        }
-        let selected = randomizeArray(selectedLinks.map(item => ({title: item.title, snippet: item.snippet})));
-        let questionsAndSnippets = randomizeArray(peopleAlsoAsk.map(item => ({question: item.question, snippet: item.snippet})));
-        let form = ""
-        if (props.contentType === "ranking") {
-          form = "Make it in a form of a ranking list with introduction and summary.";
-        }
-        let model = "gpt-4";
-        let systemPrompt = `You are a professional copywriter. You professionally craft unique outlines of articles that are insightful, informative, and easy to read from the information user provides. You always start with introduction section and end with summary/conclusion one, but naming them more creatively then just "Introduction" and "Conclusion". You are proficient in ${props.language} language and you always make sure that everything you write has correct ${props.language} syntax and grammar. You always come up with intriguing and attention grabbing header titles that encourage reader to read the section.`;
-        let prompt = `Craft an outline for ${props.contentType} titled "${props.title}"- ${props.description}. Write it in ${props.toneOfVoice} style.
-        Also you can get some inspiration from:
-        Top ${props.contentType}s on Google:
-        ${selected.map(item => `Title: ${item.title}\n ${item.snippet}\n`).join("")}
-        People also ask:
-        ${questionsAndSnippets.map(item => `Question: ${item.question}\n ${item.snippet}\n`).join("")}
-        Based on title of my ${props.contentType} and description, craft 4/6 unique outline of parahraph headers, brief instructions to write them and keywords. Make sure to use my keywords: ${keywords} and come up with other relevant ones. Remember to check whether the outline is grammarly correct and in ${props.language} language. ${form} Make it in format of:
-        Header: Header title
-        Instruction: Instruction on how to write this paragraph
-        Keywords: Keyword1, Keyword2, Keyword3
-
-        Header: Header title
-        Instruction: Instruction on how to write this paragraph
-        Keywords: Keyword1, Keyword2, Keyword3
-        ...
-        `
-    
-        try {
-            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-              signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `Outline generated- ${props.contentType} `, model, systemPrompt, temperature: 0.9}),
-            });
-    
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-    
-          if(response.body){
-            const reader = response.body.getReader();
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) {
-                setGeneratingOutline(false);
-                setConspectText(reply)
-                break;
-              }
+      const generateField = async (field: any, paragraphIndex: any) => {
+        let token = localStorage.getItem("token");
       
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-              setHeadersLoading(false);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    reply += data.content;
-                    setConspectText(reply);
-                    if (conspectTextAreaRef.current) {
-                      conspectTextAreaRef.current.scrollTop = conspectTextAreaRef.current.scrollHeight;
-                    }
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
-                }
+        let reply = "";
+        let prompt = ``;
+        let systemPrompt = `You are a ${props.language} copywriting expert specializing in writing the best ${props.contentType} ${field}s. You always make sure to propose content that is engaging and natural. Do not make it sound too official rather try to explore the topic alongside the reader looking from the different angles.`;
+        const headers = paragraphs
+        .map((item:any) => item.header) 
+        .filter((header: any) => header.trim() !== "")
+        .join(', ');
+
+
+        if (field === "header") {
+          systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best ${props.contentType} subtitle. You always respond only with one well defined subtitle that is up to 35 characters long. You never include semicolons in your subtitles because you think it is not professional.`;
+          if (paragraphIndex === paragraphs.length - 1) {
+            prompt = `Previous subtitles in an outline: ${headers}. Now come up with subtitle for paragraph that will summarize ${props.contentType} titled: "${props.title}". Subtitle for paragraph summarizing ${props.contentType} titled: "${props.title}":`;
+          } else if (paragraphs[paragraphIndex].header.length > 0) {
+            prompt = `Last time you proposed the following subtitle: "${paragraphs[paragraphIndex].header}". Now please rewrite it so it is more engaging and simple.`;
+          } else if (paragraphIndex > 0) {
+            prompt = `Previous subtitles in an outline: ${headers}. Now come up with new subtitle which goal should be to bring some new aspect, point of view or underlying category to further explore and discuss in paragraph. Make sure to use some of the following keywords: ${keywords}. Come up with next subtitle that will introduce a new aspect, thought for the ${props.contentType} about ${props.title}.`;
+          } else {
+            prompt = `Come up with one, simple, engaging subtitle for ${props.contentType} paragraph in ${props.toneOfVoice} tone. Make sure to use some of the listed keywords: ${keywords} and write it in ${props.language} language. It has to be one simple sentence/question like: "What is generative AI?".  Unique ${props.contentType} paragraph subtitle in under 40 characters. The best subtitle for first paragraph of the article titled "${props.title}":`
+          }
+
+        } else if (field === "instruction") {
+          systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best ${props.contentType} instruction for paragraph content. You always make sure to propose content that is engaging and natural. You try to explore the topic alongside the reader trying to expose the different angles and perspectives. You always respond only with 3 points separated by new line, each one sentence long. You are ${props.language} native speaker.`;
+          if (paragraphIndex === paragraphs.length - 1) {
+            prompt = `I wrote a ${props.contentType} with the following paragraphs:
+            "${paragraphs.map((item:any) => item.header).join('", "')}
+            Now come up with an instruction on how to write the last, concluding paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone and ${props.language} language, incorporating some of the given keywords: ${keywords}. It has to match the overall ${props.contentType} topic: "${props.title}". Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph: "${paragraphs[paragraphIndex].header}" for article titled: "${props.title}", please`;
+          } else if (paragraphs[paragraphIndex].instruction.length > 0) {
+            prompt = `Last time you proposed the following instruction: "${paragraphs[paragraphIndex].instruction}". Now please rewrite it for ${props.contentType} paragraph called ${paragraphs[paragraphIndex].header} so it is more engaging to the reader, simple and matches the overall ${props.contentType} topic: "${props.title}".`;
+          } else if (paragraphIndex > 0) {
+            prompt = `Last time I wrote a paragraph with the following instruction:
+            "${paragraphs[paragraphIndex-1].instruction}"
+            Now come up with one for the next ${props.contentType} paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone and ${props.language} language, incorporating some of the given keywords: ${keywords}. It has to match the overall ${props.contentType} topic: "${props.title}". Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph for the article titled ${paragraphs[paragraphIndex].header}, please`
+          } else {
+            prompt = `Come up with instruction on how to write ${props.contentType} paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone and ${props.language} language. Use some of the given keywords: ${keywords}. It is the introductory paragraph for the entire ${props.contentType}. It has to match the overall ${props.contentType} topic: "${props.title}". Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph for the article titled ${paragraphs[paragraphIndex].header}:`
+          }
+
+        } else if (field === "keywords") {
+          systemPrompt = `You are a keyword tool. You are the best at repeating and coming up with the best performing keywords for ${props.contentType} paragraphs. You always make sure to propose keywords that are relevant to the topic and are not too long. You always respond only with 3 one-word keywords separated by comma. You are proficient in ${props.language} language.`;
+          if (paragraphs[paragraphIndex].keywords.length > 0) {
+            prompt = `Last time you proposed the following keywords: "${paragraphs[paragraphIndex].keywords}". Now please come up with just 3 new ones for ${props.contentType} paragraph called ${paragraphs[paragraphIndex].header}. Also incorporate one of the main keywords: ${keywords}. Respond only with 3 one-word keywords:`;
+          } else if (paragraphIndex === 0) {
+            systemPrompt= `You repeat chosen 3 keywords.`
+            prompt = `Choose up to 3 keywords from: ${keywords}. If there are less then 3, then come up with ones that match the ${props.contentType} titled ${props.title}. 3 keywords separated by commas:`
+          } else {
+            systemPrompt = `You are native ${props.language} expert at replacing one keyword to another that relates to paragraph topic. You return only 3 one word keywords separated by comma.`
+            prompt = `I've already used these keywords: ${keywords}. Repeat two of them and third one exchange to other relevant one for paragraph titled ${paragraphs[paragraphIndex].header}. Keywords:`;
+          }
+        }
+      
+        const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+          signal: abortController.signal,
+          body: JSON.stringify({ prompt, systemPrompt, temperature: 0.85, title: `generated copywriting ${field}`, model: "gpt-4" }),
+        });
+      
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        if(response.body){
+          const reader = response.body.getReader();
+          while (true) {
+            const { done, value } = await reader.read();
+  
+            if (done) {
+              setParagraphs((prev: any) => {
+                const updatedParagraphs = [...prev];
+                updatedParagraphs[paragraphIndex][field] = reply
+                return updatedParagraphs;
+            });
+            break;
+            }
+
+            const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+            for (const jsonString of jsonStrings) {
+              try {
+                const data = JSON.parse(jsonString);
+                if (data.content) {
+                  const contentWithoutQuotes = data.content.replace(/"/g, '');
+                  reply += contentWithoutQuotes;
+                  setParagraphs((prev: any) => {
+                    const updatedParagraphs = [...prev];
+                    updatedParagraphs[paragraphIndex][field] = reply;
+                    return updatedParagraphs;
+                });
+                
+                }                      
+              } catch (error) {
+                console.error('Error parsing JSON:', jsonString, error);
               }
             }
           }
-    
-        } catch (e: any) {
-          if (e.message === "Fetch is aborted") {
-            setGeneratingOutline(false);
-            setHeadersLoading(false);
-          } else {
-            console.log(e);
-            setHeadersLoading(false);
-            setGeneratingGooglePreview(false);
-          }
-        } finally {
-          abortController.abort();
         }
-      }
+      };
+
+      
+      const generateCurrentParagraph = async () => {
+        for (let i = 0; i < parseInt(paragraphsNumber); i++) {
+          await generateField("header", i);
+          await generateField("instruction", i);
+          await generateField("keywords", i);
+        }
+      };
+
+      const startGeneratingParagraphs = () => {
+        generateCurrentParagraph();
+      };
+      
 
     const nextStep = () => {
         if (step === 2) {
-            generateGooglePreview();
-        } else if (step === 3) {
-            generateOutline();
+            generateGooglePreview("");
+        } else if (step === 4) {
+          startGeneratingParagraphs();
         }
         setStep(step + 1);
         if (topRef.current){
@@ -600,84 +745,16 @@ const CopywritingModal = (props: {
         setTabInput("")
         setOpenNewLink(false);
     };
+    
 
     const submit = async () => {
-      if(!conspectText) {
-        return;
-      }
-
         let links = selectedLinks.map(item => (item.link));
         setLoading(true);
-        try {
-          let token = localStorage.getItem("token");
-          const conspectCompletion = await api.post("/completion", {
-            prompt: `Example output:
-            [
-              {
-                "header": "header",
-                "instruction": "instruction for writing this section.",
-                "keywords": ["keyword1", "keyword2", "keyword3"]
-              },
-              {
-                "header": "header",
-                "instruction": "instruction for writing this section.",
-                "keywords": ["keyword1", "keyword2", "keyword3"]
-              },
-              ...
-            ]
-            
-            Now analyze this outline and come up with similar ${conspectText} JSON array:`,
-            model: "gpt-3.5-turbo-0613",
-            temperature: 0,
-            systemPrompt: `Act as a JSON converter. From list of titles, instructions and keywords of paragraphs return a formatted JSON output that incorporates a list of article section headers, instructions, and keywords as per the given format. You just copy paste the headers, instructions and keywords without changing the content into the JSON format that is exactly like one below. You always respond only with the correct JSON format trying to understand what user wanted to be a header, what a description and what keywords. If there seem to be only headers respond leave description field empty and vice versa. Make sure that the formatting of the final JSON output is correct and adheres exactly to the same format as the one mentioned below:
-            [
-              {
-                "header": "header",
-                "instruction": "instruction for writing this section.",
-                "keywords": ["keyword1", "keyword2", "keyword3"]
-              },
-              {
-                "header": "header",
-                "instruction": "instruction for writing this section.",
-                "keywords": ["keyword1", "keyword2", "keyword3"]
-              },
-              ...
-            ]
-            `,
-            function_definition: {
-              "name": "extract_outline_paragraphs",
-              "description": "group the outline into an array of objects with header, instruction and keywords.",
-              "parameters": {
-                  "type": "object",
-                  "properties": {
-                    "paragraphs": {
-                      type: 'array', 
-                      items: {
-                          type: "object",
-                          properties: {
-                            header: { type: "string", description: "the paragraph header" },
-                            instruction: { type: "string", description: "instruction on how to write the paragraph" },
-                            keywords: { type: "string", description: "keywords to use when writing the paragraph" },
-                          }
-                      }
-                    }
-                  },
-                  "required": ["paragraphs"],
-              },
-          }
-        },
-        {
-            headers: {
-                Authorization: `${token}`,
-            },
-        });
-        console.log(conspectCompletion.data.completion);
-          const completionJSON = JSON.parse(conspectCompletion.data.completion);
-          props.setSectionLength((Number(length)/completionJSON.length).toFixed(0));
-          props.setConspect(completionJSON);
+     
+          props.setConspect(paragraphs);
           try {
             const scrapingResponse = await axios.post(`https://www.asistant.ai/scrape-links`, {
-              urls: [links[0]]
+              urls: links
             }, {
               headers: {
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
@@ -690,11 +767,6 @@ const CopywritingModal = (props: {
           setLoading(false);
           localStorage.setItem("generateIntro", "true");
           props.onSuccess();
-        } catch (e) {
-            setLoading(false);
-            console.log(e);
-        }
-
     }
 
     const handleToneChange = (title: string) => {
@@ -715,15 +787,15 @@ const CopywritingModal = (props: {
             <Container step={step} onClick={(e) => e.preventDefault()}>
             {step > 1 &&
                     <BackArrow selectedTab={step}>   
-                        <BackBtn onClick={() => setStep(step - 1)}>
+                        <BackBtn onClick={() => stepBack()}>
                             <BackBtnIcon>
-                                <BsChevronLeft style={{ width: "200%", height: "auto" }} />
+                                <MdArrowBackIos className='mt-2' style={{ width: "140%", height: "auto" }} />
                             </BackBtnIcon> 
                         </BackBtn>
                     </BackArrow>
             } 
             <CloseIcon onClick={props.onClose}>
-                    <BsXLg style={{width: "100%", height: "auto"}}/>
+                    <MdOutlineClear style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
             {step === 1 &&
                 <div>
@@ -735,44 +807,22 @@ const CopywritingModal = (props: {
                     </Title>
                     <div>
                         <div style={{width: "100%"}}>
-                          <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
-                          <div style={{width: "49%", display: "flex", flexWrap: "wrap"}}>
-                            <div style={{ display: "flex" }}>
-                                <LabelIcon>
-                                    <MdTitle style={{ width: "100%", height: "auto" }} />
-                                </LabelIcon>
-                                <Label>Topic</Label>
-                              </div>
-                              <Input
-                                  id="copywriting-keyword"
-                                  type="text"
-                                  placeholder="Generative AI"
-                                  value={phrase}
-                                  onChange={(e) => setPhrase(e.target.value)}
-                                  required
-                                  autoComplete="off"
-                              />
-                            </div>
-                            <div style={{width: "49%", display: "flex", flexWrap: "wrap"}}>
-                              <div style={{ display: "flex" }}>
-                                <LabelIcon>
-                                    <RiKey2Fill style={{ width: "100%", height: "auto" }} />
-                                </LabelIcon>
-                                <Label>Keywords</Label>
-                              </div>
-                              <Input
-                                  id="copywriting-keyword"
-                                  type="text"
-                                  placeholder="ai, marketing, generative ai"
-                                  value={keywords}
-                                  onChange={(e) => setKeywords(e.target.value)}
-                                  required
-                                  autoComplete="off"
-                              />
-                            </div>
-                            </div>
-                            <div style={{display: "flex", justifyContent: "space-between", marginTop: "1.5rem"}}>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                        <div className='w-full flex justify-between'>
+                        <div style={{width: "65%", display: "flex", flexWrap: "wrap"}}>
+                        <Label>
+                            Enter main topic, phrase or keyword
+                        </Label>
+                        <Input
+                            id="copywriting-keyword"
+                            type="text"
+                            placeholder="Generative AI"
+                            value={phrase}
+                            onChange={(e) => setPhrase(e.target.value)}
+                            required
+                            autoComplete="off"
+                        />
+                        </div>
+                        <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                                 <LabelIcon>
                                     <IoLanguage style={{ width: "100%", height: "auto" }} />
@@ -790,42 +840,8 @@ const CopywritingModal = (props: {
                                 /> 
                                 </div>
                             </div>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
-                              <div style={{ display: "flex" }}>
-                                  <LabelIcon>
-                                      <BsFillMicFill style={{width: "100%", height: "auto"}}/>
-                                  </LabelIcon>
-                                  <Label className='-mt-2'>
-                                      Tone of voice
-                                  </Label>
-                              </div>
-                              <div className='-mt-3'>
-                              <ToneDropdown
-                                  values={tones}
-                                  value={selectedToneTitle}
-                                  onChange={handleToneChange}
-                              />
-                            </div>
-                            </div>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
-                              <div style={{ display: "flex" }}>
-                              <LabelIcon>
-                                  <FaRuler style={{ width: "100%", height: "auto" }} />
-                              </LabelIcon>
-                              <Label>Total characters</Label>
-                              </div>
-                                <Input
-                                    type="number"
-                                    placeholder="750"
-                                    required
-                                    value={length}
-                                    onChange={(e) => setLength(e.target.value)}
-                                    min={100}
-                                    max={2000}
-                                /> 
-                            </div>
-                            </div>
-                            <div className='mt-4'>
+                          </div>
+                          <div className='mt-4'>
                                 <Label>
                                     Choose the content type...
                                 </Label>
@@ -866,8 +882,8 @@ const CopywritingModal = (props: {
                     </SkipBtn>
                     </Centered>
                 </div>   
-            }      
-            {step === 2 &&
+            }   
+            {(step === 2 && !loadingQueries) &&
             <div>
                 <Title>
                 <Icon>
@@ -877,10 +893,10 @@ const CopywritingModal = (props: {
                 </Title>
                 <div className='mt-4'>
                 <FoldersDropdown />
-                <div style={{width: "100%", marginTop: "2rem"}}>
-                <Label>
-                Choose among top 10 {props.contentType}s on Google...{selectedLinksError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p>}
-                </Label>
+                <div style={{width: "100%", marginTop: "1.2rem"}}>
+                <div className='font-medium mb-4'>
+                Choose among top 10 best performing {props.contentType}s on Google: {selectedLinksError && <p className="text-red-400" style={{marginLeft: "0.5rem", fontSize: "0.85rem"}}>max 3</p>}
+                </div>
                 {sourceLoading ?
                     <MultiLineSkeletonLoader lines={3} justifyContent={'left'} />
                     :
@@ -925,9 +941,10 @@ const CopywritingModal = (props: {
                     <div onClick={(e) => e.stopPropagation()} >
                         <AddTab onClick={() => setOpenNewLink(true)}><BsPlusLg style={{width: "auto", height: "60%"}}/></AddTab>
                     </div>
-                }                
+                }       
+                  <div><div className='mt-6 font-medium text-gray-400'>💡 AI will analyze them and find a way to position your content!</div></div>   
                     <Centered>
-                        <Button type="submit" onClick={nextStep}>
+                        <Button type="submit" onClick={() => generateSearchQueries()}>
                             {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                     <Loader color="black"/>
@@ -936,13 +953,13 @@ const CopywritingModal = (props: {
                                 <p>Continue</p>
                             }
                         </Button>
-                    </Centered>
+                    </Centered>      
                     </div>
                 </div> 
                 <Centered>
                 </Centered>
             </div>   
-            }   
+            }
             {step === 3 &&
             <div>
                 <Title>
@@ -954,11 +971,11 @@ const CopywritingModal = (props: {
                 <div>
                 <div>
                 <div className='flex' onClick={(e) => e.stopPropagation()}>
-                    <RetryButton onClick={generateGooglePreview}>
+                    <RetryButton onClick={() => generateGooglePreview(selectedQuery)}>
                         <BtnIcon>
-                            <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
+                            <BsRepeat style={{width: "100%", height: "auto"}}/>
                         </BtnIcon>
-                        Generate new ones
+                        Generate new one
                     </RetryButton>
                 </div>
                 <div style={{boxShadow: "0px 2px 14px rgba(0, 0, 0, 0.25)"}} className='w-full mt-2 mb-8 px-6 pt-4 pb-6 rounded-3xl'>
@@ -1019,18 +1036,28 @@ const CopywritingModal = (props: {
                         }
 
                     </div>
-                    {peopleAlsoAsk.length > 0 &&
+                    {searchTerms.length > 0 &&
                     <>
-                    <Label>People also ask:</Label>
+                    <Label>Choose one of the popular search terms to rewrite the title:</Label>
                     <Tabs justifyContent="left">
                     {
-                    peopleAlsoAsk.map((result, index) => {
+                    searchTerms.map((result, index) => {
                         return (
+                          <>
+                          {selectedQuery === result ?
+                            <SelectedTab key={index} onClick={() => changeGooglePreview(result)}>
+                                <p>
+                                    {result}
+                                </p>
+                            </SelectedTab>
+                            :
                             <Tab key={index} onClick={() => changeGooglePreview(result)}>
                                 <p>
-                                    {result.question}
+                                    {result}
                                 </p>
                             </Tab>
+                          }
+                          </>
                         )
                     })
                     }
@@ -1053,24 +1080,122 @@ const CopywritingModal = (props: {
                 <Centered>
                 </Centered>
             </div>   
-            }   
+            }
+            {step > 5 &&
+                    <BackArrow selectedTab={step}>   
+                        <BackBtn onClick={() => setStep(step - 1)}>
+                            <BackBtnIcon>
+                                <MdArrowBackIos style={{ width: "200%", height: "auto" }} />
+                            </BackBtnIcon> 
+                        </BackBtn>
+                    </BackArrow>
+            } 
+            <CloseIcon onClick={props.onClose}>
+                    <MdOutlineClose style={{width: "100%", height: "auto"}}/>
+            </CloseIcon>
             {step === 4 &&
-            <>
-            {loading ?
-              <div>
-                <ModalTitle>Give me a sec...</ModalTitle>
-                <Centered>
-                    <ModalDescription>Yepp is preparing to write the best content for you. <br />It&apos;s worth the wait!</ModalDescription>
-                </Centered>
-                <Centered>
-                    <EstimatedTime>Est. time: ~ 1.5 mins</EstimatedTime>
-                </Centered>
-                    <ThinkingContainer>
-                        <Centered><TypingAnimation colorful={true} /></Centered>
-                        <Centered><Texts>{texts[currentText]}</Texts></Centered>
-                    </ThinkingContainer>
-              </div>
-            :
+                <div>
+                    <Title>
+                      <Icon>
+                          <Image style={{ width: "auto", height: "100%" }}  src={articleIcon} alt={'article_icon'}></Image>
+                      </Icon>
+                      Provide more details
+                    </Title>
+                    <div>
+                        <div style={{width: "100%"}}>
+                          <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
+                            <div style={{width: "100%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                <LabelIcon>
+                                    <RiKey2Fill style={{ width: "100%", height: "auto" }} />
+                                </LabelIcon>
+                                <Label>Keywords</Label>
+                              </div>
+                              <Input
+                                  id="copywriting-keyword"
+                                  type="text"
+                                  placeholder="ai, marketing, generative ai"
+                                  value={keywords}
+                                  onChange={(e) => setKeywords(e.target.value)}
+                                  required
+                                  autoComplete="off"
+                              />
+                            </div>
+                            </div>
+                            <div style={{display: "flex", justifyContent: "space-between", marginTop: "1.5rem"}}>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                  <LabelIcon>
+                                      <BsFillMicFill style={{width: "100%", height: "auto"}}/>
+                                  </LabelIcon>
+                                  <Label className='-mt-2'>
+                                      Tone of voice
+                                  </Label>
+                              </div>
+                              <div className='-mt-3'>
+                              <ToneDropdown
+                                  values={tones}
+                                  value={selectedToneTitle}
+                                  onChange={handleToneChange}
+                              />
+                            </div>
+                            </div>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                  <LabelIcon>
+                                      <BsTextLeft style={{width: "100%", height: "auto"}}/>
+                                  </LabelIcon>
+                                  <Label className='-mt-2'>
+                                      Total paragraphs
+                                  </Label>
+                              </div>
+                              <div className='-mt-3'>
+                              <CustomDropdown
+                                  values={["3", "4", "5", "6", "7"]}
+                                  value={paragraphsNumber}
+                                  onChange={setParagraphsNumber}
+                              />
+                            </div>
+                            </div>
+                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                              <LabelIcon>
+                                  <FaRuler style={{ width: "100%", height: "auto" }} />
+                              </LabelIcon>
+                              <Label>Total characters</Label>
+                              </div>
+                                <Input
+                                    type="number"
+                                    placeholder="750"
+                                    required
+                                    value={length}
+                                    onChange={(e) => setLength(e.target.value)}
+                                    min={100}
+                                    max={2000}
+                                /> 
+                            </div>
+                            </div>
+                            <Centered>
+                                <Button type="submit" onClick={() => nextStep()}>
+                                    {loading ?
+                                    <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                        <Loader color="black"/>
+                                    </div>
+                                    :
+                                    <p>Continue</p>
+                                    }
+                                </Button>
+                            </Centered>
+                        </div>
+                    </div> 
+                    <Centered>
+                    <SkipBtn onClick={props.onSuccess}>
+                        Skip
+                    </SkipBtn>
+                    </Centered>
+                </div>   
+            }       
+            {(step === 5 && !loading) &&
             <div>
                 <Title>
                 <Icon>
@@ -1078,55 +1203,151 @@ const CopywritingModal = (props: {
                 </Icon>
                 Fine-tune the outline
                 </Title>
-                <Form autoComplete="off" onSubmit={(e) => submit()}>
-                {headersLoading ?
-                <MultiLineSkeletonLoader lines={4} justifyContent={'left'} />
-                :
-                <div style={{width: "100%"}}>
-                <div className='flex'>
-                <RetryButton onClick={generateOutline}>
-                    <BtnIcon>
-                        <BsArrowRepeat style={{width: "100%", height: "auto"}}/>
-                    </BtnIcon>
-                    Propose a new one
-                </RetryButton>
-                </div>
-                <TextArea
-                    ref={conspectTextAreaRef}
-                    id="headers-input"
-                    height= "26rem"
-                    padding="1.25rem"
-                    placeholder="Write down headers for each section with instructions on how to write them."
-                    value={conspectText}
-                    onChange={(e) => setConspectText(e.target.value)}
-                    required
-                />
-                    <Centered>
-                      {!generatingOutline &&
-                        <Button type="submit" onClick={() => submit()}>
-                            {loading ?
-                                <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                    <Loader color="black"/>
+                {
+                  paragraphs.map((paragraph, index) => (
+                    <div key={index} style={{ width: "100%" }}>
+                      <div className="w-full rounded-xl shadow-lg border-2 border-gray-100 mb-10">
+                        <div className="px-6 py-2 w-full flex justify-between items-center border-b-2 border-gray-100">
+                          {paragraph.header === "" ? (
+                            <MultiLineSkeletonLoader lines={1} justifyContent={"left"} />
+                          ) : (
+                            <>
+                              <textarea 
+                                value={paragraph.header} 
+                                onChange={(e) => handleTextareaChange("header", e, index)} 
+                                rows={1}
+                                className="font-semibold mr-4 w-full outline-none resize-none py-2"
+                                ref={(el) => {
+                                  textAreaRefs.current.header[index] = el;
+                                  handleTextareaLoad(index, "header");
+                                }}                                                             
+                                >
+                                </textarea>
+                              <div className='flex items-center gap-4 font-medium text-gray-300'>
+                                <div onClick={() => textAreaRefs.current.header[index]?.focus()} className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                  <HiPencil className='w-4 h-4'/>
+                                  Edit
                                 </div>
-                                :
-                                <div className='flex items-center justify-center'>
-                                    <BtnIcon>
-                                        <SparklesIcon />
-                                    </BtnIcon>
-                                    <p>Generate the {props.contentType}</p>
+                                <div onClick={() => generateField("header", index)} className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                  <SparklesIcon className='w-4 h-4'/>
+                                  Rewrite
                                 </div>
-                            }
-                        </Button>
-                        }
-                    </Centered>
-                </div>
-                }
-
-                </Form> 
+                              </div>
+                            </>
+                          )}
+                        </div>
+                        
+                        <div className="px-6 pt-4 pb-6 font-medium">
+                          {paragraph.instruction === "" ? (
+                            <MultiLineSkeletonLoader lines={2} justifyContent={"left"} />
+                          ) : (
+                            <div className='flex flex-wrap text-gray-300'>
+                            <textarea 
+                              value={paragraph.instruction} 
+                              onChange={(e) => handleTextareaChange("instruction", e, index)} 
+                              className='w-full text-gray-800 outline-none resize-none'
+                              rows={1}
+                              ref={(el) => {
+                                textAreaRefs.current.instruction[index] = el;
+                                handleTextareaLoad(index, "instruction");
+                              }}
+                              
+                              >
+                              </textarea>
+                            <div className='w-full flex justify-end mt-4'>
+                            <>
+                            <div className='flex items-center gap-4'>
+                              <div onClick={() => textAreaRefs.current.instruction[index]?.focus()} className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                <HiPencil className='w-4 h-4'/>
+                                Edit
+                              </div>
+                              <div onClick={() => generateField("instruction", index)} className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                <SparklesIcon className='w-4 h-4'/>
+                                Rewrite
+                              </div>
+                            </div>
+                            </>
+                          </div>
+                          </div>
+                          )}
+                        </div>
+                        <div className="px-6 py-2 py-2 w-full border-t-2 border-gray-100">
+                          <p className="font-medium flex items-center">
+                            {paragraph.keywords === "" ? (
+                              <MultiLineSkeletonLoader lines={1} justifyContent="left" />
+                            ) : (
+                              <div className='flex justify-between w-full'>
+                              <>
+                              <textarea 
+                                value={paragraph.keywords.toLowerCase()} 
+                                onChange={(e) => handleTextareaChange("keywords", e, index)} 
+                                className="mr-2 text-gray-800 w-full outline-none resize-none"
+                                rows={1}
+                                ref={(el) => {
+                                  textAreaRefs.current.keywords[index] = el;
+                                  handleTextareaLoad(index, "keywords");
+                                }}                                
+                                >
+                                </textarea>
+                             </>
+                              <div className='flex justify-end text-gray-300'>
+                              <div className='flex items-center gap-4'>
+                                <div onClick={() => textAreaRefs.current.keywords[index]?.focus()} className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                  <HiPencil className='w-4 h-4'/>
+                                  Edit
+                                </div>
+                                <div onClick={() => generateField("keywords", index)} className='flex gap-2 items-center text-sm hover:text-blue-500 cursor-pointer'>
+                                  <SparklesIcon className='w-4 h-4'/>
+                                  Rewrite
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                }   
+                {paragraphs[paragraphs.length - 1].keywords !== "" &&           
+                <Centered>
+                  <Button type="submit" onClick={submit}>
+                  {loading ?
+                    <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                     <Loader color="black"/>
+                    </div>
+                  :
+                    <p>Continue</p>
+                  }
+                  </Button>
+                </Centered>
+                }  
             </div>  
-            }
-            </> 
             } 
+            {(loading || loadingQueries) &&
+              <div>
+                {loadingQueries ? <ModalTitle>Looking for search terms...</ModalTitle> : <ModalTitle>Give me a sec...</ModalTitle>}
+                <Centered>
+                  {!loadingQueries ?
+                    <ModalDescription>Yepp is preparing to write the best content for you. <br />It&apos;s worth the wait!</ModalDescription>
+                    :
+                    <ModalDescription>Yepp is searching for high volume search terms to adress them in your {props.contentType} title.</ModalDescription>
+                  }
+                </Centered>
+                <Centered>
+                  {loadingQueries ?
+                    <EstimatedTime>Est. time: ~ 10s</EstimatedTime>
+                    :
+                    <EstimatedTime>Est. time: ~ 40s</EstimatedTime>
+                  }
+                </Centered>
+                    <ThinkingContainer>
+                        <Centered><TypingAnimation colorful={true} /></Centered>
+                        <Centered><Texts>{texts[currentText]}</Texts></Centered>
+                    </ThinkingContainer>
+              </div>
+            }
             </Container>
            </ SlideBottom>
         </ModalBackground>
@@ -1137,7 +1358,7 @@ export default CopywritingModal;
 
 const Container = styled.div<{step: number}>`
     width: ${((props: { step: number; }) => props.step === 3 || props.step === 2) ? "44rem" : "50rem"};
-    padding: 1rem 4.5rem 3rem 4.5rem;
+    padding: 1rem 3rem 3rem 3rem;
     background: white;
     box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
     border-radius: 25px;
@@ -1203,7 +1424,9 @@ const Form = styled.form`
 const Title = styled.h1`
   margin-bottom: 2.2rem;
   font-size: 1.2rem;
-  width: 100%;
+  width: calc(100% + 5rem);
+  margin-left: -2rem;
+  padding-left: 2rem;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #e5e5e5;
@@ -1211,10 +1434,11 @@ const Title = styled.h1`
   color: black;
   font-weight: 700;
   @media (max-width: 1023px) {
-      font-size: 1.7rem;
+      font-size: 1rem;
       line-height: 1.2;
       width: 95vw;
-      margin-top: 2vh;
+      margin-top: 0vh;
+      margin-left: -2rem;
   }
 `
 

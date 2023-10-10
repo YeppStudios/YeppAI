@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import Space from "../Docs/common/Space";
 import Centered from "../Centered";
+import Toolbar from "./components/Toolbar";
 
 interface Document {
   owner: string,
@@ -247,7 +248,7 @@ useEffect(() => {
     Introduction: 
     `;
     let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with introduction without header.`;
-    let model = "gpt-4";
+    let model = "gpt-4-32k";
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
@@ -440,25 +441,24 @@ useEffect(() => {
     let prompt = `Additional context that you might find relevant, but not necessary to include in the section:
     ${context}
     
-    I have ended writing the last section of ${contentType} with: "...${text.slice(-500)}". Now please starting from new line write the next section for my ${contentType} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
-    Next section header:
-    ${conspect[sectionIndex].header}
-    This is a brief instruction on what I want you to write about in this section:
+    This is the previous paragraph of my ${contentType}: "...${text.slice(-500)}". Now please without repeating yourself, starting from new line write content for the next ${contentType} paragraph titled: "${conspect[sectionIndex].header}" in ${language} language using ${toneOfVoice} tone of voice. Ensure that it keeps the flow of the previous paragraph. Make sure to write it in no more than ${sectionLength} characters.
+    When writing this paragraph, please follow these instructions:
     ${conspect[sectionIndex].instruction}
+    Make sure to use the following keywords: ${conspect[sectionIndex].keywords}
     ${endStyle}
     ${tonePrompt}
-    Now understanding the context here is the section:
+    Now understanding the guidelines come up with the paragraph content:
     `;
-    let systemPrompt = `You are a professional copywriter that specializes in writing ${contentType} sections. ${language} is your native language. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with ${contentType} section without header.`;
-    let model = "gpt-4";;
+
+    let systemPrompt = `You are a professional ${language} copywriter that specializes in writing ${contentType} sections. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with ${contentType} section without header.`;
+    let model = "gpt-4-32k";
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
           signal: newAbortController.signal,
-          body: JSON.stringify({prompt, title: "Generated intro of SEO content", model, systemPrompt, temperature: 0.75}),
+          body: JSON.stringify({prompt, title: `Generated section of ${contentType}`, model, systemPrompt, temperature: 0.85}),
         });
-
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -615,7 +615,7 @@ useEffect(() => {
           </BackBtnIcon> 
         </BackBtn>  
       </div> 
-      {/* {editor && <Toolbar editor={editor} />} */}
+      {editor && <Toolbar editor={editor} />}
       {editor &&  
         <div className="flex items-center h-full -mr-12">
           <div className="ml-4">

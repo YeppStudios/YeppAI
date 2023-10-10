@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://yepp.ai
+Host: https://www.yepp.ai
 
 # Sitemaps
-Sitemap: https://yepp.ai/sitemap.xml
+Sitemap: https://www.yepp.ai/sitemap.xml

@@ -590,13 +590,18 @@ const complete = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     }
     {(!openList && showAIInput) &&
     <div onClick={(e) => e.stopPropagation()}>
-    <form onSubmit={(e) => complete(e)} className="z-50 h-12 w-81 -mt-10 flex rounded-xl border border-stone-200 bg-white shadow-md transition-all">
-      <input value={userInput} onChange={(e) => setUserInput(e.target.value)} ref={aiInput} style={{width: "20rem"}} className="w-81 w-auto h-full outline-none px-4 font-medium"/>
-      <button type="submit" className="h-full transition-100 px-5 border-l hover:bg-black hover:text-white rounded-r-xl flex items-center justify-center">
+    <form style={{boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF", border: "solid 2px transparent",
+          backgroundImage: "linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF)", backgroundOrigin: "border-box",
+          backgroundClip: "padding-box, border-box", overflow: "hiddens", display: "flex", alignItems: "center"}} 
+          onSubmit={(e) => complete(e)} 
+          className="z-50 h-12 w-81 -mt-10 flex rounded-2xl border border-stone-200 bg-white shadow-md transition-all"
+    >
+      <input value={userInput} onChange={(e) => setUserInput(e.target.value)} ref={aiInput} style={{width: "20rem"}} className="w-81 rounded-3xl w-auto h-full outline-none px-4 font-medium"/>
+      <button type="submit" className="h-full transition px-5 border-l hover:bg-blue-400 rounded-r-xl flex items-center justify-center">
         {isLoading ?
           <LoadingCircle />
           :
-          <Magic className={"w-6"} />
+          <Magic className={"w-6 h-6"} />
         }
       </button>
     </form>

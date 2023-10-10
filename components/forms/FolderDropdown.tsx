@@ -78,7 +78,7 @@ export default function FoldersDropdown() {
             <BsFolder style={{width: "60%", height: "auto"}} />
         </div>
         <span style={{maxWidth: "75%"}} className="block truncate text-left text-black font-medium text-base md:text-lg flex items-center">
-          {selectedFolders.length > 0 ? selectedFolders[0].title : <div className='text-black font-medium text-base md:text-lg'>Choose uploaded assets...</div>} 
+          {selectedFolders.length > 0 ? selectedFolders[0].title : <div className='text-black font-medium text-base md:text-lg'>Choose assets to reference...</div>} 
           {selectedFolders.length > 1 && <div className='ml-4 bg-slate-100 rounded-full py-1 px-2 text-sm'>+{selectedFolders.length -1}</div>}
         </span>
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-6 2xl:pr-8">
@@ -86,7 +86,7 @@ export default function FoldersDropdown() {
                 className={"h-4 w-4 lg:h-6 lg:w-6 2xl:h-6 2xl:w-6 text-black arrowicon"}
                 aria-hidden="true"
               />
-            </span>
+        </span>
         </Listbox.Button>
         <Listbox.Options
            style={{boxShadow: "5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF", scrollbarWidth: "none", border: "2px solid #E5E8F0", borderRadius: "20px"}}
