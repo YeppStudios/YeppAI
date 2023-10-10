@@ -125,7 +125,7 @@ const Container = styled.div`
     width: 40rem;
     padding: 1rem 3rem 3rem 3rem;
     background: white;
-    box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 5px 10px rgba(15, 20, 100, 0.15);
     border-radius: 25px;
     cursor: auto;
     z-index: 100;

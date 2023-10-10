@@ -772,11 +772,16 @@ const CopywritingModal = (props: {
     const handleToneChange = (title: string) => {
       setSelectedToneTitle(title);
       const tone = tones.find((t: any) => t.title === title);
-      if (tone.prompt) {
-        props.setSelectedTonePrompt(tone.prompt);
-      } else {
-        props.setSelectedTonePrompt("");
+      try {
+        if (tone.prompt) {
+          props.setSelectedTonePrompt(tone.prompt);
+        } else {
+          props.setSelectedTonePrompt("");
+        }
+      } catch (e) {
+        props.setSelectedTonePrompt();
       }
+
     };
 
     return (
@@ -1137,6 +1142,7 @@ const CopywritingModal = (props: {
                                   values={tones}
                                   value={selectedToneTitle}
                                   onChange={handleToneChange}
+                                  changeTyping={props.setSelectedTonePrompt}
                               />
                             </div>
                             </div>
@@ -1339,7 +1345,7 @@ const CopywritingModal = (props: {
                   {loadingQueries ?
                     <EstimatedTime>Est. time: ~ 10s</EstimatedTime>
                     :
-                    <EstimatedTime>Est. time: ~ 40s</EstimatedTime>
+                    <EstimatedTime>Est. time: ~ 15s</EstimatedTime>
                   }
                 </Centered>
                     <ThinkingContainer>
@@ -1360,7 +1366,7 @@ const Container = styled.div<{step: number}>`
     width: ${((props: { step: number; }) => props.step === 3 || props.step === 2) ? "44rem" : "50rem"};
     padding: 1rem 3rem 3rem 3rem;
     background: white;
-    box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 5px 10px rgba(15, 20, 100, 0.15);
     border-radius: 25px;
     cursor: auto;
     z-index: 100;

@@ -109,7 +109,7 @@ const ModalContainer = styled.div`
     padding: 6vh 0vw 7vh 0vw;
     width: 70vw;
     background: white;
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
+    box-shadow: 5px 5px 10px rgba(15, 20, 100, 0.15);
     border: 2px solid #E5E8F0;
     border-radius: 25px;
     backdrop-filter: blur(25px);

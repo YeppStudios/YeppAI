@@ -153,7 +153,7 @@ const ModalContainer = styled.div`
     height: auto;
     padding: 10vh 3.5vw 11vh 3.5vw;
     background: white;
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
+    box-shadow: 5px 5px 10px rgba(15, 20, 100, 0.15);
     border: 2px solid #E5E8F0;
     border-radius: 25px;
     font-weight: 500;

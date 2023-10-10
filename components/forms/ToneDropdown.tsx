@@ -17,9 +17,8 @@ import Image from "next/image";
     return classes.filter(Boolean).join(" ");
   }
   
-  export default function ToneDropdown({ values, value, onChange, error }: any) {
+  export default function ToneDropdown({ values, value, onChange, error, changeTyping }: any) {
     const [selected, setSelected] = useState("");
-    const [expanded, setExpanded] = useState(false);
   
     const handleChange = (value: SetStateAction<string>) => {
       setSelected(value);
@@ -27,6 +26,10 @@ import Image from "next/image";
         onChange(value);
       }
     };
+
+    const handleTypingChange = (value: string) => {
+      changeTyping(value);
+    }
   
     useEffect(() => {
       setSelected(value);
@@ -54,7 +57,7 @@ import Image from "next/image";
                 "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF",
             }}
             className="appearance-none border-2 flex text-black items-center pl-3 block w-full h-full pr-10 relative py-2 rounded-xl placeholder-[#DCDCDC] focus:outline-none text-md"
-            onChange={(event) => handleChange(event.target.value)}
+            onChange={(event) => handleTypingChange(event.target.value)}
             placeholder="Friendly..."
             displayValue={() => {
                 const selectedTone = findToneByTitle(selected);

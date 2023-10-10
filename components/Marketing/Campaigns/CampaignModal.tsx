@@ -570,7 +570,7 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
       padding: 1.4rem 2rem 3rem 2rem;
       background: white;
       border: 2px solid #eaedf5;
-      box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.2);
+      box-shadow: 5px 5px 10px rgba(15, 20, 100, 0.15);
       border-radius: 25px;
       cursor: auto;
       overflow: visible;

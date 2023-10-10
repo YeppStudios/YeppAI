@@ -209,7 +209,7 @@ const Container = styled.div`
     color: black;
     border: 2px solid #EAEDF5;
     border-radius: 20px;
-    box-shadow: 0px 2px 5px rgba(15, 27, 40, 0.1);
+    box-shadow: 5px 5px 10px rgba(15, 20, 100, 0.15);
     justify-content: space-between;
     background-color: white;
     display: flex; 
