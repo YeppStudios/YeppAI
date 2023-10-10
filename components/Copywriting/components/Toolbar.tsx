@@ -12,6 +12,7 @@ import {
     TextIcon,
     ImageIcon,
   } from "lucide-react";
+import classNames from "classnames";
 
 interface NodeSelectorProps {
     editor: Editor;
@@ -174,47 +175,25 @@ const Toolbar: FC<NodeSelectorProps> = ({editor}) => {
       
     return (
         <ToolbarContainer>
-            <div className="relative overflow-visible bg-white h-full rounded-xl">
-            <button
-                className="flex whitespace-nowrap rounded-l-xl items-center gap-1 p-2 text-sm font-medium text-stone-600 hover:bg-stone-100 active:bg-stone-200"
-                onClick={() => {
-                    setIsOpen(!isOpen);
-                }}
-            >
-                <span>{activeItem?.name}</span>
-
-                <ChevronDown className="h-4 w-4" />
-            </button>
-
-            {isOpen && (
-                <section 
-                className="absolute border border-stone-200 rounded-xl z-20 mt-14 flex w-48 flex-col overflow-hidden bg-white p-1 shadow-xl animate-in fade-in slide-in-from-top-1"
-                >
-                {items.map((item, index) => (
+            <div className="relative bg-white h-full flex">
+            {items.map((item, index) => (
                     <button
                     key={index}
                     onClick={() => {
                         item.command();
                         setIsOpen(false);
                     }}
-                    className={cx(
-                        "flex items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 hover:bg-stone-100",
-                        {
-                        "text-blue-600": item.isActive(),
-                        },
+                    className={classNames( activeItem.name === item.name ? "bg-slate-100" : "bg-white hover:bg-slate-100",
+                        "flex items-center justify-between rounded-md text-sm text-black",
                     )}
                     >
                     <div className="flex items-center space-x-2">
-                        <div className="rounded-sm border border-stone-200 p-1">
-                        <item.icon className="h-3 w-3" />
+                        <div className="rounded-sm rounded-2xl p-2 px-4">
+                        <item.icon className="h-4 w-4" />
                         </div>
-                        <span>{item.name}</span>
                     </div>
-                    {activeItem.name === item.name && <Check className="h-4 w-4" />}
                     </button>
-                ))}
-                </section>
-            )}
+              ))}
             </div>
         </ToolbarContainer>
     )
