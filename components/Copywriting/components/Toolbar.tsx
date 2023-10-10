@@ -204,7 +204,7 @@ export default Toolbar;
 const ToolbarContainer = styled.div`
     display: flex;
     position: absolute;
-    width: 55%;
+    width: 70%;
     justify-content: center;
     align-items: center;
 `

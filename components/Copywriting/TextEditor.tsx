@@ -132,7 +132,7 @@ useEffect(() => {
     }
   };
   fetchSavedContent();
-}, [contentId]);
+}, [contentId, editor]);
 
 
   const generateIntro = async () => {
@@ -236,7 +236,7 @@ useEffect(() => {
     }
 
     let prompt = `Additional context that you might find relevant, but not necessary to include in the introduction:
-    ${context}
+    "${context}"
     
     Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
     This is the introduction header:
@@ -440,21 +440,21 @@ useEffect(() => {
 
     const text = editor.getText();
     let prompt = `Additional context that you might find relevant, but not necessary to include in the section:
-    ${context}
+    "${context}"
     
-    This is the previous paragraph of my ${contentType}: "...${text.slice(-500)}". Now please without repeating yourself, starting from new line write content for the next ${contentType} paragraph titled: "${conspect[sectionIndex].header}" in ${language} language using ${toneOfVoice} tone of voice. Ensure that it keeps the flow of the previous paragraph. Make sure to write it in no more than ${sectionLength} characters.
+    You ended last paragraph titled "${conspect[sectionIndex-1].header}" with these words: "...${text.slice(-800)}". 
+    Now please without repeating yourself, starting from new line write content for the next ${contentType} paragraph titled: "${conspect[sectionIndex].header}" in ${language} language using ${toneOfVoice} tone of voice. Ensure that it flows seamlessly with the previous paragraph. Make sure to write it in no more than ${sectionLength} characters.
     When writing this paragraph, please follow these instructions:
-    ${conspect[sectionIndex].instruction}
-    Make sure to use the following keywords: ${conspect[sectionIndex].keywords}
+    Outline: ${conspect[sectionIndex].instruction}
+    Encorporate following keywords: ${conspect[sectionIndex].keywords}
     ${endStyle}
     ${tonePrompt}
-    Now understanding the guidelines come up with the paragraph content:
+    Now understanding the guidelines write the next paragraph content:
     `;
 
     let systemPrompt = `You are a professional ${language} copywriter that specializes in writing ${contentType} sections. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with ${contentType} section without header.`;
     let model = "gpt-4-32k";
 
-    console.log(prompt);
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
@@ -601,6 +601,7 @@ useEffect(() => {
     }, undefined, { shallow: true });
     
     setPage(1);
+    router.reload();
   }
 
   return (
