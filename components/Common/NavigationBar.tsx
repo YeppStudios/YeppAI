@@ -23,9 +23,8 @@ import { FaSearch } from "react-icons/fa";
 import { HiMenu } from "react-icons/hi";
 import { motion, useAnimation } from "framer-motion";
 import ColorfulText from "./ColorfulText";
-import { MdCampaign } from "react-icons/md";
+import ChatbotPopup from "../Modals/InformationalModals/ChatbotPopup";
 import referralBg from "../../public/images/referral_popup_bg.png";
-import giftIcon from "../../public/images/giftIcon.png"
 
 const tabs = [
   {
@@ -82,8 +81,6 @@ const NavigationBar = () => {
   const router = useRouter();
   const { pathname } = router;
   const [mobile, setMobile] = useState(false);
-  const [openReferralModal, setOpenReferralModal] = useState(false);
-  const [openAddTeammateModal, setOpenAddTeammateModal] = useState(false);
   const [openSubscriptionModal, setOpenSubscriptionModal] = useState(false);
   const user = useSelector(selectedUserState);
   const [openMobile, setOpenMobile] = useState(false);
@@ -93,6 +90,7 @@ const NavigationBar = () => {
   const [loaded, setLoaded] = useState(false);
   const [hideGift, setHideGift] = useState(false);
   const [hidePopup, setHidePopup] = useState(false);
+  const [openChatbotPopup, setOpenChatbotPopup] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 1023) { 
@@ -218,6 +216,7 @@ const NavigationBar = () => {
   if (loaded) {
     return (
       <>
+        {openChatbotPopup && <ChatbotPopup onClose={() => setOpenChatbotPopup(false)} />}
         {openSubscriptionModal && (
           <UpgradeSubscription
             onClose={() => setOpenSubscriptionModal(false)}
@@ -237,8 +236,8 @@ const NavigationBar = () => {
             {memoizedNavigationTabs}
               <ReferralPopup background={referralBg} hideGift={hideGift}>
                 <div>
-                  <p className="text-center text-lg text-black font-bold mt-4 mb-4">Become our partner & <br /><ColorfulText>earn up to $1700</ColorfulText></p>
-                  <BlueBtn onClick={() => router.push("/about-partnership")}>Learn more</BlueBtn>
+                  <p className="text-center text-lg text-black font-bold mt-4 mb-4">Request AI Assistant <br />for <ColorfulText>your website</ColorfulText></p>
+                  <BlueBtn onClick={() => setOpenChatbotPopup(true)}>Request</BlueBtn>
                 </div>
               </ReferralPopup>
             <ProfileContainer id="profile-tab">
@@ -313,9 +312,9 @@ const NavigationBar = () => {
             {!hidePopup &&
               <ReferralPopup background={referralBg} hideGift={hideGift}>
                 <div>
-                  {!hideGift && <Centered><Image src={giftIcon} alt="gift" className="w-10 h-10"/></Centered>}
-                  <p className="text-center text-black font-bold mt-4 mb-4">Become our partner & <br /><ColorfulText>earn up to $1700</ColorfulText></p>
-                  <BlueBtn onClick={() => router.push("/about-partnership")}>Learn more</BlueBtn>
+                  {!hideGift && <Centered><p className="text-4xl">💭</p></Centered>}
+                  <p className="text-center text-lg text-black font-bold mt-4 mb-4">Request AI Assistant <br />for <ColorfulText>your website</ColorfulText></p>
+                  <BlueBtn onClick={() => setOpenChatbotPopup(true)}>Request</BlueBtn>
                 </div>
               </ReferralPopup>
             }
