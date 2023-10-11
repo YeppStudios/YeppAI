@@ -153,38 +153,32 @@ const AddDocument = (props: {
                   }
 
                   let upsertResponse = {data: {text: '', ids: ['']}};
-                  if (file.name.split('.')[1] === "csv") {
-                    upsertResponse = await axios.post(
-                      'https://www.asistant.ai/upsert-csv', {file},
-                      {
-                        headers: {
-                          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
-                          'Content-Type': 'multipart/form-data'  
-                        }
-                      }
-                  );
-                  } else if (file.name.split('.')[1] === "pdf") {
-                    upsertResponse = await axios.post(
-                      'https://www.asistant.ai/upsert-pdf', {file},
-                      {
-                        headers: {
-                          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
-                          'Content-Type': 'multipart/form-data'  
-                        }
-                      }
-                  );
-                  } else {
-                    upsertResponse = await axios.post(
-                      'https://www.asistant.ai/upsert-file', {file},
-                      {
-                        headers: {
-                          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
-                          'Content-Type': 'multipart/form-data'  
-                        }
-                      }
-                  );
+                  let url;
+                  const fileType = file.type; // This gives the MIME type of the file
+                  
+                  switch(fileType) {
+                    case 'text/csv':
+                      url = 'https://www.asistant.ai/upsert-csv';
+                      break;
+                    case 'application/pdf':
+                      url = 'https://www.asistant.ai/upsert-pdf';
+                      break;
+                    default:
+                      url = 'https://www.asistant.ai/upsert-file';
                   }
+                  
+                  upsertResponse = await axios.post(
+                    url,
+                    {file},
+                    {
+                      headers: {
+                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
+                        'Content-Type': 'multipart/form-data'  
+                      }
+                    }
+                  );
   
+                  console.log(upsertResponse.data);
                   const createdDocument = await api.post("/add-document", {
                         owner: fetchedUser._id,
                         ownerEmail: user.email,
