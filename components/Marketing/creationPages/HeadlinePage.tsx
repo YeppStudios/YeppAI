@@ -135,7 +135,7 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
         Then conduct proper market research, and start by understanding your target audience of ${targetAudience}, their demographics, and interests. 
         Once you have a deep understanding of the audience, come up with ${examplesNumber} compelling and catchy headlines that will grab their attention and entice them to click. 
         Avoid making false promises and ensure that the header accurately reflect what ${type.toLowerCase()} has to offer. 
-        You NEVER use emojis as you think there is no place for them in ${template.title}.`)
+        You NEVER use emojis as you think there is no place for them in ${template.title}. ${template.title} in under ${length} characters:`)
     }
     
     const handlePersonaChange = (title: string) => {
