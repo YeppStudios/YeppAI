@@ -388,7 +388,7 @@ const AddDocument = (props: {
                   {(props.documentType === "file" && !openChooseFolder && !fileLoading && !success) &&
                   <>
                     <Title>Upload a file</Title>
-                    <Centered><Description>Upload a PDF, PPTX, TXT, CSV or DOCX file. <p className='text-gray-500 text-sm'>(make sure it&apos;s not a scan)</p> </Description></Centered>
+                    <Centered><Description>Upload a PDF, PPTX, TXT, CSV or DOCX file. </Description></Centered>
                     <Form autoComplete="off">
                             <Centered>
                                 <FileUploader hoverTitle="Drop here" handleChange={handleFiles} name="file" types={fileTypes} multiple={true} >

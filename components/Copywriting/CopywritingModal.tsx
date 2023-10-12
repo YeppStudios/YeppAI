@@ -1157,7 +1157,7 @@ const CopywritingModal = (props: {
                               </div>
                               <div className='-mt-3'>
                               <CustomDropdown
-                                  values={["3", "4", "5", "6", "7"]}
+                                  values={["1", "2", "3", "4", "5", "6", "7", "8"]}
                                   value={paragraphsNumber}
                                   onChange={setParagraphsNumber}
                               />
