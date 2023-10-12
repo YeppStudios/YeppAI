@@ -3,8 +3,6 @@ import { Editor } from "@tiptap/core";
 import cx from "classnames";
 import { FC, useState } from "react";
 import {
-    Check,
-    ChevronDown,
     Heading1,
     Heading2,
     Heading3,

@@ -163,6 +163,16 @@ const AddDocument = (props: {
                         }
                       }
                   );
+                  } else if (file.name.split('.')[1] === "pdf") {
+                    upsertResponse = await axios.post(
+                      'https://www.asistant.ai/upsert-pdf', {file},
+                      {
+                        headers: {
+                          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`,
+                          'Content-Type': 'multipart/form-data'  
+                        }
+                      }
+                  );
                   } else {
                     upsertResponse = await axios.post(
                       'https://www.asistant.ai/upsert-file', {file},
