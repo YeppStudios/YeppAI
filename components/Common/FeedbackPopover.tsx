@@ -14,7 +14,7 @@ const FeedbackPopover = ({}) => {
 
     return (
         <>
-        {!mobile ?
+        {/* {!mobile ?
         <FeedbackDesktopPopover href="https://hiaupnlym0k.typeform.com/to/L7AEQsbe">
                 <div style={{whiteSpace: "nowrap", marginRight: "1rem", fontWeight: "500"}}>Feedback</div>
             <FeedbackIcon>
@@ -27,7 +27,7 @@ const FeedbackPopover = ({}) => {
                 <BsClipboardCheck style={{width: "100%", height: "auto"}}/>
             </FeedbackIcon>
         </FeedbackMobilePopover>
-        }
+        } */}
         </>
     )
 }

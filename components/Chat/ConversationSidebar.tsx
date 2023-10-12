@@ -166,7 +166,7 @@ const ConversationSidebar = ({createConversation}: any) => {
                 <SearchInput placeholder="Szukaj..."></SearchInput>
             </InputContainer> */}
             {renderConversations()}
-            <FeedbackPopover />
+            {/* <FeedbackPopover /> */}
             </div>
         </SidebarContainer>
     )
