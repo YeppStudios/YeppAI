@@ -38,7 +38,6 @@ const DocumentCreator = () => {
   const finishCopywritingIntro = async () => {
     setPage(2);
     setCopywritingModal(false);
-    console.log(embeddedVectorIds);
   };
 
   const router = useRouter();

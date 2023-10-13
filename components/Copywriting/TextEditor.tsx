@@ -234,28 +234,36 @@ useEffect(() => {
     if (selectedTonePrompt) {
       tonePrompt = `Write it in the following tone of voice of ${toneOfVoice}: ${selectedTonePrompt}`;
     }
+    let finishingLine = '';
+    if (conspect.length > 1) {
+      finishingLine = `End this intro so that it will be easy to continue writing the next section: ${conspect[1].header}`;
+    } else {
+      setNextSection("end");
+      finishingLine = `End this intro with some conclusions.`;
+    }
 
     let prompt = `Additional context that you might find relevant, but not necessary to include in the introduction:
     "${context}"
     
-    Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Make sure to write it in no more than ${sectionLength} characters.
+    Please write a professional introduction for my ${contentType} titled ${title} in ${language} language using ${toneOfVoice} tone of voice. Try to make it ${sectionLength} characters long.
     This is the introduction header:
     ${conspect[0].header}
-    And this is how I want you to write the introduction:
+    And this is how I want you to write the introduction that is ${sectionLength} characters long:
     ${conspect[0].instruction}
     ${tonePrompt}
-    End this intro so that it will be easy to continue writing the next section: ${conspect[1].header}
+    ${finishingLine}
     Introduction: 
     `;
     let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. You use your expert knowledge in ${title} topic to immediately captivate the target audience interest, and then provide them with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with introduction without header.`;
     let model = "gpt-4-32k";
 
+    console.log(prompt)
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
           signal: newAbortController.signal,
-          body: JSON.stringify({prompt, title: "Generated intro of SEO content", model, systemPrompt, temperature: 0.75}),
+          body: JSON.stringify({prompt, title: "Generated intro of SEO paragraph", model, systemPrompt, temperature: 0.75}),
         });
 
       if (!response.ok) {
@@ -443,13 +451,13 @@ useEffect(() => {
     "${context}"
     
     You ended last paragraph titled "${conspect[sectionIndex-1].header}" with these words: "...${text.slice(-800)}". 
-    Now please without repeating yourself, starting from new line write content for the next ${contentType} paragraph titled: "${conspect[sectionIndex].header}" in ${language} language using ${toneOfVoice} tone of voice. Ensure that it flows seamlessly with the previous paragraph. Make sure to write it in no more than ${sectionLength} characters.
+    Now please without repeating yourself, starting from new line write content for the next ${contentType} paragraph titled: "${conspect[sectionIndex].header}" in ${language} language using ${toneOfVoice} tone of voice. Ensure that it flows seamlessly with the previous paragraph. Try to make it ${sectionLength} characters long.
     When writing this paragraph, please follow these instructions:
     Outline: ${conspect[sectionIndex].instruction}
     Encorporate following keywords: ${conspect[sectionIndex].keywords}
     ${endStyle}
     ${tonePrompt}
-    Now understanding the guidelines write the next paragraph content:
+    Now understanding the guidelines write the next paragraph content that is ${sectionLength} characters long:
     `;
 
     let systemPrompt = `You are a professional ${language} copywriter that specializes in writing ${contentType} sections. You craft section for a ${contentType} about ${title} that is optimized to attract and engage readers from start to finish. You use your expert knowledge in ${title} topic to provide readers with well-researched and valuable insights. You keep sections brief and on point without writing unnecessary introductions. You write as human would in an emphatic way using ${toneOfVoice} tone of voice. You are ensuring the text remains easy-to-understand, emphatic and approachable. Your section flow seamlessly from the previous one into a new thread. Finally, you ensure the written section is error-free, follows best SEO practices and is meeting all ${language} grammatical standards required for a professional copywriter. You always respond only with ${contentType} section without header.`;

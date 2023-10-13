@@ -750,7 +750,8 @@ const CopywritingModal = (props: {
     const submit = async () => {
         let links = selectedLinks.map(item => (item.link));
         setLoading(true);
-     
+    
+          props.setSectionLength((Number(length)/paragraphs.length).toFixed(0));
           props.setConspect(paragraphs);
           try {
             const scrapingResponse = await axios.post(`https://www.asistant.ai/scrape-links`, {

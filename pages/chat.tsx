@@ -59,6 +59,7 @@ const Chat = () => {
   const [reply, setReply] = useState('');
   const [page, setPage] = useState(1);
   const router = useRouter();
+  const [searchingInfo, setSearchingInfo] = useState("Searching relevant assets...");
   const [abortController, setAbortController] = useState(new AbortController());
   const [openOnboarding, setOpenOnboarding] = useState(false);
 
@@ -319,67 +320,6 @@ const Chat = () => {
     }
 
     setAssistantThinking(true);
-    if(selectedAssistant._id === "64587d01393e208ab509d3c9") {
-      try {
-        const linksResponse = await api.post('/fetch-links', {query: input}, {
-          headers: {
-            authorization: token
-          }
-        });
-        if (!linksResponse.data.includes("[%no_internet%]")) {
-        setFetchingDocuments(true);
-        browsing = true;
-        let linkDocs: any = [];
-        setTimeout(() => {
-          linksResponse.data.forEach((item: any) => {
-            let path = item.substring(0, 28);
-            let domainWithPath = `${path}...`;
-            linkDocs.push({title: domainWithPath});
-          });
-          setContextDocuments(linkDocs);
-          const conversationBottom = document.getElementById("conversation-bottom");
-          if(conversationBottom){
-              conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
-          }
-        }, 7000);
-        const scrapingResponse = await axios.post(`https://www.asistant.ai/scrape-links`, {
-          urls: linksResponse.data,
-        }, {
-          headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
-          }
-        });
-
-          const chunks = await axios.post(
-            "https://www.asistant.ai/query",
-            {
-              "queries": [
-                {
-                  "query": input,
-                  "filter": {
-                    "document_id": scrapingResponse.data.ids
-                  },
-                  "top_k": 3
-                }
-              ]
-            },
-            {
-              headers: {
-                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
-              }
-            }
-          );          
-    
-        chunks.data.results[0].results.forEach((item: { text: string; }) => {
-          context += item.text + " ";
-        });
-        setEmbeddedDocuments(chunks.data.results[0].results);
-        setFetchingDocuments(false);
-        }
-      } catch (e) {
-        console.log(e)
-      }
-    }
 
     try {
       const response = await fetch(`https://asystentai.herokuapp.com/sendMessage/${selectedConversation._id}`, {
@@ -515,32 +455,48 @@ const Chat = () => {
       }
     });
 
-    try {
-      const chunks = await axios.post(
-        "https://www.asistant.ai/query",
-        {
-          "queries": [
-            {
-              "query": userMessage.text,
-              "filter": {
-                "document_id": vectorIdsResponse.data
-              },
-              "top_k": 3
-            }
-          ]
-        },
-        {
-          headers: {
-            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
-          }
-        }
-      );
-
-    chunks.data.results[0].results.forEach((item: { text: string; }) => {
-      context += item.text + " ";
+    setSearchingInfo("Retrieving first results...")
+    const initial_embedding_result = await api.post('/get-single-embedding', {prompt: userMessage.text, document_ids: vectorIdsResponse.data}, {
+      headers: {
+        Authorization: token
+      }
     });
-    setEmbeddedDocuments(chunks.data.results[0].results);
-    const documentIds = chunks.data.results[0].results.map((result: any) => result.metadata.document_id);
+
+    setSearchingInfo("Searching more relevant data...")
+    const context_response = await api.post('/completion-MSQT', {initial_prompt: userMessage.text, embedding_result: initial_embedding_result.data.context, document_ids: vectorIdsResponse.data}, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    context = context_response.data.context;
+    // try {
+    //   const chunks = await axios.post(
+    //     "https://www.asistant.ai/query",
+    //     {
+    //       "queries": [
+    //         {
+    //           "query": userMessage.text,
+    //           "filter": {
+    //             "document_id": vectorIdsResponse.data
+    //           },
+    //           "top_k": 3
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       headers: {
+    //         "Authorization": `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
+    //       }
+    //     }
+    //   );
+
+    // chunks.data.results[0].results.forEach((item: { text: string; }) => {
+    //   context += item.text + " ";
+    // });
+    setSearchingInfo("Summarizing everything...")
+    setEmbeddedDocuments(context_response.data.fetched_doc_ids);
+    const documentIds = context_response.data.fetched_doc_ids;
     const uniqueDocumentIds = documentIds.filter((id: any, index: any) => {
       return documentIds.indexOf(id) === index;
     });
@@ -555,8 +511,6 @@ const Chat = () => {
     });
     contextDocs = fetchedDocuments.data.documents.map((doc: { title: any; }) => doc.title);
     setContextDocuments(fetchedDocuments.data.documents);
-    } catch (e) {
-    }
 
     try {
       const response = await fetch(`https://asystentai.herokuapp.com/sendMessage/${selectedConversation._id}`, {
@@ -815,9 +769,11 @@ const Chat = () => {
             </ConversationHeaderContainer>
             
               {pageLoading ?
-              <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+              <ConversationContent>
+                <div  className="w-full h-full flex justify-center items-center">
                 <BlueLoader />
-              </div>
+                </div>
+              </ConversationContent>
               :
               <ConversationContent>
                 {showIntro &&
@@ -849,40 +805,18 @@ const Chat = () => {
                                 </div>
                               ))
                               :
-                              (selectedAssistant._id === "64587d01393e208ab509d3c9") ? 
                               <div style={{display: "inline-block"}}>
                                 <SlideBottom>
                                   <FetchingContainer>
                                   <FetchingIcon>
                                     <BsSearch style={{width: "100%", height: "auto"}}/></FetchingIcon>
-                                    Browsing the internet...
-                                  </FetchingContainer>
-                                  </SlideBottom>
-                                </div>
-                                :
-                                <div style={{display: "inline-block"}}>
-                                <SlideBottom>
-                                  <FetchingContainer>
-                                  <FetchingIcon>
-                                    <BsSearch style={{width: "100%", height: "auto"}}/></FetchingIcon>
-                                    Searching relevant assets...
+                                    {searchingInfo}
                                   </FetchingContainer>
                                   </SlideBottom>
                                 </div>
                             }
                         </div>
                         }
-                        {/* {(embeddedDocuments.length > 0 && !fetchingDocuments) && (
-                          <div style={{ width: 'calc(100% - 1.8rem)'}}>
-                            <div style={{display: "inline-block"}}>
-                            {embeddedDocuments.map(document => (
-                              <FetchingContainer key={document}>
-                                Document
-                              </FetchingContainer>
-                            ))}
-                          </div>
-                          </div>
-                        )} */}
                         {assistantThinking ?
                          <ThinkingMessage assistant={true} marginLeft="3rem"></ThinkingMessage>       
                         :
@@ -894,9 +828,10 @@ const Chat = () => {
                   </AssistantMessageContainer>                
                 }
 
-                <div style={{marginTop: "0.75rem"}} id="conversation-bottom"></div>           
+                <div style={{marginTop: "4rem"}} id="conversation-bottom"></div>           
                 </ConversationContent>  
               }
+            {/* <div className="w-full px-12 pb-1 flex z-10"><div className="py-2 border border-gray-100 px-6 bg-white rounded-2xl cursor-pointer shadow-md font-medium text-black hover:scale-95 hover:shadow-none transition">Extra Context Mode</div></div> */}
             <InputContainer onSubmit={(e) => sendMessage(e)}>
                 <Input         
                   id="text"
@@ -1027,6 +962,7 @@ const PageContent = styled.div`
 height: calc(100vh - 1.5rem);
 display: flex;
 width: 100%;
+position: relative;
 border-radius: 25px;
 @media (max-width: 1023px) {
   width: 100%;
@@ -1070,7 +1006,8 @@ const ConversationContent = styled.div`
     flex: 1;
     height: auto;
     width: 100%;
-    padding: 2rem 0 2rem 0;
+    padding: 2rem 0 4rem 0;
+    margin-bottom: -3rem;
     display: flex;
     overflow-y: scroll;
     flex-direction: column;
@@ -1078,14 +1015,14 @@ const ConversationContent = styled.div`
     scrollbar-width: none;
     -webkit-mask: 
     linear-gradient(to top,    black 94%, transparent) top   /100% 51%,
-    linear-gradient(to bottom, black 94%, transparent) bottom/100% 50%,
+    linear-gradient(to bottom, black 85%, transparent) bottom/100% 50%,
     linear-gradient(to left  , black, transparent) left  /100% 0%,
     linear-gradient(to right , black, transparent) right /100% 0%;
     -webkit-mask-repeat:no-repeat;
  
     mask: 
     linear-gradient(to top,    black 94%, transparent) top   /100% 51%,
-    linear-gradient(to bottom, black 94%, transparent) bottom/100% 50%,
+    linear-gradient(to bottom, black 85%, transparent) bottom/100% 50%,
     linear-gradient(to left  , black, transparent) left  /100% 0%,
     linear-gradient(to right , black, transparent) right /100% 0%;
     mask-repeat:no-repeat;
@@ -1115,15 +1052,15 @@ const InputContainer = styled.form`
 const Input = styled.textarea`
     width: 85%;
     max-height: 10rem;
-    padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+    padding: 0.5rem 0.7rem 0.7rem 0.7rem;
     font-weight: 500;
     font-size: 1rem;
-    border-radius: 10px;
+    border-radius: 15px;
     background-color: white;
-    box-shadow: inset 3px 3px 5px rgba(15, 27, 40, 0.23), inset -3px -3px 5px #FAFBFF;
-    -webkit-box-shadow: inset 3px 3px 5px rgba(15, 27, 40, 0.23), inset -3px -3px 5px #FAFBFF;
-    border: 2px solid #E5E8F0;
-    background-color: #EEF1FA;
+    box-shadow: inset -3px -3px 5px rgba(15, 27, 40, 0.13);
+    -webkit-box-shadow: inset 0px 0px 6px rgba(15, 27, 40, 0.13);
+    border: 2px solid #F1F1F1;
+    background-color: #fff;
     outline: none;
     resize: none;
     color: black;
@@ -1259,9 +1196,11 @@ const FetchingContainer = styled.div`
   margin-left: 1.2rem;
   margin-bottom: 0.2rem;
   margin-top: 0.2rem;
-  border-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
-  background-color: #EEF1F8;
+  background-color: #fff;
   color: black;
   font-weight: 500;
   @media (max-width: 1023px) {

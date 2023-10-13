@@ -60,7 +60,7 @@ const UserMessage = styled(motion.div)`
     max-width: 84%;
     background-color: white;
     box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23);
-    border: 2px solid #E5E8F0;
+    border: 1px solid #F1F1F1;
     font-weight: 500;
     color: black;
     border-top-left-radius: 15px;

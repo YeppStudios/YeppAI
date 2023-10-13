@@ -178,7 +178,6 @@ const AddDocument = (props: {
                     }
                   );
   
-                  console.log(upsertResponse.data);
                   const createdDocument = await api.post("/add-document", {
                         owner: fetchedUser._id,
                         ownerEmail: user.email,
