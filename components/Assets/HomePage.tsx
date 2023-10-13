@@ -24,6 +24,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import DeleteFolderModal from "../Modals/DeletingModals/DeleteFolderModal";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import FoldersNumberLimit from "../Modals/LimitModals/FoldersNumberLimit";
+import SortButton from "./SortButton";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -51,7 +52,6 @@ interface Folder {
     updatedAt: string,
     _id: string,
   }
-  
 
 const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
 
@@ -74,6 +74,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
     const [uploadedBytes, setUploadedBytes] = useState(0);
     const [mobile, setMobile] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [sortType, setSortType] = useState("Latest");
     const [filteredFolders, setFilteredFolders] = useState(props.folders);
     
     const dispatch = useDispatch();
@@ -105,6 +106,13 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
         }
 
     }, [workspaceCompany, user, props.folders])
+
+    useEffect(() => {
+        if (props.folders) {
+          sortFolders(props.folders, sortType);
+          console.log(filteredFolders)
+        }
+    }, [props.folders, sortType]);
 
     useEffect(() => {
         setAssistantsCount(assistants.length);
@@ -168,7 +176,6 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
               };
             const date = dateObject.toLocaleDateString("en-US", options);
     
-            console.log(folder)
             return (
                 <tr key={idx}>
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
@@ -226,6 +233,15 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
     )
   }
     
+  function sortFolders(folders: Folder[], sortType: string) {
+    console.log(sortType)
+    if (sortType === 'A-Z') {
+        setFilteredFolders([...folders].sort((a, b) => a.title.localeCompare(b.title)));
+    } else {
+      setFilteredFolders([...folders].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()));
+    }
+  }
+  
 
     return (
         <MainContainer>
@@ -332,7 +348,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 <div className="inline-block w-full py-2 align-middle sm:px-6 lg:px-8">
                     <div className="shadow ring-1 ring-black ring-opacity-5 rounded-2xl">
                     <table className="w-full divide-y divide-gray-300">
-                    <thead className="bg-slate-50">
+                    <thead className="">
                         <tr>
                             <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                             </th>
@@ -345,14 +361,15 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                             <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
                             Created By
                             </th>
-                            <th scope="col" className="hidden lg:flex relative w-full py-3.5 lg:pl-3 lg:pr-4 justify-start lg:justify-end">
+                            <th scope="col" className="hidden lg:flex relative lg:w-full py-3.5 gap-4 lg:pl-3 lg:pr-4 justify-between lg:justify-end">
                                 <input 
                                     value={searchTerm} 
                                     onChange={(e) => setSearchTerm(e.target.value)} 
-                                    style={{boxShadow: "inset -1px -1px 12px rgba(15, 27, 40, 0.1), inset 1px 1px 5px rgba(15, 27, 40, 0.1)"}} 
+                                    style={{boxShadow: "inset -1px -1px 8px rgba(15, 27, 40, 0.1), inset 1px 1px 5px rgba(15, 27, 40, 0.1)"}} 
                                     placeholder="search..." 
-                                    className="rounded-2xl border-2 border-[#e5e5e5] text-black pl-3 font-normal outline-none py-1"
+                                    className="rounded-xl border-2 border-gray-100 text-black pl-3 font-normal outline-none py-1"
                                 />
+                                <SortButton setSortType={setSortType} sortType={sortType} />
                             </th>
                         </tr>
                         </thead>
