@@ -42,35 +42,6 @@ export default function ScalingElement(props: { assistant: boolean, marginLeft: 
 
 }
 
-
-const UserMessage = styled(motion.div)`
-    padding: 1rem 1.2rem 1rem 1rem;
-    font-size: 0.95rem;
-    max-width: 84%;
-    background-color: white;
-    box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23);
-    border: 2px solid #E5E8F0;
-    font-weight: 500;
-    color: black;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    margin-right: 1.5rem;
-    margin-top: 0.5rem;
-    line-height: 1.6rem;
-    white-space: pre-wrap;
-    will-change: transform;
-    @media (max-width: 1023px) {
-      width: auto;
-      max-width: 100vw;
-      padding: 2.5vw 3.5vw 2.5vw 3.5vw;
-      font-size: 3.5vw;
-      margin-right: 0;
-      margin-top: 0.7rem;
-      box-shadow: none;
-  }
-`
-
 const AssistantMessage = styled(motion.div)<{ marginLeft: string }>`
     padding: 1rem 1.2rem 1rem 1rem;
     font-size: 1rem;

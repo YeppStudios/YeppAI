@@ -9,7 +9,7 @@ import useAutosizeTextArea from "@/hooks/useAutosizeTextArea";
 import ConversationSidebar from "@/components/Chat/ConversationSidebar";
 import api from "@/pages/api";
 import TypingAnimation from "@/components/Modals/common/TypingAnimation";
-import { BsPencilSquare, BsCheckLg, BsPlus, BsSearch, BsFilePdf, BsFillPauseFill } from "react-icons/bs";
+import { BsPencilSquare, BsCheckLg, BsPlus, BsSearch, BsFilePdf, BsFillPauseFill, BsTextLeft, BsCollection } from "react-icons/bs";
 import { selectConversationState, setSelectedConversation } from "../store/conversationSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { BlueLoader } from "@/components/Common/Loaders";
@@ -60,6 +60,7 @@ const Chat = () => {
   const [page, setPage] = useState(1);
   const router = useRouter();
   const [searchingInfo, setSearchingInfo] = useState("Searching relevant assets...");
+  const [SearchEmoji, setSearchEmoji] = useState(() => BsSearch);
   const [abortController, setAbortController] = useState(new AbortController());
   const [openOnboarding, setOpenOnboarding] = useState(false);
 
@@ -259,16 +260,22 @@ const Chat = () => {
 
   const sendMessage = async (e: any) => {
     e.preventDefault();
+
+    if (assistantThinking || replying){
+      stopReplying();
+    }
+    if(assistantThinking || !userInput || replying) {
+      return;
+    }
+
+    setAssistantThinking(true);
+
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
     const workspace = localStorage.getItem("workspace");
 
     const newAbortController = new AbortController();
     setAbortController(newAbortController);
-
-    if (assistantThinking || replying){
-      stopReplying();
-    }
 
     let fetchedUser = null;
     if (workspace && workspace !== "null" && workspace !== "undefined") {
@@ -292,9 +299,6 @@ const Chat = () => {
       return;
     }
 
-    if(assistantThinking || !userInput || replying) {
-      return;
-    }
     let text = "";
     let input = userInput;
     let browsing = false;
@@ -318,8 +322,6 @@ const Chat = () => {
     } else {
       setMessages([userMessage])
     }
-
-    setAssistantThinking(true);
 
     try {
       const response = await fetch(`https://asystentai.herokuapp.com/sendMessage/${selectedConversation._id}`, {
@@ -362,11 +364,8 @@ const Chat = () => {
                 if(text.length > 2) {
                   if (text.startsWith("[%") || text.startsWith("[f") || text.startsWith(`"[`)) {
                     setFetchingDocuments(true);
+                    setSearchEmoji(() => BsSearch)
                     sendMessageWithEmbedding(userMessage);
-                    const conversationBottom = document.getElementById("conversation-bottom");
-                    if(conversationBottom){
-                        conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
-                    }
                     return;
                   } else {
                     setAssistantThinking(false);
@@ -408,7 +407,6 @@ const Chat = () => {
   }
 
   const sendMessageWithEmbedding = async (userMessage: any) => {
-
     let token = localStorage.getItem("token");
     let workspace = localStorage.getItem("workspace");
     let userId = localStorage.getItem("user_id");
@@ -462,6 +460,7 @@ const Chat = () => {
       }
     });
 
+    setSearchEmoji(() => BsCollection)
     setSearchingInfo("Searching more relevant data...")
     const context_response = await api.post('/completion-MSQT', {initial_prompt: userMessage.text, embedding_result: initial_embedding_result.data.context, document_ids: vectorIdsResponse.data}, {
       headers: {
@@ -494,6 +493,7 @@ const Chat = () => {
     // chunks.data.results[0].results.forEach((item: { text: string; }) => {
     //   context += item.text + " ";
     // });
+    setSearchEmoji(() => BsTextLeft);
     setSearchingInfo("Summarizing everything...")
     setEmbeddedDocuments(context_response.data.fetched_doc_ids);
     const documentIds = context_response.data.fetched_doc_ids;
@@ -590,10 +590,10 @@ const Chat = () => {
 
   useEffect(() => {
     const conversationBottom = document.getElementById("conversation-bottom");
-    if(conversationBottom){
+    if  (conversationBottom){
         conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
     }
-  }, [messages, reply]);
+  }, [messages]);
 
   const renderMessages = () => {
     const fetchedMessages = messages?.map((message) => {
@@ -647,18 +647,16 @@ const Chat = () => {
                   </div>
                 ))
               }
-              {message.contextDocs.length > 0 ?
+              {(message.contextDocs.length) > 0 ?
               <div style={{width: "100%", display: 'flex'}}>
               <Message assistant={true} marginLeft="3rem">
                 {message.text.trimStart()}
               </Message>
               </div>
               :
-              <div style={{width: "100%", display: 'flex'}}>
               <Message assistant={true} marginLeft="1.5rem">
                 {message.text.trimStart()}
               </Message>
-              </div> 
               }
           </AssistantMessageContainer>
           }
@@ -710,7 +708,7 @@ const Chat = () => {
     return (
       <div onClick={() => setEditConversationName(false)}>
       <Head>
-          <title>Chat | Yepp AI</title>
+          <title>Chat with your data | Yepp AI</title>
           <meta name = "theme-color" content = "#FFFFFF" />
           <meta name="description" content="Chat with files, videos and websites using AI." />
       </Head>
@@ -809,7 +807,8 @@ const Chat = () => {
                                 <SlideBottom>
                                   <FetchingContainer>
                                   <FetchingIcon>
-                                    <BsSearch style={{width: "100%", height: "auto"}}/></FetchingIcon>
+                                    <SearchEmoji style={{ width: "100%", height: "auto" }} />
+                                  </FetchingIcon>
                                     {searchingInfo}
                                   </FetchingContainer>
                                   </SlideBottom>
@@ -820,9 +819,9 @@ const Chat = () => {
                         {assistantThinking ?
                          <ThinkingMessage assistant={true} marginLeft="3rem"></ThinkingMessage>       
                         :
-                        <Message assistant={true} marginLeft="1.5rem">
+                        <Message assistant={true} marginLeft="3rem">
                           {reply}
-                        </Message>                
+                        </Message>            
                         }
 
                   </AssistantMessageContainer>                
