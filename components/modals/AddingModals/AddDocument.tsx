@@ -186,7 +186,8 @@ const AddDocument = (props: {
                         timestamp: Date.now(),
                         workspace: fetchedUser.workspace,
                         vectorId: upsertResponse.data.ids[0],
-                        size: file.size
+                        size: file.size,
+                        websiteUrl: ""
                     },
                       {
                         headers: {
@@ -294,7 +295,8 @@ const AddDocument = (props: {
                 timestamp: Date.now(),
                 ownerEmail: user.email,
                 workspace: fetchedUser.workspace,
-                size: estimatedTextSize
+                size: estimatedTextSize,
+                websiteUrl: website
             },
             {
               headers: {

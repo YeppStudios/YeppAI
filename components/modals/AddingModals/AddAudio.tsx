@@ -132,7 +132,8 @@ const AddAudio = (props: {
                 timestamp: Date.now(),
                 workspace: selectedWorkspaceCompany.workspace,
                 vectorId: transcriptionResponse.data.ids[0],
-                size: estimatedTextSize
+                size: estimatedTextSize,
+                websiteUrl: ""
             },
               {
                 headers: {

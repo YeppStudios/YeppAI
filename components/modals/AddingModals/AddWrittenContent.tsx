@@ -159,7 +159,8 @@ const AddWrittenContent = (props: {
                   timestamp: Date.now(),
                   workspace: user.workspace,
                   vectorId: upsertResponse.data.ids[0],
-                  size: estimatedTextSize
+                  size: estimatedTextSize,
+                  websiteUrl: ""
               },
               {
                 headers: {
