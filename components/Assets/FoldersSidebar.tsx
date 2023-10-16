@@ -77,7 +77,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
         {openNewFolder && <AddFolder onClose={() => setOpenNewFolder(false)} setFolders={props.setFolders} folders={props.folders} folderLimit={handleFolderLimit} parentFolder={undefined} />}
         {openFolderLimit && <FoldersNumberLimit onClose={() => setOpenFolderLimit(false)}/>}
         <FoldersHeaderContainer>
-          <SidebarHeader>Folders</SidebarHeader>
+          <SidebarHeader>Main Folders</SidebarHeader>
           <SidebarDescription>
             Folders with resources for AI to reference.
           </SidebarDescription>

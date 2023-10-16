@@ -196,13 +196,13 @@ const NavigationBar = () => {
               )
             ) : mobile ? (
               <SlideBottom>
-                <SelectedNavigationTab hovered={isHovered}>
+                <SelectedNavigationTab onClick={() => router.reload()} hovered={isHovered}>
                   <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
                   <SelectedNavigationText>{tab.title}</SelectedNavigationText>
                 </SelectedNavigationTab>
               </SlideBottom>
             ) : (
-              <SelectedNavigationTab hovered={isHovered}>
+              <SelectedNavigationTab onClick={() => router.reload()} hovered={isHovered}>
                 <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
                 {isHovered && <NavigationText>{tab.title}</NavigationText>}
               </SelectedNavigationTab>
@@ -273,13 +273,13 @@ const NavigationBar = () => {
                 )
               ) : mobile ? (
                 <SlideBottom>
-                  <SelectedNavigationTab hovered={isHovered}>
+                  <SelectedNavigationTab onClick={() => router.reload()} hovered={isHovered}>
                     <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
                     <SelectedNavigationText>{tab.title}</SelectedNavigationText>
                   </SelectedNavigationTab>
                 </SlideBottom>
               ) : (
-                <SelectedNavigationTab hovered={isHovered}>
+                <SelectedNavigationTab onClick={() => router.reload()} hovered={isHovered}>
                   <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
                   {isHovered && <NavigationText>{tab.title}</NavigationText>}
                 </SelectedNavigationTab>
@@ -352,13 +352,13 @@ const NavigationBar = () => {
                 )
               ) : mobile ? (
                 <SlideBottom>
-                  <SelectedNavigationTab hovered={isHovered}>
+                  <SelectedNavigationTab onClick={() => router.reload()} hovered={isHovered}>
                     <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
                     <SelectedNavigationText>{tab.title}</SelectedNavigationText>
                   </SelectedNavigationTab>
                 </SlideBottom>
               ) : (
-                <SelectedNavigationTab hovered={isHovered}>
+                <SelectedNavigationTab onClick={() => router.reload()} hovered={isHovered}>
                   <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
                   {isHovered && <NavigationText>{tab.title}</NavigationText>}
                 </SelectedNavigationTab>
@@ -594,6 +594,7 @@ const SelectedNavigationTab = styled.div<{ hovered: boolean }>`
     inset -3px -3px 5px #fafbff;
   display: flex;
   color: black;
+  cursor: pointer;
   white-space: nowrap;
   margin-top: 1rem;
   align-items: center;
