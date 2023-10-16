@@ -13,7 +13,7 @@ import { selectedUserState } from '@/store/userSlice';
 import { selectedPlanState } from '@/store/planSlice';
 import { useSelector, useDispatch } from "react-redux";
 
-const AddFolder = (props: { onClose: any, setFolders: any, folders: any[], folderLimit: any}) => {
+const AddFolder = (props: { onClose: any, setFolders: any, folders: any[], folderLimit: any, parentFolder: any | null}) => {
 
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
@@ -51,7 +51,9 @@ const AddFolder = (props: { onClose: any, setFolders: any, folders: any[], folde
                     category: "general",
                     updatedAt: Date.now(),
                     documents: [],
-                    workspace: workspace
+                    workspace: workspace,
+                    parentFolder: props.parentFolder,
+                    ownerEmail: user.email
                   },
                   {
                     headers: {
@@ -59,7 +61,9 @@ const AddFolder = (props: { onClose: any, setFolders: any, folders: any[], folde
                     }
                   });
                 setLoading(false);
-                dispatch(setSelectedFolder(createdFolder.data.folder));
+                if (!props.parentFolder) {
+                  dispatch(setSelectedFolder(createdFolder.data.folder));
+                }
                 props.setFolders((folders: any) => [...folders, createdFolder.data.folder]);
                 props.onClose();
             } catch (e) {

@@ -447,6 +447,7 @@ const Chat = () => {
     let context = "";
     let contextDocs = [];
     setReply('');
+    console.log(selectedAssistant)
     const vectorIdsResponse = await api.post("/getPineconeIds", {documents: selectedAssistant.documents}, {
       headers: {
         Authorization: token

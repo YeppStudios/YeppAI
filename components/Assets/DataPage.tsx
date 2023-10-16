@@ -3,7 +3,7 @@ import backIcon from "../../public/images/backArrow.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import api from "@/pages/api";
-import { BsFillGearFill, BsTrash, BsYoutube } from "react-icons/bs";
+import { BsFileEarmarkText, BsFillGearFill, BsFolder, BsTrash, BsYoutube } from "react-icons/bs";
 import { BsFolderSymlinkFill, BsFillPencilFill, BsFillLaptopFill } from "react-icons/bs";
 import { BlueLoader } from "../Common/Loaders";
 import Centered from "../Centered";
@@ -21,28 +21,50 @@ import FilesSpaceLimit from "../Modals/LimitModals/FilesSpaceLimit";
 import { useRouter } from "next/router";
 import SecondOnboardingStep from "../Modals/OnboardingModals/SecondOnboardingStep";
 import DeleteFolderModal from "../Modals/DeletingModals/DeleteFolderModal";
+import { HiPlusSm } from "react-icons/hi";
+import AddFolder from "../Modals/AddingModals/AddFolder";
+import folderIcon from "../../public/images/folderIcon.webp";
+import fileIcon from "../../public/images/fileIcon.png";
+import { SlOptionsVertical } from "react-icons/sl";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
-  }
+}
 interface Document {
+    _id: string,
     owner: string,
     title: string,
     category: string,
     timestamp: string,
     ownerEmail: string,
-    vectorId: string
+    vectorId: string,
+    isDocument?: boolean,
+    normalizedTimestamp?: string
 }
 
 interface Folder {
+    _id: string,
     owner: string,
     title: string,
+    ownerEmail: string,
     category: string,
     documents: Document[],
-    updatedAt: string
+    updatedAt: string,
+    parentFolder: Folder,
+    isSubfolder?: boolean,
+    normalizedTimestamp?: string
 }
 
-const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: Folder[], setFolders: any}) => {
+type CombinedItemType = Document | Folder;
+
+const DataPage = (props: {
+    back: any, 
+    openedFolder: Folder | undefined, 
+    folders: Folder[], 
+    setFolders: any, 
+    setLineage: any, 
+    lineage: Folder[]
+}) => {
 
     const [loading, setLoading] = useState(false);
     const selectedFolder = useSelector(selectFolderState);
@@ -50,53 +72,79 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
     const [openDeleteAsset, setOpenDeleteAsset] = useState(false);
     const [openWriteContent, setOpenWriteContent] = useState(false);
     const [documents, setDocuments] = useState<Document[]>([]);
-    const [documentToDelete, setDocumentToDelete] = useState<Document>();
+    const [subfolders, setSubfolders] = useState<Folder[]>([]);    
+    const [itemToDelete, setItemToDelete] = useState<any>();
     const [openDocumentLimit, setOpenDocumentLimit] = useState(false);
     const [openSpaceLimit, setOpenSpaceLimit] = useState(false);
     const [addAudio, setAddAudio] = useState(false);
+    const [folderToDelete, setFolderToDelete] = useState<Folder | undefined>(undefined);
     const [openOnboarding, setOpenOnboarding] = useState(false);
     const [openDeleteFolder, setOpenDeleteFolder] = useState(false);
+    const [openNewFolder, setOpenNewFolder] = useState(false);
+    const [mobile, setMobile] = useState(false);
+    const [parentFolder, setParentFolder] = useState<Folder | undefined>(undefined);
     const plan = useSelector(selectedPlanState);
 
-    const router = useRouter();
+    const dispatch = useDispatch();
 
-    const fetchDocuments = async () => {
+    const fetchDocumentsAndFolders = async () => {
         try {
             setLoading(true);
-            const folder = await api.get(`/getFolder/${selectedFolder._id}`, { 
+            const folderResponse = await api.get(`/getFolder/${selectedFolder._id}`, { 
                 headers: {
                     Authorization: `${localStorage.getItem("token")}`
                 }
             });
-            setDocuments(folder.data.documents);
-            let onboardingSetp = localStorage.getItem("onboarding_step");
-            if (onboardingSetp === "2" && folder.data.documents.length === 1) {
-                setOpenOnboarding(true);
-                localStorage.setItem("onboarding_step", "");
+            if (folderResponse.data.folder.parentFolder){
+                const parentFolder  = await api.get(`/getFolder/${folderResponse.data.folder.parentFolder._id}`, { 
+                    headers: {
+                        Authorization: `${localStorage.getItem("token")}`
+                    }
+                });
+                setParentFolder(parentFolder.data.folder);
+            } else {
+                setParentFolder(undefined);
             }
+            props.setLineage(folderResponse.data.lineage);
+            setDocuments(folderResponse.data.folder.documents);
+            setSubfolders(folderResponse.data.folder.subfolders);
             setLoading(false);
         } catch (error) {
             setLoading(false);
             console.error(error);
         }
     }
-
+    
     useEffect(() => {
-        fetchDocuments();
+        if(window.innerWidth <= 1023){
+            setMobile(true);
+        }
+        fetchDocumentsAndFolders();
     }, [selectedFolder]);
 
-    const openDeleteModal = (document: Document) => {
-        setDocumentToDelete(document);
+    const openDeleteModal = (item: any) => {
+        setItemToDelete(item);
         setOpenDeleteAsset(true);
     }
 
-    const handleDeleteDocument = () => {
-        if (documentToDelete) {
-          setDocuments((prevDocuments) =>
-            prevDocuments.filter((doc) => doc.vectorId !== documentToDelete.vectorId)
-          );
+    const handleDeleteItem = () => {
+        if (itemToDelete) {
+            if (itemToDelete.vectorId) {  // It's a document
+                setDocuments((prevDocuments) =>
+                    prevDocuments.filter((doc) => doc.vectorId !== itemToDelete.vectorId)
+                );
+            } else if (itemToDelete._id) { // It's a folder
+                setSubfolders((prevSubfolders) =>
+                    prevSubfolders.filter((folder) => folder._id !== itemToDelete._id)
+                );
+            }
         }
-      };
+    };
+    
+    const openDeleteFolderPopup = (folder: any) => {
+        setFolderToDelete(folder);
+        setOpenDeleteFolder(true);
+    }
 
     const handleDocumentsLimit = () => {
         setAddDocument("");
@@ -111,67 +159,170 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
         setOpenWriteContent(false);
         setOpenSpaceLimit(true);
     };
+    
+    const handleBack = () => {
+        if (parentFolder) {
+            dispatch(setSelectedFolder(parentFolder));
+        } else {
+            props.back();
+        }
+    } 
 
     const handleDeleteFolder = () => {
-        if (selectedFolder) {
-            router.reload();
+        if (folderToDelete) {
+            setSubfolders((prevFolders: Folder[]) =>
+                prevFolders.filter((folder) => folder._id !== folderToDelete._id)
+            );
+            
         }
     };
 
       
-    const renderDocuments = () => {
-        let renderedDocuments;
-        if (selectedFolder.title !== "" ) {
-            if (documents.length !== 0) {
-                renderedDocuments = documents.map((document, documentIdx) => {
-
-                    const date = new Date(document.timestamp);
-                    const formattedDate = `${date.getDate() < 10 ? "0" : ""}${date.getDate()}.${(date.getMonth() + 1) < 10 ? "0" : ""}${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours() < 10 ? "0" : ""}${date.getHours()}:${date.getMinutes() < 10 ? "0" : ""}${date.getMinutes()}`;
-        
-                    return (
-                        <tr key={document.title} className={documentIdx % 2 === 0 ? undefined : 'bg-gray-50'}>
-                            <td className="max-w-xs lg:max-w-sm overflow-hidden lg:w-64 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                            {document.title}
-                            </td>
-                            <td className="hidden py-4 text-sm text-gray-500 lg:table-cell"><div className="py-1.5 px-2 text-green-600 bg-green-100 w-28 rounded-xl flex justify-center">Saved</div></td>
-                            <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{formattedDate}</td>
-                            <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{document.ownerEmail}</td>
-                            <td className="relative py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <button onClick={() => openDeleteModal(document)} className="text-red-400 hover:text-red-700">
-                                Delete<span className="sr-only">, {document.title}</span>
-                            </button>
-                            </td>
-                        </tr>
-                    )
-                });
-            }
+    const renderItems = (): JSX.Element[] | null => {
+        if (!selectedFolder?.title) {
+            return null;
         }
-
-
-        return (
-            <tbody className="bg-white">
-                {renderedDocuments}
-            </tbody>
-        )
+    
+        const combinedItems: CombinedItemType[] = [
+            ...documents.map(doc => ({...doc, isDocument: true, normalizedTimestamp: doc.timestamp})), 
+            ...subfolders.map(folder => ({...folder, isSubfolder: true, normalizedTimestamp: folder.updatedAt}))
+        ];
+    
+        combinedItems.sort((a, b) => new Date(b.normalizedTimestamp!).getTime() - new Date(a.normalizedTimestamp!).getTime());
+    
+        return combinedItems.map((item, idx) => {
+            const date = 'isDocument' in item
+                ? new Date(item.timestamp)
+                : 'isSubfolder' in item
+                    ? new Date(item.updatedAt)
+                    : new Date();
+    
+            const formattedDate = `${date.getDate() < 10 ? "0" : ""}${date.getDate()}.${(date.getMonth() + 1) < 10 ? "0" : ""}${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours() < 10 ? "0" : ""}${date.getHours()}:${date.getMinutes() < 10 ? "0" : ""}${date.getMinutes()}`;
+    
+            return (
+                <tr key={'isDocument' in item ? item.vectorId : item._id}>
+                    <td className=" py-4 pl-4 text-sm font-medium text-gray-900 sm:pl-6">
+                        {'isDocument' in item ? <Image src={fileIcon} alt="folder-icon" className="w-7"/> : <Image src={folderIcon} alt="folder-icon" className="w-8"/>}
+                    </td>
+                    <td className="max-w-xs lg:max-w-sm lg:w-64 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                        {item.title}
+                    </td>
+                    <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{formattedDate}</td>
+                    <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{item.ownerEmail}</td>
+                    <td className="relative py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                    {'isDocument' in item ?
+                        <Menu as="div" className="relative inline-block text-left">
+                        <div>
+                        <Menu.Button className="inline-flex w-full justify-center text-sm font-semibold text-gray-900 focus:outline-none">
+                            <OptionsIcon>
+                            <SlOptionsVertical style={{ color: "black", width: "100%" }} />
+                            </OptionsIcon>
+                        </Menu.Button>
+                        </div>
+                        <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                        >
+                        <Menu.Items className="absolute right-0 z-20 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <Menu.Item>
+                                {({ active }) => (
+                                <button
+                                    onClick={() => openDeleteModal(item)}
+                                    className={classNames(
+                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                    'group w-full flex items-center px-4 py-2 text-sm'
+                                    )}
+                                >
+                                    <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                    Delete
+                                </button>
+                                )}
+                            </Menu.Item>
+                        </Menu.Items>
+                        </Transition>
+                        </Menu>
+                        :
+                        <>
+                        <button onClick={() => dispatch(setSelectedFolder(item))} className="mr-4 text-500 text-blue-500 hover:text-blue-800">Open folder</button>
+                        <Menu as="div" className="relative inline-block text-left">
+                            <div>
+                            <Menu.Button className="inline-flex w-full justify-center text-sm font-semibold text-gray-900 focus:outline-none">
+                                <OptionsIcon>
+                                <SlOptionsVertical style={{ color: "black", width: "100%" }} />
+                                </OptionsIcon>
+                            </Menu.Button>
+                            </div>
+                            <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                            >
+                            <Menu.Items className="absolute right-0 z-20 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Item>
+                                    {({ active }) => (
+                                    <button
+                                        onClick={() => openDeleteFolderPopup(item)}
+                                        className={classNames(
+                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                        'group w-full flex items-center px-4 py-2 text-sm'
+                                        )}
+                                    >
+                                        <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                        Delete
+                                    </button>
+                                    )}
+                                </Menu.Item>
+                            </Menu.Items>
+                            </Transition>
+                            </Menu>
+                    </>
+                    }
+                    </td>
+                </tr>
+            );
+        });
     }
-
+    
     return (
         <MainContainer>
-            {openDeleteAsset && <DeleteAsset onClose={() => setOpenDeleteAsset(false)} assetType="document" document={documentToDelete} deleteDocumentState={handleDeleteDocument}/> }
+            {openNewFolder && <AddFolder onClose={() => setOpenNewFolder(false)} setFolders={setSubfolders} folderLimit={() => console.log("")} folders={props.folders} parentFolder={selectedFolder._id}/>}
+            {openDeleteFolder && <DeleteFolderModal onClose={() => setOpenDeleteFolder(false)} folder={folderToDelete} deleteFolderState={handleDeleteFolder} />}
+            {openDeleteAsset && <DeleteAsset onClose={() => setOpenDeleteAsset(false)} assetType="document" document={itemToDelete} deleteDocumentState={handleDeleteItem}/> }
             {addDocument && <AddDocument onClose={() => setAddDocument("")} setDocuments={setDocuments} documentType={addDocument} documentsLimit={handleDocumentsLimit} spaceLimit={handleSpaceLimit} folderLimit={() => console.log("")} folders={props.folders} setFolders={props.setFolders}/>}
             {addAudio && <AddAudio onClose={() => setAddAudio(false)} setDocuments={setDocuments} documentsLimit={handleDocumentsLimit} spaceLimit={handleSpaceLimit} folderLimit={() => console.log("")} folders={props.folders} setFolders={props.setFolders} />}
             {openWriteContent && <AddWrittenContent onClose={() => setOpenWriteContent(false)} setDocuments={setDocuments} documentsLimit={handleDocumentsLimit} spaceLimit={handleSpaceLimit} folderLimit={() => console.log("")} folders={props.folders} setFolders={props.setFolders}/>}
             {openDocumentLimit && <FilesNumberLimit onClose={() => setOpenDocumentLimit(false)}/>}
             {openSpaceLimit && <FilesSpaceLimit onClose={() => setOpenSpaceLimit(false)}/>}
             {openOnboarding && <SecondOnboardingStep onClose={() => setOpenOnboarding(false)}/>}
-            {openDeleteFolder && <DeleteFolderModal onClose={() => setOpenDeleteFolder(false)} folder={selectedFolder} deleteFolderState={handleDeleteFolder} />}
-                <Header>   
-                <BackBtn onClick={props.back}>
+                <Header>
+                <BackBtn onClick={() => handleBack()}>
                     <BackBtnIcon>
                         <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                     </BackBtnIcon> 
-                    <BackBtnText>Back</BackBtnText>
+                    {parentFolder ? <BackBtnText>Back to <b>/{parentFolder.title}</b></BackBtnText> : <BackBtnText>Back home</BackBtnText>}
                 </BackBtn>
+                {(props.lineage.length > 0 && props.lineage[0].title !== selectedFolder.title && !loading && !mobile) && 
+                <div>
+                    {props.lineage.reverse().map((folder, index) => (
+                        <span onClick={() => dispatch(setSelectedFolder(folder))} className="text-black hover:text-blue-500 cursor-pointer" key={folder._id}>
+                            {folder.title}
+                             / 
+                        </span>
+                    ))}
+                    <span className="text-black font-medium">
+                        {selectedFolder.title}
+                    </span>
+                </div>
+                }
                 <div style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
                 {selectedFolder &&
                     <HeaderTitle>{selectedFolder.title}</HeaderTitle>
@@ -264,8 +415,12 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                     <SavedDocsHeader>
                     <div>
                     <Subtitle>Saved assets</Subtitle>
-                    <SectionDescription>Here you can find all your uploaded assets.</SectionDescription>
+                    {!mobile && <SectionDescription>Here you can find all your uploaded assets.</SectionDescription>}
                     </div>
+                    <AddBtn onClick={() => setOpenNewFolder(true)}>
+                        <HiPlusSm style={{ width: "auto", height: "60%" }} />
+                        <ButtonText>New folder</ButtonText>
+                    </AddBtn>
                     </SavedDocsHeader>
                     <div className="mt-8 flow-root pb-20 lg:pb-8">
                         {loading ?
@@ -273,18 +428,17 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                                 <div className="mt-4"><BlueLoader /></div>
                             </Centered>
                         :
-                        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-2xl">
-                            {documents.length > 0 ?
+                            <div className=" shadow ring-1 ring-black ring-opacity-5 sm:rounded-2xl">
+                            {(documents.length > 0 || subfolders.length > 0) ?
                              <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-slate-50">
                                  <tr>
+                                    <th scope="col" className="py-3.5 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                    </th>
                                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                         Name
-                                    </th>
-                                    <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        Status
                                     </th>
                                     <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
                                         Uploaded on
@@ -296,7 +450,7 @@ const DataPage = (props: {back: any, openedFolder: Folder | undefined, folders: 
                                     </th>
                                  </tr>
                              </thead>
-                             {renderDocuments()}
+                             {renderItems()}
                              </table>                    
                             :
                             <NoDocsContainer>
@@ -363,6 +517,9 @@ const HeaderTitle = styled.h2`
     font-size: 1.5rem;
     color: black;
     font-weight: 700;
+    @media (max-width: 1023px) {
+        font-size: 1rem;
+    }
 `
 
 const OptionsIcon = styled.div`
@@ -495,4 +652,36 @@ const NoDocsContainer = styled.div`
     padding: 4rem;
     color: #4B5563;
     text-align: center;
+`
+
+const AddBtn = styled.button`
+    width: 14rem;
+    height: 2.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: solid 3px transparent;
+    border-radius: 15px;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background: linear-gradient(40deg, #6578F8, #64B5FF);
+    background-size: 120%;
+    background-position-x: -1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    &:hover {
+        transform: scale(0.95);
+        box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF;
+    }
+    @media (max-width: 1023px) {
+        width: 11rem;
+    }
+`
+
+const ButtonText = styled.p`
+    margin-left: 0.7vw;
 `

@@ -25,6 +25,8 @@ import DeleteFolderModal from "../Modals/DeletingModals/DeleteFolderModal";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import FoldersNumberLimit from "../Modals/LimitModals/FoldersNumberLimit";
 import SortButton from "./SortButton";
+import Image from "next/image";
+import folderIcon from "../../public/images/folderIcon.webp";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -110,7 +112,6 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
     useEffect(() => {
         if (props.folders) {
           sortFolders(props.folders, sortType);
-          console.log(filteredFolders)
         }
     }, [props.folders, sortType]);
 
@@ -179,7 +180,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             return (
                 <tr key={idx}>
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                    <BsFolder className="text-black" size={18}/>
+                <Image src={folderIcon} alt="folder-icon" className="w-8"/>
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-base text-black">{folder.title}</td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-base text-black lg:table-cell">{date}</td>
@@ -234,7 +235,6 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
   }
     
   function sortFolders(folders: Folder[], sortType: string) {
-    console.log(sortType)
     if (sortType === 'A-Z') {
         setFilteredFolders([...folders].sort((a, b) => a.title.localeCompare(b.title)));
     } else {
@@ -245,7 +245,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
 
     return (
         <MainContainer>
-            {openNewFolder && <AddFolder onClose={() => setOpenNewFolder(false)} setFolders={props.setFolders} folderLimit={handleFolderLimit} folders={props.folders}/>}
+            {openNewFolder && <AddFolder onClose={() => setOpenNewFolder(false)} setFolders={props.setFolders} folderLimit={handleFolderLimit} folders={props.folders} parentFolder={null}/>}
             {addDocument && <AddDocument onClose={() => setAddDocument("")} setDocuments={console.log("")} setFolders={props.setFolders} folders={props.folders} documentType={addDocument} documentsLimit={handleDocumentsLimit} spaceLimit={handleSpaceLimit} folderLimit={handleFolderLimit}/>}
             {addAudio && <AddAudio onClose={() => setAddAudio(false)} setDocuments={console.log("")} documentsLimit={handleDocumentsLimit} spaceLimit={handleSpaceLimit} folders={props.folders} setFolders={props.setFolders} folderLimit={handleFolderLimit}/>}
             {openWriteContent && <AddWrittenContent onClose={() => setOpenWriteContent(false)} setDocuments={console.log("")} documentsLimit={handleDocumentsLimit} spaceLimit={handleSpaceLimit} folders={props.folders} setFolders={props.setFolders} folderLimit={handleFolderLimit}/>}

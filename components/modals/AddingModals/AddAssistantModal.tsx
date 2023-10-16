@@ -16,13 +16,16 @@ import { useRouter } from "next/router";
 import TextArea from "../../forms/TextArea";
 import TypingAnimation from "../common/TypingAnimation";
 import ColorfulText from "../../Common/ColorfulText";
-import { useDispatch, useSelector } from "react-redux";
 import { setSelectedMarketingAssistant } from "@/store/marketingAssistantSlice";
 import { setSelectedCopywritingAssistant } from "@/store/copywritingAssistantSlice";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import elixirIcon from "../../../public/images/elixir.png";
 import { selectedUserState } from "@/store/userSlice";
 import CustomDropdown from "@/components/forms/CustomDropdown";
+import FoldersDropdown from "@/components/forms/FolderDropdown";
+import { selectFoldersState } from "@/store/selectedFoldersSlice";
+import { setSelectedFolder } from "@/store/openedFolderSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
@@ -97,7 +100,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
     const [selectedTab, setSelectedTab] = useState(1);
     const [previewUrl, setPreviewUrl] = useState(""); 
     const [image, setImage] = useState<File>();
-    const [selectedFolders, setSelectedFolders] = useState<Array<string>>(); 
+    const selectedFolders = useSelector(selectFoldersState);
     const [folders, setFolders] = useState<Array<Folder>>([]);
     const [foldersLoading, setFoldersLoading] = useState(false);
     const [openTabInput, setOpenTabInput] = useState(false);
@@ -171,7 +174,6 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
             setName(name);
             setCompany(companyName);
             setBusinessSector(aboutCompany);
-            setSelectedFolders(folders);
             if (exampleContent) {
                 setExampleText(exampleContent);
             }
@@ -248,22 +250,6 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
             setOpenTabInput(false);
         }
     };
-
-    const handleOpenAddFolder = () => {
-        props.onClose();
-        router.push("/assets");
-    }
-
-    const handleFolderClick = (folderId: string) => {
-        setFoldersError(false);
-        setSelectedFolders((prevSelectedFolders) => {
-          if (!prevSelectedFolders) {
-            return [folderId];
-          }
-          
-          return [...prevSelectedFolders, folderId];
-        });
-      };
 
       useEffect(() => {
         if (openNewTrigger) {
@@ -427,12 +413,15 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
         imageURL = "https://asystentai.infura-ipfs.io/ipfs/QmPQbzyLqe32TM9v2JYCLqk5E5oucEp818BuJtBFh7pNjP";
         description = "AI based on the uploaded knowledge."
 
+        const folderIds = selectedFolders.map(folder => folder._id);
+        
         try {
-            const documentsResponse = await api.post('/folders/documents', {folderIds: selectedFolders}, {
+            const documentsResponse = await api.post('/folders/documents', {folderIds: folderIds}, {
                 headers: {
                     Authorization: token
-            }});
-            if(image) {
+                }
+            });
+            if  (image) {
                 const subdomain = 'https://asystentai.infura-ipfs.io';
                 const ipfsImage = await client.add({ content: image });
                 imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
@@ -580,51 +569,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 {selectedTab === 2 &&
                 <div>
                 {!foldersError ? <Label>Choose folders for AI to reference...</Label> : <Label className="text-red-400">Choose folders for AI to reference... </Label>}
-                <Tabs justifyContent="left">
-                    {!foldersLoading ? (
-                        folders.length > 0 ? 
-                        [
-                            ...folders.map((folder) => {
-                                if (selectedFolders?.includes(folder._id)) {
-                                    return (
-                                        <SelectedFolder onClick={() => setSelectedFolders(selectedFolders.filter((id) => id !== folder._id))} key={folder._id}>
-                                            <div style={{ display: "flex", flexWrap: "wrap" }}>
-                                            <FolderTitle style={{ color: "black" }}>
-                                                <FolderIcon>
-                                                <BsFillFolderFill style={{ height: "auto", width: "100%" }} />
-                                                </FolderIcon>
-                                                {folder.title}
-                                            </FolderTitle>
-                                            </div>
-                                        </SelectedFolder>
-                                    )
-                                } else {
-                                    return (
-                                        <Folder onClick={() => handleFolderClick(folder._id)} key={folder._id}>
-                                            <div style={{ display: "flex", flexWrap: "wrap" }}>
-                                            <FolderTitle style={{ color: "black" }}>
-                                                <FolderIcon>
-                                                <BsFillFolderFill style={{ height: "auto", width: "100%" }} />
-                                                </FolderIcon>
-                                                {folder.title}
-                                            </FolderTitle>
-                                            </div>
-                                        </Folder>
-                                    );
-                                }
-                            }),
-                            <AddFolder key="addfolder" onClick={handleOpenAddFolder}><BsPlusLg style={{width: "auto", height: "60%"}}/></AddFolder>
-                        ]
-                        :
-                        <div style={{display: "flex", width: "100%", marginTop: "0.25rem", justifyContent: "flex-start"}}>
-                            <AddFolderBtn onClick={() => props.openNewFolder()}><ColorfulText><b>+ Create a new folder</b></ColorfulText></AddFolderBtn>
-                        </div>
-                    ) : (
-                    <div style={{ marginTop: "3vh", width: "100%", display: "flex", justifyContent: "center" }}>
-                            <BlueLoader />
-                    </div>
-                    )}
-                </Tabs>
+                <FoldersDropdown />
                 <Label>Teach AI your brand voice...<p style={{color: "#777777", marginLeft: "0.5rem", fontSize: "0.85rem"}}>(optional)</p></Label>
                 <TextArea
                     id="about-field"

@@ -4,11 +4,8 @@ import { useEffect, useState } from "react";
 import api from "@/pages/api";
 import SlideBottom from "../../Animated/SlideBottom";
 import Centered from "../../Centered";
-import { send } from "@emailjs/browser";
-import ColorfulText from "../../Common/ColorfulText";
 import TypingAnimation from '../common/TypingAnimation';
 import { BsCheckLg, BsFillVolumeUpFill, BsFolderPlus, BsXLg } from 'react-icons/bs';
-import { useRouter } from 'next/router';
 import { Loader } from '../../Common/Loaders';
 import { selectFolderState, setSelectedFolder } from "../../../store/openedFolderSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -181,7 +178,8 @@ const AddAudio = (props: {
           title: folderName,
           owner: localStorage.getItem("user_id"),
           workspace: user.workspace,
-          documents: [createdDoc]
+          documents: [createdDoc],
+          ownerEmail: user.email
         },
         {
           headers: {
@@ -263,15 +261,7 @@ const AddAudio = (props: {
                           {savingOption === 2 &&
                             <InputContainer width="100%">
                                 <FoldersDropdown
-                                    width="100%"
-                                    id="folder"
-                                    type="text"
-                                    placeholder="Create new folder"
-                                    required
-                                    value={chosenFolder}
-                                    values={props.folders}
                                     onChange={setChosenFolder}
-                                    error={undefined}
                                 />
                             </InputContainer>
                           }

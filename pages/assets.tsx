@@ -14,34 +14,41 @@ import Head from "next/head";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 
 interface Document {
+  _id: string,
   owner: string,
   title: string,
   category: string,
   timestamp: string,
   ownerEmail: string,
-  vectorId: string
+  vectorId: string,
+  isDocument?: boolean,
+  normalizedTimestamp?: string
 }
 
 interface Folder {
+  _id: string,
   owner: string,
   title: string,
+  ownerEmail: string,
   category: string,
-  documents: Document[],
+  documents: Document[] | [],
   updatedAt: string,
-  _id: string
+  parentFolder: Folder,
+  isSubfolder?: boolean,
+  normalizedTimestamp?: string
 }
-
 
 const Assets = () => {
 
   const selectedFolder = useSelector(selectFolderState);
   const dispatch = useDispatch();
-  const [openedFolder, setOpenedFolder] = useState<Folder>();
+  const [openedFolder, setOpenedFolder] = useState<Folder | null>();
   const [mobile, setMobile] = useState(false);
   const [folders, setFolders] = useState<Array<Folder>>([]);
   const [foldersLoading, setFoldersLoading] = useState(true);
   const [openOnboarding, setOpenOnboarding] = useState(false);
   const workspaceCompany = useSelector(selectedWorkspaceCompanyState);
+  const [lineage, setLineage] = useState<Folder[]>([]);
 
   const router = useRouter();
 
@@ -95,7 +102,9 @@ const Assets = () => {
   }, [dispatch, workspaceCompany]);
 
   useEffect(() => {
-    setOpenedFolder(selectedFolder);
+    if (selectedFolder) {
+      setOpenedFolder(selectedFolder as Folder);
+    }
   }, [selectedFolder]);
 
 
@@ -110,11 +119,11 @@ const Assets = () => {
           {openOnboarding && <OnboardingModal onClose={() => handleOnboardingClose()}/>}
           <PageContent>
           {openedFolder?.title ?
-              <DataPage back={() => dispatch(setSelectedFolder({documents: []}))} folders={folders} openedFolder={openedFolder} setFolders={setFolders}/>
+              <DataPage back={() => dispatch(setSelectedFolder({documents: []}))} folders={folders} openedFolder={openedFolder} setLineage={setLineage} lineage={lineage} setFolders={setFolders}/>
               :
               <HomePage folders={folders} setFolders={setFolders} loading={foldersLoading}/> 
           }
-          {(openedFolder?.title && !mobile) && <FoldersSidebar foldersLoading={foldersLoading} folders={folders} setFolders={setFolders}/>}
+          {(openedFolder?.title && !mobile) && <FoldersSidebar foldersLoading={foldersLoading} folders={folders} setFolders={setFolders} lineage={lineage}/>}
           </PageContent>
       </PageTemplate>
       </>

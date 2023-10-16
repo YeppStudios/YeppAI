@@ -3,28 +3,34 @@ import { AppState } from "./store";
 import { HYDRATE } from "next-redux-wrapper";
 
 interface Document {
+  _id: string,
   owner: string,
   title: string,
   category: string,
   timestamp: string,
   ownerEmail: string,
-  vectorId: string
+  vectorId: string,
+  isDocument?: boolean,
+  normalizedTimestamp?: string
 }
 
 interface Folder {
     owner: string,
     title: string,
+    ownerEmail: string,
     category: string,
     documents: Document[] | [],
     updatedAt: string,
     _id:  string,
     workspace: string,
+    parentFolder: Folder | null,
+    subfolders: Folder[] | []
 }
 
 
 export interface FolderState {
     folder: Folder
-  }
+}
   
 
 // Initial state
@@ -33,10 +39,13 @@ const initialState: FolderState = {
     owner: '',
     title: '',
     documents: [],
+    ownerEmail: '',
     updatedAt: '',
     category: '',
     _id: '',
     workspace: '',
+    parentFolder: null, 
+    subfolders: [],
   }
 };
 

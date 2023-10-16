@@ -18,15 +18,6 @@ interface Document {
     ownerEmail: string,
     vectorId: string
   }
-  interface Folder {
-    owner: string,
-    title: string,
-    category: string,
-    documents: Document[],
-    updatedAt: string,
-    _id: string
-  }
-  
 
 const DeleteFolder = (props: {
     onClose: any, folder: any, deleteFolderState: any
@@ -46,8 +37,11 @@ const DeleteFolder = (props: {
                         Authorization: localStorage.getItem("token")
                     }
                 })
+                console.log(props.folder);
+                if (!props.folder.parentFolder) {
+                    dispatch(setSelectedFolder({}));
+                }
                 setLoading(false);
-                dispatch(setSelectedFolder({}));
                 props.deleteFolderState();
                 props.onClose();
             } catch (e) {

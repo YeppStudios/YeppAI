@@ -19,6 +19,7 @@ interface Folder {
     updatedAt: string,
     _id:  string,
     workspace: string,
+    parentFolder: string,
 }
 
 

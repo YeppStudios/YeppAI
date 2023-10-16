@@ -35,10 +35,11 @@ interface Folder {
   category: string,
   documents: Document[],
   updatedAt: string,
-  _id: string
+  _id: string,
+  parentFolder: any | null,
 }
 
-const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>, setFolders: any}) => {
+const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>, setFolders: any, lineage: Folder[]}) => {
 
     const [openNewFolder, setOpenNewFolder] = useState(false);
     const [folderToDelete, setFolderToDelete] = useState<Folder | undefined>(undefined);
@@ -48,6 +49,10 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
 
     const dispatch = useDispatch();
 
+    const isFolderInLineage = (folder: Folder): boolean => {
+      return props.lineage.some(f => f._id === folder._id);
+  };
+  
 
     const openDeletePopup = (folder: Folder) => {
       setFolderToDelete(folder);
@@ -69,7 +74,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
     return (
       <SidebarContainer>
         {openDeleteFolder && <DeleteFolderModal onClose={() => setOpenDeleteFolder(false)} folder={folderToDelete} deleteFolderState={handleDeleteFolder} />}
-        {openNewFolder && <AddFolder onClose={() => setOpenNewFolder(false)} setFolders={props.setFolders} folders={props.folders} folderLimit={handleFolderLimit} />}
+        {openNewFolder && <AddFolder onClose={() => setOpenNewFolder(false)} setFolders={props.setFolders} folders={props.folders} folderLimit={handleFolderLimit} parentFolder={undefined} />}
         {openFolderLimit && <FoldersNumberLimit onClose={() => setOpenFolderLimit(false)}/>}
         <FoldersHeaderContainer>
           <SidebarHeader>Folders</SidebarHeader>
@@ -80,7 +85,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
         <FoldersList>
           {!props.foldersLoading ?
           props.folders.map((folder) => (
-            folder._id === selectedFolder._id ?
+            (folder._id === selectedFolder._id || isFolderInLineage(folder)) ?
             <SelectedFolder onClick={() => dispatch(setSelectedFolder(folder))} key={folder._id}>
               <div style={{ display: "flex"}}>
                 <FolderIcon>
@@ -276,10 +281,10 @@ const SidebarDescription = styled.p`
 `
 
 const FoldersList = styled.div`
-    padding: 0.5rem 0.2rem 1rem 0.2rem;
+    padding: 0rem 0.2rem 1rem 0.2rem;
     width: 100%;
     flex: 1;
-    max-height: 65vh;
+    max-height: 70vh;
     overflow-y: scroll;
     overflow-x: visible;
     -ms-overflow-style: none;

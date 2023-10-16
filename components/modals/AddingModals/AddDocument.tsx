@@ -358,7 +358,8 @@ const AddDocument = (props: {
           title: folderName,
           owner: localStorage.getItem("user_id"),
           workspace: fetchedUser.workspace,
-          documents: createdDocs
+          documents: createdDocs,
+          ownerEmail: user.email
         },
         {
           headers: {
