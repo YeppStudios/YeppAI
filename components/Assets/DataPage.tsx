@@ -26,6 +26,8 @@ import AddFolder from "../Modals/AddingModals/AddFolder";
 import folderIcon from "../../public/images/folderIcon.webp";
 import fileIcon from "../../public/images/fileIcon.png";
 import { SlOptionsVertical } from "react-icons/sl";
+import { PencilSquareIcon } from "@heroicons/react/20/solid";
+import EditFolder from "../Modals/AddingModals/EditFolder";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -50,7 +52,7 @@ interface Folder {
     category: string,
     documents: Document[],
     updatedAt: string,
-    parentFolder: Folder,
+    parentFolder: Folder | null,
     isSubfolder?: boolean,
     normalizedTimestamp?: string
 }
@@ -84,6 +86,8 @@ const DataPage = (props: {
     const [mobile, setMobile] = useState(false);
     const [parentFolder, setParentFolder] = useState<Folder | undefined>(undefined);
     const plan = useSelector(selectedPlanState);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [chosenFolder, setChosenFolder] = useState<Folder | undefined>(undefined);
 
     const dispatch = useDispatch();
 
@@ -121,6 +125,11 @@ const DataPage = (props: {
         }
         fetchDocumentsAndFolders();
     }, [selectedFolder]);
+
+    const editFolder = (folder: any) => {
+        setChosenFolder(folder);
+        setOpenEditModal(true);
+    }
 
     const openDeleteModal = (item: any) => {
         setItemToDelete(item);
@@ -270,6 +279,23 @@ const DataPage = (props: {
                                 <Menu.Item>
                                     {({ active }) => (
                                     <button
+                                    onClick={() => editFolder(item)}
+                                        className={classNames(
+                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                        'group w-full flex items-center px-4 py-2 text-sm'
+                                        )}
+                                    >
+                                        <PencilSquareIcon
+                                        className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                        aria-hidden="true"
+                                        />
+                                        Rename
+                                    </button>
+                                    )}
+                                </Menu.Item>
+                                <Menu.Item>
+                                    {({ active }) => (
+                                    <button
                                         onClick={() => openDeleteFolderPopup(item)}
                                         className={classNames(
                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
@@ -301,6 +327,7 @@ const DataPage = (props: {
             {addAudio && <AddAudio onClose={() => setAddAudio(false)} setDocuments={setDocuments} documentsLimit={handleDocumentsLimit} spaceLimit={handleSpaceLimit} folderLimit={() => console.log("")} folders={props.folders} setFolders={props.setFolders} />}
             {openWriteContent && <AddWrittenContent onClose={() => setOpenWriteContent(false)} setDocuments={setDocuments} documentsLimit={handleDocumentsLimit} spaceLimit={handleSpaceLimit} folderLimit={() => console.log("")} folders={props.folders} setFolders={props.setFolders}/>}
             {openDocumentLimit && <FilesNumberLimit onClose={() => setOpenDocumentLimit(false)}/>}
+            {openEditModal && <EditFolder folder={chosenFolder} onClose={() => setOpenEditModal(false)} onSuccess={() => fetchDocumentsAndFolders()}/>}
             {openSpaceLimit && <FilesSpaceLimit onClose={() => setOpenSpaceLimit(false)}/>}
             {openOnboarding && <SecondOnboardingStep onClose={() => setOpenOnboarding(false)}/>}
                 <Header>
@@ -346,30 +373,30 @@ const DataPage = (props: {
                     leaveTo="transform opacity-0 scale-95"
                     >
                     <Menu.Items className="absolute right-0 z-20 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {/* <Menu.Item>
+                        <Menu.Item>
                             {({ active }) => (
-                            <a
-                                href="#"
+                            <button
+                                onClick={() => editFolder(selectedFolder)}
                                 className={classNames(
                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                'group flex items-center px-4 py-2 text-sm'
+                                'group flex items-center px-4 py-2 text-sm w-full'
                                 )}
                             >
                                 <PencilSquareIcon
                                 className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                 aria-hidden="true"
                                 />
-                                Edytuj
-                            </a>
+                                Rename
+                            </button>
                             )}
-                        </Menu.Item> */}
+                        </Menu.Item>
                         <Menu.Item>
                             {({ active }) => (
                             <button
                                 onClick={() => setOpenDeleteFolder(true)}
                                 className={classNames(
                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                'group flex items-center px-4 py-2 text-sm'
+                                'group flex items-center px-4 py-2 text-sm w-full'
                                 )}
                             >
                                 <BsTrash className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />

@@ -15,6 +15,8 @@ import {
 } from '@heroicons/react/20/solid'
 import FoldersNumberLimit from "../Modals/LimitModals/FoldersNumberLimit";
 import DeleteFolderModal from "../Modals/DeletingModals/DeleteFolderModal";
+import EditFolder from "../Modals/AddingModals/EditFolder";
+import { useRouter } from "next/router";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -46,8 +48,10 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
     const [openDeleteFolder, setOpenDeleteFolder] = useState(false);
     const [openFolderLimit, setOpenFolderLimit] = useState(false);
     const selectedFolder = useSelector(selectFolderState);
+    const [openEditModal, setOpenEditModal] = useState(false);
 
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const isFolderInLineage = (folder: Folder): boolean => {
       return props.lineage.some(f => f._id === folder._id);
@@ -74,6 +78,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
     return (
       <SidebarContainer>
         {openDeleteFolder && <DeleteFolderModal onClose={() => setOpenDeleteFolder(false)} folder={folderToDelete} deleteFolderState={handleDeleteFolder} />}
+        {openEditModal && <EditFolder folder={selectedFolder} onClose={() => setOpenEditModal(false)} onSuccess={() => router.reload()}/>}
         {openNewFolder && <AddFolder onClose={() => setOpenNewFolder(false)} setFolders={props.setFolders} folders={props.folders} folderLimit={handleFolderLimit} parentFolder={undefined} />}
         {openFolderLimit && <FoldersNumberLimit onClose={() => setOpenFolderLimit(false)}/>}
         <FoldersHeaderContainer>
@@ -114,11 +119,11 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 z-20 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 z-20 mt-2 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                          onClick={() => dispatch(setSelectedFolder(folder))}
+                          onClick={() => setOpenEditModal(true)}
                             className={classNames(
                               active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                               'group w-full flex items-center px-4 py-2 text-sm'
@@ -128,7 +133,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
                               className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                               aria-hidden="true"
                             />
-                            Edit
+                            Rename
                           </button>
                         )}
                       </Menu.Item>
@@ -181,7 +186,7 @@ const FoldersSidebar = (props: {foldersLoading: boolean, folders: Array<Folder>,
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 z-50 mt-2 py-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <Menu.Item>
                         {({ active }) => (
                           <button

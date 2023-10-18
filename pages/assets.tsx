@@ -67,7 +67,7 @@ const Assets = () => {
       setMobile(true);
     }
     const token = localStorage.getItem("token");
-    const workspace = localStorage.getItem("workspace");
+    const  workspace= localStorage.getItem("workspace");
     const userId = localStorage.getItem("user_id");
     const onboarding = localStorage.getItem("onboarding");
     const fetchFolders = async () => {
@@ -77,13 +77,14 @@ const Assets = () => {
             setOpenOnboarding(true);
           }
         }
-        if (workspaceCompany._id) {
-          const { data } = await api.get(`/folders/${workspaceCompany.workspace}`, {
+        if (workspace) {
+          const { data } = await api.get(`/folders/${workspace}`, {
             headers: {
               Authorization: `${token}`,
             },
           });
           setFolders(data);
+          console.log(data, "workspace");
           setFoldersLoading(false);
         } else {
           const { data } = await api.get(`/folders/owner/${userId}`, {
@@ -91,6 +92,7 @@ const Assets = () => {
               Authorization: `${token}`,
             },
           });
+          console.log(data);
           setFolders(data);
           setFoldersLoading(false);
         }

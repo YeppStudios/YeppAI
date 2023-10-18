@@ -123,13 +123,13 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
         if (!searchTerm.trim()) {
             setFilteredFolders(props.folders);
             return;
-        }
-
-        const result = props.folders.filter((folder: any) =>
+        } else {
+            const result = props.folders.filter((folder: any) =>
             folder.title.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+            );
 
-        setFilteredFolders(result);
+            setFilteredFolders(result);
+        }
     }, [searchTerm, props.folders]);
 
     const handleDocumentsLimit = () => {
