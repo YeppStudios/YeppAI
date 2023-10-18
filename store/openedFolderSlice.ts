@@ -24,7 +24,8 @@ interface Folder {
     _id:  string,
     workspace: string,
     parentFolder: Folder | null,
-    subfolders: Folder[] | []
+    subfolders: Folder[] | [],
+    totalDocsCount: number
 }
 
 
@@ -46,6 +47,7 @@ const initialState: FolderState = {
     workspace: '',
     parentFolder: null, 
     subfolders: [],
+    totalDocsCount: 0
   }
 };
 

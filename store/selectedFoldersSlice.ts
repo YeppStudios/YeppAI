@@ -20,6 +20,7 @@ interface Folder {
     _id:  string,
     workspace: string,
     parentFolder: string,
+    totalDocsCount: number
 }
 
 

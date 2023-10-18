@@ -6,6 +6,9 @@ import { setSelectedFolders, selectFoldersState } from '@/store/selectedFoldersS
 import { useSelector, useDispatch } from 'react-redux'
 import folderIcon from "../../public/images/folderIcon.webp";
 import api from '@/pages/api'
+import { BlueLoader } from '../Common/Loaders'
+import TypingAnimation from '../Modals/common/TypingAnimation'
+import MultiLineSkeletonLoader from '../Common/MultilineSkeletonLoader'
 
 interface Folder {
     owner: string,
@@ -14,14 +17,21 @@ interface Folder {
     documents: Document[],
     updatedAt: string,
     _id: string,
-    subfolders?: any[]
+    subfolders?: any[],
+    totalDocsCount: number
+  }
+
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
   }
 
 export default function FoldersDropdown() {
   const [folders, setFolders] = useState<Array<Folder>>([]);
   const [mobile, setMobile] = useState(false);
   const [openFolders, setOpenFolders] = useState<string[]>([]);
-
+  const [totalDocumentsOpened, setTotalDocumentsOpened] = useState<number>(0);
+  const [maxDocs, setMaxDocs] = useState<boolean>(false);
+  const [loadingFolders, setLoadingFolders] = useState<boolean>(true);
   
   const dispatch = useDispatch();
   let selectedFolders = useSelector(selectFoldersState);
@@ -30,6 +40,7 @@ export default function FoldersDropdown() {
     if(window.innerWidth <= 1023){
       setMobile(true);
     }
+    
 
     const fetchFolders = async () => {
       const token = localStorage.getItem("token");
@@ -47,14 +58,16 @@ export default function FoldersDropdown() {
           },
         });
         setFolders(data);
+        setLoadingFolders(false)
       } catch (error) {
         console.error(error);
+        setLoadingFolders(false)
       }
     };
     fetchFolders();
   }, [selectedFolders]);
 
-
+  
 const getAllSubfolderIds = (folderId: string, allFolders: Folder[]): string[] => {
     let ids: string[] = [];
     const folder = allFolders.find(f => f._id === folderId);
@@ -84,19 +97,22 @@ const getAllSubfolders = (folder: Folder, allFolders: Folder[]): Folder[] => {
 
 const handleSelect = (folder: Folder) => {
   const allSubfolders = getAllSubfolders(folder, folders);
-  
   const isFolderSelected = selectedFolders.some((item) => item._id === folder._id);
   if (isFolderSelected) {
+      setMaxDocs(false);
+      setTotalDocumentsOpened(totalDocumentsOpened - folder.totalDocsCount);
       const idsToRemove = new Set([folder._id, ...allSubfolders.map(sf => sf._id)]);
       const updatedFolders = selectedFolders.filter((item) => !idsToRemove.has(item._id));
       setSelectedFolders(updatedFolders);
       dispatch(setSelectedFolders(updatedFolders));
   } else {
+      if ((totalDocumentsOpened + folder.totalDocsCount) > 1000) {
+        setMaxDocs(true);
+      }
       const updatedFolders = [folder, ...allSubfolders, ...selectedFolders];
-      
+      setTotalDocumentsOpened(totalDocumentsOpened + folder.totalDocsCount);
       setSelectedFolders(updatedFolders);
       dispatch(setSelectedFolders(updatedFolders));
-      
       const idsToClose = getAllSubfolderIds(folder._id, folders);
       idsToClose.push(folder._id);
       setOpenFolders(prev => prev.filter(id => !idsToClose.includes(id)));
@@ -112,16 +128,34 @@ const toggleFolder = (folderId: string) => {
   }
 };
 
+const getTotalDocumentsForFolder = (folder: Folder): number => {
+  let totalDocuments = folder.totalDocsCount;
+
+  if (folder.subfolders && folder.subfolders.length > 0) {
+      folder.subfolders.forEach(subfolder => {
+          totalDocuments += getTotalDocumentsForFolder(subfolder);
+      });
+  }
+
+  return totalDocuments;
+};
+
+
 const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }: any) => {
 
   const toggleOpen = (e: any) => {
     e.stopPropagation();
     onToggle(folder._id);
   };
+  const totalDocs =  getTotalDocumentsForFolder(folder);
 
   const handleClick = (e: any) => {
     e.stopPropagation();
-    handleSelect(folder);
+    if (totalDocs >= 1000) {
+      toggleOpen(e);
+    } else {
+      handleSelect(folder);
+    }
   };
 
   const isSelected = selectedFolders.some((selectedFolder: { _id: any }) => selectedFolder._id === folder._id);
@@ -138,6 +172,7 @@ const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }:
         </div>
       </div>
       <div className="ml-3 flex h-6 items-center gap-4">
+        {totalDocs < 1000 ?
         <input
           id={`folder-${folder._id}`}
           name={`folder-${folder._id}`}
@@ -146,6 +181,9 @@ const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }:
           checked={isSelected}
           readOnly
         />
+        :
+        <div></div>
+        }
         <div onClick={(e) => e.stopPropagation()}>
           {!isSelected && (isOpen ? 
             <BsChevronUp onClick={toggleOpen} className='h-4 w-4 text-black'/> 
@@ -168,7 +206,7 @@ const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }:
               handleSelect={handleSelect} 
               selectedFolders={selectedFolders}
               isOpen={openFolders.includes(subfolder._id)}
-              onToggle={onToggle} // Ensure this is passed down
+              onToggle={onToggle}
           />
       </div>
     ))}
@@ -189,8 +227,8 @@ const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }:
           <Image src={folderIcon} alt="folder-icon" className="w-full"/>
         </div>
         <span style={{maxWidth: "75%"}} className="block truncate text-left text-black font-medium text-base md:text-lg flex items-center">
-          {selectedFolders.length > 0 ? selectedFolders[0].title : <div className='text-black font-medium text-base md:text-lg'>Choose folders to reference...</div>} 
-          {selectedFolders.length > 1 && <div className='ml-4 bg-slate-100 rounded-full py-1 px-2 text-sm'>+{selectedFolders.length -1}</div>}
+          {selectedFolders.length > 0 ? <>{selectedFolders[0].title}{selectedFolders.length > 1 && <> +{selectedFolders.length - 1}</>}</> : <div className='text-black font-medium text-base md:text-lg'>Choose folders to reference...</div>} 
+          {(selectedFolders.length > 0 && totalDocumentsOpened > 0) && <div className={classNames(totalDocumentsOpened >= 1000 ? 'border-2 border-red-400' : '', 'ml-4 bg-slate-100 rounded-full py-1 px-3 text-xs')}>{totalDocumentsOpened} docs</div>}
         </span>
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-6 2xl:pr-8">
               <BsChevronDown
@@ -199,9 +237,16 @@ const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }:
               />
         </span>
         </Listbox.Button>
+
         <Listbox.Options
            style={{boxShadow: "5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF", scrollbarWidth: "none", border: "2px solid #E5E8F0", borderRadius: "20px"}}
            className="absolute py-4 z-10 rounded-xl font-medium mt-1 max-h-64 w-full overflow-y-scroll rounded-md bg-white text-base shadow-lg sm:text-sm ring-0">
+        {loadingFolders ?
+        <div className='w-full px-6 pt-2 pb-4 flex justify-center items-center'>
+          <MultiLineSkeletonLoader lines={3} justifyContent='left' />
+        </div>
+        :
+        <>
         {folders.map((folder, folderIdx) => (
           <FolderItem 
             key={folderIdx} 
@@ -212,6 +257,8 @@ const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }:
             onToggle={toggleFolder}
           />
         ))}
+        </>
+        }
         </Listbox.Options>
       </div>
     </Listbox>
