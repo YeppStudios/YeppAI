@@ -6,8 +6,6 @@ import { setSelectedFolders, selectFoldersState } from '@/store/selectedFoldersS
 import { useSelector, useDispatch } from 'react-redux'
 import folderIcon from "../../public/images/folderIcon.webp";
 import api from '@/pages/api'
-import { BlueLoader } from '../Common/Loaders'
-import TypingAnimation from '../Modals/common/TypingAnimation'
 import MultiLineSkeletonLoader from '../Common/MultilineSkeletonLoader'
 
 interface Folder {
@@ -100,7 +98,7 @@ const handleSelect = (folder: Folder) => {
   const isFolderSelected = selectedFolders.some((item) => item._id === folder._id);
   if (isFolderSelected) {
       setMaxDocs(false);
-      setTotalDocumentsOpened(totalDocumentsOpened - folder.totalDocsCount);
+      setTotalDocumentsOpened(totalDocumentsOpened - getTotalDocumentsForFolder(folder));
       const idsToRemove = new Set([folder._id, ...allSubfolders.map(sf => sf._id)]);
       const updatedFolders = selectedFolders.filter((item) => !idsToRemove.has(item._id));
       setSelectedFolders(updatedFolders);
@@ -110,7 +108,7 @@ const handleSelect = (folder: Folder) => {
         setMaxDocs(true);
       }
       const updatedFolders = [folder, ...allSubfolders, ...selectedFolders];
-      setTotalDocumentsOpened(totalDocumentsOpened + folder.totalDocsCount);
+      setTotalDocumentsOpened(totalDocumentsOpened + getTotalDocumentsForFolder(folder));
       setSelectedFolders(updatedFolders);
       dispatch(setSelectedFolders(updatedFolders));
       const idsToClose = getAllSubfolderIds(folder._id, folders);
@@ -214,7 +212,7 @@ const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }:
   );
 };
 
-  
+
 
   return (
     <Listbox className="w-full" as="div" value={selectedFolders[0]}>
