@@ -318,7 +318,7 @@ const CopywritingModal = (props: {
         const generatedQueries = await api.post("/completion", {
           model: "gpt-3.5-turbo",
           temperature: 0.9,
-          systemPrompt: `Act as a ${props.language} JSON converter. You come up with high volume search terms for any given phrase and return a formatted JSON output that incorporates a list of search terms as per the given format:
+          systemPrompt: `Act as a ${props.language} JSON converter. You come up with high volume search terms for any given phrase and return a formatted JSON output that incorporates a list of search terms in ${props.language} language as per the given format:
           [
             "search term 1",
             "search term 2",
@@ -344,8 +344,8 @@ const CopywritingModal = (props: {
           As you can see every search term must contain the given phrase somewhere in text.
           
           Now inspired by this example come up with set of best search terms for phrase: "${phrase}" in ${props.language} language that might as well have high search volume. 
-          Make sure they are diverse and start in different ways like: "will...", "why...", "who...", "which...", "are...", "can...", "how...", "what...", "where...." as the ones from example. 
-          Return list of 10 search terms for ${phrase} in the exact format as example:
+          Make sure they are diverse and start in different ways like: "will...", "why...", "who...", "which...", "are...", "can...", "how...", "what...", "where...." as the ones from example but in ${props.language} language. 
+          Return list of 10 search terms for ${phrase} in ${props.language} in the exact format as example:
           `
         }, {
           headers: {
