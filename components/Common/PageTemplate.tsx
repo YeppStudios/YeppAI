@@ -13,6 +13,7 @@ import { selectedWorkspaceCompanyState, setSelectedWorkspaceCompany } from "@/st
 import { useSelector, useDispatch } from "react-redux";
 import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
 import BanPopup from "../Modals/InformationalModals/Ban";
+import BreakModal from "../Modals/InformationalModals/BreakModal";
 
 const PageTemplate = ({children}: any) => {
   const [mobile, setMobile] = useState(false);
@@ -101,6 +102,7 @@ const PageTemplate = ({children}: any) => {
       {mobile &&
         <Loading />
       }
+      <BreakModal />
       {showPlans && <UpgradeSubscription purchase={false} onClose={() => setShowPlans(false)} closeable={false} landing={false}/>}
       {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
       {isBanned && <BanPopup />}

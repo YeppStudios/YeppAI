@@ -238,7 +238,6 @@ const ResultsContainer = (
           } catch (e) {
           }
         }
-        console.log(promptToSend)
         try {
             const response = await fetch('https://asystentai.herokuapp.com/askAI', {
               method: 'POST',
