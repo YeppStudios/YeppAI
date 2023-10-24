@@ -308,7 +308,7 @@ const Chat = () => {
     setReply('');
     setContextDocuments([]);
     setReplying(true);
-    // create a new message object for the user's message
+
     const userMessage = {
       conversation: selectedConversation,
       sender: "user",
@@ -316,8 +316,8 @@ const Chat = () => {
       timestamp: new Date(),
       contextDocs: []
     }
-    // update the messages state by adding the user's message
-    if(messages){
+
+    if (messages){
       setMessages([...messages, userMessage]);
     } else {
       setMessages([userMessage])

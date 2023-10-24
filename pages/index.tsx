@@ -76,7 +76,7 @@ const Homepage = () => {
               <div className='w-full'>
               <Centered>
               <DescriptionHero color="black">
-               Best AI Marketing & PR platform for quality content
+               Best AI marketing platform for quality content
               </DescriptionHero>
               </Centered>
               <Centered>
