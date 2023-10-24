@@ -81,8 +81,8 @@ const Campaigns = () => {
                 <div className="flex items-center gap-4">
                     <div className="rounded-full border-2 border-white bg-slate-200 w-8 h-8 flex justify-center items-center shadow-sm relative -ml-1">
                         <p className="font-medium text-white">{campaign.owner.name.substring(0, 1)}</p>
-                            </div>
-                        <p className="font-medium">{campaign.owner.name}</p>
+                    </div>
+                      <p className="font-medium">{campaign.owner.name}</p>
                 </div>
               </td>
               <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">

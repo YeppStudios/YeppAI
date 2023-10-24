@@ -34,7 +34,7 @@ function classNames(...classes: string[]) {
 }
 interface Document {
     _id: string,
-    owner: string,
+    owner: any,
     title: string,
     category: string,
     timestamp: string,
@@ -46,7 +46,7 @@ interface Document {
 
 interface Folder {
     _id: string,
-    owner: string,
+    owner: any,
     title: string,
     ownerEmail: string,
     category: string,
@@ -217,7 +217,14 @@ const DataPage = (props: {
                         {item.title}
                     </td>
                     <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{formattedDate}</td>
-                    <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{item.ownerEmail}</td>
+                    <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
+                    <div className="flex items-center gap-4">
+                        <div className="rounded-full border-2 border-white bg-slate-200 w-8 h-8 flex justify-center items-center shadow-sm relative -ml-1">
+                            <p className="font-medium text-white">{item.owner.name.substring(0, 1)}</p>
+                        </div>
+                        <p className="font-medium">{item.owner.name}</p>
+                    </div>
+                    </td>
                     <td className="relative py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                     {'isDocument' in item ?
                         <Menu as="div" className="relative inline-block text-left">

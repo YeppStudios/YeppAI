@@ -15,7 +15,7 @@ import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 
 interface Document {
   _id: string,
-  owner: string,
+  owner: any,
   title: string,
   category: string,
   timestamp: string,
@@ -27,7 +27,7 @@ interface Document {
 
 interface Folder {
   _id: string,
-  owner: string,
+  owner: any,
   title: string,
   ownerEmail: string,
   category: string,
@@ -85,15 +85,16 @@ const Assets = () => {
           });
           setFolders(data);
           setFoldersLoading(false);
+          console.log(data);
         } else {
           const { data } = await api.get(`/folders/owner/${userId}`, {
             headers: {
               Authorization: `${token}`,
             },
           });
-          console.log(data);
           setFolders(data);
           setFoldersLoading(false);
+          console.log(data);
         }
       } catch (error) {
         console.error(error);
@@ -129,8 +130,6 @@ const Assets = () => {
       </PageTemplate>
       </>
     )
-
-
 }
 
 export default Assets;

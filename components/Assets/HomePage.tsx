@@ -47,7 +47,7 @@ interface Assistant {
 }
 
 interface Folder {
-    owner: string,
+    owner: any,
     title: string,
     category: string,
     documents: Document[],
@@ -184,7 +184,14 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-base text-black">{folder.title}</td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-base text-black lg:table-cell">{date}</td>
-                <td className="hidden whitespace-nowrap px-3 py-4 text-base text-black lg:table-cell">{folder.ownerEmail}</td>
+                <td className="hidden whitespace-nowrap px-3 py-4 text-base text-black lg:table-cell">
+                <div className="flex items-center gap-4">
+                    <div className="rounded-full border-2 border-white bg-slate-200 w-8 h-8 flex justify-center items-center shadow-sm relative -ml-1">
+                        <p className="font-medium text-white">{folder.owner.name.substring(0, 1)}</p>
+                     </div>
+                    <p className="font-medium">{folder.owner.name}</p>
+                </div>
+                </td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-black text-sm font-medium sm:pr-6">
                 <button onClick={() => dispatch(setSelectedFolder(folder))} className="mr-4 text-500 text-blue-500 hover:text-blue-800">Open folder</button>
                 <Menu as="div" className="relative inline-block text-left">
