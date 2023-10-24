@@ -330,7 +330,6 @@ const NavigationBar = () => {
             {!hidePopup &&
               <ReferralPopup background={referralBg} hideGift={hideGift}>
                 <div>
-                  {!hideGift && <Centered><p className="text-4xl">💭</p></Centered>}
                   <p className="text-center text-lg text-black font-bold mt-4 mb-4">Request AI Assistant <br />for <ColorfulText>your website</ColorfulText></p>
                   <BlueBtn onClick={() => setOpenChatbotPopup(true)}>Request</BlueBtn>
                 </div>
@@ -697,7 +696,7 @@ const ComingSoon = styled.div`
 
 const ReferralPopup = styled.div<{background: any, hideGift: boolean}>`
   width: 14.5rem;
-  padding: ${props => props.hideGift ? "0.7rem 0rem 1.5rem 0rem" : "2rem 1.5rem 2rem 1.5rem"};
+  padding: ${props => props.hideGift ? "0.7rem 0rem 1.5rem 0rem" : "1rem 1.5rem 1.25rem 1.5rem"};
   cursor: pointer;
   border-radius: 20px;
   background-image: url(${props => props.background.src});
