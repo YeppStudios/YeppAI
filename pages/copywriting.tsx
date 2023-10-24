@@ -124,9 +124,9 @@ const DocumentCreator = () => {
           <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
             {mobile ? <p>{content.title.slice(0, 20)}...</p> : <>{content.title.length > 75 ? <p>{content.title.slice(0, 75)}...</p> : content.title}</>}
           </td>
-          <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">
+          {/* <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">
             {content.timestamp}
-          </td>
+          </td> */}
           <td className="hidden whitespace-nowrap px-3 py-4 text-base text-slate-700 lg:table-cell">
             {content.savedBy}
           </td>
@@ -197,12 +197,8 @@ const DocumentCreator = () => {
   };
 
   const ActionButtons = (props: { openModal: any }) => {
-    const router = useRouter();
     return (
       <ActionContaienr>
-        <ActionBtn onClick={() => router.push("/assets")}>
-          <BsFillArchiveFill style={{ width: "auto", height: "35%" }} />
-        </ActionBtn>
         <WriteBtn onClick={() => props.openModal()}>
           <BsPencilFill style={{ width: "auto", height: "35%" }} />
           <BtnText>New content</BtnText>

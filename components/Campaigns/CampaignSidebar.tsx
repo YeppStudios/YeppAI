@@ -4,8 +4,8 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import DeleteDoc from "@/components/Modals/DeletingModals/DeleteDocModal";
 import styled from "styled-components";
-import Label from "../../Common/Label";
-import Input from "../../forms/Input";
+import Label from "../Common/Label";
+import Input from "../forms/Input";
 import CustomDropdown from "@/components/forms/CustomDropdown";
 import { Switch } from "@headlessui/react";
 import TextArea from "@/components/forms/TextArea";
@@ -65,7 +65,6 @@ export default function CampaignSidebar(props: {
   const [openDeleteContent, setOpenDeleteContent] = useState(false);
   const [contentToDelete, setContentToDelete] = useState("");
   const [mobile, setMobile] = useState(false);
-
   const [tone, setTone] = useState<string>("Informal 😎");
   const [language, setLanguage] = useState<string>("English");
   const [campaignType, setCampaignType] = useState<string>("Advertisement");

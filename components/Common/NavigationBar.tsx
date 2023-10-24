@@ -9,6 +9,7 @@ import {
   BsFillArchiveFill,
   BsMegaphoneFill,
   BsFillMortarboardFill,
+  BsFillGridFill,
 } from "react-icons/bs";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -31,6 +32,13 @@ const tabs = [
     icon: <BsPencilFill style={{ height: "100%", width: "auto" }} />,
     path: "/marketing",
     id: "navbar-content-creator",
+  },
+  {
+    title: "Campaigns",
+    hubTitle: "Campaigns",
+    icon: <BsFillGridFill style={{ height: "100%", width: "auto" }} />,
+    path: "/campaigns",
+    id: "navbar-campaigns",
   },
   {
     title: "Copywriting",
@@ -331,6 +339,7 @@ const NavigationBar = () => {
             </SlideBottom>
             }
             {bottomTabs.map((tab) => (
+              !(tab.title === "Lab" && profileId) && (
             <div id={tab.id} key={tab.id}>
               {!(tab.path.includes(pathname) && pathname !== "/") ? (
                   <>
@@ -351,6 +360,7 @@ const NavigationBar = () => {
                 </SelectedNavigationTab>
               )}
             </div>
+              )
             ))}
               <NameContainer
                 hover={isHovered}

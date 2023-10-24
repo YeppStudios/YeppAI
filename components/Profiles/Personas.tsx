@@ -6,6 +6,7 @@ import SlideBottom from "../Animated/SlideBottom";
 import Centered from "../Centered";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { BlueLoader } from "../Common/Loaders";
 
 interface Persona {
     _id: String
@@ -45,7 +46,6 @@ const Personas = () => {
                 Authorization: token,
               }
             });
-    
             setPersonas(personaResponse.data);
             setLoadingPersonas(false);
           } catch (e) {
@@ -82,10 +82,19 @@ const Personas = () => {
                 {(personas && personas?.length > 0) ?
                 renderedPersonas
                 :
-                <div className="py-10 text-black w-full text-center">
-                    <p className="text-gray-300 font-medium">You have no personas.</p>
-                    <Link href="/lab" className="text-blue-500 font-medium mt-2 cursor-pointer">Create one!</Link>
-                </div>
+                <>
+                {loadingPersonas ?
+                    <div className="w-full flex items-center justify-center pt-10">
+                        <BlueLoader />
+                    </div>
+                :
+                    <div className="py-10 text-black w-full text-center">
+                        <p className="text-gray-300 font-medium">You have no personas.</p>
+                        <Link href="/lab" className="text-blue-500 font-medium mt-2 cursor-pointer">Create one!</Link>
+                    </div>
+                }
+
+                </>
                 }
             </PersonasContainer>
         )

@@ -448,15 +448,9 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 props.onClose();
                 router.reload();
             } else {
-                let owner: any;
-                if (selectedWorkspaceCompany._id) {
-                    owner = selectedWorkspaceCompany._id;
-                } else {
-                    owner = selectedUser._id;
-                }
                 let profileId = localStorage.getItem("profile_id");
                 const createdAssistant = await api.post("/create-assistant", {
-                    owner: owner,
+                    owner: localStorage.getItem("user_id"),
                     name: name,
                     companyName: company,
                     aboutCompany: businessSector,
@@ -468,7 +462,8 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                     category,
                     image: imageURL,
                     noEmbedPrompt,
-                    profile: profileId || null
+                    profile: profileId || null,
+                    workspace: localStorage.getItem("workspace") || null
                 }, 
                 {
                     headers: {

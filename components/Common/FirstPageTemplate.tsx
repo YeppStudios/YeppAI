@@ -44,16 +44,16 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
         <TableContainer>
           <div className="w-full mt-6 lg:mt-12 flow-root">
             <div className="w-full">
-              <div className="inline-block w-full py-2 align-middle">
-                <div className=" shadow ring-1 ring-black ring-opacity-5 rounded-2xl overflow-hidden">
+              <div className="inline-block w-full py-2">
+                <div className=" border-4 border-slate-100 rounded-2xl overflow-hidden">
                   {loading ? (
                     <div className="flex justify-center items-center w-full h-64">
                       <BlueLoader />
                     </div>
                   ) : (
                     <>
-                      <table className="w-full divide-y divide-gray-300">
-                        <thead className="bg-gray-50 ">
+                      <table className="w-full divide-y divide-gray-100">
+                        <thead className="bg-slate-100 ">
                           <tr>
                           <th
                               scope="col"
@@ -71,16 +71,7 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
                                 scope="col"
                                 className=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                               >
-                                Last updated
-                              </th>
-                            )}
-
-                            {!isMobile && (
-                              <th
-                                scope="col"
-                                className=" px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-                              >
-                                Email
+                                By
                               </th>
                             )}
                             <th

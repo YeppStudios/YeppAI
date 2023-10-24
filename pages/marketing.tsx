@@ -52,7 +52,7 @@ import { useSelector } from "react-redux";
 import api from "./api";
 import Image from "next/image";
 import Dropdown from "@/components/forms/Dropdown";
-import { CampaignModal } from "@/components/Marketing/Campaigns/CampaignModal";
+import { CampaignModal } from "@/components/Campaigns/CampaignModal";
 import campaignIcon from "../public/images/campaignIcon.png";
 import OnboardingModal from "@/components/Modals/OnboardingModals/FeatureOnboarding";
 

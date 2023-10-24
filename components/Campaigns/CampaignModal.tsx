@@ -15,7 +15,7 @@ import {
   import { useRouter } from "next/router";
   import api from "@/pages/api";
   import Image from "next/image";
-  import Input from "../../forms/Input";
+  import Input from "../forms/Input";
   import { Switch } from "@headlessui/react";
   import Label from "@/components/Common/Label";
   import TextArea from "@/components/forms/TextArea";

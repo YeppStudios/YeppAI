@@ -1,7 +1,7 @@
 import PageTemplate from "@/components/Common/PageTemplate"
 import styled from "styled-components";
 import Image from "next/image";
-import CampaignSidebar from "@/components/Marketing/Campaigns/CampaignSidebar";
+import CampaignSidebar from "@/components/Campaigns/CampaignSidebar";
 import { useEffect, useRef, useState } from "react";
 import { BsChevronDown, BsChevronLeft, BsChevronUp } from "react-icons/bs";
 import { TbAdjustmentsHorizontal, TbReload } from "react-icons/tb";
@@ -552,6 +552,14 @@ const Campaign = () => {
     };
 
     
+  const handleBack = () => {
+    const { main } = router.query;
+    if (main === "true") {
+      router.push("/campaigns")
+    } else {
+      router.push("/marketing")
+    }
+  }
 
     return (
         <div id="main-container">
@@ -566,7 +574,7 @@ const Campaign = () => {
                 <CampaignSidebar open={openSidebar} setOpen={setOpenSidebar} campaign={campaign}/>
                 <Header>
                     <div className="w-full flex items-center justify-between relative">
-                    <BackBtn onClick={() => router.push("/marketing")}>
+                    <BackBtn onClick={() => handleBack()}>
                         <BackBtnIcon>
                             <Image
                             style={{ width: "100%", height: "auto" }}

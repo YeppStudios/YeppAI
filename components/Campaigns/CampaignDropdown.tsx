@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { TiTick } from "react-icons/ti";
 import Image from "next/image";
-import SlideBottom from "@/components/Animated/SlideBottom";
 
 interface categoryDropdwonProps {
   name: string;

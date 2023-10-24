@@ -42,6 +42,12 @@ const ProfilesList = (props: {onClose: any}) => {
           fetchProfiles();
     }, []);
 
+    const changeProfile = (profile: any) => {
+        localStorage.setItem("profile_id", profile._id);
+        localStorage.setItem("profile_title", profile.title);
+        localStorage.setItem("profile_icon", profile.imageUrl);
+        router.reload();
+    }
     
     return (
         <div className="w-[100vw] h-[100svh] fixed" onClick={props.onClose}>
@@ -64,7 +70,7 @@ const ProfilesList = (props: {onClose: any}) => {
                     :
                     profiles && profiles.map((profile: any, idx: any) => (
                         <SlideBottom key={idx}>
-                        <Profile>
+                        <Profile onClick={() => changeProfile(profile)}>
                             {profile.imageUrl ? <ProfileListIcon bg={profile.imageUrl} /> :<div className="rounded-full cursor-pointer w-[2.2rem] h-[2.2rem] shadow flex items-center justify-center text-gray-300"><BiImage className="w-5 h-5" /></div>}
                             <p className="font-medium ml-4">{profile.title}</p>
                         </Profile>
