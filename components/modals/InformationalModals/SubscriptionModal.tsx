@@ -68,7 +68,6 @@ const SubscriptionModal = (props: {onClose: any}) => {
 
     const renderPlans = () => {
         let icon = wandIcon;
-        console.log(currentPlan);
         const renderedPlans = plans.map((plan) => {
             if (plan.title === "Basic") {
                 icon= pencilIcon;

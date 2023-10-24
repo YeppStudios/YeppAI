@@ -317,7 +317,7 @@ const Chat = () => {
       contextDocs: []
     }
 
-    if (messages){
+    if (messages) {
       setMessages([...messages, userMessage]);
     } else {
       setMessages([userMessage])
@@ -335,7 +335,7 @@ const Chat = () => {
         throw new Error('Network response was not ok');
       }
 
-      if(response.body){
+      if (response.body){
         const reader = response.body.getReader();
         while (true) {
           const { done, value } = await reader.read();

@@ -222,7 +222,6 @@ const Refferal = () => {
         setChartData(newChartData);
         setSuccessfulReferrals(counts);
         setTransactions(data);
-        console.log(data)
       } catch (e) {
         console.log(e);
       }
