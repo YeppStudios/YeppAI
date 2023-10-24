@@ -126,6 +126,7 @@ const NavigationBar = () => {
     }
     const updateWindowSize = () => {
       setMobile(window.innerWidth < 1023);
+      setHidePopup(window.innerHeight < 720);
     };
     window.addEventListener("resize", updateWindowSize);
     setLoaded(true);
