@@ -5,7 +5,7 @@ import articleIcon from "@/public/images/article-icon.png";
 import linkIcon from "@/public/images/link-icon.png";
 import Centered from "../Centered";
 import { Loader } from '../Common/Loaders';
-import { BsRepeat, BsCheck, BsCheckLg, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsTextLeft, BsFillKeyFill } from 'react-icons/bs';
+import { BsRepeat, BsCheck, BsCheckLg, BsFillMicFill, BsUiChecks, BsPencilFill, BsPencilSquare, BsPlusLg, BsTextLeft, BsFillKeyFill, BsMicFill, BsPerson, BsPersonFill } from 'react-icons/bs';
 import Image from 'next/image';
 import webIcon from "@/public/images/web-icon.png";
 import pencilIcon from "@/public/images/pencil-icon.png";
@@ -31,6 +31,7 @@ import { MdArrowBackIos, MdOutlineClose, MdOutlineClear } from 'react-icons/md';
 import CustomDropdown from '@/components/forms/CustomDropdown';
 import ToneDropdown from '../forms/ToneDropdown';
 import { HiPencil } from 'react-icons/hi';
+import PersonaDropdown from '../forms/PersonaDropdown';
 
 const types = ["article", "blog", "guide"];
 const languagesList = [
@@ -114,7 +115,9 @@ const CopywritingModal = (props: {
     toneOfVoice: string,
     setToneOfVoice: any,
     setSectionLength: any,
-    setSelectedTonePrompt: any
+    setSelectedTonePrompt: any,
+    setSelectedPersonaPrompt: any,
+    selectedPersonaPrompt: string,
 }) => {
 
     const [phrase, setPhrase] = useState('');
@@ -145,6 +148,8 @@ const CopywritingModal = (props: {
     const [abortController, setAbortController] = useState(new AbortController());
     const [currentText, setCurrentText] = useState(0);
     const [tones, setTones] = useState<any[]>([]);
+    const [personas, setPersonas] = useState<any[]>([]);
+    const [selectedPersonaTitle, setSelectedPersonaTitle] = useState("");
     const linkRef = useRef<HTMLInputElement>(null);
     const topRef = useRef<HTMLInputElement>(null);
     const textAreaRefs = useRef<{
@@ -199,7 +204,7 @@ const CopywritingModal = (props: {
         let token = localStorage.getItem("token");
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
-        const fetchTones = async () => {
+        const fetchTonesAndPersonas = async () => {
           try {
             const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
               headers: {
@@ -207,12 +212,18 @@ const CopywritingModal = (props: {
               }
             });
             setTones([...toneResponse.data, ...toneList]);
+            const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+              headers: {
+                Authorization: token,
+              }
+            });
+            setPersonas(personaResponse.data);
           } catch (e) {
             console.log(e);
           }
         }
     
-        fetchTones();
+        fetchTonesAndPersonas();
         return () => {
             document.body.style.overflow = 'auto';
             document.body.style.position = 'static';
@@ -583,7 +594,7 @@ const CopywritingModal = (props: {
       
         let reply = "";
         let prompt = ``;
-        let systemPrompt = `You are a ${props.language} copywriting expert specializing in writing the best ${props.contentType} ${field}s. You always make sure to propose content that is engaging and natural. Do not make it sound too official rather try to explore the topic alongside the reader looking from the different angles.`;
+        let systemPrompt = `You are a ${props.language} copywriting expert specializing in writing the best ${props.contentType} ${field}s. You are writing ${props.contentType} ${field}s for: ${props.selectedPersonaPrompt} Make sure to propose content that is engaging and natural. Do not make it sound too official rather try to explore the topic alongside the reader looking from the different angles.`;
         const headers = paragraphs
         .map((item:any) => item.header) 
         .filter((header: any) => header.trim() !== "")
@@ -770,14 +781,30 @@ const CopywritingModal = (props: {
           props.onSuccess();
     }
 
+    const handlePersonaChange = (title: string) => {
+      setSelectedPersonaTitle(title);
+      try {
+        const persona = personas.find((p: any) => p.title === title);
+        if (persona.prompt) {
+          props.setSelectedPersonaPrompt(persona.prompt);
+        } else {
+          props.setSelectedPersonaPrompt("");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
     const handleToneChange = (title: string) => {
       setSelectedToneTitle(title);
       const tone = tones.find((t: any) => t.title === title);
       try {
         if (tone.prompt) {
           props.setSelectedTonePrompt(tone.prompt);
+        } else if (tone.title) {
+          props.setSelectedTonePrompt(tone.title);
         } else {
-          props.setSelectedTonePrompt("");
+          props.setSelectedTonePrompt(title);
         }
       } catch (e) {
         props.setSelectedTonePrompt();
@@ -1128,26 +1155,8 @@ const CopywritingModal = (props: {
                               />
                             </div>
                             </div>
-                            <div style={{display: "flex", justifyContent: "space-between", marginTop: "1.5rem"}}>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
-                              <div style={{ display: "flex" }}>
-                                  <LabelIcon>
-                                      <BsFillMicFill style={{width: "100%", height: "auto"}}/>
-                                  </LabelIcon>
-                                  <Label className='-mt-2'>
-                                      Tone of voice
-                                  </Label>
-                              </div>
-                              <div className='-mt-3'>
-                              <ToneDropdown
-                                  values={tones}
-                                  value={selectedToneTitle}
-                                  onChange={handleToneChange}
-                                  changeTyping={props.setSelectedTonePrompt}
-                              />
-                            </div>
-                            </div>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                            <div style={{display: "flex", justifyContent: "space-between", marginTop: "1.5rem", flexWrap: "wrap"}}>
+                            <div style={{width: "48%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                                   <LabelIcon>
                                       <BsTextLeft style={{width: "100%", height: "auto"}}/>
@@ -1156,15 +1165,13 @@ const CopywritingModal = (props: {
                                       Total paragraphs
                                   </Label>
                               </div>
-                              <div className='-mt-3'>
                               <CustomDropdown
                                   values={["1", "2", "3", "4", "5", "6", "7", "8"]}
                                   value={paragraphsNumber}
                                   onChange={setParagraphsNumber}
                               />
                             </div>
-                            </div>
-                            <div style={{width: "31%", display: "flex", flexWrap: "wrap"}}>
+                            <div style={{width: "48%", display: "flex", flexWrap: "wrap"}}>
                               <div style={{ display: "flex" }}>
                               <LabelIcon>
                                   <FaRuler style={{ width: "100%", height: "auto" }} />
@@ -1180,6 +1187,43 @@ const CopywritingModal = (props: {
                                     min={100}
                                     max={2000}
                                 /> 
+                            </div>
+                            </div>
+                            <div style={{display: "flex", justifyContent: "space-between", marginTop: "0.5rem", flexWrap: "wrap"}}>
+                            <div style={{width: "48%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                  <LabelIcon>
+                                      <BsFillMicFill style={{width: "100%", height: "auto"}}/>
+                                  </LabelIcon>
+                                  <Label className=''>
+                                      Tone of voice
+                                  </Label>
+                              </div>
+                              <div className='-mt-2'>
+                              <ToneDropdown
+                                  values={tones}
+                                  value={selectedToneTitle}
+                                  onChange={handleToneChange}
+                                  changeTyping={props.setSelectedTonePrompt}
+                              />
+                            </div>
+                            </div>
+                            <div style={{width: "48%", display: "flex", flexWrap: "wrap"}}>
+                              <div style={{ display: "flex" }}>
+                                  <LabelIcon>
+                                      <BsPersonFill style={{width: "100%", height: "auto"}}/>
+                                  </LabelIcon>
+                                  <Label className=''>
+                                      Target audience / Persona
+                                  </Label>
+                              </div>
+                              <div className='-mt-2'>
+                              <PersonaDropdown
+                                values={personas}
+                                value={selectedPersonaTitle}
+                                onChange={handlePersonaChange}
+                              />
+                              </div>
                             </div>
                             </div>
                             <Centered>
@@ -1455,7 +1499,7 @@ const Label = styled.div`
   font-weight: 700;
   display: flex;
   color: black;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   align-items: center;
   @media (max-width: 1023px) {
     font-size: 0.9rem;

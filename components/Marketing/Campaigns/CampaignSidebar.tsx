@@ -11,13 +11,16 @@ import { Switch } from "@headlessui/react";
 import TextArea from "@/components/forms/TextArea";
 import api from "@/pages/api";
 import { Loader } from "@/components/Common/Loaders";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
+import ToneDropdown from "@/components/forms/ToneDropdown";
 
-const tones = [
-  "Formal 💼",
-  "Friendly 😊",
-  "Informative 📃",
-  "Persuasive 🫵🏼",
-  "Informal 😎",
+const toneList = [
+  {title: "Formal", icon: "💼"},
+  {title: "Friendly", icon: "😊"},
+  {title: "Informative", icon: "📚"},
+  {title: "Persuasive", icon: "🫵🏼"},
+  {title: "Motivational", icon: "📈"},
+  {title: "Informal", icon: "😎"},
 ];
 
 const languages = [
@@ -72,12 +75,48 @@ export default function CampaignSidebar(props: {
   const [targetAudience, setTargetAudience] = useState<string>("");
   const [objectives, setObjectives] = useState<string>("");
   const [keywords, setKeywords] = useState<string>("");
+  const [tones, setTones] = useState<any[]>([]);
+  const [selectedToneTitle, setSelectedToneTitle] = useState("Friendly 😊");
+  const [selectedTonePrompt, setSelectedTonePrompt] = useState("");
+  const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
+  const [personas, setPersonas] = useState<any[]>([]);
 
   const router = useRouter();
 
   const handleToggleEmojis = () => {
     setUseEmojis((prev) => !prev);
   };
+
+  const handlePersonaChange = (title: string) => {
+    setTargetAudience(title);
+    try {
+      const persona = personas.find((p: any) => p.title === title);
+      if (persona.prompt) {
+        setSelectedPersonaPrompt(persona.prompt);
+      } else {
+        setSelectedPersonaPrompt("");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleToneChange = (title: string) => {
+    setSelectedToneTitle(title);
+    const tone = tones.find((t: any) => t.title === title);
+    try {
+      if (tone.prompt) {
+        setSelectedTonePrompt(tone.prompt);
+      } else if (tone.title) {
+        setSelectedTonePrompt(tone.title);
+      } else {
+        setSelectedTonePrompt(title);
+      }
+    } catch (e) {
+      setSelectedTonePrompt(title);
+    }
+  };
+
 
   useEffect(() => {
     if (window.innerWidth < 1023) {
@@ -104,6 +143,28 @@ export default function CampaignSidebar(props: {
     if (props.campaign.about) {
       setProductType(props.campaign.about)
     }
+
+    const fetchTonesAndPersonas = async () => {
+      let token = localStorage.getItem("token");
+      try {
+        const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setTones([...toneResponse.data, ...toneList]);
+        const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+          headers: {
+            Authorization: token,
+          }
+        });
+        setPersonas(personaResponse.data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    fetchTonesAndPersonas();
   }, [props.campaign]);
 
   const updateCampaign = async (e: any) => {
@@ -113,7 +174,7 @@ export default function CampaignSidebar(props: {
       const response = await api.patch(`/updateCampaign/${props.campaign._id}`, {
         type: campaignType,
         language,
-        toneOfVoice: tone,
+        toneOfVoice: selectedTonePrompt,
         targetAudience,
         objective: objectives,
         keywords,
@@ -215,12 +276,10 @@ export default function CampaignSidebar(props: {
                                 </div>
                                 <div className="pb-6 pr-3 pl-3 pt-0">
                                   <Label>Tone of voice</Label>
-                                  <CustomDropdown
-                                    name="tone"
-                                    value={tone}
+                                  <ToneDropdown
                                     values={tones}
-                                    onChange={setTone}
-                                    placeholder="Friendly"
+                                    value={selectedToneTitle}
+                                    onChange={handleToneChange}
                                   />
                                 </div>
                                 <div className="pb-6 pr-3 pl-3 pt-0">
@@ -241,17 +300,11 @@ export default function CampaignSidebar(props: {
 
                               <div className="">
                                 <div className="pb-6 pr-3 pl-3 pt-0">
-                                  <Label>Target autdience</Label>
-                                  <Input
-                                    height="2.8rem"
-                                    padding="1rem"
-                                    name="targetAudience"
-                                    placeholder="Marketing agencies looking for AI tools"
-                                    type="text"
+                                  <Label>Target autdience / persona</Label>
+                                  <PersonaDropdown
+                                    values={personas}
                                     value={targetAudience}
-                                    onChange={(e) =>
-                                      setTargetAudience(e.target.value)
-                                    }
+                                    onChange={handlePersonaChange}
                                   />
                                 </div>
                                 <div className="pb-6 pr-3 pl-3 pt-0">

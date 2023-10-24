@@ -84,6 +84,7 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
   useEffect(() => {
     const token = localStorage.getItem("token");
     const workspace = localStorage.getItem("workspace");
+    const profileId = localStorage.getItem("profile_id");
     const fetchSavedContent = async () => {
       setLoading(true);
       try {
@@ -96,12 +97,19 @@ export default function SavedContentSidebar(props: {setOpen: any, open: boolean,
           });
           fetchedUser = data.company;
         }
-        const fetchedCampaigns = await api.get("campaignsByOwner", {
+        let campaignUrl = "/campaignsByOwner";
+        let contentUrl = "/getUserSavedContent";
+        if (profileId) {
+          campaignUrl = `/get_profile_campaigns/${profileId}`;
+          contentUrl = `/getProfileSavedContent/${profileId}`;
+        }
+
+        const fetchedCampaigns = await api.get(campaignUrl, {
           headers: {
             authorization: token
           }
         })
-        const fetchedContent = await api.get(`/getUserSavedContent`, {
+        const fetchedContent = await api.get(contentUrl, {
           headers: {
             authorization: token,
           },

@@ -130,7 +130,7 @@ const Choice = styled.div`
     align-items: center;
     
     &:hover {
-        background: #EFF1F5;
+        background: #F6F6FB;
     }
     &:nth-child(1) {
         &:hover {

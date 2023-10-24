@@ -10,15 +10,6 @@ import { selectFolderState, setSelectedFolder } from "../../../store/openedFolde
 import { selectedUserState } from '@/store/userSlice';
 import { useSelector, useDispatch } from "react-redux";
 
-interface Document {
-    owner: string,
-    title: string,
-    category: string,
-    timestamp: string,
-    ownerEmail: string,
-    vectorId: string
-  }
-
 const DeleteFolder = (props: {
     onClose: any, folder: any, deleteFolderState: any
 }) => {
@@ -36,8 +27,7 @@ const DeleteFolder = (props: {
                     headers: {
                         Authorization: localStorage.getItem("token")
                     }
-                })
-                console.log(props.folder);
+                });
                 if (!props.folder.parentFolder) {
                     dispatch(setSelectedFolder({}));
                 }

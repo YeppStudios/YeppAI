@@ -131,10 +131,16 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
   const handleToneChange = (title: string) => {
     setSelectedToneTitle(title);
     const tone = tones.find((t: any) => t.title === title);
-    if (tone.prompt) {
-      setSelectedTonePrompt(tone.prompt);
-    } else {
-      setSelectedTonePrompt("");
+    try {
+      if (tone.prompt) {
+        setSelectedTonePrompt(tone.prompt);
+      } else if (tone.title) {
+        setSelectedTonePrompt(tone.title);
+      } else {
+        setSelectedTonePrompt(title);
+      }
+    } catch (e) {
+      setSelectedTonePrompt(title);
     }
   };
 

@@ -27,7 +27,7 @@ const FilesNumberLimit = (props: {onClose: any}) => {
     const user = useSelector(selectedUserState);
 
     const goToProfile = (option: string) => {
-        router.push(`/profile?${option}=true`);
+        router.push(`/me?${option}=true`);
         props.onClose();
     }
 

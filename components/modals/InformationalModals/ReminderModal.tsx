@@ -34,7 +34,7 @@ const ReminderModal = (props: {onClose: any, elixirWidth: string}) => {
     }, []);
 
     const goToProfile = (option: string) => {
-        router.push(`/profile?${option}=true`);
+        router.push(`/me?${option}=true`);
         props.onClose();
     }
 

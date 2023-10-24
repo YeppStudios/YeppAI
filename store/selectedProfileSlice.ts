@@ -11,10 +11,10 @@ interface Document {
   ownerEmail: string,
   vectorId: string,
   isDocument?: boolean,
-  normalizedTimestamp?: string
+  normalizedTimestamp?: string,
 }
 
-interface Folder {
+interface Profile {
     owner: string,
     title: string,
     ownerEmail: string,
@@ -23,22 +23,21 @@ interface Folder {
     updatedAt: string,
     _id:  string,
     workspace: string,
-    parentFolder: Folder | null,
-    subfolders: Folder[] | [],
+    parentFolder: null,
+    subfolders: Profile[] | [],
     totalDocsCount: number,
     imageUrl: string,
     description: string
 }
 
 
-export interface FolderState {
-    folder: Folder
+export interface ProfileState {
+    profile: Profile
 }
-  
 
 // Initial state
-const initialState: FolderState = {
-  folder: {
+const initialState: ProfileState = {
+  profile: {
     owner: '',
     title: '',
     documents: [],
@@ -56,14 +55,14 @@ const initialState: FolderState = {
 };
 
 // Actual Slice
-export const folderSlice = createSlice({
-  name: "folderState",
+export const profileSlice = createSlice({
+  name: "profileState",
   initialState,
   reducers: {
 
     // Action
-    setSelectedFolder(state, action) {
-      state.folder = action.payload;
+    setSelectedProfile(state, action) {
+      state.profile = action.payload;
     },
 
     // Special reducer for hydrating the state. Special case for next-redux-wrapper
@@ -75,12 +74,11 @@ export const folderSlice = createSlice({
     //     };
     //   },
     // },
-
   },
 });
 
-export const { setSelectedFolder } = folderSlice.actions;
+export const { setSelectedProfile } = profileSlice.actions;
 
-export const selectFolderState = (state: AppState) => state.folderState.folder;
+export const selectedProfileState = (state: AppState) => state.profileState.profile;
 
-export default folderSlice.reducer;
+export default profileSlice.reducer;

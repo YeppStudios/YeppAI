@@ -14,6 +14,8 @@ import { useSelector, useDispatch } from "react-redux";
 import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
 import BanPopup from "../Modals/InformationalModals/Ban";
 import BreakModal from "../Modals/InformationalModals/BreakModal";
+import ProfileTab from "./ProfileTab";
+import ProfilesList from "./ProfilesList";
 
 const PageTemplate = ({children}: any) => {
   const [mobile, setMobile] = useState(false);
@@ -22,6 +24,8 @@ const PageTemplate = ({children}: any) => {
   const plan = useSelector(selectedPlanState);
   const [showPlans, setShowPlans] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
+  const [profileId, setProfileId] = useState("");
+  const [openProfiles, setOpenProfiles] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -36,6 +40,7 @@ const PageTemplate = ({children}: any) => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
     const ban = localStorage.getItem("ban");
+    setProfileId(localStorage.getItem("profile_id") || "");
     const validateJWT = async () => {
       try {
         const { data } = await api.get('/checkJWT', {
@@ -102,7 +107,6 @@ const PageTemplate = ({children}: any) => {
       {mobile &&
         <Loading />
       }
-      {/* <BreakModal /> */}
       {showPlans && <UpgradeSubscription purchase={false} onClose={() => setShowPlans(false)} closeable={false} landing={false}/>}
       {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
       {isBanned && <BanPopup />}
@@ -110,6 +114,8 @@ const PageTemplate = ({children}: any) => {
           <NavigationBar />
           {children}
       </Page>
+      {openProfiles && <ProfilesList onClose={() => setOpenProfiles(!openProfiles)} />}
+      {profileId && <ProfileTab onClick={() => setOpenProfiles(!openProfiles)}/>}
     </div>
   )
 }
@@ -122,7 +128,7 @@ const Page = styled.div`
     min-height: 100vh;
     padding: 0.75rem 1rem 0.75rem 5rem;
     height: auto;
-    background-color: #EEF1FA;
+    background-color: #F6F6FB;
     color: white;
     position: absolute;
     @media (max-width: 1023px) {

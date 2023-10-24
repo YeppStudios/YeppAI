@@ -31,8 +31,8 @@ const AddElixir = ({onClose}: any) => {
                 {
                     priceId: price, 
                     mode: "payment",
-                    successURL: "https://www.yepp.ai/profile?success",
-                    cancelURL: "https://www.yepp.ai/profile",
+                    successURL: "https://www.yepp.ai/me?success",
+                    cancelURL: "https://www.yepp.ai/me",
                     email: user.email,
                     tokensAmount: amount,
                     planId: "",

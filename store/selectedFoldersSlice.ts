@@ -21,6 +21,8 @@ interface Folder {
     workspace: string,
     parentFolder: string,
     totalDocsCount: number
+    imageUrl: string,
+    description: string
 }
 
 

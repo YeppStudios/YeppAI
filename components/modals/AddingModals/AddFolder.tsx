@@ -45,6 +45,10 @@ const AddFolder = (props: { onClose: any, setFolders: any, folders: any[], folde
         if (name.length > 1) {
             try {
                 setLoading(true);
+                let profileId = "";
+                if (!props.parentFolder) {
+                  profileId = localStorage.getItem("profile_id") || "";
+                }
                 const createdFolder = await api.post("/add-folder", {
                     title: name,
                     owner: localStorage.getItem("user_id"),
@@ -53,7 +57,8 @@ const AddFolder = (props: { onClose: any, setFolders: any, folders: any[], folde
                     documents: [],
                     workspace: workspace,
                     parentFolder: props.parentFolder,
-                    ownerEmail: user.email
+                    ownerEmail: user.email,
+                    profileId,
                   },
                   {
                     headers: {

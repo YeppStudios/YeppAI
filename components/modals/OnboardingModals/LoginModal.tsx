@@ -178,6 +178,8 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 dispatch(setSelectedUser(response.data.user));
                 localStorage.setItem('ban', response.data.ban);
                 localStorage.setItem('token', "Bearer " + response.data.token);
+                localStorage.setItem('hub_access', response.data.user.hubAccess);
+                localStorage.removeItem("profile_id")
                 localStorage.setItem('user_id', response.data.user._id);
                 localStorage.setItem('plan', response.data.user.plan);
                 localStorage.setItem('workspace', response.data.user.workspace);

@@ -14,7 +14,7 @@ const FilesNumberLimit = dynamic(() => import("../Modals/LimitModals/FilesNumber
 const AddDocument = dynamic(() => import("../Modals/AddingModals/AddDocument"));
 const AddAudio = dynamic(() => import("../Modals/AddingModals/AddAudio"));
 const FilesSpaceLimit = dynamic(() => import("../Modals/LimitModals/FilesSpaceLimit"));
-import Chart from "./Chart";
+import Chart from "../Common/Chart";
 import { selectedUserState } from "@/store/userSlice";
 import { selectedPlanState } from "@/store/planSlice";
 import { setSelectedFolder } from "@/store/openedFolderSlice";
@@ -24,7 +24,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import DeleteFolderModal from "../Modals/DeletingModals/DeleteFolderModal";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import FoldersNumberLimit from "../Modals/LimitModals/FoldersNumberLimit";
-import SortButton from "./SortButton";
+import SortButton from "../Common/SortButton";
 import Image from "next/image";
 import folderIcon from "../../public/images/folderIcon.webp";
 
@@ -195,7 +195,6 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
                         </OptionsIcon>
                     </Menu.Button>
                     </div>
-
                     <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"

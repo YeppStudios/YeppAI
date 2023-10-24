@@ -6,11 +6,13 @@ import chatbotIcon from "@/public/images/chatbot_visualization.png";
 import { BsXLg } from "react-icons/bs";
 import Input from "@/components/forms/Input";
 import Label from "@/components/Common/Label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "@/pages/api";
 import { Loader } from "@/components/Common/Loaders";
 import tickIcon from "@/public/images/tickGreen.png";
 import SlideBottom from "@/components/Animated/SlideBottom";
+import { useSelector } from "react-redux";
+import { selectedUserState } from "@/store/userSlice";
 
 const ChatbotPopup = (props: {onClose: any}) => {
 
@@ -18,6 +20,12 @@ const ChatbotPopup = (props: {onClose: any}) => {
     const [website, setWebsite] = useState('');
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const user = useSelector(selectedUserState);
+
+    useEffect(() => {
+        setEmail(user.email);
+    }, [user]);
 
     const sendEmail = async (e: any) => {
         e.preventDefault();

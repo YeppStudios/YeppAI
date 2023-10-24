@@ -14,10 +14,6 @@ const EditFolder = (props: {onClose: any, folder: any, onSuccess: any}) => {
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const router = useRouter();
-
-    const dispatch = useDispatch();
-
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setLoading(true);
@@ -30,7 +26,6 @@ const EditFolder = (props: {onClose: any, folder: any, onSuccess: any}) => {
                     Authorization: localStorage.getItem("token")
                 }
             })
-            console.log(props.folder);
             setLoading(false);
             props.onClose();
             props.onSuccess();

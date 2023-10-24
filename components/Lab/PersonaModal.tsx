@@ -352,7 +352,7 @@ const PersonaModal = (props: {onClose: any, currentModal: any, personas: any[]})
             const personaJSON = JSON.parse(generalJSONCompletion.data.completion);
             setPersonaGeneralInfo(personaJSON);
             generatePersonaDescription(personaJSON);
-            setPreviewUrl(`https://ui-avatars.com/api/?background=random&name=${personaJSON.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`)
+            setPreviewUrl(`https://ui-avatars.com/api/?background=random&name=${personaJSON.fullName.split(' ').join('+')}&size=128&background=e2e8f0&color=ffffff`)
             setPersonaLoading(false);
             setStep("persona");
             // if (links.length > 0) {
@@ -380,23 +380,25 @@ const PersonaModal = (props: {onClose: any, currentModal: any, personas: any[]})
 
     const savePersona = async () => {
         setSaving(true);
-        let imageURL = `https://ui-avatars.com/api/?name=${name.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
+        let imageURL = `https://ui-avatars.com/api/?name=${name.split(' ').join('+')}&size=128&background=e2e8f0&color=ffffff`;
         if (personaGeneralInfo) {
-           imageURL = `https://ui-avatars.com/api/?name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=cbd5e1&color=ffffff`;
+           imageURL = `https://ui-avatars.com/api/?name=${personaGeneralInfo.fullName.split(' ').join('+')}&size=128&background=e2e8f0&color=ffffff`;
         }
-        if(image) {
+        if (image) {
             const subdomain = 'https://asystentai.infura-ipfs.io';
             const ipfsImage = await client.add({ content: image });
             imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
         }
+        const profileId = localStorage.getItem("profile_id");
         try {
             await api.post("/save-persona", {
                 title: name || personaGeneralInfo.fullName,
                 icon: imageURL,
-                prompt: `The content should be interesing for our persona: ${personaDescription}. 
-                Do not address this persona directly as it is our imagined persona that will help you better understand the needs and painpoints of our target audience. Now that you understand the persona, please`,
+                prompt: `${personaDescription}. 
+                Do not address this persona directly as it is our imagined persona that will help you better understand the needs and painpoints of our target audience.`,
                 workspace: localStorage.getItem("workspace"),
-                base_text: personaDescription
+                base_text: personaDescription,
+                profile: profileId || null
             },
             {
                 headers: {

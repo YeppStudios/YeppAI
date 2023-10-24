@@ -102,13 +102,20 @@ const LabPage = () => {
 
 
     const fetchList = async () => {
+      let profileId = localStorage.getItem("profile_id");
+      let personaUrl = "/personas/owner";
+      let toneUrl = "/tones/owner";
+      if (profileId) {
+        personaUrl = `/profile_personas/${profileId}`
+        toneUrl = `/profile_tones/${profileId}`
+      }
       try {
-        const toneResponse = await api.get(`/tones/owner` ,{
+        const toneResponse = await api.get(toneUrl ,{
           headers: {
             Authorization: token,
           }
         });
-        const personaResponse = await api.get(`/personas/owner` ,{
+        const personaResponse = await api.get(personaUrl ,{
           headers: {
             Authorization: token,
           }
@@ -116,6 +123,25 @@ const LabPage = () => {
 
         setPersonas(personaResponse.data)
         setTones(toneResponse.data);
+
+        const { persona, tone } = router.query;
+        if (persona) {
+          const personaResponse = await api.get(`/persona/${persona}`, {
+            headers: {
+              Authorization: token
+            }
+          });
+          setCurrentSample(personaResponse.data);
+          setBaseText(personaResponse.data.base_text);
+        } else if (tone) {
+          const toneResponse =await api.get(`/tone/${tone}`, {
+            headers: {
+              Authorization: token
+            }
+          });
+          setCurrentSample(toneResponse.data);
+          setBaseText(toneResponse.data.base_text);
+        }
   
         // Add a 'type' field to each object in the tones and personas arrays
         const tonesWithType = toneResponse.data.map((tone: any) => ({ ...tone, type: 'tone of voice' }));
@@ -131,7 +157,7 @@ const LabPage = () => {
             return 0;
         });
         setList(combinedArray);
-        if (combinedArray.length > 0) {
+        if (combinedArray.length > 0 && !persona && !tone) {
           setCurrentSample(combinedArray[0]);
           setBaseText(combinedArray[0].base_text);
         }
@@ -414,12 +440,7 @@ const LabPage = () => {
       >
         <div className="flex justify-between w-full items-center">
           <div className="flex lg:gap-2 gap-1 items-center">
-            <PageTitle>Tone Of Voice Lab</PageTitle>
-            <div className="flex items-center justify-center py-2 px-5 ml-2 rounded-2xl bg-[#F8F9FE]">
-              <GradientText className="text-center text-md uppercase">
-                Beta
-              </GradientText>
-            </div>
+            <PageTitle>Tone of voice lab</PageTitle>
           </div>
           <div className="w-full lg:w-auto justify-end flex">
           <BlueBtn onClick={openChoiceModal} style={{ padding: "0.5rem 3.5vw 0.5rem 3.5vw" }}>
@@ -477,11 +498,6 @@ const LabPage = () => {
                       name={profile.title}
                       icon={profile.icon}
                     />
-                    {isProfileActicve && (
-                      <div className="flex items-center">
-                        <RiArrowRightSLine className="lg:h-[1.5vw] lg:w-[1.5vw] hidden lg:block mr-2 text-slate-300" />
-                      </div>
-                    )}
                   </div>
                 );
               })}

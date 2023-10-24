@@ -19,19 +19,17 @@ import {
   import { Switch } from "@headlessui/react";
   import Label from "@/components/Common/Label";
   import TextArea from "@/components/forms/TextArea";
-  import BackBtn from '@/components/Common/BackBtn';
-  import BackBtnIcon from '@/components/Common/BackBtnIcon';
   import { CampaignDropdown } from "./CampaignDropdown";
   import SlideBottom from "@/components/Animated/SlideBottom";
   import { Textarea } from "@mantine/core";
   import CustomDropdown from "@/components/forms/CustomDropdown";
-  import { set } from "lodash";
   import { BlueLoader, Loader } from "@/components/Common/Loaders";
   import { selectedUserState } from "@/store/userSlice";
   import { useSelector } from "react-redux";
   import { selectFoldersState } from '@/store/selectedFoldersSlice'
   import FoldersDropdown from "@/components/forms/FolderDropdown";
 import ToneDropdown from "@/components/forms/ToneDropdown";
+import PersonaDropdown from "@/components/forms/PersonaDropdown";
 
   interface CampaginModalProps {
     setOpenCreateCampaignModal: Dispatch<SetStateAction<boolean>>;
@@ -125,9 +123,6 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
     "Lifestyle",
   ];
   
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
 
   export const CampaignModal: FC<CampaginModalProps> = ({
     setOpenCreateCampaignModal,
@@ -157,6 +152,8 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
     let selectedFolders: any[] = useSelector(selectFoldersState);
     const [mobile, setMobile] = useState(true);
     const [tones, setTones] = useState<any[]>([]);
+    const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
+    const [personas, setPersonas] = useState<any[]>([]);
 
     useEffect(() => {
       if (window.innerWidth >= 1023) {
@@ -165,7 +162,7 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
 
       let token = localStorage.getItem("token");
 
-      const fetchTones = async () => {
+      const fetchTonesAndPersonas = async () => {
         try {
           const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
             headers: {
@@ -173,20 +170,47 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
             }
           });
           setTones([...toneResponse.data, ...toneList]);
+          const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+            headers: {
+              Authorization: token,
+            }
+          });
+          setPersonas(personaResponse.data);
         } catch (e) {
           console.log(e);
         }
       }
-      fetchTones();
+  
+      fetchTonesAndPersonas();
     }, []);
 
+    const handlePersonaChange = (title: string) => {
+      setTargetAudience(title);
+      try {
+        const persona = personas.find((p: any) => p.title === title);
+        if (persona.prompt) {
+          setSelectedPersonaPrompt(persona.prompt);
+        } else {
+          setSelectedPersonaPrompt("");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    
     const handleToneChange = (title: string) => {
       setSelectedToneTitle(title);
       const tone = tones.find((t: any) => t.title === title);
-      if (tone.base_text) {
-        setSelectedTonePrompt(tone.prompt);
-      } else {
-        setSelectedTonePrompt("");
+      try {
+        if (tone.prompt) {
+          setSelectedTonePrompt(tone.prompt);
+        } else if (tone.title) {
+          setSelectedTonePrompt(tone.title);
+        } else {
+          setSelectedTonePrompt(title);
+        }
+      } catch (e) {
+        setSelectedTonePrompt(title);
       }
     };
     
@@ -273,16 +297,6 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
         return;
       }
       setLoading(true);
-      const workspace = localStorage.getItem("workspace");
-      let fetchedUser = user;
-      if (workspace && workspace !== "null" && workspace !== "undefined") {
-        const {data} = await api.get(`/workspace-company/${workspace}`, {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          }
-        });
-        fetchedUser = data.company;
-      }
       try {
         const documentsResponse = await api.post('/folders/documents', {folderIds: selectedFolders}, {
           headers: {
@@ -293,7 +307,7 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
           data: template,
           text: ""
       }));
-
+      let profileId = localStorage.getItem("profile_id");
         const { data } = await api.post("/addCampaign", 
         {
           title: campaginTitle,
@@ -306,9 +320,11 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
           keywords: keywords,
           objective: objectives,
           targetAudience: targetAudience,
-          owner: fetchedUser._id,
-          workspace: workspace,
+          owner: localStorage.getItem("user_id"),
+          workspace: localStorage.getItem("workspace"),
           documents: documentsResponse.data,
+          profile: profileId || null,
+          personaPrompt: selectedPersonaPrompt || ""
         },
         {
           headers: {
@@ -321,6 +337,7 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
         setLoading(false);
       }
     }
+
   
     const renderStepText = () => {
       switch (step) {
@@ -510,20 +527,16 @@ import ToneDropdown from "@/components/forms/ToneDropdown";
           )}
           {step === 3 && (
             <form onSubmit={(e) => createCampaign(e)}>
-                <div className="pb-6 pt-0">
+                <div className="pb-6 pr-3 pl-3 pt-0">
                 <FoldersDropdown />
                 </div>
               <div className="pb-6 pr-3 pl-3 pt-0">
-                <Label>Target audience</Label>
-                <Input
-                  height="2.8rem"
-                  padding="1rem"
-                  name="targetAudience"
-                  placeholder="Marketing agencies looking for AI tools"
-                  type="text"
-                  value={targetAudience}
-                  onChange={(e) => setTargetAudience(e.target.value)}
-                />
+                <Label>Target audience / persona</Label>
+                <PersonaDropdown
+                    values={personas}
+                    value={targetAudience}
+                    onChange={handlePersonaChange}
+                  />
               </div>
               <div className="pb-6 pr-3 pl-3 pt-0">
                 <Label>Campaign&apos;s main objective</Label>

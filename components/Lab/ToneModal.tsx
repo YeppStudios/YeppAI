@@ -326,6 +326,9 @@ const ToneModal = (props: {onClose: any, tones: any[]}) => {
           const ipfsImage = await client.add({ content: image });
           imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
         }
+
+        const profileId = localStorage.getItem("profile_id");
+        
         try {
           await api.post("/save-tone", {
             title,
@@ -333,6 +336,7 @@ const ToneModal = (props: {onClose: any, tones: any[]}) => {
             prompt: toneDescription,
             workspace: localStorage.getItem("workspace"),
             base_text: exampleText,
+            profile: profileId || null
           }, 
           {
             headers: {

@@ -15,7 +15,6 @@ import SlideBottom from "../../Animated/SlideBottom";
 import { useRouter } from "next/router";
 import TextArea from "../../forms/TextArea";
 import TypingAnimation from "../common/TypingAnimation";
-import ColorfulText from "../../Common/ColorfulText";
 import { setSelectedMarketingAssistant } from "@/store/marketingAssistantSlice";
 import { setSelectedCopywritingAssistant } from "@/store/copywritingAssistantSlice";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
@@ -455,6 +454,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                 } else {
                     owner = selectedUser._id;
                 }
+                let profileId = localStorage.getItem("profile_id");
                 const createdAssistant = await api.post("/create-assistant", {
                     owner: owner,
                     name: name,
@@ -467,7 +467,8 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                     exampleContent: exampleText,
                     category,
                     image: imageURL,
-                    noEmbedPrompt
+                    noEmbedPrompt,
+                    profile: profileId || null
                 }, 
                 {
                     headers: {
@@ -854,67 +855,6 @@ const SelectedTab = styled.div`
     color: white;
 `
 
-const AssistantTab = styled.div`
-    padding: 2rem 1.5vw 2.5rem 1.5vw;
-    width: 10vw;
-    font-weight: 500;
-    margin: 0 0.5rem 0.5rem 0rem;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    font-size: 1rem;
-    background: #EEF1F8;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    &:hover {
-        transform: scale(0.95);
-        background: #E3E6F1;
-    }
-`
-
-const SelectedAssistantTab = styled.div`
-    padding: 2rem 1.5rem 2.5rem 1.5rem;
-    font-weight: 700;
-    width: 16vw;
-    height: 14.5rem;
-    margin: 0 0.5rem 0.5rem 0rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    border: solid 3px transparent;
-    overflow: hidden;
-    border-radius: 12px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    cursor: pointer;
-    transition: all 0.4s ease;
-`
-
-const AddFolder = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    margin: 0.7rem 0.35rem 0 0.75rem;
-    height: 3rem;
-    width: 3rem;
-    color: black;
-    border: dashed 2px black;
-    text-align: center;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    &:hover {
-        border: dashed 2px black;
-        transform: scale(0.95);
-        color: black;
-    }
-`
 
 const AddTab = styled.div`
     display: flex;
@@ -953,25 +893,6 @@ const TabInput = styled.input`
 const TabIcon = styled.div`
     width: 1.4rem;
     margin-right: 0.75rem;
-`
-
-const AssistantIcon = styled.div<Background>`
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: 10px;
-    overflow: hidden;
-    background-image: url(${props => props.image});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-`
-
-const AssistantDescription = styled.p`
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-align: center;
 `
 
 const Label = styled.p`
@@ -1016,23 +937,6 @@ const Input = styled.input`
     padding: 0.6rem;
 }
 `;
-
-const Pfp = styled.div<Background>`
-    width: 5rem;
-    height: 5rem;
-    margin-right: 1.25rem;
-    overflow: hidden;
-    border-radius: 20px;
-    background-image: url(${props => props.image});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    &:hover {
-        transform: scale(0.95);
-    }
-`
 
 const AddPfp = styled.div<Background>`
     display: flex;
@@ -1111,18 +1015,6 @@ const CloseIcon = styled.button`
     }
 `
 
-const FolderIcon = styled.div`
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.1rem;
-    color: black;
-    margin-right: 0.5rem;
-    cursor: pointer;
-    transition: all 0.4s ease;
-`
-
 const Folder = styled.div`
     height: 3rem;
     position: relative;
@@ -1145,40 +1037,6 @@ const Folder = styled.div`
     @media (max-width: 1023px) {
         padding: 0.2rem 1rem 0.2rem 1rem;
     }
-`
-
-const SelectedFolder = styled.div`
-    height: 3rem;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: solid 3px transparent;
-    border-radius: 15px;
-    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
-    box-shadow: 2px 2px 6px rgba(22, 27, 29, 0.23), -1px -1px 4px #FAFBFF;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    padding: 0.2rem 2rem 0.2rem 2rem;
-    cursor: pointer;
-    margin: 0.7rem 0.4rem 0rem 0.4rem;
-    align-items: center;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    &:hover {
-        box-shadow: none;
-        transform: scale(0.95);
-    }
-`
-
-const FolderTitle = styled.p`
-    margin-left: 0rem;
-    font-weight: 700;
-    width: 100%;
-    white-space: nowrap;
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
 `
 
 const ContinueBtn = styled.button`

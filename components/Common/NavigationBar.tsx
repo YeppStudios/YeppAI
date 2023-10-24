@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import Image from "next/image";
 import logoImage from "../../public/images/logo.png";
 import {
   BsFillFilePersonFill,
@@ -16,7 +15,6 @@ import Link from "next/link";
 import SlideBottom from "../Animated/SlideBottom";
 import Centered from "../Centered";
 import { selectedUserState } from "../../store/userSlice";
-import { selectedPlanState } from "@/store/planSlice";
 import { useSelector } from "react-redux";
 import UpgradeSubscription from "../Modals/InformationalModals/UpgradeSubscription";
 import { FaSearch } from "react-icons/fa";
@@ -29,24 +27,28 @@ import referralBg from "../../public/images/referral_popup_bg.png";
 const tabs = [
   {
     title: "Marketing",
+    hubTitle: "Marketing",
     icon: <BsPencilFill style={{ height: "100%", width: "auto" }} />,
     path: "/marketing",
     id: "navbar-content-creator",
   },
   {
     title: "Copywriting",
+    hubTitle: "Copywriting",
     icon: <BsFillFileTextFill style={{ height: "100%", width: "auto" }} />,
     path: "/copywriting",
     id: "navbar-editor-ai",
   },
   {
     title: "Chat",
+    hubTitle: "Chat",
     icon: <BsFillChatTextFill style={{ height: "100%", width: "auto" }} />,
     path: "/chat",
     id: "navbar-chat",
   },
   {
     title: "Prompts",
+    hubTitle: "Prompts",
     icon: <FaSearch style={{ height: "100%", width: "auto" }} />,
     path: "/prompts",
     id: "navbar-prompts",
@@ -57,12 +59,14 @@ const tabs = [
 const bottomTabs = [
   {
     title: "Lab",
+    hubTitle: "Lab",
     icon: <BsFillMortarboardFill style={{ height: "100%", width: "auto" }} />,
     path: "/lab",
     id: "navbar-lab",
   },
   {
     title: "Assets",
+    hubTitle: "Profiles",
     icon: <BsFillArchiveFill style={{ height: "100%", width: "auto" }} />,
     path: "/assets",
     id: "navbar-assets",
@@ -84,15 +88,25 @@ const NavigationBar = () => {
   const [openSubscriptionModal, setOpenSubscriptionModal] = useState(false);
   const user = useSelector(selectedUserState);
   const [openMobile, setOpenMobile] = useState(false);
-  const plan = useSelector(selectedPlanState);
   const [isHovered, setIsHovered] = useState(false);
   const [country, setCountry] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [hideGift, setHideGift] = useState(false);
   const [hidePopup, setHidePopup] = useState(false);
   const [openChatbotPopup, setOpenChatbotPopup] = useState(false);
+  const [profileTitle, setProfileTitle] = useState<any>();
+  const [profileImage, setProfileImage] = useState<any>();
+  const [profileId, setProfileId] = useState<any>();
+
 
   useEffect(() => {
+    const profileId = localStorage.getItem("profile_id");
+    if (profileId) {
+      setProfileId(profileId);
+      setProfileTitle(localStorage.getItem("profile_title"));
+      setProfileImage(localStorage.getItem("profile_icon"));
+    }
+
     if (window.innerWidth < 1023) { 
       setMobile(true);
     }
@@ -111,7 +125,9 @@ const NavigationBar = () => {
   }, []);
 
   const handleTabClick = (path: string) => {
-    if (path === "/copywriting" && mobile) {
+    if (path === "/assets" && profileId) {
+      router.push(`/profile/${profileId}`);
+    } else if (path === "/copywriting" && mobile) {
       alert("For now copywriting is available only for desktop devices.");
     } else if (path === "/prompts" && country !== "Poland") {
       alert(
@@ -177,7 +193,7 @@ const NavigationBar = () => {
                   <NavigationTab
                     country={country}
                     hover={isHovered}
-                    title={tab.title}
+                    title={(tab.title)}
                     onClick={() => handleTabClick(tab.path)}
                   >
                     <NavigationIcon>{tab.icon}</NavigationIcon>
@@ -234,12 +250,6 @@ const NavigationBar = () => {
             style={{ willChange: "transform" }}
           >
             {memoizedNavigationTabs}
-              <ReferralPopup background={referralBg} hideGift={hideGift}>
-                <div>
-                  <p className="text-center text-lg text-black font-bold mt-4 mb-4">Request AI Assistant <br />for <ColorfulText>your website</ColorfulText></p>
-                  <BlueBtn onClick={() => setOpenChatbotPopup(true)}>Request</BlueBtn>
-                </div>
-              </ReferralPopup>
             <ProfileContainer id="profile-tab">
             {bottomTabs.map((tab) => (
             <div id={tab.id} key={tab.id} className="w-full">
@@ -263,7 +273,7 @@ const NavigationBar = () => {
                     <NavigationTab
                       country={country}
                       hover={isHovered}
-                      title={tab.title}
+                      title={(tab.title)}
                       onClick={() => handleTabClick(tab.path)}
                     >
                       <NavigationIcon>{tab.icon}</NavigationIcon>
@@ -288,7 +298,7 @@ const NavigationBar = () => {
             ))}
               <NameContainer
                 hover={isHovered}
-                onClick={(e) => router.push("/profile")}
+                onClick={(e) => router.push("/me")}
               >
                 <FakeProfile>
                   <BsFillFilePersonFill
@@ -323,51 +333,28 @@ const NavigationBar = () => {
             {bottomTabs.map((tab) => (
             <div id={tab.id} key={tab.id}>
               {!(tab.path.includes(pathname) && pathname !== "/") ? (
-                mobile ? (
-                  <>
-                    <SlideBottom>
-                      <NavigationTab
-                        country={country}
-                        hover={isHovered}
-                        title={tab.title}
-                        onClick={() => handleTabClick(tab.path)}
-                      >
-                        <NavigationIcon>{tab.icon}</NavigationIcon>
-                        <NavigationText>{tab.title}</NavigationText>
-                      </NavigationTab>
-                    </SlideBottom>
-                  </>
-                ) : (
                   <>
                     <NavigationTab
                       country={country}
                       hover={isHovered}
-                      title={tab.title}
+                      title={(tab.title)}
                       onClick={() => handleTabClick(tab.path)}
                     >
-                      <NavigationIcon>{tab.icon}</NavigationIcon>
-                      {isHovered && <NavigationText>{tab.title}</NavigationText>}
+                      <NavigationIcon>{(profileImage && tab.title === "Assets") ? <Icon bg={profileImage} /> : tab.icon}</NavigationIcon>
+                      {isHovered && <NavigationText>{(profileTitle && tab.title === "Assets") ? profileTitle : tab.title}</NavigationText>}
                     </NavigationTab>
                   </>
-                )
-              ) : mobile ? (
-                <SlideBottom>
-                  <SelectedNavigationTab onClick={() => router.reload()} hovered={isHovered}>
-                    <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
-                    <SelectedNavigationText>{tab.title}</SelectedNavigationText>
-                  </SelectedNavigationTab>
-                </SlideBottom>
               ) : (
                 <SelectedNavigationTab onClick={() => router.reload()} hovered={isHovered}>
-                  <SelectedNavigationIcon>{tab.icon}</SelectedNavigationIcon>
-                  {isHovered && <NavigationText>{tab.title}</NavigationText>}
+                  <SelectedNavigationIcon>{(profileImage && tab.title === "Assets") ? <Icon bg={profileImage} /> : tab.icon}</SelectedNavigationIcon>
+                  {isHovered && <NavigationText>{(profileTitle && tab.title === "Assets") ? profileTitle : tab.title}</NavigationText>}
                 </SelectedNavigationTab>
               )}
             </div>
             ))}
               <NameContainer
                 hover={isHovered}
-                onClick={(e) => router.push("/profile")}
+                onClick={(e) => router.push("/me")}
               >
                 <FakeProfile>
                   <BsFillFilePersonFill
@@ -403,7 +390,7 @@ const Navbar = styled(motion.div)`
   align-items: center;
   top: 0;
   left: 0;
-  border: 2px solid #eaedf5;
+  border: 2px solid #F6F6FB;
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
@@ -495,7 +482,6 @@ const NavigationTab = styled.div<{
   color: black;
   white-space: nowrap;
   cursor: pointer;
-  display: flex;
   color: ${(props) =>
     props.title === "Prompts" && props.country !== "Poland"
       ? "#DCDCDC"
@@ -532,24 +518,6 @@ const NavigationTab = styled.div<{
       backdrop-filter: blur(10px);
       box-shadow: none;
     }
-  }
-`;
-
-const Locked = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
-  display: flex;
-  justify-content: flex-start;
-  padding-left: 1.75rem;
-  padding-top: 0.5rem;
-  align-items: flex-end;
-  color: black;
-  z-index: 1;
-  @media (max-width: 1023px) {
-    padding-left: 0.75rem;
-    padding-top: 0.75rem;
   }
 `;
 
@@ -590,8 +558,7 @@ const SelectedNavigationText = styled.div`
 const SelectedNavigationTab = styled.div<{ hovered: boolean }>`
   width: 100%;
   padding: 0.7rem 1.2rem 0.7rem 1.2rem;
-  box-shadow: inset 3px 3px 5px rgba(22, 27, 29, 0.23),
-    inset -3px -3px 5px #fafbff;
+  box-shadow: 2px 2px 4px rgba(22, 27, 29, 0.13);
   display: flex;
   color: black;
   cursor: pointer;
@@ -609,8 +576,8 @@ const SelectedNavigationTab = styled.div<{ hovered: boolean }>`
   @media (min-width: 1023px) {
     padding: ${(props) =>
       props.hovered
-        ? "0.7rem 1.2rem 0.7rem 1.2rem"
-        : "0.7rem 0.8rem 0.7rem 0.8rem"};
+        ? "0.65rem 1.2rem 0.65rem 1.2rem"
+        : "0.6rem 0.7rem 0.75rem 0.75rem"};
     margin-left: ${(props) => (props.hovered ? "0rem" : "0.35rem")};
     width: ${(props) => (props.hovered ? "100%" : "80%")};
   }
@@ -775,4 +742,14 @@ const BlueBtn = styled.div`
       margin-right: 0rem;
       padding: 0.5rem 1.25rem 0.5rem 1.25rem;
     }
+`
+
+const Icon = styled.div<{ bg: any }>`
+    background-image: url(${props => props.bg});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
 `

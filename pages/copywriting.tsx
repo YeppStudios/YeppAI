@@ -22,6 +22,7 @@ const DocumentCreator = () => {
   const [copywritingModal, setCopywritingModal] = useState(false);
   const [embeddedVectorIds, setEmbeddedVectorIds] = useState<any[]>([]);
   const [toneOfVoice, setToneOfVoice] = useState("Informative");
+  const [selectedPersonaPrompt, setSelectedPersonaPrompt] = useState("");
   const [conspect, setConspect] = useState<any>(null);
   const [title, setTitle] = useState("New Document");
   const [description, setDescription] = useState("");
@@ -55,8 +56,16 @@ const DocumentCreator = () => {
     const token = localStorage.getItem("token");
     const fetchSavedContent = async () => {
       setLoading(true);
+
+      const profileId = localStorage.getItem("profile_id");
+
+      let url = `/getUserSeoContent`;
+      if (profileId) {
+        url = `/getProfileSeoContent/${profileId}`
+      }
+
       try {
-        const fetchedContent = await api.get(`/getUserSeoContent`, {
+        const fetchedContent = await api.get(url, {
           headers: {
             authorization: token,
           },
@@ -235,6 +244,8 @@ const DocumentCreator = () => {
           setToneOfVoice={setToneOfVoice}
           setSectionLength={setSectionLength}
           setSelectedTonePrompt={setSelectedTonePrompt}
+          setSelectedPersonaPrompt={setSelectedPersonaPrompt}
+          selectedPersonaPrompt={selectedPersonaPrompt}
         />
       )}
       {page === 1 && (
@@ -262,6 +273,7 @@ const DocumentCreator = () => {
           setToneOfVoice={setToneOfVoice}
           sectionLength={sectionLength}
           selectedTonePrompt={selectedTonePrompt}
+          selectedPersonaPrompt={selectedPersonaPrompt}
         />
       )}
     </PageTemplate>

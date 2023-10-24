@@ -86,10 +86,16 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
     const handleToneChange = (title: string) => {
         setSelectedToneTitle(title);
         const tone = tones.find((t: any) => t.title === title);
-        if (tone.base_text) {
-          setSelectedTonePrompt(tone.base_text);
-        } else {
-          setSelectedTonePrompt("");
+        try {
+          if (tone.prompt) {
+            setSelectedTonePrompt(tone.prompt);
+          } else if (tone.title) {
+            setSelectedTonePrompt(tone.title);
+          } else {
+            setSelectedTonePrompt(title);
+          }
+        } catch (e) {
+          setSelectedTonePrompt(title);
         }
       };
     

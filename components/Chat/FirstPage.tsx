@@ -53,15 +53,22 @@ const FirstPage = (props: {nextPage: any}) => {
     
         const fetchAssistants = async () => {
         const workspace = localStorage.getItem("workspace");
+        const profileId = localStorage.getItem("profile_id");
         let assistantsResponse;
         setLoading(true);
         try {
-            if (workspaceCompany._id) {
+            if (profileId) {
+                assistantsResponse = await api.get(`/getProfileAssistants/${profileId}`, {
+                    headers: {
+                      authorization: token
+                    }
+                })
+            } else if (workspaceCompany._id) {
                 const {data} = await api.get(`/workspace-company/${workspace}`, {
                     headers: {
                       authorization: token
                     }
-                  });
+                });
                 assistantsResponse = await api.get(`/getUserAssistants/${data.company._id}`, {
                     headers: {
                       authorization: token
@@ -75,8 +82,7 @@ const FirstPage = (props: {nextPage: any}) => {
                 })
             }
             setLoading(false);
-            
-            // Filter the assistants before setting state.
+
             const chatAssistants = assistantsResponse?.data.assistants;
             chatAssistants.unshift(defaultAssistant);
             setAssistants(assistantsResponse?.data.assistants);

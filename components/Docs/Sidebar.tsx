@@ -63,7 +63,6 @@ export default function Sidebar(props: { loggedIn: boolean, username: string, ta
         if (props.tab) {
             setSelectedTab(props.tab);
         }
-        console.log(props.tab)
     }, [props.tab]);
 
     useEffect(() => {

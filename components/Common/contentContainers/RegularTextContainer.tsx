@@ -48,6 +48,7 @@ const RegularTextContainer = (props: {template: any, text: string, prompt: strin
         if(!liked && !disableLike && props.isSSEComplete && props.prompt && props.template){
             setShowSavedIcon(true);
             const token = localStorage.getItem("token");
+            const profileId = localStorage.getItem("profile_id");
             try {
                 await api.post("/addContent", {
                     text,
@@ -56,7 +57,8 @@ const RegularTextContainer = (props: {template: any, text: string, prompt: strin
                     savedBy: props.user._id,
                     title: props.template.title,
                     icon: props.template.icon,
-                    query: props.template.query
+                    query: props.template.query,
+                    profile: profileId || null
                 }, {
                     headers: {
                         authorization: token

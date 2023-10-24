@@ -205,7 +205,7 @@ const Campaign = () => {
             keywords: ${campaign.keywords},
             language: ${campaign.language},
             main objective: ${campaign.objective},
-            target audience: ${campaign.targetAudience},
+            target persona: ${campaign.personaPrompt},
             tone of voice: ${campaign.toneOfVoice},
             type: ${campaign.type}
             Now, please` + template.data.prompt;
@@ -215,7 +215,7 @@ const Campaign = () => {
             keywords: ${campaign.keywords},
             language: ${campaign.language},
             main objective: ${campaign.objective},
-            target audience: ${campaign.targetAudience},
+            target persona: "${campaign.personaPrompt}:,
             tone of voice: ${campaign.toneOfVoice},
             type: ${campaign.type}
             use of emojis: ${useEmojis}
@@ -254,7 +254,7 @@ const Campaign = () => {
               chunks.data.results[0].results.forEach((item: { text: string; }) => {
                 context += item.text + " ";
               });
-              promptToSend = `Extra context that might be helpful but not necessarily: "${context}". Now after understanding the context, without using too many facts, please: ${promptToSend}. Answer: `;
+              promptToSend = `Extra context that might be helpful but not necessarily: "${context}". ${campaign.personaPrompt}. Now after understanding the context, without using too many facts, please: ${promptToSend}. Answer: `;
               // setEmbeddedDocuments(chunks.data.results[0].results);
               } catch (e) {
               }
@@ -394,9 +394,9 @@ const Campaign = () => {
           keywords: ${campaign.keywords},
           language: ${campaign.language},
           main objective: ${campaign.objective},
-          target audience: ${campaign.targetAudience},
-          tone of voice: ${campaign.toneOfVoice},
-          type: ${campaign.type}
+          target persona: "${campaign.personaPrompt}",
+          tone of voice: "${campaign.toneOfVoice}",
+          type: ${campaign.type},
           ` + template.data.prompt;
   
           let allDocuments = campaign.documents;
@@ -431,8 +431,7 @@ const Campaign = () => {
               chunks.data.results[0].results.forEach((item: { text: string; }) => {
                 context += item.text + " ";
               });
-              promptToSend = `${promptToSend} Extra context that might help you: "${context}"`;
-              // setEmbeddedDocuments(chunks.data.results[0].results);
+              promptToSend = `${promptToSend} Extra context that might help you complete the task: "${context}".`;
               } catch (e) {
               }
             }

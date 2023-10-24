@@ -39,7 +39,7 @@ const AssistantsLimit = (props: {onClose: any}) => {
     }, [workspaceCompany]);
 
     const goToProfile = (option: string) => {
-        router.push(`/profile?${option}=true`);
+        router.push(`/me?${option}=true`);
         props.onClose();
     }
 

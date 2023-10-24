@@ -9,6 +9,7 @@ import { folderSlice } from "./openedFolderSlice";
 import { planSlice } from "./planSlice";
 import { workspaceCompanySlice } from "./workspaceCompany";
 import { selectedFoldersSlice } from "./selectedFoldersSlice";
+import { profileSlice } from "./selectedProfileSlice";
 
 const makeStore = () =>
   configureStore({
@@ -22,6 +23,7 @@ const makeStore = () =>
       [planSlice.name]: planSlice.reducer,
       [workspaceCompanySlice.name]: workspaceCompanySlice.reducer,
       [selectedFoldersSlice.name]: selectedFoldersSlice.reducer,
+      [profileSlice.name]: profileSlice.reducer
     },
     devTools: true,
   });

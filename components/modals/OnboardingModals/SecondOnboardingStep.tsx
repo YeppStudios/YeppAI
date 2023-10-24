@@ -43,7 +43,6 @@ const SecondOnboardingStep = (props: {onClose: any}) => {
     }, []);
 
     const handleOpenTab = async (path: string) => {
-        console.log(path);
         setLoading(true);
         try {
             await api.patch("/updateOnboardingData", {

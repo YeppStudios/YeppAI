@@ -84,7 +84,6 @@ const Assets = () => {
             },
           });
           setFolders(data);
-          console.log(data, "workspace");
           setFoldersLoading(false);
         } else {
           const { data } = await api.get(`/folders/owner/${userId}`, {
