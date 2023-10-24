@@ -198,7 +198,9 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                     });
                     const { url } = await res.data;
                     window.location.href = url;
-                }  else {
+                }  else if (response.data.user.hubAccess) {
+                    router.push("/profiles")
+                } else {
                     props.onClose();
                 }
                 setLoading(false);
