@@ -209,7 +209,7 @@ const DataPage = (props: {
             const formattedDate = `${date.getDate() < 10 ? "0" : ""}${date.getDate()}.${(date.getMonth() + 1) < 10 ? "0" : ""}${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours() < 10 ? "0" : ""}${date.getHours()}:${date.getMinutes() < 10 ? "0" : ""}${date.getMinutes()}`;
     
             return (
-                <tr key={'isDocument' in item ? item.vectorId : item._id}>
+                <tr key={'isDocument' in item ? item.vectorId : item._id} className={idx !== combinedItems.length - 1 ? "border-b-2 border-slate-100" : ""}>
                     <td className=" py-4 pl-4 text-sm font-medium text-gray-900 sm:pl-6">
                         {'isDocument' in item ? <Image src={fileIcon} alt="folder-icon" className="w-7"/> : <Image src={folderIcon} alt="folder-icon" className="w-8"/>}
                     </td>
@@ -457,10 +457,10 @@ const DataPage = (props: {
                         :
                         <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <div className=" shadow ring-1 ring-black ring-opacity-5 sm:rounded-2xl">
+                            <div className="border-4 border-slate-100 sm:rounded-2xl">
                             {(documents.length > 0 || subfolders.length > 0) ?
-                             <table className="min-w-full divide-y divide-gray-300">
-                                <thead className="bg-slate-50">
+                             <table className="min-w-full">
+                                <thead className="bg-slate-100">
                                  <tr>
                                     <th scope="col" className="py-3.5 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                     </th>

@@ -113,7 +113,7 @@ const DocumentCreator = () => {
   const renderContent = () => {
     const renderedContent = savedContent.map((content, index) => {
       return (
-        <tr key={content._id} onClick={() => handleOpenDocument(content._id)}>
+        <tr key={content._id} onClick={() => handleOpenDocument(content._id)} className={index !== savedContent.length - 1 ? "border-b-2 border-slate-100" : ""}>
           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
             <Image
               src={documentIcon}

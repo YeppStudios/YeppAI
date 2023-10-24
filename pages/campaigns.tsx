@@ -66,7 +66,7 @@ const Campaigns = () => {
     const renderContent = () => {
         const renderedContent = savedContent.map((campaign: any, index: any) => {
           return (
-            <tr key={campaign._id} onClick={() => handleOpenCampaign(campaign._id)}>
+            <tr key={campaign._id} onClick={() => handleOpenCampaign(campaign._id)} className={index !== savedContent.length - 1 ? "border-b-2 border-slate-100" : ""}>
               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                 <Image
                   src={campaignIcon}

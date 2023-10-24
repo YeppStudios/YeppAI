@@ -45,14 +45,14 @@ const FirstPageTemplate: FC<FirstPageTemplateProps> = ({
           <div className="w-full mt-6 lg:mt-12 flow-root">
             <div className="w-full">
               <div className="inline-block w-full py-2">
-                <div className=" border-4 border-slate-100 rounded-2xl overflow-hidden">
+                <div className="border-4 border-slate-100 rounded-2xl overflow-hidden">
                   {loading ? (
                     <div className="flex justify-center items-center w-full h-64">
                       <BlueLoader />
                     </div>
                   ) : (
                     <>
-                      <table className="w-full divide-y divide-gray-100">
+                      <table className="w-full">
                         <thead className="bg-slate-100 ">
                           <tr>
                           <th

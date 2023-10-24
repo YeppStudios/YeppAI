@@ -178,7 +178,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             const date = dateObject.toLocaleDateString("en-US", options);
     
             return (
-                <tr key={idx}>
+                <tr key={idx} className={idx !== filteredFolders.length - 1 ? "border-b-2 border-slate-100" : ""}>
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                 <Image src={folderIcon} alt="folder-icon" className="w-8"/>
                 </td>
@@ -227,7 +227,7 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             )
     })
     return (
-        <tbody className="divide-y divide-gray-200 bg-white">
+        <tbody className="divide-y divide-gray-200 rounded-xl">
             {renderedContent}
         </tbody>
     )
@@ -345,9 +345,9 @@ const Home = (props: {folders: any, setFolders: any, loading: boolean}) => {
             <div className="mt-6 flow-root">
                 <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
                 <div className="inline-block w-full py-2 align-middle sm:px-6 lg:px-8">
-                    <div className="shadow ring-1 ring-black ring-opacity-5 rounded-2xl">
-                    <table className="w-full divide-y divide-gray-300">
-                    <thead className="">
+                    <div className="border-4 border-slate-100 rounded-2xl">
+                    <table className="w-full">
+                    <thead className="bg-slate-100">
                         <tr>
                             <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                             </th>
