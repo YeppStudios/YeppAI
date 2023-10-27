@@ -31,10 +31,12 @@ const Navbar = () =>{
     const [isFixed, setIsFixed] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false)
+    const [isMounted, setIsMounted] = useState(false);
     
     const router = useRouter();
-    const { pathname } = router;
+
     useEffect(() => {
+        setIsMounted(true);
         if (window.innerWidth > 1023) { 
             setMobile(false);
           }
@@ -82,10 +84,12 @@ const Navbar = () =>{
                 <Link href="/about-partnership"><NavLink><ColorfulText>Partnership</ColorfulText></NavLink></Link>
                 <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                     <Popover className="relative">
-                        <Popover.Button className="inline-flex items-center gap-x-1 text-sm leading-6 text-black outline-none">
-                            <span>Solutions</span>
-                            <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-                        </Popover.Button>
+                    {isMounted && (
+                    <Popover.Button className="inline-flex items-center gap-x-1 text-sm leading-6 text-black outline-none">
+                        <span>Solutions</span>
+                        <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                    </Popover.Button>
+                    )}
                         <Transition
                             show={isOpen}
                             enter="transition ease-out duration-200"
