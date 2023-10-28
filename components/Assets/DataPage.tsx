@@ -3,7 +3,7 @@ import backIcon from "../../public/images/backArrow.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import api from "@/pages/api";
-import { BsFileEarmarkText, BsFillGearFill, BsFolder, BsTrash, BsYoutube } from "react-icons/bs";
+import { BsFillGearFill, BsTrash, BsYoutube } from "react-icons/bs";
 import { BsFolderSymlinkFill, BsFillPencilFill, BsFillLaptopFill } from "react-icons/bs";
 import { BlueLoader } from "../Common/Loaders";
 import Centered from "../Centered";
@@ -18,7 +18,6 @@ import AddWrittenContent from "../Modals/AddingModals/AddWrittenContent";
 import AddAudio from "../Modals/AddingModals/AddAudio";
 import FilesNumberLimit from "../Modals/LimitModals/FilesNumberLimit";
 import FilesSpaceLimit from "../Modals/LimitModals/FilesSpaceLimit";
-import { useRouter } from "next/router";
 import SecondOnboardingStep from "../Modals/OnboardingModals/SecondOnboardingStep";
 import DeleteFolderModal from "../Modals/DeletingModals/DeleteFolderModal";
 import { HiPlusSm } from "react-icons/hi";
@@ -514,7 +513,7 @@ const MainContainer = styled.div`
     background: white;
     border-radius: 25px;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13), -7px -7px 10px #FAFBFF;
-    border: 1.5px solid #EAEDF5;
+    border: 2px solid #F6F6FB;
     padding: 1.5rem 20em 1.5rem 2.5rem;
     @media (max-width: 1023px) {
         padding: 0;

@@ -123,7 +123,7 @@ const MainContainer = styled.div`
     background: white;
     border-radius: 25px;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
-    border: 2px solid #eaedf5;
+    border: 2px solid #F6F6FB;
     overflow-y: scroll;
     padding: 1.25rem 2rem 3.5em 2rem;
     -ms-overflow-style: none;

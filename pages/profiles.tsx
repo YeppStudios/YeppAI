@@ -254,14 +254,6 @@ const AddProfileTitle = styled.p`
     margin-top: 1rem;
 `
 
-const AddProfileIcon = styled.div`
-    width: 2rem;
-    margin: 0rem 1.2rem 0rem 1.2rem;
-    color: #CFD5E8;
-    transition: all 0.4s ease;
-    cursor: pointer;
-`
-
 const Circle = styled.div`
     width: 3rem;
     height: 3rem;

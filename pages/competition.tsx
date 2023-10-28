@@ -2,17 +2,17 @@ import FirstPageTemplate from "@/components/Common/FirstPageTemplate";
 import { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import api from "./api";
 import Image from "next/image";
 import campaignIcon from "../public/images/campaignIcon.png";
 import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
 import classNames from "classnames";
-import { BsPencilFill, BsTrash } from "react-icons/bs";
+import { BsTrash, BsSearch } from "react-icons/bs";
 import { CampaignModal } from "@/components/Campaigns/CampaignModal";
 import PageTemplate from "@/components/Common/PageTemplate";
+import api from "@/pages/api";
 
-const Campaigns = () => {
+const Competition = () => {
     const [loading, setLoading] = useState(true);
     const [savedContent, setSavedContent] = useState<any>();
     const [mobile, setMobile] = useState(false);
@@ -55,12 +55,6 @@ const Campaigns = () => {
       }
 
       const handleCampaignDelete = async (id: string) => {
-        await api.delete(`/deleteCampaign/${id}`, {
-          headers: {
-            authorization: localStorage.getItem("token"),
-          },
-        });
-        router.reload();
       }
 
     const renderContent = () => {
@@ -152,9 +146,10 @@ const Campaigns = () => {
       };
     
       const ActionButtons = (props: { openModal: any }) => {
+        const router = useRouter();
         return (
           <ActionContaienr>
-                <WriteBtn onClick={() => props.openModal()}><BsPencilFill className="mr-4" style={{ width: "auto", height: "35%" }} /> New Campaign</WriteBtn>
+                <WriteBtn onClick={() => props.openModal()}><BsSearch className="mr-4" style={{ width: "auto", height: "35%" }} /> New Research</WriteBtn>
           </ActionContaienr>
         );
       };
@@ -163,8 +158,8 @@ const Campaigns = () => {
         <PageTemplate>
         {openOnboarding && <CampaignModal setOpenCreateCampaignModal={setOpenOnboarding} />}
         <FirstPageTemplate
-          name="Content Campaigns"
-          description="Generate entire content campaigns in seconds."
+          name="Competition research"
+          description="Always be one step ahead of your competition."
           loading={loading}
           renderContent={renderContent}
           savedContent={savedContent}
@@ -174,7 +169,7 @@ const Campaigns = () => {
     )
 }
 
-export default Campaigns;
+export default Competition;
 
 
 const ActionContaienr = styled.div`
@@ -183,31 +178,6 @@ const ActionContaienr = styled.div`
   @media (max-width: 1023px) {
     width: 100%;
     justify-content: flex-start;
-  }
-`;
-
-const ActionBtn = styled.div`
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-left: 1.4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  border: 2px solid #eaedf5;
-  border-radius: 15px;
-  box-shadow: 0px 2px 5px rgba(15, 27, 40, 0.1);
-  align-items: center;
-  transition: all 0.4s ease;
-  cursor: pointer;
-  &:hover {
-    box-shadow: none;
-    transform: scale(0.95);
-  }
-  @media (max-width: 1023px) {
-    margin-left: 0;
-    margin-right: 0.75rem;
-    margin-top: 1rem;
   }
 `;
 
@@ -245,7 +215,6 @@ const WriteBtn = styled.div`
     flex: 1;
   }
 `;
-
 
 const OptionsIcon = styled.div`
   height: 100%;

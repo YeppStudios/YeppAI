@@ -420,7 +420,7 @@ const MainContainer = styled.div`
     background: white;
     border-radius: 25px;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13), -7px -7px 10px #FAFBFF;
-    border: 1.5px solid #EAEDF5;
+    border: 2px solid #F6F6FB;
     overflow-y: scroll;
     padding: 1.5rem 2.5rem 3.5em 2.5rem;
     -ms-overflow-style: none;

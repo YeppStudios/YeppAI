@@ -623,7 +623,7 @@ const MainContainer = styled.div<{isTemplate: boolean}>`
   z-index: 1; 
   overflow: hidden;
   box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
-  border: 2px solid #E5E8F0;
+  border: 2px solid #F6F6FB;
   border-radius: 25px;
   background-color: white;
   @media (max-width: 1023px) {
