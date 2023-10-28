@@ -20,10 +20,17 @@ type BottomMenuProps = Omit<BubbleMenuProps, "children"> & {
   menuPosition?: { top: number; left: number };
   generateNextSection: any;
   nextSection: string;
+  editor?: any;
 };
 
 export const BottomMenu: FC<BottomMenuProps> = (props) => {
-  let { from, to } = props.editor.state.selection;
+  let from = 0;
+  let to = 0;
+  if (props.editor) {
+    const { selection } = props.editor.state;
+    from = selection.from;
+    to = selection.to;
+  }
 
   const items: BubbleMenuItem[] = [
     {
