@@ -1,7 +1,7 @@
 import PageTemplate from "@/components/Common/PageTemplate";
 import styled from "styled-components";
 import Image from "next/image";
-import backIcon from "../public/images/backArrow.png";
+import backIcon from "../../../public/images/backArrow.png";
 import { useRouter } from "next/router";
 import { BsStarFill } from "react-icons/bs";
 
