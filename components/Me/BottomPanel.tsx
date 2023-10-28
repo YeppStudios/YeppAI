@@ -396,9 +396,9 @@ const BottomPanel = () => {
                             {employees.length > 0 ?
                             renderedEmployees
                             :
-                            <div className="flex text-gray-400 ml-8 pt-8">
-                                <p>Here you will find your teammates.</p>
-                            </div>   
+                            <tbody className="flex text-gray-400 ml-8 pt-8">
+                                <tr><td className="w-full">Here you will find your teammates.</td></tr>
+                            </tbody>   
                             }
                             </table>
                             :
