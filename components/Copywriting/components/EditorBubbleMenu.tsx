@@ -26,7 +26,7 @@ export interface BubbleMenuItem {
 type EditorBubbleMenuProps = Omit<BubbleMenuProps, "children">;
 
 export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
-  let { from, to } = props.editor.state.selection;
+  let { from, to } = props.editor?.state.selection ?? { from: 0, to: 0 };
 
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [isColorSelectorOpen, setIsColorSelectorOpen] = useState(false);
@@ -53,10 +53,10 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
   const items: BubbleMenuItem[] = [
     {
       name: "bold",
-      isActive: () => props.editor.isActive("bold"),
+      isActive: () => props.editor!.isActive("bold"),
       command: () => {
-        props.editor.chain().focus().toggleBold().run();
-        props.editor.commands.setTextSelection({
+        props.editor!.chain().focus().toggleBold().run();
+        props.editor!.commands.setTextSelection({
           from: to,
           to: to,
         });
@@ -66,10 +66,10 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     },
     {
       name: "italic",
-      isActive: () => props.editor.isActive("italic"),
+      isActive: () => props.editor!.isActive("italic"),
       command: () => {
-        props.editor.chain().focus().toggleItalic().run();
-        props.editor.commands.setTextSelection({
+        props.editor!.chain().focus().toggleItalic().run();
+        props.editor!.commands.setTextSelection({
           from: to,
           to: to,
         });
@@ -79,10 +79,10 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     },
     {
       name: "underline",
-      isActive: () => props.editor.isActive("underline"),
+      isActive: () => props.editor!.isActive("underline"),
       command: () => {
-        props.editor.chain().focus().toggleUnderline().run();
-        props.editor.commands.setTextSelection({
+        props.editor!.chain().focus().toggleUnderline().run();
+        props.editor!.commands.setTextSelection({
           from: to,
           to: to,
         });
@@ -92,7 +92,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     },
     {
       name: "rewrite",
-      isActive: () => props.editor.isActive("rewrite"),
+      isActive: () => props.editor!.isActive("rewrite"),
       command: () => {
         rewrite();
       },
@@ -100,12 +100,12 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     },
     {
       name: "Ask AI",
-      isActive: () => props.editor.isActive("askAI"),
+      isActive: () => props.editor!.isActive("askAI"),
       command: () => {
         setOpenPopup(false);
         setShowAIInput(true);
-        const { from, to } = props.editor.state.selection;
-        setSelectedText(props.editor.state.doc.textBetween(from, to));
+        const { from, to } = props.editor!.state.selection;
+        setSelectedText(props.editor!.state.doc.textBetween(from, to));
       },
       icon: SparklesIcon,
     },
@@ -114,9 +114,9 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
 
     // Get the current selection whenever it changes
     useEffect(() => {
-      const { from, to } = props.editor.state.selection;
+      const { from, to } = props.editor!.state.selection;
       
-      if (from !== to && props.editor.view.dom.parentNode) {
+      if (from !== to && props.editor!.view.dom.parentNode) {
         const selection = window.getSelection();
         if (selection) {
           const range = selection.getRangeAt(0);
@@ -132,7 +132,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
           }
         }
       }
-    }, [props.editor.state.selection, props.editor.view.dom.parentNode, props.editor.view.state.selection]);
+    }, [props.editor!.state.selection, props.editor!.view.dom.parentNode, props.editor!.view.state.selection]);
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -150,12 +150,12 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     
 
   useEffect(() => {
-    if (props.editor.view.state.selection.content().size > 0) {
+    if (props.editor!.view.state.selection.content().size > 0) {
       setOpenPopup(true);
     } else {
       setOpenPopup(false);
     }
-  }, [props.editor.view.state.selection]);
+  }, [props.editor!.view.state.selection]);
 
 
   const stopReplying = () => {
@@ -173,10 +173,10 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
       stopReplying();
       return;
     }
-    const { from, to } = props.editor.state.selection;
+    const { from, to } = props.editor!.state.selection;
     let initialPosition = from;
-    const textToRewrite = props.editor.state.doc.textBetween(from, to);
-    props.editor.chain().focus().deleteSelection().run();
+    const textToRewrite = props.editor!.state.doc.textBetween(from, to);
+    props.editor!.chain().focus().deleteSelection().run();
     setGenerating(true);
 
     let fetchedUser = null;
@@ -227,7 +227,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
           const { done, value } = await reader.read();
           if (done) {
             setGenerating(false);
-            props.editor.commands.setTextSelection({
+            props.editor!.commands.setTextSelection({
               from: from,
               to: from + reply.length,
             });
@@ -240,8 +240,8 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
               const data = JSON.parse(jsonString);
               if (data.content) {
                 reply += data.content;
-                props.editor.view.dispatch(
-                  props.editor.view.state.tr.insertText(data.content, initialPosition)
+                props.editor!.view.dispatch(
+                  props.editor!.view.state.tr.insertText(data.content, initialPosition)
                 );
                 initialPosition += data.content.length;
               }
@@ -276,9 +276,9 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
       stopReplying();
       return;
     }
-    const { from } = props.editor.state.selection;
+    const { from } = props.editor!.state.selection;
     let initialPosition = from;
-    props.editor.chain().focus().deleteSelection().run();
+    props.editor!.chain().focus().deleteSelection().run();
     setGenerating(true);
     setShowAIInput(false);
     setUserInput("");
@@ -331,7 +331,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
           const { done, value } = await reader.read();
           if (done) {
             setGenerating(false);
-            props.editor.commands.setTextSelection({
+            props.editor!.commands.setTextSelection({
               from: from,
               to: from + reply.length,
             });
@@ -344,8 +344,8 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
               const data = JSON.parse(jsonString);
               if (data.content) {
                 reply += data.content;
-                props.editor.view.dispatch(
-                  props.editor.view.state.tr.insertText(data.content, initialPosition)
+                props.editor!.view.dispatch(
+                  props.editor!.view.state.tr.insertText(data.content, initialPosition)
                 );
                 initialPosition += data.content.length;
               }
@@ -395,7 +395,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
       className="flex absolute rounded-xl shadow-xl z-50 bg-white items-center border border-stone-200"
     >
       <NodeSelector
-        editor={props.editor}
+        editor={props.editor!}
       />
 
       {items.map((item, index) => (
@@ -416,7 +416,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
         </button>
       ))}
       <ColorSelector
-        editor={props.editor}
+        editor={props.editor!}
         isOpen={isColorSelectorOpen}
         setIsOpen={setIsColorSelectorOpen}
       />
