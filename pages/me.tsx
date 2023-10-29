@@ -28,7 +28,7 @@ const Profile = () => {
                   <Loading />
                   :
                   <div style={{width: "100%", height: "calc(100vh -1.5rem)"}}>
-                    <TopPanel stats={stats}/>
+                    <TopPanel/>
                     <BottomPanel />
                   </div>
               }
