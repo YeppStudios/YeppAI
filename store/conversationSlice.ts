@@ -5,7 +5,7 @@ import { HYDRATE } from "next-redux-wrapper";
 interface Conversation {
     _id: String,
     user: any,
-    startTime: Date
+    startTime: String
     messages: Array<any>,
     lastUpdated: String,
     title: String,
@@ -22,7 +22,7 @@ const initialState: ConversationState = {
   conversation: {
     _id: '',
     user: '',
-    startTime: new Date(),
+    startTime: new Date().toISOString(),
     messages: [],
     lastUpdated: 'Dziś',
     title: '',
