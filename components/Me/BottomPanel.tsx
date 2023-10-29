@@ -6,9 +6,7 @@ import purchaseIcon from "../../public/images/purchaseIcon.png";
 import articleIcon from "../../public/images/articlesIcon.png";
 import emailIcon from "../../public/images/emailsIcon.png";
 import giftIcon from "../../public/images/giftIcon.png";
-import { useState } from "react";
-import pkg from 'react';
-const { useEffect } = pkg;
+import { useState, useEffect } from "react";
 import api from "../../pages/api";
 import dynamic from "next/dynamic";
 import { BsFillEnvelopeFill, BsFillEyeFill, BsFillEyeSlashFill, BsPlusLg } from "react-icons/bs";
@@ -200,7 +198,7 @@ const BottomPanel = () => {
                 link: `${data.invitationLink}`
                 },
             };
-            await api.post('/send-email', { msg });
+            const response = await api.post('/send-email', { msg });
             showNotification({
                 id: 'invited',
                 disallowClose: true,
@@ -367,7 +365,7 @@ const BottomPanel = () => {
                         <div className="inline-block min-w-full py-2 align-middle">
                             {employees ?
                             <table className="min-w-full border-separate border-spacing-0 border-4 border-gray-50 rounded-2xl">
-                            <thead className="bg-slate-100">
+                            <thead className="bg-gray-50">
                                 <tr>
                                 <th
                                     scope="col"

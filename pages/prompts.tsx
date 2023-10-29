@@ -10,7 +10,6 @@ import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from "react";
 import SlideBottom from "@/components/Animated/SlideBottomView";
 import ChatSidebar from "@/components/Prompts/ChatSidebar";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import api from "./api";
 import ideasIcon from "../public/images/ideasIcon.png";
 import analyticsIcon from "../public/images/analyticsIcon.png";
@@ -29,6 +28,7 @@ import { useInView } from "react-intersection-observer";
 import { Loader } from "@/components/Common/Loaders";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { selectedUserState } from "@/store/userSlice";
 import { selectAssistantState, setSelectedAssistant } from "../store/assistantSlice";
 import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import { useSelector, useDispatch } from "react-redux";
@@ -87,26 +87,6 @@ const breakpointColumnsObj = {
     770: 1
   }
 
-  export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { token, user_id } = context.req.cookies;
-    let userResponse = {data: {plan: {}, profiles: []}};
-    try {
-      userResponse = await api.get(`/users/${user_id}`, {
-        headers: {
-          authorization: token,
-        },
-      });
-    } catch (e) {
-    }
-  
-    return {
-      props: {
-        user: userResponse.data,
-      },
-    };
-  };
-  
-
   const defaultAssistant =   {
     _id: "644d511929430f833c5ea281",
     name: "Assistant AI",
@@ -118,7 +98,7 @@ const breakpointColumnsObj = {
     documents: []
 }
 
-const PromptsBrowser = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const PromptsBrowser = () => {
     
     const [loading, setLoading] = useState<boolean>(false);
     const [openSidebar, setOpenSidebar] = useState(false);
@@ -134,6 +114,7 @@ const PromptsBrowser = ({ user }: InferGetServerSidePropsType<typeof getServerSi
     const [mobile, setMobile] = useState(false);
     const [assistants, setAssistants] = useState<any[]>([defaultAssistant]);
     const workspaceCompany = useSelector(selectedWorkspaceCompanyState)
+    const user = useSelector(selectedUserState);
 
     const dispatch = useDispatch();
 
@@ -154,13 +135,15 @@ const PromptsBrowser = ({ user }: InferGetServerSidePropsType<typeof getServerSi
             fetchAssistants();
         }
     }, [workspaceCompany]);
+    
 
     const router = useRouter();
     
     useEffect(() => {
-        if(window.innerWidth <= 1023){
+        if  (window.innerWidth <= 1023){
             setMobile(true);
           }
+
     }, []);
   
     const fetchPrompts = async (category: string | null, loadmore: boolean | null, searchTerm: string | null) => {

@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { useRouter } from 'next/router';
-import { useState } from "react";
-import pkg from 'react';
-const { useEffect } = pkg;
+import { useState, useEffect } from "react";
 import api from "@/pages/api";
 import dynamic from "next/dynamic";
 const ReferralModal = dynamic(() => import("../Modals/InformationalModals/ReferralModal"));
@@ -30,9 +28,8 @@ function classNames(...classes: string[]) {
   }
   
 
-const TopPanel = (props: {stats: any}) => {
+const TopPanel = () => {
 
-    const [openSubscriptionModal, setOpenSubscriptionModal] = useState(false);
     const [mobile, setMobile] = useState(false);
     const [openUpgradeModal, setOpenUpgradeModal] = useState(false);
     const [openReferralModal, setOpenReferralModal] = useState(false);

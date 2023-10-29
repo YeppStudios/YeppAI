@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageTemplate from "@/components/Common/PageTemplate";
 import api from '@/pages/api';
 import dynamic from 'next/dynamic';
@@ -6,32 +6,13 @@ const TopPanel = dynamic(() => import("@/components/Me/TopPanel"));
 const BottomPanel = dynamic(() => import("@/components/Me/BottomPanel"));
 import Loading from "@/components/Common/Loading";
 import Head from "next/head";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { selectedUserState } from "@/store/userSlice";
 import { useSelector } from "react-redux";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { token, user_id } = context.req.cookies;
-  let statsResponse = {data: {}};
-  try {
-    statsResponse = await api.get(`/stats/${user_id}`, {
-      headers: {
-        authorization: token
-      }
-    });
-  } catch (e) {
-  }
 
-  return {
-    props: {
-      stats: statsResponse.data,
-    },
-  };
-};
-
-
-const Profile = ({ stats }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Profile = () => {
     const user = useSelector(selectedUserState);
+
     
     return (
       <>
