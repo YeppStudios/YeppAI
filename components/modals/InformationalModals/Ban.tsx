@@ -25,7 +25,7 @@ const BanPopup = () => {
             <Centered>
                 <Title>You are blocked</Title>
             </Centered>
-            <Centered><div className="text-center mt-2">We are glad you enjoy using our platform. Although, opening 10 freemium accounts is not the way. Please contact us for potential discount:</div></Centered>
+            <Centered><div className="text-center mt-2">We are glad you enjoy using our platform. Although, opening multiple freemium accounts is not the way. Please contact us at:</div></Centered>
             <div className="mt-8">
                 <Contact><b>hello@yepp.ai</b></Contact>
             </div>
