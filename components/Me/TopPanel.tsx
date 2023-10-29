@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { useRouter } from 'next/router';
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import pkg from 'react';
+const { useEffect } = pkg;
 import api from "@/pages/api";
 import dynamic from "next/dynamic";
 const ReferralModal = dynamic(() => import("../Modals/InformationalModals/ReferralModal"));
 const UpgradeSubscription = dynamic(() => import("../Modals/InformationalModals/UpgradeSubscription"));
-import { BsChevronExpand, BsTrash } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
 import Centered from "../Centered";
 import Cookies from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";

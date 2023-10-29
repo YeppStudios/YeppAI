@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PageTemplate from "@/components/Common/PageTemplate";
 import api from '@/pages/api';
 import dynamic from 'next/dynamic';
@@ -8,7 +8,6 @@ import Loading from "@/components/Common/Loading";
 import Head from "next/head";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { selectedUserState } from "@/store/userSlice";
-import FeedbackPopover from "@/components/Common/FeedbackPopover";
 import { useSelector } from "react-redux";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

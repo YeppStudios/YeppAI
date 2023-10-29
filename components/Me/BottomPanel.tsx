@@ -6,7 +6,9 @@ import purchaseIcon from "../../public/images/purchaseIcon.png";
 import articleIcon from "../../public/images/articlesIcon.png";
 import emailIcon from "../../public/images/emailsIcon.png";
 import giftIcon from "../../public/images/giftIcon.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import pkg from 'react';
+const { useEffect } = pkg;
 import api from "../../pages/api";
 import dynamic from "next/dynamic";
 import { BsFillEnvelopeFill, BsFillEyeFill, BsFillEyeSlashFill, BsPlusLg } from "react-icons/bs";
@@ -198,7 +200,7 @@ const BottomPanel = () => {
                 link: `${data.invitationLink}`
                 },
             };
-            const response = await api.post('/send-email', { msg });
+            await api.post('/send-email', { msg });
             showNotification({
                 id: 'invited',
                 disallowClose: true,
@@ -323,7 +325,7 @@ const BottomPanel = () => {
                 <tr key={person.email}>
                     <td
                     className={classNames(
-                        personIdx !== employees.length - 1 ? 'border-b border-gray-200' : '',
+                        personIdx !== employees.length - 1 ? 'border-b-4 border-gray-50' : '',
                         'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8'
                     )}
                     >
@@ -331,7 +333,7 @@ const BottomPanel = () => {
                     </td>
                     <td
                     className={classNames(
-                        personIdx !== employees.length - 1 ? 'border-b border-gray-200' : '',
+                        personIdx !== employees.length - 1 ? 'border-b-4 border-gray-50' : '',
                         'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
                     )}
                     >
@@ -339,7 +341,7 @@ const BottomPanel = () => {
                     </td>
                     {/* <td
                     className={classNames(
-                        personIdx !== employees.length - 1 ? 'border-b border-gray-200' : '',
+                        personIdx !== employees.length - 1 ? 'border-b-4 border-gray-50' : '',
                         'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 lg:table-cell'
                     )}
                     >
@@ -347,7 +349,7 @@ const BottomPanel = () => {
                     </td> */}
                     <td
                     className={classNames(
-                        personIdx !== employees.length - 1 ? 'border-b border-gray-200' : '',
+                        personIdx !== employees.length - 1 ? 'border-b-4 border-gray-50' : '',
                         'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8'
                     )}
                     >
@@ -361,33 +363,33 @@ const BottomPanel = () => {
         })
         return (
             <List>
-                    <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8 lg:mr-0">
+                    <div className="">
                         <div className="inline-block min-w-full py-2 align-middle">
                             {employees ?
-                            <table className="min-w-full border-separate border-spacing-0">
-                            <thead>
+                            <table className="min-w-full border-separate border-spacing-0 border-4 border-gray-50 rounded-2xl">
+                            <thead className="bg-slate-100">
                                 <tr>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+                                    className="sticky top-0 z-10 border-b-4 border-gray-50 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
                                 >
                                     Name
                                 </th>
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
+                                    className="sticky top-0 z-10 hidden border-b-4 border-gray-50 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
                                 >
                                     Email
                                 </th>
                                 {/* <th
                                     scope="col"
-                                    className="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
+                                    className="sticky top-0 z-10 hidden border-b-4 border-gray-50 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
                                 >
                                     Zużycie
                                 </th> */}
                                 <th
                                     scope="col"
-                                    className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
+                                    className="sticky top-0 z-10 border-b-4 border-gray-50 bg-white bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
                                 >
                                     <span className="sr-only">Delete</span>
                                 </th>
