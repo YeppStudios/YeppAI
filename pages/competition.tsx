@@ -11,6 +11,7 @@ import { BsTrash, BsSearch } from "react-icons/bs";
 import { CampaignModal } from "@/components/Campaigns/CampaignModal";
 import PageTemplate from "@/components/Common/PageTemplate";
 import api from "@/pages/api";
+import AddCompetition from "@/components/Modals/AddingModals/AddCompetition";
 
 const Competition = () => {
     const [loading, setLoading] = useState(true);
@@ -30,18 +31,13 @@ const Competition = () => {
     
           const profileId = localStorage.getItem("profile_id");
     
-          let url = `/campaignsByOwner`;
-          if (profileId) {
-            url = `/get_profile_campaigns/${profileId}`
-          }
-    
           try {
-            const fetchedContent = await api.get(url, {
+            const fetchedCompetition = await api.get(`/competition-list/${profileId}`, {
               headers: {
                 authorization: token,
               },
             });
-            setSavedContent(fetchedContent.data);
+            setSavedContent(fetchedCompetition.data);
             setLoading(false);
           } catch (e) {
             console.log(e);
@@ -146,7 +142,6 @@ const Competition = () => {
       };
     
       const ActionButtons = (props: { openModal: any }) => {
-        const router = useRouter();
         return (
           <ActionContaienr>
                 <WriteBtn onClick={() => props.openModal()}><BsSearch className="mr-4" style={{ width: "auto", height: "35%" }} /> New Research</WriteBtn>
@@ -156,7 +151,7 @@ const Competition = () => {
 
     return (
         <PageTemplate>
-        {openOnboarding && <CampaignModal setOpenCreateCampaignModal={setOpenOnboarding} />}
+        {openOnboarding && <AddCompetition onClose={() => setOpenOnboarding(false)} />}
         <FirstPageTemplate
           name="Competition research"
           description="Always be one step ahead of your competition."

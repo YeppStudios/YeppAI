@@ -5,18 +5,16 @@ import api from "@/pages/api";
 import SlideBottom from "../../Animated/SlideBottom";
 import { BsImage, BsXLg } from 'react-icons/bs';
 import { Loader } from '../../Common/Loaders';
-import { selectedWorkspaceCompanyState } from '@/store/workspaceCompany';
-import { selectedUserState } from '@/store/userSlice';
-import { selectedPlanState } from '@/store/planSlice';
 import { FileUploader } from 'react-drag-drop-files';
 import { useSelector } from "react-redux";
 import { create } from "ipfs-http-client";
 import Centered from '@/components/Centered';
 import { useRouter } from 'next/router';
 import { selectedProfileState } from '@/store/selectedProfileSlice';
-import FoldersDropdown from '@/components/forms/FolderDropdown';
-import ProfileFoldersDropdown from '@/components/Profiles/ProfileFoldersDropdown';
 import { selectFoldersState } from '@/store/selectedFoldersSlice';
+import TonesDropdown from '@/components/Profiles/TonesDropdown';
+import PersonasDropdown from '@/components/Profiles/PersonaDropdown';
+import FoldersDropdown from '../../Profiles/ProfileFolders';
 
 const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
 const projectSecret = process.env.NEXT_PUBLIC_IPFS_API_KEY;
@@ -41,13 +39,13 @@ const AddProfile = (props: { onClose: any, setProfiles: any}) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
-    const selectedWorkspaceCompany = useSelector(selectedWorkspaceCompanyState);
-    const user = useSelector(selectedUserState);
-    const plan = useSelector(selectedPlanState);
     const [image, setImage] = useState<any>();
     const [previewUrl, setPreviewUrl] = useState(""); 
     const selectedProfile = useSelector(selectedProfileState);
     let selectedFolders = useSelector(selectFoldersState);
+    const [step, setStep] = useState(1);
+    const [selectedTones, setSelectedTones] = useState<any[]>([]);
+    const [selectedPersonas, setSelectedPersonas] = useState<any[]>([]);
     
     const router = useRouter();
 
@@ -59,30 +57,81 @@ const AddProfile = (props: { onClose: any, setProfiles: any}) => {
         }
     }, [selectedProfile])
 
-    const addNewFolder = async (e: any) => {
+    const addNewProfile = async (e: any) => {
         e.preventDefault();
         setLoading(true);
         const workspace = localStorage.getItem("workspace");
         const token = localStorage.getItem("token");
-        let fetchedUser: any;
-        let fetchedPlan: any;
-        if (selectedWorkspaceCompany._id) {
-            fetchedUser = selectedWorkspaceCompany;
-            fetchedPlan = selectedWorkspaceCompany.plan;
-        } else {
-            fetchedUser = user;
-            fetchedPlan = plan;
-        }
 
         let imageURL = "";
-        if (title.length > 1) {
-            if  (image) {
+        if (title.length < 1) {
+            setLoading(false);
+            return;
+        }
+
+        if (!selectedProfile && step === 1) {
+            setStep(2);
+            setLoading(false);
+            return;
+        } else if (!selectedProfile && step === 2) {
+            if (image) {
                 const subdomain = 'https://asystentai.infura-ipfs.io';
                 const ipfsImage = await client.add({ content: image });
                 imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
             }
+            const createdProfile = await api.post("/addProfile", {
+                title: title,
+                updatedAt: Date.now(),
+                workspace: workspace,
+                subfolders: selectedFolders,
+                imageUrl: imageURL,
+                description: description
+              },
+              {
+                headers: {
+                  Authorization: token
+                }
+              });
+
+              await api.patch(`/assign_profile_to_folders`, {
+                folders: selectedFolders,
+                profileId: createdProfile.data._id
+            }, {
+                headers: {
+                    Authorization: token
+                }
+            });
+
+            await api.patch(`/assign_profiles_to_personas`, {
+                personas: selectedPersonas,
+                profileId: createdProfile.data._id
+            }, {
+                headers: {
+                    Authorization: token
+                }
+            });
+
+            await api.patch(`/assign_profiles_to_tones`, {
+                tones: selectedTones,
+                profileId: createdProfile.data._id
+            }, {
+                headers: {
+                    Authorization: token
+                }
+            });
+
+            setLoading(false);
+            props.setProfiles((profiles: any) => [...profiles, createdProfile.data]);
+            props.onClose();
+        } else {
             try {
                 if (selectedProfile) {
+                    if (image) {
+                        const subdomain = 'https://asystentai.infura-ipfs.io';
+                        const ipfsImage = await client.add({ content: image });
+                        imageURL = `${subdomain}/ipfs/${ipfsImage.path}`;
+                    }
+
                     await api.patch(`/updateProfile/${selectedProfile._id}`, {
                         title: title,
                         updatedAt: Date.now(),
@@ -97,32 +146,12 @@ const AddProfile = (props: { onClose: any, setProfiles: any}) => {
                     setLoading(false);
                     router.reload();
                     props.onClose();
-                } else {
-                    const createdProfile = await api.post("/addProfile", {
-                        title: title,
-                        updatedAt: Date.now(),
-                        workspace: workspace,
-                        subfolders: [selectedFolders],
-                        imageUrl: imageURL,
-                        description: description
-                      },
-                      {
-                        headers: {
-                          Authorization: token
-                        }
-                      });
-                    setLoading(false);
-                    props.setProfiles((profiles: any) => [...profiles, createdProfile.data]);
-                    props.onClose();
                 }
             } catch (e) {
                 console.log(e);
                 setLoading(false);
             }
-        } else {
-            alert("Title needs to be at least 2 characters long.")
         }
-
     }
 
 
@@ -140,9 +169,10 @@ const AddProfile = (props: { onClose: any, setProfiles: any}) => {
                     <BsXLg style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
                 <div>
-                    {selectedProfile ? <Title>Update profile</Title> : <Title>Add new profile</Title>}
-                    <Form autoComplete="off" onSubmit={(e) => addNewFolder(e)}>
+                    {selectedProfile ? <Title>Update profile</Title> : <>{step === 1 ? <Title>Define new profile</Title> : <Title>Assign existing assets</Title>}</>}
+                    <Form autoComplete="off" onSubmit={(e) => addNewProfile(e)}>
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
+                        {(step === 1) &&
                         <div className='w-full'>
                                 <Centered>
                                 <FileUploader hoverTitle="Drop here" handleChange={handleImage} name="file" types={fileTypes} multiple={false} label="Drop an image">
@@ -156,11 +186,22 @@ const AddProfile = (props: { onClose: any, setProfiles: any}) => {
                                 </FileUploader>
                                 </Centered>
                             </div>
-                         {!selectedProfile &&
-                            <div className='w-full mt-6 mb-4'>
-                                <ProfileFoldersDropdown />
-                            </div>
-                          }
+                        }
+                        {(!selectedProfile && step === 2) &&
+                            <>
+                                <div className='w-full mt-6 mb-4'>
+                                    <FoldersDropdown />
+                                </div>
+                                <div className='w-full mb-4'>
+                                    <TonesDropdown setSelectedTones={setSelectedTones} selectedTones={selectedTones}/>
+                                </div>
+                                <div className='w-full mb-4'>
+                                    <PersonasDropdown setSelectedPersonas={setSelectedPersonas} selectedPersonas={selectedPersonas} />
+                                </div>
+                            </>
+                        }
+                        {(step === 1) &&
+                          <>
                           <div className='w-full'>
                                 <Label>
                                     Profile name
@@ -189,7 +230,9 @@ const AddProfile = (props: { onClose: any, setProfiles: any}) => {
                                     autoComplete="off"
                                 />
                             </div>
-                            <Button type="submit" onClick={(e) => addNewFolder(e)}>
+                            </>
+                            }
+                            <Button type="submit" onClick={(e) => addNewProfile(e)}>
                                 {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
                                       <Loader color="black"/>
@@ -199,7 +242,13 @@ const AddProfile = (props: { onClose: any, setProfiles: any}) => {
                                 {selectedProfile ?
                                 <p>Update</p>
                                 :
+                                <>
+                                {step !== 1 ?
                                 <p>Add</p>
+                                :
+                                <p>Continue</p>
+                                }
+                                </>
                                 }
                                 </>
                                 }
@@ -223,7 +272,6 @@ const Container = styled.div`
     border-radius: 25px;
     cursor: auto;
     z-index: 100;
-    overflow: hidden;
     @media (max-width: 1023px) {
         width: 90vw;
         padding: 4vh 5vw 5vh 5vw;

@@ -91,20 +91,26 @@ const SocialMediaCreationPage = ({back, query, template}: any) => {
             setLanguage("Polish");
         }
         let token = localStorage.getItem("token");
+        let profileId =  localStorage.getItem("profile_id");
+
         const fetchPersona = async () => {
-            try {
-              const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
-                headers: {
-                  Authorization: token,
-                }
-              });
-              setPersonas(personaResponse.data);
-            } catch (e) {
-              console.log(e);
-            }
+          let personaUrl = `/personas/owner`;
+          if (profileId) {
+            personaUrl = `/profile_personas/${profileId}`;
           }
-      
-          fetchPersona();
+          try {
+            const personaResponse = await api.get<{title: string, icon: string}[]>(personaUrl, {
+              headers: {
+                Authorization: token,
+              }
+            });
+            setPersonas(personaResponse.data);
+          } catch (e) {
+            console.log(e);
+          }
+        }
+    
+        fetchPersona();
     }, [])
 
     const generateContent = async (e: FormEvent<HTMLFormElement>) => {

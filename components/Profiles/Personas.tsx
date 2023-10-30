@@ -105,7 +105,7 @@ const Personas = () => {
         <MainContainer>
             <SubheaderContainer>
                 <Subtitle>Buyer personas</Subtitle>
-                <AddBtn onClick={() => router.push("/lab")}>Open lab</AddBtn>
+                <AddBtn onClick={() => router.push("/lab")}>View all</AddBtn>
             </SubheaderContainer>
             {renderPersonas()}
         </MainContainer>
@@ -123,15 +123,8 @@ const MainContainer = styled.div`
     background: white;
     border-radius: 25px;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
-    overflow-x: scroll;
     border: 2px solid #F6F6FB;
-    overflow-y: scroll;
     padding: 1.25rem 2rem 3.5em 2rem;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-        display: none;
-    }
     @media (max-width: 1023px) {
         padding: 1rem 1rem 2rem 1.5rem;
         overflow: visible;
@@ -199,7 +192,7 @@ const Persona = styled.div`
     border-radius: 15px;
     box-shadow: 3px 3px 9px rgba(15, 27, 40, 0.12);
     cursor: pointer;
-    padding: 1.5rem 1.5rem 2rem 1.5rem;
+    padding: 2rem 1.5rem 2.4rem 1.5rem;
     transition: all 0.3s ease;
     border: 2px solid #F6F6FB;
     &:hover {

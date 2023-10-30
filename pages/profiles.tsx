@@ -5,9 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import api from "./api";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import { setSelectedProfile } from "@/store/selectedProfileSlice";
-import { motion, useAnimation } from 'framer-motion';
 import SlideBottom from "@/components/Animated/SlideBottom";
 import background from "../public/images/gradient_background.png";
 import { BiImageAdd } from "react-icons/bi";
@@ -93,6 +91,7 @@ const ChooseProfiles = () => {
     }
 
   const handleOpenNewProfile = () => {
+    localStorage.setItem("profile_id", "");
     dispatch(setSelectedProfile(null));
     setOpenNewProfile(true);
   }

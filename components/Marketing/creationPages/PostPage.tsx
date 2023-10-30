@@ -106,15 +106,23 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     }
 
     let token = localStorage.getItem("token");
+    let profileId =  localStorage.getItem("profile_id");
+
     const fetchTonesAndPersonas = async () => {
+      let toneUrl = `/tones/owner`;
+      let personaUrl = `/personas/owner`;
+      if (profileId) {
+        toneUrl = `/profile_tones/${profileId}`;
+        personaUrl = `/profile_personas/${profileId}`;
+      }
       try {
-        const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+        const toneResponse = await api.get<{title: string, icon: string}[]>(toneUrl, {
           headers: {
             Authorization: token,
           }
         });
         setTones([...toneResponse.data, ...toneList]);
-        const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+        const personaResponse = await api.get<{title: string, icon: string}[]>(personaUrl, {
           headers: {
             Authorization: token,
           }
@@ -124,6 +132,8 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
         console.log(e);
       }
     }
+
+    fetchTonesAndPersonas();
 
     fetchTonesAndPersonas();
   }, []);

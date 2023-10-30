@@ -44,11 +44,16 @@ export default function FoldersDropdown() {
       const token = localStorage.getItem("token");
       const workspace = localStorage.getItem("workspace");
       const userId = localStorage.getItem("user_id");
+      let profileId = localStorage.getItem("profile_id");
     
-      const path = workspace && workspace !== "undefined" && workspace !== "null"
+      let path = workspace && workspace !== "undefined" && workspace !== "null"
         ? `/folders/${workspace}`
         : `/folders/owner/${userId}`;
     
+      if (profileId) {
+          path = `/folders_by_profile/${profileId}`
+      }
+      
       try {
         const { data } = await api.get(path, {
           headers: {

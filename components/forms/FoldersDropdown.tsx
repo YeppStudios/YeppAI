@@ -26,10 +26,15 @@ export default function FoldersDropdown({ onChange }: any) {
             const token = localStorage.getItem("token");
             const workspace = localStorage.getItem("workspace");
             const userId = localStorage.getItem("user_id");
+            const profileId = localStorage.getItem("profile_id");
             
-            const path = workspace && workspace !== "undefined" && workspace !== "null"
+            let path = workspace && workspace !== "undefined" && workspace !== "null"
                 ? `/folders/${workspace}`
                 : `/folders/owner/${userId}`;
+
+            if (profileId) {
+                path = `/folders_by_profile/${profileId}`
+            }
             
             try {
                 const { data } = await api.get(path, {
@@ -48,7 +53,7 @@ export default function FoldersDropdown({ onChange }: any) {
     const handleSelect = (folder: Folder) => {
         setChosenFolder(folder);
         onChange(folder);
-        setIsOpen(false); // Close dropdown upon selection
+        setIsOpen(false);
     };
 
     const toggleFolderVisibility = (folderId: string) => {

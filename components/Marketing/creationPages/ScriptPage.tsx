@@ -88,9 +88,15 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
     }
 
     let token = localStorage.getItem("token");
+    let profileId =  localStorage.getItem("profile_id");
+
     const fetchPersona = async () => {
+      let personaUrl = `/personas/owner`;
+      if (profileId) {
+        personaUrl = `/profile_personas/${profileId}`;
+      }
       try {
-        const personaResponse = await api.get<{title: string, icon: string}[]>(`/personas/owner`, {
+        const personaResponse = await api.get<{title: string, icon: string}[]>(personaUrl, {
           headers: {
             Authorization: token,
           }
@@ -100,6 +106,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
         console.log(e);
       }
     }
+
     fetchPersona();
   }, []);
 

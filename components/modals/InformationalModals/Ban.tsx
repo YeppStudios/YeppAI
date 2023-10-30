@@ -2,19 +2,6 @@ import ModalBackground from "../common/ModalBackground";
 import SlideBottom from "../../Animated/SlideBottom";
 import styled from "styled-components";
 import Centered from "../../Centered";
-import { BsXLg } from "react-icons/bs";
-
-interface WidthProp {
-    width: string;
-  }
-
-
-interface PlanContainer {
-    backgroundColor: string,
-    color: string,
-    width: string
-}
-
 
 const BanPopup = () => {
       

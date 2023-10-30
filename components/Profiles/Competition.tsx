@@ -8,20 +8,9 @@ import SlideBottom from "../Animated/SlideBottom";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-interface Tone {
-    _id: String
-    base_text: String
-    icon: any
-    owner: String
-    prompt: String
-    timestamp: String
-    title: String
-    workspace: String
-}
+const Competition = () => {
 
-const Tones = () => {
-
-    const [tones, setTones] = useState<Tone[]>();
+    const [competition, setCompetition] = useState<any[]>();
     const [loadingTones, setLoadingTones] = useState(true);
     const [isSmallDevice, setIsSmallDevice] = useState(false);
 
@@ -34,63 +23,59 @@ const Tones = () => {
         };
         window.addEventListener("resize", updateWindowSize);
         let profileId = localStorage.getItem("profile_id");
-        let url = "/tones/owner";
-        if (profileId) {
-            url = `/profile_tones/${profileId}`
-          }
-        const fetchTones = async () => {
+        const fetchCompetition = async () => {
           try {
-            const toneResponse = await api.get(url ,{
-              headers: {
-                Authorization: token,
-              }
+            const fetchedCompetition = await api.get(`/competition-list/${profileId}`, {
+                headers: {
+                    authorization: token,
+                },
             });
     
-            setTones(toneResponse.data);
+            setCompetition(fetchedCompetition.data);
             setLoadingTones(false);
           } catch (e) {
             console.log(e);
           }
     
         }
-        fetchTones();
+        fetchCompetition();
         return () => {
           window.removeEventListener("resize", updateWindowSize);
         };
     }, []);
 
 
-    const handleToneClick = (tone: Tone) => {
-        router.push(`/lab?tone=${tone._id}`);
+    const handlecompetitionClick = (tone: any) => {
+        router.push(`/competition/${tone._id}`);
     }
 
-    const renderTones = () => {
-        const renderedTones =  tones?.map((tone, index) => {
+    const renderCompetition = () => {
+        const renderedCompetition =  competition?.map((competition, index) => {
             return (
-                <Tone key={index} onClick={() => handleToneClick(tone)}>
+                <Competitor key={index} onClick={() => handlecompetitionClick(competition)}>
                 <div className="flex items-center">
                 <div className="rounded-full overflow-hidden lg:h-[1.75rem] lg:w-[1.75rem] h-[10vw]  w-[10vw] relative">
-                    <Image src={`${tone.icon}`} fill alt="profile's icon" />
+                    <Image src={`${competition.icon}`} fill alt="profile's icon" />
                 </div>
-                <ToneName>{tone.title}</ToneName>
+                <CompetitorName>{competition.title}</CompetitorName>
                 </div>
                 <BsChevronRight className="text-gray-800"/>
-            </Tone>
+            </Competitor>
             )
-
         })
 
         return (
-            <TonesContainer>
-                {(tones && tones?.length > 0) ?
-                renderedTones
+            <CompetitionContainer>
+                {(competition && competition?.length > 0) ?
+                renderedCompetition
+    
                 :
                 <div className="py-10 text-black w-full text-center">
-                    <p className="text-gray-300 font-medium">You have no tone of voice.</p>
-                    <Link href="/lab" className="text-blue-500 font-medium mt-2 cursor-pointer">Create one!</Link>
+                    <p className="text-gray-300 font-medium">You haven&apos;t done any competition research so far.</p>
+                    <Link href="/competition" className="text-blue-500 font-medium mt-4 cursor-pointer">Get started now</Link>
                 </div>
                 }
-            </TonesContainer>
+            </CompetitionContainer>
         )
     }
 
@@ -98,15 +83,15 @@ const Tones = () => {
         <SlideBottom>
         <MainContainer>
             <SubheaderContainer>
-                <Subtitle>Tones of voice</Subtitle>
-                <AddBtn onClick={() => router.push("/lab")}>View all</AddBtn>
+                <Subtitle>Competition</Subtitle>
+                <AddBtn onClick={() => router.push("/competition")}>View all</AddBtn>
             </SubheaderContainer>
             {loadingTones ?
             <div className="w-full flex items-center justify-center pt-10">
                 <BlueLoader />
             </div>
             :
-            renderTones()
+            renderCompetition()
             }
         </MainContainer>
         </SlideBottom>
@@ -114,7 +99,7 @@ const Tones = () => {
 }
 
 
-export default Tones;
+export default Competition;
 
 
 const MainContainer = styled.div`
@@ -173,7 +158,7 @@ const AddBtn = styled.button`
     }
 `
 
-const TonesContainer = styled.div`
+const CompetitionContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -184,7 +169,7 @@ const TonesContainer = styled.div`
     }
 `
 
-const Tone = styled.div`
+const Competitor = styled.div`
     width: 48%;
     height: auto;
     display: flex;
@@ -209,7 +194,7 @@ const Tone = styled.div`
     }
 `
 
-const ToneName = styled.p`
+const CompetitorName = styled.p`
   white-space: nowrap;
   margin-left: 1rem;
   @media (max-width: 1023px) {

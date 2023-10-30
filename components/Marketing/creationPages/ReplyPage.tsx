@@ -67,9 +67,15 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
         }
 
         let token = localStorage.getItem("token");
+        let profileId = localStorage.getItem("profile_id");
+
         const fetchTone = async () => {
+          let url = "/tones/owner";
+          if (profileId) {
+                url = `/profile_tones/${profileId}`
+          }
           try {
-            const toneResponse = await api.get<{title: string, icon: string}[]>(`/tones/owner`, {
+            const toneResponse = await api.get<{title: string, icon: string}[]>(url, {
               headers: {
                 Authorization: token,
               }

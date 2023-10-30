@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PageTemplate from "@/components/Common/PageTemplate";
-import api from '@/pages/api';
 import dynamic from 'next/dynamic';
 const TopPanel = dynamic(() => import("@/components/Me/TopPanel"));
 const BottomPanel = dynamic(() => import("@/components/Me/BottomPanel"));
@@ -12,7 +11,6 @@ import { useSelector } from "react-redux";
 
 const Profile = () => {
     const user = useSelector(selectedUserState);
-
     
     return (
       <>
@@ -21,7 +19,7 @@ const Profile = () => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <title>Profile | Yepp AI</title>
                 <meta name="description" content="Twój profil i panel zarządzania kontem." />
-            </Head> 
+            </Head>
             <div>
             <PageTemplate>
               {!user ? 
@@ -32,12 +30,10 @@ const Profile = () => {
                     <BottomPanel />
                   </div>
               }
-            </PageTemplate>   
+            </PageTemplate>
             </div>
       </>
-
     )
-
   };
 
  export default Profile;

@@ -23,7 +23,7 @@ interface Folder {
     return classes.filter(Boolean).join(' ')
   }
 
-export default function ProfileFoldersDropdown() {
+export default function FoldersDropdown() {
   const [folders, setFolders] = useState<Array<Folder>>([]);
   const [mobile, setMobile] = useState(false);
   const [openFolders, setOpenFolders] = useState<string[]>([]);
@@ -217,14 +217,14 @@ const FolderItem = ({ folder, handleSelect, selectedFolders, isOpen, onToggle }:
   return (
     <Listbox className="w-full" as="div" value={selectedFolders[0]}>
       <div className="relative mt-2">
-        <Listbox.Button className="w-full py-3" style={{boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF", border: "2px solid #F6F6FB", borderRadius: "20px",
-           display: "flex", alignItems: "center"}}
+        <Listbox.Button className="w-full py-3" style={{boxShadow: "2px 2px 5px rgba(15, 27, 40, 0.23), -2px -2px 5px #FAFBFF", border: "solid 3px transparent", borderRadius: "20px",
+           overflow: "hiddens", display: "flex", alignItems: "center"}}
         >
         <div className="w-8 h-8 lg:h-6 lg:w-6 ml-4 mr-4 flex items-center flex-shrink-0 text-black">
           <Image src={folderIcon} alt="folder-icon" className="w-full"/>
         </div>
         <span style={{maxWidth: "75%"}} className="block truncate text-left text-black font-medium text-base md:text-lg flex items-center">
-          {selectedFolders.length > 0 ? <>{selectedFolders[0].title}{selectedFolders.length > 1 && <> +{selectedFolders.length - 1}</>}</> : <div className='text-black font-medium text-base md:text-lg'>Choose folders for profile...</div>} 
+          {selectedFolders.length > 0 ? <>{selectedFolders[0].title}{selectedFolders.length > 1 && <> +{selectedFolders.length - 1}</>}</> : <div className='text-black font-medium text-base md:text-lg'>Choose folders to reference...</div>} 
           {(selectedFolders.length > 0 && totalDocumentsOpened > 0) && <div className={classNames(totalDocumentsOpened >= 1000 ? 'border-2 border-red-400' : '', 'ml-4 bg-slate-100 rounded-full py-1 px-3 text-xs')}>{totalDocumentsOpened} docs</div>}
         </span>
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-6 2xl:pr-8">

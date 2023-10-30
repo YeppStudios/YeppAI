@@ -8,6 +8,7 @@ import styled from "styled-components";
 import Tones from "@/components/Profiles/Tones";
 import Personas from "@/components/Profiles/Personas";
 import { useState } from "react";
+import Competition from "@/components/Profiles/Competition";
 
 const Profile = () => {
 
@@ -22,6 +23,8 @@ const Profile = () => {
             <Tones />
             <div className="mt-4"></div>
             <Personas />
+            <div className="mt-4"></div>
+            <Competition />
             </div>
 
             </MainContainer>
