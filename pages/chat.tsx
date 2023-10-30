@@ -261,6 +261,7 @@ const Chat = () => {
   const sendMessage = async (e: any) => {
     e.preventDefault();
 
+    console.log("sending message")
     if (assistantThinking || replying){
       stopReplying();
     }
@@ -360,6 +361,7 @@ const Chat = () => {
             try {
               const data = JSON.parse(jsonString);
               if (data.content) {
+                console.log(data.content);
                 text += data.content;
                 if(text.length > 2) {
                   if (text.startsWith("[%") || text.startsWith("[f") || text.startsWith(`"[`)) {

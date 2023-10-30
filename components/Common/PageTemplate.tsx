@@ -107,6 +107,7 @@ const PageTemplate = ({children}: any) => {
       {mobile &&
         <Loading />
       }
+      <BreakModal />
       {showPlans && <UpgradeSubscription purchase={false} onClose={() => setShowPlans(false)} closeable={false} landing={false}/>}
       {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
       {isBanned && <BanPopup />}

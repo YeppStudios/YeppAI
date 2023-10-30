@@ -272,7 +272,7 @@ const AddDocument = (props: {
               return;
             }
 
-            if(scrapingResponse.data.ids.length === 0) {
+            if (scrapingResponse.data.ids.length === 0) {
               alert("An error occured while scanning the website. Contact us: hello@yepp.ai");
               setScraping(false);
               return;
@@ -328,6 +328,7 @@ const AddDocument = (props: {
     const saveToFolder = async () => {
       setLoading(true);
       const token = localStorage.getItem("token");
+      const profileId = localStorage.getItem("profile_id");
       if (chosenFolder._id) {
         const documentIds = createdDocs.map(doc => doc._id);
         await api.post(`/folders/${chosenFolder._id}/add-documents`, { documents: documentIds},
@@ -355,12 +356,14 @@ const AddDocument = (props: {
           return;
         }
 
+        console.log(createdDocs)
         const createdFolder = await api.post("/add-folder", {
           title: folderName,
           owner: localStorage.getItem("user_id"),
           workspace: fetchedUser.workspace,
           documents: createdDocs,
-          ownerEmail: user.email
+          ownerEmail: user.email,
+          profileId: profileId || "",
         },
         {
           headers: {
