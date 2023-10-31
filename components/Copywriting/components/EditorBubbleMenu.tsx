@@ -312,18 +312,22 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     let systemPrompt = "You are a helpful AI assistant who helps user write high performing draft for article.";
     let model = "gpt-4-32k";
     try {
-        const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-          signal: newAbortController.signal,
-          body: JSON.stringify({prompt, title: "SEO content prompted", model, systemPrompt}),
-        });
-
+      const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+        signal: newAbortController.signal,
+        body: JSON.stringify({prompt, title: "SEO content prompted", model, systemPrompt}),
+      });
+    
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
-      if(response.body){
+    
+      let reply = '';
+      let initialPosition = 0; // Initialize initialPosition if you haven't already
+      const from = 0; // Initialize 'from' if you haven't already
+    
+      if (response.body) {
         setOpenPopup(false);
         setIsLoading(false);
         const reader = response.body.getReader();
@@ -337,21 +341,20 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
             });
             break;
           }
-  
-          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-          for (const jsonString of jsonStrings) {
-            try {
-              const data = JSON.parse(jsonString);
-              if (data.content) {
-                reply += data.content;
-                props.editor!.view.dispatch(
-                  props.editor!.view.state.tr.insertText(data.content, initialPosition)
-                );
-                initialPosition += data.content.length;
-              }
-            } catch (error) {
-              console.error('Error parsing JSON:', jsonString, error);
+    
+          const decodedValue = new TextDecoder().decode(value);
+          const dataStrings = decodedValue.split('data: ');
+    
+          for (const dataString of dataStrings) {
+            if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+              continue;
             }
+            const contentWithoutQuotes = dataString.replace(/"/g, '');
+            reply += contentWithoutQuotes;
+            props.editor!.view.dispatch(
+              props.editor!.view.state.tr.insertText(contentWithoutQuotes, initialPosition)
+            );
+            initialPosition += contentWithoutQuotes.length;
           }
         }
       }
@@ -365,6 +368,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     } finally {
       abortController.abort();
     }
+    
   }
 
   return (

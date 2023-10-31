@@ -228,61 +228,54 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
 
     try {
       const response = await fetch('https://asystentai.herokuapp.com/messageAI', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-        signal: signal,
-        body: JSON.stringify({conversationContext, model: "gpt-4"}),
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+          signal: signal,
+          body: JSON.stringify({conversationContext, model: "gpt-4"}),
       });
-
+  
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok');
       }
-
+  
       if(response.body){
-        const reader = response.body.getReader();
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done) {
-            const responseMessageObject = {
-              sender: "assistant",
-              text: text,
-            }
-            if(messages){
-              setMessages([...messages, userMessageObject, responseMessageObject]);
-            }
-            setReplying(false);
-            const conversationBottom = document.getElementById("conversation-bottom");
-            if(conversationBottom){
-              conversationBottom.scrollIntoView({behavior: 'smooth', block: 'start'});
-            }
-            break;
-          }
+          const reader = response.body.getReader();
+          while (true) {
+              const { done, value } = await reader.read();
   
-          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-          setAssistantThinking(false);
-          for (const jsonString of jsonStrings) {
-            try {
-              const data = JSON.parse(jsonString);
-  
-              if (data.content) {
-                setReply((prevMessage) => prevMessage + data.content);
-                text += data.content;
+              if (done) {
+                  const responseMessageObject = {
+                      sender: "assistant",
+                      text: text,
+                  } as Message;
+                  if(messages){
+                      setMessages([...messages, userMessageObject, responseMessageObject]);
+                  }
+                  setReplying(false);
+                  const conversationBottom = document.getElementById("conversation-bottom");
+                  if(conversationBottom){
+                      conversationBottom.scrollIntoView({behavior: 'smooth', block: 'start'});
+                  }
+                  break;
               }
-            } catch (error) {
-              console.error('Error parsing JSON:', jsonString, error);
-            }
+  
+              const decodedValue = new TextDecoder().decode(value);
+              const contentWithoutQuotes = decodedValue.replace(/"/g, '').trim();
+              if (contentWithoutQuotes) {
+                  text += contentWithoutQuotes;
+                  setReply((prevMessage) => prevMessage + contentWithoutQuotes);
+              }
+              setAssistantThinking(false);
           }
-        }
       }
-
-    } catch (e) {
+  } catch (e) {
       console.log(e);
       setAssistantThinking(false);
       setReplying(false);
-    } finally {
+  } finally {
       abortController.abort();
-    }
+  }
+  
   }
 
   const renderMessages = () => {

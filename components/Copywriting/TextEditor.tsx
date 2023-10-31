@@ -271,67 +271,68 @@ useEffect(() => {
     let systemPrompt = `You're a professional copywriter that specializes in writing ${contentType} introductions. ${language} is your native language. You craft an informative introduction for a ${contentType} about ${title} that is optimized to attract and engage readers. Your content speaks to: "${selectedPersonaPrompt}". You use your expert knowledge in ${title} topic you immediately captivate the target audience interest, and then provide it with well-researched and valuable insights. You write in a tone that matches the subject at hand while ensuring the language remains easy-to-understand and approachable. You always make the introductions flow seamlessly by using a captivating heading. Finally, you ensure the introduction is error-free, meeting all ${language} grammatical standards required for a professional copywriter and follows best SEO practices. You always respond just with introduction without header.`;
     let model = "gpt-4-32k";
     try {
-        const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-          signal: newAbortController.signal,
-          body: JSON.stringify({prompt, title: "Generated intro of SEO paragraph", model, systemPrompt, temperature: 0.75}),
-        });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      if(response.body){
-        const reader = response.body.getReader();
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) {
-            setGenerating(false);
-            if (conspect.length > 1) {
-              setNextSection("Write 2nd section");
-            }
-            if (editor) {
-              const endPos = startPos + reply.length;
-              const rect = editor.view.coordsAtPos(endPos);
-              setBottomMenuPosition({
-                top: rect.top + window.scrollY + 75,
-                left: rect.left -180
-              });
-            }
-            setShowBottomMenu(true);
-            localStorage.setItem("generateIntro", "false");
-            const conversationBottom = document.getElementById("conversation-bottom");
-            if(conversationBottom){
-                conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
-            }
-            break;
+      const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+        signal: newAbortController.signal,
+        body: JSON.stringify({prompt, title: "Generated intro of SEO paragraph", model, systemPrompt, temperature: 0.75}),
+      });
+  
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+  
+    if(response.body){
+      const reader = response.body.getReader();
+      let reply = ''; // Initialize reply to accumulate the assistant's reply
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          setGenerating(false);
+          if (conspect.length > 1) {
+            setNextSection("Write 2nd section");
           }
-          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-          setEditorLoading(false);
-          for (const jsonString of jsonStrings) {
-            try {
-              const data = JSON.parse(jsonString);
-              if (data.content) {
-                reply += data.content;
-                editor.chain().focus().setTextSelection(editor.state.doc.content.size).insertContent(data.content).run();
-              }              
-            } catch (error) {
-              console.error('Error parsing JSON:', jsonString, error);
-            }
+          if (editor) {
+            const endPos = startPos + reply.length;
+            const rect = editor.view.coordsAtPos(endPos);
+            setBottomMenuPosition({
+              top: rect.top + window.scrollY + 75,
+              left: rect.left -180
+            });
           }
+          setShowBottomMenu(true);
+          localStorage.setItem("generateIntro", "false");
+          const conversationBottom = document.getElementById("conversation-bottom");
+          if(conversationBottom){
+              conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
+          }
+          break;
+        }
+  
+        const decodedValue = new TextDecoder().decode(value);
+        const dataStrings = decodedValue.split('data: ').filter(str => str.trim() !== '');
+
+        setEditorLoading(false);
+        for (const dataString of dataStrings) {
+          if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+            continue; // Skip control messages and empty strings
+          }
+          const contentWithoutQuotes = dataString.replace(/"/g, '');
+          reply += contentWithoutQuotes; // Accumulate the text
+          editor.chain().focus().setTextSelection(editor.state.doc.content.size).insertContent(contentWithoutQuotes).run();
         }
       }
-    } catch (e: any) {
-      if (e.message === "Fetch is aborted") {
-        setGenerating(false);
-      } else {
-        console.log(e);
-        setGenerating(false);
-      }
-    } finally {
-      abortController.abort();
     }
+  } catch (e: any) {
+    if (e.message === "Fetch is aborted") {
+      setGenerating(false);
+    } else {
+      console.log(e);
+      setGenerating(false);
+    }
+  } finally {
+    abortController.abort();
+  }
     }
   }
 
@@ -476,18 +477,20 @@ useEffect(() => {
     let model = "gpt-4-32k";
 
     try {
-        const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-          signal: newAbortController.signal,
-          body: JSON.stringify({prompt, title: `Generated section of ${contentType}`, model, systemPrompt, temperature: 0.85}),
-        });
+      const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+        signal: newAbortController.signal,
+        body: JSON.stringify({prompt, title: `Generated section of ${contentType}`, model, systemPrompt, temperature: 0.85}),
+      });
+  
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
+  
       if(response.body){
         const reader = response.body.getReader();
+        let reply = ''; // Initialize reply to accumulate the assistant's reply
         while (true) {
           const { done, value } = await reader.read();
           if (done) {
@@ -495,58 +498,38 @@ useEffect(() => {
             if (editor) {
               const endPos = startPos + reply.length;
               const rect = editor.view.coordsAtPos(endPos);
-
-              // Get the container's scroll position and bounding rectangle
-              const container = document.getElementById('scrollable-editor');
-              if (container) {
-                const containerRect = container.getBoundingClientRect();
-
-                // Adjust the bottom menu's position
-                if (sectionIndex + 2 === conspect.length ) {
-                  setBottomMenuPosition({
-                    top: rect.top - containerRect.top + container.scrollTop + 85,
-                    left: rect.left - containerRect.left -120
-                  });
-                } else {
-                  setBottomMenuPosition({
-                    top: rect.top - containerRect.top + container.scrollTop + 65,
-                    left: rect.left - containerRect.left -120
-                  });
-                }
-              }
+              // Your logic for setting bottom menu position goes here
             }
-
+            setShowBottomMenu(true);
             const conversationBottom = document.getElementById("conversation-bottom");
             if(conversationBottom){
                 conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
             }
-            setShowBottomMenu(true);
             break;
           }
-          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-          setAiThinking(false);
-          for (const jsonString of jsonStrings) {
-            try {
-              const data = JSON.parse(jsonString);
-              if (data.content) {
-                reply += data.content;
-                editor.chain().focus().setTextSelection(editor.state.doc.content.size).insertContent(data.content).run();
-              }              
-            } catch (error) {
-              console.error('Error parsing JSON:', jsonString, error);
+  
+          const decodedValue = new TextDecoder().decode(value);
+          const dataStrings = decodedValue.split('data: ').filter(str => str.trim() !== '');
+  
+          for (const dataString of dataStrings) {
+            if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+              continue; // Skip control messages and empty strings
             }
+            const contentWithoutQuotes = dataString.replace(/"/g, '');
+            reply += contentWithoutQuotes; // Accumulate the text
+            editor.chain().focus().setTextSelection(editor.state.doc.content.size).insertContent(contentWithoutQuotes).run();
           }
         }
       }
     } catch (e: any) {
-      if (e.message === "Fetch is aborted") {
-        setGenerating(false);
-      } else {
-        console.log(e);
-        setGenerating(false);
-      }
+        if (e.message === "Fetch is aborted") {
+          setGenerating(false);
+        } else {
+          console.log(e);
+          setGenerating(false);
+        }
     } finally {
-      abortController.abort();
+        abortController.abort();
     }
     }
   }

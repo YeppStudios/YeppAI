@@ -454,19 +454,20 @@ const CopywritingModal = (props: {
         `
     
         try {
-            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-              signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `${props.contentType} title`, model, systemPrompt, temperature: 1}),
-            });
-    
+          const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+            signal: newAbortController.signal,
+            body: JSON.stringify({prompt, title: `${props.contentType} title`, model, systemPrompt, temperature: 1}),
+          });
+        
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-    
+        
           if(response.body){
             const reader = response.body.getReader();
+            let reply = ''; // Initialize reply to accumulate the assistant's reply
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
@@ -474,19 +475,18 @@ const CopywritingModal = (props: {
                 generateGoogleDescription(reply);
                 break;
               }
-      
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+        
+              const decodedValue = new TextDecoder().decode(value);
+              const dataStrings = decodedValue.split('data: ');
               setGooglePreviewLoading(false);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    reply += data.content.replace(/"/g, '');
-                    props.setTitle(reply);
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
+        
+              for (const dataString of dataStrings) {
+                if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                  continue; // Skip control messages and empty strings
                 }
+                const contentWithoutQuotes = dataString.replace(/"/g, '');
+                reply += contentWithoutQuotes; // Accumulate the text
+                props.setTitle(reply);
               }
             }
           }
@@ -499,7 +499,7 @@ const CopywritingModal = (props: {
           }
         } finally {
           abortController.abort();
-        }
+        }        
       }
 
       const generateGoogleDescription = async (title: string) => {
@@ -546,45 +546,43 @@ const CopywritingModal = (props: {
         let prompt = `For ${props.contentType} titled: ${title}. 
         Come up with the best performing description for ${props.contentType} about ${phrase} in ${props.toneOfVoice} tone of voice. My keywords: ${keywords}. Choose only ones that fit best for description. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
         `
-
         try {
-            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-              signal: newAbortController.signal,
-              body: JSON.stringify({prompt, title: `${props.contentType} description`, model, systemPrompt, temperature: 0.7}),
-            });
-    
+          const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+            signal: newAbortController.signal,
+            body: JSON.stringify({prompt, title: `${props.contentType} description`, model, systemPrompt, temperature: 0.7}),
+          });
+        
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-    
+        
           if(response.body){
             const reader = response.body.getReader();
+            let reply = ''; // Initialize reply to accumulate the assistant's reply
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
                 setGeneratingGooglePreview(false);
-                props.setDescription(reply)
+                props.setDescription(reply);
                 break;
               }
-      
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+        
+              const decodedValue = new TextDecoder().decode(value);
+              const dataStrings = decodedValue.split('data: ');
               setDescriptionLoading(false);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    reply += data.content.replace(/"/g, '');
-                    props.setDescription(reply);
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
+        
+              for (const dataString of dataStrings) {
+                if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                  continue; // Skip control messages and empty strings
                 }
+                const contentWithoutQuotes = dataString.replace(/"/g, '');
+                reply += contentWithoutQuotes; // Accumulate the text
+                props.setDescription(reply);
               }
             }
           }
-    
         } catch (e: any) {
           if (e.message === "Fetch is aborted") {
             setGeneratingGooglePreview(false);
@@ -594,7 +592,7 @@ const CopywritingModal = (props: {
           }
         } finally {
           abortController.abort();
-        }
+        }        
       }
 
       const generateField = async (field: any, paragraphIndex: any) => {
@@ -656,45 +654,45 @@ const CopywritingModal = (props: {
           signal: abortController.signal,
           body: JSON.stringify({ prompt, systemPrompt, temperature: 0.85, title: `generated copywriting ${field}`, model: "gpt-4" }),
         });
-      
+        
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-  
+        
         if(response.body){
           const reader = response.body.getReader();
+          let reply = ''; // Initialize reply to accumulate the assistant's reply
           while (true) {
             const { done, value } = await reader.read();
-  
+        
             if (done) {
               setParagraphs((prev: any) => {
                 const updatedParagraphs = [...prev];
-                updatedParagraphs[paragraphIndex][field] = reply
+                updatedParagraphs[paragraphIndex][field] = reply;
                 return updatedParagraphs;
-            });
-            break;
+              });
+              break;
             }
-
-            const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-            for (const jsonString of jsonStrings) {
-              try {
-                const data = JSON.parse(jsonString);
-                if (data.content) {
-                  const contentWithoutQuotes = data.content.replace(/"/g, '');
-                  reply += contentWithoutQuotes;
-                  setParagraphs((prev: any) => {
-                    const updatedParagraphs = [...prev];
-                    updatedParagraphs[paragraphIndex][field] = reply;
-                    return updatedParagraphs;
-                });
-                
-                }                      
-              } catch (error) {
-                console.error('Error parsing JSON:', jsonString, error);
+        
+            const decodedValue = new TextDecoder().decode(value);
+            const dataStrings = decodedValue.split('data: ');
+        
+            for (const dataString of dataStrings) {
+              if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                continue; // Skip control messages and empty strings
               }
+              const contentWithoutQuotes = dataString.replace(/"/g, '');
+              reply += contentWithoutQuotes; // Accumulate the text
+              setParagraphs((prev: any) => {
+                const updatedParagraphs = [...prev];
+                updatedParagraphs[paragraphIndex][field] = reply;
+                return updatedParagraphs;
+              });
             }
           }
         }
+        
+        
       };
 
       
@@ -780,6 +778,7 @@ const CopywritingModal = (props: {
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
               }
             });
+
             props.setEmbeddedVectorIds(scrapingResponse.data.ids)
           } catch (e) {
             console.log(e);
@@ -1174,7 +1173,7 @@ const CopywritingModal = (props: {
                                   </Label>
                               </div>
                               <CustomDropdown
-                                  values={["1", "2", "3", "4", "5", "6", "7", "8"]}
+                                  values={["1", "3", "4", "5", "6", "7", "8"]}
                                   value={paragraphsNumber}
                                   onChange={setParagraphsNumber}
                               />

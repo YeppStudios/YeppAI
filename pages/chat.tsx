@@ -261,7 +261,6 @@ const Chat = () => {
   const sendMessage = async (e: any) => {
     e.preventDefault();
 
-    console.log("sending message")
     if (assistantThinking || replying){
       stopReplying();
     }
@@ -336,51 +335,49 @@ const Chat = () => {
         throw new Error('Network response was not ok');
       }
 
-      if (response.body){
+      if (response.body) {
         const reader = response.body.getReader();
         while (true) {
-          const { done, value } = await reader.read();
-          if (done && !fetchingDocuments && text !== "[%fetch_info%]") {
-            const responseMessage = {
-              conversation: selectedConversation,
-              sender: "assistant",
-              text: text,
-              timestamp: new Date(),
-              contextDocs: []
-            }
-
-            if(messages){
-              setMessages([...messages, userMessage, responseMessage]);
-            }
-            setReplying(false);
-            break;
-          }
-  
-          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-          for (const jsonString of jsonStrings) {
-            try {
-              const data = JSON.parse(jsonString);
-              if (data.content) {
-                console.log(data.content);
-                text += data.content;
-                if(text.length > 2) {
-                  if (text.startsWith("[%") || text.startsWith("[f") || text.startsWith(`"[`)) {
-                    setFetchingDocuments(true);
-                    setSearchEmoji(() => BsSearch)
-                    sendMessageWithEmbedding(userMessage);
-                    return;
-                  } else {
-                    setAssistantThinking(false);
-                    setReply(text);
-                  }
+            const { done, value } = await reader.read();
+            if (done) {
+                if (!fetchingDocuments && text !== "[%fetch_info%]") {
+                    const responseMessage = {
+                        conversation: selectedConversation,
+                        sender: "assistant",
+                        text: text.trim(),
+                        timestamp: new Date(),
+                        contextDocs: []
+                    };
+                    if (messages) {
+                        setMessages([...messages, userMessage, responseMessage]);
+                    }
+                    setReplying(false);
                 }
-              }
-            } catch (error) {
-              console.error('Error parsing JSON:', jsonString, error);
+                break;
             }
-          }
+    
+            const decodedValue = new TextDecoder().decode(value);
+            const dataStrings = decodedValue.split('data: ');
+    
+            for (const dataString of dataStrings) {
+              if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                continue;
+              }
+                if (text.length > 2) {
+                  if (text.startsWith("[%") || text.startsWith("[f") || text.startsWith(`"[`)) {
+                      setFetchingDocuments(true);
+                      setSearchEmoji(() => BsSearch);
+                      sendMessageWithEmbedding(userMessage);
+                      return;
+                  } else {
+                      setAssistantThinking(false);
+                      setReply(text);
+                  }
+              }
+                text += dataString;
+            }
         }
-      }
+    }
 
     } catch (e: any) {
       if (e.message === "Fetch is aborted") {
@@ -526,42 +523,42 @@ const Chat = () => {
         throw new Error('Network response was not ok');
       }
 
-      if(response.body){
+      if (response.body) {
         const reader = response.body.getReader();
         while (true) {
           const { done, value } = await reader.read();
-
           if (done) {
+            // Your existing logic for what to do when the stream ends
             const responseMessage = {
               conversation: selectedConversation,
               sender: "assistant",
-              text: text,
+              text: text.trim(),
               timestamp: new Date(),
               contextDocs: contextDocs
-            }
+            };
             setFetchingDocuments(false);
-            if(messages){
+            if (messages) {
               setMessages([...messages, userMessage, responseMessage]);
             }
             setReplying(false);
             break;
           }
-  
-          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+    
+          const decodedValue = new TextDecoder().decode(value);
+          const dataStrings = decodedValue.split('data: ').filter(str => str.trim() !== '');
+    
           setAssistantThinking(false);
-          for (const jsonString of jsonStrings) {
-            try {
-              const data = JSON.parse(jsonString);
-              if (data.content) {
-                text += data.content;
-                setReply(text);
-              }
-            } catch (error) {
-              console.error('Error parsing JSON:', jsonString, error);
+          for (const dataString of dataStrings) {
+            if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+              // This is the end of the stream or a control message. Ignore it.
+              continue;
             }
+            text += dataString;
+            setReply(text);
           }
         }
       }
+    
 
     } catch (e: any) {
       if (e.message === "Fetch is aborted") {

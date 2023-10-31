@@ -250,55 +250,55 @@ const ResultsContainer = (
               throw new Error('Network response was not ok');
             }
       
-            if(response.body){
+            if (response.body) {
               const reader = response.body.getReader();
               while (true) {
                 const { done, value } = await reader.read();
-      
+            
                 if (done) {
                   setIsSSEComplete(true);
                   setReplying(false);
                   props.stopLoading();
                   setContent(reply);
+            
                   const responseMessageObject = {
                     sender: "assistant",
                     text: reply,
-                  }
+                  };
                   const promptObject = {
                     sender: "user",
                     text: promptToSend,
-                  }
+                  };
                   setMessages([...[], promptObject, responseMessageObject]);
-                  setGenerationCost(estimateTokens(`${promptToSend} ${reply}`))
-                  if(props.resultsType.includes("post")){
+                  setGenerationCost(estimateTokens(`${promptToSend} ${reply}`));
+            
+                  if (props.resultsType.includes("post")) {
                     await api.post(`/user/${userId}/addPosts`, {postsToAdd: props.count}, {
-                        headers: {
-                          authorization: token
-                        },
+                      headers: {
+                        authorization: token
+                      },
                     });
                   } else if(props.resultsType === "ideas") {
                     await api.post(`/user/${userId}/addIdeas`, {ideasToAdd: props.count}, {
-                        headers: {
-                          authorization: token
-                        },
+                      headers: {
+                        authorization: token
+                      },
                     });
                   }
                   break;
                 }
-        
-                const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+            
+                const decodedValue = new TextDecoder().decode(value);
+                const dataStrings = decodedValue.split('data: ');
+            
                 setLoading(false);
-                for (const jsonString of jsonStrings) {
-                  try {
-                    const data = JSON.parse(jsonString);
-                    if (data.content) {
-                      const contentWithoutQuotes = data.content.replace(/"/g, '');
-                      setContent((prevMessage) => prevMessage + contentWithoutQuotes);
-                      reply += contentWithoutQuotes;
-                    }
-                  } catch (error) {
-                    console.error('Error parsing JSON:', jsonString, error);
+                for (const dataString of dataStrings) {
+                  if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                    continue;
                   }
+                  const contentWithoutQuotes = dataString.replace(/"/g, '');
+                  reply += contentWithoutQuotes;
+                  setContent(reply);
                 }
               }
             }
@@ -401,62 +401,63 @@ const ResultsContainer = (
             return {role: message.sender,  content: message.text,};
         }), { role: "user", content: promptToSend },];
 
-      try {
-        const response = await fetch('https://asystentai.herokuapp.com/messageAI', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-          signal: signal,
-          body: JSON.stringify({conversationContext, model}),
-        });
-  
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-  
-        if(response.body){
-          const reader = response.body.getReader();
-          while (true) {
-            const { done, value } = await reader.read();
-  
-            if (done) {
-              const responseMessageObject = {
-                sender: "assistant",
-                text: text,
-              }
-              if(messages){
-                setMessages([...messages, userMessageObject, responseMessageObject]);
-              }
-              setIsSSEComplete(true);
-              setReplying(false);
-              break;
-            }
-    
-            const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-            setMessageLoading(false);
-            setReplying(true);
-            for (const jsonString of jsonStrings) {
-              try {
-                const data = JSON.parse(jsonString);
-    
-                if (data.content) {
-                  const contentWithoutQuotes = data.content.replace(/"/g, '');
-                  setContent((prevMessage) => prevMessage + contentWithoutQuotes);
-                  text += contentWithoutQuotes;
+        try {
+          const response = await fetch('https://asystentai.herokuapp.com/messageAI', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+            signal: signal,
+            body: JSON.stringify({conversationContext, model}),
+          });
+        
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+        
+          if (response.body) {
+            const reader = response.body.getReader();
+            let text = '';
+            while (true) {
+              const { done, value } = await reader.read();
+          
+              if (done) {
+                setIsSSEComplete(true);
+                setReplying(false);
+                
+                const responseMessageObject = {
+                  sender: "assistant",
+                  text: text,
+                };
+                if (messages) {
+                  setMessages([...messages, userMessageObject, responseMessageObject]);
                 }
-              } catch (error) {
-                console.error('Error parsing JSON:', jsonString, error);
+                break;
+              }
+          
+              const decodedValue = new TextDecoder().decode(value);
+              const dataStrings = decodedValue.split('data: ');
+              setMessageLoading(false);
+              setReplying(true);
+          
+              for (const dataString of dataStrings) {
+                if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                  // This is the end of the stream or a control message. Ignore it.
+                  continue;
+                }
+                const contentWithoutQuotes = dataString.replace(/"/g, '');
+                text += contentWithoutQuotes; // Accumulate the text
+                setContent((prevMessage) => prevMessage + contentWithoutQuotes);
               }
             }
           }
+          
+        
+        } catch (e) {
+          console.log(e);
+          props.stopLoading();
+          setReplying(false);
+        } finally {
+          abortController.abort();
         }
-  
-      } catch (e) {
-        console.log(e);
-        props.stopLoading();
-        setReplying(false);
-      } finally {
-        abortController.abort();
-      }
     }
 
     useEffect(() => {

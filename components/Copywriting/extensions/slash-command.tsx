@@ -429,18 +429,22 @@ const complete = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     let systemPrompt = "You are a creative copywriter with years of experience. You write best performing SEO content without overcomplicating it for readers and making it easy to read. You are great at understanding the context, intents of the writer and adjusting your tone of voice. You always find some interesting and relevant facts to include in your writing. You never write anything offensive or controversial. You always write fluently in whatever languaguage the user content is.";
     let model = "gpt-4";
     try {
-        const response = await fetch('https://asystentai.herokuapp.com/askAI', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
-          signal: newAbortController.signal,
-          body: JSON.stringify({prompt, title: "Generated fragment of SEO content", model, systemPrompt}),
-        });
-
+      const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
+        signal: newAbortController.signal,
+        body: JSON.stringify({prompt, title: "Generated fragment of SEO content", model, systemPrompt}),
+      });
+    
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
-      if(response.body){
+    
+      let reply = '';
+      let initialPosition = 0; // Initialize initialPosition if you haven't already
+      const range = {from: 0, to: 0}; // Initialize 'range' if you haven't already
+    
+      if (response.body) {
         editor.chain().focus().deleteRange(range).run();
         setIsLoading(false);
         setOpenList(false);
@@ -456,21 +460,20 @@ const complete = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
             });
             break;
           }
-  
-          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-          for (const jsonString of jsonStrings) {
-            try {
-              const data = JSON.parse(jsonString);
-              if (data.content) {
-                reply += data.content;
-                editor.view.dispatch(
-                    editor.view.state.tr.insertText(data.content, initialPosition)
-                );
-                initialPosition += data.content.length;
-              }
-            } catch (error) {
-              console.error('Error parsing JSON:', jsonString, error);
+    
+          const decodedValue = new TextDecoder().decode(value);
+          const dataStrings = decodedValue.split('data: ');
+    
+          for (const dataString of dataStrings) {
+            if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+              continue;
             }
+            const contentWithoutQuotes = dataString.replace(/"/g, '');
+            reply += contentWithoutQuotes;
+            editor.view.dispatch(
+              editor.view.state.tr.insertText(contentWithoutQuotes, initialPosition)
+            );
+            initialPosition += contentWithoutQuotes.length;
           }
         }
       }

@@ -267,16 +267,17 @@ const Campaign = () => {
                 signal: signal,
                 body: JSON.stringify({prompt: promptToSend, temperature: 0.95, title: template.data.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
               });
-        
+            
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
-        
+            
               if(response.body){
                 const reader = response.body.getReader();
+                let reply = ''; // Initialize reply to accumulate the assistant's reply
                 while (true) {
                   const { done, value } = await reader.read();
-        
+            
                   if (done) {
                     setRendering(false);
                     setText("");
@@ -291,31 +292,31 @@ const Campaign = () => {
                     await api.patch(`/campaign/${campaignId}/template/${template.data._id}`, {text: reply}, {
                       headers: {
                         authorization: token
-                    }})
+                      }
+                    });
                     break;
                   }
-
-                  const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+            
+                  const decodedValue = new TextDecoder().decode(value);
+                  const dataStrings = decodedValue.split('data: ');
+            
                   setLoadingTemplates(prevTemplates => 
                     prevTemplates.filter(id => id !== template.data._id)
                   );
                   setExpandedCategories(prevCategories => 
                       [...prevCategories, template.data.title]
                   );
-                  for (const jsonString of jsonStrings) {
-                    try {
-                      const data = JSON.parse(jsonString);
-                      if (data.content) {
-                        const contentWithoutQuotes = data.content.replace(/"/g, '');
-                        setTemplateTexts(prevTexts => ({
-                            ...prevTexts,
-                            [template.data._id]: prevTexts[template.data._id] ? prevTexts[template.data._id] + contentWithoutQuotes : contentWithoutQuotes
-                        }));
-                        reply += contentWithoutQuotes;
-                      }                      
-                    } catch (error) {
-                      console.error('Error parsing JSON:', jsonString, error);
+            
+                  for (const dataString of dataStrings) {
+                    if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                      continue; // Skip control messages and empty strings
                     }
+                    const contentWithoutQuotes = dataString.replace(/"/g, '');
+                    setTemplateTexts(prevTexts => ({
+                        ...prevTexts,
+                        [template.data._id]: prevTexts[template.data._id] ? prevTexts[template.data._id] + contentWithoutQuotes : contentWithoutQuotes
+                    }));
+                    reply += contentWithoutQuotes;
                   }
                 }
               }
@@ -330,6 +331,7 @@ const Campaign = () => {
             } finally {
               abortController.abort();
             }
+            
         }
       }
 
@@ -442,23 +444,25 @@ const Campaign = () => {
                 signal: signal,
                 body: JSON.stringify({prompt: promptToSend, temperature: 1, title: template.data.title, model, systemPrompt: selectedMarketingAssistant.noEmbedPrompt}),
               });
-        
+            
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
-        
+            
               if(response.body){
                 const reader = response.body.getReader();
+                let reply = ''; // Initialize reply to accumulate the assistant's reply
                 while (true) {
                   const { done, value } = await reader.read();
-        
+            
                   if (done) {
                     setRendering(false);
                     setText("");
                     await api.patch(`/campaign/${campaignId}/template/${template.data._id}`, {text: reply}, {
                       headers: {
                         authorization: token
-                    }})
+                      }
+                    });
                     setRenderQueue(prevQueue =>
                       prevQueue.filter(t => t.data._id !== template.data._id)
                     );
@@ -472,27 +476,27 @@ const Campaign = () => {
                     );
                     break;
                   }
-                  const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+            
+                  const decodedValue = new TextDecoder().decode(value);
+                  const dataStrings = decodedValue.split('data: ');
+            
                   setLoadingTemplates(prevTemplates => 
                     prevTemplates.filter(id => id !== template.data._id)
                   );
                   setExpandedCategories(prevCategories => 
                       [...prevCategories, template.data.title]
                   );
-                  for (const jsonString of jsonStrings) {
-                    try {
-                      const data = JSON.parse(jsonString);
-                      if (data.content) {
-                        const contentWithoutQuotes = data.content.replace(/"/g, '');
-                        setTemplateTexts(prevTexts => ({
-                            ...prevTexts,
-                            [template.data._id]: prevTexts[template.data._id] ? prevTexts[template.data._id] + contentWithoutQuotes : contentWithoutQuotes
-                        }));
-                        reply += contentWithoutQuotes;
-                      }   
-                    } catch (error) {
-                      console.error('Error parsing JSON:', jsonString, error);
+            
+                  for (const dataString of dataStrings) {
+                    if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                      continue; // Skip control messages and empty strings
                     }
+                    const contentWithoutQuotes = dataString.replace(/"/g, '');
+                    setTemplateTexts(prevTexts => ({
+                        ...prevTexts,
+                        [template.data._id]: prevTexts[template.data._id] ? prevTexts[template.data._id] + contentWithoutQuotes : contentWithoutQuotes
+                    }));
+                    reply += contentWithoutQuotes;
                   }
                 }
               }
@@ -507,6 +511,7 @@ const Campaign = () => {
             } finally {
               abortController.abort();
             }
+            
         }
       }
     }

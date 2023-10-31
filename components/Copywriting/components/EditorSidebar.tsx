@@ -265,72 +265,72 @@ const EditorSidebar = (props: {
         let systemPrompt = `You are a professional copywriter with years of experience and you specialize in writing easily to understand best performing SEO conetnt. You write like a professional human copywriter and you make the content sound natural and emphatic. You always respond in ${language} language. You fluently write content in ${language} language and before writing anything you always make sure its syntax sound human-like and grammar is correct. You are always factual and you write engaging and valuable content. If user asks you anything else you respond that you only can write best performing SEO content.`;
         let model = "gpt-4";
         try {
-            const response = await fetch('https://asystentai.herokuapp.com/askAI', {
+          const response = await fetch('https://asystentai.herokuapp.com/askAI', {
               method: 'POST',
               headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
               signal: newAbortController.signal,
               body: JSON.stringify({prompt, title: "Generated SEO content", model, systemPrompt}),
-            });
-    
+          });
+      
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+              throw new Error('Network response was not ok');
           }
-    
+      
+          let reply = '';
+          let initialPosition = 0;
+      
           if(response.body){
-            props.setGenerating(true);
-            const reader = response.body.getReader();
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) {
-                props.setGenerating(false);
-                const conversationBottom = document.getElementById("conversation-bottom");
-                if(conversationBottom){
-                    conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
-                }
-                if (props.editor) {
-                    if (text.length > 0) {
-                        props.editor.commands.setTextSelection({
-                            from: from + 2,
-                            to: from + reply.length + 2,
-                          });
-                    } else {
-                        props.editor.commands.setTextSelection({
-                            from: from,
-                            to: from + reply.length,
-                        });
-                    }
-
+              props.setGenerating(true);
+              const reader = response.body.getReader();
+              while (true) {
+                  const { done, value } = await reader.read();
+                  if (done) {
+                      props.setGenerating(false);
+                      const conversationBottom = document.getElementById("conversation-bottom");
+                      if(conversationBottom){
+                          conversationBottom.scrollIntoView({behavior: 'smooth', block: 'end'});
+                      }
+                      if (props.editor) {
+                          const text = ''; // Initialize 'text' if you haven't already
+                          const from = 0; // Initialize 'from' if you haven't already
+                          if (text.length > 0) {
+                              props.editor.commands.setTextSelection({
+                                  from: from + 2,
+                                  to: from + reply.length + 2,
+                              });
+                          } else {
+                              props.editor.commands.setTextSelection({
+                                  from: from,
+                                  to: from + reply.length,
+                              });
+                          }
+                      }
+                      break;
                   }
-                break;
+      
+                  const decodedValue = new TextDecoder().decode(value);
+                  const contentWithoutQuotes = decodedValue.replace(/"/g, '').trim();
+                  if (contentWithoutQuotes) {
+                      reply += contentWithoutQuotes;
+                      props.editor.view.dispatch(
+                          props.editor.view.state.tr.insertText(contentWithoutQuotes, initialPosition)
+                      );
+                      initialPosition += contentWithoutQuotes.length;
+                  }
               }
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
               setLoading(false);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    reply += data.content;
-                    props.editor.view.dispatch(
-                        props.editor.view.state.tr.insertText(data.content, initialPosition)
-                    );
-                    initialPosition += data.content.length;
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
-                }
-              }
-            }
           }
-        } catch (e: any) {
+      } catch (e: any) {
           if (e.message === "Fetch is aborted") {
-            setLoading(false);
+              setLoading(false);
           } else {
-            console.log(e);
-            setLoading(false);
+              console.log(e);
+              setLoading(false);
           }
-        } finally {
+      } finally {
           props.abortController.abort();
-        }
+      }
+      
       }
     
     return (

@@ -275,34 +275,32 @@ const ToneModal = (props: {onClose: any, tones: any[]}) => {
             throw new Error('Network response was not ok');
           }
     
-          if (response.body){
+          if (response.body) {
             const reader = response.body.getReader();
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
-                setExampleOutputJSON({})
-                setTestText(reply)
+                setExampleOutputJSON({});
+                setTestText(reply);
                 break;
               }
-      
-              const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
+        
+              const decodedValue = new TextDecoder().decode(value);
+              const dataStrings = decodedValue.split('data: ');
+        
               setTestTextLoading(false);
               setStep(1);
-              for (const jsonString of jsonStrings) {
-                try {
-                  const data = JSON.parse(jsonString);
-                  if (data.content) {
-                    const contentWithoutQuotes = data.content.replace(/"/g, '');
-                    reply += contentWithoutQuotes;
-                    setTestText(reply);
-                  }
-                } catch (error) {
-                  console.error('Error parsing JSON:', jsonString, error);
+        
+              for (const dataString of dataStrings) {
+                if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                  continue;
                 }
+                const contentWithoutQuotes = dataString.replace(/"/g, '');
+                reply += contentWithoutQuotes;
+                setTestText(reply);
               }
             }
           }
-    
         } catch (e: any) {
           if (e.message === "Fetch is aborted") {
             setTestTextLoading(false);
@@ -404,11 +402,11 @@ const ToneModal = (props: {onClose: any, tones: any[]}) => {
 
                 <div className="flex flex-col gap-[0.8vw]">
                 <div className={`flex  justify-between items-center`}>
-                  <div className="flex flex-col gap-2 w-full w-[48%]">
+                  <div className="flex flex-col gap-2 w-[48%]">
                     <Label>Language</Label>
                     <Input type="text" value={language} onChange={(e) => setLanguage(e.target.value)} className="w-full" height="2.7rem" padding="0.5rem" placeholder="English" />
                   </div>
-                  <div className="flex flex-col gap-2 w-full w-[48%]">
+                  <div className="flex flex-col gap-2 w-[48%]">
                     <Label>Placement</Label>
                     <ToneDropdown
                     value={selectedTemplate}
@@ -423,7 +421,7 @@ const ToneModal = (props: {onClose: any, tones: any[]}) => {
                   <Label>About</Label>
                     <Input type="text" value={about} onChange={(e) => setAbout(e.target.value)} className="w-full" height="2.7rem" padding="0.5rem" placeholder="About..." />
                   </div>
-                  <div className="flex flex-col gap-2 w-full w-[48%]">
+                  <div className="flex flex-col gap-2 w-[48%]">
                     <Label>Length (chars)</Label>
                     <Input type="text" value={length} onChange={(e) => setLength(e.target.value)} className="w-full" height="2.7rem" padding="0.5rem" placeholder="100" />
                   </div>
