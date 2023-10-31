@@ -62,7 +62,9 @@ const Assets = () => {
   }
 
   useEffect(() => {
-    dispatch(setSelectedFolder({documents: []}))
+    if (selectedFolder) {
+      setOpenedFolder(selectedFolder as Folder);
+    }
     if(window.innerWidth <= 1023){
       setMobile(true);
     }
@@ -85,7 +87,6 @@ const Assets = () => {
           });
           setFolders(data);
           setFoldersLoading(false);
-          console.log(data);
         } else {
           const { data } = await api.get(`/folders/owner/${userId}`, {
             headers: {
@@ -94,7 +95,6 @@ const Assets = () => {
           });
           setFolders(data);
           setFoldersLoading(false);
-          console.log(data);
         }
       } catch (error) {
         console.error(error);

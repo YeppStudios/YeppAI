@@ -27,6 +27,7 @@ import fileIcon from "../../public/images/fileIcon.png";
 import { SlOptionsVertical } from "react-icons/sl";
 import { PencilSquareIcon } from "@heroicons/react/20/solid";
 import EditFolder from "../Modals/AddingModals/EditFolder";
+import { useRouter } from "next/router";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -88,6 +89,7 @@ const DataPage = (props: {
     const [openEditModal, setOpenEditModal] = useState(false);
     const [chosenFolder, setChosenFolder] = useState<Folder | undefined>(undefined);
 
+    const router = useRouter();
     const dispatch = useDispatch();
 
     const fetchDocumentsAndFolders = async () => {
@@ -172,7 +174,12 @@ const DataPage = (props: {
         if (parentFolder) {
             dispatch(setSelectedFolder(parentFolder));
         } else {
-            props.back();
+            let profileId = localStorage.getItem("profile_id");
+            if (profileId) {
+                router.push(`/profile/${profileId}`)
+            } else {
+                props.back();
+            }
         }
     } 
 
