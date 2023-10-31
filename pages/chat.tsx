@@ -816,11 +816,25 @@ const Chat = () => {
                         </div>
                         }
                         {assistantThinking ?
-                         <ThinkingMessage assistant={true} marginLeft="3rem"></ThinkingMessage>       
+                          <>
+                          {fetchingDocuments ?
+                          <ThinkingMessage assistant={true} marginLeft="3rem"></ThinkingMessage>  
+                          :
+                          <ThinkingMessage assistant={true} marginLeft="1.5rem"></ThinkingMessage>  
+                          }   
+                         </>
                         :
+                        <>
+                        {fetchingDocuments ?
                         <Message assistant={true} marginLeft="3rem">
                           {reply}
-                        </Message>            
+                        </Message>   
+                        :
+                        <Message assistant={true} marginLeft="1.5rem">
+                          {reply}
+                        </Message>
+                        }
+                        </>         
                         }
 
                   </AssistantMessageContainer>                
