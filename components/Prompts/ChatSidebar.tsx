@@ -224,7 +224,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
     const latestMessages = messages.slice(-4);
     const conversationContext = [  { role: "system", content: defaultAssistant.noEmbedPrompt },  ...latestMessages.map((message) => {    
         return {role: message.sender,  content: message.text,};
-    }), { role: "user", content: promptToSend },];
+    }), { role: "user", content: promptToSend }];
 
     try {
       const response = await fetch('https://asystentai.herokuapp.com/messageAI', {
