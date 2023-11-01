@@ -59,7 +59,7 @@ const Chat = () => {
   const [reply, setReply] = useState('');
   const [page, setPage] = useState(1);
   const router = useRouter();
-  const [searchingInfo, setSearchingInfo] = useState("Searching relevant assets...");
+  const [searchingInfo, setSearchingInfo] = useState("Searching relevant documents...");
   const [SearchEmoji, setSearchEmoji] = useState(() => BsSearch);
   const [abortController, setAbortController] = useState(new AbortController());
   const [openOnboarding, setOpenOnboarding] = useState(false);
@@ -122,7 +122,7 @@ const Chat = () => {
   const createConversation = async (btnClick: boolean) => {
     const token = localStorage.getItem("token");
     setPageLoading(true);
-    if(selectedAssistant._id.length > 0){
+    if (selectedAssistant._id.length > 0){
       try {
         const latest = await api.get(`/latest-conversation/${selectedAssistant._id}`, { 
           headers: {
@@ -340,7 +340,7 @@ const Chat = () => {
         while (true) {
             const { done, value } = await reader.read();
             if (done) {
-                if (!fetchingDocuments && text !== "[%fetch_info%]") {
+                if (!fetchingDocuments && !(input.startsWith("[%") || input.startsWith("[f") || input.startsWith(`"[`))) {
                     const responseMessage = {
                         conversation: selectedConversation,
                         sender: "assistant",
@@ -436,7 +436,7 @@ const Chat = () => {
       fetchedUser = data;
     }
 
-    if(fetchedUser.tokenBalance <= 0) {
+    if (fetchedUser.tokenBalance <= 0) {
       setOpenNoElixirModal(true);
       setReplying(false);
       return;
@@ -447,14 +447,41 @@ const Chat = () => {
     let contextDocs = [];
     setReply('');
 
+    const lastSixMessages = messages?.slice(-6);
+    const messageStrings = lastSixMessages?.map(message => `${message.sender}: ${message.text}`).join('\n');
+    const conversationString = `${messageStrings}\nuser: ${userInput}`;
     const vectorIdsResponse = await api.post("/getPineconeIds", {documents: selectedAssistant.documents}, {
       headers: {
         Authorization: token
       }
     });
 
+    setSearchingInfo("Searching relevant documents...")
+    const generatedQuery = await api.post("/completion", {
+      model: "gpt-3.5-turbo",
+      temperature: 0,
+      systemPrompt: `You are a profound listener specializing in turning conversation with final user query into one complete question that will be understandable by embedding semantic search engine. You respond with only transformed user query.
+      `,
+      prompt: `
+      examples: 
+      user: I want to see the latest sales report.  Transformed query: latest sales report
+      user: Określ także co unikatowego możemy zrobić aby GTM okazał się sukcesem. Transformed query: Czym zajmuje się Mastercard
+      user: What can we do to increase sales? Transformed query: What is Yepp AI offering?
+
+      Here is the conversation context so far:
+      ${conversationString}
+      If it is necessarry rewrite and simplify the last user query in a way that is short and understandable for semantic search engine based on the conversation context.
+
+      Reply only with transformed user query for my conversation:
+      `
+    }, {
+      headers: {
+        Authorization: token,
+      }
+    });
+    
     setSearchingInfo("Retrieving first results...")
-    const initial_embedding_result = await api.post('/get-single-embedding', {prompt: userMessage.text, document_ids: vectorIdsResponse.data}, {
+    const initial_embedding_result = await api.post('/get-single-embedding', {prompt: generatedQuery.data.completion, document_ids: vectorIdsResponse.data}, {
       headers: {
         Authorization: token
       }
@@ -462,7 +489,7 @@ const Chat = () => {
 
     setSearchEmoji(() => BsCollection)
     setSearchingInfo("Searching more relevant data...")
-    const context_response = await api.post('/completion-MSQT', {initial_prompt: userMessage.text, embedding_result: initial_embedding_result.data.context, document_ids: vectorIdsResponse.data}, {
+    const context_response = await api.post('/completion-MSQT', {initial_prompt: generatedQuery.data.completion, embedding_result: initial_embedding_result.data.context, document_ids: vectorIdsResponse.data}, {
       headers: {
         Authorization: token
       }
@@ -500,7 +527,6 @@ const Chat = () => {
     const uniqueDocumentIds = documentIds.filter((id: any, index: any) => {
       return documentIds.indexOf(id) === index;
     });
-
     const fetchedDocuments = await api.post(`/documents-by-vector-ids`, {
         vectorIds: uniqueDocumentIds
     }, 
@@ -511,6 +537,9 @@ const Chat = () => {
     });
     contextDocs = fetchedDocuments.data.documents.map((doc: { title: any; }) => doc.title);
     setContextDocuments(fetchedDocuments.data.documents);
+    if (!contextDocs) {
+      setFetchingDocuments(false);
+    }
 
     try {
       const response = await fetch(`https://asystentai.herokuapp.com/sendMessage/${selectedConversation._id}`, {
@@ -529,7 +558,7 @@ const Chat = () => {
         while (true) {
           const { done, value } = await reader.read();
           if (done) {
-            // Your existing logic for what to do when the stream ends
+            setSearchingInfo("Searching relevant documents...")
             const responseMessage = {
               conversation: selectedConversation,
               sender: "assistant",
@@ -559,8 +588,6 @@ const Chat = () => {
           }
         }
       }
-    
-
     } catch (e: any) {
       if (e.message === "Fetch is aborted") {
         const responseMessage = {
@@ -571,7 +598,7 @@ const Chat = () => {
           contextDocs: []
         }
 
-        if(messages) {
+        if (messages) {
           setMessages([...messages, userMessage, responseMessage]);
         }
         setReplying(false);
