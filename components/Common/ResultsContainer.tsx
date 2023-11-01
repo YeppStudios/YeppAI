@@ -440,17 +440,14 @@ const ResultsContainer = (
           
               for (const dataString of dataStrings) {
                 if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
-                  // This is the end of the stream or a control message. Ignore it.
                   continue;
                 }
                 const contentWithoutQuotes = dataString.replace(/"/g, '');
-                text += contentWithoutQuotes; // Accumulate the text
+                text += contentWithoutQuotes;
                 setContent((prevMessage) => prevMessage + contentWithoutQuotes);
               }
             }
           }
-          
-        
         } catch (e) {
           console.log(e);
           props.stopLoading();

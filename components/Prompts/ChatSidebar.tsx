@@ -238,7 +238,9 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
           throw new Error('Network response was not ok');
       }
   
-      if(response.body){
+      let text = '';
+  
+      if (response.body) {
           const reader = response.body.getReader();
           while (true) {
               const { done, value } = await reader.read();
@@ -247,21 +249,27 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
                   const responseMessageObject = {
                       sender: "assistant",
                       text: text,
-                  } as Message;
-                  if(messages){
+                  };
+                  if (messages) {
                       setMessages([...messages, userMessageObject, responseMessageObject]);
                   }
                   setReplying(false);
                   const conversationBottom = document.getElementById("conversation-bottom");
-                  if(conversationBottom){
+                  if (conversationBottom) {
                       conversationBottom.scrollIntoView({behavior: 'smooth', block: 'start'});
                   }
                   break;
               }
   
               const decodedValue = new TextDecoder().decode(value);
-              const contentWithoutQuotes = decodedValue.replace(/"/g, '').trim();
-              if (contentWithoutQuotes) {
+              const dataStrings = decodedValue.split('data: ')
+  
+              for (const dataString of dataStrings) {
+                  if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                      continue;
+                  }
+  
+                  const contentWithoutQuotes = dataString.replace(/"/g, '');
                   text += contentWithoutQuotes;
                   setReply((prevMessage) => prevMessage + contentWithoutQuotes);
               }
@@ -275,6 +283,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
   } finally {
       abortController.abort();
   }
+  
   
   }
 
