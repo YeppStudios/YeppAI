@@ -464,7 +464,7 @@ const CopywritingModal = (props: {
         Now similarly to examples come up with unique title for ${props.contentType} featuring ${phrase} that will be a great, simple, but intriguing hook. ${lastTitle} Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Never use the colon ":" it has to be simple sentence/question. Make sure to come up with title that is in ${props.language} language. ${example}
         `
         if (selectedQuery) {
-          prompt = `Come up with simple Google ${props.contentType} title answering this user query: ${selectedQuery}. Make it no longer than 60 characters.`
+          prompt = `Come up with simple Google ${props.contentType} title answering this user query: ${selectedQuery}. Make it no longer than 60 characters and in ${props.language} language.`
         }
 
         try {
@@ -562,7 +562,7 @@ const CopywritingModal = (props: {
         Come up with the best performing description for ${props.contentType} about ${phrase} in ${props.toneOfVoice} tone of voice. ${lastDescription} My keywords: ${keywords}. Choose only ones that fit best for description. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
         `
         if (selectedQuery) {
-          prompt = `Come up with simple Google ${props.contentType} description answering this user query: ${selectedQuery}. Make it no longer than 150 characters.`
+          prompt = `Come up with simple Google ${props.contentType} description answering this user query: ${selectedQuery}. Make it no longer than 150 characters and in ${props.language} language.`
         }
         try {
           const response = await fetch('https://asystentai.herokuapp.com/askAI', {
