@@ -60,7 +60,6 @@ const FirstPage = (props: {nextPage: any}) => {
             let companyAssistants = [];
             
             try {
-                // Fetch user assistants
                 if (userId) {
                     const { data } = await api.get(`/getUserAssistants/${userId}`, {
                         headers: { authorization: token }
@@ -68,7 +67,6 @@ const FirstPage = (props: {nextPage: any}) => {
                     userAssistants = data.assistants;
                 }
                 
-                // Fetch company assistants
                 if (workspaceCompany._id) {
                     const { data } = await api.get(`/workspace-company/${workspace}`, {
                         headers: { authorization: token }
@@ -79,10 +77,11 @@ const FirstPage = (props: {nextPage: any}) => {
                     companyAssistants = companyResponse.data.assistants;
                 }
                 
-                // Combine and update state
                 const allAssistants = [...userAssistants, ...companyAssistants];
+                allAssistants.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
                 if (defaultAssistant) {
-                    allAssistants.unshift(defaultAssistant);
+                    allAssistants.unshift(defaultAssistant); // If you still want the defaultAssistant to be at the start
                 }
                 setAssistants(allAssistants);
                 
