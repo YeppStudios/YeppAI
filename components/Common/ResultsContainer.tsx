@@ -77,8 +77,6 @@ const ResultsContainer = (
     const [replying, setReplying] = useState(false);
     const selectedMarketingAssistant = useSelector(defaultMarketingAssistantState);
 
-    const router = useRouter();
-
     function estimateTokens(text: any) {
         const tokenRegex = /[\p{L}\p{N}]+|[^ \t\p{L}\p{N}]/ug;
         let tokens = 0;

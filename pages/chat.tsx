@@ -344,7 +344,7 @@ const Chat = () => {
                     const responseMessage = {
                         conversation: selectedConversation,
                         sender: "assistant",
-                        text: text.trim(),
+                        text: text,
                         timestamp: new Date(),
                         contextDocs: []
                     };
@@ -446,6 +446,7 @@ const Chat = () => {
     let context = "";
     let contextDocs = [];
     setReply('');
+
     const vectorIdsResponse = await api.post("/getPineconeIds", {documents: selectedAssistant.documents}, {
       headers: {
         Authorization: token
@@ -532,7 +533,7 @@ const Chat = () => {
             const responseMessage = {
               conversation: selectedConversation,
               sender: "assistant",
-              text: text.trim(),
+              text: text,
               timestamp: new Date(),
               contextDocs: contextDocs
             };
@@ -545,7 +546,7 @@ const Chat = () => {
           }
     
           const decodedValue = new TextDecoder().decode(value);
-          const dataStrings = decodedValue.split('data: ').filter(str => str.trim() !== '');
+          const dataStrings = decodedValue.split('data: ');
     
           setAssistantThinking(false);
           for (const dataString of dataStrings) {
@@ -628,7 +629,7 @@ const Chat = () => {
               <ProfileIcon background={assistantIcon} />
             </div>
                 <Message assistant={true} marginLeft="1.5rem">
-                  {message.text.trimStart()}
+                  {message.text}
                 </Message>
           </AssistantMessageContainer>
           :
@@ -649,12 +650,12 @@ const Chat = () => {
               {(message.contextDocs.length) > 0 ?
               <div style={{width: "100%", display: 'flex'}}>
               <Message assistant={true} marginLeft="3rem">
-                {message.text.trimStart()}
+                {message.text}
               </Message>
               </div>
               :
               <Message assistant={true} marginLeft="1.5rem">
-                {message.text.trimStart()}
+                {message.text}
               </Message>
               }
           </AssistantMessageContainer>

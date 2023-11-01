@@ -13,10 +13,8 @@ import api from "@/pages/api";
 import TypingAnimation from "../Modals/common/TypingAnimation";
 import ReminderModal from "../Modals/InformationalModals/ReminderModal";
 import AddElixir from "../Modals/AddingModals/AddElixir";
-import fuelIcon from "../../public/images/fuel.png";
 import NoElixir from "../Modals/LimitModals/NoElixir";
 import FeedbackPopover from "../Common/FeedbackPopover";
-import { selectAssistantState } from "../../store/assistantSlice";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { selectedUserState } from "@/store/userSlice";
@@ -68,21 +66,18 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
   const [openElixirModal, setOpenElixirModal] = useState(false);
   const [openNoElixirModal, setOpenNoElixirModal] = useState(false);
   const [mobile, setMobile] = useState(false);
-  const selectedAssistant = useSelector(selectAssistantState);
   const defaultAssistant = useSelector(defaultAssistantState);
   const user = useSelector(selectedUserState);
   let selectedFolders: Folder[] = useSelector(selectFoldersState);
 
   useEffect(() => {
     const updateElixirUsage = async () => {
-      const token = localStorage.getItem("token");
-      const userId = localStorage.getItem("user_id");
       setWorkspace(localStorage.getItem("workspace"));
-      if(user){
-        if(user.plan && user._id){
+      if (user) {
+        if (user.plan && user._id) {
           const planResponse = await api.get(`/${user._id}/planInfo`);
           setElixirWidth((planResponse.data.percentage*100).toString());
-        } else if(user.tokenBalance){
+        } else if (user.tokenBalance) {
           let percentage = (user.tokenBalance/25);
           if ( user.accountType === "company") {
             percentage = (user.tokenBalance/75);

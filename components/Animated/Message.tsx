@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useAnimation, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
+import ReactMarkdown from 'react-markdown';
 
 const animationVariants = {
   visible: {
@@ -34,7 +35,9 @@ export default function ScalingElement(props: { children: any, assistant: boolea
           layout="position"
           marginLeft={props.marginLeft}
         >
+        <ReactMarkdown>
         {props.children}
+        </ReactMarkdown>
         </AssistantMessage>
       );
   } else {
@@ -55,8 +58,8 @@ export default function ScalingElement(props: { children: any, assistant: boolea
 
 
 const UserMessage = styled(motion.div)`
-    padding: 1rem 1.2rem 1rem 1rem;
-    font-size: 0.95rem;
+    padding: 1rem 1.2rem 1rem 1.2rem;
+    font-size: 1rem;
     max-width: 84%;
     background-color: white;
     box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23);
@@ -83,13 +86,13 @@ const UserMessage = styled(motion.div)`
 `
 
 const AssistantMessage = styled(motion.div)<{ marginLeft: string }>`
-    padding: 1rem 1.2rem 1rem 1rem;
-    font-size: 1rem;
+    padding: 1rem 1.2rem 1rem 1.2rem;
+    font-size: 1.05rem;
     margin: 0;
     max-width: 84%;
     font-weight: 500;
-    background: #141418;
-    box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23), -2px -2px 4px #FAFBFF;
+    background-color: black;
+    box-shadow: 1px 1px 6px rgba(15, 27, 40, 0.12);
     border-top-right-radius: 15px;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;

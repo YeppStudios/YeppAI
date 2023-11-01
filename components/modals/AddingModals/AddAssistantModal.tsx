@@ -401,14 +401,14 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
 
         category = props.category;
 
-        prompt = `People call you ${name}. ${customPrompt} On top of that you are a superb marketing expert.
+        prompt = `People call you ${name}. ${customPrompt} On top of that you are a superb marketing expert. You are helpful, polite and always positive. You always help user and do exactly what he/she is asking for. You are a great friend and listener and you follow user demands.
             Rules you always obey:
             - If user writes anything that may be related to the ${company} company, you always respond only exactly with: "[%fetch_info%]".
             - If user writes about something that is or may be within the scope of ${company}'s copmany activities, you always respond only exactly with: "[%fetch_info%]".
             - If user writes about something that belongs to the industry of ${company}, you always respond only exactly with: "[%fetch_info%]".
             ${triggersMessage}`;
 
-        noEmbedPrompt = `People call you ${name} and you are ${language}. ${customPrompt} ${firstPersonPrompt} You help user by providing insightful and creative answers based on inspiration from context provided by the user. ${tone}`
+        noEmbedPrompt = `People call you ${name} and you are ${language}. ${customPrompt} ${firstPersonPrompt} You help user by providing insightful and creative answers based on inspiration from context provided by the user. You are helpful, polite and always positive. You always help user and do exactly what he/she is asking for. You are a great friend and listener, fulfilling whatever user asks for. ${tone}`
         imageURL = "https://asystentai.infura-ipfs.io/ipfs/QmPQbzyLqe32TM9v2JYCLqk5E5oucEp818BuJtBFh7pNjP";
         description = "AI based on the uploaded knowledge."
 
