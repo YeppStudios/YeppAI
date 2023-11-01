@@ -48,8 +48,8 @@ const IdeasContainer = (props: {text: string, ideaProps: any, isSSEComplete: boo
                 </div>
             </PostHeader>
             <PostContent>
-            <div dangerouslySetInnerHTML={{ __html: md.render(props.text) }}>
-            </div>
+            <Content dangerouslySetInnerHTML={{ __html: md.render(props.text) }}>
+            </Content>
             </PostContent>
         </Post>
     )
@@ -118,4 +118,7 @@ const Title = styled.p`
     font-size: 1.2rem;
     color: white;
     max-width: 80%;
+`
+const Content = styled.div`
+  line-height: 1.5;
 `

@@ -118,5 +118,5 @@ const AssistantMessage = styled(motion.div)<{ marginLeft: string }>`
 `
 
 const Content = styled.div`
-  line-height: 1;
+  line-height: 1.5;
 `
