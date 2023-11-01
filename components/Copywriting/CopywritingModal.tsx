@@ -149,6 +149,8 @@ const CopywritingModal = (props: {
     const [currentText, setCurrentText] = useState(0);
     const [tones, setTones] = useState<any[]>([]);
     const [personas, setPersonas] = useState<any[]>([]);
+    const [lastTitle, setLastTitle] = useState("");
+    const [lastDescription, setLastDescription] = useState("");
     const [selectedPersonaTitle, setSelectedPersonaTitle] = useState("");
     const linkRef = useRef<HTMLInputElement>(null);
     const topRef = useRef<HTMLInputElement>(null);
@@ -447,12 +449,24 @@ const CopywritingModal = (props: {
         }
 
         let model = "gpt-4";
-        let systemPrompt = `You are a native ${props.language} copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing titles for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You are proficient in ${props.language} language.`;
-        let prompt = `${props.contentType} keyword you always need to include in title: ${phrase}. 
-        ${examples}
-        Now in response, come up with your unique best performing title for ${props.contentType} featuring ${phrase} that will be a great hook. Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Make sure to come up with title that is in ${props.language} language. ${example}
+        let systemPrompt = `You are a native ${props.language} copywriter with years of experience. You specialize in coming up with attention-grabbing titles for ${props.contentType} SEO content. You never include colons ":" in your subtitles. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You never use the colon ":" as it is not professional. You are native ${props.language} speaker.`;
+        let prompt = `
+        Good title examples:
+        "
+        Study Less, Study Smart: The Best Ways to Retain More in Less Time
+        5 Ugly Truths a Pretty Website Can't Hide
+        Productivity Strategies Backed By Science
+        Two Photographic Tools That Have Made My Job Way Easier
+        Parenting Lessons I Learned From a Waldorf Kindergarten
+        What We Do When (Almost) Everyone Gets It Wrong
+        Responsive vs. Adaptive Web Design, Which is Best For You?
+        "
+        Now similarly to examples come up with unique title for ${props.contentType} featuring ${phrase} that will be a great, simple, but intriguing hook. ${lastTitle} Respond only with unique title that is up to 65 characters long and do not wrap it with quotes. Never use the colon ":" it has to be simple sentence/question. Make sure to come up with title that is in ${props.language} language. ${example}
         `
-    
+        if (selectedQuery) {
+          prompt = `Come up with simple Google ${props.contentType} title answering this user query: ${selectedQuery}. Make it no longer than 60 characters.`
+        }
+
         try {
           const response = await fetch('https://asystentai.herokuapp.com/askAI', {
             method: 'POST',
@@ -467,10 +481,11 @@ const CopywritingModal = (props: {
         
           if(response.body){
             const reader = response.body.getReader();
-            let reply = ''; // Initialize reply to accumulate the assistant's reply
+            let reply = '';
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
+                setLastTitle(`Last time you wrote: ${reply}. Now come up with something more original, simpler and better.`);
                 props.setTitle(reply);
                 generateGoogleDescription(reply);
                 break;
@@ -544,8 +559,11 @@ const CopywritingModal = (props: {
         let model = "gpt-4";
         let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing Google descriptions for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique description for ${props.contentType}. Every time you generate a unique description. Description needs to be no more than 155 characters long. You are proficient in ${props.language} language. You never put descrption in quotes and write it in ${props.toneOfVoice} tone of voice.`;
         let prompt = `For ${props.contentType} titled: ${title}. 
-        Come up with the best performing description for ${props.contentType} about ${phrase} in ${props.toneOfVoice} tone of voice. My keywords: ${keywords}. Choose only ones that fit best for description. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
+        Come up with the best performing description for ${props.contentType} about ${phrase} in ${props.toneOfVoice} tone of voice. ${lastDescription} My keywords: ${keywords}. Choose only ones that fit best for description. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
         `
+        if (selectedQuery) {
+          prompt = `Come up with simple Google ${props.contentType} description answering this user query: ${selectedQuery}. Make it no longer than 150 characters.`
+        }
         try {
           const response = await fetch('https://asystentai.herokuapp.com/askAI', {
             method: 'POST',
@@ -564,6 +582,7 @@ const CopywritingModal = (props: {
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
+                setLastDescription(`Last time you wrote: ${reply}. Now come up with something more original, simpler and better.`)
                 setGeneratingGooglePreview(false);
                 props.setDescription(reply);
                 break;
@@ -606,31 +625,38 @@ const CopywritingModal = (props: {
         .filter((header: any) => header.trim() !== "")
         .join(', ');
 
+        let targetAudience = `You write content for ${props.selectedPersonaPrompt}`;
+        if (!props.selectedPersonaPrompt) {
+          targetAudience = `You write content for ${selectedPersonaTitle}.`;
+        }
 
         if (field === "header") {
-          systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best ${props.contentType} subtitle. You always respond only with one well defined subtitle that is up to 35 characters long. You never include semicolons in your subtitles because you think it is not professional.`;
+          systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best, yet simple ${props.contentType} subtitles. ${targetAudience} You always respond only with one well defined subtitle that is up to 35 characters long and introduces some new, interesting aspect. You never include colons in your subtitles because you think it is not professional.`;
           if (paragraphIndex === paragraphs.length - 1) {
-            prompt = `Previous subtitles in an outline: ${headers}. Now come up with subtitle for paragraph that will summarize ${props.contentType} titled: "${props.title}". Subtitle for paragraph summarizing ${props.contentType} titled: "${props.title}":`;
+            prompt = `Examples of good subtitles: "Will generative ai replace you?", "Is economy ready for that?", "Is it the future of marketing?", "Konkluzje z meczu Lech Poznań - Legia Warszawa"
+            Previous subtitles in an outline: ${headers}. Now come up with concluding subtitle for "${props.title}" ${props.contentType} summary.`;
           } else if (paragraphs[paragraphIndex].header.length > 0) {
             prompt = `Last time you proposed the following subtitle: "${paragraphs[paragraphIndex].header}". Now please rewrite it so it is more engaging and simple.`;
           } else if (paragraphIndex > 0) {
-            prompt = `Previous subtitles in an outline: ${headers}. Now come up with new subtitle which goal should be to bring some new aspect, point of view or underlying category to further explore and discuss in paragraph. Make sure to use some of the following keywords: ${keywords}. Come up with next subtitle that will introduce a new aspect, thought for the ${props.contentType} about ${props.title}.`;
+            prompt = `Examples of good subtitles: "Will generative ai replace you?", "What AI tools are the most popular?", "Is it the future of marketing?", "Lech Poznań i jego początki", "Jak zacząć przygodę z programowaniem?"
+            Now that you have examples here are my previous subtitles of ${props.contentType} outline: ${headers}. Now come up with next one which goal should be to introduce some new aspect for the topic: "${props.title}".
+            Bring new point of view or underlying category to further explore and discuss about this topic that will interest the reader. Make sure to use some of the following keywords: ${keywords}. Respond only with one, simple subtitle that is up to 40 characters long.`;
           } else {
             prompt = `Come up with one, simple, engaging subtitle for ${props.contentType} paragraph in ${props.toneOfVoice} tone. Make sure to use some of the listed keywords: ${keywords} and write it in ${props.language} language. It has to be one simple sentence/question like: "What is generative AI?".  Unique ${props.contentType} paragraph subtitle in under 40 characters. The best subtitle for first paragraph of the article titled "${props.title}":`
           }
 
         } else if (field === "instruction") {
-          systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best ${props.contentType} instruction for paragraph content. You always make sure to propose content that is engaging and natural. You try to explore the topic alongside the reader trying to expose the different angles and perspectives. You always respond only with 3 points separated by new line, each one sentence long. You are ${props.language} native speaker.`;
+          systemPrompt = `You are a native ${props.language} copywriting expert specializing in writing the best ${props.contentType} instruction for paragraph content. ${targetAudience} You always make sure to propose content that is engaging and natural. You try to explore the topic alongside the reader trying to expose the different angles and perspectives. You always respond only with 3 points separated by new line, each one sentence long. You are ${props.language} native speaker.`;
           if (paragraphIndex === paragraphs.length - 1) {
             prompt = `I wrote a ${props.contentType} with the following paragraphs:
             "${paragraphs.map((item:any) => item.header).join('", "')}
-            Now come up with an instruction on how to write the last, concluding paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone and ${props.language} language, incorporating some of the given keywords: ${keywords}. It has to match the overall ${props.contentType} topic: "${props.title}". Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph: "${paragraphs[paragraphIndex].header}" for article titled: "${props.title}", please`;
+            Now come up with an instruction on how to write the last, concluding paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone and ${props.language} language, incorporating some of the given keywords: ${keywords}. It has to match the overall ${props.contentType} topic: "${props.title}". ${targetAudience} Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph: "${paragraphs[paragraphIndex].header}" for article titled: "${props.title}", please`;
           } else if (paragraphs[paragraphIndex].instruction.length > 0) {
             prompt = `Last time you proposed the following instruction: "${paragraphs[paragraphIndex].instruction}". Now please rewrite it for ${props.contentType} paragraph called ${paragraphs[paragraphIndex].header} so it is more engaging to the reader, simple and matches the overall ${props.contentType} topic: "${props.title}".`;
           } else if (paragraphIndex > 0) {
             prompt = `Last time I wrote a paragraph with the following instruction:
             "${paragraphs[paragraphIndex-1].instruction}"
-            Now come up with one for the next ${props.contentType} paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone and ${props.language} language, incorporating some of the given keywords: ${keywords}. It has to match the overall ${props.contentType} topic: "${props.title}". Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph for the article titled ${paragraphs[paragraphIndex].header}, please`
+            Now come up with one for the next ${props.contentType} paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone and ${props.language} language, incorporating some of the given keywords: ${keywords}. It has to match the overall ${props.contentType} topic: "${props.title}". ${targetAudience} Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph for the article titled ${paragraphs[paragraphIndex].header}, please`
           } else {
             prompt = `Come up with instruction on how to write ${props.contentType} paragraph titled ${paragraphs[paragraphIndex].header} in ${props.toneOfVoice} tone and ${props.language} language. Use some of the given keywords: ${keywords}. It is the introductory paragraph for the entire ${props.contentType}. It has to match the overall ${props.contentType} topic: "${props.title}". Respond only with 3 sentence long instruction on how to write this paragraph. When writing a paragraph for the article titled ${paragraphs[paragraphIndex].header}:`
           }
@@ -647,6 +673,9 @@ const CopywritingModal = (props: {
             prompt = `I've already used these keywords: ${keywords}. Repeat two of them and third one exchange to other relevant one for paragraph titled ${paragraphs[paragraphIndex].header}. Keywords:`;
           }
         }
+
+        console.log(prompt)
+        console.log(systemPrompt)
       
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
