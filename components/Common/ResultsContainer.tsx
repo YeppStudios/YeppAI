@@ -637,13 +637,6 @@ const Container = styled.div`
   padding: 1rem 3.5vh 1rem 3.5vh;
   -ms-overflow-style: none;
   -webkit-scrollbar-width: none;
-  align-items: center;
-  -webkit-mask: 
-  linear-gradient(to top,    black 94%, transparent) top   /100% 51%,
-  linear-gradient(to bottom, black 94%, transparent) bottom/100% 50%,
-  linear-gradient(to left  , black, transparent) left  /100% 0%,
-  linear-gradient(to right , black, transparent) right /100% 0%;
-  -webkit-mask-repeat:no-repeat;
   @media (max-width: 1023px) {
     max-height: none;
     overflow-y: auto;

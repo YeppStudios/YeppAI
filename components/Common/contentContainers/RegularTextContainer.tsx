@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BsPencilSquare, BsFiles, BsArrowRepeat, BsCheckLg } from "react-icons/bs";
+import { BsCheckLg } from "react-icons/bs";
 import { FiDownload } from "react-icons/fi";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineLike, AiOutlineCopy, AiFillLike } from "react-icons/ai";

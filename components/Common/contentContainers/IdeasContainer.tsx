@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { BsPencilSquare, BsFiles } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import useAutosizeTextArea from "@/hooks/useAutosizeTextArea";
-import ReactMarkdown from 'react-markdown';
+import { Remarkable } from 'remarkable';
+const md = new Remarkable();
 
 const IdeasContainer = (props: {text: string, ideaProps: any, isSSEComplete: boolean}) => {
 
@@ -47,7 +48,8 @@ const IdeasContainer = (props: {text: string, ideaProps: any, isSSEComplete: boo
                 </div>
             </PostHeader>
             <PostContent>
-            <ReactMarkdown>{props.text}</ReactMarkdown>
+            <div dangerouslySetInnerHTML={{ __html: md.render(props.text) }}>
+            </div>
             </PostContent>
         </Post>
     )

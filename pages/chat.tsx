@@ -25,7 +25,6 @@ import Head from "next/head";
 import NoElixir from "@/components/Modals/LimitModals/NoElixir";
 import axios from "axios";
 import { selectAssistantState, setSelectedAssistant } from "../store/assistantSlice";
-import { selectedUserState } from "@/store/userSlice";
 import SlideBottom from "@/components/Animated/SlideBottom";
 import dynamic from "next/dynamic";
 import ThinkingMessage from "@/components/Animated/ThinkingMessage";

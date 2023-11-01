@@ -3,6 +3,8 @@ import { useAnimation, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
 import ReactMarkdown from 'react-markdown';
+import { Remarkable } from 'remarkable';
+const md = new Remarkable();
 
 const animationVariants = {
   visible: {
@@ -26,6 +28,7 @@ export default function ScalingElement(props: { children: any, assistant: boolea
 
 
   if(props.assistant){
+    const normalizedText = props.children;
     return (
         <AssistantMessage
           ref={ref}
@@ -35,9 +38,8 @@ export default function ScalingElement(props: { children: any, assistant: boolea
           layout="position"
           marginLeft={props.marginLeft}
         >
-        <ReactMarkdown>
-        {props.children}
-        </ReactMarkdown>
+        <Content dangerouslySetInnerHTML={{ __html: md.render(normalizedText) }}>
+        </Content>
         </AssistantMessage>
       );
   } else {
@@ -86,6 +88,9 @@ const UserMessage = styled(motion.div)`
 `
 
 const AssistantMessage = styled(motion.div)<{ marginLeft: string }>`
+    & br {
+      line-height: 1;
+    }
     padding: 1rem 1.2rem 1rem 1.2rem;
     font-size: 1.05rem;
     margin: 0;
@@ -110,4 +115,8 @@ const AssistantMessage = styled(motion.div)<{ marginLeft: string }>`
       background: #04040A;
       box-shadow: none;
   }
+`
+
+const Content = styled.div`
+  line-height: 1;
 `
