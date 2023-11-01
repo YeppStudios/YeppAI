@@ -50,50 +50,51 @@ const FirstPage = (props: {nextPage: any}) => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("user_id");
-    
-        const fetchAssistants = async () => {
         const workspace = localStorage.getItem("workspace");
         const profileId = localStorage.getItem("profile_id");
-        let assistantsResponse;
-        setLoading(true);
-        try {
-            if (profileId) {
-                assistantsResponse = await api.get(`/getProfileAssistants/${profileId}`, {
-                    headers: {
-                      authorization: token
-                    }
-                })
-            } else if (workspaceCompany._id) {
-                const {data} = await api.get(`/workspace-company/${workspace}`, {
-                    headers: {
-                      authorization: token
-                    }
-                });
-                assistantsResponse = await api.get(`/getUserAssistants/${data.company._id}`, {
-                    headers: {
-                      authorization: token
-                    }
-                })
-            } else {
-                assistantsResponse = await api.get(`/getUserAssistants/${userId}`, {
-                    headers: {
-                      authorization: token
-                    }
-                })
-            }
-            setLoading(false);
-
-            const chatAssistants = assistantsResponse?.data.assistants;
-            chatAssistants.unshift(defaultAssistant);
-            setAssistants(assistantsResponse?.data.assistants);
+    
+        const fetchAssistants = async () => {
+            setLoading(true);
             
-        } catch (e) {
-            console.log(e)
-            setLoading(false);
-        }
-    }
+            let userAssistants = [];
+            let companyAssistants = [];
+            
+            try {
+                // Fetch user assistants
+                if (userId) {
+                    const { data } = await api.get(`/getUserAssistants/${userId}`, {
+                        headers: { authorization: token }
+                    });
+                    userAssistants = data.assistants;
+                }
+                
+                // Fetch company assistants
+                if (workspaceCompany._id) {
+                    const { data } = await api.get(`/workspace-company/${workspace}`, {
+                        headers: { authorization: token }
+                    });
+                    const companyResponse = await api.get(`/getUserAssistants/${data.company._id}`, {
+                        headers: { authorization: token }
+                    });
+                    companyAssistants = companyResponse.data.assistants;
+                }
+                
+                // Combine and update state
+                const allAssistants = [...userAssistants, ...companyAssistants];
+                if (defaultAssistant) {
+                    allAssistants.unshift(defaultAssistant);
+                }
+                setAssistants(allAssistants);
+                
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+    
         fetchAssistants();
-    }, [defaultAssistant, workspaceCompany])
+    }, [defaultAssistant, workspaceCompany]);
     
 
     const handleOpenAssistant = (assistant: Assistant) => {

@@ -99,7 +99,7 @@ const Tones = () => {
         <MainContainer>
             <SubheaderContainer>
                 <Subtitle>Tones of voice</Subtitle>
-                <AddBtn onClick={() => router.push("/lab")}>View all</AddBtn>
+                <AddBtn onClick={() => router.push("/lab")}>Open panel</AddBtn>
             </SubheaderContainer>
             {loadingTones ?
             <div className="w-full flex items-center justify-center pt-10">

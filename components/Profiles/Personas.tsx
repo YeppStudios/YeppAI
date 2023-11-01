@@ -105,7 +105,7 @@ const Personas = () => {
         <MainContainer>
             <SubheaderContainer>
                 <Subtitle>Buyer personas</Subtitle>
-                <AddBtn onClick={() => router.push("/lab")}>View all</AddBtn>
+                <AddBtn onClick={() => router.push("/lab")}>Open panel</AddBtn>
             </SubheaderContainer>
             {renderPersonas()}
         </MainContainer>

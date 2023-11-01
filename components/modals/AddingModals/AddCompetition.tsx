@@ -75,8 +75,8 @@ const AddCompetition = (props: {onClose: any}) => {
         })
         try {
             const response = await api.post("/create-competition-research", {
-                competitors: competitorsArray,
-                profileId: profileId
+                companies: competitorsArray,
+                profile: profileId
             
             }, {
                 headers: {

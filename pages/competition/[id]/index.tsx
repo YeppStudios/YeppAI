@@ -4,18 +4,41 @@ import Image from "next/image";
 import backIcon from "../../../public/images/backArrow.png";
 import { useRouter } from "next/router";
 import { BsStarFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import api from "@/pages/api";
 
 
 const CompetitionResearch = () => {
 
     const router = useRouter();
+    const { id } = router.query;
+
+    const [competitors, setCompetitors] = useState<any[]>();
+
+    useEffect(() => {
+        const fetchCompetition = async () => {
+
+            const competitionResult = await api.get(`/competition-research/${id}`, {
+                headers: {
+                    authorization: localStorage.getItem("token"),
+                },
+            });
+            console.log(competitionResult.data)
+            setCompetitors(competitionResult.data.companies);
+        }
+        if (id) {
+            fetchCompetition();
+        }
+
+    }, [id])
 
     return (
         <PageTemplate>
             <MainContainer>
                     <table className="min-w-full">
-                    <tr className="border-b-4 border-gray-50">
-                        <td className="text-sm font-medium text-gray-900 p-8 w-[22%]">
+                    <tbody>
+                    <tr className="border-b-4 border-gray-50 flex items-center">
+                        <td className="text-sm font-medium text-gray-900 p-6 w-[22%]">
                             <BackBtn onClick={() => router.push("/profile")}>
                                 <BackBtnIcon>
                                     <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
@@ -23,32 +46,34 @@ const CompetitionResearch = () => {
                                 <BackBtnText>Back to profile</BackBtnText>
                             </BackBtn>
                         </td>
-                        <td className="text-xl font-bold text-gray-900 text-center w-[26%]">
-                            Open AI
-                        </td>
-                        <td className="text-xl font-bold text-gray-900 text-center w-[26%]">
-                            Yepp AI
-                        </td>
-                        <td className="text-xl font-bold text-gray-900 text-center w-[26%]">
-                            Jasper
-                        </td>
+                        {competitors &&
+                        competitors.map((competitor, index) => (
+                            <td key={index} className="text-xl p-6 font-bold text-gray-900 text-center w-[26%] border-l-4 border-gray-50">
+                                {competitor.name}
+                            </td>
+                        ))}
                     </tr>
-                    <tr>
-                        <td className="text-sm font-medium text-gray-900 pr-4 pl-8 py-8 w-[22%] border-r-4 border-gray-50">
-                            <h2 className="font-bold text-xl flex gap-2 items-center"><BsStarFill /> Criteria</h2>
-                            <p className="text-sm font-medium mt-1 w-full">Some criteria description that will explain how the criteria works or something.</p>
-                        </td>
-                        <td className="font-medium text-center text-gray-900 p-6 w-[26%]">
-                            <div className="flex w-full h-full p-10 justify-center items-center">
-                            </div>
-                        </td>
-                        <td className="font-medium text-center text-gray-900 p-6 w-[26%]">
-
-                        </td>
-                        <td className="font-medium text-center text-gray-900 p-6 w-[26%]">
-
-                        </td>
-                    </tr>
+                    {competitors &&
+                    Object.entries(competitors).map(([key, value], index) => {
+                        if (Array.isArray(value) && key !== 'companies' && value.length > 0) {
+                            return (
+                                <tr key={index}>
+                                    <td className="text-sm font-medium text-gray-900 pr-4 pl-8 py-8 w-[22%] border-r-4 border-gray-50">
+                                        <h2 className="font-bold text-xl flex gap-2 items-center"><BsStarFill /> {key}</h2>
+                                        <p className="text-sm font-medium mt-1 w-full">Some criteria description that will explain how the criteria works or something.</p>
+                                    </td>
+                                    {competitors &&
+                                    competitors.map((competitor, index) => (
+                                        <td key={index} className="font-medium text-center text-gray-900 p-6 w-[26%]">
+                                            {/* Render the appropriate row Components here based on `key` and `competitor` */}
+                                        </td>
+                                    ))}
+                                </tr>
+                            );
+                        }
+                        return null;
+                    })}
+                    </tbody>
                     </table> 
             </MainContainer>
         </PageTemplate>

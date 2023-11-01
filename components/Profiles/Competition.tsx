@@ -11,7 +11,7 @@ import Link from "next/link";
 const Competition = () => {
 
     const [competition, setCompetition] = useState<any[]>();
-    const [loadingTones, setLoadingTones] = useState(true);
+    const [loadingCompetition, setLoadingCompetition] = useState(true);
     const [isSmallDevice, setIsSmallDevice] = useState(false);
 
     const router = useRouter();
@@ -30,9 +30,8 @@ const Competition = () => {
                     authorization: token,
                 },
             });
-    
             setCompetition(fetchedCompetition.data);
-            setLoadingTones(false);
+            setLoadingCompetition(false);
           } catch (e) {
             console.log(e);
           }
@@ -84,9 +83,9 @@ const Competition = () => {
         <MainContainer>
             <SubheaderContainer>
                 <Subtitle>Competition</Subtitle>
-                <AddBtn onClick={() => router.push("/competition")}>View all</AddBtn>
+                <AddBtn onClick={() => router.push("/competition")}>Open panel</AddBtn>
             </SubheaderContainer>
-            {loadingTones ?
+            {loadingCompetition ?
             <div className="w-full flex items-center justify-center pt-10">
                 <BlueLoader />
             </div>
