@@ -2,21 +2,24 @@ import api from "@/pages/api";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import { BsChevronRight } from "react-icons/bs";
+import { BsChevronRight, BsSearch } from "react-icons/bs";
 import { BlueLoader } from "../Common/Loaders";
 import SlideBottom from "../Animated/SlideBottom";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import CompetitorFavicons from "../Competition/CompetitorFavicons";
 
 const Competition = () => {
 
     const [competition, setCompetition] = useState<any[]>();
     const [loadingCompetition, setLoadingCompetition] = useState(true);
     const [isSmallDevice, setIsSmallDevice] = useState(false);
+    const [profileIcon, setProfileIcon] = useState<string>("");
 
     const router = useRouter();
 
     useEffect(() => {
+        setProfileIcon(localStorage.getItem("profile_icon") || "");
         let token = localStorage.getItem("token");
         const updateWindowSize = () => {
           setIsSmallDevice(window.innerWidth < 1023);
@@ -45,18 +48,16 @@ const Competition = () => {
 
 
     const handlecompetitionClick = (tone: any) => {
-        router.push(`/competition/${tone._id}`);
+        router.push(`/competition/${tone._id}?profile={${localStorage.getItem("profile_id")}}`);
     }
 
     const renderCompetition = () => {
         const renderedCompetition =  competition?.map((competition, index) => {
             return (
                 <Competitor key={index} onClick={() => handlecompetitionClick(competition)}>
-                <div className="flex items-center">
-                <div className="rounded-full overflow-hidden lg:h-[1.75rem] lg:w-[1.75rem] h-[10vw]  w-[10vw] relative">
-                    <Image src={`${competition.icon}`} fill alt="profile's icon" />
-                </div>
-                <CompetitorName>{competition.title}</CompetitorName>
+                <div className="flex items-center gap-2">
+                    <CompetitorFavicons images={competition.companies.map((company: any) => company.imageUrl)} />
+                    <CompetitorName>{competition.title}</CompetitorName>
                 </div>
                 <BsChevronRight className="text-gray-800"/>
             </Competitor>
@@ -69,7 +70,7 @@ const Competition = () => {
                 renderedCompetition
     
                 :
-                <div className="py-10 text-black w-full text-center">
+                <div className="py-10 pt-14 text-black w-full text-center">
                     <p className="text-gray-300 font-medium">You haven&apos;t done any competition research so far.</p>
                     <Link href="/competition" className="text-blue-500 font-medium mt-4 cursor-pointer">Get started now</Link>
                 </div>
@@ -82,7 +83,10 @@ const Competition = () => {
         <SlideBottom>
         <MainContainer>
             <SubheaderContainer>
-                <Subtitle>Competition</Subtitle>
+            <div className="flex text-black items-center gap-4">
+                <BsSearch className="text-lg" />
+                <Subtitle>Competition research</Subtitle>
+                </div>
                 <AddBtn onClick={() => router.push("/competition")}>Open panel</AddBtn>
             </SubheaderContainer>
             {loadingCompetition ?
@@ -103,7 +107,6 @@ export default Competition;
 
 const MainContainer = styled.div`
     width: 100%;
-    height: 17rem;
     background: white;
     border-radius: 25px;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
@@ -202,3 +205,17 @@ const CompetitorName = styled.p`
   font-size: min(1.05vw, 1.2rem);
   font-weight: 600;
 `;
+
+
+const ProfileIcon = styled.div<{ image: any }>`
+  border: 2px solid #F6F6FB;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: url(${props => props.image});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0px 0px 8px rgba(15, 27, 40, 0.15);
+
+`

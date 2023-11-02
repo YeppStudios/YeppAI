@@ -2,7 +2,7 @@ import api from "@/pages/api";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import { BsChevronRight } from "react-icons/bs";
+import { BsChevronRight, BsMic, BsMicFill } from "react-icons/bs";
 import { BlueLoader } from "../Common/Loaders";
 import SlideBottom from "../Animated/SlideBottom";
 import { useRouter } from "next/router";
@@ -69,7 +69,7 @@ const Tones = () => {
             return (
                 <Tone key={index} onClick={() => handleToneClick(tone)}>
                 <div className="flex items-center">
-                <div className="rounded-full overflow-hidden lg:h-[1.75rem] lg:w-[1.75rem] h-[10vw]  w-[10vw] relative">
+                <div className="rounded-full overflow-hidden lg:h-[2rem] lg:w-[2rem] h-[10vw]  w-[10vw] relative">
                     <Image src={`${tone.icon}`} fill alt="profile's icon" />
                 </div>
                 <ToneName>{tone.title}</ToneName>
@@ -85,7 +85,7 @@ const Tones = () => {
                 {(tones && tones?.length > 0) ?
                 renderedTones
                 :
-                <div className="py-10 text-black w-full text-center">
+                <div className="py-10 pt-14 text-black w-full text-center">
                     <p className="text-gray-300 font-medium">You have no tone of voice.</p>
                     <Link href="/lab" className="text-blue-500 font-medium mt-2 cursor-pointer">Create one!</Link>
                 </div>
@@ -98,7 +98,10 @@ const Tones = () => {
         <SlideBottom>
         <MainContainer>
             <SubheaderContainer>
-                <Subtitle>Tones of voice</Subtitle>
+                <div className="flex text-black items-center gap-4">
+                <BsMic className="text-xl" />
+                <Subtitle>Tone of voice</Subtitle>
+                </div>
                 <AddBtn onClick={() => router.push("/lab")}>Open panel</AddBtn>
             </SubheaderContainer>
             {loadingTones ?
@@ -119,7 +122,6 @@ export default Tones;
 
 const MainContainer = styled.div`
     width: 100%;
-    height: 17rem;
     background: white;
     border-radius: 25px;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);

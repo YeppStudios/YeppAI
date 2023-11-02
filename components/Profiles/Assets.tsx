@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import Title from "../Common/Title";
 import dynamic from "next/dynamic";
-import ColorfulText from "../Common/ColorfulText";
-import { BsFillPencilFill, BsFolderSymlinkFill, BsFillLaptopFill, BsYoutube, BsFolder, BsTrash } from "react-icons/bs";
-import { Fragment, Key, use, useEffect, useRef, useState } from "react";
+import { BsFillPencilFill, BsFolderSymlinkFill, BsFillLaptopFill, BsYoutube, BsTrash } from "react-icons/bs";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import api from "@/pages/api";
 import { BlueLoader } from "../Common/Loaders";
@@ -14,7 +13,6 @@ const FilesNumberLimit = dynamic(() => import("../Modals/LimitModals/FilesNumber
 const AddDocument = dynamic(() => import("../Modals/AddingModals/AddDocument"));
 const AddAudio = dynamic(() => import("../Modals/AddingModals/AddAudio"));
 const FilesSpaceLimit = dynamic(() => import("../Modals/LimitModals/FilesSpaceLimit"));
-import { selectedProfileState } from "@/store/selectedProfileSlice";
 import { setSelectedFolder } from "@/store/openedFolderSlice";
 import { HiPlusSm } from "react-icons/hi";
 import { Menu, Transition } from '@headlessui/react'
@@ -75,7 +73,6 @@ const Assets = () => {
     const [filteredFolders, setFilteredFolders] = useState<Array<Folder>>([]);
     const [folders, setFolders] = useState<Array<Folder>>([]);
     const [loading, setLoading] = useState(true);
-    const [parentFolder, setParentFolder] = useState<Folder | undefined>(undefined);
     const [documents, setDocuments] = useState<Document[]>([]); 
     const [itemToDelete, setItemToDelete] = useState<any>();
     const [openEditModal, setOpenEditModal] = useState(false);
@@ -192,7 +189,6 @@ const Assets = () => {
         }
     }
 
-      
     const renderItems = (): JSX.Element[] | null => {
         if (!profileId) {
             return null;
@@ -210,10 +206,10 @@ const Assets = () => {
                     <td className=" py-4 pl-4 text-sm font-medium text-gray-900 sm:pl-6">
                         {'isDocument' in item ? <Image src={fileIcon} alt="folder-icon" className="w-7"/> : <Image src={folderIcon} alt="folder-icon" className="w-8"/>}
                     </td>
-                    <td className="lg:w-48 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                    <td className="lg:w-48 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-4">
                         {item.title}
                     </td>
-                    <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell gap-2">
+                    <td className="hidden px-3 sm:pl-4 py-4 text-sm text-gray-500 lg:table-cell gap-2">
                         <div className="flex items-center gap-2">
                             <div className="rounded-full border-2 border-white bg-slate-200 w-8 h-8 flex justify-center items-center shadow-sm relative -ml-3">
                                 <p className="font-medium text-white">{item.owner.name.substring(0, 1)}</p>

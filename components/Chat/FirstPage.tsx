@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react";
-import { BsChatTextFill, BsFillArchiveFill, BsFillInfoCircleFill, BsFillPencilFill, BsPencil, BsPencilFill, BsPersonFillAdd, BsPlusCircleDotted } from "react-icons/bs";
+import { BsFillArchiveFill, BsFillInfoCircleFill, BsPlusCircleDotted } from "react-icons/bs";
 import { useRouter } from "next/router";
 import api from "@/pages/api";
 import { BlueLoader } from "../Common/Loaders";

@@ -7,6 +7,7 @@ import Centered from "../Centered";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { BlueLoader } from "../Common/Loaders";
+import { BsChevronRight, BsPerson, BsPersonFill } from "react-icons/bs";
 
 interface Persona {
     _id: String
@@ -67,12 +68,13 @@ const Personas = () => {
         const renderedPersonas =  personas?.map((persona, index) => {
             return (
                 <Persona key={index} onClick={() => handlePersonaClick(persona)}>
-                <Centered>
-                <div className="rounded-full overflow-hidden lg:h-[2.75rem] lg:w-[2.75rem] h-[10vw] w-[10vw] relative">
+                 <div className="flex items-center gap-4">
+                <div className="rounded-full overflow-hidden lg:h-[2.2rem] lg:w-[2.2rem] h-[10vw] w-[10vw] relative">
                     <Image src={`${persona.icon}`} fill alt="profile's icon" />
                 </div>
-                </Centered>
                 <PersonaName>{persona.title}</PersonaName>
+                </div>
+                <BsChevronRight className="text-gray-800"/>
             </Persona>
             )
         })
@@ -88,7 +90,7 @@ const Personas = () => {
                         <BlueLoader />
                     </div>
                 :
-                    <div className="py-10 text-black w-full text-center">
+                    <div className="py-10 pt-14 text-black w-full text-center">
                         <p className="text-gray-300 font-medium">You have no personas.</p>
                         <Link href="/lab" className="text-blue-500 font-medium mt-2 cursor-pointer">Create one!</Link>
                     </div>
@@ -104,7 +106,10 @@ const Personas = () => {
         <SlideBottom>
         <MainContainer>
             <SubheaderContainer>
-                <Subtitle>Buyer personas</Subtitle>
+                <div className="flex text-black items-center gap-4">
+                <BsPerson className="text-2xl" />
+                <Subtitle>Buyer persona</Subtitle>
+                </div>
                 <AddBtn onClick={() => router.push("/lab")}>Open panel</AddBtn>
             </SubheaderContainer>
             {renderPersonas()}
@@ -119,7 +124,6 @@ export default Personas;
 
 const MainContainer = styled.div`
     width: 100%;
-    height: 18rem;
     background: white;
     border-radius: 25px;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.13);
@@ -183,16 +187,19 @@ const PersonasContainer = styled.div`
 `
 
 const Persona = styled.div`
-    width: 30.5%;
+    width: 48%;
     height: auto;
     color: black;
     margin: 0.5rem 1rem 0.5rem 0;
     align-items: center;
     background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 15px;
     box-shadow: 3px 3px 9px rgba(15, 27, 40, 0.12);
     cursor: pointer;
-    padding: 2rem 1.5rem 2.4rem 1.5rem;
+    padding: 1rem 1.5rem 1em 1.5rem;
     transition: all 0.3s ease;
     border: 2px solid #F6F6FB;
     &:hover {
@@ -208,7 +215,6 @@ const Persona = styled.div`
 const PersonaName = styled.p`
   white-space: nowrap;
   text-align: center;
-  margin-top: 1rem;
   @media (max-width: 1023px) {
     font-size: large;
   }

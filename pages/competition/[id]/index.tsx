@@ -6,16 +6,20 @@ import { useRouter } from "next/router";
 import { BsStarFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import api from "@/pages/api";
+import CompetitorFavicons from "@/components/Competition/CompetitorFavicons";
 
 
 const CompetitionResearch = () => {
 
     const router = useRouter();
-    const { id } = router.query;
-
+    const [backLink, setBackLink] = useState<string>("/competition");
+    const { id, profile } = router.query;
     const [competitors, setCompetitors] = useState<any[]>();
 
     useEffect(() => {
+        if (profile) {
+            setBackLink(`/profile/${profile}`);
+        }
         const fetchCompetition = async () => {
 
             const competitionResult = await api.get(`/competition-research/${id}`, {
@@ -23,32 +27,32 @@ const CompetitionResearch = () => {
                     authorization: localStorage.getItem("token"),
                 },
             });
-            console.log(competitionResult.data)
             setCompetitors(competitionResult.data.companies);
         }
         if (id) {
             fetchCompetition();
         }
 
-    }, [id])
+    }, [id, profile])
 
     return (
         <PageTemplate>
             <MainContainer>
                     <table className="min-w-full">
                     <tbody>
-                    <tr className="border-b-4 border-gray-50 flex items-center">
-                        <td className="text-sm font-medium text-gray-900 p-6 w-[22%]">
-                            <BackBtn onClick={() => router.push("/profile")}>
+                    <tr className="border-b-4 border-gray-50 h-20 flex items-center">
+                        <td className="text-sm font-medium text-gray-900 pl-8 w-[22%]">
+                            <BackBtn onClick={() => router.push(backLink)}>
                                 <BackBtnIcon>
                                     <Image style={{ width: "100%", height: "auto" }}  src={backIcon} alt={'logo'}></Image> 
                                 </BackBtnIcon> 
-                                <BackBtnText>Back to profile</BackBtnText>
+                                {profile ? <BackBtnText>Back to profile</BackBtnText> : <BackBtnText>Back to panel</BackBtnText>}
                             </BackBtn>
                         </td>
                         {competitors &&
                         competitors.map((competitor, index) => (
-                            <td key={index} className="text-xl p-6 font-bold text-gray-900 text-center w-[26%] border-l-4 border-gray-50">
+                            <td key={index} className="text-xl font-bold text-gray-900 text-center flex items-center gap-6 justify-center w-[26%] border-l-4 border-gray-50">
+                                <CompetitorFavicons images={[competitor.imageUrl]} />
                                 {competitor.name}
                             </td>
                         ))}
@@ -58,7 +62,7 @@ const CompetitionResearch = () => {
                         if (Array.isArray(value) && key !== 'companies' && value.length > 0) {
                             return (
                                 <tr key={index}>
-                                    <td className="text-sm font-medium text-gray-900 pr-4 pl-8 py-8 w-[22%] border-r-4 border-gray-50">
+                                    <td className="text-sm font-medium text-gray-900 pr-4 pl-8 w-[22%] border-r-4 border-gray-50">
                                         <h2 className="font-bold text-xl flex gap-2 items-center"><BsStarFill /> {key}</h2>
                                         <p className="text-sm font-medium mt-1 w-full">Some criteria description that will explain how the criteria works or something.</p>
                                     </td>
@@ -117,5 +121,6 @@ const BackBtnText = styled.p`
     color: black;
     font-weight: 500;
     margin-left: 0.7rem;
+    font-size: 1rem;
 `
 

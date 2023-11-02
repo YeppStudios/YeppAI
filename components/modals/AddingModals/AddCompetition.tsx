@@ -1,25 +1,51 @@
 import styled from "styled-components";
 import SlideBottom from "@/components/Animated/SlideBottom";
-import { BsGlobe2, BsFonts, BsXLg, BsPlusLg, BsDash } from "react-icons/bs";
+import { BsGlobe2, BsFonts, BsXLg, BsPlusLg, BsDash, BsBuildingAdd } from "react-icons/bs";
 import Label from "@/components/Common/Label";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Centered from "@/components/Centered";
 import api from "@/pages/api";
+import axios from "axios";
+import { Loader } from "@/components/Common/Loaders";
+import TypingAnimation from "../common/TypingAnimation";
 
 const AddCompetition = (props: {onClose: any}) => {
 
     const router = useRouter();
 
     const [maximumError, setMaximumError] = useState(false);
+    const [currentText, setCurrentText] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [title, setTitle] = useState<string>("");
     const [competitors, setCompetitors] = useState<any[]>([
         { name: '', url: '' }, 
-        { name: '', url: '' },
       ]);
     const [inputErrors, setInputErrors] = useState<{ nameError: boolean; urlError: boolean }[]>([]);
 
+    const texts = [
+        "Scraping website...",
+        "Analyzing content...",
+        `Give me a sec...`,
+        "Loading context...",
+        "Learning...",
+        "Saving content...",
+        "Categorizing information...",
+        "Just a moment...",
+        "Repeating the process...",
+      ];
 
-
+      useEffect(() => {
+        if (loading) {
+          const intervalId = setInterval(() => {
+            setCurrentText((prevIndex) =>
+              prevIndex === texts.length - 1 ? 0 : prevIndex + 1
+            );
+          }, 4500);
+          return () => clearInterval(intervalId);
+        }
+      }, [loading, texts.length]);
+      
       const handleInputChange = (index: number, key: string, value: string) => {
         const newCompetitors = [...competitors];
         newCompetitors[index][key] = value;
@@ -55,6 +81,7 @@ const AddCompetition = (props: {onClose: any}) => {
     
 
     const createResearch = async () => {
+        setLoading(true);
         const newInputErrors = competitors.map(competitor => ({
             nameError: competitor.name === '',
             urlError: competitor.url === ''
@@ -67,25 +94,46 @@ const AddCompetition = (props: {onClose: any}) => {
 
         const token = localStorage.getItem("token");
         const profileId = localStorage.getItem("profile_id");
-        const competitorsArray = competitors.map((competitor) => {
+
+        let links = competitors.map(competitor => competitor.url);
+
+        const scrapingResponse = await axios.post(`https://www.asistant.ai/scrape-multiple-links`, {
+            urls: links,
+
+          }, {
+            headers: {
+              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_PYTHON_API_KEY}`
+            }
+        });
+
+        const competitorsArray = competitors.map((competitor, index) => {
+            const scrapedData = scrapingResponse.data.results[index];
             return {
                 name: competitor.name,
-                url: competitor.url
+                url: competitor.url,
+                imageUrl: scrapedData ? scrapedData.favicon : "",
+                pageContent: scrapedData ? scrapedData.text : "",
+                vectorId: scrapedData ? scrapedData.id[0] : "",
             }
-        })
+        });
+        
         try {
             const response = await api.post("/create-competition-research", {
                 companies: competitorsArray,
-                profile: profileId
+                profile: profileId,
+                owner: localStorage.getItem("user_id"),
+                title
             
             }, {
                 headers: {
                     authorization: token
                 }
             })
-            router.push(`/competition/${response.data._id}`)
+            router.push(`/competition/${response.data._id}`);
+            setLoading(false);
         } catch (e) {
             console.log(e);
+            setLoading(false);
         }
     }
 
@@ -93,18 +141,33 @@ const AddCompetition = (props: {onClose: any}) => {
     return (
         <ModalBackground onClick={props.onClose}>
             <SlideBottom>
+            {!loading ? 
             <Modal onClick={(e) => e.stopPropagation()}>
                 <Title>Define your competition</Title>
                 <CloseIcon onClick={props.onClose}>
                         <BsXLg style={{width: "100%", height: "auto"}}/>
                 </CloseIcon>
+                <div className="w-full px-[2rem]">
+                    <div className="flex mb-1">
+                    <LabelIcon>
+                        <BsFonts />
+                    </LabelIcon>
+                    <Label>Name the research</Label>
+                    </div>
+                    <Input
+                        type="text"
+                        placeholder="Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </div>
                 {competitors.map((competitor, index) => (
                 <CompetitorContainer key={index}>
                 <MinusBtn onClick={() => deleteCompetitor(index)}><BsDash className="w-[1rem]" /></MinusBtn>
                 <div className="w-full">
                     <div className="flex mb-1">
                     <LabelIcon>
-                        <BsFonts />
+                        <BsBuildingAdd />
                     </LabelIcon>
                     <Label>Company name</Label>
                     </div>
@@ -135,8 +198,29 @@ const AddCompetition = (props: {onClose: any}) => {
                 ))}
                 {(competitors && competitors.length < 7) &&<Centered><AddBtn onClick={addMoreCompetitors}><BsPlusLg className="w-8 h-8" /></AddBtn></Centered>}
                 {maximumError && <Centered><p className="text-gray-700 mt-4">You can add up to 7 competitors.</p></Centered>}
-                <Centered><BlueBtn onClick={() => createResearch()}>Continue</BlueBtn></Centered>
+                <Centered>
+                    <BlueBtn onClick={() => createResearch()}>
+                        {loading ?
+                            <Loader color="white" />
+                            :
+                            <p>Start research</p>
+                        }
+                    </BlueBtn>
+                </Centered>
             </Modal>
+            :
+            <Modal onClick={(e) => e.stopPropagation()}>
+                <CloseIcon onClick={props.onClose}>
+                        <BsXLg style={{width: "100%", height: "auto"}}/>
+                </CloseIcon>
+                <Title>Preparing research resources...</Title>
+                <div className="mt-10">
+                    <Centered><p className="mb-6 w-8/12 text-center font-medium">Yepp AI is preparing resources for your competition research. It&apos;s worth the wait!</p></Centered>
+                    <Centered><TypingAnimation colorful={true} /></Centered>
+                    <Centered><Texts>{texts[currentText]}</Texts></Centered>
+                </div>
+            </Modal>
+            }
             </SlideBottom>
         </ModalBackground>
     )
@@ -345,3 +429,15 @@ const BlueBtn = styled.div`
       padding: 0.5rem 1.25rem 0.5rem 1.25rem;
     }
 `
+
+const Texts = styled.div`
+  color: black; 
+  width: 75%;
+  margin-top: 1.2rem; 
+  font-weight: 500;
+  text-align: center;
+  @media (max-width: 1023px) {
+    width: 55vw; 
+    margin-top: 1rem;
+  }
+`;

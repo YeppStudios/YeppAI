@@ -1,6 +1,5 @@
 import api from "@/pages/api";
 import { useEffect, useState } from "react";
-import TypingAnimation from "../Modals/common/TypingAnimation";
 import SlideBottom from "../Animated/SlideBottom";
 
 const UsersList = () => {

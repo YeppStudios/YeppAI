@@ -2,22 +2,23 @@ import FirstPageTemplate from "@/components/Common/FirstPageTemplate";
 import { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import campaignIcon from "../public/images/campaignIcon.png";
 import { Menu, Transition } from "@headlessui/react";
 import { SlOptionsVertical } from "react-icons/sl";
 import classNames from "classnames";
 import { BsTrash, BsSearch } from "react-icons/bs";
-import { CampaignModal } from "@/components/Campaigns/CampaignModal";
 import PageTemplate from "@/components/Common/PageTemplate";
 import api from "@/pages/api";
 import AddCompetition from "@/components/Modals/AddingModals/AddCompetition";
+import DeleteCompetitionResearch from "@/components/Modals/DeletingModals/DeleteCompetitionResearch";
+import CompetitorFavicons from "@/components/Competition/CompetitorFavicons";
 
 const Competition = () => {
     const [loading, setLoading] = useState(true);
     const [savedContent, setSavedContent] = useState<any>();
     const [mobile, setMobile] = useState(false);
     const [openOnboarding, setOpenOnboarding] = useState(false);
+    const [selectedReserach, setSelectedResearch] = useState<any>(null);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     const router = useRouter();
 
@@ -46,38 +47,36 @@ const Competition = () => {
         fetchSavedContent();
       }, []);
 
-      const handleOpenCampaign = (id: string) => {
-        router.push(`/campaign/${id}?main=true`);
+      const handleOpenResearch = (id: string) => {
+        router.push(`/competition/${id}?main=true`);
       }
 
-      const handleCampaignDelete = async (id: string) => {
+      const handleResearchDelete = async (id: string) => {
+        setSelectedResearch(id);
+        setOpenDeleteModal(true);
       }
 
     const renderContent = () => {
-        const renderedContent = savedContent.map((campaign: any, index: any) => {
+        const renderedContent = savedContent.map((research: any, index: any) => {
           return (
-            <tr key={campaign._id} onClick={() => handleOpenCampaign(campaign._id)} className={index !== savedContent.length - 1 ? "border-b-2 border-slate-100" : ""}>
+            <tr key={research._id} onClick={() => handleOpenResearch(research._id)} className={index !== savedContent.length - 1 ? "border-b-2 border-slate-100" : ""}>
               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                <Image
-                  src={campaignIcon}
-                  className="flex-none w-8"
-                  alt={"icon"}
-                />
+                <CompetitorFavicons images={research.companies.map((company: any) => company.imageUrl)} />
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-base font-medium text-slate-700">
-                {mobile ? <p>{campaign.title.slice(0, 20)}...</p> : <>{campaign.title.length > 75 ? <p>{campaign.title.slice(0, 75)}...</p> : campaign.title}</>}
+                {research.title}
               </td>
               <td className="whitespace-nowrap px-3 py-4 text-base text-slate-700">
                 <div className="flex items-center gap-4">
                     <div className="rounded-full border-2 border-white bg-slate-200 w-8 h-8 flex justify-center items-center shadow-sm relative -ml-1">
-                        <p className="font-medium text-white">{campaign.owner.name.substring(0, 1)}</p>
+                        <p className="font-medium text-white">{research.owner.name.substring(0, 1)}</p>
                     </div>
-                      <p className="font-medium">{campaign.owner.name}</p>
+                      <p className="font-medium">{research.owner.name}</p>
                 </div>
               </td>
               <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                 <button
-                  onClick={() => handleOpenCampaign(campaign._id)}
+                  onClick={() => handleOpenResearch(research._id)}
                   className="text-blue-600 hover:text-blue-900 font-semibold"
                 >
                   Open
@@ -111,7 +110,7 @@ const Competition = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                            onClick={() => handleCampaignDelete(campaign._id)}
+                            onClick={() => handleResearchDelete(research._id)}
                             className={classNames(
                               active
                                 ? "bg-gray-100 text-gray-900"
@@ -152,6 +151,7 @@ const Competition = () => {
     return (
         <PageTemplate>
         {openOnboarding && <AddCompetition onClose={() => setOpenOnboarding(false)} />}
+        {openDeleteModal && <DeleteCompetitionResearch onClose={() => setOpenDeleteModal(false)} researchId={selectedReserach} />}
         <FirstPageTemplate
           name="Competition research"
           description="Always be one step ahead of your competition."

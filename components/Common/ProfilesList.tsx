@@ -15,6 +15,7 @@ const ProfilesList = (props: {onClose: any}) => {
     const [profileImage, setProfileImage] = useState<any>();
     const [profiles, setProfiles] = useState<any>();
     const [profilesLoading, setProfilesLoading] = useState(true);
+    const [profileId, setProfileId] = useState<any>();
 
     const workspaceCompany = useSelector(selectedWorkspaceCompanyState);
     const router = useRouter();
@@ -22,6 +23,7 @@ const ProfilesList = (props: {onClose: any}) => {
     useEffect(() => {
         setProfileTitle(localStorage.getItem("profile_title"));
         setProfileImage(localStorage.getItem("profile_icon"));
+        setProfileId(localStorage.getItem("profile_id"));
         const token = localStorage.getItem("token");
         const  workspace= localStorage.getItem("workspace");
         const fetchProfiles = async () => {
@@ -58,10 +60,10 @@ const ProfilesList = (props: {onClose: any}) => {
                 </CloseIcon>
                 </CloseCircle>
                 <div className="w-full flex">
-                    {profileImage && <Icon bg={profileImage} />}
+                    {profileImage && <Icon onClick={() => router.push(`/profile/${profileId}`)} bg={profileImage} />}
                     <div>
-                    {profileTitle && <h2 className="cursor-pointer text-black font-semibold text-xl w-full ml-5 mt-1">{profileTitle}</h2>}
-                    {workspaceCompany && <h2 className="text-blue-500 text-sm w-full font-medium cursor-pointer hover:text-blue-700 ml-5">View profile</h2>}
+                    {profileTitle && <h2 onClick={() => router.push(`/profile/${profileId}`)} className="cursor-pointer text-black font-semibold text-xl w-full ml-5 mt-1">{profileTitle}</h2>}
+                    {workspaceCompany && <p onClick={() => router.push(`/profile/${profileId}`)} className="text-blue-500 text-sm w-full font-medium cursor-pointer hover:text-blue-700 ml-5">View profile</p>}
                     </div>
                 </div>
                 <div className="bg-[#F6F6FB] shadow-inner mt-8 rounded-2xl w-full px-4 pt-2 pb-3">

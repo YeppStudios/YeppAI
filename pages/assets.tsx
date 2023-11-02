@@ -101,7 +101,7 @@ const Assets = () => {
       }
     };
     fetchFolders();
-  }, [dispatch, workspaceCompany]);
+  }, [workspaceCompany, selectedFolder]);
 
   useEffect(() => {
     if (selectedFolder) {

@@ -118,7 +118,7 @@ const NavigationBar = () => {
     if (window.innerWidth < 1023) { 
       setMobile(true);
     }
-    if (window.innerHeight < 770) { 
+    if (window.innerHeight < 770) {
       setHideGift(true);
     }
     if (window.innerHeight < 720) { 
