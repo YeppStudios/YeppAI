@@ -356,7 +356,6 @@ const AddDocument = (props: {
           return;
         }
 
-        console.log(createdDocs)
         const createdFolder = await api.post("/add-folder", {
           title: folderName,
           owner: localStorage.getItem("user_id"),

@@ -51,7 +51,6 @@ const FirstPage = (props: {nextPage: any}) => {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("user_id");
         const workspace = localStorage.getItem("workspace");
-        const profileId = localStorage.getItem("profile_id");
     
         const fetchAssistants = async () => {
             setLoading(true);
@@ -67,7 +66,7 @@ const FirstPage = (props: {nextPage: any}) => {
                     userAssistants = data.assistants;
                 }
                 
-                if (workspaceCompany._id) {
+                if (workspaceCompany._id && workspaceCompany._id !== userId) {
                     const { data } = await api.get(`/workspace-company/${workspace}`, {
                         headers: { authorization: token }
                     });
@@ -79,9 +78,9 @@ const FirstPage = (props: {nextPage: any}) => {
                 
                 const allAssistants = [...userAssistants, ...companyAssistants];
                 allAssistants.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
+        
                 if (defaultAssistant) {
-                    allAssistants.unshift(defaultAssistant); // If you still want the defaultAssistant to be at the start
+                    allAssistants.unshift(defaultAssistant);
                 }
                 setAssistants(allAssistants);
                 
@@ -91,8 +90,9 @@ const FirstPage = (props: {nextPage: any}) => {
                 setLoading(false);
             }
         };
-    
+        
         fetchAssistants();
+        
     }, [defaultAssistant, workspaceCompany]);
     
 
