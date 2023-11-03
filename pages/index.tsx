@@ -71,8 +71,8 @@ const Homepage = () => {
           </Background>
           <HeroSection>
             <Centered><LanguagePopup /></Centered>
-          <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[9vw] px-4 inline-block lg:text-6xl max-w-6xl font-bold text-gray-800 text-center'>Generate {!mobile && <>marketing</>} content {!mobile && <br />} based on your {!mobile && <TypewriterSection />}</h1></SlideBottom></Centered>
-              <h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center'>{mobile && <Centered><TypewriterSection/></Centered>}</h1>
+            <Centered><SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[9vw] px-4 inline-block lg:text-6xl max-w-6xl font-bold text-gray-800 text-center'>Generate {!mobile && <>marketing</>} content {!mobile && <br />} based on your {!mobile && <TypewriterSection />}</h1></SlideBottom></Centered>
+            <SlideBottom><h1 style={{lineHeight: "1.3"}} className='text-[8vw] px-4 inline-block lg:text-7xl max-w-5xl font-black text-center mt-2'>{mobile && <Centered><TypewriterSection/></Centered>}</h1></SlideBottom>
               <div className='w-full'>
               <Centered>
               <DescriptionHero color="black">
