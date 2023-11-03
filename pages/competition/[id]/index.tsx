@@ -16,6 +16,15 @@ const CompetitionResearch = () => {
     const { id, profile } = router.query;
     const [competitors, setCompetitors] = useState<any[]>();
 
+
+    useEffect(() => {
+        const start = localStorage.getItem("start_research");
+        if (start === "true") {
+            localStorage.setItem("start_research", "false");
+            
+        }
+    }, [])
+
     useEffect(() => {
         if (profile) {
             setBackLink(`/profile/${profile}`);
@@ -28,6 +37,7 @@ const CompetitionResearch = () => {
                 },
             });
             setCompetitors(competitionResult.data.companies);
+            console.log(competitionResult.data.companies);
         }
         if (id) {
             fetchCompetition();

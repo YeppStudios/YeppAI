@@ -673,9 +673,6 @@ const CopywritingModal = (props: {
             prompt = `I've already used these keywords: ${keywords}. Repeat two of them and third one exchange to other relevant one for paragraph titled ${paragraphs[paragraphIndex].header}. Keywords:`;
           }
         }
-
-        console.log(prompt)
-        console.log(systemPrompt)
       
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',

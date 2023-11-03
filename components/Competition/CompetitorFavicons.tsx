@@ -13,7 +13,7 @@ const CompetitorFavicons = (props: {images: any}) => {
                     </SlideBottom>
                 ))}
                 {props.images.length > 3 && (
-                    <SlideBottom><span className="ml-2 text-black text-sm font-medium py-1">{`+${props.images.length - 3}`}</span></SlideBottom>
+                    <SlideBottom><span className="ml-1.5 text-black text-xs font-bold py-1">{`+${props.images.length - 3}`}</span></SlideBottom>
                 )}
             </div>
         );
