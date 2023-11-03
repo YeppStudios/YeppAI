@@ -73,7 +73,7 @@ const LearnMoreSection = () => {
                 <Accordion openedAccordion={openedAccordion} index={4} onClick={() => setOpenedAccordion(4)} question="Doesn't it generate the same content for everyone?" answer={"No. Yepp is creative and generates unique and tailored content for each query."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
             </div>
             <ContactContainer>
-                <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-900">Learn more.</b></Title>
+                <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-bold text-gray-800">Learn more.</b></Title>
                 <Description>Stay up to date with latest AI trends and learn how to make use of our latest features.</Description>
                 <SignupLabel>Join our <b>AI newsletter!</b></SignupLabel>
                 <Form onSubmit={subscribe}>
@@ -93,7 +93,7 @@ const LearnMoreSection = () => {
                 </Form>
                 <Description className="justify-center lg:justify-start">or</Description>
                 <a href="https://calendly.com/yeppai/yepp-introduction-call">
-                <div className="flex items-center"><b className="cursor-pointer">Book a free demo</b>
+                <div className="flex items-center text-gray-800"><b className="cursor-pointer">Book a free demo</b>
                 </div>
                 </a>
             </ContactContainer>
@@ -121,7 +121,7 @@ const Section = styled.div`
 `
 
 const Description = styled.p`
-    color: #000000;
+    color: rgb(31 41 55);
     font-size: 2vh;
     width: 31vw;
     text-align: left;
@@ -150,7 +150,7 @@ const ContactContainer = styled.div`
 `
 
 const SignupLabel = styled.p`
-    color: black;
+    color: rgb(31 41 55);
     margin-top: 3vh;
 `
 

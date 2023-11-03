@@ -408,7 +408,7 @@ const Icon = styled.div`
   margin-bottom: 1.25rem;
 `
 const Subtitle = styled.h1`
-    color: black;
+    color: rgb(31 41 55);
     font-size: 4vw;
     line-height: 1.25;
     font-family: 'Satoshi', sans-serif;

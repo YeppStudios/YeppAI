@@ -1,17 +1,10 @@
 import {
-  Fragment,
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
   SetStateAction,
   useEffect,
   useState,
 } from "react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
-import { BsChevronDown, BsCheck2 } from "react-icons/bs";
 import styled from "styled-components";
 
 function classNames(...classes: any) {

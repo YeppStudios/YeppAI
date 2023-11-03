@@ -104,10 +104,11 @@ const FeatureContainer = styled.div<{ marginTop: string; color: string }>`
 `;
 
 const FeatureTitle = styled.h2`
-  font-size: 2.5vw;
+  font-size: 2.75vw;
   font-family: "Satoshi", sans-serif;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
+  color: rgb(31 41 55);
   @media (max-width: 1023px) {
     font-size: 2rem;
     width: 95%;
@@ -117,11 +118,11 @@ const FeatureTitle = styled.h2`
 `;
 
 const FeatureDescription = styled.p<{ color: string }>`
-  margin-top: 1.5vh;
+  margin-top: 2.5vh;
   font-size: 1.25rem;
   font-weight: 500;
   display: none;
-
+  color: rgb(31 41 55);
   @media (min-width: 1023px) {
     display: block;
     ul {
@@ -166,7 +167,7 @@ const GifContainer = styled.div`
 
 const Button = styled.div`
   color: white;
-  padding: 1.75vh 0 1.75vh 0;
+  padding: 1.25vh 0 1.25vh 0;
   border: solid 3px transparent;
   border-radius: 25px;
   box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
