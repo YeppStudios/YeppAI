@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import logo from "../../public/images/logo.png";
-import { BsFillGiftFill } from "react-icons/bs";
-import { useEffect, useInsertionEffect, useState } from "react";
+import { BsFillGiftFill, BsPersonCircle } from "react-icons/bs";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon, CalendarDaysIcon, GiftIcon } from '@heroicons/react/20/solid'
@@ -30,13 +30,16 @@ const Navbar = () =>{
     const [mobile, setMobile] = useState(true);
     const [isFixed, setIsFixed] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [isOpen, setIsOpen] = useState(false)
-    const [isMounted, setIsMounted] = useState(false);
-    
+    const [solutionsOpen, setSolutionsOpen] = useState(false)
+    const [solutionsMounted, setSolutionsMounted] = useState(false);
+    const [platformOpen, setPlatformOpen] = useState(false)
+    const [platformMounted, setPlatformMounted] = useState(false);
+
     const router = useRouter();
 
     useEffect(() => {
-        setIsMounted(true);
+        setPlatformMounted(true);
+        setSolutionsMounted(true);
         if (window.innerWidth > 1023) { 
             setMobile(false);
           }
@@ -79,19 +82,15 @@ const Navbar = () =>{
                         <Image style={{ width: "auto", height: "100%" }}  src={logo} alt={'logo'}></Image> 
                     </LogoContainer>
                     <Link href="/"><AppName>Yepp AI</AppName></Link>
-                </Container>
-                <Container>
-                <Link href="/about-partnership"><NavLink><ColorfulText>Partnership</ColorfulText></NavLink></Link>
-                <NavLink onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                    <Link href="/about-partnership"><NavLink>Why Yepp AI?</NavLink></Link>
+                    <NavLink onMouseEnter={() => setPlatformOpen(true)} onMouseLeave={() => setPlatformOpen(false)}>
                     <Popover className="relative">
-                    {isMounted && (
-                    <Popover.Button className="inline-flex items-center gap-x-1 text-sm leading-6 text-black outline-none">
-                        <span>Solutions</span>
-                        <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                    <Popover.Button className="inline-flex items-center gap-x-1 leading-6 text-gray-800 outline-none">
+                        <span>Platform</span>
+                        <ChevronDownIcon className="h-6 w-6 text-blue-500" aria-hidden="true" />
                     </Popover.Button>
-                    )}
                         <Transition
-                            show={isOpen}
+                            show={platformOpen}
                             enter="transition ease-out duration-200"
                             enterFrom="opacity-0 translate-y-1"
                             enterTo="opacity-100 translate-y-0"
@@ -99,13 +98,14 @@ const Navbar = () =>{
                             leaveFrom="opacity-100 translate-y-0"
                             leaveTo="opacity-0 translate-y-1"
                         >
-                            <Popover.Panel className="absolute left-1/2 mt-4 z-10 flex w-screen max-w-max -translate-x-1/2 px-4">
-                            <div className="w-screen max-w-md text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+                            <div className="absolute z-10 left-1/2 pt-4 w-screen max-w-max -translate-x-1/2">
+                            <Popover.Panel className="flex px-4">
+                            <div className="w-screen max-w-md text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg border-2 border-[#F6F6FB]">
                                 <div className="p-4">
                                 {solutions.map((item) => (
-                                    <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+                                    <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-[#F6F6FB]">
                                     <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 hover:text-black group-hover:bg-white">
-                                        <item.icon className="h-6 w-6 text-gray-500 group-hover:text-black group-hover:scale-105" aria-hidden="true" />
+                                        <item.icon className="h-6 w-6 text-gray-500 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
                                     </div>
                                     <div>
                                         <a href={item.href} className="font-semibold">
@@ -117,35 +117,89 @@ const Navbar = () =>{
                                     </div>
                                 ))}
                                 </div>
-                                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-[#F6F6FB]">
+                                    <button
+                                    onClick={() => router.push("/register?registration=true&company=true&trial=true")}
+                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
+                                    >
+                                    <GiftIcon className="h-5 w-5 flex-none" aria-hidden="true" />
+                                        Get a demo
+                                    </button>
+                                    <a
+                                    href="https://calendly.com/yeppai/yepp-introduction-call"
+                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
+                                    >
+                                    <CalendarDaysIcon className="h-5 w-5 flex-none" aria-hidden="true" />
+                                        Talk to expert
+                                    </a>
+                                </div>
+                            </div>
+                            </Popover.Panel>
+                            </div>
+                        </Transition>
+                    </Popover>
+                    </NavLink>
+                <NavLink onMouseEnter={() => setSolutionsOpen(true)} onMouseLeave={() => setSolutionsOpen(false)}>
+                    <Popover className="relative">
+                    <Popover.Button className="inline-flex items-center gap-x-1 leading-6 text-gray-800 outline-none">
+                        <span>Solutions</span>
+                        <ChevronDownIcon className="h-6 w-6 text-blue-500" aria-hidden="true" />
+                    </Popover.Button>
+                        <Transition
+                            show={solutionsOpen}
+                            enter="transition ease-out duration-200"
+                            enterFrom="opacity-0 translate-y-1"
+                            enterTo="opacity-100 translate-y-0"
+                            leave="transition ease-in duration-150"
+                            leaveFrom="opacity-100 translate-y-0"
+                            leaveTo="opacity-0 translate-y-1"
+                        >
+                            <div className="absolute z-10 left-1/2 pt-4 w-screen max-w-max -translate-x-1/2">
+                            <Popover.Panel className="flex px-4">
+                            <div className="w-screen max-w-md text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg border-2 border-[#F6F6FB]">
+                                <div className="p-4">
+                                {solutions.map((item) => (
+                                    <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-[#F6F6FB]">
+                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 hover:text-black group-hover:bg-white">
+                                        <item.icon className="h-6 w-6 text-gray-500 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
+                                    </div>
+                                    <div>
+                                        <a href={item.href} className="font-semibold">
+                                        {item.name}
+                                        <span className="absolute inset-0" />
+                                        </a>
+                                        <p className="mt-1 text-left font-normal">{item.description}</p>
+                                    </div>
+                                    </div>
+                                ))}
+                                </div>
+                                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-[#F6F6FB]">
                                 <button
                                     onClick={() => router.push("/register?registration=true&company=true&trial=true")}
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
                                     >
                                     <GiftIcon className="h-5 w-5 flex-none" aria-hidden="true" />
-                                        Start free trial
+                                        Get a demo
                                     </button>
                                     <a
                                     href="https://calendly.com/yeppai/yepp-introduction-call"
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
                                     >
                                     <CalendarDaysIcon className="h-5 w-5 flex-none" aria-hidden="true" />
-                                        Book a free demo
+                                        Talk to expert
                                     </a>
                                 </div>
                             </div>
                             </Popover.Panel>
+                            </div>
                         </Transition>
                     </Popover>
                     </NavLink>
                     <Link href="/pricing"><NavLink id="pricing-btn">Pricing</NavLink></Link>
-                    <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Log in</LoginButton>
-                    {(mobile && !loading && isFixed) &&
-                        <TestButton className='trial-btn' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
-                    }
-                    {!mobile &&
-                        <TestButton className='trial-btn' onClick={() => router.push("/register?registration=true&trial=true")}><BsFillGiftFill /><TestText>Start free trial</TestText></TestButton>
-                    }
+                </Container>
+                <Container>
+                    <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Sign in<BsPersonCircle /></LoginButton>
+                    {!(mobile && !isFixed) && <TestButton className='trial-btn' onClick={() => router.push("/register?registration=true&trial=true")}>Get a demo</TestButton>}
                 </Container>
             </Nav>
         </NavContainer>
@@ -169,7 +223,7 @@ const NavContainer = styled.div<NavContainerProps>`
     margin-top: 0rem;
     z-index: 40;
     backdrop-filter: blur(5px);
-    background-color: ${({isFixed}) => !isFixed ? "transparent" : "rgba(255, 255, 255, 0.95)"};
+    background-color: ${({isFixed}) => !isFixed ? "transparent" : "rgba(246, 246, 252, 0.95)"};
     box-shadow: ${({ isFixed }) => isFixed ? "0 6px 32px 0 rgba(31, 38, 135, 0.3);" : "none"};
     left: 0;
     justify-content: center;
@@ -205,14 +259,15 @@ const Nav = styled.div<NavContainerProps>`
 `
 
 const TestButton = styled.button`
-    padding: 0.75rem 2.7rem 0.75rem 2.7rem;
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     border: solid 3px transparent;
-    border-radius: 25px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    border-radius: 15px;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     align-items: center;
     background: linear-gradient(40deg, #6578F8, #64B5FF);
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23), 1px 1px 3px rgba(22, 27, 29, 0.23);
     background-size: 120%;
     background-position-x: -1rem;
     color: white;
@@ -221,7 +276,7 @@ const TestButton = styled.button`
     align-items: center;
     justify-content: center;
     font-family: 'Satoshi' , sans-serif;
-    font-weight: 700;
+    font-weight: 500;
     &:hover {
         box-shadow: none;
         transform: scale(0.95);
@@ -233,33 +288,17 @@ const TestButton = styled.button`
     
 `
 
-const TestText = styled.p`
-    margin-left: 1vw;
-    @media (max-width: 1023px) {
-        margin-left: 3vw;
-    }
-`
 const LoginButton = styled.button`
-    font-size: 0.9rem;
-    margin-right: 2vw;
-    padding: 0.75rem 2.4rem 0.75rem 2.4rem;
-    border: solid 3px transparent;
+    font-size: 1rem;
     display: flex;
-    border-radius: 25px;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    background: #F0F3F8;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.13), inset -2px -2px 4px #FAFBFF, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    justify-content: center;
+    gap: 0.75vw;
+    margin-right: 3.5vw;
+    border: solid 3px transparent;
     align-items: center;
-    background-size: 120%;
-    background-position-x: -0.5rem;
     transition: all 0.3s ease;
     color: black;
-    font-weight: 700;
-    &:hover {
-        box-shadow: none;
-        transform: scale(0.95);
-    }
+    font-weight: 500;
     @media (max-width: 1023px) {
         padding: 1.5vh 20vw 1.5vh 20vw;
         font-size: 2.4vh;
@@ -268,10 +307,10 @@ const LoginButton = styled.button`
 `
 
 const NavLink = styled.button`
-    color: black;
-    font-size: 0.9rem;
-    margin-right: 3.5vw;
-    font-weight: 600;
+    color: rgb(31 41 55);
+    font-size: 1rem;
+    margin-left: 3.5vw;
+    font-weight: 500;
     @media (max-width: 1023px) {
         display: none;
     }
@@ -279,9 +318,9 @@ const NavLink = styled.button`
 
 
 const LogoContainer = styled.div`
-  width: 2.5rem;
+  width: 2rem;
   cursor: pointer;
-  height: 2.5rem;
+  height: 2rem;
   @media (max-width: 1023px) {
     position: relative;
     display: flex;
@@ -294,8 +333,9 @@ const LogoContainer = styled.div`
 
 const AppName = styled.p`
   color: black;
-  font-size: 2.5rem;
-  margin-left: 1vw;
+  font-size: 1.75rem;
+  margin-left: 0.5vw;
+  margin-right: 2vw;
   font-family: 'Satoshi' , sans-serif;
   font-weight: 700;
   @media (max-width: 1023px) {

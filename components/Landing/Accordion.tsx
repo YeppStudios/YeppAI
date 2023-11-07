@@ -60,8 +60,7 @@ const AccordionBody = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 3vh 2vw 2vh 2vw;
-  color: black;
-  font-weight: 500;
+  color: rgb(31 41 55);
   border-radius: 15px;
   @media (max-width: 1023px) {
     width: 100%;

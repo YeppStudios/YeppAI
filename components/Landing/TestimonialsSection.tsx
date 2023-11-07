@@ -3,6 +3,8 @@ import testimonialsBackground from "../../public/images/testimonialsBackground.p
 import mobileBlueMeshBg from "../../public/images/mobileBlueMeshBg.png";
 import Image from "next/image";
 import Centered from "../Centered";
+import SlideBottom from "../Animated/SlideBottom";
+import { useEffect, useState } from "react";
 
 
 interface Section {
@@ -11,9 +13,34 @@ interface Section {
   }
 
 const TestimonialsSection = () => {
+    
+    const [mobile, setMobile] = useState(true);
+   
+    useEffect(() => {
+      if (window.innerWidth > 1023) { 
+        setMobile(false);
+      }
+      const updateWindowSize = () => {
+        setMobile(window.innerWidth < 1023);
+      };
+      window.addEventListener("resize", updateWindowSize);
+      document.body.style.overflow = 'auto';
+      document.body.style.position = 'static';
+    }, []);
+
     return (
+        <>
+        <div className="pl-[5vw] lg:pl-[10rem] lg:w-1/2 w-11/12">
+        <h2 className="lg:text-[4vw] text-3xl font-medium leading-tight">Voices of innovation</h2>
+        <p className='lg:w-10/12 text-gray-800 lg:mt-8 mt-4 lg:text-lg'>How Yepp is changing the marketing game? Discover the impact in our clients&apos; words.</p>
+        </div>
         <Section image={testimonialsBackground} mobileImage={mobileBlueMeshBg}>
             <div>
+                {!mobile &&
+                    <div className="h-36">
+                    </div>
+                }
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
@@ -28,6 +55,8 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.
@@ -42,6 +71,8 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -56,8 +87,19 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
             </div>
             <div>
+            {!mobile &&
+            <div className="h-36">
+
+            </div>
+            }
+            {!mobile &&
+            <div className="mt-10">
+            </div>
+            }
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -72,6 +114,8 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
@@ -86,6 +130,8 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -100,8 +146,14 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
             </div>
             <div>
+            {!mobile &&
+                <div className="mt-10">
+                </div>
+            }
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
@@ -116,6 +168,8 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.
@@ -130,36 +184,8 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
-                <TestimonialContainer>
-                    <TestimonialText>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    </TestimonialText>
-                    <ProfileContainer>
-                        <ProfilePicture>
-                            <Image layout='fill' objectFit='cover'  src="https://pbs.twimg.com/profile_images/540367571988389888/I0PmoBNB_400x400.jpeg" alt={'preview'}></Image> 
-                        </ProfilePicture>
-                        <div>
-                            <PersonName>Michael Seibel</PersonName>
-                            <PersonRole>CEO at YCombinator</PersonRole>
-                        </div>
-                    </ProfileContainer>
-                </TestimonialContainer>
-            </div>
-            <div>
-                <TestimonialContainer>
-                    <TestimonialText>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </TestimonialText>
-                    <ProfileContainer>
-                        <ProfilePicture>
-                            <Image layout='fill' objectFit='cover'  src="https://pbs.twimg.com/profile_images/1256841238298292232/ycqwaMI2_400x400.jpg" alt={'preview'}></Image> 
-                        </ProfilePicture>
-                        <div>
-                            <PersonName>Michael Seibel</PersonName>
-                            <PersonRole>CEO at YCombinator</PersonRole>
-                        </div>
-                    </ProfileContainer>
-                </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur.
@@ -174,6 +200,74 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
+                <TestimonialContainer>
+                    <TestimonialText>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    </TestimonialText>
+                    <ProfileContainer>
+                        <ProfilePicture>
+                            <Image layout='fill' objectFit='cover'  src="https://pbs.twimg.com/profile_images/540367571988389888/I0PmoBNB_400x400.jpeg" alt={'preview'}></Image> 
+                        </ProfilePicture>
+                        <div>
+                            <PersonName>Michael Seibel</PersonName>
+                            <PersonRole>CEO at YCombinator</PersonRole>
+                        </div>
+                    </ProfileContainer>
+                </TestimonialContainer>
+                </SlideBottom>
+            </div>
+            <div>
+                <SlideBottom>
+                <TestimonialContainer>
+                    <TestimonialText>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </TestimonialText>
+                    <ProfileContainer>
+                        <ProfilePicture>
+                            <Image layout='fill' objectFit='cover'  src="https://pbs.twimg.com/profile_images/1256841238298292232/ycqwaMI2_400x400.jpg" alt={'preview'}></Image> 
+                        </ProfilePicture>
+                        <div>
+                            <PersonName>Michael Seibel</PersonName>
+                            <PersonRole>CEO at YCombinator</PersonRole>
+                        </div>
+                    </ProfileContainer>
+                </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
+                <TestimonialContainer>
+                    <TestimonialText>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur.
+                    </TestimonialText>
+                    <ProfileContainer>
+                        <ProfilePicture>
+                            <Image layout='fill' objectFit='cover'  src="https://pbs.twimg.com/profile_images/1256841238298292232/ycqwaMI2_400x400.jpg" alt={'preview'}></Image> 
+                        </ProfilePicture>
+                        <div>
+                            <PersonName>Alex Hormozi</PersonName>
+                            <PersonRole>CEO Acquisition.com</PersonRole>
+                        </div>
+                    </ProfileContainer>
+                </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
+                <TestimonialContainer>
+                    <TestimonialText>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur.
+                    </TestimonialText>
+                    <ProfileContainer>
+                        <ProfilePicture>
+                            <Image layout='fill' objectFit='cover'  src="https://yt3.googleusercontent.com/xGH1BCpEHp4V0hRXEpKUbudZy2zxon3z7JnnAXngiW-8374wuiFolwYf6wmgVbKr-_RmqBHJrA=s900-c-k-c0x00ffffff-no-rj" alt={'preview'}></Image> 
+                        </ProfilePicture>
+                        <div>
+                            <PersonName>Alex Hormozi</PersonName>
+                            <PersonRole>CEO Acquisition.com</PersonRole>
+                        </div>
+                    </ProfileContainer>
+                </TestimonialContainer>
+                </SlideBottom>
+                <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
                         Świetna inicjatywa. Unikatowe rozwiązanie dla małych i średnich przedsiębiorstw jeśli chodzi o zwiększenie widoczności w internecie bez zatrudniania całego działu marketingu.
@@ -188,45 +282,40 @@ const TestimonialsSection = () => {
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
+                </SlideBottom>
             </div>
+            <Fade></Fade>
         </Section>
+        </>
     )
 }
 
 export default TestimonialsSection;
 
 const Section = styled.div<Section>`
+    margin-top: -11.5rem;
+    position: relative;
     background-image: url(${props => props.image.src});
     width: 100vw;
-    margin-left: -8vw;
-    margin-top: -4vh;
-    padding: 12vh 15vw 12vh 15vw;
+    padding: 12vh 10rem 12vh 10rem;
     height: 100%;
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: 90%;
+    background-position: 0 95%;
+    background-size: 100%;
     display: grid; 
     grid-template-columns: 1fr 1fr 1fr 1fr; 
     grid-template-rows: 1fr; 
-    gap: 2vw; 
+    gap: 1.2vh; 
     grid-template-areas: 
       ". . . ."; 
-      max-height: 90vh;
+      max-height: 110vh;
       overflow: hidden;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-      -webkit-mask: 
-      linear-gradient(to top,    black 100%, transparent) top   /100% 51%,
-      linear-gradient(to bottom, black 60%, transparent) bottom/100% 50%,
-      linear-gradient(to left  , black, transparent) left  /100% 0%,
-      linear-gradient(to right , black, transparent) right /100% 0%;
-      -webkit-mask-repeat:no-repeat;
       @media (max-width: 1023px) {
         background-image: url(${props => props.mobileImage.src});
         background-size: 100%;
         width: 100vw;
         margin-left: 0vw;
-        padding: 5vh 0 10vh 0;
+        padding: 5vh 5% 10vh 5%;
         margin-top: 2vh;
         display: flex;
         flex-wrap: wrap;
@@ -234,7 +323,8 @@ const Section = styled.div<Section>`
 `
 
 const TestimonialContainer = styled.div`
-    background-color: #0D0E16;
+
+    background-color: white;
     width: 100%;
     height: auto;
     padding: 3vh 3vh 3vh 3vh;
@@ -242,14 +332,12 @@ const TestimonialContainer = styled.div`
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
     margin-bottom: 1.2vh;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
 `
 
 const TestimonialText = styled.p`
-    color: white;
     font-size: 1.8vh;
     font-family: 'Lato', sans-serif;
-    color: #EDEDED;
+    color: rgb(31 41 55);
 `
 
 const ProfileContainer = styled.div`
@@ -284,4 +372,16 @@ const PersonRole = styled.p`
     margin-left: 1vw;
     font-size: 1.5vh;
     color: #818FB9;
+`
+
+const Fade = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20rem;
+    background: linear-gradient(rgb(242, 242, 251, 0) 0%, rgb(242, 242, 251, 0.7) 40%, rgb(242, 242, 251, 1) 90%);
+    @media (max-width: 1023px) {
+        height: 14rem;
+    }
 `

@@ -67,9 +67,9 @@ const LearnMoreSection = () => {
     return (
         <Section>
             <div style={{width: "100%"}}>
-                <Accordion openedAccordion={openedAccordion} index={1} onClick={() => setOpenedAccordion(1)} question="Is the uploaded content safe?" answer={"Yes, as a SaaS platform we do not store the files you upload. We only use them to create an embedding for the AI Assistant based on a vector database, to which only you have access from your account."} backgroundColor="#F2F4FA"/>
+                <Accordion openedAccordion={openedAccordion} index={1} onClick={() => setOpenedAccordion(1)} question="Is the uploaded content safe?" answer={"Yes, as a SaaS platform we do not store the files you upload. We only use them to create an embedding for the AI Assistant based on a vector database, to which only you have access from your account."} backgroundColor="#F2F2FB"/>
                 <Accordion openedAccordion={openedAccordion} index={2} onClick={() => setOpenedAccordion(2)} question="What is elixir?" answer={"Elixir is used for generating content. It is consumed by AI to generate content and understand your questions."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
-                <Accordion openedAccordion={openedAccordion} index={3} onClick={() => setOpenedAccordion(3)} question="Can I cancel my subscription?" answer={"Subscription renews every month starting from the purchase date and can be canceled at any time so that payment will not be collected for the next month."} backgroundColor="#F2F4FA"/>
+                <Accordion openedAccordion={openedAccordion} index={3} onClick={() => setOpenedAccordion(3)} question="Can I cancel my subscription?" answer={"Subscription renews every month starting from the purchase date and can be canceled at any time so that payment will not be collected for the next month."} backgroundColor="#F2F2FB"/>
                 <Accordion openedAccordion={openedAccordion} index={4} onClick={() => setOpenedAccordion(4)} question="Doesn't it generate the same content for everyone?" answer={"No. Yepp is creative and generates unique and tailored content for each query."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
             </div>
             <ContactContainer>
@@ -125,7 +125,6 @@ const Description = styled.p`
     font-size: 2vh;
     width: 31vw;
     text-align: left;
-    font-weight: 500;
     margin-top: 2vh;
     @media (max-width: 1023px) {
         margin-top: 1rem;
@@ -158,7 +157,7 @@ const NewsletterInput = styled.input`
     border-radius: 20px;
     width: 20vw;
     font-size: 2vh;
-    padding: 1.5vh 1vw 1.5vh 1vw;
+    padding: 1vh 1vw 1vh 1vw;
     margin-top: 1vh;
     background-color: transparent;
     border: 2px solid #DFDFDF;
@@ -181,13 +180,12 @@ const Form = styled.form`
 
 const SignupButton = styled.button`
     padding: 0 1.5vw 0 1.5vw;
-    height: 6.5vh;
+    height: 5vh;
     margin-left: 1.5vw;
     background-color: #0D0E16;
     border: solid 3px transparent;
-    border-radius: 25px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23),
-      inset -2px -2px 4px #fafbff, 2px 2px 6px rgba(22, 27, 29, 0.23);
+    border-radius: 15px;
+    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     align-items: center;
