@@ -26,6 +26,17 @@ export default function ScalingElement(props: { children: any, assistant: boolea
     }
   }, [controls, inView]);
 
+  const copyPlainText = (e:any) => {
+    e.preventDefault();
+
+    const text = window.getSelection()?.toString();
+
+    e.clipboardData.setData('text/plain', text);
+  };
+
+  document.querySelectorAll('.AssistantMessage, .UserMessage').forEach((element) => {
+    element.addEventListener('copy', copyPlainText);
+  });
 
   if(props.assistant){
     const normalizedText = props.children;
