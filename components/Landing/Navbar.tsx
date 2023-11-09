@@ -3,25 +3,59 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import logo from "../../public/images/logo.png";
 import { BsFillGiftFill, BsPersonCircle } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import { Popover, Transition } from '@headlessui/react'
-import { ChevronDownIcon, CalendarDaysIcon, GiftIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, CalendarDaysIcon, GiftIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import {
   FolderArrowDownIcon,
   ClipboardDocumentListIcon,
   DocumentTextIcon,
   ChatBubbleBottomCenterTextIcon,
+  UserIcon,
   MegaphoneIcon,
+  QuestionMarkCircleIcon,
+  ShieldCheckIcon,
+  ScaleIcon,
+  BuildingOffice2Icon,
+  UserGroupIcon,
+  AdjustmentsHorizontalIcon,
+  TagIcon,
+  CommandLineIcon,
+  CircleStackIcon
 } from '@heroicons/react/24/outline'
-import ColorfulText from "../Common/ColorfulText";
+import { ShieldCheck } from "lucide-react";
 
-const solutions = [
+
+const platform = [
+    { name: 'What is Yepp', description: 'Learn more on what Yepp is all about', href: '/solution/marketing-templates', icon: BuildingOffice2Icon },
+    { name: 'Trust', description: 'More on how do we keep our partners safe', href: '/solution/copywriting', icon: ShieldCheckIcon },
+    { name: 'Governance', description: "Get to know how Yepp AI handles privacy", href: '/solution/chat', icon: ScaleIcon },
+    { name: 'FAQ', description: 'Answers to the most common questions', href: '/solution/campaigns', icon: QuestionMarkCircleIcon }
+  ]
+
+const solutions1 = [
+    { name: 'Data Retrieval', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: CircleStackIcon },
+    { name: 'Clients Management', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: UserGroupIcon },
+    { name: 'Data Driven Content', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: DocumentTextIcon },
+    { name: 'Tone Consistency', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: MegaphoneIcon },
+    { name: 'Competition Research', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: MagnifyingGlassIcon },
+]
+
+const solutions2 = [
+    { name: 'Audience Targeting', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: UserIcon },
+    { name: 'Creative Chat', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: ChatBubbleBottomCenterTextIcon },
+    { name: 'Shopping Chatbot', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: TagIcon },
+    { name: 'LLM Fine-Tuning', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: AdjustmentsHorizontalIcon },
+    { name: 'Individual Solution', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: CommandLineIcon },
+]
+  
+  
+
+const blogs = [
   { name: 'Marketing Templates', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: ClipboardDocumentListIcon },
   { name: 'Copywriting', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: DocumentTextIcon },
-  { name: 'Chat With Your Data', description: "AI assistant that knows you & your clients", href: '/solution/chat', icon: ChatBubbleBottomCenterTextIcon },
-  { name: 'Content Campaigns', description: 'Content campaigns for all placements at once', href: '/solution/campaigns', icon: MegaphoneIcon },
-  { name: 'Assets Upload', description: 'Teach AI about your client or any niche topic', href: '/solution/assets-upload', icon: FolderArrowDownIcon },
+
 ]
 
 
@@ -102,7 +136,7 @@ const Navbar = () =>{
                             <Popover.Panel className="flex px-4">
                             <div className="w-screen max-w-md text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg border-2 border-[#F6F6FB]">
                                 <div className="p-4">
-                                {solutions.map((item) => (
+                                {platform.map((item) => (
                                     <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-[#F6F6FB]">
                                     <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 hover:text-black group-hover:bg-white">
                                         <item.icon className="h-6 w-6 text-gray-500 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
@@ -122,7 +156,6 @@ const Navbar = () =>{
                                     onClick={() => router.push("/register?registration=true&company=true&trial=true")}
                                     className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
                                     >
-                                    <GiftIcon className="h-5 w-5 flex-none" aria-hidden="true" />
                                         Get a demo
                                     </button>
                                     <a
@@ -140,59 +173,106 @@ const Navbar = () =>{
                     </Popover>
                     </NavLink>
                 <NavLink onMouseEnter={() => setSolutionsOpen(true)} onMouseLeave={() => setSolutionsOpen(false)}>
-                    <Popover className="relative">
+                    <Popover>
                     <Popover.Button className="inline-flex items-center gap-x-1 leading-6 text-gray-800 outline-none">
                         <span>Solutions</span>
                         <ChevronDownIcon className="h-6 w-6 text-blue-500" aria-hidden="true" />
                     </Popover.Button>
-                        <Transition
+                    <Transition
                             show={solutionsOpen}
+                            as={Fragment}
                             enter="transition ease-out duration-200"
-                            enterFrom="opacity-0 translate-y-1"
+                            enterFrom="opacity-0 -translate-y-1"
                             enterTo="opacity-100 translate-y-0"
                             leave="transition ease-in duration-150"
                             leaveFrom="opacity-100 translate-y-0"
-                            leaveTo="opacity-0 translate-y-1"
+                            leaveTo="opacity-0 -translate-y-1"
                         >
-                            <div className="absolute z-10 left-1/2 pt-4 w-screen max-w-max -translate-x-1/2">
-                            <Popover.Panel className="flex px-4">
-                            <div className="w-screen max-w-md text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg border-2 border-[#F6F6FB]">
-                                <div className="p-4">
-                                {solutions.map((item) => (
-                                    <div key={item.name} className="group cursor-pointer relative flex gap-x-6 rounded-lg p-4 hover:bg-[#F6F6FB]">
-                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 hover:text-black group-hover:bg-white">
-                                        <item.icon className="h-6 w-6 text-gray-500 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
-                                    </div>
-                                    <div>
-                                        <a href={item.href} className="font-semibold">
-                                        {item.name}
-                                        <span className="absolute inset-0" />
-                                        </a>
-                                        <p className="mt-1 text-left font-normal">{item.description}</p>
-                                    </div>
-                                    </div>
+                    <div className="absolute z-10 left-1/2 pt-4 w-screen max-w-max -translate-x-1/2">
+                    <Popover.Panel className="flex px-4 bg-white text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg border-2 border-[#F6F6FB]">
+                    <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-6 py-10 lg:grid-cols-2 lg:px-8">
+                        <div className="grid grid-cols-2 gap-x-6 sm:gap-x-8">
+                        <div>
+                            <div className="flow-root">
+                            <div className="-my-2">
+                                {solutions1.map((item: any) => (
+                                 <div key={item.name} className="group cursor-pointer items-center relative flex gap-x-2 px-2 py-1 rounded-lg hover:bg-[#F6F6FB]">
+                                 <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg text-gray-500 hover:text-black">
+                                     <item.icon className="h-6 w-6 text-gray-400 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
+                                 </div>
+                                 <div>
+                                     <a href={item.href} className="font-semibold">
+                                     {item.name}
+                                     <span className="absolute inset-0" />
+                                     </a>
+                                 </div>
+                                 </div>
                                 ))}
-                                </div>
-                                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-[#F6F6FB]">
-                                <button
-                                    onClick={() => router.push("/register?registration=true&company=true&trial=true")}
-                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
-                                    >
-                                    <GiftIcon className="h-5 w-5 flex-none" aria-hidden="true" />
-                                        Get a demo
-                                    </button>
-                                    <a
-                                    href="https://calendly.com/yeppai/yepp-introduction-call"
-                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-gray-100 hover:text-black"
-                                    >
-                                    <CalendarDaysIcon className="h-5 w-5 flex-none" aria-hidden="true" />
-                                        Talk to expert
-                                    </a>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flow-root">
+                            <div className="-my-2">
+                                {solutions2.map((item) => (
+                                 <div key={item.name} className="group cursor-pointer items-center relative flex gap-x-2 px-2 py-1 rounded-lg hover:bg-[#F6F6FB]">
+                                 <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg text-gray-500 hover:text-black">
+                                     <item.icon className="h-6 w-6 text-gray-400 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
+                                 </div>
+                                 <div>
+                                     <a href={item.href} className="font-semibold">
+                                     {item.name}
+                                     <span className="absolute inset-0" />
+                                     </a>
+                                 </div>
+                                 </div>
+                                ))}
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div className="grid grid-cols-1 gap-10 sm:gap-8 lg:grid-cols-2">
+                        <h3 className="sr-only">Recent posts</h3>
+                        {blogs.map((post) => (
+                            <article
+                            key={post.name}
+                            className="relative group cursor-pointer isolate flex max-w-2xl flex-col gap-x-8 gap-y-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
+                            >
+                            <div className="relative flex-none">
+                                <Image
+                                className="aspect-[2/1] w-full rounded-lg bg-gray-100 object-cover sm:aspect-[16/9] sm:h-32 lg:h-auto"
+                                src="https://images.unsplash.com/photo-1682687218608-5e2522b04673?q=80&w=3175&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt=""
+                                />
+                                <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-gray-900/10" />
+                            </div>
+                            <div>
+                                <h4 className="mt-2 text-sm font-semibold leading-6 text-gray-900">
+                                <a href={post.href}>
+                                    <span className="absolute inset-0" />
+                                    {post.name}
+                                </a>
+                                </h4>
+                                <p className="mt-2 text-sm leading-6 text-gray-600">{post.description}</p>
+                                <div className="flex items-center justify-between gap-x-4 mt-4">
+                                <time className="text-sm leading-6 text-gray-400">
+                                    19.11.23
+                                </time>
+                                <a
+                                    href={post.href}
+                                    className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 text-xs text-gray-400"
+                                >
+                                    {post.name}
+                                </a>
                                 </div>
                             </div>
-                            </Popover.Panel>
-                            </div>
-                        </Transition>
+                            </article>
+                        ))}
+                        </div>
+                    </div>
+                    </Popover.Panel>
+                    </div>
+                </Transition>
                     </Popover>
                     </NavLink>
                     <Link href="/pricing"><NavLink id="pricing-btn">Pricing</NavLink></Link>
@@ -243,7 +323,7 @@ const Container = styled.div`
 `
 
 const Nav = styled.div<NavContainerProps>`
-    width: 84vw;
+    width: 85vw;
     display: flex;
     align-items: center;
     position: sticky;
