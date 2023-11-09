@@ -115,7 +115,6 @@ const AssistantMessage = styled(motion.div)<{ marginLeft: string }>`
     margin-left: ${props => props.marginLeft};
     margin-top: 0.5rem;
     line-height: 1.6rem;
-    white-space: pre-wrap;
     will-change: transform;
     @media (max-width: 1023px) {
       max-width: 100vw;

@@ -356,11 +356,12 @@ const AddDocument = (props: {
           return;
         }
 
+        const createdDocsIds = createdDocs.map(doc => doc._id);
         const createdFolder = await api.post("/add-folder", {
           title: folderName,
           owner: localStorage.getItem("user_id"),
           workspace: fetchedUser.workspace,
-          documents: createdDocs,
+          documents: createdDocsIds,
           ownerEmail: user.email,
           profileId: profileId || "",
         },

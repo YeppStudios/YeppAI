@@ -208,7 +208,7 @@ const AddWrittenContent = (props: {
             title: folderName,
             owner: localStorage.getItem("user_id"),
             workspace: user.workspace,
-            documents: [createdDoc]
+            documents: [createdDoc._id]
           },
           {
             headers: {

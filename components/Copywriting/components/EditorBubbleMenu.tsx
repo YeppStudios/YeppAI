@@ -219,7 +219,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
         throw new Error('Network response was not ok');
       }
 
-      if(response.body){
+      if (response.body){
         setOpenPopup(false);
         setIsLoading(false);
         const reader = response.body.getReader();
@@ -234,20 +234,19 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
             break;
           }
   
-          const jsonStrings = new TextDecoder().decode(value).split('data: ').filter((str) => str.trim() !== '');
-          for (const jsonString of jsonStrings) {
-            try {
-              const data = JSON.parse(jsonString);
-              if (data.content) {
-                reply += data.content;
-                props.editor!.view.dispatch(
-                  props.editor!.view.state.tr.insertText(data.content, initialPosition)
-                );
-                initialPosition += data.content.length;
-              }
-            } catch (error) {
-              console.error('Error parsing JSON:', jsonString, error);
+          const decodedValue = new TextDecoder().decode(value);
+          const dataStrings = decodedValue.split('data: ');
+    
+          for (const dataString of dataStrings) {
+            if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+              continue;
             }
+            const contentWithoutQuotes = dataString.replace(/"/g, '');
+            reply += contentWithoutQuotes;
+            props.editor!.view.dispatch(
+              props.editor!.view.state.tr.insertText(contentWithoutQuotes, initialPosition)
+            );
+            initialPosition += contentWithoutQuotes.length;
           }
         }
       }
@@ -324,10 +323,9 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
       }
     
       let reply = '';
-      let initialPosition = 0; // Initialize initialPosition if you haven't already
-      const from = 0; // Initialize 'from' if you haven't already
     
       if (response.body) {
+        
         setOpenPopup(false);
         setIsLoading(false);
         const reader = response.body.getReader();
