@@ -123,7 +123,7 @@ const Onboarding = () => {
                     "${scrapingResponse.data.text.substring(0,600)}"
                     
                     Company name/most representative part of the title and description as a JSON:`,
-                    model: "gpt-4-0613",
+                    model: "gpt-4-1106-preview",
                     temperature: 0,
                     systemPrompt: `You are an expert in extracting the company name and brief description out of the website title and content. You do this by understanding the context and analysing text. If there is no company name in website title just return the most representative part of the title. You always return the company name or most representative part along with the description only. You return them as JSON object.
                     `,

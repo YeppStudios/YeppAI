@@ -175,7 +175,7 @@ const ResultsContainer = (
         let promptToSend = '';
         let context = "";
         let reply = '';
-        let model ="gpt-4"
+        let model ="gpt-4-1106-preview"
         let previousMessage = '';
       if (content) {
         previousMessage = `Last time I wrote: "${content}". Now please generate new, unique content different than the one written previously following these guidelines: 
@@ -344,7 +344,7 @@ const ResultsContainer = (
       let text = '';
       let context = "";
       let promptToSend = prompt;
-      let  model = "gpt-4"
+      let  model = "gpt-4-1106-preview"
       setIsSSEComplete(false);
       setPrompt('');
       setContent('');

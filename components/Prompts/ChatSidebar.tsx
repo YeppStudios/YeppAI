@@ -226,7 +226,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
           signal: signal,
-          body: JSON.stringify({conversationContext, model: "gpt-4"}),
+          body: JSON.stringify({conversationContext, model: "gpt-4-1106-preview"}),
       });
   
       if (!response.ok) {
