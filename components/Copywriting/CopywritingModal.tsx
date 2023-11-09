@@ -448,7 +448,7 @@ const CopywritingModal = (props: {
           `
         }
 
-        let model = "gpt-4";
+        let model = "gpt-4-1106-preview";
         let systemPrompt = `You are a native ${props.language} copywriter with years of experience. You specialize in coming up with attention-grabbing titles for ${props.contentType} SEO content. You never include colons ":" in your subtitles. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique title for ${props.contentType}. Every time you generate a unique title. Title needs to be no more than 65 characters long. Do not quote it. You never use the colon ":" as it is not professional. You are native ${props.language} speaker.`;
         let prompt = `
         Good title examples:
@@ -556,7 +556,7 @@ const CopywritingModal = (props: {
         }
 
         let reply = "";
-        let model = "gpt-4";
+        let model = "gpt-4-1106-preview";
         let systemPrompt = `You are a copywriter with years of experience. You specialize in coming up with highly converting and attention grabbing Google descriptions for ${props.contentType} SEO content. You carefuly analyze the context given by the user and try to understand the target audience and user intents to craft a unique description for ${props.contentType}. Every time you generate a unique description. Description needs to be no more than 155 characters long. You are proficient in ${props.language} language. You never put descrption in quotes and write it in ${props.toneOfVoice} tone of voice.`;
         let prompt = `For ${props.contentType} titled: ${title}. 
         Come up with the best performing description for ${props.contentType} about ${phrase} in ${props.toneOfVoice} tone of voice. ${lastDescription} My keywords: ${keywords}. Choose only ones that fit best for description. Respond only with description that is up to 150 characters long. Make sure to come up with title that is in ${props.language} language. ${exclusions}
@@ -678,7 +678,7 @@ const CopywritingModal = (props: {
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'Authorization': `${token}`},
           signal: abortController.signal,
-          body: JSON.stringify({ prompt, systemPrompt, temperature: 0.85, title: `generated copywriting ${field}`, model: "gpt-4" }),
+          body: JSON.stringify({ prompt, systemPrompt, temperature: 0.85, title: `generated copywriting ${field}`, model: "gpt-4-1106-preview" }),
         });
         
         if (!response.ok) {

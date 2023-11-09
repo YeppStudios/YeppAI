@@ -67,14 +67,14 @@ const PercentageSection = () => {
               </DescriptionHero>
               </Centered>
               <Centered>
-              <div className='flex gap-4 lg:gap-20 w-full justify-center items-center mt-4 flex-wrap lg:flex-nowrap'>
-              <BlueButton  onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore the platform</BlueButton>
-              {mobile ? 
-              <Centered><UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Sign in</UnderlineButton></Centered>
-              :  
+              <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
+              <Centered><BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore the platform</BlueButton></Centered>
               <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Talk to an expert</UnderlineButton>
-              }
-              </div>
+            </div>
+            <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
+              <BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore the platform</BlueButton>
+              <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Talk to an expert</UnderlineButton>
+            </div>
               </Centered>
               <Centered>
                 <Image src={dashboardVisualization}  alt="dashboard" className='w-full mt-10 lg:mt-0'/>
@@ -85,12 +85,12 @@ const PercentageSection = () => {
             {!mobile && <MiniTitle>The Yepp AI Marketing Intelligence Platform</MiniTitle>}
             <Centered><Subtitle>Accelerate Brand Growth with Your Own Marketing Platform</Subtitle></Centered>
             <Centered><p className='lg:w-1/2 w-11/12 lg:text-lg text-center text-gray-800 mt-8'>Yepp is your individually tailored AI platform, specifically crafted to align with your marketing team&apos;s workflow. It integrates with your team&apos;s unique processes - from content creation to data analysis - propelling your brand&apos;s growth at every customer engagement stage.</p></Centered>
-            <div className='flex gap-4 lg:gap-20 w-full justify-center items-center mt-10 lg:mt-4 flex-wrap lg:flex-nowrap'>
-              {mobile ? 
+            <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
               <Centered><BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Platform overview</BlueButton></Centered>
-              :
+              <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore pricing</UnderlineButton>
+            </div>
+            <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
               <BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Platform overview</BlueButton>
-              }
               <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore pricing</UnderlineButton>
             </div>
             <SlideBottom>

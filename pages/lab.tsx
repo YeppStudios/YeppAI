@@ -215,7 +215,7 @@ const LabPage = () => {
       `,
       systemPrompt: `Act as a JSON converter. After analyzing the text user quotes you return a formatted JSON output that describes it in the given JSON object. Only use the functions you have been provided with.
         `,
-      model: "gpt-4-0613",
+      model: "gpt-4-1106-preview",
       temperature: 0,
       function_definition: {
         "name": "extract_tone",
@@ -333,7 +333,7 @@ const LabPage = () => {
     }
 
     let reply = "";
-    let model = "gpt-4";
+    let model = "gpt-4-1106-preview";
     let prompt = `
     Please as a professional marketer come up with unique ${selectedTemplate?.title} explicitly about ${exampleAbout} in ${exampleLanguage} language. 
     Write it in the following tone of voice: ${currentSample?.prompt}
