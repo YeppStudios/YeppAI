@@ -20,7 +20,7 @@ const stats = [
             </p>
           </div>
           
-          <dl className="mt-10 text-white flex gap-8 flex flex-wrap lg:block lg:gap-28 justify-left lg:justify-center">
+          <dl className="mt-10 text-white flex gap-8 flex flex-wrap lg:flex-nowrap lg:gap-28 justify-left lg:justify-center">
             {stats.map((stat) => (
                 <div key={stat.id} className="flex flex-col gap-y-3 lg:border-l border-white/10 lg:pl-6">
                 <SlideBottom>

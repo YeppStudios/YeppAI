@@ -6,6 +6,7 @@ import { showNotification } from '@mantine/notifications';
 import { Loader } from "../Common/Loaders";
 import { BsCheckLg } from "react-icons/bs";
 import api from "@/pages/api";
+import UnderlineButton from "./common/UnderlineButton";
 
 const LearnMoreSection = () => {
 
@@ -74,28 +75,8 @@ const LearnMoreSection = () => {
             </div>
             <ContactContainer>
                 <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-bold text-gray-800">Learn more.</b></Title>
-                <Description>Stay up to date with latest AI trends and learn how to make use of our latest features.</Description>
-                <SignupLabel>Join our <b>AI newsletter!</b></SignupLabel>
-                <Form onSubmit={subscribe}>
-                    <NewsletterInput value={email} onChange={(e) => setEmail(e.target.value)} placeholder="mail@gmail.com"/>
-                    <SignupButton id="newsletter-signup-btn">
-                    {loading ?
-                      <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                          <Loader color="white" />
-                      </div>
-                      :
-                       success ?
-                      <BsCheckLg style={{fontSize: "1.5em"}} className="text-green-400"/>
-                      :
-                      <p>Join now</p>
-                    }
-                    </SignupButton>
-                </Form>
-                <Description className="justify-center lg:justify-start">or</Description>
-                <a href="https://calendly.com/yeppai/yepp-introduction-call">
-                <div className="flex items-center text-gray-800"><b className="cursor-pointer">Book a free demo</b>
-                </div>
-                </a>
+                <Description>Still want to learn more about our platform and security? Contact our experts to learn more!</Description>
+                <UnderlineButton onClick={undefined}>Talk with an expert</UnderlineButton>
             </ContactContainer>
         </Section>
     )

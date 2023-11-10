@@ -9,10 +9,20 @@ import Subtitle from "@/components/Landing/common/Subtitle";
 import Image from "next/image";
 import dashboardVisualization from "../../public/images/dashboard_visualization.png"
 import workflowVisualization from "../../public/images/workflow_visualization.png"
+import Head from "next/head";
 
 const WhatIsYepp = () => {
     return (
         <div>
+        <Head>
+          <meta name="theme-color" content="#ffffff" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta
+            name="description"
+            content="Yepp AI is an automation house oriented around automating tedious tasks in marketing industry."
+          />
+         <title>Yepp AI | About</title>
+        </Head>
             <Navbar />
             <div className="mt-[6rem] lg:mt-[10rem] w-full flex flex-wrap justify-center">
             <Centered>

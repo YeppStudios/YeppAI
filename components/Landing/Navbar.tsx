@@ -29,9 +29,8 @@ import { ShieldCheck } from "lucide-react";
 
 const platform = [
     { name: 'What is Yepp', description: 'Learn more on what Yepp is all about', href: '/platform/what-is-yepp', icon: BuildingOffice2Icon },
-    { name: 'Trust', description: 'More on how do we keep our partners safe', href: '/solution/copywriting', icon: ShieldCheckIcon },
-    { name: 'Governance', description: "Get to know how Yepp AI handles privacy", href: '/solution/chat', icon: ScaleIcon },
-    { name: 'FAQ', description: 'Answers to the most common questions', href: '/solution/campaigns', icon: QuestionMarkCircleIcon }
+    { name: 'Trust', description: 'More on how do we keep our partners safe', href: '/platform/trust', icon: ShieldCheckIcon },
+    { name: 'FAQ', description: 'Answers to the most common questions', href: '/platform/faq', icon: QuestionMarkCircleIcon }
   ]
 
 const solutions1 = [

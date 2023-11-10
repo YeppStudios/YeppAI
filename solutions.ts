@@ -15,33 +15,50 @@ import miniTemplates from "./public/images/Mini_Thumbnail_Templates.png"
 import miniCampaigns from "./public/images/Mini_Thumbnail_Campaigns.png"
 import miniChat from "./public/images/Mini_Thumbnail_Chat.png"
 import miniCopywriting from "./public/images/Mini_Thumbnail_Copywriting.png"
+import {
+    FolderArrowDownIcon,
+    ClipboardDocumentListIcon,
+    DocumentTextIcon,
+    ChatBubbleBottomCenterTextIcon,
+    UserIcon,
+    MegaphoneIcon,
+    QuestionMarkCircleIcon,
+    ShieldCheckIcon,
+    ScaleIcon,
+    BuildingOffice2Icon,
+    UserGroupIcon,
+    AdjustmentsHorizontalIcon,
+    TagIcon,
+    CommandLineIcon,
+    CircleStackIcon
+  } from '@heroicons/react/24/outline'
 
 export const solutions = [
     {
-        query: "marketing-templates",
-        title: "Marketing Templates",
-        description: "Watch AI write insightful content on niche topics.",
+        query: "data-retrieval",
+        icon: CircleStackIcon,  
+        title: "Data Retrieval",
+        mainTitle: "Utilize Your Data & Enhance Content Creation",
+        description: "Train the platform about your business and clients by uploading relevant data as files, scraped websites, or video transcripts. With this expanded knowledge, Yepp delivers captivating content that consistently keeps you ahead of the game.",
         video: "https://www.youtube.com/embed/KQPYySWUmz4?autoplay=1",
         image: marketingTemplatesThumbnail,
         miniThumbnail: miniTemplates,
-        tutorial: [
+        overview: [
             {
-                icon: AiOutlineCloudUpload,
-                title: "Choose a desired placement.",
-                description: `Once you click on the "Marketing" tab in the sidebar, all placements will appear. You can filter them by category and search for the perfect one suited to your use case.`,
-                image: "https://ipfs.io/ipfs/QmXnqJm7mPKe49FcgYnr2DQMnJWXNQHdFTwYqZEGJBG5Qu?filename=Screenshot%202023-08-12%20at%202.39.53%20PM.png"
+                title: "Improved Content Quality",
+                description: "With the AI having access to a wide array of contextual information, the quality of the generated content is higher, as it draws from a rich and relevant knowledge base."
             },
             {
-                icon: RxInput,
-                title: "Fill out the form.",
-                description: `By selecting one of them you will be redirected to the form page. Select your uploaded content and fill it out with informations and instrucitons on what you want to write.`,
-                image: "https://ipfs.io/ipfs/QmWsLDPThEp8zQVrxxZ6NqWxP5gQZZLYgvG24hKwgku1v6?filename=Screenshot%202023-08-12%20at%202.41.35%20PM.png"
+                title: "Scalability",
+                description: "As the volume of clients or projects increases, the system easily scales to accommodate more data without a proportional increase in workload, making it ideal for growing agencies."
             },
             {
-                icon: FiEdit3,
-                title: "Edit and rewrite the content.",
-                description: "After submitting the form AI will write an insightful draft for you. Generated draft you can easily edit, copy, save, rewrite or prompt for further improvements.",
-                image: "https://ipfs.io/ipfs/QmP6yVNc3M5MkUmaGf8jNTMF4XozZT4oQ2xbmuUQ7Wtkf1?filename=Screenshot%202023-08-13%20at%202.07.13%20PM.png"
+                title: "Time Efficiency",
+                description: "By uploading various forms of data once, marketers save time in the repeating processes. This centralized data repository eliminates the need for repetitive searches or manual data entry."
+            },
+            {
+                title: "Content Relevance",
+                description: "By segmenting data into designated folders, marketers ensure that the content created is highly relevant and tailored to specific clients."
             },
         ],
         useCases: [

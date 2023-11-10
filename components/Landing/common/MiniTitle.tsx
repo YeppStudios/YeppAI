@@ -8,9 +8,8 @@ export default MiniTitle;
 
 const Title = styled.button`
     font-size: 1.2rem;
-    margin-bottom: 0.75rem;
     text-align: center;
-    padding: 1rem 4rem 1rem 4rem;
+    padding: 1rem 0rem 1rem 0rem;
     border-radius: 25px;
     color: rgb(31, 41, 55);
     font-weight: 500;
