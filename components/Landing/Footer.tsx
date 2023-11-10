@@ -122,11 +122,11 @@ const Footer = () => {
         <h2 id="footer-heading" className="sr-only">
           Footer
         </h2>
-        <div className="pb-28 px-[10rem] flex justify-between">
-        <div className="w-[47%]">
+        <div className="pb-28 lg:px-[10rem] flex justify-between">
+        <div className="lg:w-[47%] pl-[5vw] lg:pl-0">
             <div>
                 <h3 className='lg:text-[2.5vw] text-2xl font-medium text-gray-800 mt-8 lg:mt-0 leading-tight'>Discover Your {mobile && <span>Own</span>} Marketing Automation Platform.</h3>
-                <p className='w-11/12 text-lg text-gray-800 mt-6'>Learn how Yepp helps more than <b className="font-medium">3,000 users</b> get more leads.</p>
+                <p className='lg:w-11/12 text-lg text-gray-800 mt-6'>Learn how Yepp helps more than <b className="font-medium">3,000 users</b> get more leads.</p>
             </div>
             <div className="flex gap-12 mt-6 lg:mt-0 items-center">
               {!mobile && <BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Learn more</BlueButton>}
@@ -140,7 +140,7 @@ const Footer = () => {
         </div>
         </div>
         <div className="lg:pl-[10rem] lg:pr-[2rem] px-[5%] pb-8 font-medium">
-          <div className="xl:grid xl:grid-cols-3 xl:gap-8 flex">
+          <div className="xl:grid xl:grid-cols-3 xl:gap-8 flex flex-wrap">
             <div className="space-y-8">
               <Image
                 className="h-8 w-auto"
@@ -159,8 +159,8 @@ const Footer = () => {
                 ))}
               </div>
             </div>
-            <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-              <div className="md:grid md:grid-cols-2 md:gap-8">
+            <div className="mt-16 grid grid-cols-2 gap-16 lg:gap-8 xl:col-span-2 xl:mt-0">
+              <div className="md:grid md:grid-cols-2 gap-16 md:gap-8">
                 <div>
                   <h3 className="text-sm font-bold leading-6 text-gray-800">Solutions</h3>
                   <ul role="list" className="mt-6 space-y-4">
@@ -186,7 +186,7 @@ const Footer = () => {
                   </ul>
                 </div>
               </div>
-              <div className="md:grid md:grid-cols-2 md:gap-6">
+              <div className="md:grid md:grid-cols-2 gap-16 md:gap-8">
                 <div className="">
                   <h3 className="text-sm font-bold leading-6 text-gray-800">About</h3>
                   <ul role="list" className="mt-6 space-y-4">
@@ -200,7 +200,7 @@ const Footer = () => {
                   </ul>
                 </div>
                 <div className="">
-                  <h3 className="text-sm font-bold leading-6 text-gray-800">About</h3>
+                  <h3 className="text-sm mt-10 md:mt-0 font-bold leading-6 text-gray-800">About</h3>
                   <ul role="list" className="mt-6 space-y-4">
                     {footerNavigation.about.map((item) => (
                       <li key={item.name}>

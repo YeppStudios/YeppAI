@@ -314,6 +314,7 @@ const Section = styled.div<Section>`
         background-image: url(${props => props.mobileImage.src});
         background-size: 100%;
         width: 100vw;
+        max-height: 150vh;
         margin-left: 0vw;
         padding: 5vh 5% 10vh 5%;
         margin-top: 2vh;
@@ -336,8 +337,10 @@ const TestimonialContainer = styled.div`
 
 const TestimonialText = styled.p`
     font-size: 1.8vh;
-    font-family: 'Lato', sans-serif;
     color: rgb(31 41 55);
+    @media (max-width: 1023px) {
+        font-size: 1rem;
+    }
 `
 
 const ProfileContainer = styled.div`

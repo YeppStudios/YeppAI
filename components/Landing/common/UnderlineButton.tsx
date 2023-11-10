@@ -8,7 +8,7 @@ export default UnderlineButton;
 
 const Underline = styled.button`
     font-size: 1rem;
-    padding: 2vh 5vw 2vh 0vw;
+    padding: 2vh 5vw 2vh 5vw;
     border-bottom: solid 2px #6597FA;
     align-items: center;
     color: rgb(31 41 55);

@@ -5,7 +5,7 @@ import Navbar from '@/components/Landing/Navbar';
 import Head from 'next/head'
 import styled from 'styled-components';
 import Image from 'next/image';
-import Section from '@/components/Landing/Section';
+import Section from '@/components/Landing/common/Section';
 import Footer from '@/components/Landing/Footer';
 import Loading from '@/components/Common/Loading';
 import { useRouter } from 'next/router';
@@ -136,7 +136,7 @@ const PageContent = styled.div`
   position: relative;
   height: 100%;
   overflow: hidden;
-  background: #F6F6FB
+  background: #F6F6FB;
 `
 
 

@@ -52,9 +52,9 @@ const PercentageSection = () => {
     }, [inView]);
 
     return (
-        <DemoContainer className="w-full bg-white py-12 lg:py-14 px-12 lg:px-24 flex justify-between mb-20">
+        <Container className="w-full bg-white py-12 lg:py-14 px-12 lg:px-24 flex justify-between mb-20">
             <div className="w-[5rem] flex justify-end lg:mt-0 absolute right-0 top-0">
-                <Image src={growthIcon} alt="growth icon" className="lg:w-full w-1/4" />
+                <Image src={growthIcon} alt="growth icon" className="lg:w-full w-full" />
             </div>
             <div className="w-full rounded-xl relative" ref={ref}>
                 <div className="flex flex-wrap lg:flex-nowrap justify-between items-center mt-6">
@@ -64,13 +64,13 @@ const PercentageSection = () => {
                         Create and drive more traffic
                     </p>
                     }
-                    <p className="text-[3vw] leading-tight font-medium flex lg:w-10/12 items-end"> 
+                    <p className="lg:text-[3vw] text-2xl leading-tight font-medium flex lg:w-10/12 items-end"> 
                         Yepp AI helps businesses attract 27% more clients.
                     </p>
                     </div>
                     <div className="h-full flex flex-col-reverse lg:flex-col lg:flex-wrap w-full lg:w-1/2">
                         <motion.p 
-                            className="lg:text-[10rem] text-5xl text-right flex lg:block text-gray-800 lg:mt-0"
+                            className="lg:text-[10rem] text-[6rem] text-right flex lg:block text-gray-800 lg:mt-0"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: inView ? 1 : 0 }}
                             transition={{ duration: 1 }}
@@ -80,13 +80,13 @@ const PercentageSection = () => {
                     </div>
                 </div>
             </div>
-        </DemoContainer>
+        </Container>
     )
 }
 
 export default PercentageSection;
 
-const DemoContainer = styled.div`
+const Container = styled.div`
     box-shadow: 0px 0px 20px rgba(0, 0, 100, 0.15);
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;

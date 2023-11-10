@@ -1,7 +1,7 @@
 import SlideBottom from "@/components/Animated/SlideBottom";
 import Navbar from "@/components/Landing/Navbar";
 import styled from "styled-components";
-import Section from '@/components/Landing/Section';
+import Section from '@/components/Landing/common/Section';
 import LearnMoreSection from "@/components/Landing/LearnMoreSection";
 import Footer from '@/components/Landing/Footer';
 import { useEffect, useState } from "react";

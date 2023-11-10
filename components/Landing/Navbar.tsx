@@ -28,7 +28,7 @@ import { ShieldCheck } from "lucide-react";
 
 
 const platform = [
-    { name: 'What is Yepp', description: 'Learn more on what Yepp is all about', href: '/solution/marketing-templates', icon: BuildingOffice2Icon },
+    { name: 'What is Yepp', description: 'Learn more on what Yepp is all about', href: '/platform/what-is-yepp', icon: BuildingOffice2Icon },
     { name: 'Trust', description: 'More on how do we keep our partners safe', href: '/solution/copywriting', icon: ShieldCheckIcon },
     { name: 'Governance', description: "Get to know how Yepp AI handles privacy", href: '/solution/chat', icon: ScaleIcon },
     { name: 'FAQ', description: 'Answers to the most common questions', href: '/solution/campaigns', icon: QuestionMarkCircleIcon }
@@ -53,8 +53,8 @@ const solutions2 = [
   
 
 const blogs = [
-  { name: 'Marketing Templates', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: ClipboardDocumentListIcon },
-  { name: 'Copywriting', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: DocumentTextIcon },
+  { name: 'Latest SEO Game-Changer', description: 'Unpack the Latest SEO Game-Changer from Google.', href: 'https://www.linkedin.com/pulse/unpack-latest-seo-game-changer-yeppai-lrnuc/?trackingId=uibjLxwMSsWhS7E2YCbQDA%3D%3D', imageUrl: "https://media.licdn.com/dms/image/D5612AQHOWtjMvFcUfQ/article-cover_image-shrink_423_752/0/1699516148285?e=1704931200&v=beta&t=9V3XxuO8GwJcsEO2Sb-JXL14Q8AUoMhP1UvXcmdDyGM", time: "08 Nov 2023" },
+  { name: 'Future of Marketing', description: 'Hyper-Personalization in marketing with Fine-Tuned LLMs.', href: 'https://medium.com/@wiktor_gawel/future-of-marketing-9064ae3f6a53', imageUrl: "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*70PIhty3qk0Bu6GaqTSPaA.png", time: "06 Nov 2023" },
 
 ]
 
@@ -116,7 +116,7 @@ const Navbar = () =>{
                         <Image style={{ width: "auto", height: "100%" }}  src={logo} alt={'logo'}></Image> 
                     </LogoContainer>
                     <Link href="/"><AppName>Yepp AI</AppName></Link>
-                    <Link href="/about-partnership"><NavLink>Why Yepp AI?</NavLink></Link>
+                    <Link href="/why-yepp"><NavLink>Why Yepp?</NavLink></Link>
                     <NavLink onMouseEnter={() => setPlatformOpen(true)} onMouseLeave={() => setPlatformOpen(false)}>
                     <Popover className="relative">
                     <Popover.Button className="inline-flex items-center gap-x-1 leading-6 text-gray-800 outline-none">
@@ -241,8 +241,10 @@ const Navbar = () =>{
                             <div className="relative flex-none">
                                 <Image
                                 className="aspect-[2/1] w-full rounded-lg bg-gray-100 object-cover sm:aspect-[16/9] sm:h-32 lg:h-auto"
-                                src="https://images.unsplash.com/photo-1682687218608-5e2522b04673?q=80&w=3175&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                src={post.imageUrl}
                                 alt=""
+                                width={1200}
+                                height={800}
                                 />
                                 <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-gray-900/10" />
                             </div>
@@ -254,16 +256,15 @@ const Navbar = () =>{
                                 </a>
                                 </h4>
                                 <p className="mt-2 text-sm leading-6 text-gray-600">{post.description}</p>
-                                <div className="flex items-center justify-between gap-x-4 mt-4">
+                                <div className="flex items-center justify-between gap-x-4">
                                 <time className="text-sm leading-6 text-gray-400">
-                                    19.11.23
+
                                 </time>
-                                <a
-                                    href={post.href}
+                                <div
                                     className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 text-xs text-gray-400"
                                 >
-                                    {post.name}
-                                </a>
+                                    {post.time}
+                                </div>
                                 </div>
                             </div>
                             </article>
