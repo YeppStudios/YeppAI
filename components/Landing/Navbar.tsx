@@ -34,22 +34,20 @@ const platform = [
   ]
 
 const solutions1 = [
-    { name: 'Data Retrieval', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: CircleStackIcon },
-    { name: 'Clients Management', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: UserGroupIcon },
-    { name: 'Data Driven Content', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: DocumentTextIcon },
-    { name: 'Tone Consistency', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: MegaphoneIcon },
-    { name: 'Competition Research', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: MagnifyingGlassIcon },
+    { name: 'Data Retrieval', description: 'Generate insightful content on niche topics', href: '/solution/data-retrieval', icon: CircleStackIcon },
+    { name: 'Clients Management', description: 'Craft highly personalized written pieces', href: '/solution/clients-management', icon: UserGroupIcon },
+    { name: 'Data Driven Content', description: 'Craft highly personalized written pieces', href: '/solution/data-driven-content', icon: DocumentTextIcon },
+    { name: 'Tone Consistency', description: 'Craft highly personalized written pieces', href: '/solution/tone-consistency', icon: MegaphoneIcon },
+    { name: 'Competition Research', description: 'Craft highly personalized written pieces', href: '/solution/competition-research', icon: MagnifyingGlassIcon },
 ]
 
 const solutions2 = [
-    { name: 'Audience Targeting', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: UserIcon },
-    { name: 'Creative Chat', description: 'Generate insightful content on niche topics', href: '/solution/marketing-templates', icon: ChatBubbleBottomCenterTextIcon },
-    { name: 'Shopping Chatbot', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: TagIcon },
-    { name: 'LLM Fine-Tuning', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: AdjustmentsHorizontalIcon },
-    { name: 'Individual Solution', description: 'Craft highly personalized written pieces', href: '/solution/copywriting', icon: CommandLineIcon },
+    { name: 'Audience Targeting', description: 'Craft highly personalized written pieces', href: '/solution/audience-targeting', icon: UserIcon },
+    { name: 'Creative Chat', description: 'Generate insightful content on niche topics', href: '/solution/creative-chat', icon: ChatBubbleBottomCenterTextIcon },
+    { name: 'Shopping Chatbot', description: 'Craft highly personalized written pieces', href: '/solution/shopping-chatbot', icon: TagIcon },
+    { name: 'LLM Fine-Tuning', description: 'Craft highly personalized written pieces', href: '/solution/fine-tuning', icon: AdjustmentsHorizontalIcon },
+    { name: 'Custom Solution', description: 'Craft highly personalized written pieces', href: '/custom-solution', icon: CommandLineIcon },
 ]
-  
-  
 
 const blogs = [
   { name: 'Latest SEO Game-Changer', description: 'Unpack the Latest SEO Game-Changer from Google.', href: 'https://www.linkedin.com/pulse/unpack-latest-seo-game-changer-yeppai-lrnuc/?trackingId=uibjLxwMSsWhS7E2YCbQDA%3D%3D', imageUrl: "https://media.licdn.com/dms/image/D5612AQHOWtjMvFcUfQ/article-cover_image-shrink_423_752/0/1699516148285?e=1704931200&v=beta&t=9V3XxuO8GwJcsEO2Sb-JXL14Q8AUoMhP1UvXcmdDyGM", time: "08 Nov 2023" },

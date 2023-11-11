@@ -30,7 +30,7 @@ const WhyYepp = () => {
             <Centered>
             <div className="w-11/12 flex justify-center flex-wrap">
                 <Centered><MiniTitle>Why Choose Yepp?</MiniTitle></Centered>
-                <div className="w-8/12"><MainTitle>Marketing platforms must generate and convert more leads.</MainTitle></div>
+                <div className="lg:w-8/12 w-full"><MainTitle>Marketing platforms must generate and convert more leads.</MainTitle></div>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Every marketing team has two primary goals to drive growth: generate leads and convert leads. This concept seems straightforward. However, the current economic climate demands that marketers achieve more with fewer resources.</div>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">To stay ahead in the competitive landscape, marketing leaders require a platform that unlock conversion rates and optimizes resource utilization.</div>
             </div>
@@ -48,7 +48,7 @@ const WhyYepp = () => {
         <div className="lg:grid lg:grid-cols-2 flex flex-wrap gap-10 lg:px-[6rem]">
             <div>
                 <div className="w-full flex flex-wrap p-10">
-                    <h3 className="lg:text-[3vw] text-3xl font-medium ">Marketing leaders face new obstacles</h3>
+                    <h3 style={{lineHeight: 1.2}} className="lg:text-[3vw] text-3xl font-medium ">Marketing leaders face new obstacles</h3>
                     <h4 className="lg:text-[1.5vw] font-medium mt-4">Crafting and converting leads has always been complex, yet today&apos;s marketing arena is presenting unprecedented difficulties.</h4>
                     <p className=" lg:text-lg text-gray-800 mt-8">Yepp is your individually tailored AI platform, specifically crafted to align with your marketing team&apos;s workflow. It integrates with your team&apos;s unique processes - from content creation to data analysis - propelling your brand&apos;s growth at every customer engagement stage.</p>
                     <div className="w-full mt-10">
@@ -60,7 +60,7 @@ const WhyYepp = () => {
                     </div>
                 </div>
             </div>
-            <div className="h-full flex items-end">
+            <div className="h-full flex items-end px-8 lg:px-0">
                 <Image src={chart} alt="chart" className="w-full rounded-3xl" />
             </div>
         </div>
@@ -73,8 +73,8 @@ const WhyYepp = () => {
             <div>
                 <div className="w-full flex flex-wrap p-10 lg:ml-16">
                     <h3 className="lg:text-[3vw] text-3xl font-medium ">New era, new rules</h3>
-                    <h4 className="lg:text-[1.5vw] font-medium mt-4 w-11/12">To succeed, marketing teams need new, smart ways to grab attention and win customers.</h4>
-                    <div className="mt-10 w-10/12">
+                    <h4 className="lg:text-[1.5vw] font-medium mt-4 lg:w-11/12">To succeed, marketing teams need new, smart ways to grab attention and win customers.</h4>
+                    <div className="mt-10 w-full lg:w-10/12">
                         <div className="flex gap-6 mt-4"><Image src={tickIcon} alt="tick" className="w-6 h-6" />Engagement: Boost the impact and response rate of campaigns.</div>
                         <div className="flex gap-6 mt-4"><Image src={tickIcon} alt="tick" className="w-6 h-6" />Creativity: Produce more compelling content that resonates.</div>
                         <div className="flex gap-6 mt-4"><Image src={tickIcon} alt="tick" className="w-6 h-6" />Insight: Better predict and understand market trends and customer behavior.</div>
@@ -96,26 +96,26 @@ const WhyYepp = () => {
         <div className="w-full flex justify-center flex-wrap">
             <Subtitle>Marketing teams need a platform that streamlines their workflow from start to finish.</Subtitle>
             <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Yepp AI is the only Marketing Intelligence Platform that enhances marketer efficiency, enabling teams to effectively generate and convert more leads with less effort.</div>
-            <Image src={workflowVisualization} alt="workflow" className="w-2/3 mt-14" />
+            <Image src={workflowVisualization} alt="workflow" className="lg:w-2/3 w-11/12 mt-14" />
             <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Yepp AI is the unified platform — and single source of truth — for marketers and their leaders. It consolidates every marketing activity into a smart, data-driven workflow. By integrating data from every touchpoint in the customer journey, Yepp AI provides insights that empower the entire team to achieve superior marketing results.</div>
             <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Consequently, marketing teams can generate more leads and boost conversions while reducing expenses and risks across the organization.</div>
             <Centered>
-                <div className="mt-4">
+                <div className="lg:mt-4 mt-12">
                 <BlueButton onClick={() => console.log("")}>Explore the platform</BlueButton>
                 </div>
             </Centered>
         </div>
         </GraySection>
         <Section>
-        <div className="lg:px-[8rem] mb-[20vh]">
+        <div className="lg:px-[8rem] px-[5%] mb-[20vh]">
         <Container className="w-full relative bg-white py-12 lg:py-14 px-12 lg:px-24 flex justify-between">
             <div className="w-[5rem] flex justify-end lg:mt-0 absolute right-0 top-0">
                 <Image src={growthIcon} alt="growth icon" className="w-full" />
             </div>
             <div className="w-full rounded-xl relative">
-                <div className="flex flex-wrap lg:flex-nowrap justify-between items-center mt-6 pb-10 border-b-4 border-gray-100">
+                <div className="flex flex-wrap flex-col-reverse lg:flex-nowrap justify-between items-center mt-6 pb-10 border-b-4 border-gray-100">
                     <div className="lg:w-1/2 w-full flex flex-wrap items-center">
-                    <p className="text-[3vw] leading-tight font-medium flex lg:w-10/12 items-end"> 
+                    <p className="lg:text-[3vw] text-lg mt-4 lg:mt-0 leading-tight font-medium flex lg:w-10/12 items-end"> 
                     Faster Campaign Execution
                     </p>
                     </div>
@@ -131,8 +131,8 @@ const WhyYepp = () => {
                             29%
                         </p>
                     </div>
-                    <div className="lg:w-1/2 w-full flex flex-wrap items-center justify-end">
-                    <p className="text-[3vw] leading-tight text-right font-medium flex lg:w-10/12 items-end"> 
+                    <div className="lg:w-1/2 w-full flex flex-wrap items-center mt-4 lg:mt-0 lg:justify-end">
+                    <p className="lg:text-[3vw] text-lg leading-tight lg:text-right font-medium flex lg:w-10/12 items-end"> 
                     Increase in Average Deal Size
                     </p>
                     </div>

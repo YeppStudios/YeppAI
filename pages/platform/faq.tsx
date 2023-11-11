@@ -229,12 +229,3 @@ const SectionsContanier = styled(Masonry)`
 const MasonryColumn = styled.div`
   background-clip: padding-box;
 `;
-
-
-const Section = styled.div`
-    width: calc(100% - 1.4rem);
-    background: #F6F6FB;
-    margin: 1.4rem 0rem 1.4rem 0.75rem;
-    border-radius: 20px;
-    padding: 2rem 2.4rem 2rem 2.4rem;
-`

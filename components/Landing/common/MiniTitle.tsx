@@ -14,6 +14,6 @@ const Title = styled.button`
     color: rgb(31, 41, 55);
     font-weight: 500;
     @media (max-width: 1023px) {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
 `

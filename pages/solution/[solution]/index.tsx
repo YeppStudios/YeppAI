@@ -37,14 +37,6 @@ const SolutionPage = () => {
   const [mobile, setMobile] = useState(true);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
   interface TutorialOrUseCase {
     icon: IconType;
     title: string;
@@ -56,6 +48,8 @@ const SolutionPage = () => {
     title: string;
     mainTitle: string;
     icon: any;
+    mainImage : any;
+    imageSections: any[];
     overview: object[];
     description: string;
     video: string;
@@ -129,33 +123,37 @@ const SolutionPage = () => {
             </Centered>
             </div>
             <Centered>
-                <Image src={dashbaordVisualization}  alt="dashboard" className='w-full mt-10 lg:mt-0'/>
+                <Image src={solutionData.mainImage}  alt="dashboard" className='w-full mt-10 lg:mt-0'/>
             </Centered>
+            {solutionData.imageSections &&
             <GraySection>
             <div className="w-full flex justify-center flex-wrap px-[10rem]">
                 <Subtitle>How {solutionData.title} can help you achieve more?</Subtitle>
-                <div className="mt-20 w-full">
-                <div className="mt-10 w-full flex items-center justify-center gap-28">
-                  <div>
-                    <h2 className="text-3xl font-medium">Leverage Expert Knowledge</h2>
-                    <p className="text-lg mt-6">Other AI solutions often face challenges with &apos;hallucinations&apos; or inaccuracies stemming from insufficient information. Yepp&apos;s Data Retrieval resolves this issue by absorbing extensive knowledge, ensuring you can trust the quality of the text generated. </p>
+                <div className="mt-36 w-full">
+                <div className="mt-10 w-full flex items-center justify-between gap-28">
+                  <div className="w-1/2">
+                    <h2 className="text-3xl font-medium">{solutionData.imageSections[0].title}</h2>
+                    <p className="text-lg mt-6">{solutionData.imageSections[0].description}</p>
                   </div>
-                  <div>
-                    <AttributeBackground background="https://plus.unsplash.com/premium_photo-1674586421832-3dab2a71d730?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
-                  </div>
-                </div>
-                <div className="mt-10 w-full flex items-center justify-center gap-28">
-                  <div>
-                    <AttributeBackground background="https://images.pexels.com/photos/8485714/pexels-photo-8485714.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-medium">Embrace Intuitive Data Management</h2>
-                    <p className="text-lg mt-6">The Data Retrieval solution boasts an intuitive design that simplifies data management for everyone, no IT skills required. Its user-friendly interface allows seamless data uploading and segmentation, making AI-powered content creation accessible to all team members.</p>
+                  <div className="w-4/12">
+                    <AttributeBackground background={solutionData.imageSections[0].imageURL} />
                   </div>
                 </div>
+                {solutionData.imageSections[1] &&
+                <div className="mt-48 w-full flex items-center justify-between gap-28">
+                  <div className="w-4/12">
+                    <AttributeBackground background={solutionData.imageSections[1].imageURL} />
+                  </div>
+                  <div className="w-1/2">
+                    <h2 className="text-3xl font-medium">{solutionData.imageSections[1].title}</h2>
+                    <p className="text-lg mt-6">{solutionData.imageSections[1].description}</p>
+                  </div>
+                </div>
+                }
                 </div>
             </div>
             </GraySection>
+            }
             <Section>
               <Centered><Subtitle>{solutionData.title}: Quick Overview</Subtitle></Centered>
               <ExamplesContainer
@@ -187,13 +185,13 @@ export default SolutionPage;
 
 
 const AttributeBackground = styled.img<{background: string}>`
-  height: 80vh;
+  height: 60vh;
   width: 80vw;
   background-image: url(${props => props.background});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 1rem;
+  border-radius: 25px;
 `
 
 

@@ -28,7 +28,7 @@ const WhatIsYepp = () => {
             <Centered>
             <div className="w-11/12 flex justify-center flex-wrap">
                 <Centered><MiniTitle>What is Yepp?</MiniTitle></Centered>
-                <div className="w-8/12"><MainTitle>Meet the Marketing Intelligence Platform</MainTitle></div>
+                <div className="lg:w-8/12"><MainTitle>Meet the Marketing Intelligence Platform</MainTitle></div>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Yepp AI is the only platform that enhances marketer efficiency, enabling teams to effectively generate and convert more leads with less effort.</div>
             </div>
             </Centered>
@@ -40,7 +40,7 @@ const WhatIsYepp = () => {
             <div className="w-full flex justify-center flex-wrap">
                 <Subtitle>What is Marketing Intelligence Platform? </Subtitle>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">The Marketing Intelligence Platform is an all-in-one solution that leverages AI to streamline and enhance every aspect of marketing, from lead generation and engagement to conversion and analytics, enabling marketing teams to deliver superior results with greater efficiency.</div>
-                <Image src={workflowVisualization} alt="workflow" className="w-2/3 mt-14" />
+                <Image src={workflowVisualization} alt="workflow" className="lg:w-2/3 w-11/12 mt-14" />
             </div>
             </GraySection>
             <Footer />

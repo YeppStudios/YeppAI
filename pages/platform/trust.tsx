@@ -35,7 +35,7 @@ const WhatIsYepp = () => {
             <Centered>
             <div className="w-11/12 flex justify-center flex-wrap">
                 <Centered><MiniTitle>Why trust Yepp?</MiniTitle></Centered>
-                <div className="w-8/12"><MainTitle>Yepp: Your Trusted Partner</MainTitle></div>
+                <div className="lg:w-8/12 w-full"><MainTitle>Yepp: Your Trusted Partner</MainTitle></div>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Ensuring a safe environment for our users is at the core of Yepp&apos;s mission. This is one of many reasons why more than 3,000 users rely on Yepp with their data.</div>
                 <Centered>
                     <div className="mt-10">
@@ -85,9 +85,8 @@ const WhatIsYepp = () => {
             </SectionsContanier>
             </div>
             </GraySection>
-            <Section>
+            <div className="mt-10"></div>
                 <LearnMoreSection />
-            </Section>
             <Footer />
         </div>
     )

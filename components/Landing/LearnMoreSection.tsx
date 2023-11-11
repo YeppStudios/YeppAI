@@ -1,70 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Title from "../Common/Title";
 import Accordion from "./Accordion";
-import { showNotification } from '@mantine/notifications';
-import { Loader } from "../Common/Loaders";
-import { BsCheckLg } from "react-icons/bs";
-import api from "@/pages/api";
 import UnderlineButton from "./common/UnderlineButton";
 
 const LearnMoreSection = () => {
 
     const [openedAccordion, setOpenedAccordion] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [email, setEmail] = useState("");
-    const [success, setSuccess] = useState(false);
+    const [mobile, setMobile] = useState(true);
 
-    const subscribe = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-          await api.post("/save-contact", {email});
-          setLoading(false);
-          setSuccess(true);
-          setEmail("");
-          showNotification({
-            id: 'subscribed',
-            disallowClose: true,
-            autoClose: 5000,
-            title: "Welcome on board!",
-            message: 'Time to learn more about AI!',
-            color: 'black',
-      
-            styles: (theme: any) => ({
-              root: {
-                border: "none",
-      
-              },
-            })
-          })
-          setEmail('');
-        } catch (e) {
-          console.log(e)
-          showNotification({
-            id: 'error',
-            disallowClose: true,
-            autoClose: 5000,
-            title: "Something went wrong...",
-            message: 'Contact us: hello@asystent.ai',
-            color: 'red',
-      
-            styles: (theme: any) => ({
-              root: {
-                backgroundColor: "#04040A",
-                border: "none",
-      
-              },
-      
-              title: { color: "white" },
-              description: { color: "white" },
-            })
-          })
-          setLoading(false)
-        }
+   
+    useEffect(() => {
+      if (window.innerWidth > 1023) { 
+        setMobile(false);
       }
+      const updateWindowSize = () => {
+        setMobile(window.innerWidth < 1023);
+      };
+      window.addEventListener("resize", updateWindowSize);
+      document.body.style.overflow = 'auto';
+      document.body.style.position = 'static';
+    }, []);
 
-      
+    
     return (
         <Section>
             <div style={{width: "100%"}}>
@@ -73,11 +31,13 @@ const LearnMoreSection = () => {
                 <Accordion openedAccordion={openedAccordion} index={3} onClick={() => setOpenedAccordion(3)} question="Can I cancel my subscription?" answer={"Subscription renews every month starting from the purchase date and can be canceled at any time so that payment will not be collected for the next month."} backgroundColor="#F2F2FB"/>
                 <Accordion openedAccordion={openedAccordion} index={4} onClick={() => setOpenedAccordion(4)} question="Doesn't it generate the same content for everyone?" answer={"No. Yepp is creative and generates unique and tailored content for each query."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
             </div>
+            {!mobile &&
             <ContactContainer>
                 <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-bold text-gray-800">Learn more.</b></Title>
                 <Description>Still want to learn more about our platform and security? Contact our experts to learn more!</Description>
                 <UnderlineButton onClick={undefined}>Talk with an expert</UnderlineButton>
             </ContactContainer>
+            }
         </Section>
     )
 }
@@ -127,70 +87,4 @@ const ContactContainer = styled.div`
 }
 
 
-`
-
-const SignupLabel = styled.p`
-    color: rgb(31 41 55);
-    margin-top: 3vh;
-`
-
-const NewsletterInput = styled.input`
-    border-radius: 20px;
-    width: 20vw;
-    font-size: 2vh;
-    padding: 1vh 1vw 1vh 1vw;
-    margin-top: 1vh;
-    background-color: transparent;
-    border: 2px solid #DFDFDF;
-    color: black;
-    outline: none;
-    @media (max-width: 1023px) {
-        width: 80vw;
-        padding: 1.5vh 2vh 1.5vh 2vh;
-      }
-`
-
-const Form = styled.form`
-      display: flex;
-      alignItems: center;
-      @media (max-width: 1023px) {
-          flex-wrap: wrap;
-          justify-content: center;
-      }
-`
-
-const SignupButton = styled.button`
-    padding: 0 1.5vw 0 1.5vw;
-    height: 5vh;
-    margin-left: 1.5vw;
-    background-color: #0D0E16;
-    border: solid 3px transparent;
-    border-radius: 15px;
-    box-shadow: inset 2px 2px 6px rgba(22, 27, 29, 0.23);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    align-items: center;
-    background: linear-gradient(40deg, #6578f8, #64b5ff);
-    background-size: 120%;
-    background-position-x: -1rem;
-    margin-top: 1vh;
-    font-weight: 700;
-    width: 9vw;
-    display: flex;
-    justify-content: center;
-    color: white;
-    align-items: center;
-    @media (max-width: 1023px) {
-        padding: 0 4vh 0 4vh;
-        margin-top: 1.5vh;
-        height: 7vh;
-        width: 70%;
-        font-size: 2vh;
-    }
-`
-
-const LearnMoreArrow = styled.div`
-    height: 1vh;
-    margin-left: 1.5vw;
-    cursor: pointer;
 `
