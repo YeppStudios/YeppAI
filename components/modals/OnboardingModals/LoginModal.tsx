@@ -371,7 +371,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                 // :
                 !resetPassword ?
                 <div>
-                    <ModalTitle>Log in</ModalTitle>
+                    <ModalTitle>Sign in</ModalTitle>
                     <Form autoComplete="off" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
                         <div style={{display: "flex", width: "100%", justifyContent: "center", flexWrap: "wrap"}}>
                             {loginError &&
@@ -417,7 +417,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                     <Loader color="white" />
                                 </div>
                                 :
-                                <p>Log in</p>
+                                <p>Sign in</p>
                                 }
                             </Button>
                         </div>
