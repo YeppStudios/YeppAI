@@ -32,7 +32,7 @@ export const solutions = [
             {
                 title: "Leverage Expert Knowledge",
                 description: "Other AI solutions often face challenges with hallucinations or inaccuracies stemming from insufficient information. Yepps Data Retrieval resolves this issue by absorbing extensive knowledge, ensuring you can trust the quality of the text generated.",
-                imageURL: "https://img.freepik.com/free-photo/vertical-shot-curly-haired-millennial-girl-sits-crossed-legs-uses-mobile-phone-laptop-computer-connected-wireless_273609-55621.jpg?w=1060&t=st=1699654749~exp=1699655349~hmac=64d5994a6c4419075028dfb5c7e13f48ea85fcee9e56f2429bee528bd9b637e9"
+                imageURL: "https://images.pexels.com/photos/6913825/pexels-photo-6913825.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
             {
                 title: "Embrace Intuitive Data Management",
@@ -70,7 +70,7 @@ export const solutions = [
             {
                 title: "Amplify Client Satisfaction",
                 description: "Where marketing platforms falter in aligning with your Agency’s needs, Client Management solution excels. By crafting tailored content, and fostering project insights, Yepp guarantees elevated client satisfaction and cements lasting relationships.",
-                imageURL: "https://img.freepik.com/free-photo/smiley-business-man-woman-working-together-office-with-laptop_23-2149206530.jpg?w=1060&t=st=1699660164~exp=1699660764~hmac=a2d19081bec6d6bea2a0607896464d89fe29fde5dc15c661bf3d594d5158fefa"
+                imageURL: "https://images.pexels.com/photos/3194524/pexels-photo-3194524.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
             {
                 title: "Optimize Team Operations",
@@ -108,12 +108,12 @@ export const solutions = [
             {
                 title: "Elevate Your SEO Rankings",
                 description: "Harness the power of data-driven intelligence to create customized content that elevates your search engine presence. With Yepp, you'll forge content that not only meets but exceeds expectations, catapulting rankings and establishing online authority.",
-                imageURL: "https://img.freepik.com/free-photo/person-office-analyzing-checking-finance-graphs_23-2150377136.jpg?w=1060&t=st=1699660458~exp=1699661058~hmac=3c8356cd5a147cbdde4607927230c82fa489cc94ee5fa1f95cfd7895e822a45a"
+                imageURL: "https://images.pexels.com/photos/7550891/pexels-photo-7550891.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
             {
                 title: "Stand Out in a Crowded Digital Landscape",
                 description: "We understand that one of the biggest hurdles in content creation is maintaining a fresh, creative edge—especially when managing a broad portfolio of clients or projects. That's where Yepp steps in. Our fine-tuned AI crafts content that’s truly original and impactful.",
-                imageURL: "https://img.freepik.com/free-photo/monochrome-pieces-chess-board-game_23-2150378625.jpg?w=1060&t=st=1699660624~exp=1699661224~hmac=6f32e3cad1004596f999d25486c4e6848281e3b5cd958cab178b7210c30df109"
+                imageURL: "https://images.pexels.com/photos/5076522/pexels-photo-5076522.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
         overview: [
@@ -158,12 +158,12 @@ export const solutions = [
             {
                 title: "Enhance Audience Engagement",
                 description: "Yepp is designed to learn from your content history and fine-tune the language model, guaranteeing that your brand's voice remains consistent. In result you build stronger connections with your audience that drive interactions and engagement.",
-                imageURL: "https://img.freepik.com/free-photo/female-african-american-speaker-giving-presentation-hall-university-workshop_155003-3578.jpg?w=1060&t=st=1699660806~exp=1699661406~hmac=5d365bfe398931453fe9f74aecdcce3d6c1dacb47d9ff775d2cd2a19f35ce227"
+                imageURL: "https://images.pexels.com/photos/5256523/pexels-photo-5256523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
             {
                 title: "Personalize Content at Scale",
                 description: "With a fine-tuned language model that understands your brand's voice, you can automate personalized content creation effortlessly. This boosts your content's effectiveness across diverse audience segments, helping your marketing efforts resonate with different target groups and connect with a wide range of customers.",
-                imageURL: "https://img.freepik.com/free-photo/woman-with-pen_144627-22633.jpg?w=1060&t=st=1699660909~exp=1699661509~hmac=28b261add2d9c58c38c23dfdf2908404156da35788ca79b64df42822001a352b"
+                imageURL: "https://images.pexels.com/photos/6893933/pexels-photo-6893933.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
         overview: [
@@ -201,7 +201,7 @@ export const solutions = [
             {
                 title: "Fine-Tune Your Brand Story",
                 description: "Get to know what makes your competitors special and how they talk to their customers. Use these insights to make your own brand's story clearer and more appealing. This helps you connect better with your audience, making your brand more memorable and keeping customers interested.",
-                imageURL: "https://img.freepik.com/free-photo/people-working-their-office_23-2149196409.jpg?w=1060&t=st=1699661176~exp=1699661776~hmac=c5ebef25be7d27ce919e2ae2641bafcb688e4602d9823eac8e12e079e4e7ff31"
+                imageURL: "https://images.pexels.com/photos/4144100/pexels-photo-4144100.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
         overview: [
@@ -234,12 +234,12 @@ export const solutions = [
             {
                 title: "Maximize User Interactions",
                 description: "Our platform integrates advanced Large Language Models (LLMs) with your company-specific data to analyze user behavior, preferences, and historical interactions. This synergy ensures your marketing content is not just broadly targeted but fine-tuned to provoke active engagement, thereby increasing likes, shares, and conversions.",
-                imageURL: "https://img.freepik.com/free-photo/authentic-beautiful-good-looking-asian-woman-walking-with-laptop-living-room-starting-work-remotelly-work-from-home-internet-web-online-user-freelancer-home-office-starting-her-work-day_482257-48045.jpg?w=1060&t=st=1699661344~exp=1699661944~hmac=10c05bc34e9768624b7ca34a60f585bc2d11dea20d5e06f4bcc31fbdb5fab2ce"
+                imageURL: "https://images.pexels.com/photos/7550396/pexels-photo-7550396.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
             {
                 title: "Boost Your Returns",
                 description: "By leveraging LLMs along with your unique company data, our solution identifies the most valuable audience segments for your campaigns. This highly focused approach allows for a more efficient use of your marketing budget, thereby maximizing your return on investment.",
-                imageURL: "https://img.freepik.com/free-photo/dark-silhouettes-man-woman-sitting-with-mugs-office-chairs-front-window_1098-20200.jpg?w=1060&t=st=1699661395~exp=1699661995~hmac=0fe028afba0e31ee9a3eeb2379b0202487898678d9839acf64cfcc8d380cdd2d"
+                imageURL: "https://images.pexels.com/photos/4467739/pexels-photo-4467739.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
         overview: [
@@ -272,12 +272,12 @@ export const solutions = [
             {
                 title: "Ensure Creative Edge",
                 description: "Marketers know that innovation is the lifeblood of effective campaigns. This solution uses your uploaded information to generate unique campaign ideas that can set you apart from the competition. By providing fresh, data-informed perspectives, it helps you break through the noise and capture audience attention.",
-                imageURL: "https://img.freepik.com/free-photo/unrecognizable-woman-sitting-desk-indoors-writing-planner_1098-17626.jpg?w=1060&t=st=1699661777~exp=1699662377~hmac=d95a8e48a6354dda130fc831e01959dcd3bc1a769da57fd33874b79fc64a6d49"
+                imageURL: "https://images.pexels.com/photos/8117466/pexels-photo-8117466.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
             {
                 title: "Optimize Streamlined Operations",
                 description: "In the fast-paced world of marketing, efficiency is key. The capability to upload all essential documents and data into one platform means less time spent juggling multiple tools and databases. Centralizing your key documents eliminates the confusion of managing multiple files, making it easier to focus on what really matters, freeing your team to concentrate on strategic execution and creative brainstorming.",
-                imageURL: "https://img.freepik.com/free-photo/person-office-analyzing-checking-finance-graphs_23-2150377136.jpg?w=1060&t=st=1699662299~exp=1699662899~hmac=4628dbe49bdc7fbe85706c177a2bc9a3ee241d741a0f0a5716620d57ed5becdb"
+                imageURL: "https://images.pexels.com/photos/7971230/pexels-photo-7971230.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
         overview: [
@@ -310,12 +310,12 @@ export const solutions = [
             {
                 title: "Store-Like Experience",
                 description: "Traditional A/B chatbots often fall short in mimicking the in-store experience online. However, your Shopping Assistant serves as a highly informed and readily available sales advisor, much like an in-person assistant in a physical store, engaging customers in meaningful ways to encourage purchases.",
-                imageURL: "https://img.freepik.com/free-photo/portrait-woman-customer-service-worker_144627-37946.jpg?w=1060&t=st=1699662363~exp=1699662963~hmac=251eb371ba6cec5a05df3740eea8456ae483dced232f93466741efc50c25ca7f"
+                imageURL: "https://images.pexels.com/photos/7709260/pexels-photo-7709260.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
             {
                 title: "Global Customer Engagement",
                 description: "The Shopping Assistant is equipped with cultural recognition, geolocation-based language detection, and multi-language support. This ensures a seamless, personalized shopping experience that transcends geographical and linguistic barriers, making your brand accessible and appealing to a global audience.",
-                imageURL: "https://img.freepik.com/free-photo/empire-state-building-seen-from-apartment_23-2150897591.jpg?t=st=1699663700~exp=1699667300~hmac=4b270a60e53380b1a9504a37e1173b8e1c583d0bd855e5081655ab6533c0c36a&w=900"
+                imageURL: "https://images.pexels.com/photos/4482900/pexels-photo-4482900.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
         overview: [
@@ -348,7 +348,7 @@ export const solutions = [
             {
                 title: "AI Supercharges Marketing. Personalized AI Takes It To Another Level",
                 description: "At Yepp, we believe AI has revolutionized marketing. To thrive in this era, adaptability is key. Embracing AI in its generic form isn’t enough; to truly excel, you must take the next step. We empower you to train AI on your company's unique data, customizing it to your exact needs. This sets you apart from competitors, providing a second brain for outperformance.",
-                imageURL: "https://img.freepik.com/free-photo/outdoor-shot-curly-haired-female-student-sits-outdoors-front-opened-laptop-computer-writes-down-notes-notepad-prepares-lesson-poses-against-modern-city-building-e-learning-concept_273609-62296.jpg?w=1060&t=st=1699665536~exp=1699666136~hmac=ea14c012351bc13c58926ce48d7dd4d4a447f76229c21c9032cf2eca87f9d670"
+                imageURL: "https://images.pexels.com/photos/6694572/pexels-photo-6694572.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
         overview: [
@@ -381,12 +381,12 @@ export const solutions = [
             {
                 title: "Accelerate Workflow Speed",
                 description: "Our automation solutions are designed to accelerate the speed of your workflows. With seamless integration and automated processes, tasks and projects move swiftly from one stage to the next. This means faster project delivery, quicker response times to customer inquiries, and more rapid decision-making, giving you a competitive edge in today's fast-paced business environment.",
-                imageURL: "https://img.freepik.com/free-photo/man-working-with-his-computer-outdoors_150588-65.jpg?w=1060&t=st=1699753286~exp=1699753886~hmac=ef52e9424cb8ebeb92c44add2ad4a3fa06d71e136b300e7ca3cb14ea4d6fb15b"
+                imageURL: "https://images.pexels.com/photos/7652058/pexels-photo-7652058.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
             {
                 title: "Enhance Productivity",
                 description: "By automating routine tasks, your team can focus their time and energy on more strategic and creative activities. This not only boosts individual productivity but also leads to higher overall output, driving business growth.",
-                imageURL: "https://img.freepik.com/free-photo/happy-man-holding-laptop_23-2148718055.jpg?w=1060&t=st=1699752887~exp=1699753487~hmac=1c1f34598f1b62014022affc9ac8439e2af45e78f278661ea0c9df28e3e3f0b2"
+                imageURL: "https://images.pexels.com/photos/8145341/pexels-photo-8145341.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
         overview: [
