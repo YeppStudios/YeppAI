@@ -4,7 +4,7 @@ import Navbar from '@/components/Landing/Navbar';
 import Head from 'next/head'
 import styled from 'styled-components';
 import Image from 'next/image';
-import Section from '@/components/Landing/Section';
+import Section from '@/components/Landing/common/Section';
 import LeftFeature from '@/components/Landing/LeftFeature';
 import RightFeature from '@/components/Landing/RightFeature';
 import LearnMoreSection from '@/components/Landing/LearnMoreSection';

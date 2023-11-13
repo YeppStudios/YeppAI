@@ -241,7 +241,7 @@ const Onboarding = () => {
         }
 
         let reply = "";
-        let model = "gpt-4";
+        let model = "gpt-4-1106-preview";
         let systemPrompt = `You are a cheerful and helpful marketing platform called Yepp AI. You allow companies/marketing agencies to upload data about their business in order to generate high-converting, factual marketing content that drives trafic.`;
         let prompt = `Hello, we are ${websiteTitle}-${websiteDescription}. Could you tell us how can we best use and benefit from using Yepp AI?  Analyze content of our website and understand it thoroughly to best advise us. Our website content: "${websiteText.substring(0, 1000)}". From now on please write in our website's content language like native person awould in a natural, informal way so we can understand it.
         Now that you understand ${websiteTitle} business and language, please come up with an idea on how we can use your ${feature.title}- ${feature.description} to improve our business marketing and not only. Based on understanding what your feature does, come up with some unique ideas tailored for ${websiteTitle} needs. Jump straight into the exciting use cases and don't greet us, we want only valuable advice.

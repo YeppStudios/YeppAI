@@ -23,7 +23,7 @@ const Explainer = () => {
               </VideoModal>
             </BlurBackground>
         }
-        <div className='w-full px-[0.5rem] lg:px-[8rem]'>
+        <div className='w-full flex justify-center px-[0.5rem] lg:px-[8rem]'>
         <ExplainerThumbnail background={explainerThumbnail}>
             <button onClick={() => setModalOpen(true)} className="text-white backdrop-blur-sm bg-blue-900 shadow-lg bg-opacity-30 p-2 lg:p-6 rounded-full cursor-pointer hover:scale-105 transition ease-in-out">
                 <BsPlayFill className="h-12 w-12 lg:h-20 lg:w-20 opacity-1" />
@@ -48,10 +48,14 @@ const ExplainerThumbnail = styled.div<{ background: any }>`
     background-position: center;
     background-repeat: no-repeat;
     box-shadow: 0px 0px 20px rgba(0, 0, 100, 0.15);
-    width: 100%;
+    width: 75%;
+    margin-top: 5rem;
     padding-x: 8rem;
     @media (max-width: 1023px) {
         padding-x: 0.7rem;
+        width: 95%;
+        margin-top: 3rem;
+        border-radius: 20px;
     }
 `;
 

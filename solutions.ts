@@ -1,322 +1,411 @@
-import { AiOutlineCloudUpload, AiOutlineUserAdd } from "react-icons/ai";
-import { FiEdit3 } from "react-icons/fi";
-import { RxInput } from "react-icons/rx";
-import { BsCreditCard2Front, BsBook, BsFileText, BsHandIndexThumb, BsMenuApp, BsFileEarmark, BsCollectionPlay, BsLaptop, BsKey, BsMagic, BsMegaphone, BsHandThumbsUp, BsPersonVcard, BsFolder, BsLightbulb, BsChatSquareText, BsPalette, BsPersonVideo3 } from "react-icons/bs";
-import { IoBookOutline, IoPhonePortraitOutline, IoRocketOutline } from "react-icons/io5"
-import { GoMail, GoChecklist } from "react-icons/go";
-import { BiRocket, BiSupport } from "react-icons/bi";
-import assetsThumbnail from "./public/images/Thumbnail_Assets.png"
-import campaignsThumbnail from "./public/images/Thumbnail_Campaigns.png"
-import chatThumbnail from "./public/images/Thumbnail_Chat.png"
-import copywritingThumbnail from "./public/images/Thumbnail_Copywriting.png"
-import marketingTemplatesThumbnail from "./public/images/Thumbnail_Templates.png"
-import miniAssets from "./public/images/Mini_Thumbnail_Assets.png"
-import miniTemplates from "./public/images/Mini_Thumbnail_Templates.png"
-import miniCampaigns from "./public/images/Mini_Thumbnail_Campaigns.png"
-import miniChat from "./public/images/Mini_Thumbnail_Chat.png"
-import miniCopywriting from "./public/images/Mini_Thumbnail_Copywriting.png"
+import {
+    DocumentTextIcon,
+    ChatBubbleBottomCenterTextIcon,
+    UserIcon,
+    MegaphoneIcon,
+    UserGroupIcon,
+    AdjustmentsHorizontalIcon,
+    TagIcon,
+    CircleStackIcon,
+    MagnifyingGlassIcon,
+    ArrowPathRoundedSquareIcon
+  } from '@heroicons/react/24/outline'
+import llmDashbaord from './public/images/fine_tune_dashboard.png';
+import shoppingDashboard from "./public/images/shopping_assistant_dashboard.png";
+import audienceTargetingDashboard from "./public/images/persona_dashboard.png";
+import dashboardVisualization from "./public/images/dashboard_visualization.png"
+import competitionResearchDashboard from "./public/images/competition_research_dashboard.png";
+import toneDashboard from "./public/images/tone_dashboard.png";
+import dataDashboard from "./public/images/data_dashboard.png";
+import profileDashboard from "./public/images/profile_dashboard.png";
+import workflowDashboard from "./public/images/workflow_dashboard.png";
 
 export const solutions = [
     {
-        query: "marketing-templates",
-        title: "Marketing Templates",
-        description: "Watch AI write insightful content on niche topics.",
-        video: "https://www.youtube.com/embed/KQPYySWUmz4?autoplay=1",
-        image: marketingTemplatesThumbnail,
-        miniThumbnail: miniTemplates,
-        tutorial: [
+        query: "data-retrieval",
+        icon: CircleStackIcon,  
+        mainImage: llmDashbaord,
+        title: "Data Retrieval",
+        mainTitle: "Utilize Your Data & Enhance Content Creation",
+        description: "Train the platform about your business and clients by uploading relevant data as files, scraped websites, or video transcripts. With this expanded knowledge, Yepp delivers captivating content that consistently keeps you ahead of the game.",
+        imageSections: [
             {
-                icon: AiOutlineCloudUpload,
-                title: "Choose a desired placement.",
-                description: `Once you click on the "Marketing" tab in the sidebar, all placements will appear. You can filter them by category and search for the perfect one suited to your use case.`,
-                image: "https://ipfs.io/ipfs/QmXnqJm7mPKe49FcgYnr2DQMnJWXNQHdFTwYqZEGJBG5Qu?filename=Screenshot%202023-08-12%20at%202.39.53%20PM.png"
+                title: "Leverage Expert Knowledge",
+                description: "Other AI solutions often face challenges with hallucinations or inaccuracies stemming from insufficient information. Yepps Data Retrieval resolves this issue by absorbing extensive knowledge, ensuring you can trust the quality of the text generated.",
+                imageURL: "https://img.freepik.com/free-photo/vertical-shot-curly-haired-millennial-girl-sits-crossed-legs-uses-mobile-phone-laptop-computer-connected-wireless_273609-55621.jpg?w=1060&t=st=1699654749~exp=1699655349~hmac=64d5994a6c4419075028dfb5c7e13f48ea85fcee9e56f2429bee528bd9b637e9"
             },
             {
-                icon: RxInput,
-                title: "Fill out the form.",
-                description: `By selecting one of them you will be redirected to the form page. Select your uploaded content and fill it out with informations and instrucitons on what you want to write.`,
-                image: "https://ipfs.io/ipfs/QmWsLDPThEp8zQVrxxZ6NqWxP5gQZZLYgvG24hKwgku1v6?filename=Screenshot%202023-08-12%20at%202.41.35%20PM.png"
-            },
-            {
-                icon: FiEdit3,
-                title: "Edit and rewrite the content.",
-                description: "After submitting the form AI will write an insightful draft for you. Generated draft you can easily edit, copy, save, rewrite or prompt for further improvements.",
-                image: "https://ipfs.io/ipfs/QmP6yVNc3M5MkUmaGf8jNTMF4XozZT4oQ2xbmuUQ7Wtkf1?filename=Screenshot%202023-08-13%20at%202.07.13%20PM.png"
+                title: "Embrace Intuitive Data Management",
+                description: "The Data Retrieval solution boasts an intuitive design that simplifies data management for everyone, no IT skills required. Its user-friendly interface allows seamless data uploading and segmentation, making AI-powered content creation accessible to all team members.",
+                imageURL: "https://images.pexels.com/photos/8485714/pexels-photo-8485714.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
             },
         ],
-        useCases: [
+        overview: [
             {
-                icon: BsCreditCard2Front,
-                title: "Google Ads",
-                description: "Elevate your online presence with AI-driven Google Ads! Simply describe your product/company, detail your offering, and let the AI craft a captivating ad copy that stands out and makes people click.",
+                title: "Improved Content Quality",
+                description: "With the AI having access to a wide array of contextual information, the quality of the generated content is higher, as it draws from a rich and relevant knowledge base."
             },
             {
-                icon: IoPhonePortraitOutline,
-                title: "Social media content",
-                description: "Amplify your social engagement with ease! Choose your preferred platform, outline your desired content, and watch as AI seamlessly generate content that strikes a chord with your audience.",
+                title: "Scalability",
+                description: "As the volume of clients or projects increases, the system easily scales to accommodate more data without a proportional increase in workload, making it ideal for growing agencies."
             },
             {
-                icon: BsBook,
-                title: "Marketing frameworks",
-                description: "Strategize smarter with AI on your side! Enter details about your company/product or client, input your marketing objectives, target audience and use with comprehensive PAS, BAB and AIDA frameworks.",
+                title: "Time Efficiency",
+                description: "By uploading various forms of data once, marketers save time in the repeating processes. This centralized data repository eliminates the need for repetitive searches or manual data entry."
             },
             {
-                icon: BsFileText,
-                title: "TikTok and YouTube scripts",
-                description: "Turn your idea into a viral video! Select your platform, share the essence of your content, and let AI deliver a scripts, hooks, descriptions and titles that are both engaging and on-brand.",
+                title: "Content Relevance",
+                description: "By segmenting data into designated folders, marketers ensure that the content created is highly relevant and tailored to specific clients."
+            },
+        ],
+    },
+    {
+        query: "projects-management",
+        title: "Project Management",
+        icon: UserGroupIcon,
+        mainImage: profileDashboard,
+        mainTitle: "Empower Team and Clients with Streamlined Management",
+        description: "Structure your agency's client profiles and streamline task assignments with management features. Utilize the Calendar to plan and share proposed content, ensuring alignment with each client.",
+        imageSections: [
+            {
+                title: "Amplify Client Satisfaction",
+                description: "Where marketing platforms falter in aligning with your Agency’s needs, Client Management solution excels. By crafting tailored content, and fostering project insights, Yepp guarantees elevated client satisfaction and cements lasting relationships.",
+                imageURL: "https://img.freepik.com/free-photo/smiley-business-man-woman-working-together-office-with-laptop_23-2149206530.jpg?w=1060&t=st=1699660164~exp=1699660764~hmac=a2d19081bec6d6bea2a0607896464d89fe29fde5dc15c661bf3d594d5158fefa"
             },
             {
-                icon: GoMail,
-                title: "Marketing emails",
-                description: "Reinvent your email campaigns with a touch of AI magic! Choose the email type, describe your promotional intent, and receive content that not only captivates your audience but also converts.",
+                title: "Optimize Team Operations",
+                description: "Agency's Client Profiles ensure intuitive data retrieval and enable precise content personalization. This organized approach streamlines workflow, empowering agencies to focus more on strategy and client engagement.",
+                imageURL: "https://img.freepik.com/free-photo/close-up-young-colleagues-having-meeting_23-2149060289.jpg?w=1060&t=st=1699660309~exp=1699660909~hmac=c2b29c62d6bfa36b640bfa025eb910d1d4b950d3299b8f3e9ef8d589007da537"
+            },
+        ],
+        overview: [
+            {
+                title: "Client Profiles",
+                description: "Organize your clients and utilize Yepp's features to create detailed profiles. Upload relevant data or briefs, identify each client's unique tone of voice and buyer persona, and get an summary of their competition."
+            },
+            {
+                title: "Content Calendar",
+                description: "Accelerate personalized content creation and then schedule its deployment for an overview of upcoming marketing initiatives. Share this content with your client, inviting their approval or suggestions for enhancement."
+            },
+            {
+                title: "Team Task Assignment",
+                description: "Effortlessly assign tasks to suitable team members and improve team’s efficiency. Ensure every project benefits from the right skills at the right time. It optimizes team synergy and project outcomes."
+            },
+            {
+                title: "Team Task Assignment",
+                description: "Effortlessly assign tasks to suitable team members and improve team’s efficiency. Ensure every project benefits from the right skills at the right time. It optimizes team synergy and project outcomes."
             },
         ]
     },
     {
-        query: "assets-upload",
-        title: "Assets Upload",
-        description: "Upload to make AI understand you & your clients.",
-        video: "https://www.youtube.com/embed/qql3wigE7JM?autoplay=1",
-        image: assetsThumbnail,
-        miniThumbnail: miniAssets,
-        tutorial: [
+        query: "data-driven-content",
+        title: "Data-Driven Content",
+        icon: DocumentTextIcon,
+        mainImage: dataDashboard,
+        mainTitle: "Leverage Data-Driven Content for Increased Engagement",
+        description: "Feed the AI with your unique data sets, enabling it to delve into any topic with substance and style. Whether tackling niche subjects or trending themes, our solution ensures your content stands out.",
+        imageSections: [
             {
-                icon: BsHandIndexThumb,
-                title: "Choose upload method.",
-                description: "Upload information in various formats: PDF, TXT, PPTX, CSV & DOCX files, Websites and social media, YouTube audio, or just write content that your AI should know.",
-                image: "https://ipfs.io/ipfs/QmPeeFNt3yFySQ47VsGkTMTvuUd95Bvf8TWXC7nrXZnpJc?filename=Screenshot%202023-08-12%20at%203.19.31%20PM.png"
+                title: "Elevate Your SEO Rankings",
+                description: "Harness the power of data-driven intelligence to create customized content that elevates your search engine presence. With Yepp, you'll forge content that not only meets but exceeds expectations, catapulting rankings and establishing online authority.",
+                imageURL: "https://img.freepik.com/free-photo/person-office-analyzing-checking-finance-graphs_23-2150377136.jpg?w=1060&t=st=1699660458~exp=1699661058~hmac=3c8356cd5a147cbdde4607927230c82fa489cc94ee5fa1f95cfd7895e822a45a"
             },
             {
-                icon: BsMenuApp,
-                title: "Assign data to folders.",
-                description: "When you upload a file, you'll need to decide where to store it. You can make a new folder specifically for this file, or you can select a folder that you've already created.",
-                image: "https://ipfs.io/ipfs/QmVMQ2hz8y3p48gSrmvmEBSBiSnu7bnZ4KkbFiMu8BGu3v?filename=Screenshot%202023-08-13%20at%202.09.23%20PM.png"
-            },
-            {
-                icon: FiEdit3,
-                title: "Edit existing folders.",
-                description: "You have the ability to delete and preview each file that you've uploaded to the designated folder. However, opening these files is not possible as they are stored in a vector base.",
-                image: "http://drive.google.com/uc?export=view&id=1vsY3c7shJi2cPyiN4r5Hd4HbYJrOgc1A"
+                title: "Stand Out in a Crowded Digital Landscape",
+                description: "We understand that one of the biggest hurdles in content creation is maintaining a fresh, creative edge—especially when managing a broad portfolio of clients or projects. That's where Yepp steps in. Our fine-tuned AI crafts content that’s truly original and impactful.",
+                imageURL: "https://img.freepik.com/free-photo/monochrome-pieces-chess-board-game_23-2150378625.jpg?w=1060&t=st=1699660624~exp=1699661224~hmac=6f32e3cad1004596f999d25486c4e6848281e3b5cd958cab178b7210c30df109"
             },
         ],
-        useCases: [
+        overview: [
             {
-                icon: BsFileEarmark,
-                title: "Files & presentations",
-                description: "These can be in the form of PDF, TXT, DOCX, PPTX, or CSV files. These documents can contain important information about the company, its products or services, and its clients.",
+                title: "Article Copywriting",
+                description: "Craft compelling articles that establish your brand as a thought leader in your industry, drawing in potential clients and solidifying your market credibility. Our AI system streamlines the process, crafting content directly from your brief—saving you time and resources."
             },
             {
-                icon: BsLaptop,
-                title: "Web content",
-                description: "This can include the company's website, blog posts, articles, and other web-based content. This information can help the AI understand the company's online presence and its interactions with customers.",
-            },
-            {
-                icon: IoPhonePortraitOutline,
-                title: "Social media content",
-                description: "This includes posts, comments, likes, shares, and other interactions on social media platforms like Facebook, Twitter, Instagram, LinkedIn, etc. This data can provide insights into the company's social media strategy and customer engagement.",
-            },
-            {
-                icon: BsCollectionPlay,
-                title: "Audio content",
-                description: "Yepp supports uploading YouTube video audio. Upload podcasts, interviews, tutorials and much more. AI will transcribe and remember the content, so later on you will be able to chat with it  and generate  insightful content across the entire platform.",
-            },
-            {
-                icon: BsFileText,
-                title: "Written content",
-                description: "This can be any content that the company wants the AI to know. It can be about the company's history, mission, vision, values, strategies, plans, etc. This information can help the AI understand the company's identity and its approach to business.",
-            },
-        ]
-    },
-    {
-        query: "campaigns",
-        title: "Content Campaigns",
-        description: "Create content campaigns for all placements at once.",
-        video: "https://www.youtube.com/embed/aS4fLFrjNXc?autoplay=1",
-        image: campaignsThumbnail,
-        miniThumbnail: miniCampaigns,
-        tutorial: [
-            {
-                icon: BsHandIndexThumb,
-                title: "Choose desired placements.",
-                description: `Click the „Marketing Tab” and select „+ New Camapign”. Once the form appears, choose all the placements that you want to create your camapaign for. `,
-                image: "https://ipfs.io/ipfs/QmeGcNuA7HND3XkmSehA2UsTAFSE28VJmMSTwbeqvQG8v5?filename=Screenshot%202023-08-12%20at%202.28.21%20PM.png"
-            },
-            {
-                icon: RxInput,
-                title: "Define your campaign.",
-                description: `Now it is time to provide some details about the campaign. Select language, tone of voice and enter campaign’s type, title and what would you like to promote.`,
-                image: "https://ipfs.io/ipfs/QmWaStFTjmuYgktP1E8MV61XDYTdDYtcjM1nMJQC1BZHTE?filename=Screenshot%202023-08-12%20at%202.30.22%20PM.png"
-            },
-            {
-                icon: BsKey,
-                title: "Enter key information.",
-                description: "Select uploaded asstets to make sure your campaign will include quality content. Then set the campaign’s objetive, target audience and add keywords for a better chance to reach you goal.",
-                image: "https://ipfs.io/ipfs/QmehV4YBGBAjuEwMipea1pyFJ6BssmVkD9ghyMbd9hPVp8?filename=Screenshot%202023-08-12%20at%202.29.24%20PM.png"
-            },
-            {
-                icon: BsMagic,
-                title: "Watch AI create.",
-                description: "Creation time! Check the fruit of your and Yepp's labor. You can change campaign’s settings and give AI the command to rewrite it anytime.",
-                image: "https://ipfs.io/ipfs/QmdVLFSFZM7LnSXXVUojh1tpcsuPUTmmay85SSZHVvs7y1?filename=Screenshot%202023-08-12%20at%202.31.42%20PM.png"
-            },
-        ],
-        useCases: [
-            {
-                icon: IoRocketOutline,
-                title: "Product Launch",
-                description: `Planning to introduce a new product to the market? Use the "Content Campaigns" feature to streamline your promotional efforts across multiple platforms. Describe the product details, set your target audience, and let the AI craft tailored content for all chosen placements.`,
-            },
-            {
-                icon: BsMegaphone,
-                title: "Event Promotion",
-                description: "Promote your upcoming events like webinars or conferences by setting up a campaign across various channels, with AI generating engaging content. For seasonal sales or special deals, launch a content campaign across all desired platforms and increase traffic and sales.",
-            },
-            {
-                icon: BsHandThumbsUp,
-                title: "Customer Engagement",
-                description: `Launching a new loyalty program or customer feedback drive? Promote these initiatives with campaign feature. Yepp will automatically generate content and ideas for social media, ads, email marketing and even video scripts. All of that with just a few clicks using similar tone of voice. `
-            },
-        ]
-    },
-    {
-        query: "chat",
-        title: "Chat with your data",
-        description: "Create AI assistant that knows you & your clients.",
-        video: "https://www.youtube.com/embed/tyWfMGJBO5c?autoplay=1",
-        image: chatThumbnail,
-        miniThumbnail: miniChat,
-        tutorial: [
-            {
-                icon: BsPersonVcard,
-                title: "Give your assistant an identity.",
-                description: `Click the „Marketing Tab” and select „+ New Camapign”. Once the form appears, choose all the placements that you want to create your camapaign for. `,
-                image: "https://ipfs.io/ipfs/QmQApzadxjZoaWF95Zy18LqZyZC1hiuZ97aq4usLBJ84gP?filename=Screenshot%202023-08-13%20at%202.17.27%20PM.png"
-            },
-            {
-                icon: BsFolder,
-                title: "Provide learning resources.",
-                description: `Now it is time to provide some details about the campaign. Select language, tone of voice and enter campaign’s type, title and what would you like to promote.`,
-                image: "https://ipfs.io/ipfs/QmZcJZtx4jVwwAXhmeJCSsLM1vQwskzKMa2L59pvHYLU4X?filename=Screenshot%202023-08-13%20at%202.18.18%20PM.png"
-            },
-            {
-                icon: BsLightbulb,
-                title: "Define the desired behavior.",
-                description: "Would you like your assistant to help with creative tasks? Or should it be the company's encyclopedia? Remember that for each assistant you can define how should it behave.",
-                image: "https://ipfs.io/ipfs/QmSAzHUySygnAbziDWax6rxAc5fWcnpj8mzj9YZZqEyfVu?filename=Screenshot%202023-08-13%20at%202.18.49%20PM.png"
-            },
-            {
-                icon: BsChatSquareText,
-                title: "Start the conversation.",
-                description: "Type in your question or task you need to complete. Assistant according to defined behavior will recognize when to reply based on assets you selected in the previous step.",
-                image: "https://ipfs.io/ipfs/QmVc3SgtBhXKuCoWke56CNfVbiFTXS9gPNnk3pMpESsbeL?filename=Screenshot%202023-08-13%20at%202.16.32%20PM.png"
-            },
-        ],
-        useCases: [
-            {
-                icon: BsPalette,
-                title: "Creative Work",
-                description: `Give context to Assistant by uploading briefs, project requirements or any possesed information and ask an assistant to create campaign ideas, strategies, offers, content and many more.`,
-            },
-            {
-                icon: BiSupport,
-                title: "Customer service",
-                description: "Want to enhance customer service on your website? Create a dedicated chat assistant on the Yepp platform. Base it on relevant resources and then ust API key to place it as needed. You can review all customer interactions with the assistant on the platform, just like internal usage.",
-            },
-            {
-                icon: BsBook,
-                title: "Company’s Encyclopedia",
-                description: `Speed up your team's work by uploading assets to the platform and create an assistant based on them. The assistant will find any information contained in the uploaded resources within a second, so you don't have to waste time searching for it.`
-            },
-            {
-                icon: BsPersonVideo3,
-                title: "Employee Onboarding",
-                description: `A new employee at the company? Onboard him with an assistant based on the most important resources about the company. If he has a question about processes or customers he will get an instant answer, making him a valuable member of the team faster.`
-            },
-        ]
-    },
-    {
-        query: "copywriting",
-        title: "Copywriting",
-        description: "Craft highly personalized written pieces.",
-        video: "https://www.youtube.com/embed/0wvlz7IHsrQ?autoplay=1",
-        image: copywritingThumbnail,
-        miniThumbnail: miniCopywriting,
-        tutorial: [
-            {
-                icon: AiOutlineCloudUpload,
-                title: "Fill out general settings.",
-                description: `Start by identifying your content's topic. Pinpoint key words to include. Choose a language, set its tone, and determine the character count. Decide the content type you want AI to generate.`,
-                image: "https://ipfs.io/ipfs/Qmdosipbj6Ei65BpUpJpF8FMfSJrpshqi5a4GSbQkNsiMc?filename=Screenshot%202023-08-13%20at%202.46.37%20PM.png"
-            },
-            {
-                icon: RxInput,
-                title: "Select knowledge resources.",
-                description: `Create a high-performing article by selecting top-ranked Google search links related to your topic. Support your entire article with your folders filled with invaluable insightful data.`,
-                image: "https://ipfs.io/ipfs/QmYL17HyXqDViakJ4xhURyp9yhJ2tVdPYZxasmDigyynuS?filename=Screenshot%202023-08-13%20at%202.48.22%20PM.png"
-            },
-            {
-                icon: FiEdit3,
-                title: "Preview header & description.",
-                description: "AI will present a proposed header and description. You can edit it, generate new suggestions with AI, or use one of the most frequently asked Google search questions.",
-                image: "https://ipfs.io/ipfs/QmeaUAngU9ZE5Ztz1NcoBkBD4Vq1oQEiWspPVGBcayZSxq?filename=Screenshot%202023-08-13%20at%202.49.03%20PM.png"
-            },
-            {
-                icon: FiEdit3,
-                title: "Watch AI generate outline.",
-                description: "You'll be provided with an automatic outline of the article, complete with headers, instructions, and keywords for each section. You can manually edit the outline, paste a new one, or generate a new one with AI.",
-                image: "https://ipfs.io/ipfs/QmYhDMqLtSKynaB87JTRo6tpi2rVq3Rar3RKKNCqAai4jo?filename=Screenshot%202023-08-13%20at%202.51.31%20PM.png"
-            },
-            {
-                icon: FiEdit3,
-                title: "Almost there",
-                description: "Give AI a moment to compile everything. This brief pause is necessary for the creation of your high-quality content.",
-                image: "https://ipfs.io/ipfs/QmQMbYyJBYYJEgEeg3d7AejQvYYBRRgWAufy24q69pdDxF?filename=Screenshot%202023-08-13%20at%202.52.02%20PM.png"
-            },
-            {
-                icon: FiEdit3,
-                title: "Piece by piece",
-                description: "The article will be generated automatically, section by section. This step-by-step process ensures a comprehensive and well-structured piece.",
-                image: "https://ipfs.io/ipfs/QmUY7ekkyJEv3DR8my5u7jTQcdHYbU8mRaRMYhnsw9aYBu?filename=Screenshot%202023-08-13%20at%202.53.26%20PM.png"
-            },
-            {
-                icon: FiEdit3,
-                title: "Customized perfection",
-                description: "You can easily edit the entire article yourself. Highlight the text you want to change, and you'll see a toolbar with options to modify the font, etc.",
-                image: "https://ipfs.io/ipfs/QmVrxzmJuih1KFtLxZfsHsabrcPwM1BF4PwjegDzj1cypM?filename=Screenshot%202023-08-13%20at%203.02.23%20PM.png"
-            },
-            {
-                icon: FiEdit3,
-                title: "Edit anytime",
-                description: "Article is being saved automatically, so you can always revisit your generated work and instruct AI via the panel on your right to make additions. This feature allows for continuous improvement and updates.",
-                image: "https://ipfs.io/ipfs/QmWBeX3edutTwi6FA4ZwFFGYMjPMBsV2LWWJX5FTiDfSKo?filename=Screenshot%202023-08-13%20at%202.58.56%20PM.png"
-            },
-        ],
-        useCases: [
-            {
-                icon: BsCreditCard2Front,
-                title: "Article Generation",
-                description: `By using the Copywriter feature, companies can generate high-quality articles that position them as industry leaders. This not only attracts potential clients but also builds credibility in the market. The AI can create articles based on the company's brief, saving time and resources while ensuring the content is relevant and engaging.`,
-            },
-            {
-                icon: IoPhonePortraitOutline,
-                title: "Blog Post Creation",
-                description: "Marketing agencies can leverage this feature to create personalized blog posts for their clients. The AI can generate content that resonates with the target audience, increasing engagement and brand visibility. This can lead to higher conversion rates and improved client satisfaction.",
-            },
-            {
-                icon: BsBook,
                 title: "SEO Content",
-                description: `With the Copywriter feature, companies can improve their website's search engine ranking. The AI can create SEO-optimized content based on selected keywords and high-ranking Google search links. This can lead to increased website traffic, higher lead generation, and improved sales.`
+                description: "Enhance your website's position in search engine results with SEO-enriched content. By focusing on relevant keywords and mirroring the patterns of successful Google search entries, you can drive more traffic, generate more leads, and increase sales."
             },
             {
-                icon: BsBook,
-                title: "Ranking Lists",
-                description: `This feature can be used by companies and marketing agencies to create ranking lists that highlight their products or services' unique selling points. The AI can generate a comprehensive list based on the defined criteria, which can be used in marketing campaigns to attract more customers and increase sales.`
+                title: "Ads Copy",
+                description: "Unleash the potential of your ad campaigns with precision-crafted copy. Outline your key objectives, and let AI handle the rest. From captivating headlines to persuasive descriptions, and accurate keywords, our AI generates content that converts, and propels your brand to new heights."
             },
             {
-                icon: BsBook,
-                title: "Tutorials",
-                description: `Companies can use the Copywriter feature to create step-by-step tutorials for their products or services. This can help customers understand the product better, leading to increased usage and customer satisfaction. The AI can generate easy-to-follow tutorials based on the learning objectives defined by the company, making it a valuable tool for customer education and support.`
+                title: "Social Media Posts",
+                description: "Elevate your social media engagement without the hassle. Select your preferred platform, define your content objectives, and witness as AI skillfully produces material that sparks meaningful interactions, building a vibrant and connected online community."
             },
+            {
+                title: "Product Descriptions",
+                description: "Transform your product listings with data-backed descriptions that engage and convert. AI crafts compelling narratives that highlight key features and benefits. With Yepp, your product descriptions will not only interest customers but also drive sales, elevating your store's performance."
+            },
+            {
+                title: "Newsletters",
+                description: "Provide your company's insights, and let AI take over to craft captivating email campaigns for your audience. Yepp blends narrative finesse with factual precision, creating newsletters build enduring connections with your subscribers, enhancing your brand's narrative in every inbox."
+            },
+            {
+                title: "Press Releases",
+                description: "Empower your PR with data-enriched press releases. Yepp crafts narratives that capture media attention. By combining actual data with persuasive storytelling, our platform ensures your press releases gain visibility and amplify your brand's presence, making every announcement a noteworthy event."
+            },
+        ]
+    },
+    {
+        query: "tone-consistency",
+        title: "Tone Consistency",
+        icon: MegaphoneIcon,
+        mainImage: toneDashboard,
+        mainTitle: "Maintain Your Unique Tone and Foster Customer Loyalty",
+        description: "Fine-Tune the LLM to consistently reflect your brand's character. Customize the AI to your specific needs and leverage its scalability.",
+        imageSections: [
+            {
+                title: "Enhance Audience Engagement",
+                description: "Yepp is designed to learn from your content history and fine-tune the language model, guaranteeing that your brand's voice remains consistent. In result you build stronger connections with your audience that drive interactions and engagement.",
+                imageURL: "https://img.freepik.com/free-photo/female-african-american-speaker-giving-presentation-hall-university-workshop_155003-3578.jpg?w=1060&t=st=1699660806~exp=1699661406~hmac=5d365bfe398931453fe9f74aecdcce3d6c1dacb47d9ff775d2cd2a19f35ce227"
+            },
+            {
+                title: "Personalize Content at Scale",
+                description: "With a fine-tuned language model that understands your brand's voice, you can automate personalized content creation effortlessly. This boosts your content's effectiveness across diverse audience segments, helping your marketing efforts resonate with different target groups and connect with a wide range of customers.",
+                imageURL: "https://img.freepik.com/free-photo/woman-with-pen_144627-22633.jpg?w=1060&t=st=1699660909~exp=1699661509~hmac=28b261add2d9c58c38c23dfdf2908404156da35788ca79b64df42822001a352b"
+            },
+        ],
+        overview: [
+            {
+                title: "Improved SEO",
+                description: "Consistent messaging significantly contributes to better SEO performance. Search engines not only recognize but also reward thematic consistency, resulting in improved search rankings and increased visibility for your content."
+            },
+            {
+                title: "Customer Loyalty",
+                description: "Customers appreciate the reliability and predictability of your brand's communication, which deepens their connection with your offerings and values."
+            },
+            {
+                title: "Cost Savings",
+                description: "By minimizing the need for extensive revisions and rewrites, it results in significant cost savings associated with content production. This efficiency allows you to allocate resources more effectively, directing your budget towards other critical marketing initiatives."
+            },
+            {
+                title: "Unified Marketing Efforts",
+                description: "It ensures that all marketing channels, from social media to email campaigns, speak in a unified voice, enhancing cross-channel marketing efforts. This consistency improves customer recognition, creating a cohesive and memorable brand experience."
+            }
+        ]
+    },
+    {
+        query: "competition-research",
+        title: "Competition Research",
+        icon: MagnifyingGlassIcon,
+        mainImage: competitionResearchDashboard,
+        mainTitle: "Mastering the Market with Competition Insights",
+        description: "By understanding the strengths and vulnerabilities of your rivals, you can tailor your strategies to not just compete, but to lead and redefine the market.",
+        imageSections: [
+            {
+                title: "Elevate Competitive Strategy",
+                description: "Take a close look at what your competitors are doing online, checking things like how popular their websites are and what words they use to get noticed. We combine this with what makes your brand special, helping you create smarter marketing plans that make you stand out and grow faster.",
+                imageURL: "https://img.freepik.com/free-photo/close-up-young-colleagues-having-meeting_23-2149060279.jpg?w=1060&t=st=1699661141~exp=1699661741~hmac=74009e481957c4518d20b47de1dca26732a396bdb87f017653e4b711d47abf84"
+            },
+            {
+                title: "Fine-Tune Your Brand Story",
+                description: "Get to know what makes your competitors special and how they talk to their customers. Use these insights to make your own brand's story clearer and more appealing. This helps you connect better with your audience, making your brand more memorable and keeping customers interested.",
+                imageURL: "https://img.freepik.com/free-photo/people-working-their-office_23-2149196409.jpg?w=1060&t=st=1699661176~exp=1699661776~hmac=c5ebef25be7d27ce919e2ae2641bafcb688e4602d9823eac8e12e079e4e7ff31"
+            },
+        ],
+        overview: [
+            {
+                title: "Informed Strategy Development",
+                description: "By understanding where your competitors stand in terms of website rankings and keyword usage, you can tailor your SEO and content strategies more effectively to capture market share."
+            },
+            {
+                title: "Unique Value Proposition (UVP) Clarity",
+                description: "Analyzing competitors’ UVPs allows you to refine your own, ensuring it resonates more distinctly and powerfully with your target audience."
+            },
+            {
+                title: "Leveraging Strengths and Weaknesses",
+                description: "Identifying the strengths and weaknesses of competitors provides critical insights, enabling you to amplify your own advantages and exploit market gaps."
+            },
+            {
+                title: "Risk Management",
+                description: "Awareness of competitors’ strategies and performance helps anticipate market shifts, allowing for proactive adjustments to your approach."
+            }
+        ]
+    },
+    {
+        query: "audience-targeting",
+        title: "Audience Targeting",
+        icon: UserIcon,
+        mainImage: audienceTargetingDashboard,
+        mainTitle: "AI-Enhanced Targeting for Peak Engagement",
+        description: "Leverage machine learning to precisely identify key audience segments. This fine-tuned approach elevates engagement and optimizes the impact of your marketing campaigns.",
+        imageSections: [
+            {
+                title: "Maximize User Interactions",
+                description: "Our platform integrates advanced Large Language Models (LLMs) with your company-specific data to analyze user behavior, preferences, and historical interactions. This synergy ensures your marketing content is not just broadly targeted but fine-tuned to provoke active engagement, thereby increasing likes, shares, and conversions.",
+                imageURL: "https://img.freepik.com/free-photo/authentic-beautiful-good-looking-asian-woman-walking-with-laptop-living-room-starting-work-remotelly-work-from-home-internet-web-online-user-freelancer-home-office-starting-her-work-day_482257-48045.jpg?w=1060&t=st=1699661344~exp=1699661944~hmac=10c05bc34e9768624b7ca34a60f585bc2d11dea20d5e06f4bcc31fbdb5fab2ce"
+            },
+            {
+                title: "Boost Your Returns",
+                description: "By leveraging LLMs along with your unique company data, our solution identifies the most valuable audience segments for your campaigns. This highly focused approach allows for a more efficient use of your marketing budget, thereby maximizing your return on investment.",
+                imageURL: "https://img.freepik.com/free-photo/dark-silhouettes-man-woman-sitting-with-mugs-office-chairs-front-window_1098-20200.jpg?w=1060&t=st=1699661395~exp=1699661995~hmac=0fe028afba0e31ee9a3eeb2379b0202487898678d9839acf64cfcc8d380cdd2d"
+            },
+        ],
+        overview: [
+            {
+                title: "Precision Targeting",
+                description: "It removes the guesswork from identifying your most receptive audience segments, enabling you to reach the right people with the right message."
+            },
+            {
+                title: "Increased Engagement",
+                description: "By targeting more precisely, you're likely to see higher rates of engagement, be it clicks, likes, shares, or other desired actions."
+            },
+            {
+                title: "Optimized Campaign Performance",
+                description: "Knowing who to target means fewer wasted impressions and clicks, ultimately leading to a more efficient use of your marketing budget."
+            },
+            {
+                title: "Improved ROI",
+                description: "With more effective targeting and higher engagement, you're positioned to get a better return on your marketing investments."
+            }
+        ]
+    },
+    {
+        query: "creative-chat",
+        title: "Creative Chat",
+        icon: ChatBubbleBottomCenterTextIcon,
+        mainImage: dashboardVisualization,
+        mainTitle: "Turn Your Data into Creative Chat",
+        description: "Unleash the full potential of your marketing initiatives as the Creative Chat integrates your inputs to generate innovative campaign ideas, data-driven strategies, compelling offers, and high-quality content, all tailored to exceed your business goals.",
+        imageSections: [
+            {
+                title: "Ensure Creative Edge",
+                description: "Marketers know that innovation is the lifeblood of effective campaigns. This solution uses your uploaded information to generate unique campaign ideas that can set you apart from the competition. By providing fresh, data-informed perspectives, it helps you break through the noise and capture audience attention.",
+                imageURL: "https://img.freepik.com/free-photo/unrecognizable-woman-sitting-desk-indoors-writing-planner_1098-17626.jpg?w=1060&t=st=1699661777~exp=1699662377~hmac=d95a8e48a6354dda130fc831e01959dcd3bc1a769da57fd33874b79fc64a6d49"
+            },
+            {
+                title: "Optimize Streamlined Operations",
+                description: "In the fast-paced world of marketing, efficiency is key. The capability to upload all essential documents and data into one platform means less time spent juggling multiple tools and databases. Centralizing your key documents eliminates the confusion of managing multiple files, making it easier to focus on what really matters, freeing your team to concentrate on strategic execution and creative brainstorming.",
+                imageURL: "https://img.freepik.com/free-photo/person-office-analyzing-checking-finance-graphs_23-2150377136.jpg?w=1060&t=st=1699662299~exp=1699662899~hmac=4628dbe49bdc7fbe85706c177a2bc9a3ee241d741a0f0a5716620d57ed5becdb"
+            },
+        ],
+        overview: [
+            {
+                title: "Innovative Campaign Ideas",
+                description: "Automatically generate fresh and effective campaign concepts based on specific business needs."
+            },
+            {
+                title: "Data-Driven Strategies",
+                description: "Utilize sophisticated analytics to formulate marketing strategies that are rooted in empirical data."
+            },
+            {
+                title: "Streamlined Campaign Planning",
+                description: "Centralize all necessary documents and requirements in one platform, making it easier to plan and initiate campaigns."
+            },
+            {
+                title: "Multi-Point Data Analysis",
+                description: "Examine a wide array of data inputs, from customer behavior to market trends, for a holistic understanding of your campaign's potential impact."
+            }
+        ]
+    },
+    {
+        query: "shopping-chatbot",
+        title: "Shopping Chatbot",
+        icon: TagIcon,
+        mainImage: shoppingDashboard,
+        mainTitle: "Win Customers by Introducing AI into Your Sales Funnel",
+        description: "The feature serves as a virtual sales assistant, constantly available to guide customers towards making a purchase, thereby increasing both engagement and sales.",
+        imageSections: [
+            {
+                title: "Store-Like Experience",
+                description: "Traditional A/B chatbots often fall short in mimicking the in-store experience online. However, your Shopping Assistant serves as a highly informed and readily available sales advisor, much like an in-person assistant in a physical store, engaging customers in meaningful ways to encourage purchases.",
+                imageURL: "https://img.freepik.com/free-photo/portrait-woman-customer-service-worker_144627-37946.jpg?w=1060&t=st=1699662363~exp=1699662963~hmac=251eb371ba6cec5a05df3740eea8456ae483dced232f93466741efc50c25ca7f"
+            },
+            {
+                title: "Global Customer Engagement",
+                description: "The Shopping Assistant is equipped with cultural recognition, geolocation-based language detection, and multi-language support. This ensures a seamless, personalized shopping experience that transcends geographical and linguistic barriers, making your brand accessible and appealing to a global audience.",
+                imageURL: "https://img.freepik.com/free-photo/empire-state-building-seen-from-apartment_23-2150897591.jpg?t=st=1699663700~exp=1699667300~hmac=4b270a60e53380b1a9504a37e1173b8e1c583d0bd855e5081655ab6533c0c36a&w=900"
+            },
+        ],
+        overview: [
+            {
+                title: "Real-Time Product Knowledge",
+                description: "The feature taps into a live database of products, ensuring the most current and relevant recommendations. This minimizes the chances of recommending out-of-stock or outdated items, which enhances customer satisfaction and trust."
+            },
+            {
+                title: "Industry Context",
+                description: "By understanding the broader industry, the Shopping Assistant can anticipate trends, seasonality, and customer preferences, allowing for more strategic engagement and upselling opportunities. This contextual knowledge gives you an edge over competitors who may not have such capabilities."
+            },
+            {
+                title: "Dynamic Sales Enablement",
+                description: "With real-time data and contextual understanding, the Shopping Assistant can pitch bundle deals, discounts, and recommendations in an informed and timely manner, directly impacting the sales conversion rate."
+            },
+            {
+                title: "24/7 Customer Engagement and Service",
+                description: "Operating around the clock, the chatbot not only ensures that potential customers receive immediate, helpful product advice at any hour but also serves as a 24/7 customer service representative."
+            }
+        ]
+    },
+    {
+        query: "fine-tuning",
+        title: "LLM Fine-Tuning",
+        icon: AdjustmentsHorizontalIcon,
+        mainImage: llmDashbaord,
+        mainTitle: "Customize AI to Your Needs for Ultimate Personalization",
+        description: "Gain a Competitive Advantage through Own Custom AI Model, trained on Your Company’s Data.",
+        imageSections: [
+            {
+                title: "AI Supercharges Marketing. Personalized AI Takes It To Another Level",
+                description: "At Yepp, we believe AI has revolutionized marketing. To thrive in this era, adaptability is key. Embracing AI in its generic form isn’t enough; to truly excel, you must take the next step. We empower you to train AI on your company's unique data, customizing it to your exact needs. This sets you apart from competitors, providing a second brain for outperformance.",
+                imageURL: "https://img.freepik.com/free-photo/outdoor-shot-curly-haired-female-student-sits-outdoors-front-opened-laptop-computer-writes-down-notes-notepad-prepares-lesson-poses-against-modern-city-building-e-learning-concept_273609-62296.jpg?w=1060&t=st=1699665536~exp=1699666136~hmac=ea14c012351bc13c58926ce48d7dd4d4a447f76229c21c9032cf2eca87f9d670"
+            },
+        ],
+        overview: [
+            {
+                title: "Data-Driven Decision Making",
+                description: "Leverage insights from the model trained on company's data to make data-driven marketing decisions and enhance strategies."
+            },
+            {
+                title: "Increased ROI",
+                description: "Maximize return on investment by tailoring your marketing efforts to precisely match preferences for higher conversions and financial impact."
+            },
+            {
+                title: "Streamlined Marketing Efforts",
+                description: "Optimize your marketing campaigns with AI that understands your company’s tone, style, and facts, saving valuable time and resources in content creation."
+            },
+            {
+                title: "Market Differentiation",
+                description: "Stand out in a crowded market by offering highly personalized marketing services that cater to each client's distinct requirements, ensuring unparalleled customer satisfaction."
+            }
+        ]
+    },
+    {
+        query: "workflow-automations",
+        title: "Workflow Automations",
+        icon: ArrowPathRoundedSquareIcon,
+        mainImage: workflowDashboard,
+        mainTitle: "Automate Your Workflows for Seamless Operations",
+        description: "Enhance productivity, minimize errors, and ensure efficiency in daily operations with our advanced automation solutions that seamlessly integrate your tools and processes.",
+        imageSections: [
+            {
+                title: "Accelerate Workflow Speed",
+                description: "Our automation solutions are designed to accelerate the speed of your workflows. With seamless integration and automated processes, tasks and projects move swiftly from one stage to the next. This means faster project delivery, quicker response times to customer inquiries, and more rapid decision-making, giving you a competitive edge in today's fast-paced business environment.",
+                imageURL: "https://img.freepik.com/free-photo/man-working-with-his-computer-outdoors_150588-65.jpg?w=1060&t=st=1699753286~exp=1699753886~hmac=ef52e9424cb8ebeb92c44add2ad4a3fa06d71e136b300e7ca3cb14ea4d6fb15b"
+            },
+            {
+                title: "Enhance Productivity",
+                description: "By automating routine tasks, your team can focus their time and energy on more strategic and creative activities. This not only boosts individual productivity but also leads to higher overall output, driving business growth.",
+                imageURL: "https://img.freepik.com/free-photo/happy-man-holding-laptop_23-2148718055.jpg?w=1060&t=st=1699752887~exp=1699753487~hmac=1c1f34598f1b62014022affc9ac8439e2af45e78f278661ea0c9df28e3e3f0b2"
+            },
+        ],
+        overview: [
+            {
+                title: "Unlock Innovation and Creativity",
+                description: "Empower your team to redirect their energy toward more strategic and creative aspects of their work. This freedom fosters innovation, fresh ideas, and the development of new, value-added services or products that can set your business apart in the market."
+            },
+            {
+                title: "Seamless Integration",
+                description: "Our solutions create a cohesive workflow environment where teams and tools seamlessly work together. This harmony not only promotes efficient operations but also enhances communication and knowledge sharing among team members."
+            },
+            {
+                title: "Boost Productivity and Speed",
+                description: "Our automation solutions enable your team to accomplish tasks more quickly and with fewer resources. This boosts overall productivity as you can achieve more in less time, allowing you to meet tight deadlines, handle higher workloads, and serve your clients more efficiently."
+            },
+            {
+                title: "Maximize Resource Efficiency",
+                description: "By automating tasks and processes, our solutions save you both time and money. You can accomplish tasks faster and with fewer resources, resulting in cost savings and improved profitability."
+            }
         ]
     },
 ]

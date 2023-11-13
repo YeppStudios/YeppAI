@@ -4,19 +4,7 @@ import styled from "styled-components";
 import Centered from "../../Centered";
 import { BsXLg } from "react-icons/bs";
 
-interface WidthProp {
-    width: string;
-  }
-
-
-interface PlanContainer {
-    backgroundColor: string,
-    color: string,
-    width: string
-}
-
-
-const PhoneNumberPopup = (props: {onClose: any}) => {
+const ContactPopup = (props: {onClose: any}) => {
       
     return (
         <ModalBackground closeable={true} onClose={props.onClose}>
@@ -37,14 +25,14 @@ const PhoneNumberPopup = (props: {onClose: any}) => {
     )
 }
 
-export default PhoneNumberPopup;
+export default ContactPopup;
 
 
 const ModalContainer = styled.div`
     width: 40vw;
     height: auto;
     background: white;
-    box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 100, 0.15);
     border: 2px solid #E5E8F0;
     border-radius: 25px;
     backdrop-filter: blur(25px);

@@ -33,7 +33,7 @@ export default function Accordion(props: {onClick: any, question: string, answer
 }
 
 const AccordionButton = styled.div<AccordionButton>`
-  width: 80%;
+  width: 100%;
   height: 6vh;
   display: flex;
   align-items: center;
@@ -55,13 +55,12 @@ const AccordionButton = styled.div<AccordionButton>`
 `
 
 const AccordionBody = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 3vh 2vw 2vh 2vw;
-  color: black;
-  font-weight: 500;
+  color: rgb(31 41 55);
   border-radius: 15px;
   @media (max-width: 1023px) {
     width: 100%;
