@@ -12,8 +12,6 @@ import articleIcon from "../../public/images/article-icon.png";
 import newsletterIcon from "../../public/images/newsletter-icon.png";
 import documentIcon from "../../public/images/document-icon.png";
 import emailIcon from "../../public/images/email-icon.png";
-import amazonLogo from "../../public/images/amazon-logo.png";
-import allegroLogo from "../../public/images/allegro-logo.png";
 import googleLogo from "../../public/images/google-logo.png";
 import { BlueLoader } from '../Common/Loaders';
 import Image from 'next/image';
@@ -49,10 +47,6 @@ const getContentTypeIcon = (contentType: string) => {
       return konspektIcon;
     case "article-section":
       return articleIcon;
-    case "amazon":
-      return amazonLogo;
-    case "allegro":
-      return allegroLogo;
     case "document":
       return documentIcon;
     default:

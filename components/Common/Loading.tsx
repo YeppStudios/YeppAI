@@ -2,8 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import Image from "next/image";
-import meshBackground from "../../public/images/mediumMobileBackground.png";
-import mediumMobileBackground from "../../public/images/mediumMobileBackground.png";
 import TypingAnimation from "../Modals/common/TypingAnimation";
 
 interface Background {
@@ -45,9 +43,9 @@ export default function Loading() {
     return  (
     <div>
         {loading &&
-                <BlurBackground image={meshBackground} mobileImage={mediumMobileBackground}>
+                <>
                     <TypingAnimation colorful={true}></TypingAnimation>
-                </BlurBackground>
+                </>
         }
     </div>
     );
