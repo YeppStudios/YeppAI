@@ -104,8 +104,8 @@ const SolutionPage = () => {
             <Centered>
             <div className="lg:w-11/12 flex justify-center flex-wrap">
                 <Centered>
-                <div className="flex gap-4 items-center mb-4">
-                  {solutionData.icon && <solutionData.icon className="h-6 w-6" />}
+                <div className="flex gap-3 lg:gap-4 items-center mb-4">
+                  {solutionData.icon && <solutionData.icon className="h-4 w-4 lg:h-6 lg:w-6" />}
                   <MiniTitle>{solutionData.title}</MiniTitle>
                 </div>
                 </Centered>
