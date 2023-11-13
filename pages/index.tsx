@@ -68,12 +68,12 @@ const PercentageSection = () => {
               </Centered>
               <Centered>
               <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
-              <Centered><BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore the platform</BlueButton></Centered>
-              <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Talk to an expert</UnderlineButton>
+              <Centered><BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Explore the platform</BlueButton></Centered>
+              <UnderlineButton onClick={() => router.push("/demo")}>Talk to an expert</UnderlineButton>
             </div>
             <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
-              <BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore the platform</BlueButton>
-              <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Talk to an expert</UnderlineButton>
+              <BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Explore the platform</BlueButton>
+              <UnderlineButton onClick={() => router.push("/demo")}>Talk to an expert</UnderlineButton>
             </div>
               </Centered>
               <Centered>
@@ -86,27 +86,25 @@ const PercentageSection = () => {
             <Centered><Subtitle>Accelerate Brand Growth with Your Own Marketing Platform</Subtitle></Centered>
             <Centered><p className='lg:w-1/2 w-11/12 lg:text-lg text-center text-gray-800 mt-8'>Yepp is your individually tailored AI platform, specifically crafted to align with your marketing team&apos;s workflow. It integrates with your team&apos;s unique processes - from content creation to data analysis - propelling your brand&apos;s growth at every customer engagement stage.</p></Centered>
             <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
-              <Centered><BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Platform overview</BlueButton></Centered>
-              <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore pricing</UnderlineButton>
+              <Centered><BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Platform overview</BlueButton></Centered>
+              <UnderlineButton onClick={() => router.push("/pricing")}>Explore pricing</UnderlineButton>
             </div>
             <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
-              <BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Platform overview</BlueButton>
-              <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Explore pricing</UnderlineButton>
+              <BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Platform overview</BlueButton>
+              <UnderlineButton onClick={() => router.push("/pricing")}>Explore pricing</UnderlineButton>
             </div>
-            <SlideBottom>
             <Explainer />
-            </SlideBottom>
           </GraySection>
           <Section>
             <div className='flex justify-between items-center flex-wrap lg:flex-nowrap'>
-              <div className='lg:w-[48%] w-full -ml-14 lg:ml-0'>
+              <div className='lg:w-[48%] w-full -ml-14 lg:ml-0 pl-3 lg:pl-0'>
                 <Image src={happyTeam}  alt="dashboard" className='lg:w-full'/>
               </div>
               <div className='lg:w-[48%] w-full ml-6 lg:ml-0'>
                 <p className='text-gray-800 font-medium mt-4 lg:mt-0'>Why Yepp?</p>
                 <h2 style={{lineHeight: "1.2"}} className='lg:text-[4vw] text-3xl text-gray-800 font-medium'>More leads.<br /> More engagement.<br /> Better conversion. </h2>
                 <p className='w-11/12 lg:w-9/12 lg:text-lg text-gray-800 mt-4 lg:mt-8 mb-6 lg:mb-0'>Facing smaller teams, tighter budgets, and the need for more profit? See how Yepp AI Marketing Intelligence Platform helps you overcome these challenges and spark greater engagement.</p>
-                <BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Learn more</BlueButton>
+                <BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Learn more</BlueButton>
               </div>
             </div>
           </Section>

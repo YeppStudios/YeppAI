@@ -102,22 +102,22 @@ const SolutionPage = () => {
           <Navbar />
             <div className="mt-[6rem] lg:mt-[10rem] w-full flex flex-wrap justify-center">
             <Centered>
-            <div className="w-11/12 flex justify-center flex-wrap">
+            <div className="lg:w-11/12 flex justify-center flex-wrap">
                 <Centered>
                 <div className="flex gap-4 items-center mb-4">
                   {solutionData.icon && <solutionData.icon className="h-6 w-6" />}
                   <MiniTitle>{solutionData.title}</MiniTitle>
                 </div>
                 </Centered>
-                <div className="w-8/12"><MainTitle>{solutionData.mainTitle}</MainTitle></div>
+                <div className="w-full lg:w-8/12"><MainTitle>{solutionData.mainTitle}</MainTitle></div>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">{solutionData.description}</div>
                 <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
-                  <Centered><BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Get a demo</BlueButton></Centered>
-                  <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>See pricing</UnderlineButton>
+                  <Centered><BlueButton onClick={() => router.push("/demo")}>Get a demo</BlueButton></Centered>
+                  <UnderlineButton onClick={() => router.push("/pricing")}>See pricing</UnderlineButton>
                 </div>
                 <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
-                  <BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Get a demo</BlueButton>
-                  <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>See pricing</UnderlineButton>
+                  <BlueButton onClick={() => router.push("/demo")}>Get a demo</BlueButton>
+                  <UnderlineButton onClick={() => router.push("/pricing")}>See pricing</UnderlineButton>
                 </div>
             </div>
             </Centered>

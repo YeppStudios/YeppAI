@@ -39,7 +39,7 @@ const WhatIsYepp = () => {
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Ensuring a safe environment for our users is at the core of Yepp&apos;s mission. This is one of many reasons why more than 3,000 users rely on Yepp with their data.</div>
                 <Centered>
                     <div className="mt-10">
-                    <BlueButton onClick={undefined}>Download Privacy Policy</BlueButton>
+                    <BlueButton onClick={undefined}><a href="/Yepp_AI_Terms.pdf">View Privacy Policy</a></BlueButton>
                     </div>
                 </Centered>
             </div>

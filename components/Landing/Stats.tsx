@@ -3,10 +3,10 @@ import SlideBottom from "../Animated/SlideBottom"
 import SlideLeft from "../Animated/SlideLeft"
 
 const stats = [
-    { id: 1, name: 'Platform users', value: '3,200+' },
-    { id: 2, name: 'Marketing agencies', value: '40+' },
+    { id: 1, name: 'Platform users', value: '3,500+' },
+    { id: 2, name: 'Marketing agencies', value: '50+' },
     { id: 3, name: 'Avg. content creation', value: '10x faster' },
-    { id: 4, name: 'Drafts crafted', value: '200,000+' },
+    { id: 4, name: 'AI Drafts crafted', value: '500,000+' },
   ]
   
   export default function Example() {

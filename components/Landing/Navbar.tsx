@@ -8,23 +8,14 @@ import Link from "next/link";
 import { Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon, CalendarDaysIcon, GiftIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import {
-  FolderArrowDownIcon,
-  ClipboardDocumentListIcon,
-  DocumentTextIcon,
-  ChatBubbleBottomCenterTextIcon,
-  UserIcon,
-  MegaphoneIcon,
   QuestionMarkCircleIcon,
   ShieldCheckIcon,
   ScaleIcon,
   BuildingOffice2Icon,
   UserGroupIcon,
-  AdjustmentsHorizontalIcon,
-  TagIcon,
   CommandLineIcon,
-  CircleStackIcon
 } from '@heroicons/react/24/outline'
-import { ShieldCheck } from "lucide-react";
+import {solutions} from "../../solutions";
 
 
 const platform = [
@@ -33,21 +24,6 @@ const platform = [
     { name: 'FAQ', description: 'Answers to the most common questions', href: '/platform/faq', icon: QuestionMarkCircleIcon }
   ]
 
-const solutions1 = [
-    { name: 'Data Retrieval', description: 'Generate insightful content on niche topics', href: '/solution/data-retrieval', icon: CircleStackIcon },
-    { name: 'Clients Management', description: 'Craft highly personalized written pieces', href: '/solution/clients-management', icon: UserGroupIcon },
-    { name: 'Data Driven Content', description: 'Craft highly personalized written pieces', href: '/solution/data-driven-content', icon: DocumentTextIcon },
-    { name: 'Tone Consistency', description: 'Craft highly personalized written pieces', href: '/solution/tone-consistency', icon: MegaphoneIcon },
-    { name: 'Competition Research', description: 'Craft highly personalized written pieces', href: '/solution/competition-research', icon: MagnifyingGlassIcon },
-]
-
-const solutions2 = [
-    { name: 'Audience Targeting', description: 'Craft highly personalized written pieces', href: '/solution/audience-targeting', icon: UserIcon },
-    { name: 'Creative Chat', description: 'Generate insightful content on niche topics', href: '/solution/creative-chat', icon: ChatBubbleBottomCenterTextIcon },
-    { name: 'Shopping Chatbot', description: 'Craft highly personalized written pieces', href: '/solution/shopping-chatbot', icon: TagIcon },
-    { name: 'LLM Fine-Tuning', description: 'Craft highly personalized written pieces', href: '/solution/fine-tuning', icon: AdjustmentsHorizontalIcon },
-    { name: 'Custom Solution', description: 'Craft highly personalized written pieces', href: '/custom-solution', icon: CommandLineIcon },
-]
 
 const blogs = [
   { name: 'Latest SEO Game-Changer', description: 'Unpack the Latest SEO Game-Changer from Google.', href: 'https://www.linkedin.com/pulse/unpack-latest-seo-game-changer-yeppai-lrnuc/?trackingId=uibjLxwMSsWhS7E2YCbQDA%3D%3D', imageUrl: "https://media.licdn.com/dms/image/D5612AQHOWtjMvFcUfQ/article-cover_image-shrink_423_752/0/1699516148285?e=1704931200&v=beta&t=9V3XxuO8GwJcsEO2Sb-JXL14Q8AUoMhP1UvXcmdDyGM", time: "08 Nov 2023" },
@@ -139,10 +115,10 @@ const Navbar = () =>{
                                         <item.icon className="h-6 w-6 text-gray-500 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
                                     </div>
                                     <div>
-                                        <a href={item.href} className="font-semibold">
+                                        <Link href={item.href} className="font-semibold">
                                         {item.name}
                                         <span className="absolute inset-0" />
-                                        </a>
+                                        </Link>
                                         <p className="mt-1 text-left font-normal">{item.description}</p>
                                     </div>
                                     </div>
@@ -150,18 +126,18 @@ const Navbar = () =>{
                                 </div>
                                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-[#F6F6FB]">
                                     <button
-                                    onClick={() => router.push("/register?registration=true&company=true&trial=true")}
-                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
+                                    onClick={() => router.push("/demo")}
+                                    className="flex items-center hover:text-blue-500 justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
                                     >
                                         Get a demo
                                     </button>
-                                    <a
-                                    href="https://calendly.com/yeppai/yepp-introduction-call"
-                                    className="flex items-center justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
+                                    <Link
+                                    href="/demo"
+                                    className="flex items-center hover:text-blue-500 justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
                                     >
                                     <CalendarDaysIcon className="h-5 w-5 flex-none" aria-hidden="true" />
                                         Talk to expert
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             </Popover.Panel>
@@ -186,44 +162,55 @@ const Navbar = () =>{
                             leaveTo="opacity-0 -translate-y-1"
                         >
                     <div className="absolute z-10 left-1/2 pt-4 w-screen max-w-max -translate-x-1/2">
-                    <Popover.Panel className="flex px-4 bg-white text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg border-2 border-[#F6F6FB]">
+                    <Popover.Panel className="flex cursor-auto px-4 bg-white text-left flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg border-2 border-[#F6F6FB]">
                     <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-6 py-10 lg:grid-cols-2 lg:px-8">
                         <div className="grid grid-cols-2 gap-x-6 sm:gap-x-8">
                         <div>
                             <div className="flow-root">
                             <div className="-my-2">
-                                {solutions1.map((item: any) => (
-                                 <div key={item.name} className="group cursor-pointer items-center relative flex gap-x-2 px-2 py-1 rounded-lg hover:bg-[#F6F6FB]">
-                                 <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg text-gray-500 hover:text-black">
-                                     <item.icon className="h-6 w-6 text-gray-400 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
-                                 </div>
-                                 <div>
-                                     <a href={item.href} className="font-semibold">
-                                     {item.name}
-                                     <span className="absolute inset-0" />
-                                     </a>
-                                 </div>
-                                 </div>
-                                ))}
+                            {solutions.slice(0, 6).map((item) => (
+                                <div key={item.title} className="group cursor-pointer items-center relative flex gap-x-2 px-2 py-1 rounded-lg hover:bg-[#F6F6FB]">
+                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg text-gray-500 hover:text-black">
+                                        <item.icon className="h-6 w-6 text-gray-400 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
+                                    </div>
+                                    <div>
+                                        <Link href={`solution/${item.query}`} as={`/solution/${item.query}`} className="font-semibold">
+                                            {item.title}
+                                            <span className="absolute inset-0" />
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
                             </div>
                             </div>
                         </div>
                         <div>
                             <div className="flow-root">
                             <div className="-my-2">
-                                {solutions2.map((item) => (
-                                 <div key={item.name} className="group cursor-pointer items-center relative flex gap-x-2 px-2 py-1 rounded-lg hover:bg-[#F6F6FB]">
-                                 <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg text-gray-500 hover:text-black">
-                                     <item.icon className="h-6 w-6 text-gray-400 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
-                                 </div>
-                                 <div>
-                                     <a href={item.href} className="font-semibold">
-                                     {item.name}
-                                     <span className="absolute inset-0" />
-                                     </a>
-                                 </div>
-                                 </div>
-                                ))}
+                            {solutions.slice(6, 11).map((item) => (
+                                <div key={item.title} className="group cursor-pointer items-center relative flex gap-x-2 px-2 py-1 rounded-lg hover:bg-[#F6F6FB]">
+                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg text-gray-500 hover:text-black">
+                                        <item.icon className="h-6 w-6 text-gray-400 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
+                                    </div>
+                                    <div>
+                                        <Link href={`solution/${item.query}`} as={`/solution/${item.query}`} className="font-semibold">
+                                            {item.title}
+                                            <span className="absolute inset-0" />
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="group cursor-pointer items-center relative flex gap-x-2 px-2 py-1 rounded-lg hover:bg-[#F6F6FB]">
+                                    <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg text-gray-500 hover:text-black">
+                                        <CommandLineIcon className="h-6 w-6 text-gray-400 group-hover:text-blue-500 group-hover:scale-105" aria-hidden="true" />
+                                    </div>
+                                    <div>
+                                        <Link href={"/custom-solution"} className="font-semibold">
+                                            Custom Solution
+                                            <span className="absolute inset-0" />
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
                             </div>
                         </div>
@@ -233,17 +220,16 @@ const Navbar = () =>{
                         {blogs.map((post) => (
                             <article
                             key={post.name}
-                            className="relative group cursor-pointer isolate flex max-w-2xl flex-col gap-x-8 gap-y-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
+                            className="relative group cursor-pointer isolate hover:scale-95 transition flex max-w-2xl flex-col gap-x-8 gap-y-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
                             >
                             <div className="relative flex-none">
                                 <Image
-                                className="aspect-[2/1] w-full rounded-lg bg-gray-100 object-cover sm:aspect-[16/9] sm:h-32 lg:h-auto"
+                                className="aspect-[2/1] w-full rounded-lg object-cover sm:aspect-[16/9] sm:h-32 lg:h-auto"
                                 src={post.imageUrl}
                                 alt=""
                                 width={1200}
                                 height={800}
                                 />
-                                <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-gray-900/10" />
                             </div>
                             <div>
                                 <h4 className="mt-2 text-sm font-semibold leading-6 text-gray-900">
@@ -258,7 +244,7 @@ const Navbar = () =>{
 
                                 </time>
                                 <div
-                                    className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 text-xs text-gray-400"
+                                    className="relative z-10 mt-4 rounded-full bg-gray-50 px-3 py-1.5 text-xs text-gray-400"
                                 >
                                     {post.time}
                                 </div>
@@ -277,7 +263,7 @@ const Navbar = () =>{
                 </Container>
                 <Container>
                     <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Sign in<BsPersonCircle /></LoginButton>
-                    {!(mobile && !isFixed) && <TestButton className='trial-btn' onClick={() => router.push("/register?registration=true&trial=true")}>Get a demo</TestButton>}
+                    {!(mobile && !isFixed) && <TestButton className='trial-btn' onClick={() => router.push("/demo")}>Get a demo</TestButton>}
                 </Container>
             </Nav>
         </NavContainer>

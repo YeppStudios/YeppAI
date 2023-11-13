@@ -33,7 +33,7 @@ export default function Accordion(props: {onClick: any, question: string, answer
 }
 
 const AccordionButton = styled.div<AccordionButton>`
-  width: 80%;
+  width: 100%;
   height: 6vh;
   display: flex;
   align-items: center;
@@ -55,7 +55,7 @@ const AccordionButton = styled.div<AccordionButton>`
 `
 
 const AccordionBody = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -7,7 +7,8 @@ import {
     AdjustmentsHorizontalIcon,
     TagIcon,
     CircleStackIcon,
-    MagnifyingGlassIcon
+    MagnifyingGlassIcon,
+    ArrowPathRoundedSquareIcon
   } from '@heroicons/react/24/outline'
 import llmDashbaord from './public/images/fine_tune_dashboard.png';
 import shoppingDashboard from "./public/images/shopping_assistant_dashboard.png";
@@ -17,6 +18,7 @@ import competitionResearchDashboard from "./public/images/competition_research_d
 import toneDashboard from "./public/images/tone_dashboard.png";
 import dataDashboard from "./public/images/data_dashboard.png";
 import profileDashboard from "./public/images/profile_dashboard.png";
+import workflowDashboard from "./public/images/workflow_dashboard.png";
 
 export const solutions = [
     {
@@ -58,8 +60,8 @@ export const solutions = [
         ],
     },
     {
-        query: "clients-management",
-        title: "Clients Management",
+        query: "projects-management",
+        title: "Project Management",
         icon: UserGroupIcon,
         mainImage: profileDashboard,
         mainTitle: "Empower Team and Clients with Streamlined Management",
@@ -100,7 +102,7 @@ export const solutions = [
         title: "Data-Driven Content",
         icon: DocumentTextIcon,
         mainImage: dataDashboard,
-        mainTitle: "Conquer Search Results With Data Precision and Creative Flair",
+        mainTitle: "Leverage Data-Driven Content for Increased Engagement",
         description: "Feed the AI with your unique data sets, enabling it to delve into any topic with substance and style. Whether tackling niche subjects or trending themes, our solution ensures your content stands out.",
         imageSections: [
             {
@@ -365,6 +367,44 @@ export const solutions = [
             {
                 title: "Market Differentiation",
                 description: "Stand out in a crowded market by offering highly personalized marketing services that cater to each client's distinct requirements, ensuring unparalleled customer satisfaction."
+            }
+        ]
+    },
+    {
+        query: "workflow-automations",
+        title: "Workflow Automations",
+        icon: ArrowPathRoundedSquareIcon,
+        mainImage: workflowDashboard,
+        mainTitle: "Automate Your Workflows for Seamless Operations",
+        description: "Enhance productivity, minimize errors, and ensure efficiency in daily operations with our advanced automation solutions that seamlessly integrate your tools and processes.",
+        imageSections: [
+            {
+                title: "Accelerate Workflow Speed",
+                description: "Our automation solutions are designed to accelerate the speed of your workflows. With seamless integration and automated processes, tasks and projects move swiftly from one stage to the next. This means faster project delivery, quicker response times to customer inquiries, and more rapid decision-making, giving you a competitive edge in today's fast-paced business environment.",
+                imageURL: "https://img.freepik.com/free-photo/man-working-with-his-computer-outdoors_150588-65.jpg?w=1060&t=st=1699753286~exp=1699753886~hmac=ef52e9424cb8ebeb92c44add2ad4a3fa06d71e136b300e7ca3cb14ea4d6fb15b"
+            },
+            {
+                title: "Enhance Productivity",
+                description: "By automating routine tasks, your team can focus their time and energy on more strategic and creative activities. This not only boosts individual productivity but also leads to higher overall output, driving business growth.",
+                imageURL: "https://img.freepik.com/free-photo/happy-man-holding-laptop_23-2148718055.jpg?w=1060&t=st=1699752887~exp=1699753487~hmac=1c1f34598f1b62014022affc9ac8439e2af45e78f278661ea0c9df28e3e3f0b2"
+            },
+        ],
+        overview: [
+            {
+                title: "Unlock Innovation and Creativity",
+                description: "Empower your team to redirect their energy toward more strategic and creative aspects of their work. This freedom fosters innovation, fresh ideas, and the development of new, value-added services or products that can set your business apart in the market."
+            },
+            {
+                title: "Seamless Integration",
+                description: "Our solutions create a cohesive workflow environment where teams and tools seamlessly work together. This harmony not only promotes efficient operations but also enhances communication and knowledge sharing among team members."
+            },
+            {
+                title: "Boost Productivity and Speed",
+                description: "Our automation solutions enable your team to accomplish tasks more quickly and with fewer resources. This boosts overall productivity as you can achieve more in less time, allowing you to meet tight deadlines, handle higher workloads, and serve your clients more efficiently."
+            },
+            {
+                title: "Maximize Resource Efficiency",
+                description: "By automating tasks and processes, our solutions save you both time and money. You can accomplish tasks faster and with fewer resources, resulting in cost savings and improved profitability."
             }
         ]
     },

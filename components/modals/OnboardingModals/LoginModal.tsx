@@ -270,13 +270,13 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                     autoComplete="off"
                                 />
                             </div>
-                            <DisclaimersContainer>
+                            {/* <DisclaimersContainer>
                                 <div></div>
                                 {!workspace &&
                                     <RegisterText>Already have an account? <RegisterLink onClick={() => setRegistration(false)}>Log in</RegisterLink></RegisterText>
                                 }
                                
-                            </DisclaimersContainer>
+                            </DisclaimersContainer> */}
                             <CheckboxContainer>
                                 <CheckboxInput
                                     id="rules"

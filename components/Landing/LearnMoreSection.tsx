@@ -3,12 +3,14 @@ import styled from "styled-components";
 import Title from "../Common/Title";
 import Accordion from "./Accordion";
 import UnderlineButton from "./common/UnderlineButton";
+import { useRouter } from "next/router";
 
 const LearnMoreSection = () => {
 
     const [openedAccordion, setOpenedAccordion] = useState(1);
     const [mobile, setMobile] = useState(true);
 
+    const router = useRouter();
    
     useEffect(() => {
       if (window.innerWidth > 1023) { 
@@ -25,7 +27,7 @@ const LearnMoreSection = () => {
     
     return (
         <Section>
-            <div style={{width: "100%"}}>
+            <div className="w-full lg:w-10/12 lg:px-[4rem]">
                 <Accordion openedAccordion={openedAccordion} index={1} onClick={() => setOpenedAccordion(1)} question="Is the uploaded content safe?" answer={"Yes, as a SaaS platform we do not store the files you upload. We only use them to create an embedding for the AI Assistant based on a vector database, to which only you have access from your account."} backgroundColor="#F2F2FB"/>
                 <Accordion openedAccordion={openedAccordion} index={2} onClick={() => setOpenedAccordion(2)} question="What is elixir?" answer={"Elixir is used for generating content. It is consumed by AI to generate content and understand your questions."} backgroundColor="rgba(101, 120, 248, 0.1)"/>
                 <Accordion openedAccordion={openedAccordion} index={3} onClick={() => setOpenedAccordion(3)} question="Can I cancel my subscription?" answer={"Subscription renews every month starting from the purchase date and can be canceled at any time so that payment will not be collected for the next month."} backgroundColor="#F2F2FB"/>
@@ -35,7 +37,7 @@ const LearnMoreSection = () => {
             <ContactContainer>
                 <Title fontSize={"6vh"} width={"100%"} textAlign={"left"} color={"black"} mobileFontSize="4vh" mobileTextAlign="center"><b className="font-bold text-gray-800">Learn more.</b></Title>
                 <Description>Still want to learn more about our platform and security? Contact our experts to learn more!</Description>
-                <UnderlineButton onClick={undefined}>Talk with an expert</UnderlineButton>
+                <UnderlineButton onClick={() => router.push("/demo")}>Talk with an expert</UnderlineButton>
             </ContactContainer>
             }
         </Section>

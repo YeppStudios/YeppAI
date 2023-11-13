@@ -5,7 +5,7 @@ import MainTitle from "@/components/Landing/common/MainTitle";
 import MiniTitle from "@/components/Landing/common/MiniTitle";
 import Subtitle from "@/components/Landing/common/Subtitle";
 import GraySection from "@/components/Landing/common/GraySection";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Section from "@/components/Landing/common/Section";
 import tickIcon from "../public/images/gradient-tick.png"
 import Image from "next/image";
@@ -15,6 +15,7 @@ import BlueButton from "@/components/Landing/common/BlueButton";
 import Footer from "@/components/Landing/Footer";
 import growthIcon from "../public/images/percentage_arrow.png";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 const WhyYepp = () => {
     
@@ -22,6 +23,9 @@ const WhyYepp = () => {
         document.body.style.overflow = 'auto';
         document.body.style.position = 'static';
     }, []);
+
+
+    const router = useRouter();
 
  return (
     <>
@@ -41,7 +45,7 @@ const WhyYepp = () => {
         <GraySection>
         <div className="w-full flex justify-center flex-wrap">
             <Subtitle>The pain with AI in marketing</Subtitle>
-            <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Today&apos;s AI tools just aren&apos;t smart enough for what marketers really need. They don&apos;t fit well into our everyday work and don&apos;t really get our problems. We need an AI that learns from us and helps with more of the tough stuff we face every day, an AI that evolves and grows to understand and tackle our unique challenges.</div>
+            <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8"><b>Today&apos;s AI tools just aren&apos;t smart enough for what marketers really need.</b> They don&apos;t fit well into our everyday work and don&apos;t really get our problems. We need an AI that learns from us and helps with more of the tough stuff we face every day, an AI that evolves and grows to understand and tackle our unique challenges.</div>
         </div>
         </GraySection>
         <Section>
@@ -66,12 +70,12 @@ const WhyYepp = () => {
         </div>
         </Section>
         <Section>
-        <div className="lg:grid lg:grid-cols-2 flex flex-wrap gap-10 lg:px-[6rem]">
+        <div className="lg:grid lg:grid-cols-2 flex flex-wrap gap-10 lg:px-[8rem]">
             <div className="h-full flex items-center hidden lg:block">
                 <Image src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=3174&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width={2400} height={1400} alt="chart" className="w-full rounded-3xl" />
             </div>
             <div>
-                <div className="w-full flex flex-wrap p-10 lg:ml-16">
+                <div className="w-full flex items-center flex-wrap py-10 lg:ml-16">
                     <h3 className="lg:text-[3vw] text-3xl font-medium ">New era, new rules</h3>
                     <h4 className="lg:text-[1.5vw] font-medium mt-4 lg:w-11/12">To succeed, marketing teams need new, smart ways to grab attention and win customers.</h4>
                     <div className="mt-10 w-full lg:w-10/12">
@@ -101,7 +105,7 @@ const WhyYepp = () => {
             <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Consequently, marketing teams can generate more leads and boost conversions while reducing expenses and risks across the organization.</div>
             <Centered>
                 <div className="lg:mt-4 mt-12">
-                <BlueButton onClick={() => console.log("")}>Explore the platform</BlueButton>
+                <BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Explore the platform</BlueButton>
                 </div>
             </Centered>
         </div>
@@ -113,14 +117,14 @@ const WhyYepp = () => {
                 <Image src={growthIcon} alt="growth icon" className="w-full" />
             </div>
             <div className="w-full rounded-xl relative">
-                <div className="flex flex-wrap flex-col-reverse lg:flex-nowrap justify-between items-center mt-6 pb-10 border-b-4 border-gray-100">
-                    <div className="lg:w-1/2 w-full flex flex-wrap items-center">
-                    <p className="lg:text-[3vw] text-lg mt-4 lg:mt-0 leading-tight font-medium flex lg:w-10/12 items-end"> 
+            <div className="flex flex-wrap flex-col-reverse lg:flex-row justify-between items-center pt-10 pb-10 border-b-4 border-b-[#F2F2FB]">
+                <div className="lg:w-1/2 w-full flex flex-wrap items-center mt-4 lg:mt-0 lg:justify-start ">
+                    <p className="lg:text-[3vw] text-lg leading-tight lg:text-left font-medium flex lg:w-10/12 items-end"> 
                     Faster Campaign Execution
                     </p>
                     </div>
                     <div className="h-full flex flex-col-reverse lg:flex-col lg:flex-wrap w-full lg:w-1/2">
-                        <p className="lg:text-[10rem] text-5xl text-right flex lg:block text-gray-800 lg:mt-0">
+                        <p className="lg:text-[10rem] text-5xl text-left flex lg:block text-right text-gray-800 lg:mt-0">
                             67%
                         </p>
                     </div>

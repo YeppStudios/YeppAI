@@ -11,7 +11,7 @@ import { BiGift } from "react-icons/bi";
 import api from "@/pages/api";
 import LoginModal from "../Modals/OnboardingModals/LoginModal";
 import { Loader } from "../Common/Loaders";
-import PhoneNumberPopup from "../Modals/InformationalModals/PhoneNumberPopup";
+import ContactPopup from "../Modals/OnboardingModals/ContactPopup";
 import HeroText from "./HeroText";
 
 const tabs = [
@@ -385,7 +385,7 @@ const Plans = (props: {openRegistration: boolean, purchase: boolean, landing: bo
     return (
         <>
         {openLoginModal && <LoginModal onClose={undefined} registration={false} />}
-        {openContact && <PhoneNumberPopup onClose={() => setOpenContact(false)} />}
+        {openContact && <ContactPopup onClose={() => setOpenContact(false)} />}
         {(!props.purchase && !props.landing) && <SlideBottom><h1 className="text-[2.5rem] px-4 lg:px-0 lg:text-6xl text-center font-bold mb-4 lg:mb-16 mt-4 lg:mt-12">Choose your <ColorfulText><b className="font-bold">free trial</b></ColorfulText> plan</h1></SlideBottom>}
         <div className="w-full flex justify-center mt-8">
         <div className="sm:hidden">

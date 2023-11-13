@@ -7,29 +7,19 @@ import { useEffect, useState } from "react";
 import UnderlineButton from "./common/UnderlineButton";
 import BlueButton from "./common/BlueButton";
 import styled from "styled-components";
+import { solutions } from "../../solutions";
 
 const footerNavigation = {
-  solutions: [
-    { name: 'Marketing templates', href: '/solution/marketing-templates' },
-    { name: 'Copywriting', href: '/solution/copywriting' },
-    { name: 'Chat with data', href: '/solution/chat' },
-    { name: 'Content campaigns', href: '/solution/campaigns' },
-    { name: 'Assets upload', href: '/solution/assets-upload' }
-  ],
   about: [
-    { name: 'Pricing', href: "/pricing" },
-    { name: 'Partnership', href: '/about-partnership' },
-    { name: 'FAQ', href: '/#faq' },
-  ],
-  start: [
-    { name: 'Onboarding', href: "/#onboarding" },
-    { name: 'Guides', href: 'https://www.youtube.com/@Yepp-AI' },
-    { name: 'Documentation', href: '/docs/api' },
+    { name: 'What is Yepp', href: "/platform/what-is-yepp" },
+    { name: 'Why Yepp', href: "/why-yepp" },
+    { name: 'Pricing', href: '/pricing' },
+
   ],
   platform: [
-    { name: 'Onboarding', href: "/#onboarding" },
-    { name: 'Guides', href: 'https://www.youtube.com/@Yepp-AI' },
-    { name: 'Documentation', href: '/docs/api' },
+    { name: 'Get a demo', href: '/platform/trust' },
+    { name: 'Trust', href: '/platform/trust' },
+    { name: 'FAQ', href: '/platform/faq' },
   ],
 
   social: [
@@ -128,9 +118,9 @@ const Footer = () => {
                 <h3 className='lg:text-[2.5vw] text-2xl font-medium text-gray-800 mt-8 lg:mt-0 leading-tight'>Discover Your {mobile && <span>Own</span>} Marketing Automation Platform.</h3>
                 <p className='lg:w-11/12 text-lg text-gray-800 mt-6'>Learn how Yepp helps more than <b className="font-medium">3,000 users</b> get more leads.</p>
             </div>
-            <div className="flex gap-12 mt-6 lg:mt-0 items-center">
-              {!mobile && <BlueButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Learn more</BlueButton>}
-              <UnderlineButton onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Get pricing</UnderlineButton>
+            <div className="flex flex-wrap gap-12 mt-6 lg:mt-0 items-center">
+               <BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Learn more</BlueButton>
+              {!mobile && <UnderlineButton onClick={() => router.push("/pricing")}>Get pricing</UnderlineButton>}
             </div>
         </div>
         <div className="w-[40%]">
@@ -160,37 +150,42 @@ const Footer = () => {
               </div>
             </div>
             <div className="mt-16 grid grid-cols-2 gap-16 lg:gap-8 xl:col-span-2 xl:mt-0">
-              <div className="md:grid md:grid-cols-2 gap-16 md:gap-8">
+              <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div>
                   <h3 className="text-sm font-bold leading-6 text-gray-800">Solutions</h3>
                   <ul role="list" className="mt-6 space-y-4">
-                    {footerNavigation.solutions.map((item) => (
-                      <li key={item.name}>
-                        <Link href={item.href} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
-                          {item.name}
+                    {solutions.slice(0, 6).map((item) => (
+                      <li key={item.title}>
+                        <Link href={item.query} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
+                          {item.title}
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-sm mt-10 md:mt-0 font-bold leading-6 text-gray-800">Get started</h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {footerNavigation.start.map((item) => (
-                      <li key={item.name}>
-                        <Link href={item.href} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
-                          {item.name}
+                  <h3 className="text-sm font-bold leading-6 text-white">.</h3>
+                  <ul role="list" className="lg:mt-6 space-y-4">
+                    {solutions.slice(6, 11).map((item) => (
+                      <li key={item.title}>
+                        <Link href={item.query} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
+                          {item.title}
                         </Link>
                       </li>
                     ))}
+                      <li>
+                        <Link href="/custom-solution" className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
+                        Custom Solution
+                        </Link>
+                      </li>
                   </ul>
                 </div>
               </div>
               <div className="md:grid md:grid-cols-2 gap-16 md:gap-8">
-                <div className="">
+              <div className="">
                   <h3 className="text-sm font-bold leading-6 text-gray-800">About</h3>
                   <ul role="list" className="mt-6 space-y-4">
-                    {footerNavigation.platform.map((item) => (
+                    {footerNavigation.about.map((item) => (
                       <li key={item.name}>
                         <Link href={item.href} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
                           {item.name}
@@ -200,9 +195,9 @@ const Footer = () => {
                   </ul>
                 </div>
                 <div className="">
-                  <h3 className="text-sm mt-10 md:mt-0 font-bold leading-6 text-gray-800">About</h3>
+                  <h3 className="text-sm mt-10 md:mt-0 font-bold leading-6 text-gray-800">Platform</h3>
                   <ul role="list" className="mt-6 space-y-4">
-                    {footerNavigation.about.map((item) => (
+                    {footerNavigation.platform.map((item) => (
                       <li key={item.name}>
                         <Link href={item.href} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
                           {item.name}

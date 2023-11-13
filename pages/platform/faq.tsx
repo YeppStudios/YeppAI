@@ -201,7 +201,7 @@ const WhatIsYepp = () => {
                 <div className="rounded-3xl bg-[#F2F2FB] shadow p-10">
                     <h2 className="text-3xl font-medium">How much does Yepp cost?</h2>
                     <p className="mt-6 text-lg">Yepp pricing is custom-made, based on the LLM fine-tuning requirements, features you wish to use, as well as the number of users you want to give access to.</p>
-                    <p className="mt-4"><a href="" className="text-blue-500">Request more information</a> and our sales representative will discuss your team’s specific needs and prepare an estimated offer value during the scheduled meeting.</p>
+                    <p className="mt-4"><a href="/demo" className="text-blue-500">Request more information</a> and our sales representative will discuss your team’s specific needs and prepare an estimated offer value during the scheduled meeting.</p>
                 </div>
             </div>
             </SlideBottom>
