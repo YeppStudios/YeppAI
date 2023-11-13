@@ -408,11 +408,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 />
                             </div>
                             <DisclaimersContainer>
-                                {mobile ?
-                                 <RegisterText><RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
-                                 :
-                                 <RegisterText>No account?<RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
-                                }
+                                <div></div>
                                 <ResetPassword onClick={() => setResetPassword(true)}>Reset password</ResetPassword>
                             </DisclaimersContainer>
                             <Button id="login-btn" type="submit">
@@ -451,11 +447,7 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                             />
                         </div>
                         <DisclaimersContainer>
-                                {mobile ?
-                                 <RegisterText><RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
-                                 :
-                                 <RegisterText>No account?<RegisterLink onClick={() => router.push("/register?registration=true&company=true&trial=true")}>Register</RegisterLink></RegisterText>
-                                }
+                            <div></div>
                             <ResetPassword onClick={() => setResetPassword(false)}>Log in</ResetPassword>
                         </DisclaimersContainer>
                         <Button type="submit">
