@@ -59,7 +59,7 @@ const TestimonialsSection = () => {
                 <SlideBottom>
                 <TestimonialContainer>
                     <TestimonialText>
-                    No other platform has ever offered us such a comprehensive individual support. They really go an extra mile when it comes to customer success. Definitely a game-changer for our agency and I would recommend it to anyone who is considering using AI in marketing and even other industries.
+                    <b>No other platform has ever offered us such a comprehensive individual support.</b> They really go an extra mile when it comes to customer success. Definitely a game-changer for our agency and I would recommend it to anyone who is considering using AI in marketing and even other industries.
                     </TestimonialText>
                     <ProfileContainer>
                         <ProfilePicture>
@@ -82,8 +82,8 @@ const TestimonialsSection = () => {
                             <Image layout='fill' objectFit='cover'  src="https://pbs.twimg.com/profile_images/540367571988389888/I0PmoBNB_400x400.jpeg" alt={'preview'}></Image> 
                         </ProfilePicture>
                         <div>
-                            <PersonName>Michael Seibel</PersonName>
-                            <PersonRole>CEO at YCombinator</PersonRole>
+                            <PersonName>Linda Strauss</PersonName>
+                            <PersonRole>Project Manager of DigitalOne</PersonRole>
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
@@ -339,7 +339,7 @@ const TestimonialText = styled.p`
     font-size: 1.8vh;
     color: rgb(31 41 55);
     @media (max-width: 1023px) {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 `
 
