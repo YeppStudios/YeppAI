@@ -91,7 +91,7 @@ const SolutionPage = () => {
     return (
       <>
         <Head>
-          <meta name="theme-color" content="#ffffff" />
+          <meta name="theme-color" content="#F6F6FB" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta
             name="description"
@@ -127,24 +127,24 @@ const SolutionPage = () => {
             </Centered>
             {solutionData.imageSections &&
             <GraySection>
-            <div className="w-full flex justify-center flex-wrap px-[10rem]">
+            <div className="w-full flex justify-center flex-wrap px-[5%] lg:px-[10rem]">
                 <Subtitle>How {solutionData.title} can help you achieve more?</Subtitle>
                 <div className="mt-36 w-full">
-                <div className="mt-10 w-full flex items-center justify-between gap-28">
-                  <div className="w-1/2">
+                <div className="mt-10 w-full flex flex-wrap lg:flex-nowrap lg:flex-row flex-cols-reverse items-center justify-between gap-10 lg:gap-28">
+                  <div className="lg:w-1/2 w-full">
                     <h2 className="text-3xl font-medium">{solutionData.imageSections[0].title}</h2>
                     <p className="text-lg mt-6">{solutionData.imageSections[0].description}</p>
                   </div>
-                  <div className="w-4/12">
+                  <div className="lg:w-4/12 w-full">
                     <AttributeBackground background={solutionData.imageSections[0].imageURL} />
                   </div>
                 </div>
                 {solutionData.imageSections[1] &&
-                <div className="mt-48 w-full flex items-center justify-between gap-28">
-                  <div className="w-4/12">
+                <div className="mt-48 w-full flex flex-wrap lg:flex-nowrap lg:flex-row flex-col-reverse items-center justify-between gap-10 lg:gap-28">
+                  <div className="lg:w-4/12 w-full">
                     <AttributeBackground background={solutionData.imageSections[1].imageURL} />
                   </div>
-                  <div className="w-1/2">
+                  <div className="lg:w-1/2 w-full">
                     <h2 className="text-3xl font-medium">{solutionData.imageSections[1].title}</h2>
                     <p className="text-lg mt-6">{solutionData.imageSections[1].description}</p>
                   </div>
@@ -192,6 +192,10 @@ const AttributeBackground = styled.img<{background: string}>`
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 25px;
+  @media (max-width: 1023px) {
+    width: 100vw;
+    height: 100vw;
+    }
 `
 
 

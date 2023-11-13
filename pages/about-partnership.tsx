@@ -74,7 +74,7 @@ export default function Example() {
   return (
     <div className="bg-white">
         <Head>
-          <meta name = "theme-color" content = "#ffffff" />
+          <meta name = "theme-color" content = "#F6F6FB" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="description" content="Start earning passive income by referring Yepp AI. Earn up to 30% of the referred user subscription." />
           <title>Partnership | Yepp AI</title>

@@ -735,7 +735,7 @@ const Chat = () => {
       <div onClick={() => setEditConversationName(false)}>
       <Head>
           <title>Chat with your data | Yepp AI</title>
-          <meta name = "theme-color" content = "#FFFFFF" />
+          <meta name = "theme-color" content = "#F6F6FB" />
           <meta name="description" content="Chat with files, videos and websites using AI." />
       </Head>
       {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}

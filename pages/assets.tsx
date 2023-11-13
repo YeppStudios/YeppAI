@@ -114,7 +114,7 @@ const Assets = () => {
       <>
       <Head>
           <title>Assets | Yepp AI</title>
-          <meta name = "theme-color" content = "#FFFFFF" />
+          <meta name = "theme-color" content = "#F6F6FB" />
           <meta name="description" content="Teach AI knowlege tailored specifically for your needs." />
       </Head>
       <PageTemplate userProfiles={[]} >

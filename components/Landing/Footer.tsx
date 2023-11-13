@@ -156,7 +156,7 @@ const Footer = () => {
                   <ul role="list" className="mt-6 space-y-4">
                     {solutions.slice(0, 6).map((item) => (
                       <li key={item.title}>
-                        <Link href={item.query} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
+                        <Link href={`/solution/${item.query}`} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
                           {item.title}
                         </Link>
                       </li>
@@ -168,7 +168,7 @@ const Footer = () => {
                   <ul role="list" className="lg:mt-6 space-y-4">
                     {solutions.slice(6, 11).map((item) => (
                       <li key={item.title}>
-                        <Link href={item.query} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
+                        <Link href={`/solution/${item.query}`} className="text-sm leading-6 text-gray-500 hover:text-blue-500 font-normal">
                           {item.title}
                         </Link>
                       </li>

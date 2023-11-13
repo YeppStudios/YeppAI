@@ -47,7 +47,7 @@ const SolutionPage = () => {
     return (
       <>
         <Head>
-          <meta name="theme-color" content="#ffffff" />
+          <meta name="theme-color" content="#F6F6FB" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta
             name="description"

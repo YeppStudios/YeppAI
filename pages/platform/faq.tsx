@@ -15,7 +15,7 @@ const WhatIsYepp = () => {
     return (
         <div>
             <Head>
-                <meta name="theme-color" content="#ffffff" />
+                <meta name="theme-color" content="#F6F6FB" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta
                     name="description"
@@ -213,20 +213,3 @@ const WhatIsYepp = () => {
 
 
 export default WhatIsYepp;
-
-
-const SectionsContanier = styled(Masonry)`
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    padding: 1rem 0rem 3rem 0rem;
-    @media (max-width: 1023px) {
-    padding: 0vh 0 2vh 0vw;
-    width: 100vw;
-    }
-`
-
-const MasonryColumn = styled.div`
-  background-clip: padding-box;
-`;

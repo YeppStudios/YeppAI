@@ -84,7 +84,7 @@ const Demo = () => {
     <>
     <Head>
         <title>Yepp AI | Request Demo</title>
-        <meta name = "theme-color" content = "#FFFFFF" />
+        <meta name = "theme-color" content = "#F6F6FB" />
         <meta name="description" content="Subscription plans and offer." />
     </Head>
 
