@@ -86,7 +86,6 @@ const WhatIsYepp = () => {
             </div>
             </GraySection>
             <div className="mt-10"></div>
-                <LearnMoreSection />
             <Footer />
         </div>
     )
