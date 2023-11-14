@@ -249,6 +249,7 @@ const IdeaCreator = ({back, query, template}: any) => {
             query={{}} 
             count={Number(numberOfIdeas)} 
             stopLoading={() => setLoading(false)}
+            language={language}
             />
         </PageContent>
 

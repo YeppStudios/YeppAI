@@ -319,6 +319,7 @@ const SocialMediaCreationPage = ({ back, query, template }: any) => {
         count={1}
         template={template}
         stopLoading={() => setLoading(false)}
+        language={language}
       />
     </PageContent>
   );

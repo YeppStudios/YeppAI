@@ -147,6 +147,7 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
                 query={query}
                 count={1} 
                 stopLoading={() => setLoading(false)}
+                language={"English"}
             />
         </PageContent>
     )

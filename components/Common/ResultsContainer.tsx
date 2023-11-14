@@ -57,7 +57,8 @@ const ResultsContainer = (
     stopLoading: any,
     query: any,
     about: string,
-    template: any
+    template: any,
+    language: string
   }) => {
 
     const [content, setContent] = useState<string>();
@@ -175,7 +176,11 @@ const ResultsContainer = (
         let promptToSend = '';
         let context = "";
         let reply = '';
-        let model ="gpt-4-1106-preview"
+        console.log(props.language, "lang");
+        let model ="gpt-4"
+        if (props.language && props.language === "English") {
+          model = "gpt-4-1106-preview"
+        }
         let previousMessage = '';
       if (content) {
         previousMessage = `Last time I wrote: "${content}". Now please generate new, unique content different than the one written previously following these guidelines: 
@@ -343,8 +348,11 @@ const ResultsContainer = (
       localStorage.removeItem("defaultText");
       let text = '';
       let context = "";
+      let  model = "gpt-4"
       let promptToSend = prompt;
-      let  model = "gpt-4-1106-preview"
+      if (props.language && props.language === "English") {
+        model = "gpt-4-1106-preview"
+      }
       setIsSSEComplete(false);
       setPrompt('');
       setContent('');

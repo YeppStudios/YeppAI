@@ -256,6 +256,7 @@ const FrameworkCreationPage = ({back, query, template}: any) => {
             query={query} 
             count={1} 
             stopLoading={() => setLoading(false)}
+            language={language}
             />
         </PageContent>
     )

@@ -240,6 +240,7 @@ const EnhanceTextCreationPage = ({back, query, template}: any) => {
                 template={template} 
                 count={1} 
                 stopLoading={() => setLoading(false)}
+                language={"English"}
             />
         </PageContent>
     )
