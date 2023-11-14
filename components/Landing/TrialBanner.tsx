@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import Centered from "../Centered";
-import analyseImage from "../../public/images/analyseImage.jpg";
 import Image from "next/image";
-import { HiLocationMarker } from "react-icons/hi";
 import { useRouter } from "next/router";
-import SlideBottom from "../Animated/SlideBottom";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import giftIcon from "../../public/images/giftIcon.png";
 

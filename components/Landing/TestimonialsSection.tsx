@@ -308,7 +308,7 @@ const Section = styled.div<Section>`
     gap: 1.2vh; 
     grid-template-areas: 
       ". . . ."; 
-      max-height: 110vh;
+      max-height: 95vh;
       overflow: hidden;
       @media (max-width: 1023px) {
         background-image: url(${props => props.mobileImage.src});
