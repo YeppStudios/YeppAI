@@ -180,7 +180,7 @@ const TestimonialsSection = () => {
                         </ProfilePicture>
                         <div>
                             <PersonName>Artur Kaczmarek</PersonName>
-                            <PersonRole>CEO at YCombinator</PersonRole>
+                            <PersonRole>CEO at Prime Start</PersonRole>
                         </div>
                     </ProfileContainer>
                 </TestimonialContainer>
