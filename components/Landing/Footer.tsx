@@ -17,7 +17,7 @@ const footerNavigation = {
 
   ],
   platform: [
-    { name: 'Get a demo', href: '/platform/trust' },
+    { name: 'Get a demo', href: '/demo' },
     { name: 'Trust', href: '/platform/trust' },
     { name: 'FAQ', href: '/platform/faq' },
   ],
