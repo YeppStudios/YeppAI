@@ -418,7 +418,7 @@ const PromptsBrowser = () => {
                 </div>
                 <Slogan>Collection of 1000+ most effective prompts for marketing & sales</Slogan>
                 <InputContainer>
-                    <Input value={searchTerm} onChange={(e) => delayedSearch(e.target.value)} type="text" placeholder="Prompt..."/>
+                    <Input value={searchTerm} onChange={(e) => delayedSearch(e.target.value)} type="text" placeholder="Wyszukaj..."/>
                     <SubmitBtn>
                         <SubmitBtnIcon>
                             <BsSearch style={{ width: "auto", height: "100%" }}/>
@@ -600,7 +600,6 @@ const SubmitBtn = styled.div`
   transition: all 0.4s ease;
   &:hover {
     transform: scale(0.95);
-    box-shadow: 4px 4px 20px rgba(255, 255, 255, 0.35);
   }
 `
 

@@ -26,18 +26,6 @@ export default function ScalingElement(props: { children: any, assistant: boolea
     }
   }, [controls, inView]);
 
-  const copyPlainText = (e:any) => {
-    e.preventDefault();
-
-    const text = window.getSelection()?.toString();
-
-    e.clipboardData.setData('text/plain', text);
-  };
-
-  document.querySelectorAll('.AssistantMessage, .UserMessage').forEach((element) => {
-    element.addEventListener('copy', copyPlainText);
-  });
-
   if(props.assistant){
     const normalizedText = props.children;
     return (
@@ -74,9 +62,8 @@ const UserMessage = styled(motion.div)`
     padding: 1rem 1.2rem 1rem 1.2rem;
     font-size: 1rem;
     max-width: 84%;
-    background-color: white;
-    box-shadow: 2px 2px 4px rgba(15, 27, 40, 0.23);
-    border: 1px solid #F1F1F1;
+    box-shadow: 1px 1px 10px rgba(15, 27, 40, 0.12);
+    border: 2px solid #F2F2FB;
     font-weight: 500;
     color: black;
     border-top-left-radius: 15px;
@@ -107,8 +94,9 @@ const AssistantMessage = styled(motion.div)<{ marginLeft: string }>`
     margin: 0;
     max-width: 84%;
     font-weight: 500;
-    background-color: black;
-    box-shadow: 1px 1px 6px rgba(15, 27, 40, 0.12);
+    color: black;
+    box-shadow: 1px 1px 10px rgba(15, 27, 40, 0.12);
+    border: 2px solid #F2F2FB;
     border-top-right-radius: 15px;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;

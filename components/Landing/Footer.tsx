@@ -8,13 +8,13 @@ import UnderlineButton from "./common/UnderlineButton";
 import BlueButton from "./common/BlueButton";
 import styled from "styled-components";
 import { solutions } from "../../solutions";
+import { BsFillEnvelopeFill, BsMailbox } from "react-icons/bs";
 
 const footerNavigation = {
   about: [
     { name: 'What is Yepp', href: "/platform/what-is-yepp" },
     { name: 'Why Yepp', href: "/why-yepp" },
-    { name: 'Pricing', href: '/pricing' },
-
+    { name: 'Pricing', href: '/pricing' }
   ],
   platform: [
     { name: 'Get a demo', href: '/demo' },
@@ -148,6 +148,7 @@ const Footer = () => {
                   </a>
                 ))}
               </div>
+              <div className="flex gap-4 items-center text-gray-500"><BsFillEnvelopeFill />hello@yepp.ai</div>
             </div>
             <div className="mt-16 grid grid-cols-2 gap-16 lg:gap-8 xl:col-span-2 xl:mt-0">
               <div className="md:grid md:grid-cols-2 md:gap-8">

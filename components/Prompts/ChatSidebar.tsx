@@ -249,6 +249,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
                       setMessages([...messages, userMessageObject, responseMessageObject]);
                   }
                   setReplying(false);
+                  console.log("done");
                   const conversationBottom = document.getElementById("conversation-bottom");
                   if (conversationBottom) {
                       conversationBottom.scrollIntoView({behavior: 'smooth', block: 'start'});
@@ -258,7 +259,7 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
   
               const decodedValue = new TextDecoder().decode(value);
               const dataStrings = decodedValue.split('data: ')
-  
+              setAssistantThinking(false);
               for (const dataString of dataStrings) {
                   if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
                       continue;
@@ -266,9 +267,9 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
   
                   const contentWithoutQuotes = dataString.replace(/"/g, '');
                   text += contentWithoutQuotes;
+                  console.log(text)
                   setReply((prevMessage) => prevMessage + contentWithoutQuotes);
               }
-              setAssistantThinking(false);
           }
       }
   } catch (e) {
@@ -278,8 +279,6 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
   } finally {
       abortController.abort();
   }
-  
-  
   }
 
   const renderMessages = () => {
@@ -323,6 +322,8 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
 
   const closeSidebar = () => {
     props.onClose();
+    setReply('');
+    setReplying(false);
     setMessages([]);
   }
 
@@ -376,7 +377,13 @@ const ChatSidebar = (props: { open: boolean, onClose: any, user: any, selectedPr
                     {assistantThinking ?
                         <AssistantMessage style={{width: "auto"}}><TypingAnimation  colorful={true}/></AssistantMessage>
                         :
-                        <AssistantMessage style={{width: "auto"}}><p>{reply}</p></AssistantMessage>
+                        <>
+                        {reply.length > 0 ? 
+                          <AssistantMessage style={{width: "auto"}}><p>{reply}</p></AssistantMessage>
+                          :
+                          ""
+                         }
+                        </>
                     }
 
                     </AssistantMessageContainer>

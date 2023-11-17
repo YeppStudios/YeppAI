@@ -184,7 +184,7 @@ const Chat = () => {
 
         }
 
-        if(messagesData.data.messages.length > 0){
+        if (messagesData.data.messages.length > 0){
           setShowIntro(false);
         } else {
           setShowIntro(true);
