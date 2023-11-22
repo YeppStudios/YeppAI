@@ -27,7 +27,9 @@ const Admin = () => {
     const [user, setUser] = useState<User>();
     const [loggedIn, setLoggedIn] = useState(false);
     const [registrationPasswordError, setRegistrationPasswordError] = useState(false);
+    const [agencyPlan, setAgencyPlan] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [monthlyElixir, setMonthlyElixir] = useState("");
 
     const router = useRouter();
 
@@ -148,6 +150,48 @@ const Admin = () => {
         }
     }
 
+
+    const activatePlan = async (e: any) => {
+      e.preventDefault();
+      const token = localStorage.getItem("token");
+      let planId = "64ad0d740e40385f299bcef9";
+      if (agencyPlan) {
+        planId = "64ad0d250e40385f299bceea"
+      }
+      try {
+         await api.patch(`/updateUserPlan/${user?._id}`, {
+              planId,
+              tokens: parseInt(monthlyElixir),
+          }, {
+              headers: {
+                authorization: token,
+              },
+            });
+            setAmount("");
+            showNotification({
+                id: 'subscribed',
+                disallowClose: true,
+                autoClose: 5000,
+                title: "Plan activated",
+                message: `${user?.email} has now ${monthlyElixir}ml of elixir`,
+                color: "green",
+          
+                styles: () => ({
+                  root: {
+                    backgroundColor: "white",
+                    border: "none",
+                  },
+          
+                  title: { color: "black" },
+                  description: { color: "black" },
+                })
+              })
+      } catch (e) {
+          console.log(e);
+      }
+  }
+
+
     const searchUser = async (e: any) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
@@ -168,7 +212,9 @@ const Admin = () => {
         {!loggedIn && <LoginModal onClose={() => login()} registration={false}/>}
         <button className="m-4" onClick={logout}>Wyloguj się</button>
         <div className="w-full flex flex-wrap justify-center pt-20">
-        <form className="w-1/2 flex" onSubmit={(e) => searchUser(e)}>
+        <form className="w-1/2 flex flex-wrap" onSubmit={(e) => searchUser(e)}>
+        <div className="w-full mb-4 text-xl font-medium"><h2>Search user</h2></div>
+        <div className="flex w-full gap-4">
         <Input
             id="email"
             height="2.8rem"
@@ -181,17 +227,51 @@ const Admin = () => {
         <SendBtn type="submit">
             <><ButtonIcon><BsSearch style={{width: "90%", height: "100%"}}/></ButtonIcon><ButtonText>Search</ButtonText></>
         </SendBtn>
+        </div>
         </form>
         {user &&
-        <div className="w-2/3 flex flex-wrap justify-center mt-20">
+        <div className="w-[51%] flex flex-wrap mt-10 ml-4">
+            <div className="w-full mb-4 text-lg font-medium pb-2 border-b border-b-[#F2F2FB]"><h2>About</h2></div>
             <div className="flex">
                 <p className="px-4 border-l-2">{user.name}</p>
                 <p className="px-4 border-l-2">{user.email}</p>
                 {user.lastSeen && <p className="px-4 border-l-2">{user.lastSeen}</p>}
                 <p className="px-4 border-l-2">{user.tokenBalance} elixir</p>
-            </div>
-        <div className="w-full flex justify-center">
-            <form className="w-1/2 flex mt-8" onSubmit={(e) => addTokens(e)}>
+          </div>
+            <div className="w-full flex flex-wrap mt-10">
+            <div className="w-full mb-4 text-lg font-medium pb-2 border-b-2 border-b-[#F2F2FB]"><h2>Activate plan</h2></div>
+            <form className="w-2/3 flex flex-wrap gap-4" onSubmit={(e) => activatePlan(e)}>
+              <div>
+                <Label>Monthly elixir</Label>
+                <Input
+                    id="email"
+                    height="2.8rem"
+                    padding="0.7rem"
+                    placeholder="0"
+                    value={monthlyElixir}
+                    onChange={(e) => setMonthlyElixir(e.target.value)}
+                    required
+                />
+                </div>
+                <div className="ml-4">
+                <Label>Plan standard</Label>
+                        <div className="flex">
+                            {agencyPlan ? <SelectedTab>Agency</SelectedTab> : <Tab onClick={() => setAgencyPlan(true)}>Agency</Tab>}
+                            {agencyPlan ? <Tab onClick={() => setAgencyPlan(false)}>Standard</Tab> : <SelectedTab>Standard</SelectedTab>}
+                        </div>
+                </div>
+                <div className="w-full">
+                <SendBtn type="submit">
+                    <><ButtonText>Activate plan</ButtonText></>
+                </SendBtn>
+                </div>
+                </form>
+            </div> 
+        <div className="w-full flex flex-wrap mt-10">
+        <div className="w-full mb-4 text-lg font-medium pb-2 border-b border-b-[#F2F2FB]"><h2>Add Elixir</h2></div>
+            <form className="w-2/3 flex flex-wrap gap-4" onSubmit={(e) => addTokens(e)}>
+              <div>
+                <Label>Elixir</Label>
                 <Input
                     id="email"
                     height="2.8rem"
@@ -201,15 +281,20 @@ const Admin = () => {
                     onChange={(e) => setAmount(e.target.value)}
                     required
                 />
+                </div>
+
+                <div className="w-full">
                 <SendBtn type="submit">
                     <><ButtonText>+ Add Elixir</ButtonText></>
                 </SendBtn>
+                </div>
                 </form>
             </div>
         </div>
         }
         <div className="w-full flex justify-center">
-          <form className="w-1/2 mt-10" onSubmit={(e) => register(e)}>
+          <form className="w-1/2 mt-16" onSubmit={(e) => register(e)}>
+          <div className="w-full mb-4 text-xl font-medium"><h2>Register user</h2></div>
           <div className="mt-6">
               <Label>
                 First name
@@ -292,7 +377,6 @@ const SendBtn = styled.button`
     background-size: 120%;
     background-position-x: -1rem;
     justify-content: center;
-    margin-left: 0.5vw;
     cursor: pointer;
     font-size: 1.7vh; 
     transition: all 0.4s ease;
@@ -324,3 +408,39 @@ const LabelErrorMessage = styled.p`
     margin-left: 1vw;
 `
   
+
+const Tab = styled.div`
+    padding: 0rem 1.75rem 0rem 1.75rem;
+    height: 2.5rem;
+    font-weight: 500;
+    margin: 0 0.5rem 0.5rem 0rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    background: #EEF1F8;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    &:hover {
+        transform: scale(0.95);
+    }
+`
+
+const SelectedTab = styled.div`
+    padding: 0rem 1.75rem 0rem 1.75rem;
+    height: 2.5rem;
+    font-weight: 500;
+    margin: 0 0.5rem 0.5rem 0rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 12px;
+    border: solid 3px transparent;
+    overflow: hidden;
+    border-radius: 12px;
+    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+`
