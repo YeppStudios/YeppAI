@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Centered from "../../Centered";
 import bookIcon from "@/public/images/bookIcon.png";
 import openedBookIcon from "@/public/images/openedBookIcon.png";
-import behaviorIcon from "@/public/images/behaviorIcon.png";
+import behaviorIcon from "../../../public/images/behaviourIcon.png";
 import Image from "next/image";
 import { create} from "ipfs-http-client";
 import { FileUploader } from 'react-drag-drop-files';
@@ -16,9 +16,7 @@ import TextArea from "../../forms/TextArea";
 import TypingAnimation from "../common/TypingAnimation";
 import { setSelectedMarketingAssistant } from "@/store/marketingAssistantSlice";
 import { setSelectedCopywritingAssistant } from "@/store/copywritingAssistantSlice";
-import { selectedWorkspaceCompanyState } from "@/store/workspaceCompany";
 import elixirIcon from "../../../public/images/elixir.png";
-import { selectedUserState } from "@/store/userSlice";
 import CustomDropdown from "@/components/forms/CustomDropdown";
 import FoldersDropdown from "@/components/forms/FolderDropdown";
 import { selectFoldersState } from "@/store/selectedFoldersSlice";
@@ -113,8 +111,6 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
     const [businessSector, setBusinessSector] = useState("");
     const [currentText, setCurrentText] = useState(0);
     const [language, setLanguage] = useState("English");
-    const selectedWorkspaceCompany = useSelector(selectedWorkspaceCompanyState);
-    const selectedUser = useSelector(selectedUserState);
     const [firstPersonNarrative, setFirstPersonNarrative] = useState(true);
     const [foldersError, setFoldersError] = useState(false);
     const [triggers, setTriggers] = useState(["asks about the product", "asks for advice", "asks anything related to the company", "asks for more information", "asks about the privacy policy"])
@@ -122,6 +118,7 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
     const [selectedTriggersError, setSelectedTriggersError] = useState(false);
     const [openNewTrigger, setOpenNewTrigger] = useState(false);
     const [role, setRole] = useState("");
+    const [isCreative, setIsCreative] = useState(false);
     
     const router = useRouter();
     const dispatch = useDispatch();
@@ -399,16 +396,21 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
 
         category = props.category;
 
-        prompt = `People call you ${name}. You are ${language} native speaker. Although you can also reply in whatever language user texts you. ${customPrompt} On top of that you are a superb marketing expert. You are helpful, polite and always positive. You always help user and do exactly what he/she is asking for. You are a great friend and listener and you follow user demands.
+        let interpretationStrategy = "You use extra context only as inspiration and it is not limiting your capabilities to create.";
+        if (!isCreative) {
+            interpretationStrategy = "Base your response solely on the provided context and not on your prior knowledge."
+        }
+
+        prompt = `People call you ${name}. You are ${language} native speaker. Although you can also reply in whatever language user texts you. ${customPrompt} On top of that you are a superb at marketing. You are helpful, polite and always positive. You always help user and do exactly what he/she is asking for. You are a great friend and listener and you follow user demands.
             Rules you always obey:
             - If user writes anything that may be related to the ${company} company, you always respond only exactly with: "[%fetch_info%]".
             - If user writes about something that is or may be within the scope of ${company}'s copmany activities, you always respond only exactly with: "[%fetch_info%]".
             - If user writes about something that belongs to the industry of ${company}, you always respond only exactly with: "[%fetch_info%]".
             ${triggersMessage}`;
 
-        noEmbedPrompt = `People call you ${name} and you are ${language} native speaker.  Although you can also reply in whatever language user texts you. ${customPrompt} ${firstPersonPrompt} You help user by providing insightful and creative answers based on inspiration from context provided by the user. You are helpful, polite and always positive. You always help user and do exactly what he/she is asking for. You are a great friend and listener, fulfilling whatever user asks for. ${tone}`
+        noEmbedPrompt = `People call you ${name} and you are ${language} native speaker.  Although you can also reply in whatever language user texts you. ${customPrompt} ${firstPersonPrompt} You help user by providing insightful and creative answers based on inspiration from context provided by the user. You are helpful, polite and always positive. You always help user and do exactly what he/she is asking for. You are a great friend and listener, fulfilling whatever user asks for. ${tone} ${interpretationStrategy}`
         imageURL = "https://asystentai.infura-ipfs.io/ipfs/QmPQbzyLqe32TM9v2JYCLqk5E5oucEp818BuJtBFh7pNjP";
-        description = "AI based on the uploaded knowledge."
+        description = `${isCreative ? "Creative" : "Factual"} AI based on the uploaded knowledge.`
 
         const folderIds = selectedFolders.map(folder => folder._id);
         
@@ -624,10 +626,21 @@ const AddAssistant = (props: {onClose: any, setAssistants: any, assistantToEdit:
                             </div>
                         }
                 </Tabs>
-                <Label>Should Assistant talk about the company in the first person narrative?</Label>
-                <div className="flex">
-                    {firstPersonNarrative ? <SelectedTab>Yes</SelectedTab> : <Tab onClick={() => setFirstPersonNarrative(true)}>yes</Tab>}
-                    {firstPersonNarrative ? <Tab onClick={() => setFirstPersonNarrative(false)}>No</Tab> : <SelectedTab>No</SelectedTab>}
+                <div className="flex justify-between flex-wrap lg:flex-nowrap">
+                    <div className="lg:w-[49%] w-full">
+                        <Label>Use first person narrative?</Label>
+                        <div className="flex">
+                            {firstPersonNarrative ? <SelectedTab>Yes</SelectedTab> : <Tab onClick={() => setFirstPersonNarrative(true)}>Yes</Tab>}
+                            {firstPersonNarrative ? <Tab onClick={() => setFirstPersonNarrative(false)}>No</Tab> : <SelectedTab>No</SelectedTab>}
+                        </div>
+                    </div>
+                    <div className="lg:w-[49%] w-full">
+                        <Label>How should resources be interpreted?</Label>
+                        <div className="flex">
+                            {isCreative ? <SelectedTab>Creatively</SelectedTab> : <Tab onClick={() => setIsCreative(true)}>Creatively</Tab>}
+                            {isCreative ? <Tab onClick={() => setIsCreative(false)}>Factually</Tab> : <SelectedTab>Factually</SelectedTab>}
+                        </div>
+                    </div>
                 </div>
                 <div style={{width: "48%", display: "flex", flexWrap: "wrap"}}>
                     <Label>By default speak...</Label>
@@ -696,7 +709,7 @@ const Modal = styled.div`
     border-radius: 25px;
     background: white;
     padding: 1.4rem 6rem 3rem 6rem;
-    border: 2px solid #E5E8F0;
+    border: 2px solid #F2F2FB;
     box-shadow: 5px 5px 10px rgba(15, 27, 40, 0.23), -5px -5px 10px #FAFBFF;
     margin-top: 2rem;
     margin-bottom: 7rem;
@@ -741,7 +754,7 @@ const ModalTitle = styled.h1`
     width: 53.7vw;
     margin-left: -6rem;
     padding-left: 3rem;
-    border-bottom: 1px solid #E5E8F0;
+    border-bottom: 3px solid #F2F2FB;
     padding-bottom: 1rem;
     color: black;
     font-weight: 700;
@@ -844,8 +857,12 @@ const SelectedTab = styled.div`
     cursor: pointer;
     overflow: hidden;
     border-radius: 12px;
-    background-color: #0D0E16;
-    color: white;
+    border: solid 3px transparent;
+    overflow: hidden;
+    border-radius: 12px;
+    background-image: linear-gradient(white, white, white), radial-gradient(circle at top left, #6578F8, #64B5FF);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 `
 
 
@@ -909,7 +926,7 @@ const Input = styled.input`
   border: none;
   border-radius: 15px;
   background: transparent;
-  border: solid 2px #ECEEF2;
+  border: solid 2px #F2F2FB;
   color: black;
   font-weight: 500;
   font-size: 1rem;

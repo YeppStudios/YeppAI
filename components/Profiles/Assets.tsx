@@ -200,6 +200,7 @@ const Assets = () => {
         ];
     
         combinedItems.sort((a, b) => new Date(b.normalizedTimestamp!).getTime() - new Date(a.normalizedTimestamp!).getTime());
+        console.log(combinedItems);
         return combinedItems.map((item, idx) => {
             return (
                 <tr key={'isDocument' in item ? item.vectorId : item._id} onClick={() => handleItemClick(item)} className={classNames('isDocument' in item ? "" : "hover:bg-slate-50 cursor-pointer", "")}>
@@ -210,12 +211,14 @@ const Assets = () => {
                         {item.title}
                     </td>
                     <td className="hidden px-3 sm:pl-4 py-4 text-sm text-gray-500 lg:table-cell gap-2">
+                        {item.owner &&
                         <div className="flex items-center gap-2">
                             <div className="rounded-full border-2 border-white bg-slate-200 w-8 h-8 flex justify-center items-center shadow-sm relative -ml-3">
                                 <p className="font-medium text-white">{item.owner.name.substring(0, 1)}</p>
                             </div>
                             <p className="font-medium">{item.owner.name}</p>
                         </div>
+                        }
                     </td>
                     <td className="relative py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6" onClick={(e) => e.stopPropagation()}>
                     {'isDocument' in item ?

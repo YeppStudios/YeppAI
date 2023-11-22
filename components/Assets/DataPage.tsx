@@ -205,6 +205,7 @@ const DataPage = (props: {
     
         combinedItems.sort((a, b) => new Date(b.normalizedTimestamp!).getTime() - new Date(a.normalizedTimestamp!).getTime());
     
+
         return combinedItems.map((item, idx) => {
             const date = 'isDocument' in item
                 ? new Date(item.timestamp)
