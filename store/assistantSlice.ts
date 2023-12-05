@@ -15,7 +15,8 @@ interface Assistant {
     prompt: string;
     owner: string;
     noEmbedPrompt: string;
-    description: string
+    description: string;
+    maxReferenceFiles: number;
 }
 
 export interface AssistantState {
@@ -38,7 +39,8 @@ const initialState: AssistantState = {
     companyName: "",
     aboutCompany: "",
     exampleContent: "",
-    owner: ""
+    owner: "",
+    maxReferenceFiles: 3
   }
 };
 // Actual Slice

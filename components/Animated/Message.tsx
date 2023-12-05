@@ -112,6 +112,7 @@ const AssistantMessage = styled(motion.div)<{ marginLeft: string }>`
       margin-top: 0.7rem;
       background: #04040A;
       box-shadow: none;
+      color: white;
   }
 `
 

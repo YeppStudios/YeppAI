@@ -181,7 +181,6 @@ const Admin = () => {
                     backgroundColor: "white",
                     border: "none",
                   },
-          
                   title: { color: "black" },
                   description: { color: "black" },
                 })
