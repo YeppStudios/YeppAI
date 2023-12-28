@@ -277,7 +277,6 @@ const EditorSidebar = (props: {
           }
       
           let reply = '';
-          let initialPosition = 0;
       
           if(response.body){
               props.setGenerating(true);
@@ -309,13 +308,21 @@ const EditorSidebar = (props: {
                   }
       
                   const decodedValue = new TextDecoder().decode(value);
-                  const contentWithoutQuotes = decodedValue.replace(/"/g, '').trim();
-                  if (contentWithoutQuotes) {
-                      reply += contentWithoutQuotes;
-                      props.editor.view.dispatch(
-                          props.editor.view.state.tr.insertText(contentWithoutQuotes, initialPosition)
-                      );
-                      initialPosition += contentWithoutQuotes.length;
+                  const dataStrings = decodedValue.split('data: ').filter(str => str.trim() !== '');
+                  
+                  for (const dataString of dataStrings) {
+                      if (dataString.trim() === 'null' || dataString.includes('event: DONE')) {
+                          continue; // Skip control messages and empty strings
+                      }
+                      const contentWithoutQuotes = dataString.replace(/"/g, '')
+                  
+                      if (contentWithoutQuotes) {
+                        reply += contentWithoutQuotes;
+                        props.editor.view.dispatch(
+                            props.editor.view.state.tr.insertText(contentWithoutQuotes, initialPosition)
+                        );
+                        initialPosition += contentWithoutQuotes.length;
+                      }
                   }
               }
               setLoading(false);
