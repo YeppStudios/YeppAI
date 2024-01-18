@@ -2,6 +2,7 @@ import SlideBottom from "../../Animated/SlideBottom";
 import styled from "styled-components";
 import { BsCheckLg, BsXLg } from "react-icons/bs";
 import Plans from "@/components/Landing/Plans";
+import ContactPopup from "../OnboardingModals/ContactPopup";
 
 interface Background {
     background: any
@@ -22,18 +23,19 @@ interface Button {
 const UpgradeSubscription = (props: {onClose: any, closeable: boolean, purchase: boolean, landing: boolean}) => {
     
     return (
-        <ModalBackground>
-            <SlideBottom>
-            <ModalContainer onClick={(e) =>  e.stopPropagation()}>
-                {props.closeable &&
-                <CloseIcon onClick={props.onClose}>
-                    <BsXLg style={{width: "100%", height: "auto"}}/>
-                </CloseIcon>
-                }
-                <Plans openRegistration={false} purchase={props.purchase} landing={props.landing}/>
-            </ModalContainer>
-            </SlideBottom>
-        </ModalBackground>
+        // <ModalBackground>
+        //     <SlideBottom>
+        //     <ModalContainer onClick={(e) =>  e.stopPropagation()}>
+        //         {props.closeable &&
+        //         <CloseIcon onClick={props.onClose}>
+        //             <BsXLg style={{width: "100%", height: "auto"}}/>
+        //         </CloseIcon>
+        //         }
+        //         <Plans openRegistration={false} purchase={props.purchase} landing={props.landing}/>
+        //     </ModalContainer>
+        //     </SlideBottom>
+        // </ModalBackground>
+        <ContactPopup onClose={props.onClose} />
     )
     
 }

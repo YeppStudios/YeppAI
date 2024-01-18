@@ -514,7 +514,7 @@ const ResultsContainer = (
 
     return (
         <MainContainer isTemplate={props.template ? true : false}>
-        {openElixirReminder && <ReminderModal onClose={() => setOpenElixirReminder(false)} elixirWidth={elixirWidth}/>}
+        {/* {openElixirReminder && <ReminderModal onClose={() => setOpenElixirReminder(false)} elixirWidth={elixirWidth}/>} */}
         {openElixirModal && <AddElixir user={user} onClose={() => setOpenElixirModal(false)} />}
         {openNoElixirModal && <NoElixir  onClose={() => setOpenNoElixirModal(false)} />}
         <ElixirHeader>

@@ -14,7 +14,7 @@ const ContactPopup = (props: {onClose: any}) => {
                     <BsXLg style={{width: "100%", height: "auto"}}/>
             </CloseIcon>
             <Centered>
-                <Title>Contact us</Title>
+                <Title>Contact us for pricing:</Title>
             </Centered>
             <div>
                 <Contact>Mail: <br /><b>hello@yepp.ai</b></Contact>
@@ -57,7 +57,7 @@ const Title = styled.div`
     font-weight: 700;
     color: black;
     @media only screen and (min-width: 1023px) {
-        font-size: 6vh;
+        font-size: 4vh;
         line-height: 7vh;
         margin-bottom: 1vh;
         width: 100%;

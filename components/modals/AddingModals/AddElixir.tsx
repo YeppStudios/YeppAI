@@ -12,6 +12,8 @@ import Centered from "../../Centered";
 import { BsPlusLg, BsXLg } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { selectedUserState } from "@/store/userSlice";
+import EnterpriseContactForm from "../InformationalModals/EnterpriseContactForm";
+import ContactPopup from "../OnboardingModals/ContactPopup";
 
 const AddElixir = ({onClose}: any) => {
 
@@ -49,56 +51,57 @@ const AddElixir = ({onClose}: any) => {
     }
 
     return (
-        <ModalBackground closeable={true} onClose={onClose}>
-            <SlideBottom>
-            <ModalContainer onClick={(e) =>  e.stopPropagation()}>
-                <CloseIcon onClick={onClose}>
-                    <BsXLg style={{width: "100%", height: "auto"}}/>
-                </CloseIcon>
-                <ModalTitle>Replenish your elixir</ModalTitle>
-                <Centered>
-                <ElixirsContainer>
-                    <ElixirContainer>
-                        <Centered>
-                        <SmallElixirIcon>
-                            <Image style={{ width: "100%", height: "auto" }}  src={fuelIcon} alt={'icon'}></Image> 
-                        </SmallElixirIcon>
-                        </Centered>
-                        <ElixirAmount>+ 30 000ml</ElixirAmount>
-                        {country === "Poland" ? <Price>24,99zł</Price> : <Price>$7,50</Price>}
-                        {country === "Poland" ? <Button onClick={() => purchaseElixir(30000, "price_1NBAYyFe80Kn2YGGmTM0y2ER")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(30000, "price_1NUSFNFe80Kn2YGGMm05sqq5")}>+ <ButtonText>Buy more</ButtonText></Button>}
-                    </ElixirContainer>
-                    <ElixirContainer>
-                        <Centered>
-                        <MediumElixirIcon>
-                            <Image style={{ width: "100%", height: "auto" }}  src={fuelIcon} alt={'icon'}></Image> 
-                        </MediumElixirIcon>
-                        </Centered>
-                        <ElixirAmount>+ 100 000ml</ElixirAmount>
-                        {country === "Poland" ? <Price>99,99zł</Price> : <Price>$25,00</Price>}
-                        {country == "Poland" ? <Button onClick={() => purchaseElixir(100000, "price_1NBAbsFe80Kn2YGGEHbkus2g")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(100000, "price_1NUONNFe80Kn2YGGmL09StmW")}>+ <ButtonText>Buy more</ButtonText></Button>}
-                    </ElixirContainer>
-                    <ElixirContainer>
-                        <Centered>
-                        <BigElixirIcon>
-                            <Image style={{ width: "100%", height: "auto" }}  src={fuelIcon} alt={'icon'}></Image> 
-                        </BigElixirIcon>
-                        </Centered>
-                        <ElixirAmount>+ 500 000ml</ElixirAmount>
-                        {country === "Poland" ? <Price>429,00zł</Price> : <Price>$115,00</Price>}
-                        {country == "Poland" ? <Button onClick={() => purchaseElixir(500000, "price_1NBAcoFe80Kn2YGG7IkK4m63")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(500000, "price_1NUOPoFe80Kn2YGGvAbWporh")}>+ <ButtonText>Buy more</ButtonText></Button>}
-                    </ElixirContainer>
-                </ElixirsContainer>
-                </Centered>
-                <Centered>
-                    <ElixirDescription>
-                    Elixir is essential for generating content. 
-                    It is consumed by Assistant for writing text and understanding your questions.
-                    </ElixirDescription>
-                </Centered>
-            </ModalContainer>
-            </SlideBottom>
-        </ModalBackground>
+        // <ModalBackground closeable={true} onClose={onClose}>
+        //     <SlideBottom>
+        //     <ModalContainer onClick={(e) =>  e.stopPropagation()}>
+        //         <CloseIcon onClick={onClose}>
+        //             <BsXLg style={{width: "100%", height: "auto"}}/>
+        //         </CloseIcon>
+        //         <ModalTitle>Replenish your elixir</ModalTitle>
+        //         <Centered>
+        //         <ElixirsContainer>
+        //             <ElixirContainer>
+        //                 <Centered>
+        //                 <SmallElixirIcon>
+        //                     <Image style={{ width: "100%", height: "auto" }}  src={fuelIcon} alt={'icon'}></Image> 
+        //                 </SmallElixirIcon>
+        //                 </Centered>
+        //                 <ElixirAmount>+ 30 000ml</ElixirAmount>
+        //                 {country === "Poland" ? <Price>24,99zł</Price> : <Price>$7,50</Price>}
+        //                 {country === "Poland" ? <Button onClick={() => purchaseElixir(30000, "price_1NBAYyFe80Kn2YGGmTM0y2ER")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(30000, "price_1NUSFNFe80Kn2YGGMm05sqq5")}>+ <ButtonText>Buy more</ButtonText></Button>}
+        //             </ElixirContainer>
+        //             <ElixirContainer>
+        //                 <Centered>
+        //                 <MediumElixirIcon>
+        //                     <Image style={{ width: "100%", height: "auto" }}  src={fuelIcon} alt={'icon'}></Image> 
+        //                 </MediumElixirIcon>
+        //                 </Centered>
+        //                 <ElixirAmount>+ 100 000ml</ElixirAmount>
+        //                 {country === "Poland" ? <Price>99,99zł</Price> : <Price>$25,00</Price>}
+        //                 {country == "Poland" ? <Button onClick={() => purchaseElixir(100000, "price_1NBAbsFe80Kn2YGGEHbkus2g")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(100000, "price_1NUONNFe80Kn2YGGmL09StmW")}>+ <ButtonText>Buy more</ButtonText></Button>}
+        //             </ElixirContainer>
+        //             <ElixirContainer>
+        //                 <Centered>
+        //                 <BigElixirIcon>
+        //                     <Image style={{ width: "100%", height: "auto" }}  src={fuelIcon} alt={'icon'}></Image> 
+        //                 </BigElixirIcon>
+        //                 </Centered>
+        //                 <ElixirAmount>+ 500 000ml</ElixirAmount>
+        //                 {country === "Poland" ? <Price>429,00zł</Price> : <Price>$115,00</Price>}
+        //                 {country == "Poland" ? <Button onClick={() => purchaseElixir(500000, "price_1NBAcoFe80Kn2YGG7IkK4m63")}>+ <ButtonText>Buy more</ButtonText></Button> : <Button onClick={() => purchaseElixir(500000, "price_1NUOPoFe80Kn2YGGvAbWporh")}>+ <ButtonText>Buy more</ButtonText></Button>}
+        //             </ElixirContainer>
+        //         </ElixirsContainer>
+        //         </Centered>
+        //         <Centered>
+        //             <ElixirDescription>
+        //             Elixir is essential for generating content. 
+        //             It is consumed by Assistant for writing text and understanding your questions.
+        //             </ElixirDescription>
+        //         </Centered>
+        //     </ModalContainer>
+        //     </SlideBottom>
+        // </ModalBackground>
+        <ContactPopup onClose={onClose} />
     )
 }
 
