@@ -89,7 +89,7 @@ const Navbar = () =>{
                         <Image style={{ width: "auto", height: "100%" }}  src={logo} alt={'logo'}></Image> 
                     </LogoContainer>
                     <Link href="/"><AppName>Yepp AI</AppName></Link>
-                    <Link href="/why-yepp"><NavLink>Why Yepp?</NavLink></Link>
+                    <a href="https://www.yeppstudios.com"><NavLink>Consultations</NavLink></a>
                     <NavLink onMouseEnter={() => setPlatformOpen(true)} onMouseLeave={() => setPlatformOpen(false)}>
                     <Popover className="relative">
                     <Popover.Button className="inline-flex items-center gap-x-1 leading-6 text-gray-800 outline-none">

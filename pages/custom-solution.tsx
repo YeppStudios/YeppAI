@@ -69,10 +69,10 @@ const SolutionPage = () => {
                 <div className="w-full lg:w-9/12"><MainTitle>Step in With a Vision. Walk Out with the Game-Changer.</MainTitle></div>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Imagine, Validate, and Implement with Yepp AI — The Ecosystem for Your Success</div>
                 <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
-                  <Centered><BlueButton onClick={() => setModalOpen(true)}>Contact us</BlueButton></Centered>
+                  <Centered><a href="https://www.yeppstydios.com"><BlueButton onClick={() => setModalOpen(true)}>Go to Yepp Studios</BlueButton></a></Centered>
                 </div>
                 <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
-                  <BlueButton onClick={() => setModalOpen(true)}>Contact us</BlueButton>
+                  <a href="https://www.yeppstydios.com"><BlueButton onClick={() => setModalOpen(true)}>Go to Yepp Studios</BlueButton></a>
                 </div>
             </div>
             </Centered>
