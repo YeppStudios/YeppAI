@@ -88,7 +88,7 @@ const Pricing = () => {
     const sendRequest = async () => {
         setStep(4);
         const msg = {
-            to: "peter@yepp.ai",
+            to: "ai",
             nickname: "Yepp AI Website",
             from: {
               email: "hello@yepp.ai",

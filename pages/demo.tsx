@@ -51,10 +51,10 @@ const Demo = () => {
     const sendRequest = async () => {
         setStep(2);
         const msg = {
-            to: "peter@yepp.ai",
+            to: "hello@asystent.ai",
             nickname: "Yepp AI Website",
             from: {
-              email: "hello@yepp.ai",
+              email: "hello@asystent.ai",
               name: "Yepp AI Website"
             },
             templateId: 'd-081f0d1b63f54ef0b5357cc5cc8b79ce',

@@ -39,10 +39,10 @@ const Partner = (props: {onClose: any}) => {
         setSending(true);
           try {
             const msg = {
-              to: "peter@yepp.ai",
+              to: "hello@asystent.ai",
               nickname: "Yepp AI",
               from: {
-                email: "hello@yepp.ai",
+                email: "hello@asystent.ai",
                 name: "Yepp AI"
               },
               templateId: 'd-8d6c7f9f54e24f42bb0835f77656faa1',
