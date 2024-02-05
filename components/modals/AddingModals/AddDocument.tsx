@@ -20,7 +20,7 @@ import FoldersDropdown from '../../forms/FoldersDropdown';
 import Space from '../../Docs/common/Space';
 import { selectedWorkspaceCompanyState } from '@/store/workspaceCompany';
 
-const fileTypes = ["TXT", "DOCX", "PPTX", "PDF", "CSV"];
+const fileTypes = ["TXT", "DOCX", "PPTX", "PDF", "CSV", "XLS", "XLSX"];
 
 const AddDocument = (props: {
     onClose: any, documentType: string, setDocuments: any, documentsLimit:any, spaceLimit: any, folders: any[], setFolders: any, folderLimit: any
@@ -154,13 +154,19 @@ const AddDocument = (props: {
                   let upsertResponse = {data: {text: '', ids: ['']}};
                   let url;
                   const fileType = file.type; // This gives the MIME type of the file
-                  
+
                   switch(fileType) {
                     case 'text/csv':
                       url = 'https://www.asistant.ai/upsert-csv';
                       break;
                     case 'application/pdf':
                       url = 'https://www.asistant.ai/upsert-pdf';
+                      break;
+                    case 'application/vnd.ms-excel': // MIME type for .xls files
+                      url = 'http://0.0.0.0:8000/upsert-xls';
+                      break;
+                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': // MIME type for .xlsx files
+                      url = 'http://0.0.0.0:8000/upsert-xls';
                       break;
                     default:
                       url = 'https://www.asistant.ai/upsert-file';
@@ -392,7 +398,7 @@ const AddDocument = (props: {
                   {(props.documentType === "file" && !openChooseFolder && !fileLoading && !success) &&
                   <>
                     <Title>Upload a file</Title>
-                    <Centered><Description>Upload a PDF, PPTX, TXT, CSV or DOCX file. </Description></Centered>
+                    <Centered><Description>Upload a PDF, PPTX, TXT, CSV, XLS or DOCX file. </Description></Centered>
                     <Form autoComplete="off">
                             <Centered>
                                 <FileUploader hoverTitle="Drop here" handleChange={handleFiles} name="file" types={fileTypes} multiple={true} >
