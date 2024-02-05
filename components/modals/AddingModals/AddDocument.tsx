@@ -163,10 +163,10 @@ const AddDocument = (props: {
                       url = 'https://www.asistant.ai/upsert-pdf';
                       break;
                     case 'application/vnd.ms-excel': // MIME type for .xls files
-                      url = 'http://0.0.0.0:8000/upsert-xls';
+                      url = 'https://www.asistant.ai/upsert-xls';
                       break;
                     case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': // MIME type for .xlsx files
-                      url = 'http://0.0.0.0:8000/upsert-xls';
+                      url = 'https://www.asistant.ai/upsert-xls';
                       break;
                     default:
                       url = 'https://www.asistant.ai/upsert-file';
