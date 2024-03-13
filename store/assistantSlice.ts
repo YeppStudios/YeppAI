@@ -27,7 +27,7 @@ export interface AssistantState {
 // Initial state
 const initialState: AssistantState = {
   assistant: {
-    _id: "6484410f4581c6b9aeccee31",
+    _id: "65f17b38e46c7490a35b878b",
     name: "General Chat",
     description: "Default AI assistant without your custom knowledge.",
     category: "chat",
