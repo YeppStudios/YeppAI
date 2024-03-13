@@ -47,7 +47,7 @@ export const documentation = [
         type: "post",
         id: "send-message",
         path: "/message",
-        description: "This endpoint is used to initiate or continue a conversation with an Assistant AI.",
+        description: "This endpoint is used to initiate or continue a conversation with an Assistant AI. Response can take up to 30s, otherwise it will fail.",
         url: "https://asystentai.herokuapp.com/message",
         code: 'curl -X POST "https://asystentai.herokuapp.com/message" \\\n' +
               '-H "Authorization: your_token_here" \\\n' +
@@ -81,8 +81,8 @@ export const documentation = [
         type: "post",
         id: "send-message-stream",
         path: "/message-stream",
-        description: "This endpoint is used to initiate or continue a conversation with an Assistant AI. Resopnse is being streamed in real time.",
-        url: "https://asystentai.herokuapp.com/message",
+        description: "This endpoint is used to initiate or continue a conversation with an Assistant AI. Resopnse is being streamed in real time. (Recommended)",
+        url: "https://asystentai.herokuapp.com/message-stream",
         code: 'curl -X POST "https://asystentai.herokuapp.com/message-stream" \\\n' +
               '-H "Authorization: your_token_here" \\\n' +
               '-H "Content-Type: application/json" \\\n' +

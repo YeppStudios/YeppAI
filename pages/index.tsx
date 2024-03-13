@@ -55,6 +55,11 @@ const PercentageSection = () => {
           <title>Yepp AI | Generate Marketing Content</title>
         </Head>
         <PageContent>
+        <iframe
+          style={{ width: '100vw', height: '100vh', border: 'none', position: "fixed", zIndex:"100" }}
+          src={`https://chat-sportofino.vercel.app`}
+          title="Chatbot"
+        ></iframe>
           <Loading />
           <Navbar />
           <HeroSection>

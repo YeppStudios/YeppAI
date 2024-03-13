@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Editor } from "@tiptap/core";
-import cx from "classnames";
 import { FC, useState } from "react";
 import {
     Heading1,
