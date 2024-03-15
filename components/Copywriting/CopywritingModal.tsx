@@ -1023,6 +1023,7 @@ const CopywritingModal = (props: {
                     </div>
                 </div> 
                 <Centered>
+                  <div></div>
                 </Centered>
             </div>   
             }
@@ -1144,6 +1145,7 @@ const CopywritingModal = (props: {
                     </div>
                 </div> 
                 <Centered>
+                  <div></div>
                 </Centered>
             </div>   
             }
