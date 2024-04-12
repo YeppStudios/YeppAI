@@ -145,7 +145,7 @@ const ToneModal = (props: {onClose: any, tones: any[]}) => {
         `,
         systemPrompt: `Act as a JSON converter. After analyzing the text user quotes you return a formatted JSON output that describes it in the given JSON object. Only use the functions you have been provided with.
           `,
-        model: "gpt-4-1106-preview",
+        model: "gpt-4-turbo",
         temperature: 0,
         function_definition: {
           "name": "extract_tone",
@@ -189,7 +189,7 @@ const ToneModal = (props: {onClose: any, tones: any[]}) => {
       `,
       systemPrompt: `You are professionally analyzing tone of voice of the quoted text. You are very specific in expressing what tone of voice used feels like in text and you carefully analyze it understanding use of emojis, punctuation, capitalization, form, syntax, level of formality, use of hashtags, how the author addresses the target audience and everything that is needed to clone the tone. You NEVER describe what the text is about and don't refer to anything else about its content. You recognise ONLY the tone, style and target audience to write in similar tone in the future. You return a detailed description that will allow you in the future mimic the extracted tone of voice.
         `,
-      model: "gpt-4-1106-preview",
+      model: "gpt-4-turbo",
       temperature: 0,
   },
   {
@@ -257,7 +257,7 @@ const ToneModal = (props: {onClose: any, tones: any[]}) => {
         }
 
         let reply = "";
-        let model = "gpt-4-1106-preview";
+        let model = "gpt-4-turbo";
         let prompt = `
         Please write unique ${selectedTemplate?.title} about ${exampleAbout} in ${exampleLanguage} language in this exact style.
         Write it in the following tone of voice: ${toneDesc}

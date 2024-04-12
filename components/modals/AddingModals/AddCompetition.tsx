@@ -204,7 +204,7 @@ const AddCompetition = (props: {onClose: any}) => {
       setLoading(true);
       const competitorNames = competitors.map(competitor => competitor.name).join(", ");
       const generatedCriteria = await api.post("/completion", {
-        model: "gpt-4-1106-preview",
+        model: "gpt-4-turbo",
         temperature: 0.9,
         systemPrompt: `You are a ${language} expert in doing research based on just the landing pages of competitors in ${industry} sector. Having access to only page content scraped you return the proposed competition research criteria to ${endGoal} in this exact format:
         [

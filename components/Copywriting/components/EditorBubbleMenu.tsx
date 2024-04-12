@@ -206,7 +206,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     Please analyze what you have written to understand the context, your intents and tone of voice: ${textToRewrite}. Now please rewrite it in a new way keeping the same meaning and tone of voice.
     `;
     let systemPrompt = "You are a creative copywriter with years of experience. You write best performing SEO content for your clients. You are great at understanding the context, intents of the writer and adjusting your tone of voice. You always find some interesting and relevant facts to include in your writing. You never write anything offensive or controversial. You always write fluently in whatever languaguage the previously written content is.";
-    let model = "gpt-4-1106-preview";
+    let model = "gpt-4-turbo";
     try {
         const response = await fetch('https://asystentai.herokuapp.com/askAI', {
           method: 'POST',
@@ -309,7 +309,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
     I have selected this text for context: ${selectedText}. Now please ${userInput}.
     `;
     let systemPrompt = "You are a helpful AI assistant who helps user write high performing draft for article.";
-    let model = "gpt-4-1106-preview";
+    let model = "gpt-4-turbo";
     try {
       const response = await fetch('https://asystentai.herokuapp.com/askAI', {
         method: 'POST',

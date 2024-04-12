@@ -176,10 +176,9 @@ const ResultsContainer = (
         let promptToSend = '';
         let context = "";
         let reply = '';
-        console.log(props.language, "lang");
-        let model ="gpt-4"
+        let model ="gpt-4-turbo"
         if (props.language && props.language === "English") {
-          model = "gpt-4-1106-preview"
+          model = "gpt-4-turbo"
         }
         let previousMessage = '';
       if (content) {
@@ -348,10 +347,10 @@ const ResultsContainer = (
       localStorage.removeItem("defaultText");
       let text = '';
       let context = "";
-      let  model = "gpt-4"
+      let  model = "gpt-4-turbo"
       let promptToSend = prompt;
       if (props.language && props.language === "English") {
-        model = "gpt-4-1106-preview"
+        model = "gpt-4-turbo"
       }
       setIsSSEComplete(false);
       setPrompt('');
