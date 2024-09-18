@@ -411,6 +411,18 @@ const LoginModal = (props: {onClose: any, registration: boolean}) => {
                                 <div></div>
                                 <ResetPassword onClick={() => setResetPassword(true)}>Reset password</ResetPassword>
                             </DisclaimersContainer>
+                            <CheckboxContainer>
+                                <CheckboxInput
+                                    id="rules"
+                                    type="checkbox"
+                                    checked={agreement}
+                                    onChange={() => setAgreement(!agreement)}
+                                    required
+                                />
+                                <RegisterText>
+                                    <a href={"/Yepp_AI_Terms.pdf"} download>I agree with <b>terms of use & privacy policy</b></a>
+                                </RegisterText>
+                            </CheckboxContainer>
                             <Button id="login-btn" type="submit">
                                 {loading ?
                                 <div style={{width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center"}}>

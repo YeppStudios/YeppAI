@@ -351,7 +351,7 @@ const DataPage = (props: {
                     </BackBtnIcon> 
                     {parentFolder ? <BackBtnText>Back to <b>/{parentFolder.title}</b></BackBtnText> : <BackBtnText>Back home</BackBtnText>}
                 </BackBtn>
-                {(props.lineage.length > 0 && props.lineage[0].title !== selectedFolder.title && !loading && !mobile) && 
+                {(props.lineage.length > 0 && props.lineage[0].title !== selectedFolder.title && !mobile) && 
                 <div>
                     {props.lineage.reverse().map((folder, index) => (
                         <span onClick={() => dispatch(setSelectedFolder(folder))} className="text-black hover:text-blue-500 cursor-pointer" key={folder._id}>
