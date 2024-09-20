@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import logo from "../public/images/logo.png";
 import { useEffect, useState } from "react";
+import RegisterModal from "@/components/Modals/OnboardingModals/RegisterModal";
 
 
 const Register = () => {
@@ -36,7 +37,7 @@ const Register = () => {
                 <Image src={background} alt={'background'} style={{width: "100%", height: "100%"}}></Image>
                 }
             </Background>
-            <LoginModal onClose={() => router.push("/assets")} registration={false} />
+            <RegisterModal />
         </div>
     )
 }
