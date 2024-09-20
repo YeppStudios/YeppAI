@@ -68,11 +68,11 @@ const PercentageSection = () => {
               </Centered>
               <Centered>
               <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
-              <Centered><BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Explore the platform</BlueButton></Centered>
+              <Centered><BlueButton href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD">Get an offer</BlueButton></Centered>
               <UnderlineButton onClick={() => router.push("/assets")}>Sign in</UnderlineButton>
             </div>
             <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
-              <BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Explore the platform</BlueButton>
+              <BlueButton href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD">Get an offer</BlueButton>
               <UnderlineButton onClick={() => router.push("/demo")}>Talk to an expert</UnderlineButton>
             </div>
               </Centered>
