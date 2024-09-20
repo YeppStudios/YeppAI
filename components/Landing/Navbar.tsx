@@ -125,12 +125,12 @@ const Navbar = () =>{
                                 ))}
                                 </div>
                                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-[#F6F6FB]">
-                                    <button
-                                    onClick={() => router.push("/demo")}
+                                    <a
+                                    href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD"
                                     className="flex items-center hover:text-blue-500 justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
                                     >
-                                        Get a demo
-                                    </button>
+                                        Get an offer
+                                    </a>
                                     <Link
                                     href="/demo"
                                     className="flex items-center hover:text-blue-500 justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
@@ -263,7 +263,7 @@ const Navbar = () =>{
                 </Container>
                 <Container>
                     <LoginButton className="login-btn-landing" onClick={() => router.push("/assets")}>Sign in<BsPersonCircle /></LoginButton>
-                    {!(mobile && !isFixed) && <TestButton className='trial-btn' onClick={() => router.push("/demo")}>Get a demo</TestButton>}
+                    {!(mobile && !isFixed) && <TestButton className='trial-btn' href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD">Get an offer</TestButton>}
                 </Container>
             </Nav>
         </NavContainer>
@@ -322,7 +322,7 @@ const Nav = styled.div<NavContainerProps>`
     }
 `
 
-const TestButton = styled.button`
+const TestButton = styled.a`
     padding: 0.5rem 1.5rem 0.5rem 1.5rem;
     border: solid 3px transparent;
     border-radius: 15px;

@@ -112,11 +112,11 @@ const SolutionPage = () => {
                 <div className="w-full lg:w-8/12"><MainTitle>{solutionData.mainTitle}</MainTitle></div>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">{solutionData.description}</div>
                 <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
-                  <Centered><BlueButton onClick={() => router.push("/demo")}>Get a demo</BlueButton></Centered>
+                  <Centered><BlueButton href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD">Get an offer</BlueButton></Centered>
                   <UnderlineButton onClick={() => router.push("/pricing")}>See pricing</UnderlineButton>
                 </div>
                 <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
-                  <BlueButton onClick={() => router.push("/demo")}>Get a demo</BlueButton>
+                  <BlueButton href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD">Get an offer</BlueButton>
                   <UnderlineButton onClick={() => router.push("/pricing")}>See pricing</UnderlineButton>
                 </div>
             </div>

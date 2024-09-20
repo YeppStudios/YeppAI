@@ -36,11 +36,11 @@ const WhatIsYepp = () => {
                 <div className="lg:w-8/12"><MainTitle>Meet the Marketing Intelligence Platform</MainTitle></div>
                 <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Yepp AI is the only platform that enhances marketer efficiency, enabling teams to effectively generate and convert more leads with less effort.</div>
                 <div className='flex gap-4 lg:hidden w-full justify-center items-center mt-10 flex-wrap'>
-              <Centered><BlueButton onClick={() => router.push("/demo")}>Explore the platform</BlueButton></Centered>
+              <Centered><BlueButton href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD">Get an offer</BlueButton></Centered>
               <UnderlineButton onClick={() => router.push("/demo")}>Talk to an expert</UnderlineButton>
             </div>
             <div className='hidden lg:flex gap-20 w-full justify-center items-center mt-4 flex-nowrap'>
-              <BlueButton onClick={() => router.push("/demo")}>Explore the platform</BlueButton>
+              <BlueButton href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD">Get an offer</BlueButton>
               <UnderlineButton onClick={() => router.push("/demo")}>Talk to an expert</UnderlineButton>
             </div>
             </div>

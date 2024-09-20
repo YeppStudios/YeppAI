@@ -130,7 +130,7 @@ const ConsultingNav = () =>{
                                     onClick={() => router.push("/demo")}
                                     className="flex items-center hover:text-blue-500 justify-center gap-x-2.5 p-3 font-medium text-gray-500 hover:bg-[#F2F2FB] hover:text-black"
                                     >
-                                        Get a demo
+                                        Get an offer
                                     </button>
                                     <Link
                                     href="/demo"

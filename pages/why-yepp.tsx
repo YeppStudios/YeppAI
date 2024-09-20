@@ -105,7 +105,7 @@ const WhyYepp = () => {
             <div className="lg:w-7/12 w-11/12 lg:text-lg text-center text-gray-800 mt-8">Consequently, marketing teams can generate more leads and boost conversions while reducing expenses and risks across the organization.</div>
             <Centered>
                 <div className="lg:mt-4 mt-12">
-                <BlueButton onClick={() => router.push("/platform/what-is-yepp")}>Explore the platform</BlueButton>
+                <BlueButton href="https://www.useminerva.com/onboarding/asst_kLacMlvm6kyD5MRfYAu6mWTD">Get an offer</BlueButton>
                 </div>
             </Centered>
         </div>
